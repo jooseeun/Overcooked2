@@ -1,0 +1,294 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="PreCompile.h">
+      <Filter>PreCompile</Filter>
+    </ClInclude>
+    <ClInclude Include="CounterTop.h">
+      <Filter>Contents\Object\StaticMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="FoodBox.h">
+      <Filter>Contents\Object\StaticMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Food_Recipe.h">
+      <Filter>Contents\Object\Food</Filter>
+    </ClInclude>
+    <ClInclude Include="Food_Ingredients_Fish.h">
+      <Filter>Contents\Object\Food</Filter>
+    </ClInclude>
+    <ClInclude Include="Food_Ingredients_Shrimp.h">
+      <Filter>Contents\Object\Food</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool_CuttingBoard.h">
+      <Filter>Contents\Object\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePlayCharacter.h">
+      <Filter>Contents\Template\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePlayStuff.h">
+      <Filter>Contents\Template\Stuff</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePlayTool.h">
+      <Filter>Contents\Template\Stuff\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePlayFood.h">
+      <Filter>Contents\Template\Stuff\Moveable</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePlayEquipment.h">
+      <Filter>Contents\Template\Stuff\Moveable</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePlayMoveable.h">
+      <Filter>Contents\Template\Stuff\Moveable</Filter>
+    </ClInclude>
+    <ClInclude Include="Sink.h">
+      <Filter>Contents\Object\StaticMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Rail.h">
+      <Filter>Contents\Object\StaticMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="TrashCan.h">
+      <Filter>Contents\Object\StaticMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Overcooked.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalMouseInput.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshSelectWindow.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshEditorGUI.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseInputWindow.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshObject.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="MapEditorWindow.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelActor.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="MapToolLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectStageLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage_1_1.h">
+      <Filter>Level\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage_1_2.h">
+      <Filter>Level\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage_1_3.h">
+      <Filter>Level\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage_1_4.h">
+      <Filter>Level\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePlayMapObject.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePlayLevel.h">
+      <Filter>Level\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="MapEditorGUI.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshToolLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePlayObject.h">
+      <Filter>Contents\Template</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePlayStaticObject.h">
+      <Filter>Contents\Template</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PreCompile.cpp">
+      <Filter>PreCompile</Filter>
+    </ClCompile>
+    <ClCompile Include="CounterTop.cpp">
+      <Filter>Contents\Object\StaticMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="FoodBox.cpp">
+      <Filter>Contents\Object\StaticMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Food_Recipe.cpp">
+      <Filter>Contents\Object\Food</Filter>
+    </ClCompile>
+    <ClCompile Include="Food_Ingredients_Fish.cpp">
+      <Filter>Contents\Object\Food</Filter>
+    </ClCompile>
+    <ClCompile Include="Food_Ingredients_Shrimp.cpp">
+      <Filter>Contents\Object\Food</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool_CuttingBoard.cpp">
+      <Filter>Contents\Object\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePlayCharacter.cpp">
+      <Filter>Contents\Template\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePlayStuff.cpp">
+      <Filter>Contents\Template\Stuff</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePlayTool.cpp">
+      <Filter>Contents\Template\Stuff\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePlayFood.cpp">
+      <Filter>Contents\Template\Stuff\Moveable</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePlayEquipment.cpp">
+      <Filter>Contents\Template\Stuff\Moveable</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePlayMoveable.cpp">
+      <Filter>Contents\Template\Stuff\Moveable</Filter>
+    </ClCompile>
+    <ClCompile Include="Sink.cpp">
+      <Filter>Contents\Object\StaticMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Rail.cpp">
+      <Filter>Contents\Object\StaticMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="TrashCan.cpp">
+      <Filter>Contents\Object\StaticMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Overcooked.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalMouseInput.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshSelectWindow.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshEditorGUI.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseInputWindow.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshObject.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MapEditorWindow.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelActor.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="MapToolLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectStageLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage_1_1.cpp">
+      <Filter>Level\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage_1_2.cpp">
+      <Filter>Level\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage_1_3.cpp">
+      <Filter>Level\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage_1_4.cpp">
+      <Filter>Level\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePlayMapObject.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePlayLevel.cpp">
+      <Filter>Level\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="MapEditorGUI.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshToolLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePlayObject.cpp">
+      <Filter>Contents\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePlayStaticObject.cpp">
+      <Filter>Contents\Template</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="PreCompile">
+      <UniqueIdentifier>{562c6596-13dc-4140-a316-ed0ec1e473dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents">
+      <UniqueIdentifier>{850d1cab-750f-4e05-b821-faac49c0e452}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{47975dfe-6a92-46f7-825d-90c4495e1695}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data">
+      <UniqueIdentifier>{be47a8c9-0905-4b2d-842d-236e14502d69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global">
+      <UniqueIdentifier>{5325b868-be79-4e71-9124-181ea3b7b811}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{c9a3cdef-3b5b-47ae-b5a0-77cd4e88c80c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level">
+      <UniqueIdentifier>{15056d3d-d53b-4ca5-91e9-229e724bc2ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Map">
+      <UniqueIdentifier>{3ebcd3f2-a664-4cf5-8792-c833d7d7d75f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{010171ee-0e43-4cfa-86f5-4f7b3394ae3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Enum">
+      <UniqueIdentifier>{ed5d47fa-f594-473d-b5d2-d8099810736f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Object">
+      <UniqueIdentifier>{30cd0892-947b-46be-a2d2-8dad0b03cae5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Template">
+      <UniqueIdentifier>{965e40a1-cb8e-4fc5-b58e-28a3ff1085f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Object\Food">
+      <UniqueIdentifier>{469724ca-3475-4a57-b5ea-eacb92ebf484}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Object\StaticMesh">
+      <UniqueIdentifier>{6054696e-ca5f-4148-a576-10c8ebc202d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Object\Tool">
+      <UniqueIdentifier>{54d36549-cab5-4fa7-b59d-cfb57bd21b38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Template\Character">
+      <UniqueIdentifier>{a21997c9-7ab2-4c72-b581-af05f6283dd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Template\Stuff">
+      <UniqueIdentifier>{717633db-44aa-446d-9475-6edebd8b0e31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Template\Stuff\Moveable">
+      <UniqueIdentifier>{ecf9394c-bba1-44f9-b1ee-b8ee1dfdd66d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Template\Stuff\Tool">
+      <UniqueIdentifier>{d2af4770-69fd-4d89-9418-ca71cbe4837c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\Stage">
+      <UniqueIdentifier>{a5be5dde-1bc4-41b1-971f-ca5e771f69f1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

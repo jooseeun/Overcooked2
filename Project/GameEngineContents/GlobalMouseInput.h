@@ -1,0 +1,38 @@
+#pragma once
+#include <GameEngineCore/GameEngineActor.h>
+
+class GlobalMouseInput : public GameEngineActor
+{
+public:
+	// constrcuter destructer
+	GlobalMouseInput();
+	~GlobalMouseInput();
+
+	// delete Function
+	GlobalMouseInput(const GlobalMouseInput& _Other) = delete;
+	GlobalMouseInput(GlobalMouseInput&& _Other) noexcept = delete;
+	GlobalMouseInput& operator=(const GlobalMouseInput& _Other) = delete;
+	GlobalMouseInput& operator=(GlobalMouseInput&& _Other) noexcept = delete;
+
+	inline GameEngineActor* GetNearActor()
+	{
+		return NearActor_;
+	}
+
+protected:
+	void Start() override;
+	void Update(float _Delta) override;
+
+private:
+	void TransformUpdate(float _Delta);
+	void ClickUpdate(float _Delta);
+	CollisionReturn CollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
+
+	class MouseInputWindow* MouseWindow_;
+	GameEngineCollision* Collision_;
+	GameEngineCollision* StartCollision_;
+	GameEngineCollision* GoalCollision_;
+	GameEngineActor* NearActor_;
+
+};
+
