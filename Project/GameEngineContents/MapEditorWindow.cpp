@@ -90,7 +90,7 @@ void MapEditorWindow::ShowLevelSelectTable()
 			char Label[1024] = { '\0' };
 			std::string Temp = AllStages[i]->GetNameCopy();
 
-			sprintf(Label, Temp.c_str());
+			//sprintf(Label, Temp.c_str());
 
 			if (ImGui::Selectable(Label, SelectIndex == i))
 			{
@@ -146,7 +146,7 @@ void MapEditorWindow::UnSortToolTab()
 	for (int i = 0; i < AllUnSortActorName_.size(); ++i)
 	{
 		char Label[1024] = { '\0' };
-		sprintf(Label, (AllUnSortActorName_[i]).c_str());
+		//sprintf(Label, (AllUnSortActorName_[i]).c_str());
 
 		if (ImGui::Selectable(Label, SelectNameIndex == i))
 		{
@@ -169,7 +169,7 @@ void MapEditorWindow::UnSortToolTab()
 	{
 		char Label[1024] = { '\0' };
 		std::string Temp = UnSortActorList_[i]->GetNameCopy();
-		sprintf(Label, (Temp + "%d").c_str(), i);
+		//sprintf(Label, (Temp + "%d").c_str(), i);
 
 		if (ImGui::Selectable(Label, SelectIndex == i))
 		{
@@ -321,7 +321,7 @@ void MapEditorWindow::SortToolTab()
 			char Label[1024] = { '\0' };
 			std::string Temp = Prefabs_[i];
 
-			sprintf(Label, Temp.c_str());
+			//sprintf(Label, Temp.c_str());
 
 			if (ImGui::Selectable(Label, SelectIndex == i))
 			{
@@ -341,7 +341,7 @@ void MapEditorWindow::SortToolTab()
 			char Label[1024] = { '\0' };
 			std::string Temp = "Actor_";
 
-			sprintf(Label, (Temp + "%d").c_str(), i);
+			//sprintf(Label, (Temp + "%d").c_str(), i);
 
 			if (ImGui::Selectable(Label, ActorIndex == i))
 			{
