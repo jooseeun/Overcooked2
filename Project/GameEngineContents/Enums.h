@@ -20,3 +20,17 @@ enum class PlayerDir
 	Max
 };
 
+enum class IOType
+{
+	Mesh,
+	Tile,
+	Tile1-2,
+	Tile1-3,
+	Max,
+};
+
+enum class MapObjType
+{
+	Table,
+	Max,
+};

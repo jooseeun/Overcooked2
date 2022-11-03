@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "Stage_1_1.h"
 #include "Player.h"
+#include "IOManagerWindow.h"
 
 Stage_1_1::Stage_1_1()
 {
@@ -19,6 +20,7 @@ void Stage_1_1::Start()
 	MainPlayer->GetTransform().SetLocalPosition({ -1500, 0, 0 });
 
 	GlobalMouseInput* Mouse = CreateActor<GlobalMouseInput>();
+	IOManagerWindow* TmpIOWindow = MapEditorGUI::CreateGUIWindow<IOManagerWindow>("IOManager", nullptr);
 
 	GetMainCameraActorTransform().SetLocalRotation({ 60, 180, 0 });
 	GetMainCameraActorTransform().SetLocalPosition({ -1400, 2200, 1600 });

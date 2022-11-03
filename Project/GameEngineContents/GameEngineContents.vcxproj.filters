@@ -116,6 +116,9 @@
     <ClInclude Include="GamePlayStuff.h">
       <Filter>Contents\Template\Stuff</Filter>
     </ClInclude>
+    <ClInclude Include="IOManagerWindow.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -229,6 +232,9 @@
     </ClCompile>
     <ClCompile Include="GamePlayStuff.cpp">
       <Filter>Contents\Template\Stuff</Filter>
+    </ClCompile>
+    <ClCompile Include="IOManagerWindow.cpp">
+      <Filter>GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -27,7 +27,12 @@ public:
 	GameEngineFile(const GameEngineFile& _Other);
 	~GameEngineFile();
 
-	// delete Function
+
+	inline void Open(OpenMode _Mode)
+	{
+		Open(_Mode, FileMode::Binary);
+	}
+
 	void Open(OpenMode _Mode, FileMode _Open);
 
 	void Close();
@@ -50,6 +55,8 @@ public:
 
 	void Write(const float& _Data);
 
+	void Write(const int& _Data);
+
 	template<typename Struct>
 	void Write(const Struct& _Data)
 	{
@@ -67,6 +74,8 @@ public:
 	void Read(double& _Data);
 
 	void Read(float& _Data);
+
+	void Read(int& _Data);
 
 	template<typename Struct>
 	void Read(Struct& _Data)
