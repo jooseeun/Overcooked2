@@ -46,15 +46,13 @@ private:
 
 	std::vector<std::string> Prefabs_;
 
-	//타일맵 정보 저장
-	std::vector<std::vector<class GamePlayStaticObject*>> TileMap_;
-
 	GameEngineLevel* CurLevel_;
 
 	LevelActor* LevelActor_;
 
-	//타일맵 기준
-	GamePlayMapObject* Origin_;
+	//타일맵 기준 엑터
+	std::vector<GamePlayMapObject*> Origins_;
+
 	//현재 생성한 타일
 	GamePlayStaticObject* CurStaticMesh_;
 

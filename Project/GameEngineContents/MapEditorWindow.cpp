@@ -34,28 +34,37 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		{
 			UnSortToolTab();
 
-			//Sort 탭을 잘못 눌렀을 때 생성된 기준 엑터 숨기기
-			if (nullptr != Origin_)
+			//Sort 탭을 잘못 눌렀을 때 생성된 기준 엑터들 숨기기
+			if (0 < Origins_.size())
 			{
-				Origin_->Off();
+				std::vector<GamePlayMapObject*>::iterator StartIter = Origins_.begin();
+
+				for (StartIter = Origins_.begin(); StartIter != Origins_.end(); ++StartIter)
+				{
+					(*StartIter)->Off();
+				}
 			}
 		}
 
 		//정렬된 오브젝트 배치
 		if (true == ImGui::BeginTabItem("Sort"))
 		{
-			if (nullptr == Origin_)
+			if (0 == Origins_.size())
 			{
-				Origin_ = CurLevel_->CreateActor<GamePlayMapObject>();
+				GamePlayMapObject* Origin = CurLevel_->CreateActor<GamePlayMapObject>();
 
-				Origin_->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
-				Origin_->GetTransform().SetWorldScale({ 100, 100, 100 });
-				Origin_->GetFBXMesh()->SetFBXMesh("m_sk_countertop_01.fbx", "Texture");
+				Origin->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
+
+				Origin->GetFBXMesh()->SetFBXMesh("m_sk_countertop_01.fbx", "Texture");
+				Origin->GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
+
+				Origins_.push_back(Origin);
 			}
 
 			else
 			{
-				Origin_->On();
+				GamePlayMapObject* Origin = Origins_.front();
+				Origin->On();
 			}
 
 			SortToolTab();
@@ -293,42 +302,62 @@ void MapEditorWindow::UnSortToolTab()
 
 void MapEditorWindow::SortToolTab()
 {
-	if (nullptr == Origin_)
+	if (ImGui::Button("Origin Create"))
 	{
-		return;
+		GamePlayMapObject* Origin = CurLevel_->CreateActor<GamePlayMapObject>();
+
+		Origin->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
+
+		Origin->GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
+		Origin->GetFBXMesh()->SetFBXMesh("m_sk_countertop_01.fbx", "Texture");
+
+		Origins_.push_back(Origin);
 	}
+
+	ImGui::Text("");
+
+	ImGui::BeginChild("Origin List", ImVec2(150, 100), true);
+
+	static int OriginIndex = 0;
+
+	for (int i = 0; i < Origins_.size(); ++i)
+	{
+		char Label[1024] = { '\0' };
+		std::string Name = "Origin(" + std::to_string(i) + ")";
+
+		if (ImGui::Selectable(Name.c_str(), OriginIndex == i))
+		{
+			OriginIndex = i;
+		}
+	}
+
+	ImGui::EndChild();
+	ImGui::SameLine();
 
 	//기준 엑터 트랜스폼
 	{
-		float4 Pos = Origin_->GetTransform().GetWorldPosition();
+		float4 Pos = Origins_[OriginIndex]->GetTransform().GetWorldPosition();
 
-		ImGui::Text("Position", &Pos.x, &Pos.y, &Pos.z);
-		ImGui::DragFloat("x", &Pos.x);
-		ImGui::DragFloat("y", &Pos.y);
-		ImGui::DragFloat("z", &Pos.z);
-
-		Origin_->GetTransform().SetWorldPosition(Pos);
+		float Float3[3] = { Pos.x, Pos.y, Pos.z };
+		ImGui::DragFloat3("Position", Float3);
+		Origins_[OriginIndex]->GetTransform().SetWorldPosition({ Float3[0], Float3[1], Float3[2] });
 	}
 
 	ImGui::Text("");
 
 	{
-		static int TileX = 0;
-		static int TileY = 0;
-
-		ImGui::Text("TileScale", &TileX, &TileY);
-		ImGui::DragInt("TileX", &TileX);
-		ImGui::DragInt("TileY", &TileY);
+		static int Tile[2] = { 0, 0 };
+		ImGui::DragInt2("TileXY", Tile);
 
 		if (true == ImGui::Button("Tiled"))
 		{
-			Origin_->GetTransform().SetWorldRotation({ 0.f, 0.f });
+			Origins_[OriginIndex]->GetTransform().SetWorldRotation({ 0.f, 0.f });
 
-			for (size_t Y = 0; Y < TileY; ++Y)
+			for (size_t Y = 0; Y < Tile[1]; ++Y)
 			{
-				for (size_t X = 0; X < TileX; ++X)
+				for (size_t X = 0; X < Tile[0]; ++X)
 				{
-					GameEngineTextureRenderer* GridTile = Origin_->CreateComponent<GameEngineTextureRenderer>();
+					GameEngineTextureRenderer* GridTile = Origins_[OriginIndex]->CreateComponent<GameEngineTextureRenderer>();
 					GridTile->SetTexture("GridTile.png");
 					GridTile->GetTransform().SetWorldMove({ X * 100.f, Y * 100.f });
 					GridTile->GetTransform().SetWorldScale({ 100.f, 100.f });
@@ -346,7 +375,6 @@ void MapEditorWindow::SortToolTab()
 	for (int i = 0; i < Prefabs_.size(); ++i)
 	{
 		char Label[1024] = { '\0' };
-		std::string Name = Prefabs_[i];
 
 		if (ImGui::Selectable(Prefabs_[i].c_str(), SelectIndex == i))
 		{
@@ -364,7 +392,7 @@ void MapEditorWindow::SortToolTab()
 	for (int i = 0; i < SortActorList_.size(); ++i)
 	{
 		char Label[1024] = { '\0' };
-		std::string Name = "Actor_" + std::to_string(i);
+		std::string Name = "Actor(" + std::to_string(i) + ")";
 
 		if (ImGui::Selectable(Name.c_str(), ActorIndex == i))
 		{
@@ -375,12 +403,8 @@ void MapEditorWindow::SortToolTab()
 	ImGui::EndChild();
 	ImGui::Text("");
 
-	static int IndexX = 0;
-	static int IndexY = 0;
-
-	ImGui::Text("Index", &IndexX, &IndexY);
-	ImGui::DragInt("IndexX", &IndexX);
-	ImGui::DragInt("IndexY", &IndexY);
+	static int Index[2] = { 0, 0 };
+	ImGui::DragInt2("Index", Index);
 
 	if (true == ImGui::Button("Create"))
 	{
@@ -390,7 +414,7 @@ void MapEditorWindow::SortToolTab()
 			CurStaticMesh_ = CurLevel_->CreateActor<CounterTop>();
 
 			CurStaticMesh_->GetFBXMesh()->SetFBXMesh("m_sk_countertop_01.fbx", "Texture");
-			CurStaticMesh_->GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
+			CurStaticMesh_->GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });			
 			break;
 		case 1:
 			CurStaticMesh_ = CurLevel_->CreateActor<CounterTop>();
@@ -406,15 +430,20 @@ void MapEditorWindow::SortToolTab()
 			break;
 		}
 
-		CurStaticMesh_->GetTransform().SetWorldPosition(Origin_->GetTransform().GetWorldPosition());
-		CurStaticMesh_->GetTransform().SetWorldMove({ IndexX * (-122.f), 0.f, IndexY * 122.f });
+		//기준 엑터의 자식으로 둔다.
+		CurStaticMesh_->SetParent(Origins_[OriginIndex]);
+
+		CurStaticMesh_->GetTransform().SetWorldPosition(Origins_[OriginIndex]->GetTransform().GetWorldPosition());
+		CurStaticMesh_->GetTransform().SetWorldMove({ Index[0] * (-122.f), 0.f, Index[1] * 122.f });
 
 		SortActorList_.push_back(CurStaticMesh_);
 	}
 
 	ImGui::SameLine();
 
-	if (true == ImGui::Button("Delete"))
+	if (true == ImGui::Button("Delete")
+		&& 0 < SortActorList_.size()
+		&& ActorIndex < SortActorList_.size())
 	{
 		SortActorList_[ActorIndex]->Death();
 		SortActorList_.erase(SortActorList_.begin() + ActorIndex);
@@ -422,10 +451,28 @@ void MapEditorWindow::SortToolTab()
 
 	ImGui::Text("");
 
-	if (true == ImGui::Button("Rotate"))
+	if (true == ImGui::Button("Rotate")
+		&& 0 < SortActorList_.size()
+		&& ActorIndex < SortActorList_.size())
 	{
 		SortActorList_[ActorIndex]->GetTransform().SetAddWorldRotation({ 0.f, 90.f, 0.f });
 	}
 
 	ImGui::EndTabItem();
 }
+
+
+//세이브할 때 사용
+// 
+//void SortSave()
+//{
+//	for (size_t i = 0; i < Origins_.size(); i++)
+//	{
+//		//기준 엑터(타일의 부모)가 몇 개인지
+//		//엑터 수만큼 타일맵 정보 저장
+//		std::vector<std::vector<class GamePlayStaticObject*>> TileMap_;
+//		//그 다음 쓰기
+//	}
+//}
+// 
+//std::list<GamePlayStaticObject*> StaticMeshList = Origins_[OriginIndex]->GetConvertChilds<GamePlayStaticObject>();

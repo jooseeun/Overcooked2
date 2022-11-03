@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
 
+class IOManagerWindow;
 class MapToolLevel : public GameEngineLevel
 {
 public:
@@ -22,5 +23,6 @@ protected:
 
 private:
 	MapEditorWindow* Window_;
+	IOManagerWindow* IOWindow_;
 };
 
