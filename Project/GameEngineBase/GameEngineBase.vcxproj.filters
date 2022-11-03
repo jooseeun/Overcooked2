@@ -34,9 +34,6 @@
     <Filter Include="Enum">
       <UniqueIdentifier>{40c2ed13-cf85-4feb-8fb6-47dd2686b9be}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Thread">
-      <UniqueIdentifier>{45542edf-0c90-4e02-8299-27d76e329297}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineDebug.cpp">
@@ -87,12 +84,8 @@
     <ClCompile Include="PreCompile.cpp">
       <Filter>PreCompile</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineThreadPool.cpp">
-      <Filter>Thread</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineThread.cpp">
-      <Filter>Thread</Filter>
-    </ClCompile>
+    <ClCompile Include="GameEngineThread.cpp" />
+    <ClCompile Include="GameEngineThreadPool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngineDebug.h">
@@ -149,12 +142,8 @@
     <ClInclude Include="magic_enum.hpp">
       <Filter>Enum</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineThreadPool.h">
-      <Filter>Thread</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngineThread.h">
-      <Filter>Thread</Filter>
-    </ClInclude>
+    <ClInclude Include="GameEngineThread.h" />
+    <ClInclude Include="GameEngineThreadPool.h" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="ThirdParty\bin\fmod.dll">
