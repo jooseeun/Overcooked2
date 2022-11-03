@@ -24,8 +24,8 @@ enum class IOType
 {
 	Mesh,
 	Tile,
-	Tile1-2,
-	Tile1-3,
+	//Tile1-2,
+	//Tile1-3,
 	Max,
 };
 

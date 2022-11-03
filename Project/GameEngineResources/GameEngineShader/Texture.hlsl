@@ -30,10 +30,13 @@ float4 Texture_PS(Output _Input) : SV_Target0
 {
     float4 Color = DiffuseTexture.Sample(LINEARWRAP, _Input.Tex.xy);
     
-    if (Color.a <= 0.0f)
-    {
-        clip(-1);
-    }
+    //일단 알파 최대
+    Color.a = 1.f;
+    
+    //if (Color.a <= 0.0f)
+    //{
+    //    clip(-1);
+    //}
     
     return Color;
 }

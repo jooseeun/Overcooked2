@@ -33,6 +33,12 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		if (true == ImGui::BeginTabItem("UnSort"))
 		{
 			UnSortToolTab();
+
+			//Sort 탭을 잘못 눌렀을 때 생성된 기준 엑터 숨기기
+			if (nullptr != Origin_)
+			{
+				Origin_->Off();
+			}
 		}
 
 		//정렬된 오브젝트 배치
@@ -45,6 +51,11 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				Origin_->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
 				Origin_->GetTransform().SetWorldScale({ 100, 100, 100 });
 				Origin_->GetFBXMesh()->SetFBXMesh("m_sk_countertop_01.fbx", "Texture");
+			}
+
+			else
+			{
+				Origin_->On();
 			}
 
 			SortToolTab();
@@ -92,7 +103,7 @@ void MapEditorWindow::ShowLevelSelectTable()
 
 			//sprintf(Label, Temp.c_str());
 
-			if (ImGui::Selectable(Label, SelectIndex == i))
+			if (ImGui::Selectable(Temp.c_str(), SelectIndex == i))
 			{
 				SelectIndex = i;
 
@@ -148,7 +159,7 @@ void MapEditorWindow::UnSortToolTab()
 		char Label[1024] = { '\0' };
 		//sprintf(Label, (AllUnSortActorName_[i]).c_str());
 
-		if (ImGui::Selectable(Label, SelectNameIndex == i))
+		if (ImGui::Selectable((AllUnSortActorName_[i]).c_str(), SelectNameIndex == i))
 		{
 			SelectNameIndex = i;
 		}
@@ -168,10 +179,10 @@ void MapEditorWindow::UnSortToolTab()
 	for (int i = 0; i < UnSortActorList_.size(); ++i)
 	{
 		char Label[1024] = { '\0' };
-		std::string Temp = UnSortActorList_[i]->GetNameCopy();
+		//std::string Temp = UnSortActorList_[i]->GetNameCopy();
 		//sprintf(Label, (Temp + "%d").c_str(), i);
 
-		if (ImGui::Selectable(Label, SelectIndex == i))
+		if (ImGui::Selectable(UnSortActorList_[i]->GetNameCopy().c_str(), SelectIndex == i))
 		{
 			SelectIndex = i;
 		}
@@ -282,16 +293,12 @@ void MapEditorWindow::UnSortToolTab()
 
 void MapEditorWindow::SortToolTab()
 {
-	if (true == ImGui::Button("CreateOrigin")
-		&& nullptr == Origin_)
+	if (nullptr == Origin_)
 	{
-		Origin_ = CurLevel_->CreateActor<GamePlayMapObject>();
-
-		Origin_->GetTransform().SetWorldPosition({ 0, 1.f, 0 });
-		Origin_->GetTransform().SetWorldScale({ 100, 100, 100 });
+		return;
 	}
 
-	if (nullptr != Origin_)
+	//기준 엑터 트랜스폼
 	{
 		float4 Pos = Origin_->GetTransform().GetWorldPosition();
 
@@ -301,57 +308,17 @@ void MapEditorWindow::SortToolTab()
 		ImGui::DragFloat("z", &Pos.z);
 
 		Origin_->GetTransform().SetWorldPosition(Pos);
+	}
 
-		ImGui::Text("");
+	ImGui::Text("");
 
+	{
 		static int TileX = 0;
 		static int TileY = 0;
 
 		ImGui::Text("TileScale", &TileX, &TileY);
 		ImGui::DragInt("TileX", &TileX);
 		ImGui::DragInt("TileY", &TileY);
-
-
-		ImGui::BeginChild("PrefabList", ImVec2(150, 100), true);
-
-		static int SelectIndex = 0;
-
-		for (int i = 0; i < Prefabs_.size(); ++i)
-		{
-			char Label[1024] = { '\0' };
-			std::string Temp = Prefabs_[i];
-
-			//sprintf(Label, Temp.c_str());
-
-			if (ImGui::Selectable(Label, SelectIndex == i))
-			{
-				SelectIndex = i;
-			}
-		}
-
-		ImGui::EndChild();
-		ImGui::SameLine();
-
-		ImGui::BeginChild("SortActorList", ImVec2(150, 100), true);
-
-		static int ActorIndex = 0;
-
-		for (int i = 0; i < SortActorList_.size(); ++i)
-		{
-			char Label[1024] = { '\0' };
-			std::string Temp = "Actor_";
-
-			//sprintf(Label, (Temp + "%d").c_str(), i);
-
-			if (ImGui::Selectable(Label, ActorIndex == i))
-			{
-				ActorIndex = i;
-			}
-		}
-
-		ImGui::EndChild();
-
-		ImGui::Text("");
 
 		if (true == ImGui::Button("Tiled"))
 		{
@@ -367,59 +334,98 @@ void MapEditorWindow::SortToolTab()
 					GridTile->GetTransform().SetWorldScale({ 100.f, 100.f });
 				}
 			}
-
-			ImGui::Text("");
 		}
+	}
 
-		static int IndexX = 0;
-		static int IndexY = 0;
+	ImGui::Text("");
 
-		ImGui::Text("Index", &IndexX, &IndexY);
-		ImGui::DragInt("IndexX", &IndexX);
-		ImGui::DragInt("IndexY", &IndexY);
+	ImGui::BeginChild("PrefabList", ImVec2(150, 100), true);
 
-		if (true == ImGui::Button("Create"))
+	static int SelectIndex = 0;
+
+	for (int i = 0; i < Prefabs_.size(); ++i)
+	{
+		char Label[1024] = { '\0' };
+		std::string Name = Prefabs_[i];
+
+		if (ImGui::Selectable(Prefabs_[i].c_str(), SelectIndex == i))
 		{
-			if (true)
-			{
-				switch (SelectIndex)
-				{
-				case 0:
-					CurStaticMesh_ = CurLevel_->CreateActor<CounterTop>();
-
-					CurStaticMesh_->GetFBXMesh()->SetFBXMesh("m_sk_countertop_01.fbx", "Texture");
-					CurStaticMesh_->GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
-					break;
-				case 1:
-					CurStaticMesh_ = CurLevel_->CreateActor<CounterTop>();
-
-					CurStaticMesh_->GetFBXMesh()->SetFBXMesh("m_lorry_countertop_corner_01.fbx", "Texture");
-					CurStaticMesh_->GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
-					break;
-				case 2:
-					CurStaticMesh_ = CurLevel_->CreateActor<CounterTop>();
-
-					CurStaticMesh_->GetFBXMesh()->SetFBXMesh("m_sk_countertop_no_edge_01.fbx", "Texture");
-					CurStaticMesh_->GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
-					break;
-				default:
-					break;
-				}
-			}
-
-			CurStaticMesh_->GetTransform().SetWorldPosition(Origin_->GetTransform().GetWorldPosition());
-			CurStaticMesh_->GetTransform().SetWorldMove({ IndexX * (-122.f), 0.f, IndexY * 120.f });
-
-			SortActorList_.push_back(CurStaticMesh_);
+			SelectIndex = i;
 		}
+	}
 
-		ImGui::Text("");
+	ImGui::EndChild();
+	ImGui::SameLine();
 
-		if (true == ImGui::Button("Rotate"))
+	ImGui::BeginChild("SortActorList", ImVec2(150, 100), true);
+
+	static int ActorIndex = 0;
+
+	for (int i = 0; i < SortActorList_.size(); ++i)
+	{
+		char Label[1024] = { '\0' };
+		std::string Name = "Actor_" + std::to_string(i);
+
+		if (ImGui::Selectable(Name.c_str(), ActorIndex == i))
 		{
-			SortActorList_[ActorIndex]->GetTransform().SetAddWorldRotation({ 0.f, 90.f, 0.f });
+			ActorIndex = i;
 		}
-	}	
+	}
+
+	ImGui::EndChild();
+	ImGui::Text("");
+
+	static int IndexX = 0;
+	static int IndexY = 0;
+
+	ImGui::Text("Index", &IndexX, &IndexY);
+	ImGui::DragInt("IndexX", &IndexX);
+	ImGui::DragInt("IndexY", &IndexY);
+
+	if (true == ImGui::Button("Create"))
+	{
+		switch (SelectIndex)
+		{
+		case 0:
+			CurStaticMesh_ = CurLevel_->CreateActor<CounterTop>();
+
+			CurStaticMesh_->GetFBXMesh()->SetFBXMesh("m_sk_countertop_01.fbx", "Texture");
+			CurStaticMesh_->GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
+			break;
+		case 1:
+			CurStaticMesh_ = CurLevel_->CreateActor<CounterTop>();
+
+			CurStaticMesh_->GetFBXMesh()->SetFBXMesh("m_lorry_countertop_corner_01.fbx", "Texture");
+			CurStaticMesh_->GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
+			break;
+		case 2:
+			CurStaticMesh_ = CurLevel_->CreateActor<CounterTop>();
+
+			CurStaticMesh_->GetFBXMesh()->SetFBXMesh("m_sk_countertop_no_edge_01.fbx", "Texture");
+			CurStaticMesh_->GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
+			break;
+		}
+
+		CurStaticMesh_->GetTransform().SetWorldPosition(Origin_->GetTransform().GetWorldPosition());
+		CurStaticMesh_->GetTransform().SetWorldMove({ IndexX * (-122.f), 0.f, IndexY * 122.f });
+
+		SortActorList_.push_back(CurStaticMesh_);
+	}
+
+	ImGui::SameLine();
+
+	if (true == ImGui::Button("Delete"))
+	{
+		SortActorList_[ActorIndex]->Death();
+		SortActorList_.erase(SortActorList_.begin() + ActorIndex);
+	}
+
+	ImGui::Text("");
+
+	if (true == ImGui::Button("Rotate"))
+	{
+		SortActorList_[ActorIndex]->GetTransform().SetAddWorldRotation({ 0.f, 90.f, 0.f });
+	}
 
 	ImGui::EndTabItem();
 }

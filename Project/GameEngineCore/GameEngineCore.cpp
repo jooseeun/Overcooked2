@@ -100,7 +100,7 @@ void GameEngineCore::CoreUpdate(GameEngineCore* _UserCore)
 
 	if (nullptr == CurrentLevel)
 	{
-		MsgBoxAssert("레벨을 지정해주지 않으면 엔진을 시작할수가 업습니다.");
+		MsgBoxAssert("레벨을 지정해주지 않으면 엔진을 시작할수가 없습니다.");
 	}
 
 	GameEngineSound::Update();
