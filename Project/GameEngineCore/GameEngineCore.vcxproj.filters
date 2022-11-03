@@ -512,18 +512,4 @@
       <Filter>ThirdParty\Lib\Release</Filter>
     </CopyFileToFolders>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="ThirdParty\bin\Release\libfbxsdk-md.zip">
-      <Filter>ThirdParty\Lib\Release</Filter>
-    </None>
-    <None Include="ThirdParty\bin\Release\libfbxsdk-mt.zip">
-      <Filter>ThirdParty\Lib\Release</Filter>
-    </None>
-    <None Include="ThirdParty\bin\Debug\libfbxsdk-md.zip">
-      <Filter>ThirdParty\Lib\Debug</Filter>
-    </None>
-    <None Include="ThirdParty\bin\Debug\libfbxsdk-mt.zip">
-      <Filter>ThirdParty\Lib\Debug</Filter>
-    </None>
-  </ItemGroup>
 </Project>
