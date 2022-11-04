@@ -3,6 +3,8 @@
 #include <GameEngineCore/GameEngineTexture.h>
 #include <GameEngineCore/GameEngineFolderTexture.h>
 
+#include "UIDebugGUI.h"
+
 OverCookedUIRenderer::OverCookedUIRenderer()
 	: CurAni(nullptr)
 	, CurTex(nullptr)
@@ -97,6 +99,11 @@ void OverCookedUIRenderer::SetPivot(PIVOTMODE _Mode)
 void OverCookedUIRenderer::SetPivotToVector(const float4& _Value)
 {
 	GetTransform().SetLocalPosition(_Value);
+}
+
+void OverCookedUIRenderer::ResistDebug()
+{
+	UIDebugGUI::Main_->AddTransform(GetNameCopy(), &GetTransform());
 }
 
 void OverCookedUIRenderer::SetTexture(GameEngineTexture* _Texture)

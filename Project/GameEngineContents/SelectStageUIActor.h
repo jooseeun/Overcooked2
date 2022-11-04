@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+class OverCookedUIRenderer;
 class SelectStageUIActor : public GameEngineActor
 {
 public:
@@ -15,4 +16,9 @@ protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void End() override;
+
+private:
+	OverCookedUIRenderer* EndBackground_ = nullptr;
+	OverCookedUIRenderer* Background_ = nullptr;
+	OverCookedUIRenderer* Header_ = nullptr;
 };

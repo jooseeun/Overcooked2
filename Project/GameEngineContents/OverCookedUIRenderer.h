@@ -36,14 +36,7 @@ public:
 		return ScaleRatio;
 	}
 
-	bool IsCurAnimation()
-	{
-		if (nullptr == CurAni)
-		{
-			return false;
-		}
-		return true;
-	}
+	void ResistDebug();
 
 	void SetTexture(GameEngineTexture* _Texture);
 
@@ -64,11 +57,6 @@ public:
 	void SetTexture(GameEngineTexture* _Texture, UINT _Index);
 
 	void SetFolderTextureToIndex(const std::string& _Text, UINT _Index);
-
-	void CreateFrameAnimationFolder(const std::string& _AnimationName, const FrameAnimation_DESC& _Desc);
-
-	void CreateFrameAnimationCutTexture(const std::string& _AnimationName, const FrameAnimation_DESC& _Desc);
-	void ChangeFrameAnimation(const std::string& _AnimationName, bool _Force = false);
 
 	void ScaleToTexture();
 

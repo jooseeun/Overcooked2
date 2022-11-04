@@ -12,6 +12,7 @@ SelectStageUIActor::~SelectStageUIActor()
 
 void SelectStageUIActor::Start()
 {
+	//필요한 리소스 로드
 	{
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExitsChildDirectory("ContentsResources");
@@ -28,9 +29,18 @@ void SelectStageUIActor::Start()
 		}
 	}
 
-	OverCookedUIRenderer* Test = CreateComponent<OverCookedUIRenderer>();
-	Test->SetTexture("UI_PauseScreen_Backdrop_01.png");
-	Test->ScaleToTexture();
+	EndBackground_ = CreateComponent<OverCookedUIRenderer>("EndBackground");
+	EndBackground_->SetTexture("EndBackground.png");
+	EndBackground_->ScaleToTexture();
+
+	Background_ = CreateComponent<OverCookedUIRenderer>("Background");
+	Background_->SetTexture("UI_PauseScreen_Backdrop_01.png");
+	Background_->ScaleToTexture();
+
+	Header_ = CreateComponent<OverCookedUIRenderer>("Header");
+	Header_->SetTexture("t_ui_dialog_header_01_d.png");
+	Header_->ScaleToTexture();
+	Header_->GetTransform().SetLocalPosition({ -260,290 });
 }
 
 void SelectStageUIActor::Update(float _DeltaTime)
