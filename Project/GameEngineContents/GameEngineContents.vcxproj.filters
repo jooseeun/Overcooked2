@@ -128,6 +128,9 @@
     <ClInclude Include="UIDebugGUI.h">
       <Filter>GUI</Filter>
     </ClInclude>
+    <ClInclude Include="MapEditorGUI.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -253,6 +256,9 @@
     </ClCompile>
     <ClCompile Include="Servicehatch.cpp">
       <Filter>Contents\Object\StaticMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="MapEditorGUI.cpp">
+      <Filter>GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
