@@ -29,10 +29,16 @@ enum class IOType
 
 enum class MapObjType
 {
-	Table,
-	Test2,
-	Test3,
-	Max,
+	Transform,
+	CounterTop,
+	CounterTop_Corner,
+	CounterTop_NoEdge,
+	CounterTop_WiZard, //마법사 스테이지 전용 조리대
+	GasRange, //가스레인지
+	Bin, //쓰레기통
+	Sink, //싱크대
+	Servicehatch, //요리 내는 창구
+	FoodBox //음식 스폰 박스
 };
 
 

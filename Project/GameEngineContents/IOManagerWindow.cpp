@@ -38,6 +38,7 @@ void IOManagerWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 	if (true == ImGui::Button("Add"))
 	{
+		/*
 		MapData TmpData = {};
 		TmpData.MapObjType_ = MapObjType::Test2;
 		TmpData.Transform_ = &GEngine::GetCurrentLevel()->CreateActor<GameEngineActor>()->GetTransform();
@@ -58,6 +59,7 @@ void IOManagerWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 			GlobalIOManager::AddTileData(TmpData);
 		}
+		*/
 	}
 
 	//ImGui::Text(std::to_string(MapDataVector_.size()).c_str());
