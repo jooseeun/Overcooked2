@@ -4,6 +4,7 @@
 GamePlayFood::GamePlayFood() 
 	: Enum_ObjectFoodClass_(ObjectFoodClass::None),
 	  Enum_ObjectFoodType_(ObjectFoodType::None)
+	, CookingGage(0)
 {
 }
 

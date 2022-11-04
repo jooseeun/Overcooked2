@@ -28,7 +28,13 @@ protected:
 
 protected:
 
+	inline GameEngineCollision* GetInteractCollision() const
+	{
+		return Collision_Interact_;
+	}
+
 private:
+	GameEngineCollision* Collision_Interact_;
 
 };
 

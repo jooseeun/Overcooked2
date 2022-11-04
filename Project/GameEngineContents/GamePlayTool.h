@@ -1,8 +1,19 @@
 #pragma once
 #include "GamePlayStuff.h"
-
+#include "GamePlayMoveable.h"
 // Ό³Έν :
-class GamePlayMoveable;
+enum class Input_InteractOption
+{
+	NoResponse,
+	Auto,
+	Manual
+};
+enum class ObjectToolType
+{
+	None,
+	CuttingBoard,
+
+};
 class GamePlayTool : public GamePlayStuff
 {
 public:
@@ -16,11 +27,14 @@ public:
 	GamePlayTool& operator=(const GamePlayTool& _Other) = delete;
 	GamePlayTool& operator=(GamePlayTool&& _Other) noexcept = delete;
 
+	inline void Interact_Manual(float _DeltaTime)
+	{
+		Moveable_Current_->Cook_Update(_DeltaTime);
+	}
+
 protected:
-
-
 	void Start() override;
-	void Update(float _DeltaTime) override {};
+	void Update(float _DeltaTime) final;
 	void End() override {};
 
 	void OnEvent() override {};
@@ -32,11 +46,17 @@ protected:
 protected:
 	Input_PickUpOption Input_PickUp(GamePlayMoveable* _Object) final;
 	virtual Input_PickUpOption CheckMoveable(GamePlayMoveable* _Object) = 0;
+	virtual Input_InteractOption Input_Interact() = 0;
+
+
+	inline void SetInteractOption(Input_InteractOption _Option)
+	{
+		InteractOption_Current_ = _Option;
+	}
 
 private:
+	GamePlayMoveable* Moveable_Current_;
+	Input_InteractOption InteractOption_Current_;
 
-	GamePlayMoveable* Food_Current_;
-	float CookingGage;
-	
 };
 

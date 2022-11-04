@@ -47,9 +47,6 @@
     <ClInclude Include="Food_Ingredients_Fish.h">
       <Filter>Contents\Object\Food</Filter>
     </ClInclude>
-    <ClInclude Include="Food_Ingredients_Shrimp.h">
-      <Filter>Contents\Object\Food</Filter>
-    </ClInclude>
     <ClInclude Include="Food_Recipe.h">
       <Filter>Contents\Object\Food</Filter>
     </ClInclude>
@@ -122,6 +119,9 @@
     <ClInclude Include="GlobalIOManager.h">
       <Filter>Global</Filter>
     </ClInclude>
+    <ClInclude Include="Food_Ingredients_Prawn.h">
+      <Filter>Contents\Object\Food</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -165,9 +165,6 @@
       <Filter>Contents\Object\StaticMesh</Filter>
     </ClCompile>
     <ClCompile Include="Food_Ingredients_Fish.cpp">
-      <Filter>Contents\Object\Food</Filter>
-    </ClCompile>
-    <ClCompile Include="Food_Ingredients_Shrimp.cpp">
       <Filter>Contents\Object\Food</Filter>
     </ClCompile>
     <ClCompile Include="Food_Recipe.cpp">
@@ -242,6 +239,9 @@
     <ClCompile Include="GlobalIOManager.cpp">
       <Filter>Global</Filter>
     </ClCompile>
+    <ClCompile Include="Food_Ingredients_Prawn.cpp">
+      <Filter>Contents\Object\Food</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Contents">
@@ -270,9 +270,6 @@
     </Filter>
     <Filter Include="PreCompile">
       <UniqueIdentifier>{635134a0-7011-41ee-afaa-f17fbdbda820}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Contents\Enum">
-      <UniqueIdentifier>{17bca0ed-344f-4eac-8d7d-57bb2c565cd6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Contents\Object">
       <UniqueIdentifier>{f10c03fd-2647-412f-b733-0b03affac6f9}</UniqueIdentifier>

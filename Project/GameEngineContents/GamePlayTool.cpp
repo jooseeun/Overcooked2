@@ -2,13 +2,12 @@
 #include "GamePlayTool.h"
 #include "GamePlayMoveable.h"
 
-GamePlayTool::GamePlayTool() 
-	: Food_Current_(nullptr)
-	, CookingGage(0)
+GamePlayTool::GamePlayTool()
+	: Moveable_Current_(nullptr)
 {
 }
 
-GamePlayTool::~GamePlayTool() 
+GamePlayTool::~GamePlayTool()
 {
 }
 
@@ -22,11 +21,11 @@ void GamePlayTool::Start()
 
 Input_PickUpOption GamePlayTool::Input_PickUp(GamePlayMoveable* _Object)
 {
-	if (Food_Current_ == nullptr)
-	{	
+	if (Moveable_Current_ == nullptr)
+	{
 		if (CheckMoveable(_Object) == Input_PickUpOption::PickUp)
 		{
-			Food_Current_ = _Object;
+			Moveable_Current_ = _Object;
 			return Input_PickUpOption::PickUp;
 		}
 		else
@@ -37,11 +36,15 @@ Input_PickUpOption GamePlayTool::Input_PickUp(GamePlayMoveable* _Object)
 	}
 	else
 	{
-		return Food_Current_->Input_PickUp(_Object);
+		return Moveable_Current_->Input_PickUp(_Object);
 	}
 }
 // ---------------------------------------Update
-//void GamePlayTool::Update(float _DeltaTime)
-//{
-//
-//}
+void GamePlayTool::Update(float _DeltaTime)
+{
+	if (Moveable_Current_ != nullptr && InteractOption_Current_ == Input_InteractOption::Auto)
+	{
+		Moveable_Current_->Cook_Update(_DeltaTime);
+	}
+}
+

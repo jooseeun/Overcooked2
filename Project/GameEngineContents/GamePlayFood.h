@@ -13,7 +13,9 @@ enum class ObjectFoodClass
 {
 	None = 0,
 	Fish = 1,
-	Shrimp,
+	Fish_Cutting,
+	Prawn,
+	Prawn_Cutting,
 
 
 
@@ -21,7 +23,7 @@ enum class ObjectFoodClass
 };
 
 
-class GamePlayFood : public GamePlayMoveable 
+class GamePlayFood : public GamePlayMoveable
 {
 protected:
 	GamePlayFood();
@@ -60,6 +62,8 @@ public:
 	{
 		return Input_PickUpOption::NoResponse;
 	}
+
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override {};
@@ -100,5 +104,7 @@ private:
 
 	ObjectFoodType Enum_ObjectFoodType_;
 	ObjectFoodClass Enum_ObjectFoodClass_;
+
+	float CookingGage;
 };
 
