@@ -50,14 +50,16 @@ void MeshSelectWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
         //    ImGui::TreePop();
         //}
 
-        if (ImGui::BeginListBox("listbox 1"))
+        if (ImGui::BeginListBox("FBX List"))
         {
             for (int n = 0; n < AllFBXMesh_.size(); n++)
             {
                 const bool is_selected = (FbxCurentIndex == n);
                 if (ImGui::Selectable(AllFBXMesh_[n]->GetName().data(), is_selected))
+                {
                     FbxCurentIndex = n;
-
+                }
+                   
                 if (is_selected == true)
                 {
                     ImGui::SetItemDefaultFocus();
@@ -76,13 +78,15 @@ void MeshSelectWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
         //}
 
 
-        if (ImGui::BeginListBox(" "))
+        if (ImGui::BeginListBox("Mesh List"))
         {
             for (int n = 0; n < Mesh.size(); n++)
             {
                  const bool is_selected = (SubSetCurentIndex == n);
-                ImGui::Selectable(Mesh[n].GetName().c_str(), true);
-                SubSetCurentIndex = n;
+                 if (ImGui::Selectable(Mesh[n].GetName().c_str(), is_selected))
+                 {
+                     SubSetCurentIndex = n;
+                 }
 
                 if (is_selected == true)
                 {
