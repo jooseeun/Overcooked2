@@ -212,7 +212,7 @@ void MapEditorWindow::UnSortToolTab()
 
 		if (AllUnSortActorName_[SelectNameIndex] != "Collision")
 		{
-			GameEngineFBXStaticRenderer* Renderer = Object->CreateComponent<GameEngineFBXStaticRenderer>();
+			GameEngineFBXRenderer* Renderer = Object->CreateComponent<GameEngineFBXRenderer>();
 			Renderer->SetFBXMesh(AllUnSortActorName_[SelectNameIndex] + ".fbx", "Texture");
 			Object->SetName(AllUnSortActorName_[SelectNameIndex]);
 		}
@@ -302,20 +302,6 @@ void MapEditorWindow::UnSortToolTab()
 
 void MapEditorWindow::SortToolTab()
 {
-	if (ImGui::Button("Origin Create"))
-	{
-		GamePlayMapObject* Origin = CurLevel_->CreateActor<GamePlayMapObject>();
-
-		Origin->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
-
-		Origin->GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
-		Origin->GetFBXMesh()->SetFBXMesh("m_sk_countertop_01.fbx", "Texture");
-
-		Origins_.push_back(Origin);
-	}
-
-	ImGui::Text("");
-
 	ImGui::BeginChild("Origin List", ImVec2(150, 100), true);
 
 	static int OriginIndex = 0;
@@ -341,6 +327,18 @@ void MapEditorWindow::SortToolTab()
 		float Float3[3] = { Pos.x, Pos.y, Pos.z };
 		ImGui::DragFloat3("Position", Float3);
 		Origins_[OriginIndex]->GetTransform().SetWorldPosition({ Float3[0], Float3[1], Float3[2] });
+	}
+
+	if (ImGui::Button("Origin Create"))
+	{
+		GamePlayMapObject* Origin = CurLevel_->CreateActor<GamePlayMapObject>();
+
+		Origin->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
+
+		Origin->GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
+		Origin->GetFBXMesh()->SetFBXMesh("m_sk_countertop_01.fbx", "Texture");
+
+		Origins_.push_back(Origin);
 	}
 
 	ImGui::Text("");
@@ -414,7 +412,7 @@ void MapEditorWindow::SortToolTab()
 			CurStaticMesh_ = CurLevel_->CreateActor<CounterTop>();
 
 			CurStaticMesh_->GetFBXMesh()->SetFBXMesh("m_sk_countertop_01.fbx", "Texture");
-			CurStaticMesh_->GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });			
+			CurStaticMesh_->GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 			break;
 		case 1:
 			CurStaticMesh_ = CurLevel_->CreateActor<CounterTop>();

@@ -17,7 +17,9 @@ protected:
 	void Update(float _DeltaTime) override;
 	void End() override;
 
+	//정렬된 맵 데이터를 읽어온다
+	void ParsingSortMapData();
+
 private:
 
 };
-

@@ -103,6 +103,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("ContentsResources");
 		Dir.Move("Mesh");
 		Dir.Move("Object");
+		Dir.Move("StaticObject");
 		Dir.Move("CounterTop");
 
 		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_countertop_01.fbx"));
@@ -115,6 +116,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("ContentsResources");
 		Dir.Move("Mesh");
 		Dir.Move("Object");
+		Dir.Move("StaticObject");
 		Dir.Move("CounterTop_Corner");
 
 		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_lorry_countertop_corner_01.fbx"));
@@ -127,6 +129,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("ContentsResources");
 		Dir.Move("Mesh");
 		Dir.Move("Object");
+		Dir.Move("StaticObject");
 		Dir.Move("CounterTop_NoEdge");
 
 		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_countertop_no_edge_01.fbx"));

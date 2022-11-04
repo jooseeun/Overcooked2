@@ -22,7 +22,7 @@ enum class PlayerDir
 
 enum class IOType
 {
-	Mesh,
+	Mesh,	
 	Tile,
 	//Tile1-2,
 	//Tile1-3,
@@ -33,4 +33,14 @@ enum class MapObjType
 {
 	Table,
 	Max,
+};
+
+
+enum class ToolInfo
+{
+	Dish, //Á¢½Ã
+	FireExtinguisher, //¼ÒÈ­±â
+	FryingPan, //ÇÁ¶óÀÌÆÒ
+	Pot, //³¿ºñ
+	CuttingBoard, //µµ¸¶¶û Ä®
 };
