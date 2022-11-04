@@ -83,7 +83,6 @@ public:
 	GameEngineTransform& operator=(const GameEngineTransform& _Other) = delete;
 	GameEngineTransform& operator=(GameEngineTransform&& _Other) noexcept = delete;
 
-
 public:
 	inline void AddLocalScale(const float4& _Value)
 	{

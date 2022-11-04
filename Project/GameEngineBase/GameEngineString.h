@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <algorithm>
+#include <vector>
 
 // Ό³Έν :
 class GameEngineString
@@ -41,6 +42,8 @@ public:
 	static std::string UniCodeToAnsiReturn(const std::wstring& _UniCode);
 	static std::wstring UTF8ToUniCodeReturn(const std::string& _UTF8);
 	static std::string UTF8ToAnsiReturn(const std::string& _UTF8);
+
+	static std::vector<std::string> Split(const std::string& _Input, char _Find);
 
 protected:
 

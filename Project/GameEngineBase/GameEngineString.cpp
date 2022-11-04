@@ -208,3 +208,17 @@ std::string GameEngineString::UTF8ToAnsiReturn(const std::string& _UTF8)
 	}
 	return Return;
 }
+
+std::vector<std::string> GameEngineString::Split(const std::string& _Input, char _Find)
+{
+	std::vector<std::string> Result;
+
+	std::stringstream ss(_Input);
+	std::string TmpS;
+	while (getline(ss, TmpS, _Find))
+	{
+		Result.push_back(TmpS);
+	}
+
+	return Result;
+}

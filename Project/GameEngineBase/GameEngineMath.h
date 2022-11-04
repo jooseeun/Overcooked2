@@ -400,6 +400,17 @@ public:
 		return Value;
 	}
 
+	std::string ToDataString()
+	{
+		std::string Value;
+		Value += std::to_string(x);
+		Value += ",";
+		Value += std::to_string(y);
+		Value += ",";
+		Value += std::to_string(z);
+		return Value;
+	}
+
 	float hx() const
 	{
 		return x * 0.5f;

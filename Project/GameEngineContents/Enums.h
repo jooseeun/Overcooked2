@@ -23,15 +23,15 @@ enum class PlayerDir
 enum class IOType
 {
 	Mesh,	
-	Tile,
-	//Tile1-2,
-	//Tile1-3,
+	Map,
 	Max,
 };
 
 enum class MapObjType
 {
 	Table,
+	Test2,
+	Test3,
 	Max,
 };
 
