@@ -5,6 +5,14 @@ enum class CollisionOrder
 	Default,
 	Mouse,
 	Max,
+
+
+
+	// Object
+	Object_None,
+	Object_Static,
+	Object_Character,
+	Object_Moveable
 };
 
 enum class PlayerDir

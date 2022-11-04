@@ -19,6 +19,15 @@ void GamePlayTool::Start()
 
 }
 
+// ---------------------------------------Update
+void GamePlayTool::Update(float _DeltaTime)
+{
+	if (Moveable_Current_ != nullptr && InteractOption_Current_ == Input_InteractOption::Auto)
+	{
+		Moveable_Current_->Cook_Update(_DeltaTime);
+	}
+}
+
 Input_PickUpOption GamePlayTool::Input_PickUp(GamePlayMoveable* _Object)
 {
 	if (Moveable_Current_ == nullptr)
@@ -32,19 +41,25 @@ Input_PickUpOption GamePlayTool::Input_PickUp(GamePlayMoveable* _Object)
 		{
 			return Input_PickUpOption::NoResponse;
 		}
-
 	}
 	else
 	{
 		return Moveable_Current_->Input_PickUp(_Object);
 	}
 }
-// ---------------------------------------Update
-void GamePlayTool::Update(float _DeltaTime)
+Input_PickUpOption GamePlayTool::Input_PickUp(GamePlayCharacter* _Player)
 {
-	if (Moveable_Current_ != nullptr && InteractOption_Current_ == Input_InteractOption::Auto)
+	if (Moveable_Current_ != nullptr)
 	{
-		Moveable_Current_->Cook_Update(_DeltaTime);
+		if (Moveable_Current_->Input_PickUp(_Player) == Input_PickUpOption::PickUp)
+		{
+			Moveable_Current_ = nullptr;
+		}
 	}
-}
+	return  Input_PickUpOption::NoResponse;
 
+}
+Input_PickUpOption GamePlayTool::CheckMoveable(GamePlayMoveable* _Object)
+{
+	return Input_PickUpOption::PickUp;
+}

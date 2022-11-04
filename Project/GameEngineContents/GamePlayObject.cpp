@@ -18,6 +18,8 @@ void GamePlayObject::Start()
 {
 	Mesh_Object_ = CreateComponent<GameEngineFBXStaticRenderer>("Mesh_Object");
 	Collision_Object_ = CreateComponent<GameEngineCollision>("Collision_Object");
-	Collision_Object_->SetDebugSetting(CollisionType::CT_SPHERE, {0, 0.8f, 0, 0.5f});
+	Collision_Object_->SetDebugSetting(CollisionType::CT_AABB, {0, 0.8f, 0, 0.5f});
+	Collision_Object_->ChangeOrder(CollisionOrder::Object_None);
+	
 
 }

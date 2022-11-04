@@ -33,6 +33,10 @@ public:
 	{
 		return Input_PickUpOption::NoResponse;
 	}
+	inline Input_PickUpOption Input_PickUp(GamePlayCharacter* _Player) override
+	{
+		return Input_PickUpOption::PickUp;
+	}
 
 	inline ObjectMoveableType GetObjectMoveableType() const
 	{
