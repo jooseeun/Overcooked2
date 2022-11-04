@@ -238,14 +238,14 @@ void MapEditorWindow::UnSortToolTab()
 
 		{
 			MapData TmpData = {};
-			
-			if (AllUnSortActorName_[SelectNameIndex] == "Collision_Wall")
+
+			if (AllUnSortActorName_[SelectNameIndex].substr(0, 3) == "Col")
 			{
-				TmpData.MapObjType_ = MapObjType::Collision_Wall;
+				TmpData.MapObjType_ = MapObjType::Collision;
 			}
 			else
 			{
-				TmpData.MapObjType_ = MapObjType::Npc;
+				TmpData.MapObjType_ = MapObjType::Npc_Static;
 			}
 			TmpData.Transform_ = &Object->GetTransform();
 

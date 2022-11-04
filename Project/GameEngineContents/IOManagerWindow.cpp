@@ -60,17 +60,17 @@ void IOManagerWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 			GlobalIOManager::AddTileData(TmpData);
 		}
 		
-		{
-			MapData TmpData = {};
-			TmpData.MapObjType_ = MapObjType::Npc;
-			TmpData.Transform_ = &GEngine::GetCurrentLevel()->CreateActor<GameEngineActor>()->GetTransform();
-			TmpData.Transform_->SetWorldPosition({ 0, 1, 2 });
-			TmpData.Transform_->SetWorldRotation({ 3, 4, 5 });
-			TmpData.Transform_->SetWorldScale({ 6, 7, 8 });
-			TmpData.Tile_ = float4(1, 2, 3);
+		//{
+		//	MapData TmpData = {};
+		//	TmpData.MapObjType_ = MapObjType::Npc_Static;
+		//	TmpData.Transform_ = &GEngine::GetCurrentLevel()->CreateActor<GameEngineActor>()->GetTransform();
+		//	TmpData.Transform_->SetWorldPosition({ 0, 1, 2 });
+		//	TmpData.Transform_->SetWorldRotation({ 3, 4, 5 });
+		//	TmpData.Transform_->SetWorldScale({ 6, 7, 8 });
+		//	TmpData.Tile_ = float4(1, 2, 3);
 
-			GlobalIOManager::AddTileData(TmpData);
-		}
+		//	GlobalIOManager::AddTileData(TmpData);
+		//}
 	}
 
 	//ImGui::Text(std::to_string(MapDataVector_.size()).c_str());

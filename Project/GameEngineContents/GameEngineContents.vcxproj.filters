@@ -29,9 +29,6 @@
     <ClInclude Include="LevelActor.h">
       <Filter>Map</Filter>
     </ClInclude>
-    <ClInclude Include="MapEditor.h">
-      <Filter>Map</Filter>
-    </ClInclude>
     <ClInclude Include="Rail.h">
       <Filter>Contents\Object\StaticMesh</Filter>
     </ClInclude>
@@ -63,9 +60,6 @@
       <Filter>GUI</Filter>
     </ClInclude>
     <ClInclude Include="MeshEditorGUI.h">
-      <Filter>GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="MapEditorGUI.h">
       <Filter>GUI</Filter>
     </ClInclude>
     <ClInclude Include="SelectStageLevel.h">
@@ -161,9 +155,6 @@
     <ClCompile Include="LevelActor.cpp">
       <Filter>Map</Filter>
     </ClCompile>
-    <ClCompile Include="MapEditor.cpp">
-      <Filter>Map</Filter>
-    </ClCompile>
     <ClCompile Include="Rail.cpp">
       <Filter>Contents\Object\StaticMesh</Filter>
     </ClCompile>
@@ -195,9 +186,6 @@
       <Filter>GUI</Filter>
     </ClCompile>
     <ClCompile Include="MeshEditorGUI.cpp">
-      <Filter>GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="MapEditorGUI.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
     <ClCompile Include="SelectStageLevel.cpp">

@@ -2,7 +2,7 @@
 #include "GamePlayStaticObject.h"
 
 // Ό³Έν :
-class GamePlayMapObject : public GamePlayStaticObject
+class GamePlayMapObject : public GamePlayObject
 {
 	friend class MapEditorWindow;
 

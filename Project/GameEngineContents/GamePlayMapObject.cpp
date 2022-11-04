@@ -11,7 +11,7 @@ GamePlayMapObject::~GamePlayMapObject()
 
 void GamePlayMapObject::Start()
 {
-	GamePlayStaticObject::Start();
+	GamePlayObject::Start();
 
 	Collision_ = CreateComponent<GameEngineCollision>();
 	Collision_->GetTransform().SetWorldScale({ 100.f, 100.f, 100.f });
