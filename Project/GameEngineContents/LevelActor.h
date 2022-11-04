@@ -25,6 +25,6 @@ protected:
 	void End() override;
 
 private:
-	class GameEngineFBXRenderer* Renderer_;
+	class GameEngineFBXStaticRenderer* Renderer_;
 };
 

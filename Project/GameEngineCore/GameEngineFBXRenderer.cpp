@@ -9,7 +9,7 @@ GameEngineFBXRenderer::~GameEngineFBXRenderer()
 {
 }
 
-void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _PipeLine)
+void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Material)
 {
 	GameEngineFBXMesh* FindFBXMesh = GameEngineFBXMesh::Find(_Name);
 
@@ -17,12 +17,12 @@ void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Pi
 	{
 		for (size_t SubSetCount = 0; SubSetCount < FindFBXMesh->GetSubSetCount(UnitCount); SubSetCount++)
 		{
-			SetFBXMesh(_Name, _PipeLine, UnitCount, SubSetCount);
+			SetFBXMesh(_Name, _Material, UnitCount, SubSetCount);
 		}
 	}
 }
 
-void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _PipeLine, size_t _MeshIndex, size_t _SubSetIndex)
+void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Material, size_t _MeshIndex, size_t _SubSetIndex)
 {
 	GameEngineFBXMesh* FindFBXMesh = GameEngineFBXMesh::Find(_Name);
 	if (nullptr == FindFBXMesh)
@@ -49,7 +49,7 @@ void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Pi
 	}
 
 	GameEngineRenderUnit& RenderUnit = Unit[_MeshIndex][_SubSetIndex];
-	RenderUnit.SetPipeLine(_PipeLine);
+	RenderUnit.SetPipeLine(_Material);
 
 	GameEngineMesh* FbxMesh = FBXMesh->GetGameEngineMesh(_MeshIndex, _SubSetIndex);
 	RenderUnit.SetMesh(FbxMesh);
@@ -57,8 +57,10 @@ void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Pi
 	if (RenderUnit.ShaderResources.IsTexture("DiffuseTexture"))
 	{
 		const FbxExMaterialSettingData& MatData = FBXMesh->GetMaterialSettingData(_MeshIndex, _SubSetIndex);
-
-		RenderUnit.ShaderResources.SetTexture("DiffuseTexture", MatData.DifTextureName);
+		if (nullptr != GameEngineTexture::Find(MatData.DifTextureName))
+		{
+			RenderUnit.ShaderResources.SetTexture("DiffuseTexture", MatData.DifTextureName);
+		}
 	}
 
 	RenderUnit.SetRenderer(this);
@@ -78,8 +80,4 @@ void GameEngineFBXRenderer::Render(float _DeltaTime)
 			Unit[UnitIndex][SubSetIndex].Render(_DeltaTime);
 		}
 	}
-}
-
-void GameEngineFBXRenderer::CreateAnimation(const std::string& _AnimationName, const std::string& _MeshFBX, const std::string& _AnimationFBX)
-{
 }

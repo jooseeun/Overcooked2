@@ -10,7 +10,7 @@ class GameEngineFBXRenderer : public GameEngineRenderer
 public:
 	// constrcuter destructer
 	GameEngineFBXRenderer();
-	~GameEngineFBXRenderer();
+	virtual ~GameEngineFBXRenderer() = 0;
 
 	// delete Function
 	GameEngineFBXRenderer(const GameEngineFBXRenderer& _Other) = delete;
@@ -18,8 +18,8 @@ public:
 	GameEngineFBXRenderer& operator=(const GameEngineFBXRenderer& _Other) = delete;
 	GameEngineFBXRenderer& operator=(GameEngineFBXRenderer&& _Other) noexcept = delete;
 
-	void SetFBXMesh(const std::string& _Name, std::string _PipeLine);
-	void SetFBXMesh(const std::string& _Name, std::string _PipeLine, size_t _MeshIndex, size_t _SubSetIndex = 0);
+	virtual void SetFBXMesh(const std::string& _Name, std::string _Material);
+	virtual void SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex, size_t _SubSetIndex = 0);
 
 	void Render(float _DeltaTime) override;
 
@@ -32,8 +32,6 @@ public:
 	{
 		return FBXMesh;
 	}
-
-	void CreateAnimation(const std::string& _AnimationName, const std::string& _MeshFBX, const std::string& _AnimationFBX);
 
 protected:
 

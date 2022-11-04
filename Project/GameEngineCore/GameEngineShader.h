@@ -138,6 +138,14 @@ public:
 
 	GameEngineConstantBufferSetter& GetConstantBufferSetter(std::string _Name);
 
+	bool IsTexture(const std::string& _Name);
+
+	bool IsSampler(const std::string& _Name);
+
+	bool IsConstantBuffer(const std::string& _Name);
+
+	bool IsStructuredBuffer(const std::string& _Name);
+
 protected:
 	void CreateVersion(const std::string& _ShaderType, UINT _VersionHigh, UINT _VersionLow);
 	void SetEntryPoint(const std::string& _EntryPoint)
@@ -154,16 +162,12 @@ protected:
 	ShaderType ShaderSettingType;
 
 private:
-	std::map<std::string, GameEngineConstantBufferSetter> ConstantBufferMap;
-	std::map<std::string, GameEngineTextureSetter> TextureMap;
-	std::map<std::string, GameEngineSamplerSetter> SamplerMap;
-	std::map<std::string, GameEngineStructuredBufferSetter> StructuredBufferMap;
+	std::map<std::string, GameEngineConstantBufferSetter> ConstantBufferSettingMap;
+	std::map<std::string, GameEngineTextureSetter> TextureSettingMap;
+	std::map<std::string, GameEngineSamplerSetter> SamplerSettingMap;
+	std::map<std::string, GameEngineStructuredBufferSetter> StructuredBufferSettingMap;
 
 	std::string EntryPoint;
-
-	// std::map<unsigned int, ConstantBuffer> 
-
-	// void SetConstantBuffer() override;
 
 };
 

@@ -8,11 +8,11 @@
 #include "GameEngineSampler.h"
 #include "GameEngineStructuredBuffer.h"
 
-GameEngineShaderResourcesHelper::GameEngineShaderResourcesHelper() 
+GameEngineShaderResourcesHelper::GameEngineShaderResourcesHelper()
 {
 }
 
-GameEngineShaderResourcesHelper::~GameEngineShaderResourcesHelper() 
+GameEngineShaderResourcesHelper::~GameEngineShaderResourcesHelper()
 {
 }
 
@@ -64,25 +64,25 @@ void GameEngineShaderResourcesHelper::ResourcesCheck(GameEngineMaterial* _Line)
 void GameEngineShaderResourcesHelper::ShaderCheck(GameEngineShader* _Shader)
 {
 	// 픽셀쉐이더와 버텍스 쉐이더에서 transform데이터 같은 중요 상수버퍼의 이름을 똑같이 해서 사용하고 싶다면??????
-	for (const std::pair<std::string, GameEngineConstantBufferSetter>& Data : _Shader->ConstantBufferMap)
+	for (const std::pair<std::string, GameEngineConstantBufferSetter>& Data : _Shader->ConstantBufferSettingMap)
 	{
-		std::multimap<std::string, GameEngineConstantBufferSetter>::iterator InsertIter = 
+		std::multimap<std::string, GameEngineConstantBufferSetter>::iterator InsertIter =
 			ConstantBufferSettingMap.insert(std::make_pair(Data.first, Data.second));
 
 		BindConstantBuffer(InsertIter->second, Data.second.Res);
 	}
 
-	for (const std::pair<std::string, GameEngineTextureSetter>& Data : _Shader->TextureMap)
+	for (const std::pair<std::string, GameEngineTextureSetter>& Data : _Shader->TextureSettingMap)
 	{
 		std::multimap<std::string, GameEngineTextureSetter>::iterator InsertIter =
-		TextureSettingMap.insert(std::make_pair(Data.first, Data.second));
+			TextureSettingMap.insert(std::make_pair(Data.first, Data.second));
 
 		BindTexture(InsertIter->second, Data.second.Res);
 
 	}
 
 
-	for (const std::pair<std::string, GameEngineSamplerSetter>& Data : _Shader->SamplerMap)
+	for (const std::pair<std::string, GameEngineSamplerSetter>& Data : _Shader->SamplerSettingMap)
 	{
 		std::multimap<std::string, GameEngineSamplerSetter>::iterator InsertIter =
 			SamplerSettingMap.insert(std::make_pair(Data.first, Data.second));
@@ -91,39 +91,15 @@ void GameEngineShaderResourcesHelper::ShaderCheck(GameEngineShader* _Shader)
 	}
 
 
-	for (const std::pair<std::string, GameEngineStructuredBufferSetter>& Data : _Shader->StructuredBufferMap)
+	for (const std::pair<std::string, GameEngineStructuredBufferSetter>& Data : _Shader->StructuredBufferSettingMap)
 	{
 		std::multimap<std::string, GameEngineStructuredBufferSetter>::iterator InsertIter =
 			StructuredBufferSettingMap.insert(std::make_pair(Data.first, Data.second));
 
 		BindStructuredBuffer(InsertIter->second, Data.second.Res);
 	}
-
 }
 
-bool GameEngineShaderResourcesHelper::IsConstantBuffer(const std::string& _Name)
-{
-	std::string Key = GameEngineString::ToUpperReturn(_Name);
-
-	if (ConstantBufferSettingMap.end() != ConstantBufferSettingMap.find(Key))
-	{
-		return true;
-	}
-
-	return false;
-}
-
-bool GameEngineShaderResourcesHelper::IsStructuredBuffer(const std::string& _Name)
-{
-	std::string Key = GameEngineString::ToUpperReturn(_Name);
-
-	if (StructuredBufferSettingMap.end() != StructuredBufferSettingMap.find(Key))
-	{
-		return true;
-	}
-
-	return false;
-}
 
 GameEngineStructuredBufferSetter* GameEngineShaderResourcesHelper::GetStructuredBuffer(const std::string& _Name)
 {
@@ -164,8 +140,6 @@ void GameEngineShaderResourcesHelper::SetConstantBufferNew(const std::string& _N
 
 	for (; NameStartIter != NameEndIter; ++NameStartIter)
 	{
-		// 트랜스폼이 바뀌면
-
 		if (0 == NameStartIter->second.OriginalData.size()
 			|| NameStartIter->second.OriginalData.size() != _Size)
 		{
@@ -180,8 +154,8 @@ void GameEngineShaderResourcesHelper::SetConstantBufferNew(const std::string& _N
 }
 
 void GameEngineShaderResourcesHelper::SetConstantBufferLink(
-	const std::string& _Name, 
-	const void* _Data, 
+	const std::string& _Name,
+	const void* _Data,
 	UINT _Size)
 {
 	if (false == IsConstantBuffer(_Name))
@@ -205,26 +179,14 @@ void GameEngineShaderResourcesHelper::SetConstantBufferLink(
 	std::multimap<std::string, GameEngineConstantBufferSetter>::iterator NameEndIter
 		= ConstantBufferSettingMap.upper_bound(Name);
 
-	for (; NameStartIter != NameEndIter ; ++NameStartIter)
+	for (; NameStartIter != NameEndIter; ++NameStartIter)
 	{
 		// 트랜스폼이 바뀌면
 		NameStartIter->second.SetData = _Data;
 		NameStartIter->second.Size = _Size;
 	}
-
 }
 
-bool GameEngineShaderResourcesHelper::IsTexture(const std::string& _Name)
-{
-	std::string Key = GameEngineString::ToUpperReturn(_Name);
-
-	if (TextureSettingMap.end() != TextureSettingMap.find(Key))
-	{
-		return true;
-	}
-
-	return false;
-}
 
 
 GameEngineTexture* GameEngineShaderResourcesHelper::SetTexture(const std::string& _Name, const std::string& _TextureName)
@@ -286,20 +248,6 @@ GameEngineTexture* GameEngineShaderResourcesHelper::SetTexture(const std::string
 	return _Texture;
 }
 
-
-bool GameEngineShaderResourcesHelper::IsSampler(const std::string& _Name)
-{
-	std::string Key = GameEngineString::ToUpperReturn(_Name);
-
-	if (SamplerSettingMap.end() != SamplerSettingMap.find(Key))
-	{
-		return true;
-	}
-
-	return false;
-}
-
-
 GameEngineSampler* GameEngineShaderResourcesHelper::SetSampler(const std::string& _Name, const std::string& _TextureName)
 {
 	if (false == IsSampler(_Name))
@@ -340,14 +288,12 @@ GameEngineSampler* GameEngineShaderResourcesHelper::SetSampler(const std::string
 
 void GameEngineShaderResourcesHelper::BindTexture(GameEngineTextureSetter& _Setter, GameEngineTexture* _Res)
 {
+	_Setter.Res = _Res;
+
 	if (nullptr == _Res)
 	{
-		_Res = GameEngineTexture::Find("nset.png");
-
-		//MsgBoxAssert("존재하지 않는 텍스처를 사용하려고 했습니다.");
+		MsgBoxAssert("존재하지 않는 텍스처를 사용하려고 했습니다.");
 	}
-
-	_Setter.Res = _Res;
 
 	switch (_Setter.ShaderType)
 	{
@@ -430,8 +376,6 @@ void GameEngineShaderResourcesHelper::BindStructuredBuffer(GameEngineStructuredB
 	}
 }
 
-
-
 void GameEngineShaderResourcesHelper::AllConstantBufferNew()
 {
 	std::multimap<std::string, GameEngineConstantBufferSetter>::iterator Start = ConstantBufferSettingMap.begin();
@@ -444,4 +388,52 @@ void GameEngineShaderResourcesHelper::AllConstantBufferNew()
 		Start->second.SetData = &Start->second.OriginalData[0];
 		Start->second.Size = Buffersize;
 	}
+}
+
+bool GameEngineShaderResourcesHelper::IsTexture(const std::string& _Name)
+{
+	std::string Key = GameEngineString::ToUpperReturn(_Name);
+
+	if (TextureSettingMap.end() != TextureSettingMap.find(Key))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool GameEngineShaderResourcesHelper::IsSampler(const std::string& _Name)
+{
+	std::string Key = GameEngineString::ToUpperReturn(_Name);
+
+	if (SamplerSettingMap.end() != SamplerSettingMap.find(Key))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool GameEngineShaderResourcesHelper::IsConstantBuffer(const std::string& _Name)
+{
+	std::string Key = GameEngineString::ToUpperReturn(_Name);
+
+	if (ConstantBufferSettingMap.end() != ConstantBufferSettingMap.find(Key))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool GameEngineShaderResourcesHelper::IsStructuredBuffer(const std::string& _Name)
+{
+	std::string Key = GameEngineString::ToUpperReturn(_Name);
+
+	if (StructuredBufferSettingMap.end() != StructuredBufferSettingMap.find(Key))
+	{
+		return true;
+	}
+
+	return false;
 }

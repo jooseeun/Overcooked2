@@ -119,6 +119,9 @@
     <ClInclude Include="IOManagerWindow.h">
       <Filter>GUI</Filter>
     </ClInclude>
+    <ClInclude Include="GlobalIOManager.h">
+      <Filter>Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -235,6 +238,9 @@
     </ClCompile>
     <ClCompile Include="IOManagerWindow.cpp">
       <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalIOManager.cpp">
+      <Filter>Global</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

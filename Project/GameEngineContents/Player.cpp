@@ -25,13 +25,13 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("PlayerDash", VK_MENU); // 창이 꺼진다..
 
 	}
-	GameEngineFBXRenderer* Renderer = CreateComponent<GameEngineFBXRenderer>();
+	GameEngineFBXStaticRenderer* Renderer = CreateComponent<GameEngineFBXStaticRenderer>();
 	Renderer->SetFBXMesh("Chef.FBX", "Texture");
 	class GameEngineFBXMesh* Mesh = Renderer->GetFBXMesh();
 	int a = 0;
 
 
-	PlayerRenderer = CreateComponent<GameEngineFBXRenderer>();
+	PlayerRenderer = CreateComponent<GameEngineFBXStaticRenderer>();
 	PlayerRenderer->SetFBXMesh("Chef.FBX", "Texture");
 	
 	StateManager.CreateStateMember("Idle"

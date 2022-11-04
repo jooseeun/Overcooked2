@@ -11,7 +11,7 @@ LevelActor::~LevelActor()
 
 void LevelActor::Start()
 {
-	Renderer_ = CreateComponent<GameEngineFBXRenderer>();
+	Renderer_ = CreateComponent<GameEngineFBXStaticRenderer>();
 }
 
 void LevelActor::Update(float _Update)

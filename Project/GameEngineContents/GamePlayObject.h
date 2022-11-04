@@ -1,6 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
-#include <GameEngineCore/GameEngineFBXRenderer.h>
+#include <GameEngineCore/GameEngineFBXStaticRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
 
 // Ό³Έν :
@@ -74,7 +74,7 @@ protected:
 	}
 
 private:
-	GameEngineFBXRenderer* Mesh_Object_;
+	GameEngineFBXStaticRenderer* Mesh_Object_;
 	GameEngineCollision* Collision_Object_;
 
 	ObjectType Enum_ObjectType_;

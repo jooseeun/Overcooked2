@@ -41,6 +41,7 @@
 #include <GameEngineCore/GameEngineFontRenderer.h>
 #include <GameEngineCore/GameEngineCoreDebug.h>
 #include <GameEngineCore/GameEngineFBXRenderer.h>
+#include <GameEngineCore/GameEngineFBXStaticRenderer.h>
 
 // contents
 #include "MapEditorGUI.h"

@@ -44,6 +44,11 @@ void EngineInputLayOut()
 	GameEngineVertex::LayOut.AddInputLayOut("POSITION", DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0); // 16
 	GameEngineVertex::LayOut.AddInputLayOut("TEXCOORD", DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0); // 32
 	GameEngineVertex::LayOut.AddInputLayOut("COLOR", DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0); // 48
+	GameEngineVertex::LayOut.AddInputLayOut("NORMAL", DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0); // 48
+	GameEngineVertex::LayOut.AddInputLayOut("BINORMAL", DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0); // 48
+	GameEngineVertex::LayOut.AddInputLayOut("TANGENT", DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0); // 48
+	GameEngineVertex::LayOut.AddInputLayOut("BLENDWEIGHT", DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0); // 48
+	GameEngineVertex::LayOut.AddInputLayOut("BLENDINDICES", DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_SINT, 0); // 48
 	GameEngineVertex::LayOut.OffsetReset();
 
 	// 인스턴싱 데이터용을 넣어줍니다.
@@ -106,12 +111,7 @@ void EngineSubSetting()
 
 	
 	{
-		D3D11_RASTERIZER_DESC Desc = {};
-
-		Desc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
-
-		Desc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
-
+		D3D11_RASTERIZER_DESC Desc = { D3D11_FILL_SOLID, D3D11_CULL_NONE };
 		GameEngineRasterizer::Create("EngineRasterizer", Desc);
 	}
 
@@ -246,6 +246,12 @@ void EngineRenderingPipeLine()
 		NewPipe->SetVertexShader("TextureAtlas.hlsl");
 		NewPipe->SetPixelShader("TextureAtlas.hlsl");
 		// NewPipe->InstancingSetting();
+	}
+
+	{
+		GameEngineMaterial* NewPipe = GameEngineMaterial::Create("TextureAnimation");
+		NewPipe->SetVertexShader("TextureAnimation.hlsl");
+		NewPipe->SetPixelShader("TextureAnimation.hlsl");
 	}
 
 	{

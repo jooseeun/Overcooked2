@@ -30,7 +30,7 @@ public:
 
 	inline void Open(OpenMode _Mode)
 	{
-		Open(_Mode, FileMode::Binary);
+		Open(_Mode, FileMode::Text);
 	}
 
 	void Open(OpenMode _Mode, FileMode _Open);

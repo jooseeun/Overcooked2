@@ -212,7 +212,7 @@ void MapEditorWindow::UnSortToolTab()
 
 		if (AllUnSortActorName_[SelectNameIndex] != "Collision")
 		{
-			GameEngineFBXRenderer* Renderer = Object->CreateComponent<GameEngineFBXRenderer>();
+			GameEngineFBXStaticRenderer* Renderer = Object->CreateComponent<GameEngineFBXStaticRenderer>();
 			Renderer->SetFBXMesh(AllUnSortActorName_[SelectNameIndex] + ".fbx", "Texture");
 			Object->SetName(AllUnSortActorName_[SelectNameIndex]);
 		}

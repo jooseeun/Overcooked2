@@ -99,7 +99,7 @@ void MeshSelectWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
             if (PreviewMesh_ == nullptr)
             {
                 MeshObject* MeshObject_ = GEngine::GetCurrentLevel()->CreateActor<MeshObject>();
-                PreviewMesh_ = MeshObject_-> CreateComponent<GameEngineFBXRenderer>();
+                PreviewMesh_ = MeshObject_-> CreateComponent<GameEngineFBXStaticRenderer>();
                 PreviewMesh_->SetFBXMesh(AllFBXMesh_[FbxCurentIndex]->GetName().data(), "Texture", SubSetCurentIndex);
             }
 

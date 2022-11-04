@@ -16,7 +16,7 @@ GamePlayObject::~GamePlayObject()
 
 void GamePlayObject::Start()
 {
-	Mesh_Object_ = CreateComponent<GameEngineFBXRenderer>("Mesh_Object");
+	Mesh_Object_ = CreateComponent<GameEngineFBXStaticRenderer>("Mesh_Object");
 	Collision_Object_ = CreateComponent<GameEngineCollision>("Collision_Object");
 	Collision_Object_->SetDebugSetting(CollisionType::CT_SPHERE, {0, 0.8f, 0, 0.5f});
 
