@@ -14,7 +14,7 @@ void CounterTop::Start()
 {
 	GamePlayStaticObject::Start();
 
-	GetCollisionObject()->GetTransform().SetWorldScale({ 100, 50, 100 });
+	GetCollisionObject()->GetTransform().SetWorldScale({ 120, 50, 120 });
 	GetCollisionObject()->GetTransform().SetWorldMove({ 0, 25, 0 });
 }
 
