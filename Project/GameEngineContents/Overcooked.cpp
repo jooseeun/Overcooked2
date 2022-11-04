@@ -199,6 +199,19 @@ void Overcooked::MeshLoad()
 		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Chef.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		Dir.Move("ContentsResources");
+		Dir.Move("Mesh");
+		Dir.Move("Object");
+		Dir.Move("Npc");
+		Dir.Move("NPC_Beard_Green_01");
+
+		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Beard_Green_01.FBX"));
+		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+	}
 }
 
 void Overcooked::TextureLoad()

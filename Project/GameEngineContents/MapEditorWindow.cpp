@@ -46,6 +46,15 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 					(*StartIter)->Off();
 				}
 			}
+
+			if (true == AllUnSortActorName_.empty())
+			{
+				AllUnSortActorName_.push_back("Chef");
+				AllUnSortActorName_.push_back("NPC_Beard_Green_01");
+				AllUnSortActorName_.push_back("Collision_Wall");
+				AllUnSortActorName_.push_back("Collision_Floor");
+			//	AllUnSortActorName_.push_back("m_sk_countertop_01");
+			}
 		}
 
 		//정렬된 오브젝트 배치
@@ -170,8 +179,6 @@ void MapEditorWindow::UnSortToolTab()
 	for (int i = 0; i < AllUnSortActorName_.size(); ++i)
 	{
 		char Label[1024] = { '\0' };
-		//sprintf(Label, (AllUnSortActorName_[i]).c_str());
-
 		if (ImGui::Selectable((AllUnSortActorName_[i]).c_str(), SelectNameIndex == i))
 		{
 			SelectNameIndex = i;
@@ -192,10 +199,8 @@ void MapEditorWindow::UnSortToolTab()
 	for (int i = 0; i < UnSortActorList_.size(); ++i)
 	{
 		char Label[1024] = { '\0' };
-		//std::string Temp = UnSortActorList_[i]->GetNameCopy();
-		//sprintf(Label, (Temp + "%d").c_str(), i);
-
-		if (ImGui::Selectable(UnSortActorList_[i]->GetNameCopy().c_str(), SelectIndex == i))
+		std::string Name = UnSortActorList_[i]->GetNameCopy().c_str() + std::to_string(i);
+		if (ImGui::Selectable(Name.c_str(), SelectIndex == i))
 		{
 			SelectIndex = i;
 		}
@@ -214,15 +219,20 @@ void MapEditorWindow::UnSortToolTab()
 		Object->GetTransform().SetLocalScale({ 1.f, 1.f, 1.f });
 		Object->SetName("UnNamed");
 
-		if (AllUnSortActorName_[SelectNameIndex] != "Collision")
+		if(AllUnSortActorName_[SelectNameIndex] == "Collision_Wall")
+		{
+			Object->SetName("Collision_Wall");
+		}
+		else if (AllUnSortActorName_[SelectNameIndex] == "Collision_Floor")
+		{
+			Object->SetName("Collision_Floor");
+			Object->GetTransform().SetWorldPosition({ 0.f, -0.9f, 0.f });
+		}
+		else
 		{
 			GameEngineFBXStaticRenderer* Renderer = Object->CreateComponent<GameEngineFBXStaticRenderer>();
 			Renderer->SetFBXMesh(AllUnSortActorName_[SelectNameIndex] + ".fbx", "Texture");
 			Object->SetName(AllUnSortActorName_[SelectNameIndex]);
-		}
-		else
-		{
-			Object->SetName("Collision");
 		}
 
 		UnSortActorList_.push_back(Object);
@@ -274,7 +284,14 @@ void MapEditorWindow::UnSortToolTab()
 
 		if (true == ImGui::Button("Position Reset"))
 		{
-			Position_ = { 0.f, 0.f, 0.f };
+			if ("Collision_Floor" == UnSortActorList_[SelectIndex]->GetName().substr(0, 15))
+			{
+				Position_ = { 0.f, -0.9f, 0.f };
+			}
+			else 
+			{
+				Position_ = { 0.f, 0.f, 0.f };
+			}
 		}
 		UnSortActorList_[SelectIndex]->GetTransform().SetWorldPosition(Position_);
 
