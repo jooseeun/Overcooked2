@@ -62,7 +62,7 @@ protected:
 		return Enum_ObjectType_;
 	}
 
-	inline GameEngineFBXRenderer* GetFBXMesh() const
+	inline GameEngineFBXStaticRenderer* GetFBXMesh() const
 	{
 		return Mesh_Object_;
 	}

@@ -212,7 +212,7 @@ void MapEditorWindow::UnSortToolTab()
 
 		if (AllUnSortActorName_[SelectNameIndex] != "Collision")
 		{
-			GameEngineFBXRenderer* Renderer = Object->CreateComponent<GameEngineFBXRenderer>();
+			GameEngineFBXStaticRenderer* Renderer = Object->CreateComponent<GameEngineFBXStaticRenderer>();
 			Renderer->SetFBXMesh(AllUnSortActorName_[SelectNameIndex] + ".fbx", "Texture");
 			Object->SetName(AllUnSortActorName_[SelectNameIndex]);
 		}
@@ -409,23 +409,32 @@ void MapEditorWindow::SortToolTab()
 		switch (SelectIndex)
 		{
 		case 0:
+		{
 			CurStaticMesh_ = CurLevel_->CreateActor<CounterTop>();
+			CounterTop* Object = dynamic_cast<CounterTop*>(CurStaticMesh_);
 
-			CurStaticMesh_->GetFBXMesh()->SetFBXMesh("m_sk_countertop_01.fbx", "Texture");
-			CurStaticMesh_->GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
-			break;
+			Object->SetCounterTopType(CounterTopType::Normal);
+			Object->SetConterTopMesh(CounterTopType::Normal);
+		}
+		break;
 		case 1:
+		{
 			CurStaticMesh_ = CurLevel_->CreateActor<CounterTop>();
+			CounterTop* Object = dynamic_cast<CounterTop*>(CurStaticMesh_);
 
-			CurStaticMesh_->GetFBXMesh()->SetFBXMesh("m_lorry_countertop_corner_01.fbx", "Texture");
-			CurStaticMesh_->GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
-			break;
+			Object->SetCounterTopType(CounterTopType::Corner);
+			Object->SetConterTopMesh(CounterTopType::Corner);
+		}
+		break;
 		case 2:
+		{
 			CurStaticMesh_ = CurLevel_->CreateActor<CounterTop>();
+			CounterTop* Object = dynamic_cast<CounterTop*>(CurStaticMesh_);
 
-			CurStaticMesh_->GetFBXMesh()->SetFBXMesh("m_sk_countertop_no_edge_01.fbx", "Texture");
-			CurStaticMesh_->GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
-			break;
+			Object->SetCounterTopType(CounterTopType::NoEdge);
+			Object->SetConterTopMesh(CounterTopType::NoEdge);
+		}
+		break;
 		}
 
 		//기준 엑터의 자식으로 둔다.

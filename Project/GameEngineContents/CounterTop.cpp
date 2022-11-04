@@ -23,6 +23,7 @@ void CounterTop::Start()
 void CounterTop::SetConterTopMesh(CounterTopType _Type)
 {
 	std::string Name = "";
+
 	switch (_Type)
 	{
 	case CounterTopType::Normal:
@@ -38,7 +39,7 @@ void CounterTop::SetConterTopMesh(CounterTopType _Type)
 		break;
 	}
 
-	GetFBXMesh()->SetFBXMesh("m_sk_countertop_01.fbx", "Texture");
-	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
+	//GetFBXMesh()->SetFBXMesh(Name, "Texture");
+	//GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 		
 }
