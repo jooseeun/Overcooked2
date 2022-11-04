@@ -954,7 +954,7 @@ GameEngineMesh* GameEngineFBXMesh::GetGameEngineMesh(size_t _MeshIndex, size_t _
 	return Unit.Meshs[_SubIndex];
 }
 
-const FbxExMaterialSettingData& GameEngineFBXMesh::GetMaterialSettingData(size_t _MeshIndex, size_t _SubIndex)
+FbxExMaterialSettingData& GameEngineFBXMesh::GetMaterialSettingData(size_t _MeshIndex, size_t _SubIndex)
 {
 	if (RenderUnitInfos.size() <= _MeshIndex)
 	{

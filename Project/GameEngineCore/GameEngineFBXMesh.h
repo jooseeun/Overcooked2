@@ -69,6 +69,10 @@ public:
 		_File->Read(SpcTextureName); // ≈ÿΩ∫√≥
 	}
 
+	void SetDifTextureName(std::string _Path)
+	{
+		DifTexturePath = _Path;
+	}
 
 public:
 	FbxExMaterialSettingData() {}
@@ -515,7 +519,7 @@ public:
 
 	GameEngineMesh* GetGameEngineMesh(size_t _MeshIndex, size_t _SubIndex);
 
-	const FbxExMaterialSettingData& GetMaterialSettingData(size_t _MeshIndex, size_t _SubIndex);
+	FbxExMaterialSettingData& GetMaterialSettingData(size_t _MeshIndex, size_t _SubIndex);
 
 	size_t GetRenderUnitCount()
 	{
@@ -525,6 +529,11 @@ public:
 	size_t GetSubSetCount(size_t _RenderUnitIndex)
 	{
 		return RenderUnitInfos[_RenderUnitIndex].Indexs.size();
+	}
+
+	std::vector<FbxRenderUnit> &GetFbxRenderUnit()
+	{
+		return RenderUnitInfos;
 	}
 
 	std::vector<FbxExMeshInfo>& GetMeshInfos()
@@ -543,7 +552,7 @@ protected:
 	std::vector<std::map<std::string, Bone*>> AllFindMap;
 	std::vector<std::vector<FbxClusterData>> ClusterData;
 
-private:
+public:
 	void LoadMesh(const std::string& _Path, const std::string& _Name);
 
 	void MeshLoad();

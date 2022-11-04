@@ -101,6 +101,15 @@ GameEngineTexture* GameEngineTexture::Create(const std::string& _Name, ID3D11Tex
 
 GameEngineTexture* GameEngineTexture::Load(const std::string& _Path, const std::string& _Name)
 {
+	//std::string Ex = GameEngineString::ToUpperReturn(GameEnginePath::GetExtension(_Path));
+
+	//std::wstring LoadPath = GameEngineString::AnsiToUniCodeReturn(_Path);
+
+	//if (Ex == ".FBX")
+	//{
+	//	return;
+	//}
+
 	GameEngineTexture* NewRes = CreateResName(_Name);
 	NewRes->TextureLoad(_Path);
 	return NewRes;

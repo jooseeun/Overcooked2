@@ -28,6 +28,8 @@ void MeshToolLevel::End()
 void MeshToolLevel::LevelStartEvent()
 {
 	MeshSelectWindow_->On();
+	GetMainCameraActorTransform().SetWorldPosition({2.f, 200.f, -900.f});
+
 }
 
 void MeshToolLevel::LevelEndEvent()
