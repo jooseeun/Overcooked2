@@ -22,15 +22,18 @@ public:
 	CounterTop& operator=(const CounterTop& _Other) = delete;
 	CounterTop& operator=(CounterTop&& _Other) noexcept = delete;
 
-	void SetType(CounterTopType _Type)
+	inline void SetType(CounterTopType _Type)
 	{
 		MyType_ = _Type;
 	}
 
-	CounterTopType GetType()
+	inline CounterTopType GetType()
 	{
 		return MyType_;
 	}
+
+	void SetConterTopMesh(CounterTopType _Type);
+
 
 protected:
 	void Start() override;

@@ -5,8 +5,6 @@
 class GamePlayStuff;
 class GamePlayStaticObject : public GamePlayObject
 {
-	friend class MapEditorWindow;
-
 protected:
 	GamePlayStaticObject();
 public:
