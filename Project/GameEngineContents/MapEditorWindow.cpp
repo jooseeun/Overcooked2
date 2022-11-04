@@ -254,7 +254,7 @@ void MapEditorWindow::UnSortToolTab()
 
 		UnSortActorList_.push_back(Object);
 
-		GlobalIOManager::GetMapDataVector
+		GlobalIOManager::GetMapDataVector;
 	}
 
 	ImGui::SameLine();
