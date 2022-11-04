@@ -204,6 +204,10 @@
     <ClInclude Include="Stage_1_4.h" />
     <ClInclude Include="Tool_CuttingBoard.h" />
     <ClInclude Include="TrashCan.h" />
+    <ClInclude Include="UIDebugGUI.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CounterTop.cpp" />
@@ -267,6 +271,10 @@
     <ClCompile Include="Stage_1_4.cpp" />
     <ClCompile Include="Tool_CuttingBoard.cpp" />
     <ClCompile Include="TrashCan.cpp" />
+    <ClCompile Include="UIDebugGUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameEngineBase\GameEngineBase.vcxproj">
