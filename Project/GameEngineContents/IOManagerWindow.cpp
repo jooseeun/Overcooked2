@@ -22,18 +22,18 @@ void IOManagerWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		Dir.MoveParentToExitsChildDirectory("ContentsResources");
 		Dir.Move("ContentsResources");
 		Dir.Move("SaveFiles");
-		GameEngineFile TmpFile = (Dir.GetFullPath() + "\\" + "Test.meta").c_str();
+		GameEngineFile TmpFile = (Dir.GetFullPath() + "\\" + "Test.txt").c_str();
 		TmpFile.Create();
 	}
 
 	if (true == ImGui::Button("Save"))
 	{
-		GlobalIOManager::Save(IOType::Tile);
+		GlobalIOManager::Save(IOType::Map);
 	}
 
 	if (true == ImGui::Button("Load"))
 	{
-		GlobalIOManager::Load(IOType::Tile);
+		GlobalIOManager::Load(IOType::Map);
 	}
 
 	if (true == ImGui::Button("Add"))
