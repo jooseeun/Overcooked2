@@ -3,6 +3,8 @@
 #include "GamePlayLevel.h"
 
 #include "CounterTop.h"
+#include "TrashCan.h"
+#include "Servicehatch.h"
 
 MapEditorWindow::MapEditorWindow()
 	: CurLevel_(nullptr)
@@ -74,6 +76,8 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				Prefabs_.push_back("CounterTop");
 				Prefabs_.push_back("CounterTop_Corner");
 				Prefabs_.push_back("CounterTop_NoEdge");
+				Prefabs_.push_back("Bin");
+				Prefabs_.push_back("Servicehatch");
 			}
 		}
 
@@ -343,29 +347,6 @@ void MapEditorWindow::SortToolTab()
 
 	ImGui::Text("");
 
-	{
-		static int Tile[2] = { 0, 0 };
-		ImGui::DragInt2("TileXY", Tile);
-
-		if (true == ImGui::Button("Tiled"))
-		{
-			Origins_[OriginIndex]->GetTransform().SetWorldRotation({ 0.f, 0.f });
-
-			for (size_t Y = 0; Y < Tile[1]; ++Y)
-			{
-				for (size_t X = 0; X < Tile[0]; ++X)
-				{
-					GameEngineTextureRenderer* GridTile = Origins_[OriginIndex]->CreateComponent<GameEngineTextureRenderer>();
-					GridTile->SetTexture("GridTile.png");
-					GridTile->GetTransform().SetWorldMove({ X * 100.f, Y * 100.f });
-					GridTile->GetTransform().SetWorldScale({ 100.f, 100.f });
-				}
-			}
-		}
-	}
-
-	ImGui::Text("");
-
 	ImGui::BeginChild("PrefabList", ImVec2(150, 100), true);
 
 	static int SelectIndex = 0;
@@ -435,6 +416,12 @@ void MapEditorWindow::SortToolTab()
 			Object->SetConterTopMesh(CounterTopType::NoEdge);
 		}
 		break;
+		case 3:
+			CurStaticMesh_ = CurLevel_->CreateActor<TrashCan>();
+			break;
+		case 4:
+			CurStaticMesh_ = CurLevel_->CreateActor<Servicehatch>();
+			break;
 		}
 
 		//기준 엑터의 자식으로 둔다.

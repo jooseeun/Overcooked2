@@ -128,6 +128,9 @@
     <ClInclude Include="SelectStageUIActor.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="Servicehatch.h">
+      <Filter>Contents\Object\StaticMesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -253,6 +256,9 @@
     </ClCompile>
     <ClCompile Include="SelectStageUIActor.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Servicehatch.cpp">
+      <Filter>Contents\Object\StaticMesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
