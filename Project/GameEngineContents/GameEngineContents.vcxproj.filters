@@ -122,6 +122,12 @@
     <ClInclude Include="Food_Ingredients_Prawn.h">
       <Filter>Contents\Object\Food</Filter>
     </ClInclude>
+    <ClInclude Include="OverCookedUIRenderer.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectStageUIActor.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -242,6 +248,12 @@
     <ClCompile Include="Food_Ingredients_Prawn.cpp">
       <Filter>Contents\Object\Food</Filter>
     </ClCompile>
+    <ClCompile Include="OverCookedUIRenderer.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectStageUIActor.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Contents">
@@ -301,5 +313,13 @@
     <Filter Include="Level\Stage">
       <UniqueIdentifier>{343bb1cb-71af-4dce-8651-067f7a089ae3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{8c75c45f-d5a3-4086-b25c-3a7d4f5a126d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\ContentsResources\Hlsl\UI.hlsl">
+      <Filter>UI</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

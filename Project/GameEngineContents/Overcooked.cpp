@@ -24,6 +24,7 @@ void Overcooked::Start()
 	TextureLoad();
 	MeshLoad();
 	InputMake();
+	LoadMaterial();
 
 	CreateLevel<SelectStageLevel>("SelectStage");
 
@@ -35,8 +36,33 @@ void Overcooked::Start()
 	CreateLevel<MeshToolLevel>("MeshToolLevel");
 
 	ChangeLevel("Stage_1_1");
-		
+
 	GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
+}
+
+void Overcooked::LoadMaterial()
+{
+	//ÄÁÅÙÃ÷ Hlsl ÆÄÀÏ ·Îµå
+	{
+		GameEngineDirectory Dir;
+
+		Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		Dir.Move("ContentsResources");
+		Dir.Move("ContentsShader");
+
+		std::vector<GameEngineFile> Shaders = Dir.GetAllFile("hlsl");
+
+		for (size_t i = 0; i < Shaders.size(); i++)
+		{
+			GameEngineShader::AutoCompile(Shaders[i].GetFullPath());
+		}
+	}
+
+	{
+		GameEngineMaterial* NewPipe = GameEngineMaterial::Create("UI");
+		NewPipe->SetVertexShader("UI.hlsl");
+		NewPipe->SetPixelShader("UI.hlsl");
+	}
 }
 
 void Overcooked::Update(float _DeltaTime)

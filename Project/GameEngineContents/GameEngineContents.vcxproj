@@ -184,10 +184,15 @@
     <ClInclude Include="MeshToolLevel.h" />
     <ClInclude Include="MouseInputWindow.h" />
     <ClInclude Include="Overcooked.h" />
+    <ClInclude Include="OverCookedUIRenderer.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PreCompile.h" />
     <ClInclude Include="Rail.h" />
     <ClInclude Include="SelectStageLevel.h" />
+    <ClInclude Include="SelectStageUIActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Sink.h" />
     <ClInclude Include="Stage_1_1.h" />
     <ClInclude Include="Stage_1_2.h" />
@@ -235,6 +240,7 @@
     <ClCompile Include="MeshToolLevel.cpp" />
     <ClCompile Include="MouseInputWindow.cpp" />
     <ClCompile Include="Overcooked.cpp" />
+    <ClCompile Include="OverCookedUIRenderer.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PreCompile.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -242,6 +248,10 @@
     </ClCompile>
     <ClCompile Include="Rail.cpp" />
     <ClCompile Include="SelectStageLevel.cpp" />
+    <ClCompile Include="SelectStageUIActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Sink.cpp" />
     <ClCompile Include="Stage_1_1.cpp" />
     <ClCompile Include="Stage_1_2.cpp" />
@@ -257,6 +267,12 @@
     <ProjectReference Include="..\GameEngineCore\GameEngineCore.vcxproj">
       <Project>{056025fa-ee6b-4d5a-a2f0-ca4fc17c0c6e}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\ContentsResources\Hlsl\UI.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

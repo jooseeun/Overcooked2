@@ -14,6 +14,7 @@ public:
 
 protected:
 	void Start() override;
+	void LoadMaterial();
 	void Update(float _DeltaTime) override;
 	void End() override;
 
@@ -22,6 +23,4 @@ private:
 	void TextureLoad();
 
 	void InputMake();
-
 };
-
