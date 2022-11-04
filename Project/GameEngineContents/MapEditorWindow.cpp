@@ -6,6 +6,7 @@
 #include "TrashCan.h"
 #include "Servicehatch.h"
 
+
 MapEditorWindow::MapEditorWindow()
 	: CurLevel_(nullptr)
 	, ObjectName_("Actor_")
@@ -235,7 +236,25 @@ void MapEditorWindow::UnSortToolTab()
 			Object->SetName(AllUnSortActorName_[SelectNameIndex]);
 		}
 
+		{
+			MapData TmpData = {};
+			
+			if (AllUnSortActorName_[SelectNameIndex] == "Collision_Wall")
+			{
+				TmpData.MapObjType_ = MapObjType::Collision_Wall;
+			}
+			else
+			{
+				TmpData.MapObjType_ = MapObjType::Npc;
+			}
+			TmpData.Transform_ = &Object->GetTransform();
+
+			GlobalIOManager::AddTileData(TmpData);
+		}
+
 		UnSortActorList_.push_back(Object);
+
+		GlobalIOManager::GetMapDataVector
 	}
 
 	ImGui::SameLine();
@@ -259,22 +278,6 @@ void MapEditorWindow::UnSortToolTab()
 
 	if (false == UnSortActorList_.empty())
 	{
-		// 오브젝트 이름 입력
-		//ImGui::Text("Name");
-		//char Label[1024] = { 0 };
-		//ImGui::InputText(Label, Label, IM_ARRAYSIZE(Label));
-		//ObjectName_ = Label;
-
-		//if (true == ImGui::Button("OK"))
-		//{
-		//    //for (int i = 0; i < UnSortActorList_.size(); ++i)
-		//    //{
-		//    //    UnSortActorList_[i]->SetName(ObjectName_);
-		//    //    GameEngineFBXRenderer* Renderer = UnSortActorList_[i]->CreateComponent<GameEngineFBXRenderer>();
-		//    //    Renderer->SetFBXMesh(ObjectName_ + ".fbx", "Texture");
-		//    //}
-		//}
-
 		// Transform
 		Position_ = UnSortActorList_[SelectIndex]->GetTransform().GetWorldPosition();
 		ImGui::Text("Position");

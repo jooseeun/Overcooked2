@@ -51,3 +51,4 @@
 #include "GamePlayMapObject.h"
 #include "Enums.h"
 #include "GlobalMouseInput.h"
+#include "GlobalIOManager.h"

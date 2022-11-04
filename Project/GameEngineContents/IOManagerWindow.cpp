@@ -38,9 +38,9 @@ void IOManagerWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 	if (true == ImGui::Button("Add"))
 	{
-		/*
+		
 		MapData TmpData = {};
-		TmpData.MapObjType_ = MapObjType::Test2;
+		TmpData.MapObjType_ = MapObjType::CounterTop;
 		TmpData.Transform_ = &GEngine::GetCurrentLevel()->CreateActor<GameEngineActor>()->GetTransform();
 		TmpData.Transform_->SetWorldPosition({0, 1, 2});
 		TmpData.Transform_->SetWorldRotation({3, 4, 5});
@@ -50,7 +50,7 @@ void IOManagerWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		GlobalIOManager::AddTileData(TmpData);
 		{
 			MapData TmpData = {};
-			TmpData.MapObjType_ = MapObjType::Table;
+			TmpData.MapObjType_ = MapObjType::Bin;
 			TmpData.Transform_ = &GEngine::GetCurrentLevel()->CreateActor<GameEngineActor>()->GetTransform();
 			TmpData.Transform_->SetWorldPosition({ 0, 1, 2 });
 			TmpData.Transform_->SetWorldRotation({ 3, 4, 5 });
@@ -59,7 +59,18 @@ void IOManagerWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 			GlobalIOManager::AddTileData(TmpData);
 		}
-		*/
+		
+		{
+			MapData TmpData = {};
+			TmpData.MapObjType_ = MapObjType::Npc;
+			TmpData.Transform_ = &GEngine::GetCurrentLevel()->CreateActor<GameEngineActor>()->GetTransform();
+			TmpData.Transform_->SetWorldPosition({ 0, 1, 2 });
+			TmpData.Transform_->SetWorldRotation({ 3, 4, 5 });
+			TmpData.Transform_->SetWorldScale({ 6, 7, 8 });
+			TmpData.Tile_ = float4(1, 2, 3);
+
+			GlobalIOManager::AddTileData(TmpData);
+		}
 	}
 
 	//ImGui::Text(std::to_string(MapDataVector_.size()).c_str());

@@ -38,7 +38,9 @@ enum class MapObjType
 	Bin, //쓰레기통
 	Sink, //싱크대
 	Servicehatch, //요리 내는 창구
-	FoodBox //음식 스폰 박스
+	FoodBox, //음식 스폰 박스
+	Npc,
+	Collision_Wall,
 };
 
 
