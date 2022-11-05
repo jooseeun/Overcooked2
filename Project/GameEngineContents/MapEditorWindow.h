@@ -65,5 +65,8 @@ private:
 	int Index_;
 
 	std::vector<std::string> AllUnSortActorName_;
+
+	bool IsUnSort_;
+	bool IsSort_;
 };
 

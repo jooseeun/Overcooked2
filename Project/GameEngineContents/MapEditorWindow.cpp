@@ -28,6 +28,53 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
 	ShowLevelSelectTable();
 
+	ImGui::SameLine();
+	ImGui::Checkbox("UnSort", &IsUnSort_);
+	ImGui::SameLine();
+	ImGui::Checkbox("Sort", &IsSort_);
+
+	if (true == ImGui::Button("MapData Save"))
+	{
+		if (true == IsUnSort_
+			&& true == IsSort_)
+		{
+			return;
+		}
+
+		if (true == IsUnSort_)
+		{
+			//std::vector<MapData>& DataVector = GlobalIOManager::GetMapDataVector();
+
+			//MapData Data = {};
+
+			//Data.MapObjType_ = MapObjType::Collision_Wall;
+			//Data.Transform_ = nullptr;
+			//Data.Pos_ = float4{ 100, 100, 100 };
+			//Data.Rot_ = float4{ 0, 0, 0 };
+			//Data.Scale_ = float4{ 1, 1, 1 };
+			//Data.Tile_ = float4{ 1, 1, 1 };
+
+			//DataVector.push_back(Data);
+
+			//GlobalIOManager::Save(IOType::Map);
+			//GlobalIOManager::Clear();
+		}
+
+		else if (true == IsSort_)
+		{
+			/*GlobalIOManager::GetMapDataVector();
+			GlobalIOManager::Save(IOType::Mesh);
+			GlobalIOManager::Clear();*/
+		}
+	}
+
+	ImGui::SameLine();
+
+	if (true == ImGui::Button("MapData Load"))
+	{
+		GlobalIOManager::Load(IOType::Mesh);
+	}
+
 	ImGui::Text("");
 
 	if (true == ImGui::BeginTabBar("ToolTab"))
@@ -54,7 +101,7 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				AllUnSortActorName_.push_back("NPC_Beard_Green_01");
 				AllUnSortActorName_.push_back("Collision_Wall");
 				AllUnSortActorName_.push_back("Collision_Floor");
-			//	AllUnSortActorName_.push_back("m_sk_countertop_01");
+				//	AllUnSortActorName_.push_back("m_sk_countertop_01");
 			}
 		}
 
@@ -220,7 +267,7 @@ void MapEditorWindow::UnSortToolTab()
 		Object->GetTransform().SetLocalScale({ 1.f, 1.f, 1.f });
 		Object->SetName("UnNamed");
 
-		if(AllUnSortActorName_[SelectNameIndex] == "Collision_Wall")
+		if (AllUnSortActorName_[SelectNameIndex] == "Collision_Wall")
 		{
 			Object->SetName("Collision_Wall");
 		}
@@ -239,7 +286,7 @@ void MapEditorWindow::UnSortToolTab()
 		{
 			MapData TmpData = {};
 
-			if (AllUnSortActorName_[SelectNameIndex].substr(0, 3) == "Col")
+			if (AllUnSortActorName_[SelectNameIndex] == "Collision_Wall")
 			{
 				TmpData.MapObjType_ = MapObjType::Collision;
 			}
@@ -291,7 +338,7 @@ void MapEditorWindow::UnSortToolTab()
 			{
 				Position_ = { 0.f, -0.9f, 0.f };
 			}
-			else 
+			else
 			{
 				Position_ = { 0.f, 0.f, 0.f };
 			}
