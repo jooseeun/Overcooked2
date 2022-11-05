@@ -174,6 +174,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="LevelActor.h" />
+    <ClInclude Include="MapDataParser.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="MapEditorGUI.h">
       <SubType>
       </SubType>
@@ -240,6 +244,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="LevelActor.cpp" />
+    <ClCompile Include="MapDataParser.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="MapEditorGUI.cpp">
       <SubType>
       </SubType>

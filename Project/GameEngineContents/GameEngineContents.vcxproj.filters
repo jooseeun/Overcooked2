@@ -131,6 +131,9 @@
     <ClInclude Include="MapEditorGUI.h">
       <Filter>GUI</Filter>
     </ClInclude>
+    <ClInclude Include="MapDataParser.h">
+      <Filter>Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -259,6 +262,9 @@
     </ClCompile>
     <ClCompile Include="MapEditorGUI.cpp">
       <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MapDataParser.cpp">
+      <Filter>Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
