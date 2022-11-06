@@ -3,6 +3,8 @@
 #include "GamePlayOriginObject.h"
 
 #include "CounterTop.h"
+#include "TrashCan.h"
+#include "Servicehatch.h"
 
 MapDataParser::MapDataParser()
 {
@@ -42,6 +44,10 @@ void MapDataParser::SortMapDataParsing(std::vector<MapData>& _Data, GameEngineLe
 		{
 			GamePlayOriginObject* Origin = _Level->CreateActor<GamePlayOriginObject>();
 
+			Origin->GetTransform().SetWorldPosition(_Data[i].Pos_);
+			Origin->GetTransform().SetWorldRotation(_Data[i].Rot_);
+			Origin->GetTransform().SetWorldScale(_Data[i].Scale_);
+
 			Origins_.push_back(Origin);
 		}
 	}
@@ -55,22 +61,51 @@ void MapDataParser::SortMapDataParsing(std::vector<MapData>& _Data, GameEngineLe
 		case MapObjType::CounterTop:
 		{
 			CurAcotr_ = _Level->CreateActor<CounterTop>();
-			CurAcotr_->SetParent(Origins_[Order]);
+			CounterTop* Object = dynamic_cast<CounterTop*>(CurAcotr_);
+
+			Object->SetCounterTopType(CounterTopType::Normal);
+			Object->SetConterTopMesh(CounterTopType::Normal);
 		}
 		break;
 		case MapObjType::CounterTop_Corner:
+		{
+			CurAcotr_ = _Level->CreateActor<CounterTop>();
+			CounterTop* Object = dynamic_cast<CounterTop*>(CurAcotr_);
+
+			Object->SetCounterTopType(CounterTopType::Corner);
+			Object->SetConterTopMesh(CounterTopType::Corner);
+
+			Object->SetStaticObjectType(MapObjType::CounterTop_Corner);
+		}
 			break;
 		case MapObjType::CounterTop_NoEdge:
+		{
+			CurAcotr_ = _Level->CreateActor<CounterTop>();
+			CounterTop* Object = dynamic_cast<CounterTop*>(CurAcotr_);
+
+			Object->SetCounterTopType(CounterTopType::NoEdge);
+			Object->SetConterTopMesh(CounterTopType::NoEdge);
+
+			Object->SetStaticObjectType(MapObjType::CounterTop_NoEdge);
+		}
 			break;
 		case MapObjType::CounterTop_WiZard:
 			break;
 		case MapObjType::GasRange:
 			break;
 		case MapObjType::TrashCan:
+		{
+			CurAcotr_ = _Level->CreateActor<TrashCan>();
+			CurAcotr_->SetStaticObjectType(MapObjType::TrashCan);
+		}
 			break;
 		case MapObjType::Sink:
 			break;
 		case MapObjType::Servicehatch:
+		{
+			CurAcotr_ = _Level->CreateActor<Servicehatch>();
+			CurAcotr_->SetStaticObjectType(MapObjType::Servicehatch);
+		}
 			break;
 		case MapObjType::FoodBox:
 			break;
@@ -78,9 +113,16 @@ void MapDataParser::SortMapDataParsing(std::vector<MapData>& _Data, GameEngineLe
 			break;
 		}
 
-		CurAcotr_->GetTransform().SetWorldPosition(_Data[i].Pos_);
-		CurAcotr_->GetTransform().SetWorldPosition(_Data[i].Rot_);
-		CurAcotr_->GetTransform().SetWorldPosition(_Data[i].Scale_);
-	}
+		if (nullptr != CurAcotr_)
+		{
+			CurAcotr_->SetParent(Origins_[Order]);
+
+			CurAcotr_->GetTransform().SetWorldPosition(_Data[i].Pos_);
+			CurAcotr_->GetTransform().SetWorldRotation(_Data[i].Rot_);
+			CurAcotr_->GetTransform().SetWorldScale(_Data[i].Scale_);
+
+			CurAcotr_ = nullptr;
+		}
+	}	
 }
 

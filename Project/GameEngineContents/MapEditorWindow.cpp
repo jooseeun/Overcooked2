@@ -79,7 +79,7 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				}
 			}
 
-			GlobalIOManager::Save(IOType::SortMap);
+			GlobalIOManager::Save(IOType::SortMap, LevelIndex_);
 			GlobalIOManager::Clear();
 		}
 	}
@@ -96,7 +96,7 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 		else if (true == IsSort_)
 		{
-			GlobalIOManager::Load(IOType::SortMap);
+			GlobalIOManager::Load(IOType::SortMap, LevelIndex_);
 			DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), CurLevel_);
 		}
 	}
@@ -141,6 +141,7 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				Data.MapObjType_ = MapObjType::Origin;
 				Data.Transform_ = &Origin->GetTransform();
 				Data.Pos_ = Origin->GetTransform().GetWorldPosition();
+				Data.Rot_ = Origin->GetTransform().GetWorldRotation();
 				Data.Scale_ = Origin->GetTransform().GetWorldScale();
 
 				Origins_[0]->GetStaticMeshInfo().push_back(Data);
@@ -172,8 +173,6 @@ void MapEditorWindow::ShowLevelSelectTable()
 {
 	ImGui::BeginChild("LevelList", ImVec2(150, 200), true);
 
-	static int SelectIndex = 0;
-
 	std::vector<GameEngineLevel*> AllLevels = GameEngineCore::GetAllLevelVector();
 
 	std::vector<GamePlayLevel*> AllStages;
@@ -199,9 +198,9 @@ void MapEditorWindow::ShowLevelSelectTable()
 
 			//sprintf(Label, Temp.c_str());
 
-			if (ImGui::Selectable(Temp.c_str(), SelectIndex == i))
+			if (ImGui::Selectable(Temp.c_str(), LevelIndex_ == i))
 			{
-				SelectIndex = i;
+				LevelIndex_ = i;
 
 				if (nullptr != LevelActor_)
 				{
@@ -211,7 +210,7 @@ void MapEditorWindow::ShowLevelSelectTable()
 
 				LevelActor_ = CurLevel_->CreateActor<LevelActor>();
 
-				switch (SelectIndex)
+				switch (LevelIndex_)
 				{
 				case 0:
 					LevelActor_->SetLevelMesh("1_1.FBX");
@@ -422,6 +421,7 @@ void MapEditorWindow::SortToolTab()
 		Data.MapObjType_ = MapObjType::Origin;
 		Data.Transform_ = &Origin->GetTransform();
 		Data.Pos_ = Origin->GetTransform().GetWorldPosition();
+		Data.Rot_ = Origin->GetTransform().GetWorldRotation();
 		Data.Scale_ = Origin->GetTransform().GetWorldScale();
 
 		Origins_[OriginIndex]->GetStaticMeshInfo().push_back(Data);
@@ -527,7 +527,7 @@ void MapEditorWindow::SortToolTab()
 		Data.Pos_ = CurStaticMesh_->GetTransform().GetWorldPosition();
 		Data.Scale_ = CurStaticMesh_->GetTransform().GetWorldScale();
 
-		Data.Index_.z = static_cast<float>(Index[OriginIndex]);
+		Data.Index_.z = static_cast<float>(OriginIndex);
 
 		Origins_[OriginIndex]->GetStaticMeshInfo().push_back(Data);
 
@@ -564,17 +564,3 @@ void MapEditorWindow::SortToolTab()
 }
 
 
-//세이브할 때 사용
-// 
-//void SortSave()
-//{
-//	for (size_t i = 0; i < Origins_.size(); i++)
-//	{
-//		//기준 엑터(타일의 부모)가 몇 개인지
-//		//엑터 수만큼 타일맵 정보 저장
-//		std::vector<std::vector<class GamePlayStaticObject*>> TileMap_;
-//		//그 다음 쓰기
-//	}
-//}
-// 
-//std::list<GamePlayStaticObject*> StaticMeshList = Origins_[OriginIndex]->GetConvertChilds<GamePlayStaticObject>();

@@ -28,4 +28,4 @@ private:
 	std::vector<class GamePlayOriginObject*> Origins_;
 };
 
-
+	

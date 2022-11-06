@@ -60,6 +60,8 @@ private:
 
 	MapDataParser DataParser_;
 
+	int LevelIndex_;
+
 private:
 	float4 Rotation_;
 	float4 Position_;
