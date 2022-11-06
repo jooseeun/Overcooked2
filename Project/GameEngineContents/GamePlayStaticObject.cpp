@@ -16,7 +16,19 @@ void GamePlayStaticObject::Start()
 {
 	GamePlayObject::Start();
 	GamePlayObject::SetObjectType(ObjectType::StaticObject);
-	GetCollisionObject()->ChangeOrder(CollisionOrder::Object_Static);
+	GetCollisionObject()->ChangeOrder(CollisionOrder::Object_StaticObject);
+}
+
+void GamePlayStaticObject::SetBloomEffectOff()
+{
+	GamePlayObject::SetBloomEffectOff();
+	Stuff_Current_->SetBloomEffectOff();
+}
+
+void GamePlayStaticObject::SetBloomEffectOn()
+{
+	GamePlayObject::SetBloomEffectOn();
+	Stuff_Current_->SetBloomEffectOn();
 }
 
 Input_PickUpOption GamePlayStaticObject::Input_PickUp(GamePlayMoveable* _Object)
@@ -39,7 +51,7 @@ Input_PickUpOption GamePlayStaticObject::Input_PickUp(GamePlayCharacter* _Player
 	{
 		if (Stuff_Current_->Input_PickUp(_Player) == Input_PickUpOption::PickUp)
 		{
-			Stuff_Current_ == nullptr;
+			Stuff_Current_ = nullptr;
 			return Input_PickUpOption::PickUp;
 		}
 		else

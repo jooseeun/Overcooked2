@@ -22,23 +22,23 @@ public:
 	Input_PickUpOption Input_PickUp(GamePlayMoveable* _Object) override;
 	Input_PickUpOption Input_PickUp(GamePlayCharacter* _Player) override;
 
-	inline int GetX() const
-	{
-		return X_;
-	}
-	inline int GetY() const
-	{
-		return Y_;
-	}
+	//inline int GetX() const
+	//{
+	//	return X_;
+	//}
+	//inline int GetY() const
+	//{
+	//	return Y_;
+	//}
 
-	inline void SetX(int _X)
-	{
-		X_ = _X;
-	}
-	inline void SetY(int _Y)
-	{
-		Y_ = _Y;
-	}
+	//inline void SetX(int _X)
+	//{
+	//	X_ = _X;
+	//}
+	//inline void SetY(int _Y)
+	//{
+	//	Y_ = _Y;
+	//}
 
 	inline void SetStaticObjectType(MapObjType _Type)
 	{
@@ -67,8 +67,17 @@ private:
 
 	MapObjType MyType_;
 
-	int X_;
-	int Y_;
+	//int X_;
+	//int Y_;
+
+
+
+	// Bloom
+public:
+	void SetBloomEffectOff() override;
+	void SetBloomEffectOn() override;
+
+	//
 };
 
 

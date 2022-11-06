@@ -54,8 +54,10 @@ protected:
 		Enum_ObjectStuffType_ = _Type;
 	}
 
+	// Enum
 private:
-
 	ObjectStuffType Enum_ObjectStuffType_;
+
+private:
 };
 

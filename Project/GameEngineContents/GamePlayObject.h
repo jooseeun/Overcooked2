@@ -82,5 +82,25 @@ private:
 
 	ObjectType Enum_ObjectType_;
 
+
+
+	// Effect
+private:
+	bool BloomEffect_;
+public:
+	inline virtual void SetBloomEffectOff()
+	{
+		BloomEffect_ = false;
+	}
+	virtual inline void SetBloomEffectOn()
+	{
+		BloomEffect_ = true;
+	}
+	inline bool GetBloomEffect()
+	{
+		return BloomEffect_;
+	}
+	//
+
 };
 

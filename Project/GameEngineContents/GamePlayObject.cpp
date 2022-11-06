@@ -5,6 +5,7 @@ GamePlayObject::GamePlayObject()
 	: Mesh_Object_(nullptr)
 	, Collision_Object_(nullptr)
 	, Enum_ObjectType_(ObjectType::None)
+	, BloomEffect_(false)
 {
 }
 

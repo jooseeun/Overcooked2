@@ -10,9 +10,11 @@ enum class CollisionOrder
 
 	// Object
 	Object_None,
-	Object_Static,
+	Object_StaticObject,
 	Object_Character,
+	Object_Character_Interact,
 	Object_Moveable
+	//
 };
 
 enum class PlayerDir

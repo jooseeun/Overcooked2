@@ -60,5 +60,18 @@ private:
 	GamePlayMoveable* Moveable_Current_;
 	Input_InteractOption InteractOption_Current_;
 
+
+	// Bloom
+public:
+	virtual inline void SetBloomEffectOff()
+	{
+		GamePlayObject::SetBloomEffectOff();
+		Moveable_Current_->SetBloomEffectOff();
+	}
+	virtual inline void SetBloomEffectOn()
+	{
+		GamePlayObject::SetBloomEffectOn();
+		Moveable_Current_->SetBloomEffectOn();
+	}
 };
 

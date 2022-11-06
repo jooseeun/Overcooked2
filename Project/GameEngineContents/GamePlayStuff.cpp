@@ -1,8 +1,9 @@
 #include "PreCompile.h"
 #include "GamePlayStuff.h"
 
-GamePlayStuff::GamePlayStuff() 
+GamePlayStuff::GamePlayStuff()
 	: Enum_ObjectStuffType_(ObjectStuffType::None)
+
 {
 }
 

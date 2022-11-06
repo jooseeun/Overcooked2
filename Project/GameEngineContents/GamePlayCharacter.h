@@ -22,6 +22,7 @@ public:
 	inline Input_PickUpOption Input_PickUp(GamePlayMoveable* _Object) override
 	{
 		Moveable_Current_ = _Object;
+		//	Moveable_Current_->SetBloomEffectOff();
 		return Input_PickUpOption::PickUp;
 	}
 
@@ -47,17 +48,39 @@ protected:
 	void Input_PickUpButton();
 
 
+	// 들고 있는 오브젝트
 private:
-	GamePlayMoveable* Moveable_Current_;      // 들고 있는 오브젝트
+	GamePlayMoveable* Moveable_Current_;      
+
+
+
 
 
 	// Interact Collision
+private:
 	GameEngineCollision* Collision_Interact_; // 상호작용 콜리전
 	GamePlayMoveable* Interact_Possible_Object_;
 	GamePlayStaticObject* Interact_Possible_StaticObject_;
 
 	void Collision_AroundObject();
-	CollisionReturn GetCrashObject(GameEngineCollision* _This, GameEngineCollision* _Other);
+	
+	CollisionReturn GetCrashMoveableObject(GameEngineCollision* _This, GameEngineCollision* _Other);
+	CollisionReturn GetCrashStaticObject(GameEngineCollision* _This, GameEngineCollision* _Other);
+	// Bloom Effect
+public: 
+	inline void SetBloomEffectOff() override
+	{
+		MsgBoxAssert("예방코드 / 캐릭터 블룸 미적용")
+	}
+	inline void SetBloomEffectOn() override
+	{
+		MsgBoxAssert("예방코드 / 캐릭터 블룸 미적용")
+	}
+
+	//
+private:
+
+
 
 };
 
