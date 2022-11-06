@@ -31,10 +31,10 @@ void MapDataParser::SortMapDataParsing(std::vector<MapData>& _Data, GameEngineLe
 
 	for (size_t i = 0; i < _Data.size(); i++)
 	{
+		int Order = _Data[i].Index_.z;
+
 		switch (_Data[i].MapObjType_)
 		{
-			int Order = _Data[i].Index_.z;
-
 		case MapObjType::CounterTop:
 		{
 			CurAcotr_ = _Level->CreateActor<CounterTop>();
