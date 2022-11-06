@@ -296,7 +296,7 @@ void MapEditorWindow::UnSortToolTab()
 			}
 			TmpData.Transform_ = &Object->GetTransform();
 
-			GlobalIOManager::AddTileData(TmpData);
+			GlobalIOManager::AddMapData(TmpData);
 		}
 
 		UnSortActorList_.push_back(Object);

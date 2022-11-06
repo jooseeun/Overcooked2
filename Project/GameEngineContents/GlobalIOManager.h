@@ -24,7 +24,7 @@ public:
 	GlobalIOManager& operator=(const GlobalIOManager& _Other) = delete;
 	GlobalIOManager& operator=(GlobalIOManager&& _Other) noexcept = delete;
 
-	static void AddTileData(MapData _Data);
+	static void AddMapData(MapData _Data);
 	static void Save(IOType _Type);
 	static void Load(IOType _Type);
 	static void Clear();

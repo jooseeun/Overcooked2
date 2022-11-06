@@ -93,6 +93,11 @@ void GameEngineFile::Write(const std::string& _Data)
 	Write(_Data.c_str(), _Data.size());
 }
 
+void GameEngineFile::WriteString(const std::string& _Data)
+{
+	Write(_Data.c_str(), _Data.size());
+}
+
 void GameEngineFile::Write(const float4x4& _Data)
 {
 	Write(&_Data, sizeof(float4x4));

@@ -46,6 +46,7 @@ public:
 	void Write(const void* _WriteData, size_t _WriteSize);
 
 	void Write(const std::string& _Data);
+	void WriteString(const std::string& _Data);
 
 	void Write(const float4x4& _Data);
 

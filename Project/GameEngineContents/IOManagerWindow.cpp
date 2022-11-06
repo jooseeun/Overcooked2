@@ -47,7 +47,7 @@ void IOManagerWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		TmpData.Transform_->SetWorldScale({6, 7, 8});
 		TmpData.Tile_ = float4(1, 2, 3);
 
-		GlobalIOManager::AddTileData(TmpData);
+		GlobalIOManager::AddMapData(TmpData);
 		{
 			MapData TmpData = {};
 			TmpData.MapObjType_ = MapObjType::Bin;
@@ -57,7 +57,7 @@ void IOManagerWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 			TmpData.Transform_->SetWorldScale({ 6, 7, 8 });
 			TmpData.Tile_ = float4(1, 2, 3);
 
-			GlobalIOManager::AddTileData(TmpData);
+			GlobalIOManager::AddMapData(TmpData);
 		}
 		
 		//{
