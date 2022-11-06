@@ -1,10 +1,12 @@
 #pragma once
 #include <GameEngineCore/GameEngineGUI.h>
 
+//저장 데이터 구조체
 struct PreviewMeshInfo
 {
 	std::string DifTexturePath_;
 	std::string DifTextureName_;
+
 };
 
 // 설명 :
@@ -28,10 +30,13 @@ protected:
 
 private:
 
-	bool OpenFbx_;
-	int ListIndex_;
+	int FbxCurentIndex_;
+	int SubSetCurentIndex_;
+	int SelectMaterial_;
 
+	bool OpenFbx_;
 	std::string PreviewMeshName_;							// 선택한 Fbx 이름
+
 	std::vector<PreviewMeshInfo> PreviewMeshInfo_;			// 패스, 파일이름 저장. 실제 렌더유닛 인덱스 순으로 push 하고 있음
 
 	GameEngineFBXRenderer* PreviewMeshRenderer_;			// 선택한 fbx의 서브셋의 랜더러
