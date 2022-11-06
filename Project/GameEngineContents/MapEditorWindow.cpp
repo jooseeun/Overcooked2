@@ -1,10 +1,17 @@
 #include "PreCompile.h"
 #include "MapEditorWindow.h"
 #include "GamePlayLevel.h"
+#include "GamePlayOriginObject.h"
 
 #include "CounterTop.h"
 #include "TrashCan.h"
 #include "Servicehatch.h"
+
+namespace
+{
+	//static mesh 간 간격 상수화
+	constexpr float INTERVAL = 122.f;
+}
 
 
 MapEditorWindow::MapEditorWindow()
@@ -62,9 +69,20 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 		else if (true == IsSort_)
 		{
-			/*GlobalIOManager::GetMapDataVector();
-			GlobalIOManager::Save(IOType::Mesh);
-			GlobalIOManager::Clear();*/
+			std::vector<MapData>& InputVector = GlobalIOManager::GetMapDataVector();
+
+			for (size_t i = 0; i < Origins_.size(); ++i)
+			{
+				std::vector<MapData>& Data = Origins_[i]->GetStaticMeshInfo();
+
+				for (size_t j = 0; j < Data.size(); j++)
+				{
+					InputVector.push_back(Data[j]);
+				}
+			}
+
+			GlobalIOManager::Save(IOType::SortMap);
+			GlobalIOManager::Clear();
 		}
 	}
 
@@ -87,7 +105,7 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 			//Sort 탭을 잘못 눌렀을 때 생성된 기준 엑터들 숨기기
 			if (0 < Origins_.size())
 			{
-				std::vector<GamePlayMapObject*>::iterator StartIter = Origins_.begin();
+				std::vector<GamePlayOriginObject*>::iterator StartIter = Origins_.begin();
 
 				for (StartIter = Origins_.begin(); StartIter != Origins_.end(); ++StartIter)
 				{
@@ -110,19 +128,19 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		{
 			if (0 == Origins_.size())
 			{
-				GamePlayMapObject* Origin = CurLevel_->CreateActor<GamePlayMapObject>();
+				GamePlayOriginObject* Origin = CurLevel_->CreateActor<GamePlayOriginObject>();
 
 				Origin->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
 
-				Origin->GetFBXMesh()->SetFBXMesh("m_sk_countertop_01.fbx", "Texture");
-				Origin->GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
+				Origin->GetRenderer()->SetFBXMesh("m_sk_countertop_01.fbx", "Texture");
+				Origin->GetRenderer()->GetTransform().SetWorldScale({ 100, 100, 100 });
 
 				Origins_.push_back(Origin);
 			}
 
 			else
 			{
-				GamePlayMapObject* Origin = Origins_.front();
+				GamePlayOriginObject* Origin = Origins_.front();
 				Origin->On();
 			}
 
@@ -133,7 +151,7 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				Prefabs_.push_back("CounterTop");
 				Prefabs_.push_back("CounterTop_Corner");
 				Prefabs_.push_back("CounterTop_NoEdge");
-				Prefabs_.push_back("Bin");
+				Prefabs_.push_back("TrashCan");
 				Prefabs_.push_back("Servicehatch");
 			}
 		}
@@ -402,12 +420,12 @@ void MapEditorWindow::SortToolTab()
 
 	if (ImGui::Button("Origin Create"))
 	{
-		GamePlayMapObject* Origin = CurLevel_->CreateActor<GamePlayMapObject>();
+		GamePlayOriginObject* Origin = CurLevel_->CreateActor<GamePlayOriginObject>();
 
 		Origin->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
 
-		Origin->GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
-		Origin->GetFBXMesh()->SetFBXMesh("m_sk_countertop_01.fbx", "Texture");
+		Origin->GetRenderer()->GetTransform().SetWorldScale({ 100, 100, 100 });
+		Origin->GetRenderer()->SetFBXMesh("m_sk_countertop_01.fbx", "Texture");
 
 		Origins_.push_back(Origin);
 	}
@@ -452,8 +470,12 @@ void MapEditorWindow::SortToolTab()
 	static int Index[2] = { 0, 0 };
 	ImGui::DragInt2("Index", Index);
 
+	static int RotCount = 0;
+
 	if (true == ImGui::Button("Create"))
 	{
+		RotCount = 0;
+
 		switch (SelectIndex)
 		{
 		case 0:
@@ -463,6 +485,8 @@ void MapEditorWindow::SortToolTab()
 
 			Object->SetCounterTopType(CounterTopType::Normal);
 			Object->SetConterTopMesh(CounterTopType::Normal);
+
+			Object->SetStaticObjectType(MapObjType::CounterTop);
 		}
 		break;
 		case 1:
@@ -472,6 +496,8 @@ void MapEditorWindow::SortToolTab()
 
 			Object->SetCounterTopType(CounterTopType::Corner);
 			Object->SetConterTopMesh(CounterTopType::Corner);
+
+			Object->SetStaticObjectType(MapObjType::CounterTop_Corner);
 		}
 		break;
 		case 2:
@@ -481,21 +507,36 @@ void MapEditorWindow::SortToolTab()
 
 			Object->SetCounterTopType(CounterTopType::NoEdge);
 			Object->SetConterTopMesh(CounterTopType::NoEdge);
+
+			Object->SetStaticObjectType(MapObjType::CounterTop_NoEdge);
 		}
 		break;
 		case 3:
 			CurStaticMesh_ = CurLevel_->CreateActor<TrashCan>();
+			CurStaticMesh_->SetStaticObjectType(MapObjType::TrashCan);
 			break;
 		case 4:
 			CurStaticMesh_ = CurLevel_->CreateActor<Servicehatch>();
+			CurStaticMesh_->SetStaticObjectType(MapObjType::Servicehatch);
 			break;
 		}
 
 		//기준 엑터의 자식으로 둔다.
 		CurStaticMesh_->SetParent(Origins_[OriginIndex]);
 
+		CurStaticMesh_->SetX(Index[0]);
+		CurStaticMesh_->SetY(Index[1]);
+
 		CurStaticMesh_->GetTransform().SetWorldPosition(Origins_[OriginIndex]->GetTransform().GetWorldPosition());
-		CurStaticMesh_->GetTransform().SetWorldMove({ Index[0] * (-122.f), 0.f, Index[1] * 122.f });
+		CurStaticMesh_->GetTransform().SetWorldMove({ Index[0] * (-INTERVAL), 0.f, Index[1] * INTERVAL});
+
+		MapData Data = { };
+
+		Data.MapObjType_ = CurStaticMesh_->GetStaticObjectType();
+		Data.Index_.x = static_cast<float>(Index[0]);
+		Data.Index_.y = static_cast<float>(Index[1]);
+
+		Origins_[OriginIndex]->GetStaticMeshInfo().push_back(Data);
 
 		SortActorList_.push_back(CurStaticMesh_);
 	}
@@ -508,6 +549,10 @@ void MapEditorWindow::SortToolTab()
 	{
 		SortActorList_[ActorIndex]->Death();
 		SortActorList_.erase(SortActorList_.begin() + ActorIndex);
+
+		std::vector<MapData>& DataVector = Origins_[OriginIndex]->GetStaticMeshInfo();
+
+		DataVector.erase(DataVector.begin() + ActorIndex);
 	}
 
 	ImGui::Text("");
@@ -516,7 +561,18 @@ void MapEditorWindow::SortToolTab()
 		&& 0 < SortActorList_.size()
 		&& ActorIndex < SortActorList_.size())
 	{
+		++RotCount;
+
+		if (4 <= RotCount)
+		{
+			RotCount = 0;
+		}
+
 		SortActorList_[ActorIndex]->GetTransform().SetAddWorldRotation({ 0.f, 90.f, 0.f });
+
+		std::vector<MapData>& DataVector = Origins_[OriginIndex]->GetStaticMeshInfo();
+
+		DataVector[ActorIndex].Index_.z = static_cast<float>(RotCount);
 	}
 
 	ImGui::EndTabItem();

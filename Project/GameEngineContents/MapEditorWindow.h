@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineGUI.h>
 
+class GamePlayOriginObject;
 class GamePlayLevel;
 class LevelActor;
 class MapEditorWindow : public GameEngineGUIWindow
@@ -51,7 +52,7 @@ private:
 	LevelActor* LevelActor_;
 
 	//타일맵 기준 엑터
-	std::vector<GamePlayMapObject*> Origins_;
+	std::vector<GamePlayOriginObject*> Origins_;
 
 	//현재 생성한 타일
 	GamePlayStaticObject* CurStaticMesh_;
