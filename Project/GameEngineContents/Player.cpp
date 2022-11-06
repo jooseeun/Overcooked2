@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "Player.h"
 
-Player::Player() 
+Player::Player()
 	:Speed_(400.0f)
 	, CurAngle_(0)
 	, CurDir_(PlayerDir::Back)
@@ -9,7 +9,7 @@ Player::Player()
 
 }
 
-Player::~Player() 
+Player::~Player()
 {
 }
 
@@ -25,24 +25,21 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("PlayerDash", VK_MENU); // Ã¢ÀÌ ²¨Áø´Ù..
 
 	}
-	GameEngineFBXStaticRenderer* Renderer = CreateComponent<GameEngineFBXStaticRenderer>();
-	//Renderer->SetFBXMesh("Chef.FBX", "Texture");
-	//class GameEngineFBXMesh* Mesh = Renderer->GetFBXMesh();
 
+	GameEngineFBXMesh* TestMesh = GameEngineFBXMesh::Find("Chef.FBX");
 
-	//std::string NewPath = "C:Users\\MOA\\Overcooked2\\Project\\ContentsResources\\Mesh\\Chef1\\t_chef_head_alien_green_d.png";
-	//size_t idx = NewPath.rfind("\\");
-	//
-	//std::string TestStr = NewPath.substr(0, idx);
+	std::string NewPath = "C:Users\\MOA\\Overcooked2\\Project\\ContentsResources\\Mesh\\Chef1\\t_chef_head_alien_green_d.png";
+	size_t idx = NewPath.rfind("\\");
 
-	//Mesh->GetFbxRenderUnit()[0].MaterialData[0].DifTexturePath = NewPath;
-	//Mesh->GetFbxRenderUnit()[0].MaterialData[0].DifTextureName = "t_chef_head_alien_green_d.png";
+	std::string TestStr = NewPath.substr(0, idx);
 
-	int a = 0;
+	TestMesh->GetFbxRenderUnit()[0].MaterialData[0].DifTexturePath = NewPath;
+	TestMesh->GetFbxRenderUnit()[0].MaterialData[0].DifTextureName = "t_chef_head_alien_green_d.png";
+
 
 	PlayerRenderer = CreateComponent<GameEngineFBXStaticRenderer>();
 	PlayerRenderer->SetFBXMesh("Chef.FBX", "Texture");
-	
+
 	StateManager.CreateStateMember("Idle"
 		, std::bind(&Player::IdleUpdate, this, std::placeholders::_1, std::placeholders::_2)
 		, std::bind(&Player::IdleStart, this, std::placeholders::_1)
@@ -58,7 +55,7 @@ void Player::Start()
 	Test->GetTransform().SetWorldScale({ 100, 100, 100 });
 	Test->ChangeOrder(CollisionOrder::Default);
 
-	
+
 }
 void Player::Update(float _DeltaTime)
 {
@@ -113,7 +110,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	}
 
-	 if (true == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
+	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
 	{
 		CurDir_ = PlayerDir::Back;
 		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft"))
@@ -127,7 +124,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	}
 
-	 if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft"))
+	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft"))
 	{
 		CurDir_ = PlayerDir::Left;
 		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerFront"))
@@ -141,7 +138,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	}
 
-	 if (true == GameEngineInput::GetInst()->IsPressKey("PlayerRight"))
+	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerRight"))
 	{
 
 		CurDir_ = PlayerDir::Right;
@@ -157,14 +154,14 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 
 
-	GetTransform().SetLocalRotation({ 0, (float)CurAngle_, 0});
+	GetTransform().SetLocalRotation({ 0, (float)CurAngle_, 0 });
 	if (MoveAngle() == true)
 	{
 		GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * _DeltaTime);
 	}
 	else
 	{
-		GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ *0.5* _DeltaTime);
+		GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * 0.5 * _DeltaTime);
 		return;
 	}
 
