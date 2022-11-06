@@ -93,9 +93,9 @@ void MeshSelectWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
             if (PreviewMeshRenderer_ != nullptr)
             {
                 PreviewMeshRenderer_->Death();
-               // SubSetCurentIndex_ = 0;
+              //  SubSetCurentIndex_ = 0;
                 SelectMaterial_ = 0;
-                PreviewMeshInfo_.clear();
+                MeshData_. PreviewMeshInfo_.clear();
                 AllMaterialTexture_.clear();
             }
 
@@ -106,9 +106,7 @@ void MeshSelectWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
             //매쉬 데이터 세팅
             for (int i = 0; i < PreviewMesh_->GetFbxRenderUnit().size(); ++i)
-            {
-                
-                
+            {            
                 //fbxsdk::FbxNode* pMeshNode = MeshInfo[i].Mesh->GetNode();
                 //fbxsdk::FbxSurfaceMaterial* pMtrl = pMeshNode->GetMaterial(0);
                 //std::string Path = PreviewMesh_->MaterialTex(pMtrl, "DiffuseColor");
@@ -116,56 +114,51 @@ void MeshSelectWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
                 //PreviewMeshInfo_.push_back(PreviewMeshInfo{ Path
                 //    ,  PreviewMesh_->GetFbxRenderUnit()[i].MaterialData[0].DifTextureName });
 
-                PreviewMeshInfo_.push_back(PreviewMeshInfo{ AllFBXMesh_[i]->GetFbxRenderUnit()[i].MaterialData[0].DifTexturePath
-                 ,  AllFBXMesh_[i]->GetFbxRenderUnit()[i].MaterialData[0].DifTextureName });
+                MeshData_.PreviewMeshInfo_.push_back(SubSetMeshInfo{ PreviewMesh_->GetFbxRenderUnit()[i].MaterialData[0].DifTexturePath
+                                 , PreviewMesh_->GetFbxRenderUnit()[i].MaterialData[0].DifTextureName });
             }
 
-            PreviewMeshName_ = PreviewMeshRenderer_->GetFBXMesh()->GetName().data();
+            MeshData_.PreviewMeshName_ = PreviewMeshRenderer_->GetFBXMesh()->GetName().data();
 
 
-            // 텍스처 리스트 로드
-            GameEngineDirectory Dir;
-            Dir.MoveParentToExitsChildDirectory("ContentsResources");
-            Dir.Move("ContentsResources");
-            Dir.Move("Mesh");
-           // Dir.Move("Level");
-
-            std::string FbxName = PreviewMeshName_;
-            size_t idx = FbxName.find(".");
-            std::string DirName = FbxName.substr(0, idx);
-
-            //만약 경로를 한번 더 걸친다면
-
-            std::string CheckPath = PreviewMeshInfo_[0].DifTexturePath_;
-
-            size_t Test = CheckPath.find("Level");
-            int a = 0;
-
-            if (Test == std::string::npos)
+            for (int i = 0; i < PreviewMesh_->GetFbxRenderUnit().size(); ++i)
             {
-                int a = 0;
-            }
-            Dir.Move(DirName);
-
-            std::vector<GameEngineFile> Textures = Dir.GetAllFile();
-
-            for (int i = 0; i < Textures.size(); ++i)
-            {
-                std::string FileName = Textures[i].GetFileName();
-                std::string Ex = GameEngineString::ToUpperReturn(GameEnginePath::GetExtension(FileName));
-                if (Ex == ".FBX")
+                std::string Name = PreviewMesh_->GetFbxRenderUnit()[i].MaterialData[0].DifTextureName;
+                std::string Path = GameEngineDirectory::GetFolderPath(PreviewMesh_->GetPath());
+                GameEngineTexture* Texture = GameEngineTexture::Find(PreviewMesh_->GetFbxRenderUnit()[i].MaterialData[0].DifTextureName);
+                if (nullptr == Texture)
                 {
-                    continue;
-                }
+                    std::string FilePath = Path + Name;
+                    //GameEngineTexture::Load(FilePath);
 
-                if (GameEngineTexture::Find(Textures[i].GetFileName()) == nullptr)
-                {
-                    AllMaterialTexture_.push_back(GameEngineTexture::Load(Textures[i].GetFullPath()));
+                    AllMaterialTexture_.push_back(GameEngineTexture::Load(FilePath));
+
                 }
                 else
                 {
-                    AllMaterialTexture_.push_back(GameEngineTexture::Find(Textures[i].GetFileName()));
+                    //동일한 리소스 있는지 체크
+                    bool CheckTexture = false;
+                    for (int j = 0; j < AllMaterialTexture_.size(); ++j)
+                    {
+                        if (AllMaterialTexture_[j] == Texture)
+                        {
+                            CheckTexture = true;
+                            break;
+                        }
+                    }
+
+                    if (CheckTexture == true)
+                    {
+                        continue;
+
+                    }
+                    else
+                    {
+                        AllMaterialTexture_.push_back(GameEngineTexture::Find(Name));
+                    }
+
                 }
+
             }
 
         }
@@ -194,14 +187,14 @@ void MeshSelectWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
             if (true == ImGui::Button("Change Material"))
             {
-                PreviewMeshInfo_[SubSetCurentIndex_].DifTextureName_ = AllMaterialTexture_[SelectMaterial_]->GetName();
+                MeshData_.PreviewMeshInfo_[SubSetCurentIndex_].DifTextureName_ = AllMaterialTexture_[SelectMaterial_]->GetName();
 
-                std::string Path = PreviewMeshInfo_[SubSetCurentIndex_].DifTexturePath_;
+                std::string Path = MeshData_.PreviewMeshInfo_[SubSetCurentIndex_].DifTexturePath_;
                 size_t idx = Path.rfind("\\");
                 std::string NewPath = Path.substr(0, idx);
 
-                NewPath += "\\" + PreviewMeshInfo_[SubSetCurentIndex_].DifTextureName_;
-                PreviewMeshInfo_[SubSetCurentIndex_].DifTexturePath_ = Path;
+                NewPath += "\\" + MeshData_.PreviewMeshInfo_[SubSetCurentIndex_].DifTextureName_;
+                MeshData_.PreviewMeshInfo_[SubSetCurentIndex_].DifTexturePath_ = Path;
 
                 PreviewMesh_->GetFbxRenderUnit()[SubSetCurentIndex_].MaterialData[0].DifTexturePath = NewPath;
                 PreviewMesh_->GetFbxRenderUnit()[SubSetCurentIndex_].MaterialData[0].DifTextureName = AllMaterialTexture_[SelectMaterial_]->GetName();
@@ -217,9 +210,7 @@ void MeshSelectWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
         }
 
-
     }
-
 
 
 }
