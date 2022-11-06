@@ -23,7 +23,7 @@ void GlobalIOManager::AddMapData(MapData _Data)
 	MapDataVector_.push_back(_Data);
 }
 
-void GlobalIOManager::Save(IOType _Type)
+void GlobalIOManager::Save(IOType _Type, int _Value)
 {
 	GameEngineDirectory Dir;
 	Dir.MoveParentToExitsChildDirectory("ContentsResources");
@@ -31,7 +31,7 @@ void GlobalIOManager::Save(IOType _Type)
 	Dir.Move("SaveFiles");
 
 	auto IOTypeName = magic_enum::enum_name(_Type);
-	GameEngineFile SaveFile = (Dir.GetFullPath() + "\\" + static_cast<std::string>(IOTypeName) + "Data.txt").c_str();
+	GameEngineFile SaveFile = (Dir.GetFullPath() + "\\" + static_cast<std::string>(IOTypeName) + std::to_string(_Value) + "Data.txt").c_str();
 	SaveFile.Open(OpenMode::Write);
 
 	std::string SaveString = "";
@@ -78,7 +78,7 @@ void GlobalIOManager::Save(IOType _Type)
 	SaveFile.WriteString(SaveString);
 }
 
-void GlobalIOManager::Load(IOType _Type)
+void GlobalIOManager::Load(IOType _Type, int _Value)
 {
 	Clear();
 
@@ -88,7 +88,7 @@ void GlobalIOManager::Load(IOType _Type)
 	Dir.Move("SaveFiles");
 
 	auto IOTypeName = magic_enum::enum_name(_Type);
-	GameEngineFile LoadFile = (Dir.GetFullPath() + "\\" + static_cast<std::string>(IOTypeName) + "Data.txt").c_str();
+	GameEngineFile SaveFile = (Dir.GetFullPath() + "\\" + static_cast<std::string>(IOTypeName) + std::to_string(_Value) + "Data.txt").c_str();
 	LoadFile.Open(OpenMode::Read);
 
 	std::string LoadS = "";

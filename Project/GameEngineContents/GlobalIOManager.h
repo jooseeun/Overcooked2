@@ -34,8 +34,8 @@ public:
 
 	static void AddMeshData(MeshData _Data);
 	static void AddMapData(MapData _Data);
-	static void Save(IOType _Type);
-	static void Load(IOType _Type);
+	static void Save(IOType _Type, int _Value = 0);
+	static void Load(IOType _Type, int _Value = 0);
 	static void Clear();
 
 	static std::vector<MapData>& GetMapDataVector()
