@@ -115,11 +115,8 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 			if (true == AllUnSortActorName_.empty())
 			{
+				// 테스트용
 				AllUnSortActorName_.push_back("Chef");
-				AllUnSortActorName_.push_back("NPC_Beard_Green_01");
-				AllUnSortActorName_.push_back("Collision_Wall");
-				AllUnSortActorName_.push_back("Collision_Floor");
-				//	AllUnSortActorName_.push_back("m_sk_countertop_01");
 			}
 		}
 
@@ -275,7 +272,6 @@ void MapEditorWindow::UnSortToolTab()
 	ImGui::EndChild();
 	ImGui::EndChild();
 	ImGui::EndTabItem();
-	//
 
 	// 오브젝트 생성 
 	if (true == ImGui::Button("Create"))
@@ -300,24 +296,16 @@ void MapEditorWindow::UnSortToolTab()
 			Renderer->SetFBXMesh(AllUnSortActorName_[SelectNameIndex] + ".fbx", "Texture");
 			Object->SetName(AllUnSortActorName_[SelectNameIndex]);
 		}
+		UnSortActorList_.push_back(Object);
 
+		// 저장
 		{
 			MapData TmpData = {};
-
-			if (AllUnSortActorName_[SelectNameIndex] == "Collision_Wall")
-			{
-				TmpData.MapObjType_ = MapObjType::Collision;
-			}
-			else
-			{
-				TmpData.MapObjType_ = MapObjType::Npc_Static;
-			}
+			TmpData.ObjName_ = AllUnSortActorName_[SelectNameIndex];
 			TmpData.Transform_ = &Object->GetTransform();
 
 			GlobalIOManager::AddMapData(TmpData);
 		}
-
-		UnSortActorList_.push_back(Object);
 
 		GlobalIOManager::GetMapDataVector;
 	}
@@ -341,9 +329,9 @@ void MapEditorWindow::UnSortToolTab()
 		}
 	}
 
+	// Transform
 	if (false == UnSortActorList_.empty())
 	{
-		// Transform
 		Position_ = UnSortActorList_[SelectIndex]->GetTransform().GetWorldPosition();
 		ImGui::Text("Position");
 		ImGui::DragFloat("Position.x", &Position_.x);
