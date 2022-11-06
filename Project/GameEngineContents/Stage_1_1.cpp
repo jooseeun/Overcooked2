@@ -15,6 +15,9 @@ void Stage_1_1::Start()
 {
 	CreateActor<LevelActor>()->SetLevelMesh("1_1.FBX");
 
+	GlobalIOManager::Load(IOType::SortMap, 0);
+	DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
+
 	Player* MainPlayer = CreateActor<Player>();
 	MainPlayer->GetTransform().SetLocalPosition({ -1500, 0, 0 });
 
