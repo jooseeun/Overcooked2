@@ -1,4 +1,4 @@
-#pragma once
+	#pragma once
 #include <GameEngineCore/GameEngineActor.h>
 #include <GameEngineCore/GameEngineFBXStaticRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>

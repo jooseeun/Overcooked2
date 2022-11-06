@@ -134,6 +134,9 @@
     <ClInclude Include="MapDataParser.h">
       <Filter>Map</Filter>
     </ClInclude>
+    <ClInclude Include="GamePlayOriginObject.h">
+      <Filter>Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -264,6 +267,9 @@
       <Filter>GUI</Filter>
     </ClCompile>
     <ClCompile Include="MapDataParser.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePlayOriginObject.cpp">
       <Filter>Map</Filter>
     </ClCompile>
   </ItemGroup>
