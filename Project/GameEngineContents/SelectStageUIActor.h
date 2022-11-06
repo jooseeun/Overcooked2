@@ -21,4 +21,9 @@ private:
 	OverCookedUIRenderer* EndBackground_ = nullptr;
 	OverCookedUIRenderer* Background_ = nullptr;
 	OverCookedUIRenderer* Header_ = nullptr;
+
+	GameEngineFontRenderer* CountDownFont_ = nullptr;
+
+	float4 DebugPos_;
+	float DebugSize_;
 };
