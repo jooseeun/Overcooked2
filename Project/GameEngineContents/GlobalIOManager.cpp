@@ -60,7 +60,7 @@ void GlobalIOManager::Save(IOType _Type, int _Value)
 			}
 
 			SaveString += "Index:" + MapDataVector_[i].Index_.ToDataString() + ";\n";
-			SaveString += "}\n";
+			SaveString += "}\n\n";
 		}
 	}
 	else if (_Type == IOType::Mesh) // 메쉬 세이브
@@ -71,7 +71,7 @@ void GlobalIOManager::Save(IOType _Type, int _Value)
 			SaveString += "Mesh:" + MeshDataVector_[i].MeshName_ + ";\n";
 			SaveString += "Path:" + MeshDataVector_[i].Path_ + ";\n";
 			SaveString += "Mat:" + MeshDataVector_[i].MaterialName_ + ";\n";
-			SaveString += "}\n";
+			SaveString += "}\n\n";
 		}
 	}
 

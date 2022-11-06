@@ -10,6 +10,7 @@ GameEngineFontRenderer::GameEngineFontRenderer()
 	, FontSize(20.0f)
 	, Color(float4::WHITE)
 	, ScreenPostion(float4::ZERO)
+	, IsAffectTransform(false)
 	, LR()
 	, TB()
 {
@@ -73,6 +74,12 @@ void GameEngineFontRenderer::Render(float _DeltaTime)
 
 	FontTarget->Clear();
 	FontTarget->Setting();
+
+	if (true == IsAffectTransform)
+	{
+		float4 WorldPos = GetTransform().GetWorldPosition();
+		Pos = float4(WorldPos.x, -WorldPos.y, WorldPos.z) + GameEngineWindow::GetScale().Half();
+	}
 	Font->FontDraw(Text, FontSize, Pos, Color, static_cast<int>(LR) | static_cast<int>(TB));
 	GameEngineMaterial::AllShaderReset();
 	Camera->GetCameraRenderTarget()->Merge(FontTarget);

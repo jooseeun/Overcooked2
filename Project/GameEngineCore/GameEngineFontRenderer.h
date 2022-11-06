@@ -77,6 +77,11 @@ public:
 		FontSize = _Size;
 	}
 
+	inline void SetAffectTransform(bool _On)
+	{
+		IsAffectTransform = _On;
+	}
+
 protected:
 	virtual void Start();
 
@@ -89,6 +94,7 @@ protected:
 	float FontSize;
 	float4 Color;
 	float4 ScreenPostion;
+	bool IsAffectTransform;
 
 	FontPositionMode Mode;
 	LeftAndRightSort LR;
