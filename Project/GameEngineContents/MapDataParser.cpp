@@ -14,6 +14,23 @@ MapDataParser::~MapDataParser()
 
 void MapDataParser::UnSortMapDataParsing(std::vector<MapData>& _Data, GameEngineLevel* _Level)
 {
+	for (size_t i = 0; i < _Data.size(); i++)
+	{
+		GamePlayMapObject* Object = _Level->CreateActor<GamePlayMapObject>();
+		Object->GetTransform().SetWorldPosition(_Data[i].Pos_);
+		Object->GetTransform().SetWorldRotation(_Data[i].Rot_);
+		Object->GetTransform().SetWorldScale(_Data[i].Scale_);
+
+		if (_Data[i].ObjName_ == "Collision_Wall" || _Data[i].ObjName_ == "Collision_Floor")
+		{
+			// 수정 필요
+		}
+		else
+		{
+			GameEngineFBXStaticRenderer* Renderer = Object->CreateComponent<GameEngineFBXStaticRenderer>();
+			Renderer->SetFBXMesh(_Data[i].ObjName_ + ".fbx", "Texture");
+		}
+	}
 }
 
 void MapDataParser::SortMapDataParsing(std::vector<MapData>& _Data, GameEngineLevel* _Level)

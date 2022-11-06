@@ -51,21 +51,18 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 		if (true == IsUnSort_)
 		{
-			//std::vector<MapData>& DataVector = GlobalIOManager::GetMapDataVector();
+			// 저장
+			MapData TmpData = {};
+			for (size_t i = 0; i < UnSortActorList_.size(); i++)
+			{
+				TmpData.ObjName_ = UnSortActorList_[i]->GetName();
+				TmpData.Transform_ = &UnSortActorList_[i]->GetTransform();
+				GlobalIOManager::AddMapData(TmpData);
+			}
 
-			//MapData Data = {};
+			GlobalIOManager::Save(IOType::UnsortMap);
+			GlobalIOManager::Clear();
 
-			//Data.MapObjType_ = MapObjType::Collision_Wall;
-			//Data.Transform_ = nullptr;
-			//Data.Pos_ = float4{ 100, 100, 100 };
-			//Data.Rot_ = float4{ 0, 0, 0 };
-			//Data.Scale_ = float4{ 1, 1, 1 };
-			//Data.Tile_ = float4{ 1, 1, 1 };
-
-			//DataVector.push_back(Data);
-
-			//GlobalIOManager::Save(IOType::Map);
-			//GlobalIOManager::Clear();
 		}
 
 		else if (true == IsSort_)
@@ -93,7 +90,8 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	{
 		if (true == IsUnSort_)
 		{
-
+			GlobalIOManager::Load(IOType::UnsortMap);
+			DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), CurLevel_);
 		}
 
 		else if (true == IsSort_)
@@ -121,12 +119,6 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				{
 					(*StartIter)->Off();
 				}
-			}
-
-			if (true == AllUnSortActorName_.empty())
-			{
-				// 테스트용
-				AllUnSortActorName_.push_back("Chef");
 			}
 		}
 
@@ -252,9 +244,9 @@ void MapEditorWindow::ShowLevelSelectTable()
 void MapEditorWindow::UnSortToolTab()
 {
 	// 만들 수 있는 오브젝트 리스트
-	ImGui::BeginChild("ActorNameGroup", ImVec2(180, 250), true);
+	ImGui::BeginChild("ActorNameGroup", ImVec2(250, 250), true);
 	ImGui::Text("ActorNameList");
-	ImGui::BeginChild("AllUnSortActorName", ImVec2(150, 200), true);
+	ImGui::BeginChild("AllUnSortActorName", ImVec2(230, 230), true);
 
 	static int SelectNameIndex = 0;
 
@@ -272,9 +264,9 @@ void MapEditorWindow::UnSortToolTab()
 	ImGui::SameLine();
 
 	// 현재 생성된 오브젝트 리스트
-	ImGui::BeginChild("ActorGroup", ImVec2(180, 250), true);
+	ImGui::BeginChild("ActorGroup", ImVec2(250, 250), true);
 	ImGui::Text("Created ActorList");
-	ImGui::BeginChild("UnSortActorList", ImVec2(150, 200), true);
+	ImGui::BeginChild("UnSortActorList", ImVec2(230, 230), true);
 
 	static int SelectIndex = 0;
 
@@ -316,17 +308,6 @@ void MapEditorWindow::UnSortToolTab()
 			Object->SetName(AllUnSortActorName_[SelectNameIndex]);
 		}
 		UnSortActorList_.push_back(Object);
-
-		// 저장
-		{
-			MapData TmpData = {};
-			TmpData.ObjName_ = AllUnSortActorName_[SelectNameIndex];
-			TmpData.Transform_ = &Object->GetTransform();
-
-			GlobalIOManager::AddMapData(TmpData);
-		}
-
-		GlobalIOManager::GetMapDataVector;
 	}
 
 	ImGui::SameLine();

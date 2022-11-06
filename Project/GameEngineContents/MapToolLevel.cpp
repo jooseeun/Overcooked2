@@ -23,6 +23,9 @@ void MapToolLevel::Start()
 	GetMainCameraActorTransform().SetLocalPosition({ 0, 2000, 1800 });
 
 	// 생성 가능한 UnSortActor 
+	Window_->GetAllUnSortActorName().push_back("Chef");
+	// 테스트용
+
 	Window_->GetAllUnSortActorName().push_back("Collision_Wall");
 	Window_->GetAllUnSortActorName().push_back("Collision_Floor");
 	Window_->GetAllUnSortActorName().push_back("MoveNPC_Beard_Orange_01");
