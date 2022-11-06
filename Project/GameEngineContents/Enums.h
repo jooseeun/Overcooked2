@@ -31,7 +31,8 @@ enum class PlayerDir
 enum class IOType
 {
 	Mesh,	
-	Map,
+	UnsortMap,
+	SortMap,
 	Max,
 };
 

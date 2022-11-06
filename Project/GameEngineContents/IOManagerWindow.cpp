@@ -16,38 +16,30 @@ void IOManagerWindow::Initialize(GameEngineLevel* _Level)
 
 void IOManagerWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
-	if (true == ImGui::Button("Create"))
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("SaveFiles");
-		GameEngineFile TmpFile = (Dir.GetFullPath() + "\\" + "Test.txt").c_str();
-		TmpFile.Create();
-	}
-
 	if (true == ImGui::Button("Save"))
 	{
-		GlobalIOManager::Save(IOType::Map);
+		GlobalIOManager::Save(IOType::UnsortMap);
 	}
 
 	if (true == ImGui::Button("Load"))
 	{
-		GlobalIOManager::Load(IOType::Map);
+		GlobalIOManager::Load(IOType::UnsortMap);
 	}
 
 	if (true == ImGui::Button("Add"))
 	{
-		
-		MapData TmpData = {};
-		TmpData.MapObjType_ = MapObjType::CounterTop;
-		TmpData.Transform_ = &GEngine::GetCurrentLevel()->CreateActor<GameEngineActor>()->GetTransform();
-		TmpData.Transform_->SetWorldPosition({0, 1, 2});
-		TmpData.Transform_->SetWorldRotation({3, 4, 5});
-		TmpData.Transform_->SetWorldScale({6, 7, 8});
-		TmpData.Tile_ = float4(1, 2, 3);
+		{
+			MapData TmpData = {};
+			TmpData.MapObjType_ = MapObjType::CounterTop;
+			TmpData.Transform_ = &GEngine::GetCurrentLevel()->CreateActor<GameEngineActor>()->GetTransform();
+			TmpData.Transform_->SetWorldPosition({ 0, 1, 2 });
+			TmpData.Transform_->SetWorldRotation({ 3, 4, 5 });
+			TmpData.Transform_->SetWorldScale({ 6, 7, 8 });
+			TmpData.Index_ = float4(1, 2, 3);
 
-		GlobalIOManager::AddMapData(TmpData);
+			GlobalIOManager::AddMapData(TmpData);
+		}
+
 		{
 			MapData TmpData = {};
 			TmpData.MapObjType_ = MapObjType::Bin;
@@ -55,25 +47,30 @@ void IOManagerWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 			TmpData.Transform_->SetWorldPosition({ 0, 1, 2 });
 			TmpData.Transform_->SetWorldRotation({ 3, 4, 5 });
 			TmpData.Transform_->SetWorldScale({ 6, 7, 8 });
-			TmpData.Tile_ = float4(1, 2, 3);
+			TmpData.Index_ = float4(1, 2, 3);
 
 			GlobalIOManager::AddMapData(TmpData);
 		}
-		
-		//{
-		//	MapData TmpData = {};
-		//	TmpData.MapObjType_ = MapObjType::Npc_Static;
-		//	TmpData.Transform_ = &GEngine::GetCurrentLevel()->CreateActor<GameEngineActor>()->GetTransform();
-		//	TmpData.Transform_->SetWorldPosition({ 0, 1, 2 });
-		//	TmpData.Transform_->SetWorldRotation({ 3, 4, 5 });
-		//	TmpData.Transform_->SetWorldScale({ 6, 7, 8 });
-		//	TmpData.Tile_ = float4(1, 2, 3);
 
-		//	GlobalIOManager::AddTileData(TmpData);
-		//}
+		{
+			MeshData TmpData = {};
+			TmpData.MeshName_ = "Test1";
+			TmpData.Path_ = "Test\\Data\\www\\Test1";
+			TmpData.MaterialName_ = "Mat22";
+
+			GlobalIOManager::AddMeshData(TmpData);
+		}
+
+		{
+			MeshData TmpData = {};
+			TmpData.MeshName_ = "Test2";
+			TmpData.Path_ = "Test\\Da2ta\\ggg\\Test2";
+			TmpData.MaterialName_ = "Mat44";
+
+			GlobalIOManager::AddMeshData(TmpData);
+		}
 	}
 
-	//ImGui::Text(std::to_string(MapDataVector_.size()).c_str());
 
 	int a = 0;
 }
