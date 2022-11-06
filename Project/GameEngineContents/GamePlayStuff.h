@@ -14,7 +14,6 @@ protected:
 	GamePlayStuff();
 public:
 	// constrcuter destructer
-
 	~GamePlayStuff();
 
 	// delete Function
@@ -22,7 +21,6 @@ public:
 	GamePlayStuff(GamePlayStuff&& _Other) noexcept = delete;
 	GamePlayStuff& operator=(const GamePlayStuff& _Other) = delete;
 	GamePlayStuff& operator=(GamePlayStuff&& _Other) noexcept = delete;
-
 
 	inline ObjectStuffType GetObjectStuffType() const
 	{

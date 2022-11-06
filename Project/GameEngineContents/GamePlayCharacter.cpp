@@ -43,13 +43,8 @@ void GamePlayCharacter::Collision_AroundObject()
 				Interact_Possible_Object_->Input_PickUp(this) == Input_PickUpOption::PickUp)
 			{
 				Interact_Possible_Object_ = nullptr;
+				return;
 			}
-			else
-			{
-
-			}
-
-			return;
 		}
 	}
 	else
@@ -68,7 +63,12 @@ void GamePlayCharacter::Collision_AroundObject()
 	{
 		if (GameEngineInput::GetInst()->IsDownKey("Interaction"))
 		{
-
+			if (Moveable_Current_ == nullptr &&
+				Interact_Possible_StaticObject_->Input_PickUp(this) == Input_PickUpOption::PickUp)
+			{
+				Interact_Possible_StaticObject_->SetBloomEffectOff();
+				return;
+			}
 		}
 	}
 	else

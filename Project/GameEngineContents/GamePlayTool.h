@@ -63,15 +63,21 @@ private:
 
 	// Bloom
 public:
-	virtual inline void SetBloomEffectOff()
+	inline void SetBloomEffectOff() override
 	{
 		GamePlayObject::SetBloomEffectOff();
-		Moveable_Current_->SetBloomEffectOff();
+		if (Moveable_Current_ != nullptr)
+		{
+			Moveable_Current_->SetBloomEffectOff();
+		}
 	}
-	virtual inline void SetBloomEffectOn()
+	inline void SetBloomEffectOn() override
 	{
 		GamePlayObject::SetBloomEffectOn();
-		Moveable_Current_->SetBloomEffectOn();
+		if (Moveable_Current_ != nullptr)
+		{
+			Moveable_Current_->SetBloomEffectOn();
+		}
 	}
 };
 

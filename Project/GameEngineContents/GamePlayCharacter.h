@@ -55,7 +55,6 @@ private:
 
 
 
-
 	// Interact Collision
 private:
 	GameEngineCollision* Collision_Interact_; // 상호작용 콜리전

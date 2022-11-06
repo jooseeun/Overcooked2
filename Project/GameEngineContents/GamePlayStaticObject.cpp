@@ -22,13 +22,20 @@ void GamePlayStaticObject::Start()
 void GamePlayStaticObject::SetBloomEffectOff()
 {
 	GamePlayObject::SetBloomEffectOff();
-	Stuff_Current_->SetBloomEffectOff();
+	if (Stuff_Current_ != nullptr)
+	{
+		Stuff_Current_->SetBloomEffectOff();
+	}
+
 }
 
 void GamePlayStaticObject::SetBloomEffectOn()
 {
 	GamePlayObject::SetBloomEffectOn();
-	Stuff_Current_->SetBloomEffectOn();
+	if (Stuff_Current_ != nullptr)
+	{
+		Stuff_Current_->SetBloomEffectOn();
+	}
 }
 
 Input_PickUpOption GamePlayStaticObject::Input_PickUp(GamePlayMoveable* _Object)
