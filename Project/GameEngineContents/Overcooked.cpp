@@ -200,17 +200,61 @@ void Overcooked::MeshLoad()
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 
-	
-	//{
-	//	GameEngineDirectory Dir;
-	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
-	//	Dir.Move("ContentsResources");
-	//	Dir.Move("Mesh");
-	//	Dir.Move("Chef1");
 
-	//	GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Chef1.FBX"));
-	//	std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
-	//}
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		Dir.Move("ContentsResources");
+		Dir.Move("Mesh");
+		Dir.Move("Chef1");
+
+		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Chef1.FBX"));
+		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+	}
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		Dir.Move("ContentsResources");
+		Dir.Move("Mesh");
+		Dir.Move("Object");
+		Dir.Move("Npc");
+		Dir.Move("MoveNPC_Beard_Orange_01");
+
+		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("MoveNPC_Beard_Orange_01.FBX"));
+		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+	}
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		Dir.Move("ContentsResources");
+		Dir.Move("Mesh");
+		Dir.Move("Object");
+		Dir.Move("Npc");
+		Dir.Move("MoveNPC_Beard_Waiter_01");
+
+		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("MoveNPC_Beard_Waiter_01.FBX"));
+		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+	}
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		Dir.Move("ContentsResources");
+		Dir.Move("Mesh");
+		Dir.Move("Object");
+		Dir.Move("Npc");
+		Dir.Move("MoveNPC_Dora_Civ_01");
+
+		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("MoveNPC_Dora_Civ_01.FBX"));
+		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+	}
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		Dir.Move("ContentsResources");
+		Dir.Move("Mesh");
+		Dir.Move("Object");
+		Dir.Move("Npc");
+		Dir.Move("MoveNPC_Hispanic_Yellow_01");
 
 		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("MoveNPC_Hispanic_Yellow_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
