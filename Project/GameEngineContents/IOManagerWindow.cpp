@@ -18,12 +18,12 @@ void IOManagerWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
 	if (true == ImGui::Button("Save"))
 	{
-		GlobalIOManager::Save(IOType::UnsortMap);
+		GlobalIOManager::Save(IOType::Mesh);
 	}
 
 	if (true == ImGui::Button("Load"))
 	{
-		GlobalIOManager::Load(IOType::UnsortMap);
+		GlobalIOManager::Load(IOType::Mesh);
 	}
 
 	if (true == ImGui::Button("Add"))
@@ -56,20 +56,23 @@ void IOManagerWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 		{
 			MeshData TmpData = {};
-			TmpData.MeshName_ = "Test1";
-			TmpData.Path_ = "Test\\Data\\www\\Test1";
-			TmpData.MaterialName_ = "Mat22";
+			TmpData.PreviewMeshName_ = "Test1";
+			SubSetMeshData TmpSub = { "Test\\Data\\www\\Test1", "Mat22" };
+			TmpData.PreviewMeshInfo_.push_back(TmpSub);
 
-			GlobalIOManager::AddMeshData(TmpData);
+			GlobalIOManager::SetMeshData(TmpData);
 		}
 
 		{
 			MeshData TmpData = {};
-			TmpData.MeshName_ = "Test2";
-			TmpData.Path_ = "Test\\Da2ta\\ggg\\Test2";
-			TmpData.MaterialName_ = "Mat44";
+			TmpData.PreviewMeshName_ = "Test2";
 
-			GlobalIOManager::AddMeshData(TmpData);
+			TmpData.PreviewMeshInfo_.push_back({ "Test\\Da2ta\\ggg\\Test2", "Mat44" });
+
+			SubSetMeshData TmpSub = { "Test\\Data\\www\\Test1", "Mat22" };
+			TmpData.PreviewMeshInfo_.push_back(TmpSub);
+
+			GlobalIOManager::SetMeshData(TmpData);
 		}
 	}
 

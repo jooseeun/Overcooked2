@@ -3,7 +3,7 @@
 #include <GameEngineBase/magic_enum.hpp>
 
 std::vector<MapData> GlobalIOManager::MapDataVector_;
-std::vector<MeshData> GlobalIOManager::MeshDataVector_;
+MeshData GlobalIOManager::MeshData_;
 
 GlobalIOManager::GlobalIOManager()
 {
@@ -13,9 +13,9 @@ GlobalIOManager::~GlobalIOManager()
 {
 }
 
-void GlobalIOManager::AddMeshData(MeshData _Data)
+void GlobalIOManager::SetMeshData(MeshData _Data)
 {
-	MeshDataVector_.push_back(_Data);
+	MeshData_ = _Data;
 }
 
 void GlobalIOManager::AddMapData(MapData _Data)
@@ -23,7 +23,7 @@ void GlobalIOManager::AddMapData(MapData _Data)
 	MapDataVector_.push_back(_Data);
 }
 
-void GlobalIOManager::Save(IOType _Type, int _Value)
+void GlobalIOManager::Save(IOType _Type, std::string _AddName)
 {
 	GameEngineDirectory Dir;
 	Dir.MoveParentToExitsChildDirectory("ContentsResources");
@@ -31,7 +31,7 @@ void GlobalIOManager::Save(IOType _Type, int _Value)
 	Dir.Move("SaveFiles");
 
 	auto IOTypeName = magic_enum::enum_name(_Type);
-	GameEngineFile SaveFile = (Dir.GetFullPath() + "\\" + static_cast<std::string>(IOTypeName) + std::to_string(_Value) + "Data.txt").c_str();
+	GameEngineFile SaveFile = (Dir.GetFullPath() + "\\" + static_cast<std::string>(IOTypeName) + "Data" + _AddName + ".txt").c_str();
 	SaveFile.Open(OpenMode::Write);
 
 	std::string SaveString = "";
@@ -65,20 +65,23 @@ void GlobalIOManager::Save(IOType _Type, int _Value)
 	}
 	else if (_Type == IOType::Mesh) // 메쉬 세이브
 	{
-		for (size_t i = 0; i < MeshDataVector_.size(); i++)
+		SaveString += "{ \n";
+		SaveString += "MeshName:" + MeshData_.PreviewMeshName_ + ";\n";
+
+		int count_ = MeshData_.PreviewMeshInfo_.size();
+		SaveString += "MeshInfoCount:" + std::to_string(count_) + ";\n";
+		for (size_t j = 0; j < count_; j++)
 		{
-			SaveString += "{ \n";
-			SaveString += "Mesh:" + MeshDataVector_[i].MeshName_ + ";\n";
-			SaveString += "Path:" + MeshDataVector_[i].Path_ + ";\n";
-			SaveString += "Mat:" + MeshDataVector_[i].MaterialName_ + ";\n";
-			SaveString += "}\n\n";
+			SaveString += "Path:" + MeshData_.PreviewMeshInfo_[j].DifTexturePath_ + ";\n";
+			SaveString += "Mat:" + MeshData_.PreviewMeshInfo_[j].DifTextureName_ + ";\n";
 		}
+		SaveString += "}\n\n";
 	}
 
 	SaveFile.WriteString(SaveString);
 }
 
-void GlobalIOManager::Load(IOType _Type, int _Value)
+void GlobalIOManager::Load(IOType _Type, std::string _AddName)
 {
 	Clear();
 
@@ -88,7 +91,7 @@ void GlobalIOManager::Load(IOType _Type, int _Value)
 	Dir.Move("SaveFiles");
 
 	auto IOTypeName = magic_enum::enum_name(_Type);
-	GameEngineFile LoadFile = (Dir.GetFullPath() + "\\" + static_cast<std::string>(IOTypeName) + std::to_string(_Value) + "Data.txt").c_str();
+	GameEngineFile LoadFile = (Dir.GetFullPath() + "\\" + static_cast<std::string>(IOTypeName) + "Data" + _AddName + ".txt").c_str();
 	LoadFile.Open(OpenMode::Read);
 
 	std::string LoadS = "";
@@ -103,7 +106,7 @@ void GlobalIOManager::Load(IOType _Type, int _Value)
 			--i;
 		}
 	}
-	
+
 	// ; 단위로 문자를 잘라서 벡터에 저장
 	std::vector<std::string> TmpVector;
 	std::istringstream ss(LoadS);
@@ -188,50 +191,66 @@ void GlobalIOManager::Load(IOType _Type, int _Value)
 	}
 	else if (_Type == IOType::Mesh)  // 메쉬 로드
 	{
-		int DataValues = 3;
-		for (int i = 0; i < TmpVector.size() / DataValues; i++)
-		{
-			MeshData TmpData = {};
+		MeshData TmpData = {};
 
-			{ // Mesh
-				int CurIndex_ = (DataValues * i) + 0;
-				size_t FindIndex = TmpVector[CurIndex_].find(":");
-				if (std::string::npos != FindIndex)
-				{
-					TmpVector[CurIndex_].erase(0, FindIndex + 1);
-					TmpData.MeshName_ = TmpVector[CurIndex_];
-				}
+		{ // Mesh
+			int CurIndex_ = 0;
+			size_t FindIndex = TmpVector[CurIndex_].find(":");
+			if (std::string::npos != FindIndex)
+			{
+				TmpVector[CurIndex_].erase(0, FindIndex + 1);
+				TmpData.PreviewMeshName_ = TmpVector[CurIndex_];
 			}
-			{ // Path
-				int CurIndex_ = (DataValues * i) + 1;
-				size_t FindIndex = TmpVector[CurIndex_].find(":");
-				if (std::string::npos != FindIndex)
-				{
-					TmpVector[CurIndex_].erase(0, FindIndex + 1);
-					TmpData.Path_ = TmpVector[CurIndex_];
-				}
-			}
-			{ // Mat
-				int CurIndex_ = (DataValues * i) + 2;
-				size_t FindIndex = TmpVector[CurIndex_].find(":");
-				if (std::string::npos != FindIndex)
-				{
-					TmpVector[CurIndex_].erase(0, FindIndex + 1);
-					TmpData.MaterialName_ = TmpVector[CurIndex_];
-				}
-			}
-
-			MeshDataVector_.push_back(TmpData);
 		}
+
+		int TmpCount = 0;
+		{ // count
+			int CurIndex_ = 1;
+			size_t FindIndex = TmpVector[CurIndex_].find(":");
+			if (std::string::npos != FindIndex)
+			{
+				TmpVector[CurIndex_].erase(0, FindIndex + 1);
+				TmpCount = std::stof(TmpVector[CurIndex_]);
+			}
+		}
+
+		// info
+		for (int j = 0; j < TmpCount; j++)
+		{
+			SubSetMeshData TmpInfo;
+			{
+				int CurIndex_ = 2 + (2 * j);
+				size_t FindIndex = TmpVector[CurIndex_].find(":");
+				if (std::string::npos != FindIndex)
+				{
+					TmpVector[CurIndex_].erase(0, FindIndex + 1);
+					TmpInfo.DifTexturePath_ = TmpVector[CurIndex_];
+				}
+			}
+
+			{
+				int CurIndex_ = 3 + (2 * j);
+				size_t FindIndex = TmpVector[CurIndex_].find(":");
+				if (std::string::npos != FindIndex)
+				{
+					TmpVector[CurIndex_].erase(0, FindIndex + 1);
+					TmpInfo.DifTextureName_ = TmpVector[CurIndex_];
+				}
+			}
+
+			TmpData.PreviewMeshInfo_.push_back(TmpInfo);
+		}
+
+		MeshData_ = TmpData;
 	}
-	
+
 	MapDataVector_;
-	MeshDataVector_;
+	MeshData_;
 	int a = 0;
 }
 
 void GlobalIOManager::Clear()
 {
 	MapDataVector_.clear();
-	MeshDataVector_.clear();
+	MeshData_ = {};
 }

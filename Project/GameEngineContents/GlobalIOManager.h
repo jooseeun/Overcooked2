@@ -11,11 +11,16 @@ struct MapData
 	float4 Index_;
 };
 
+struct SubSetMeshData
+{
+	std::string DifTexturePath_;
+	std::string DifTextureName_;
+};
+
 struct MeshData
 {
-	std::string MeshName_;
-	std::string Path_;
-	std::string MaterialName_;
+	std::string PreviewMeshName_;
+	std::vector<SubSetMeshData> PreviewMeshInfo_;
 };
 
 // Ό³Έν :
@@ -32,26 +37,35 @@ public:
 	GlobalIOManager& operator=(const GlobalIOManager& _Other) = delete;
 	GlobalIOManager& operator=(GlobalIOManager&& _Other) noexcept = delete;
 
-	static void AddMeshData(MeshData _Data);
+	static void SetMeshData(MeshData _Data);
 	static void AddMapData(MapData _Data);
-	static void Save(IOType _Type, int _Value = 0);
-	static void Load(IOType _Type, int _Value = 0);
+	static void Save(IOType _Type, int _Value)
+	{
+		Save(_Type, std::to_string(_Value));
+	}
+	static void Save(IOType _Type, std::string _AddName = "");
+
+	static void Load(IOType _Type, int _Value)
+	{
+		Load(_Type, std::to_string(_Value));
+	}
+	static void Load(IOType _Type, std::string _AddName = "");
 	static void Clear();
 
 	static std::vector<MapData>& GetMapDataVector()
 	{
 		return MapDataVector_;
 	}
-	static std::vector<MeshData>& GetMeshDataVector()
+	static MeshData& GetMeshData()
 	{
-		return MeshDataVector_;
+		return MeshData_;
 	}
 
 protected:
 
 private:
 	static std::vector<MapData> MapDataVector_;
-	static std::vector<MeshData> MeshDataVector_;
+	static MeshData MeshData_;
 
 };
 
