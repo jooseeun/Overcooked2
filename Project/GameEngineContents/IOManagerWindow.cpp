@@ -44,7 +44,7 @@ void IOManagerWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		{
 			MapData TmpData = {};
 			TmpData.ObjName_ = "TestTestFBX";
-			TmpData.MapObjType_ = MapObjType::Bin;
+			TmpData.MapObjType_ = MapObjType::TrashCan;
 			TmpData.Transform_ = &GEngine::GetCurrentLevel()->CreateActor<GameEngineActor>()->GetTransform();
 			TmpData.Transform_->SetWorldPosition({ 0, 1, 2 });
 			TmpData.Transform_->SetWorldRotation({ 3, 4, 5 });
