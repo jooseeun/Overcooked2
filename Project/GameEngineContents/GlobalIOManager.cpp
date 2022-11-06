@@ -40,8 +40,10 @@ void GlobalIOManager::Save(IOType _Type)
 	{
 		for (size_t i = 0; i < MapDataVector_.size(); i++)
 		{
-			auto ObjTypeName = magic_enum::enum_name(MapDataVector_[i].MapObjType_);
 			SaveString += "{ \n";
+			SaveString += "Name:" + MapDataVector_[i].ObjName_ + ";\n";
+
+			auto ObjTypeName = magic_enum::enum_name(MapDataVector_[i].MapObjType_);
 			SaveString += "Type:" + static_cast<std::string>(ObjTypeName) + ";\n";
 
 			if (nullptr != MapDataVector_[i].Transform_)
@@ -92,8 +94,7 @@ void GlobalIOManager::Load(IOType _Type)
 	std::string LoadS = "";
 	LoadS = LoadFile.GetString();
 
-	// \n, 공백 제거
-
+	// \n, 공백, 중괄호 제거
 	for (size_t i = 0; i < LoadS.size(); i++)
 	{
 		if (LoadS[i] == ' ' || LoadS[i] == '\n' || LoadS[i] == '{' || LoadS[i] == '}')
@@ -114,13 +115,22 @@ void GlobalIOManager::Load(IOType _Type)
 	// 저장한 문자열을 값으로 변경
 	if (_Type == IOType::UnsortMap || _Type == IOType::SortMap) // 맵 로드
 	{
-		int DataValues = 5;
+		int DataValues = 6;
 		for (int i = 0; i < TmpVector.size() / DataValues; i++)
 		{
 			MapData TmpData = {};
 
-			{ // type
+			{ // name
 				int CurIndex_ = (DataValues * i) + 0;
+				size_t FindIndex = TmpVector[CurIndex_].find(":");
+				if (std::string::npos != FindIndex)
+				{
+					TmpVector[CurIndex_].erase(0, FindIndex + 1);
+					TmpData.ObjName_ = TmpVector[CurIndex_];
+				}
+			}
+			{ // type
+				int CurIndex_ = (DataValues * i) + 1;
 				size_t FindIndex = TmpVector[CurIndex_].find(":");
 				if (std::string::npos != FindIndex)
 				{
@@ -133,7 +143,7 @@ void GlobalIOManager::Load(IOType _Type)
 				}
 			}
 			{ // pos
-				int CurIndex_ = (DataValues * i) + 1;
+				int CurIndex_ = (DataValues * i) + 2;
 				size_t FindIndex = TmpVector[CurIndex_].find(":");
 				if (std::string::npos != FindIndex)
 				{
@@ -143,7 +153,7 @@ void GlobalIOManager::Load(IOType _Type)
 				}
 			}
 			{ // rot
-				int CurIndex_ = (DataValues * i) + 2;
+				int CurIndex_ = (DataValues * i) + 3;
 				size_t FindIndex = TmpVector[CurIndex_].find(":");
 				if (std::string::npos != FindIndex)
 				{
@@ -153,7 +163,7 @@ void GlobalIOManager::Load(IOType _Type)
 				}
 			}
 			{ // scale
-				int CurIndex_ = (DataValues * i) + 3;
+				int CurIndex_ = (DataValues * i) + 4;
 				size_t FindIndex = TmpVector[CurIndex_].find(":");
 				if (std::string::npos != FindIndex)
 				{
@@ -163,7 +173,7 @@ void GlobalIOManager::Load(IOType _Type)
 				}
 			}
 			{ // Tile
-				int CurIndex_ = (DataValues * i) + 4;
+				int CurIndex_ = (DataValues * i) + 5;
 				size_t FindIndex = TmpVector[CurIndex_].find(":");
 				if (std::string::npos != FindIndex)
 				{
@@ -214,7 +224,9 @@ void GlobalIOManager::Load(IOType _Type)
 			MeshDataVector_.push_back(TmpData);
 		}
 	}
-
+	
+	MapDataVector_;
+	MeshDataVector_;
 	int a = 0;
 }
 

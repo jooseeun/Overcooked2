@@ -30,6 +30,7 @@ void IOManagerWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	{
 		{
 			MapData TmpData = {};
+			TmpData.ObjName_ = "TestFbx";
 			TmpData.MapObjType_ = MapObjType::CounterTop;
 			TmpData.Transform_ = &GEngine::GetCurrentLevel()->CreateActor<GameEngineActor>()->GetTransform();
 			TmpData.Transform_->SetWorldPosition({ 0, 1, 2 });
@@ -42,6 +43,7 @@ void IOManagerWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 		{
 			MapData TmpData = {};
+			TmpData.ObjName_ = "TestTestFBX";
 			TmpData.MapObjType_ = MapObjType::Bin;
 			TmpData.Transform_ = &GEngine::GetCurrentLevel()->CreateActor<GameEngineActor>()->GetTransform();
 			TmpData.Transform_->SetWorldPosition({ 0, 1, 2 });

@@ -2,6 +2,7 @@
 
 struct MapData
 {
+	std::string ObjName_;
 	MapObjType MapObjType_;
 	GameEngineTransform* Transform_;
 	float4 Pos_;
