@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineGUI.h>
+#include "MapDataParser.h"
 
 class GamePlayOriginObject;
 class GamePlayLevel;
@@ -56,6 +57,8 @@ private:
 
 	//현재 생성한 타일
 	GamePlayStaticObject* CurStaticMesh_;
+
+	MapDataParser DataParser_;
 
 private:
 	float4 Rotation_;

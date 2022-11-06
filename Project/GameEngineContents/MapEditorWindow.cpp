@@ -17,6 +17,7 @@ namespace
 MapEditorWindow::MapEditorWindow()
 	: CurLevel_(nullptr)
 	, ObjectName_("Actor_")
+	, DataParser_{}
 {
 
 }
@@ -90,7 +91,16 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 	if (true == ImGui::Button("MapData Load"))
 	{
-		GlobalIOManager::Load(IOType::Mesh);
+		if (true == IsUnSort_)
+		{
+
+		}
+
+		else if (true == IsSort_)
+		{
+			GlobalIOManager::Load(IOType::SortMap);
+			DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), CurLevel_);
+		}
 	}
 
 	ImGui::Text("");
@@ -133,6 +143,15 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				Origin->GetRenderer()->GetTransform().SetWorldScale({ 100, 100, 100 });
 
 				Origins_.push_back(Origin);
+
+				MapData Data = { };
+
+				Data.MapObjType_ = MapObjType::Origin;
+				Data.Transform_ = &Origin->GetTransform();
+				Data.Pos_ = Origin->GetTransform().GetWorldPosition();
+				Data.Scale_ = Origin->GetTransform().GetWorldScale();
+
+				Origins_[0]->GetStaticMeshInfo().push_back(Data);
 			}
 
 			else
@@ -416,6 +435,15 @@ void MapEditorWindow::SortToolTab()
 		Origin->GetRenderer()->SetFBXMesh("m_sk_countertop_01.fbx", "Texture");
 
 		Origins_.push_back(Origin);
+
+		MapData Data = { };
+
+		Data.MapObjType_ = MapObjType::Origin;
+		Data.Transform_ = &Origin->GetTransform();
+		Data.Pos_ = Origin->GetTransform().GetWorldPosition();
+		Data.Scale_ = Origin->GetTransform().GetWorldScale();
+
+		Origins_[OriginIndex]->GetStaticMeshInfo().push_back(Data);
 	}
 
 	ImGui::Text("");
@@ -458,12 +486,8 @@ void MapEditorWindow::SortToolTab()
 	static int Index[2] = { 0, 0 };
 	ImGui::DragInt2("Index", Index);
 
-	static int RotCount = 0;
-
 	if (true == ImGui::Button("Create"))
 	{
-		RotCount = 0;
-
 		switch (SelectIndex)
 		{
 		case 0:
@@ -512,17 +536,17 @@ void MapEditorWindow::SortToolTab()
 		//기준 엑터의 자식으로 둔다.
 		CurStaticMesh_->SetParent(Origins_[OriginIndex]);
 
-		CurStaticMesh_->SetX(Index[0]);
-		CurStaticMesh_->SetY(Index[1]);
-
 		CurStaticMesh_->GetTransform().SetWorldPosition(Origins_[OriginIndex]->GetTransform().GetWorldPosition());
 		CurStaticMesh_->GetTransform().SetWorldMove({ Index[0] * (-INTERVAL), 0.f, Index[1] * INTERVAL});
 
 		MapData Data = { };
 
 		Data.MapObjType_ = CurStaticMesh_->GetStaticObjectType();
-		Data.Index_.x = static_cast<float>(Index[0]);
-		Data.Index_.y = static_cast<float>(Index[1]);
+		Data.Transform_ = &CurStaticMesh_->GetTransform();
+		Data.Pos_ = CurStaticMesh_->GetTransform().GetWorldPosition();
+		Data.Scale_ = CurStaticMesh_->GetTransform().GetWorldScale();
+
+		Data.Index_.z = static_cast<float>(Index[OriginIndex]);
 
 		Origins_[OriginIndex]->GetStaticMeshInfo().push_back(Data);
 
@@ -549,18 +573,10 @@ void MapEditorWindow::SortToolTab()
 		&& 0 < SortActorList_.size()
 		&& ActorIndex < SortActorList_.size())
 	{
-		++RotCount;
-
-		if (4 <= RotCount)
-		{
-			RotCount = 0;
-		}
-
 		SortActorList_[ActorIndex]->GetTransform().SetAddWorldRotation({ 0.f, 90.f, 0.f });
 
 		std::vector<MapData>& DataVector = Origins_[OriginIndex]->GetStaticMeshInfo();
-
-		DataVector[ActorIndex].Index_.z = static_cast<float>(RotCount);
+		DataVector[ActorIndex].Rot_ = CurStaticMesh_->GetTransform().GetWorldRotation();
 	}
 
 	ImGui::EndTabItem();
