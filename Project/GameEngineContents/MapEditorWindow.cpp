@@ -52,6 +52,11 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		if (true == IsUnSort_)
 		{
 			// ¿˙¿Â
+			if (false == GlobalIOManager::GetMapDataVector().empty())
+			{
+				GlobalIOManager::Clear();
+			}
+
 			MapData TmpData = {};
 			for (size_t i = 0; i < UnSortActorList_.size(); i++)
 			{
@@ -90,8 +95,24 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	{
 		if (true == IsUnSort_)
 		{
-			GlobalIOManager::Load(IOType::UnsortMap);
+			GlobalIOManager::Load(IOType::UnsortMap, LevelIndex_);
 			DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), CurLevel_);
+
+			std::vector<MapData>& Vector = GlobalIOManager::GetMapDataVector();
+			for (size_t i = 0; i < Vector.size(); i++)
+			{
+				GamePlayMapObject* Object = CurLevel_->CreateActor<GamePlayMapObject>();
+				Object->GetTransform().SetWorldPosition(Vector[i].Pos_);
+				Object->GetTransform().SetWorldScale(Vector[i].Scale_);
+				Object->GetTransform().SetWorldRotation(Vector[i].Rot_);
+				Object->SetName(Vector[i].ObjName_);
+				if (Vector[i].ObjName_ != "Collision_Wall" && Vector[i].ObjName_ == "Collision_Floor")
+				{
+					Object->SetMapObjectMesh(Vector[i].ObjName_);
+				}
+
+				UnSortActorList_.push_back(Object);
+			}
 		}
 
 		else if (true == IsSort_)

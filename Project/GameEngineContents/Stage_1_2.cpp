@@ -12,6 +12,10 @@ Stage_1_2::~Stage_1_2()
 void Stage_1_2::Start()
 {
 	CreateActor<LevelActor>()->SetLevelMesh("1_2.FBX");
+
+	GlobalIOManager::Load(IOType::UnsortMap, 1);
+	DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
+
 }
 
 void Stage_1_2::Update(float _DeltaTime)

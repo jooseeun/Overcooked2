@@ -18,6 +18,9 @@ void Stage_1_1::Start()
 	GlobalIOManager::Load(IOType::SortMap, 0);
 	DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
 
+	GlobalIOManager::Load(IOType::UnsortMap, 0);
+	DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
+
 	Player* MainPlayer = CreateActor<Player>();
 	MainPlayer->GetTransform().SetLocalPosition({ -1500, 0, 0 });
 
