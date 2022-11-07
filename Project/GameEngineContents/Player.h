@@ -3,10 +3,11 @@
 #include "Enums.h"
 
 // Ό³Έν :
-class GameEngineFBXRenderer;
+class GameEngineFBXStaticRenderer;
+class GameEngineCollision;
 class Player : public GameEngineActor
 {
-public:	
+public:
 	// constrcuter destructer
 	Player();
 	~Player();
@@ -28,6 +29,15 @@ protected:
 	void MoveStart(const StateInfo& _Info);
 	void MoveUpdate(float _DeltaTime, const StateInfo& _Info);
 
+	void ThrowStart(const StateInfo& _Info);
+	void ThrowUpdate(float _DeltaTime, const StateInfo& _Info);
+
+	void HoldStart(const StateInfo& _Info);
+	void HoldUpdate(float _DeltaTime, const StateInfo& _Info);
+
+	void SliceStart(const StateInfo& _Info);
+	void SliceUpdate(float _DeltaTime, const StateInfo& _Info);
+
 	void DashCheck();
 
 	bool MoveAngle();
@@ -37,7 +47,8 @@ protected:
 	PlayerDir PreDir_;
 
 private:
-	GameEngineFBXRenderer* PlayerRenderer;
+	GameEngineFBXStaticRenderer* PlayerRenderer_;
+	GameEngineCollision* PlayerCollision_;
 	GameEngineStateManager StateManager;
 };
 
