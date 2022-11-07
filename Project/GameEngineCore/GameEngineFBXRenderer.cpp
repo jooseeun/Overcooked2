@@ -74,12 +74,69 @@ void GameEngineFBXRenderer::ChangeLoadMaterial()
 		return;
 	}
 
-	GlobalIOManager::Load(IOType::Mesh, FBXMesh->GetName().data());
-	MeshData Data = GlobalIOManager::GetMeshData();
-	for (size_t i = 0; i < Data.PreviewMeshInfo_.size(); i++)
+	//GlobalIOManager::Load(IOType::Mesh, FBXMesh->GetName().data());
+	//MeshData Data = GlobalIOManager::GetMeshData();
+	//for (size_t i = 0; i < Data.PreviewMeshInfo_.size(); i++)
+	//{
+	//	FBXMesh->GetMaterialSettingData(0, i).DifTexturePath = Data.PreviewMeshInfo_[i].DifTexturePath_;
+	//	FBXMesh->GetMaterialSettingData(0, i).DifTextureName = Data.PreviewMeshInfo_[i].DifTextureName_;
+	//}
+
+
+
+
+	GameEngineDirectory Dir;
+	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	Dir.Move("ContentsResources");
+	Dir.Move("SaveFiles");
+
+	std::vector<GameEngineFile> AllFile = Dir.GetAllFile();
+
+	for (int i = 0; i < AllFile.size(); ++i)
 	{
-		FBXMesh->GetMaterialSettingData(0, i).DifTexturePath = Data.PreviewMeshInfo_[i].DifTexturePath_;
-		FBXMesh->GetMaterialSettingData(0, i).DifTextureName = Data.PreviewMeshInfo_[i].DifTextureName_;
+		std::string FileName = AllFile[i].GetFileName();
+		std::string FbxName = FBXMesh->GetName().data();
+		if (FileName.find(FbxName) != std::string::npos)
+		{
+
+			
+			GlobalIOManager::Load(IOType::Mesh, "_" + FBXMesh->GetNameCopy());
+			MeshData Data = GlobalIOManager::GetMeshData();
+
+
+			for (size_t j = 0;j < Data.PreviewMeshInfo_.size(); j++)
+			{
+				FBXMesh->GetMaterialSettingData(j, 0).DifTexturePath = Data.PreviewMeshInfo_[j].DifTexturePath_;
+				FBXMesh->GetMaterialSettingData(j, 0).DifTextureName = Data.PreviewMeshInfo_[j].DifTextureName_;
+
+
+				GameEngineRenderUnit& RenderUnit = Unit[j][0];
+				RenderUnit.SetPipeLine("Texture");
+
+				GameEngineMesh* FbxMesh = FBXMesh->GetGameEngineMesh(j, 0);
+				RenderUnit.SetMesh(FbxMesh);
+
+				if (RenderUnit.ShaderResources.IsTexture("DiffuseTexture"))
+				{
+					const FbxExMaterialSettingData& MatData = FBXMesh->GetMaterialSettingData(j, 0);
+					if (nullptr != GameEngineTexture::Find(MatData.DifTextureName))
+					{
+						RenderUnit.ShaderResources.SetTexture("DiffuseTexture", MatData.DifTextureName);
+					}
+				}
+
+				RenderUnit.SetRenderer(this);
+			
+			}
+			break;
+		}
+
+		else
+		{
+			continue;
+		}
+
+
 	}
 }
 
