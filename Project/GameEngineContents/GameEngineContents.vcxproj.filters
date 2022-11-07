@@ -110,9 +110,6 @@
     <ClInclude Include="IOManagerWindow.h">
       <Filter>GUI</Filter>
     </ClInclude>
-    <ClInclude Include="GlobalIOManager.h">
-      <Filter>Global</Filter>
-    </ClInclude>
     <ClInclude Include="Food_Ingredients_Prawn.h">
       <Filter>Contents\Object\Food</Filter>
     </ClInclude>
@@ -247,9 +244,6 @@
     </ClCompile>
     <ClCompile Include="IOManagerWindow.cpp">
       <Filter>GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="GlobalIOManager.cpp">
-      <Filter>Global</Filter>
     </ClCompile>
     <ClCompile Include="Food_Ingredients_Prawn.cpp">
       <Filter>Contents\Object\Food</Filter>
