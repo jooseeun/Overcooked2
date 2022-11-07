@@ -7,6 +7,7 @@ Player::Player()
 	, CurDir_(PlayerDir::Back)
 	, PlayerCollision_(nullptr)
 	, PlayerRenderer_(nullptr)
+	, StateManager()
 {
 
 }
@@ -29,24 +30,27 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("PlayerThrow", VK_SPACE);
 
 	}
-	//GameEngineFBXMesh* TestMesh = GameEngineFBXMesh::Find("Chef.FBX");
 
-	//std::string NewPath = "C:Users\\MOA\\Overcooked2\\Project\\ContentsResources\\Mesh\\Chef1\\t_chef_head_alien_green_d.png";
-	//size_t idx = NewPath.rfind("\\");
 
-	//std::string TestStr = NewPath.substr(0, idx);
 
-	//TestMesh->GetFbxRenderUnit()[0].MaterialData[0].DifTexturePath = NewPath;
-	//TestMesh->GetFbxRenderUnit()[0].MaterialData[0].DifTextureName = "t_chef_head_alien_green_d.png";
+	GameEngineFBXMesh* TestMesh = GameEngineFBXMesh::Find("Chef.FBX");
 
+	std::string NewPath = "C:Users\\MOA\\Overcooked2\\Project\\ContentsResources\\Mesh\\Chef1\\t_chef_head_alien_green_d.png";
+	size_t idx = NewPath.rfind("\\");
+
+	std::string TestStr = NewPath.substr(0, idx);
+
+	TestMesh->GetFbxRenderUnit()[0].MaterialData[0].DifTexturePath = NewPath;
+	TestMesh->GetFbxRenderUnit()[0].MaterialData[0].DifTextureName = "t_chef_head_alien_green_d.png";
 
 
 
 
 
 	PlayerRenderer_ = CreateComponent<GameEngineFBXStaticRenderer>();
-	PlayerRenderer_->SetFBXMesh("Chef1.FBX", "Texture");
-
+	PlayerRenderer_->SetFBXMesh("m_kevin_01.FBX", "Texture");
+	PlayerRenderer_->GetTransform().SetLocalPosition({ -625 , 0, -84.263});
+	//PlayerRenderer_->GetTransform().SetLocalRotation({ -90 , 0, -140 });
 	//PlayerRenderer_ = CreateComponent<GameEngineFBXStaticRenderer>();
 	//PlayerRenderer_->SetFBXMesh("AlienGreen_CarDeath.FBX", "Texture");
 
@@ -89,153 +93,6 @@ void Player::Update(float _DeltaTime)
 	StateManager.Update(_DeltaTime);
 	DashCheck();
 }
-
-void Player::IdleStart(const StateInfo& _Info)
-{
-
-}
-void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
-{
-	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft") ||
-		true == GameEngineInput::GetInst()->IsPressKey("PlayerRight") ||
-		true == GameEngineInput::GetInst()->IsPressKey("PlayerFront") ||
-		true == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
-	{
-
-		StateManager.ChangeState("Move");
-	}
-
-	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerHold"))
-	{
-		StateManager.ChangeState("Hold");
-	}
-	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerThrow"))
-	{
-		StateManager.ChangeState("Throw");
-	}
-}
-
-void Player::MoveStart(const StateInfo& _Info)
-{
-
-}
-void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
-{
-	if (false == GameEngineInput::GetInst()->IsPressKey("PlayerLeft") &&
-		false == GameEngineInput::GetInst()->IsPressKey("PlayerRight") &&
-		false == GameEngineInput::GetInst()->IsPressKey("PlayerFront") &&
-		false == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
-	{
-
-		StateManager.ChangeState("Idle");
-		return;
-	}
-
-	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerFront"))
-	{
-		CurDir_ = PlayerDir::Front;
-		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft"))
-		{
-			CurDir_ = PlayerDir::FrontLeft;
-
-		}
-		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerRight"))
-		{
-			CurDir_ = PlayerDir::FrontRight;
-		}
-
-	}
-
-	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
-	{
-		CurDir_ = PlayerDir::Back;
-		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft"))
-		{
-			CurDir_ = PlayerDir::BackLeft;
-		}
-		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerRight"))
-		{
-			CurDir_ = PlayerDir::BackRight;
-		}
-
-	}
-
-	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft"))
-	{
-		CurDir_ = PlayerDir::Left;
-		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerFront"))
-		{
-			CurDir_ = PlayerDir::FrontLeft;
-		}
-		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
-		{
-			CurDir_ = PlayerDir::BackLeft;
-		}
-
-	}
-
-	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerRight"))
-	{
-
-		CurDir_ = PlayerDir::Right;
-		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerFront"))
-		{
-			CurDir_ = PlayerDir::FrontRight;
-		}
-		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
-		{
-			CurDir_ = PlayerDir::BackRight;
-		}
-
-	}
-
-
-	GetTransform().SetLocalRotation({ 0, (float)CurAngle_, 0 });
-	if (MoveAngle() == true)
-	{
-		GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * _DeltaTime);
-	}
-	else
-	{
-		GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * 0.1 * _DeltaTime);
-		return;
-	}
-
-}
-void Player::ThrowStart(const StateInfo& _Info)
-{
-
-}
-void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
-{
-
-	if (false == GameEngineInput::GetInst()->IsPressKey("PlayerThrow"))
-	{
-		StateManager.ChangeState("Idle");
-	}
-}
-
-void Player::HoldStart(const StateInfo& _Info)
-{
-
-}
-void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
-{
-	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerHold"))
-	{
-		StateManager.ChangeState("Idle");
-	}
-}
-
-void Player::SliceStart(const StateInfo& _Info)
-{
-
-}
-void Player::SliceUpdate(float _DeltaTime, const StateInfo& _Info)
-{
-
-}
-
 
 ///////////////////////////// 그외 함수들
 bool Player::MoveAngle()

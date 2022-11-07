@@ -278,6 +278,9 @@
     <ClCompile Include="GamePlayFloor.cpp">
       <Filter>Map</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerState.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Contents">

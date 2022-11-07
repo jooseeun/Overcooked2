@@ -44,7 +44,6 @@ protected:
 	float Speed_;
 	float CurAngle_;
 	PlayerDir CurDir_;
-	PlayerDir PreDir_;
 
 private:
 	GameEngineFBXStaticRenderer* PlayerRenderer_;
