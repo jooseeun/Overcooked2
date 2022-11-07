@@ -102,14 +102,14 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 
 
-	GetTransform().SetLocalRotation({ 0, (float)CurAngle_, 0 });
+	GetTransform().SetLocalRotation({ 0,CurAngle_, 0 });
 	if (MoveAngle() == true)
 	{
 		GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * _DeltaTime);
 	}
 	else
 	{
-		GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * 0.1 * _DeltaTime);
+		//GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * 0.1 * _DeltaTime);
 		return;
 	}
 

@@ -32,7 +32,6 @@ void Player::Start()
 	}
 
 
-
 	GameEngineFBXMesh* TestMesh = GameEngineFBXMesh::Find("Chef.FBX");
 
 	std::string NewPath = "C:Users\\MOA\\Overcooked2\\Project\\ContentsResources\\Mesh\\Chef1\\t_chef_head_alien_green_d.png";
@@ -48,9 +47,8 @@ void Player::Start()
 
 
 	PlayerRenderer_ = CreateComponent<GameEngineFBXStaticRenderer>();
-	PlayerRenderer_->SetFBXMesh("m_kevin_01.FBX", "Texture");
-	PlayerRenderer_->GetTransform().SetLocalPosition({ -625 , 0, -84.263});
-	//PlayerRenderer_->GetTransform().SetLocalRotation({ -90 , 0, -140 });
+	PlayerRenderer_->SetFBXMesh("Chef.FBX", "Texture");
+	PlayerRenderer_->GetTransform().SetLocalPosition({-119,0,0});
 	//PlayerRenderer_ = CreateComponent<GameEngineFBXStaticRenderer>();
 	//PlayerRenderer_->SetFBXMesh("AlienGreen_CarDeath.FBX", "Texture");
 
@@ -97,220 +95,242 @@ void Player::Update(float _DeltaTime)
 ///////////////////////////// 그외 함수들
 bool Player::MoveAngle()
 {
-	int AngleCheck = (int)CurAngle_;
 
-	if (AngleCheck >= 360)
+	if (CurAngle_ > 360)
 	{
 		CurAngle_ = 0;
-		AngleCheck = (int)CurAngle_;
 	}
-	if (AngleCheck <= -1)
+	if (CurAngle_ < 0)
 	{
 		CurAngle_ = 359;
-		AngleCheck = (int)CurAngle_;
 	}
 
 	if (CurDir_ == PlayerDir::Front)
 	{
-		if (AngleCheck > 0 && AngleCheck < 180)
+		if (CurAngle_ > 0 && CurAngle_ < 180)
 		{
 			CurAngle_ -= 500.0f * GameEngineTime::GetDeltaTime();
 			if (CurAngle_ < 0)
 			{
+				CurAngle_ = 0;
 				return true;
 			}
 			return false;
 		}
-		else if (AngleCheck >= 0)
+		else if (CurAngle_ >= 180)
 		{
 			CurAngle_ += 500.0f * GameEngineTime::GetDeltaTime();
-			if (CurAngle_ > 0)
+			if (CurAngle_ >= 360)
 			{
+				CurAngle_ = 0;
 				return true;
 			}
 			return false;
 		}
-		if (AngleCheck == 0)
+		else
 		{
+			CurAngle_ = 0;
 			return true;
 		}
+
 	}
 
 	if (CurDir_ == PlayerDir::Right)
 	{
-		if (AngleCheck > 90 && AngleCheck < 270)
+		if (CurAngle_ > 90 && CurAngle_ < 270)
 		{
 			CurAngle_ -= 500.0f * GameEngineTime::GetDeltaTime();
 			if (CurAngle_ < 90)
 			{
+				CurAngle_ = 90;
 				return true;
 			}
 			return false;
 		}
-		else if (AngleCheck >= 270 || AngleCheck < 90)
+		else if (CurAngle_ >= 270 || CurAngle_ < 90)
 		{
 			CurAngle_ += 500.0f * GameEngineTime::GetDeltaTime();
-			if (CurAngle_ > 90)
+			if (CurAngle_ <270 &&CurAngle_ > 90)
 			{
+				CurAngle_ = 90;
 				return true;
 			}
 			return false;
 		}
-		if (AngleCheck == 90)
+		else
 		{
+			CurAngle_ = 90;
 			return true;
 		}
 	}
 	if (CurDir_ == PlayerDir::Left)
 	{
-		if (AngleCheck > 270 || AngleCheck < 90)
+		if (CurAngle_ > 270 || CurAngle_ < 90)
 		{
 			CurAngle_ -= 500.0f * GameEngineTime::GetDeltaTime();
-			if (CurAngle_ < 270)
+			if (CurAngle_ > 90 &&CurAngle_ < 270)
 			{
+				CurAngle_ = 270;
 				return true;
 			}
 			return false;
 		}
-		else if (AngleCheck >= 90 && AngleCheck < 270)
+		else if (CurAngle_ >= 90 && CurAngle_ < 270)
 		{
 			CurAngle_ += 500.0f * GameEngineTime::GetDeltaTime();
 			if (CurAngle_ > 270)
 			{
+				CurAngle_ = 270;
 				return true;
 			}
 			return false;
 		}
-		if (AngleCheck == 270)
+		else
 		{
+			CurAngle_ = 270;
 			return true;
 		}
 	}
 	if (CurDir_ == PlayerDir::Back)
 	{
-		if (AngleCheck > 180 && AngleCheck < 360)
+		if (CurAngle_ > 180 && CurAngle_ <= 360)
 		{
 			CurAngle_ -= 500.0f * GameEngineTime::GetDeltaTime();
 			if (CurAngle_ < 180)
 			{
+				CurAngle_ = 180;
 				return true;
 			}
 			return false;
 		}
-		else if (AngleCheck >= 0 && AngleCheck < 180)
+		else if (CurAngle_ >= 0 && CurAngle_ < 180)
 		{
-			CurAngle_ += 500.0f * GameEngineTime::GetDeltaTime();
+			CurAngle_ = CurAngle_ + 500.0f * GameEngineTime::GetDeltaTime();
 			if (CurAngle_ > 180)
 			{
+				CurAngle_ = 180;
 				return true;
 			}
 			return false;
 		}
-
-		if (AngleCheck == 180)
+		else
 		{
+			CurAngle_ = 180;
 			return true;
 		}
+
 	}
 
 	if (CurDir_ == PlayerDir::FrontRight)
 	{
-		if (AngleCheck < 45 || AngleCheck >= 225)
+		if (CurAngle_ < 45 || CurAngle_ >= 225)
 		{
 			CurAngle_ += 500.0f * GameEngineTime::GetDeltaTime();
-			if (CurAngle_ > 45)
+			if (CurAngle_ < 225 && CurAngle_ > 45)
 			{
+				CurAngle_ = 45;
 				return true;
 			}
 			return false;
 		}
-		else if (AngleCheck < 225 && AngleCheck > 45)
+		else if (CurAngle_ < 225 && CurAngle_ > 45)
 		{
 			CurAngle_ -= 500.0f * GameEngineTime::GetDeltaTime();
 			if (CurAngle_ < 45)
 			{
+				CurAngle_ = 45;
 				return true;
 			}
 			return false;
 		}
-		if (AngleCheck == 45)
+		else
 		{
+			CurAngle_ = 45;
 			return true;
 		}
 	}
 
 	if (CurDir_ == PlayerDir::FrontLeft)
 	{
-		if (AngleCheck < 315 && AngleCheck >= 135)
+		if (CurAngle_ < 315 && CurAngle_ >= 135)
 		{
 			CurAngle_ += 500.0f * GameEngineTime::GetDeltaTime();
 			if (CurAngle_ > 315)
 			{
+				CurAngle_ = 315;
 				return true;
 			}
 			return false;
 		}
-		else if (AngleCheck < 135 || AngleCheck > 315)
+		else if (CurAngle_ < 135 || CurAngle_ > 315)
 		{
 			CurAngle_ -= 500.0f * GameEngineTime::GetDeltaTime();
-			if (CurAngle_ < 315)
+			if (CurAngle_ > 135 && CurAngle_ < 315)
 			{
+				CurAngle_ = 315;
 				return true;
 			}
 			return false;
 		}
-		if (AngleCheck == 315)
+		else
 		{
+			CurAngle_ = 315;
 			return true;
 		}
 	}
 	if (CurDir_ == PlayerDir::BackRight)
 	{
-		if (AngleCheck < 135 || AngleCheck >= 315)
+		if (CurAngle_ < 135 || CurAngle_ >= 315)
 		{
 			CurAngle_ += 500.0f * GameEngineTime::GetDeltaTime();
-			if (CurAngle_ > 135)
+			if (CurAngle_ > 0 && CurAngle_ > 135)
 			{
+				CurAngle_ = 135;
 				return true;
 			}
 			return false;
 		}
-		else if (AngleCheck < 315 && AngleCheck > 135)
+		else if (CurAngle_ < 315 && CurAngle_ > 135)
 		{
 			CurAngle_ -= 500.0f * GameEngineTime::GetDeltaTime();
 			if (CurAngle_ < 135)
 			{
+				CurAngle_ = 135;
 				return true;
 			}
 			return false;
 		}
-		if (AngleCheck == 135)
+		else
 		{
+			CurAngle_ = 135;
 			return true;
 		}
 	}
 	if (CurDir_ == PlayerDir::BackLeft)
 	{
-		if (AngleCheck < 225 && AngleCheck >= 45)
+		if (CurAngle_ < 225 && CurAngle_ >= 45)
 		{
 			CurAngle_ += 500.0f * GameEngineTime::GetDeltaTime();
-			if (CurAngle_ > 225)
+			if (CurAngle_ > 0 && CurAngle_ > 225)
 			{
+				CurAngle_ = 225;
 				return true;
 			}
 			return false;
 		}
-		else if (AngleCheck < 45 || AngleCheck > 225)
+		else if (CurAngle_ < 45 || CurAngle_ > 225)
 		{
 			CurAngle_ -= 500.0f * GameEngineTime::GetDeltaTime();
 			if (CurAngle_ < 225)
 			{
+				CurAngle_ = 225;
 				return true;
 			}
 			return false;
 		}
-		if (AngleCheck == 225)
+		else
 		{
+			CurAngle_ = 225;
 			return true;
 		}
 	}
