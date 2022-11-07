@@ -18,17 +18,27 @@ void MapDataParser::UnSortMapDataParsing(std::vector<MapData>& _Data, GameEngine
 {
 	for (size_t i = 0; i < _Data.size(); i++)
 	{
-		GamePlayMapObject* Object = _Level->CreateActor<GamePlayMapObject>();
-		Object->GetTransform().SetWorldPosition(_Data[i].Pos_);
-		Object->GetTransform().SetWorldRotation(_Data[i].Rot_);
-		Object->GetTransform().SetWorldScale(_Data[i].Scale_);
-
-		if (_Data[i].ObjName_ == "Collision_Wall" || _Data[i].ObjName_ == "Collision_Floor")
+		if (_Data[i].ObjName_ == "Collision_Floor")
 		{
-			// 수정 필요
+			GamePlayFloor* Object = _Level->CreateActor<GamePlayFloor>();
+			Object->GetTransform().SetWorldPosition(_Data[i].Pos_);
+			Object->GetTransform().SetWorldRotation(_Data[i].Rot_);
+			Object->GetTransform().SetWorldScale(_Data[i].Scale_);
+		}
+		else if (_Data[i].ObjName_ == "Collision_Wall")
+		{
+			GamePlayMapObject* Object = _Level->CreateActor<GamePlayMapObject>();
+			Object->GetTransform().SetWorldPosition(_Data[i].Pos_);
+			Object->GetTransform().SetWorldRotation(_Data[i].Rot_);
+			Object->GetTransform().SetWorldScale(_Data[i].Scale_);
 		}
 		else
 		{
+			GamePlayMapObject* Object = _Level->CreateActor<GamePlayMapObject>();
+			Object->GetTransform().SetWorldPosition(_Data[i].Pos_);
+			Object->GetTransform().SetWorldRotation(_Data[i].Rot_);
+			Object->GetTransform().SetWorldScale(_Data[i].Scale_);
+
 			GameEngineFBXStaticRenderer* Renderer = Object->CreateComponent<GameEngineFBXStaticRenderer>();
 			Renderer->SetFBXMesh(_Data[i].ObjName_ + ".fbx", "Texture");
 		}

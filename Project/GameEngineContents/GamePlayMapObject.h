@@ -1,5 +1,5 @@
 #pragma once
-#include "GamePlayStaticObject.h"
+#include "GamePlayObject.h"
 
 // Ό³Έν :
 class GamePlayMapObject : public GamePlayObject
@@ -23,13 +23,15 @@ public:
 		return Collision_;
 	}
 
+	void SetMapObjectMesh(const std::string& _Name);
+
 protected:
 	void Start() override;
+	void Update(float _DeltaTime) override;
 
 private:
-	std::string Name_;
-
 	GameEngineCollision* Collision_;
+	GameEngineFBXAnimationRenderer* Renderer_;
 
 };
 

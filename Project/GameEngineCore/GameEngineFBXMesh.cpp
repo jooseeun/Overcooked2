@@ -1110,7 +1110,7 @@ bool GameEngineFBXMesh::ImportBone()
 					}
 
 					// 겹치는 이름의 링크는 이 새이름을 바꾸면
-					// 앞으로 펼쳐질 본과 관련된 모든곳에서
+					// 앞으로 펼쳐질 본과 관련된 모든곳에서z
 					// 이 이름으로 계산될것이므로 걱정할 필요가 없어진다.
 					AltLink->SetName(newName.Buffer());
 				}
@@ -1196,6 +1196,11 @@ bool GameEngineFBXMesh::ImportBone()
 				{
 					for (int ClusterIndex = 0; ClusterIndex < ClusterArray.size(); ClusterIndex++)
 					{
+						if (0 == ClusterArray[0].size())
+						{
+							continue;
+						}
+
 						fbxsdk::FbxCluster* Cluster = ClusterArray[0][ClusterIndex];
 						if (Link == Cluster->GetLink())
 						{

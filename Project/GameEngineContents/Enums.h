@@ -13,8 +13,10 @@ enum class CollisionOrder
 	Object_StaticObject,
 	Object_Character,
 	Object_Character_Interact,
-	Object_Moveable
+	Object_Moveable,
 	//
+	Floor,			// 바닥 콜리전
+
 };
 
 enum class PlayerDir

@@ -288,7 +288,7 @@ void MapEditorWindow::UnSortToolTab()
 	{
 		GamePlayMapObject* Object = CurLevel_->CreateActor<GamePlayMapObject>();
 		Object->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
-		Object->GetTransform().SetLocalScale({ 1.f, 1.f, 1.f });
+	//	Object->GetTransform().SetLocalScale({ 1.f, 1.f, 1.f });
 		Object->SetName("UnNamed");
 
 		if (AllUnSortActorName_[SelectNameIndex] == "Collision_Wall")
@@ -302,8 +302,10 @@ void MapEditorWindow::UnSortToolTab()
 		}
 		else
 		{
-			GameEngineFBXStaticRenderer* Renderer = Object->CreateComponent<GameEngineFBXStaticRenderer>();
-			Renderer->SetFBXMesh(AllUnSortActorName_[SelectNameIndex] + ".fbx", "Texture");
+			//GameEngineFBXStaticRenderer* Renderer = Object->CreateComponent<GameEngineFBXStaticRenderer>();
+			//Renderer->SetFBXMesh(AllUnSortActorName_[SelectNameIndex] + ".fbx", "Texture");
+			//Renderer->GetTransform().SetLocalScale({ 100.f, 100.f, 100.f });
+			Object->SetMapObjectMesh(AllUnSortActorName_[SelectNameIndex]);
 			Object->SetName(AllUnSortActorName_[SelectNameIndex]);
 		}
 		UnSortActorList_.push_back(Object);
@@ -332,10 +334,15 @@ void MapEditorWindow::UnSortToolTab()
 	if (false == UnSortActorList_.empty())
 	{
 		Position_ = UnSortActorList_[SelectIndex]->GetTransform().GetWorldPosition();
+		float4 RendererPos = UnSortActorList_[SelectIndex]->GetFBXMesh()->GetTransform().GetLocalPosition();
 		ImGui::Text("Position");
 		ImGui::DragFloat("Position.x", &Position_.x);
 		ImGui::DragFloat("Position.y", &Position_.y);
 		ImGui::DragFloat("Position.z", &Position_.z);
+
+		ImGui::DragFloat("RendererPos.x", &RendererPos.x);
+		ImGui::DragFloat("RendererPos.y", &RendererPos.y);
+		ImGui::DragFloat("RendererPos.z", &RendererPos.z);
 
 		if (true == ImGui::Button("Position Reset"))
 		{
@@ -346,9 +353,11 @@ void MapEditorWindow::UnSortToolTab()
 			else
 			{
 				Position_ = { 0.f, 0.f, 0.f };
+				RendererPos = { 0.f, 0.f, 0.f };
 			}
 		}
 		UnSortActorList_[SelectIndex]->GetTransform().SetWorldPosition(Position_);
+		UnSortActorList_[SelectIndex]->GetFBXMesh()->GetTransform().SetLocalPosition(RendererPos);
 
 		Rotation_ = UnSortActorList_[SelectIndex]->GetTransform().GetWorldRotation();
 		ImGui::Text("Rotation");
