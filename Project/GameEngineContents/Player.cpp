@@ -464,7 +464,7 @@ void Player::Collision_AroundObject()
 		Collision_Interact_->IsCollision(CollisionType::CT_SPHERE, CollisionOrder::Object_Moveable, CollisionType::CT_SPHERE,
 			std::bind(&Player::GetCrashMoveableObject, this, std::placeholders::_1, std::placeholders::_2)))
 	{
-		if (GameEngineInput::GetInst()->IsDownKey("Interaction"))
+		if (GameEngineInput::GetInst()->IsDownKey("PlayerHold"))
 		{
 			if (Moveable_Current_ == nullptr &&
 				Interact_Possible_Object_->Input_PickUp(this) == Input_PickUpOption::PickUp)
@@ -488,7 +488,7 @@ void Player::Collision_AroundObject()
 	if (Collision_Interact_->IsCollision(CollisionType::CT_SPHERE, CollisionOrder::Object_StaticObject, CollisionType::CT_SPHERE,
 		std::bind(&Player::GetCrashStaticObject, this, std::placeholders::_1, std::placeholders::_2)))
 	{
-		if (GameEngineInput::GetInst()->IsDownKey("Interaction"))
+		if (GameEngineInput::GetInst()->IsDownKey("PlayerHold"))
 		{
 			if (Moveable_Current_ == nullptr &&
 				Interact_Possible_StaticObject_->Input_PickUp(this) == Input_PickUpOption::PickUp)
