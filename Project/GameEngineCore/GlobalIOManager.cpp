@@ -23,7 +23,7 @@ void GlobalIOManager::AddMapData(MapData _Data)
 	MapDataVector_.push_back(_Data);
 }
 
-void GlobalIOManager::Save(IOType _Type, std::string _AddName)
+bool GlobalIOManager::Save(IOType _Type, std::string _AddName)
 {
 	GameEngineDirectory Dir;
 	Dir.MoveParentToExitsChildDirectory("ContentsResources");
@@ -79,9 +79,10 @@ void GlobalIOManager::Save(IOType _Type, std::string _AddName)
 	}
 
 	SaveFile.WriteString(SaveString);
+	return true;
 }
 
-void GlobalIOManager::Load(IOType _Type, std::string _AddName)
+bool GlobalIOManager::Load(IOType _Type, std::string _AddName)
 {
 	Clear();
 
@@ -247,6 +248,8 @@ void GlobalIOManager::Load(IOType _Type, std::string _AddName)
 	MapDataVector_;
 	MeshData_;
 	int a = 0;
+
+	return true;
 }
 
 void GlobalIOManager::Clear()

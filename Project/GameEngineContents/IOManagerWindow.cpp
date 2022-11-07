@@ -2,6 +2,7 @@
 #include "IOManagerWindow.h"
 
 IOManagerWindow::IOManagerWindow()
+	: IsOrganize_(false)
 {
 }
 
@@ -72,6 +73,36 @@ void IOManagerWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 			TmpData.PreviewMeshInfo_.push_back(TmpSub);
 
 			GlobalIOManager::SetMeshData(TmpData);
+		}
+	}
+
+	if (IsOrganize_)
+	{
+		if (true == ImGui::Button("Off"))
+		{
+			IsOrganize_ = false;
+			GEngine::GetCurrentLevel()->GetMainCamera()->SetProjectionMode(CAMERAPROJECTIONMODE::PersPective);
+		}
+
+		if (true == ImGui::Button("X"))
+		{
+			GEngine::GetCurrentLevel()->GetMainCameraActorTransform().SetWorldRotation({ 0, 90, 0 });
+		}
+		if (true == ImGui::Button("Y"))
+		{
+			GEngine::GetCurrentLevel()->GetMainCameraActorTransform().SetWorldRotation({ 90, 0, 0 });
+		}
+		if (true == ImGui::Button("Z"))
+		{
+			GEngine::GetCurrentLevel()->GetMainCameraActorTransform().SetWorldRotation({0, 0, 0});
+		}
+	}
+	else
+	{
+		if (true == ImGui::Button("On"))
+		{
+			IsOrganize_ = true;
+			GEngine::GetCurrentLevel()->GetMainCamera()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
 		}
 	}
 

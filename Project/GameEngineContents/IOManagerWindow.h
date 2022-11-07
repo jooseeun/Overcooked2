@@ -20,6 +20,7 @@ protected:
 	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
 
 private:
-
+	bool IsOrganize_;
+	
 };
 

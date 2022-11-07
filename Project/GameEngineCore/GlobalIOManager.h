@@ -70,17 +70,17 @@ public:
 
 	static void SetMeshData(MeshData _Data);
 	static void AddMapData(MapData _Data);
-	static void Save(IOType _Type, int _Value)
+	static bool Save(IOType _Type, int _Value)
 	{
-		Save(_Type, std::to_string(_Value));
+		return Save(_Type, std::to_string(_Value));
 	}
-	static void Save(IOType _Type, std::string _AddName = "");
+	static bool Save(IOType _Type, std::string _AddName = "");
 
-	static void Load(IOType _Type, int _Value)
+	static bool Load(IOType _Type, int _Value)
 	{
-		Load(_Type, std::to_string(_Value));
+		return Load(_Type, std::to_string(_Value));
 	}
-	static void Load(IOType _Type, std::string _AddName = "");
+	static bool Load(IOType _Type, std::string _AddName = "");
 	static void Clear();
 
 	static std::vector<MapData>& GetMapDataVector()

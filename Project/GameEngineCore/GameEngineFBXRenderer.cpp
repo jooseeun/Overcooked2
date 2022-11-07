@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "GameEngineFBXRenderer.h"
+#include "GlobalIOManager.h"
 
 GameEngineFBXRenderer::GameEngineFBXRenderer()
 {
@@ -64,6 +65,22 @@ void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Ma
 	}
 
 	RenderUnit.SetRenderer(this);
+}
+
+void GameEngineFBXRenderer::ChangeLoadMaterial()
+{
+	if (nullptr == FBXMesh)
+	{
+		return;
+	}
+
+	GlobalIOManager::Load(IOType::Mesh, FBXMesh->GetName().data());
+	MeshData Data = GlobalIOManager::GetMeshData();
+	for (size_t i = 0; i < Data.PreviewMeshInfo_.size(); i++)
+	{
+		FBXMesh->GetMaterialSettingData(0, i).DifTexturePath = Data.PreviewMeshInfo_[i].DifTexturePath_;
+		FBXMesh->GetMaterialSettingData(0, i).DifTextureName = Data.PreviewMeshInfo_[i].DifTextureName_;
+	}
 }
 
 void GameEngineFBXRenderer::Render(float _DeltaTime)
