@@ -189,6 +189,9 @@
     <ClInclude Include="GameEngineFBXAnimationRenderer.h">
       <Filter>Object\Component\Rendering\Content</Filter>
     </ClInclude>
+    <ClInclude Include="GlobalIOManager.h">
+      <Filter>Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineActor.cpp">
@@ -366,6 +369,9 @@
     <ClCompile Include="GameEngineFBXAnimationRenderer.cpp">
       <Filter>Object\Component\Rendering\Content</Filter>
     </ClCompile>
+    <ClCompile Include="GlobalIOManager.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Object">
@@ -454,6 +460,9 @@
     </Filter>
     <Filter Include="Resources\FBX">
       <UniqueIdentifier>{5cb21bca-2d6c-488e-b0b6-e58e874e5504}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global">
+      <UniqueIdentifier>{aadaf3b0-7c57-4815-be58-bef8e81e89d9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
