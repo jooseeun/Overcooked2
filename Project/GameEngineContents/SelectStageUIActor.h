@@ -31,6 +31,8 @@ protected:
 
 	void ResistDebug(std::string_view _Name, GameEngineTransform& Trans);
 
+	void CreateLevelSelect(std::string_view _MapFileName, int _BoarderType, std::string_view _Text, int _Index);
+
 	OverCookedUIRenderer* CreateUIRenderer(std::string_view _TextrueName);
 
 private:

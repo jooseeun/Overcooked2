@@ -41,58 +41,13 @@ void SelectStageUIActor::InitRenderer()
 	SelectMap_ = CreateUIRenderer("Selectmap.png");
 	SelectMap_->GetTransform().SetLocalPosition({ 20,-30 });
 
-	{
-		//패널
-		LevelSelect NewSelect;
-
-		//부모
-		OverCookedUIRenderer* NewParent = CreateUIRenderer("AvatarSelectionRing.png");
-		NewParent->GetTransform().SetLocalScale({ 1,1,1 });
-		NewParent->GetTransform().SetLocalPosition({ 0,130,-10 });
-		NewParent->ResistDebug();
-		NewParent->Off();
-		NewSelect.Parent = NewParent;
-
-		//맵 이미지
-		OverCookedUIRenderer* NewRenderer = CreateUIRenderer("level_select_sushi.png");
-		NewRenderer->GetTransform().SetParentTransform(NewParent->GetTransform());
-		NewSelect.Select = NewRenderer;
-
-		NewSelect.BoarderType = 1;
-
-		//Non Selected Boarder
-		OverCookedUIRenderer* NewBoarder = CreateUIRenderer("level_boarder_0" + std::to_string(NewSelect.BoarderType) + "_not_selected.png");
-		NewBoarder->GetTransform().SetParentTransform(NewParent->GetTransform());
-		NewBoarder->GetTransform().SetLocalMove({ 0,0,-1 });
-		NewSelect.Boarder = NewBoarder;
-
-		//Select Boarder
-		OverCookedUIRenderer* NewSelectBoarder = CreateUIRenderer("level_boarder_0" + std::to_string(NewSelect.BoarderType) + "_selected.png");
-		NewSelectBoarder->GetTransform().SetParentTransform(NewParent->GetTransform());
-		NewSelectBoarder->GetTransform().SetLocalMove({ 0,0,-1 });
-		NewSelectBoarder->Off();
-		NewSelect.BoarderSelected = NewSelectBoarder;
-
-		//레벨하이라이트
-		OverCookedUIRenderer* LevelHighlight = CreateUIRenderer("level_highlight.png");
-		LevelHighlight->GetTransform().SetParentTransform(NewParent->GetTransform());
-		LevelHighlight->GetTransform().SetLocalMove({ 0,0,-1 });
-		LevelHighlight->Off();
-		NewSelect.LevelHighlisht = LevelHighlight;
-
-		//폰트
-		GameEngineFontRenderer* NewFont = CreateComponent<GameEngineFontRenderer>("SushiCity");
-		NewFont->ChangeCamera(CAMERAORDER::UICAMERA);
-		NewFont->SetText("초밥 시티", "Naughty Squirrel");
-		NewFont->SetColor({ 0.4f,0.4f,0.4f,1 });
-		NewFont->SetSize(20.f);
-		NewFont->SetLeftAndRightSort(LeftAndRightSort::CENTER);
-		NewFont->SetAffectTransform(true);
-		NewFont->GetTransform().SetLocalMove({ 0,-65.f,-1 });
-		NewFont->GetTransform().SetParentTransform(NewParent->GetTransform());
-
-		LevelSelect_.push_back(NewSelect);
-	}
+	CreateLevelSelect("level_select_air_balloon.png", 1, "열기구 뷔페", 0);
+	CreateLevelSelect("level_select_raft.png", 3, "게걸스러운 급류", 1);
+	CreateLevelSelect("level_select_space.png", 2, "미식가 은하", 2);
+	CreateLevelSelect("UI_Level_Select_Random_01.png", 1, "랜덤", 3);
+	CreateLevelSelect("level_select_sushi.png", 3, "초밥 시티", 4);
+	CreateLevelSelect("level_select_wizard.png", 2, "마술사의 키친", 5);
+	CreateLevelSelect("level_select_mine.png", 2, "감칠맛 나는 광산", 6);
 }
 
 void SelectStageUIActor::LoadResource()
@@ -132,6 +87,61 @@ void SelectStageUIActor::End()
 void SelectStageUIActor::ResistDebug(std::string_view _Name, GameEngineTransform& Trans)
 {
 	UIDebugGUI::Main_->AddTransform(_Name.data(), &Trans);
+}
+
+void SelectStageUIActor::CreateLevelSelect(std::string_view _MapFileName, int _BoarderType, std::string_view _Text, int _Index)
+{
+	float XSize = 360.0f;
+	//패널
+	LevelSelect NewSelect;
+
+	//부모
+	OverCookedUIRenderer* NewParent = CreateUIRenderer("AvatarSelectionRing.png");
+	NewParent->GetTransform().SetLocalScale({ 1,1,1 });
+	NewParent->GetTransform().SetLocalPosition({ XSize * (_Index - 3),130,-10 });
+	NewParent->ResistDebug();
+	NewParent->Off();
+	NewSelect.Parent = NewParent;
+
+	//맵 이미지
+	OverCookedUIRenderer* NewRenderer = CreateUIRenderer(_MapFileName.data());
+	NewRenderer->GetTransform().SetParentTransform(NewParent->GetTransform());
+	NewSelect.Select = NewRenderer;
+
+	NewSelect.BoarderType = _BoarderType;
+
+	//Non Selected Boarder
+	OverCookedUIRenderer* NewBoarder = CreateUIRenderer("level_boarder_0" + std::to_string(NewSelect.BoarderType) + "_not_selected.png");
+	NewBoarder->GetTransform().SetParentTransform(NewParent->GetTransform());
+	NewBoarder->GetTransform().SetLocalMove({ 0,0,-1 });
+	NewSelect.Boarder = NewBoarder;
+
+	//Select Boarder
+	OverCookedUIRenderer* NewSelectBoarder = CreateUIRenderer("level_boarder_0" + std::to_string(NewSelect.BoarderType) + "_selected.png");
+	NewSelectBoarder->GetTransform().SetParentTransform(NewParent->GetTransform());
+	NewSelectBoarder->GetTransform().SetLocalMove({ 0,0,-1 });
+	NewSelectBoarder->Off();
+	NewSelect.BoarderSelected = NewSelectBoarder;
+
+	//레벨하이라이트
+	OverCookedUIRenderer* LevelHighlight = CreateUIRenderer("level_highlight.png");
+	LevelHighlight->GetTransform().SetParentTransform(NewParent->GetTransform());
+	LevelHighlight->GetTransform().SetLocalMove({ 0,0,-1 });
+	LevelHighlight->Off();
+	NewSelect.LevelHighlisht = LevelHighlight;
+
+	//폰트
+	GameEngineFontRenderer* NewFont = CreateComponent<GameEngineFontRenderer>(_Text.data());
+	NewFont->ChangeCamera(CAMERAORDER::UICAMERA);
+	NewFont->SetText(_Text.data(), "Naughty Squirrel");
+	NewFont->SetColor({ 0.4f,0.4f,0.4f,1 });
+	NewFont->SetSize(20.f);
+	NewFont->SetLeftAndRightSort(LeftAndRightSort::CENTER);
+	NewFont->SetAffectTransform(true);
+	NewFont->GetTransform().SetLocalMove({ 0,-65.f,-1 });
+	NewFont->GetTransform().SetParentTransform(NewParent->GetTransform());
+
+	LevelSelect_.push_back(NewSelect);
 }
 
 OverCookedUIRenderer* SelectStageUIActor::CreateUIRenderer(std::string_view _TextrueName)
