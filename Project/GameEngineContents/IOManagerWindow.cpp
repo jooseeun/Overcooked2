@@ -1,6 +1,5 @@
 #include "PreCompile.h"
 #include "IOManagerWindow.h"
-#include "GlobalIOManager.h"
 
 IOManagerWindow::IOManagerWindow()
 {

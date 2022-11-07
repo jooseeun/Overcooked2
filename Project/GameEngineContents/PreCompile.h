@@ -43,6 +43,7 @@
 #include <GameEngineCore/GameEngineFBXRenderer.h>
 #include <GameEngineCore/GameEngineFBXStaticRenderer.h>
 #include <GameEngineCore/GameEngineFBXAnimationRenderer.h>
+#include <GameEngineCore/GlobalIOManager.h>
 
 // contents
 #include "MapEditorGUI.h"
@@ -53,4 +54,3 @@
 #include "GamePlayFloor.h"
 #include "Enums.h"
 #include "GlobalMouseInput.h"
-#include "GlobalIOManager.h"

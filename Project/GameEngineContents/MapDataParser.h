@@ -1,6 +1,6 @@
 #pragma once
 #include "Enums.h"
-#include "GlobalIOManager.h"
+#include <GameEngineCore/GlobalIOManager.h>
 
 class GameEngineLevel;
 class MapDataParser
