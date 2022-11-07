@@ -123,7 +123,7 @@ struct FbxExMeshInfo
 	}
 };
 
-struct FbxRenderUnit
+struct FbxRenderUnitInfo
 {
 public:
 	int VectorIndex;
@@ -148,14 +148,14 @@ public:
 	std::vector<GameEngineIndexBuffer*> IndexBuffers;
 	std::vector<GameEngineMesh*> Meshs;
 
-	FbxRenderUnit() :
+	FbxRenderUnitInfo() :
 		IsLod(false),
 		IsLodLv(-1),
 		VertexBuffer(nullptr)
 	{
 	}
 
-	~FbxRenderUnit()
+	~FbxRenderUnitInfo()
 	{
 	}
 };
@@ -497,8 +497,11 @@ struct Bone
 
 // 설명 :
 class GameEngineMesh;
+class GameEngineFBXAnimation;
 class GameEngineFBXMesh : public GameEngineFBX, public GameEngineRes<GameEngineFBXMesh>
 {
+	friend GameEngineFBXAnimation;
+
 public:
 	// constrcuter destructer
 	GameEngineFBXMesh();
@@ -531,7 +534,12 @@ public:
 		return RenderUnitInfos[_RenderUnitIndex].Indexs.size();
 	}
 
-	std::vector<FbxRenderUnit> &GetFbxRenderUnit()
+	size_t GetBoneCount(UINT _Index)
+	{
+		return AllBones[_Index].size();
+	}
+
+	std::vector<FbxRenderUnitInfo> &GetFbxRenderUnit()
 	{
 		return RenderUnitInfos;
 	}
@@ -547,7 +555,7 @@ public:
 
 protected:
 	std::vector<FbxExMeshInfo> MeshInfos;
-	std::vector<FbxRenderUnit> RenderUnitInfos;
+	std::vector<FbxRenderUnitInfo> RenderUnitInfos;
 	std::vector<std::vector<Bone>> AllBones; // 본정보체
 	std::vector<std::map<std::string, Bone*>> AllFindMap;
 	std::vector<std::vector<FbxClusterData>> ClusterData;
@@ -567,7 +575,7 @@ public:
 	void VertexBufferCheck();
 	fbxsdk::FbxAMatrix ComputeTotalMatrix(fbxsdk::FbxNode* Node);
 	bool IsOddNegativeScale(const fbxsdk::FbxAMatrix& TotalMatrix);
-	void FbxRenderUnitMaterialSetting(fbxsdk::FbxNode* _Node, FbxRenderUnit* _RenderData);
+	void FbxRenderUnitInfoMaterialSetting(fbxsdk::FbxNode* _Node, FbxRenderUnitInfo* _RenderData);
 	float4 MaterialColor(fbxsdk::FbxSurfaceMaterial* pMtrl, const char* _ColorName, const char* _FactorName);
 	float MaterialFactor(fbxsdk::FbxSurfaceMaterial* pMtrl, const char* _FactorName);
 	std::string MaterialTex(fbxsdk::FbxSurfaceMaterial* pMtrl, const char* _FactorName);
@@ -590,9 +598,9 @@ public:
 	// 애니메이션 버텍스 정보
 	void LoadSkinAndCluster();
 	void ImportCluster();
-	void LoadAnimationVertexData(FbxRenderUnit* _DrawData, const std::vector<FbxClusterData>& vecClusterData);
-	void DrawSetWeightAndIndexSetting(FbxRenderUnit* _DrawSet, fbxsdk::FbxMesh* _Mesh, fbxsdk::FbxCluster* _Cluster, int _BoneIndex);
-	void CalAnimationVertexData(FbxRenderUnit& _DrawSet);
+	void LoadAnimationVertexData(FbxRenderUnitInfo* _DrawData, const std::vector<FbxClusterData>& vecClusterData);
+	void DrawSetWeightAndIndexSetting(FbxRenderUnitInfo* _DrawSet, fbxsdk::FbxMesh* _Mesh, fbxsdk::FbxCluster* _Cluster, int _BoneIndex);
+	void CalAnimationVertexData(FbxRenderUnitInfo& _DrawSet);
 
 };
 

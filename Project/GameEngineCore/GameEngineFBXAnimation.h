@@ -145,6 +145,7 @@ public:
 };
 
 // 설명 :
+class GameEngineFBXMesh;
 class GameEngineFBXAnimation : public GameEngineFBX, public GameEngineRes<GameEngineFBXAnimation>
 {
 public:
@@ -164,8 +165,25 @@ public:
 	}
 	static GameEngineFBXAnimation* Load(const std::string& _Path, const std::string& _Name);
 
+	void AnimationMatrixLoad(GameEngineFBXMesh* _Mesh, int _AnimationIndex);
+
+	FbxExAniData* GetAnimationData(int _Index)
+	{
+		if (AnimationDatas.size() <= _Index)
+		{
+			MsgBoxAssert("애니메이션 데이터 범위를 넘어섰습니다");
+		}
+
+		return &AnimationDatas[_Index];
+	}
+
 protected:
 	void LoadMesh(const std::string& _Path, const std::string& _Name);
+
+	void ProcessAnimationLoad(GameEngineFBXMesh* _Mesh, fbxsdk::FbxNode* pNode, int _index);
+	bool AnimationLoad(GameEngineFBXMesh* _Mesh, fbxsdk::FbxNode* _Node, int AnimationIndex);
+	void ProcessAnimationCheckState(GameEngineFBXMesh* _Fbx, int userAniDataIndex);
+	fbxsdk::FbxAMatrix GetGeometryTransformation(fbxsdk::FbxNode* pNode);
 
 	std::vector<FbxExAniData> AnimationDatas;
 
