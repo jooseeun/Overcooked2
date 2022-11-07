@@ -20,8 +20,7 @@ void MapToolLevel::Start()
 	Window_->Off();
 
 	GetMainCameraActorTransform().SetLocalRotation({ 60, 180, 0 });
-	GetMainCameraActorTransform().SetLocalPosition({ 0, 2000, 1800 });
-
+	GetMainCameraActorTransform().SetLocalPosition({ -1400, 2300, 1600 });
 	// 생성 가능한 UnSortActor 
 	Window_->GetAllUnSortActorName().push_back("Chef");
 	// 테스트용

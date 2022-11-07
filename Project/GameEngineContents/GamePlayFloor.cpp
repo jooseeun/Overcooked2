@@ -12,9 +12,9 @@ GamePlayFloor::~GamePlayFloor()
 
 void GamePlayFloor::Start()
 {
-	//GetTransform().SetWorldScale({ 100.f, 100.f, 100.f });
-	Collision_ = CreateComponent<GameEngineCollision>();
-	Collision_->GetTransform().SetLocalScale(GetTransform().GetWorldScale());
-	Collision_->ChangeOrder(CollisionOrder::Floor);
+	GamePlayObject::Start();
+
+	GetCollisionObject()->GetTransform().SetWorldScale({ 100.f, 100.f, 100.f });			// 원래 크기는 0.01
+	GetCollisionObject()->ChangeOrder(CollisionOrder::Floor);
 }
 
