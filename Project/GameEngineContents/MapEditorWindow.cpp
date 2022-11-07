@@ -73,19 +73,41 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		else if (true == IsSort_)
 		{
 			std::vector<MapData>& InputVector = GlobalIOManager::GetMapDataVector();
+			GlobalIOManager::Clear();
 
 			for (size_t i = 0; i < Origins_.size(); ++i)
 			{
-				std::vector<MapData>& Data = Origins_[i]->GetStaticMeshInfo();
+				MapData OriginData = { };
 
-				for (size_t j = 0; j < Data.size(); j++)
+				OriginData.MapObjType_ = MapObjType::Origin;
+				OriginData.Transform_ = &Origins_[i]->GetTransform();
+				OriginData.Pos_ = Origins_[i]->GetTransform().GetWorldPosition();
+				OriginData.Rot_ = Origins_[i]->GetTransform().GetWorldRotation();
+				OriginData.Scale_ = Origins_[i]->GetTransform().GetWorldScale();
+
+				InputVector.push_back(OriginData);
+
+				std::vector<GamePlayStaticObject*>& DataActors = Origins_[i]->GetStaticMeshInfo();
+
+				for (size_t j = 0; j < DataActors.size(); j++)
 				{
-					InputVector.push_back(Data[j]);
+					MapData Data = { };
+					
+					Data.MapObjType_ = DataActors[j]->GetStaticObjectType();
+					Data.Transform_ = &DataActors[j]->GetTransform();
+					Data.Pos_ = DataActors[j]->GetTransform().GetWorldPosition();
+					Data.Rot_ = DataActors[j]->GetTransform().GetWorldRotation();
+					Data.Scale_ = DataActors[j]->GetTransform().GetWorldScale();
+					Data.Index_.z = static_cast<float>(i);
+
+					InputVector.push_back(Data);
 				}
 			}
 
 			GlobalIOManager::Save(IOType::SortMap, LevelIndex_);
 			GlobalIOManager::Clear();
+
+			GameEngineDebug::OutPutString(LevelIndex_ + "번째 정렬된 맵 데이터 파일을 저장했습니다.");
 		}
 	}
 
@@ -118,7 +140,21 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		else if (true == IsSort_)
 		{
 			GlobalIOManager::Load(IOType::SortMap, LevelIndex_);
-			DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), CurLevel_);
+
+			SortActorList_ = DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), CurLevel_);
+
+			for (size_t i = 0; i < Origins_.size(); i++)
+			{
+				if (nullptr != Origins_[i])
+				{
+					Origins_[i]->Death();
+					Origins_[i] = nullptr;
+				}
+			}
+
+			Origins_ = DataParser_.GetOrigins();
+
+			GameEngineDebug::OutPutString(LevelIndex_ + "번째 정렬된 맵 데이터 파일을 불러왔습니다.");
 		}
 	}
 
@@ -156,16 +192,6 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				Origin->GetRenderer()->GetTransform().SetWorldScale({ 100, 100, 100 });
 
 				Origins_.push_back(Origin);
-
-				MapData Data = { };
-
-				Data.MapObjType_ = MapObjType::Origin;
-				Data.Transform_ = &Origin->GetTransform();
-				Data.Pos_ = Origin->GetTransform().GetWorldPosition();
-				Data.Rot_ = Origin->GetTransform().GetWorldRotation();
-				Data.Scale_ = Origin->GetTransform().GetWorldScale();
-
-				Origins_[0]->GetStaticMeshInfo().push_back(Data);
 			}
 
 			else
@@ -445,31 +471,21 @@ void MapEditorWindow::SortToolTab()
 		Origin->GetRenderer()->SetFBXMesh("m_sk_countertop_01.fbx", "Texture");
 
 		Origins_.push_back(Origin);
-
-		MapData Data = { };
-
-		Data.MapObjType_ = MapObjType::Origin;
-		Data.Transform_ = &Origin->GetTransform();
-		Data.Pos_ = Origin->GetTransform().GetWorldPosition();
-		Data.Rot_ = Origin->GetTransform().GetWorldRotation();
-		Data.Scale_ = Origin->GetTransform().GetWorldScale();
-
-		Origins_[OriginIndex]->GetStaticMeshInfo().push_back(Data);
 	}
 
 	ImGui::Text("");
 
 	ImGui::BeginChild("PrefabList", ImVec2(150, 100), true);
 
-	static int SelectIndex = 0;
+	static int PrefabIndex = 0;
 
 	for (int i = 0; i < Prefabs_.size(); ++i)
 	{
 		char Label[1024] = { '\0' };
 
-		if (ImGui::Selectable(Prefabs_[i].c_str(), SelectIndex == i))
+		if (ImGui::Selectable(Prefabs_[i].c_str(), PrefabIndex == i))
 		{
-			SelectIndex = i;
+			PrefabIndex = i;
 		}
 	}
 
@@ -499,7 +515,7 @@ void MapEditorWindow::SortToolTab()
 
 	if (true == ImGui::Button("Create"))
 	{
-		switch (SelectIndex)
+		switch (PrefabIndex)
 		{
 		case 0:
 		{
@@ -550,18 +566,10 @@ void MapEditorWindow::SortToolTab()
 		CurStaticMesh_->GetTransform().SetWorldPosition(Origins_[OriginIndex]->GetTransform().GetWorldPosition());
 		CurStaticMesh_->GetTransform().SetWorldMove({ Index[0] * (-INTERVAL), 0.f, Index[1] * INTERVAL});
 
-		MapData Data = { };
-
-		Data.MapObjType_ = CurStaticMesh_->GetStaticObjectType();
-		Data.Transform_ = &CurStaticMesh_->GetTransform();
-		Data.Pos_ = CurStaticMesh_->GetTransform().GetWorldPosition();
-		Data.Scale_ = CurStaticMesh_->GetTransform().GetWorldScale();
-
-		Data.Index_.z = static_cast<float>(OriginIndex);
-
-		Origins_[OriginIndex]->GetStaticMeshInfo().push_back(Data);
-
 		SortActorList_.push_back(CurStaticMesh_);
+		Origins_[OriginIndex]->GetStaticMeshInfo().push_back(CurStaticMesh_);
+
+		ActorIndex = static_cast<int>(SortActorList_.size() - 1);
 	}
 
 	ImGui::SameLine();
@@ -573,9 +581,16 @@ void MapEditorWindow::SortToolTab()
 		SortActorList_[ActorIndex]->Death();
 		SortActorList_.erase(SortActorList_.begin() + ActorIndex);
 
-		std::vector<MapData>& DataVector = Origins_[OriginIndex]->GetStaticMeshInfo();
+		std::vector<GamePlayStaticObject*>& DataVector = Origins_[OriginIndex]->GetStaticMeshInfo();
 
-		DataVector.erase(DataVector.begin() + ActorIndex);
+		for (size_t i = 0; i < DataVector.size(); i++)
+		{
+			if (DataVector[i]->IsDeath()
+				|| nullptr == DataVector[i])
+			{
+				DataVector.erase(DataVector.begin() + i);
+			}
+		}
 	}
 
 	ImGui::Text("");
@@ -585,9 +600,6 @@ void MapEditorWindow::SortToolTab()
 		&& ActorIndex < SortActorList_.size())
 	{
 		SortActorList_[ActorIndex]->GetTransform().SetAddWorldRotation({ 0.f, 90.f, 0.f });
-
-		std::vector<MapData>& DataVector = Origins_[OriginIndex]->GetStaticMeshInfo();
-		DataVector[ActorIndex].Rot_ = CurStaticMesh_->GetTransform().GetWorldRotation();
 	}
 
 	ImGui::EndTabItem();

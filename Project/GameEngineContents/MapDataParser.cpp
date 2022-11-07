@@ -45,8 +45,10 @@ void MapDataParser::UnSortMapDataParsing(std::vector<MapData>& _Data, GameEngine
 	}
 }
 
-void MapDataParser::SortMapDataParsing(std::vector<MapData>& _Data, GameEngineLevel* _Level)
+std::vector<GamePlayStaticObject*>& MapDataParser::SortMapDataParsing(std::vector<MapData>& _Data, GameEngineLevel* _Level)
 {
+	std::vector<GamePlayStaticObject*> ActorList = {};
+
 	for (size_t i = 0; i < _Data.size(); ++i)
 	{
 		//기준 엑터라면
@@ -126,6 +128,7 @@ void MapDataParser::SortMapDataParsing(std::vector<MapData>& _Data, GameEngineLe
 		if (nullptr != CurAcotr_)
 		{
 			CurAcotr_->SetParent(Origins_[Order]);
+			ActorList.push_back(CurAcotr_);
 
 			CurAcotr_->GetTransform().SetWorldPosition(_Data[i].Pos_);
 			CurAcotr_->GetTransform().SetWorldRotation(_Data[i].Rot_);
@@ -134,5 +137,7 @@ void MapDataParser::SortMapDataParsing(std::vector<MapData>& _Data, GameEngineLe
 			CurAcotr_ = nullptr;
 		}
 	}	
+
+	return ActorList;
 }
 
