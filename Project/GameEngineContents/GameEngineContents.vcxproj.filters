@@ -134,6 +134,27 @@
     <ClInclude Include="GamePlayFloor.h">
       <Filter>Map</Filter>
     </ClInclude>
+    <ClInclude Include="Tool_Sink.h">
+      <Filter>Contents\Object\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool_TrashCan.h">
+      <Filter>Contents\Object\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool_Cooker.h">
+      <Filter>Contents\Object\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Equipment_Plate.h">
+      <Filter>Contents\Object\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Equipment_Pot.h">
+      <Filter>Contents\Object\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Equipment_FireExtinguisher.h">
+      <Filter>Contents\Object\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Equipment_FryingPan.h">
+      <Filter>Contents\Object\Tool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -268,6 +289,27 @@
     </ClCompile>
     <ClCompile Include="PlayerState.cpp">
       <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool_Sink.cpp">
+      <Filter>Contents\Object\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool_TrashCan.cpp">
+      <Filter>Contents\Object\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool_Cooker.cpp">
+      <Filter>Contents\Object\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="Equipment_Plate.cpp">
+      <Filter>Contents\Object\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="Equipment_Pot.cpp">
+      <Filter>Contents\Object\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="Equipment_FireExtinguisher.cpp">
+      <Filter>Contents\Object\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="Equipment_FryingPan.cpp">
+      <Filter>Contents\Object\Tool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

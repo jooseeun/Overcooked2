@@ -147,6 +147,10 @@
   <ItemGroup>
     <ClInclude Include="CounterTop.h" />
     <ClInclude Include="Enums.h" />
+    <ClInclude Include="Equipment_FireExtinguisher.h" />
+    <ClInclude Include="Equipment_FryingPan.h" />
+    <ClInclude Include="Equipment_Plate.h" />
+    <ClInclude Include="Equipment_Pot.h" />
     <ClInclude Include="FoodBox.h" />
     <ClInclude Include="Food_Ingredients_Fish.h" />
     <ClInclude Include="Food_Ingredients_Prawn.h">
@@ -211,7 +215,10 @@
     <ClInclude Include="Stage_1_2.h" />
     <ClInclude Include="Stage_1_3.h" />
     <ClInclude Include="Stage_1_4.h" />
+    <ClInclude Include="Tool_Cooker.h" />
     <ClInclude Include="Tool_CuttingBoard.h" />
+    <ClInclude Include="Tool_Sink.h" />
+    <ClInclude Include="Tool_TrashCan.h" />
     <ClInclude Include="TrashCan.h" />
     <ClInclude Include="UIDebugGUI.h">
       <SubType>
@@ -220,6 +227,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CounterTop.cpp" />
+    <ClCompile Include="Equipment_FireExtinguisher.cpp" />
+    <ClCompile Include="Equipment_FryingPan.cpp" />
+    <ClCompile Include="Equipment_Plate.cpp" />
+    <ClCompile Include="Equipment_Pot.cpp" />
     <ClCompile Include="FoodBox.cpp" />
     <ClCompile Include="Food_Ingredients_Fish.cpp" />
     <ClCompile Include="Food_Ingredients_Prawn.cpp">
@@ -291,7 +302,10 @@
     <ClCompile Include="Stage_1_2.cpp" />
     <ClCompile Include="Stage_1_3.cpp" />
     <ClCompile Include="Stage_1_4.cpp" />
+    <ClCompile Include="Tool_Cooker.cpp" />
     <ClCompile Include="Tool_CuttingBoard.cpp" />
+    <ClCompile Include="Tool_Sink.cpp" />
+    <ClCompile Include="Tool_TrashCan.cpp" />
     <ClCompile Include="TrashCan.cpp" />
     <ClCompile Include="UIDebugGUI.cpp">
       <SubType>
