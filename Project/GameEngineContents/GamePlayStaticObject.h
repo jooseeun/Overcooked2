@@ -20,7 +20,7 @@ public:
 
 public:
 	Input_PickUpOption Input_PickUp(GamePlayMoveable* _Object) override;
-	Input_PickUpOption Input_PickUp(GamePlayCharacter* _Player) override;
+	Input_PickUpOption Input_PickUp(Player* _Player) override;
 
 	//inline int GetX() const
 	//{

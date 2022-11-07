@@ -1,6 +1,6 @@
 #pragma once
 #include "GamePlayStuff.h"
-#include "GamePlayCharacter.h"
+#include "Player.h"
 // Ό³Έν :
 
 enum class ObjectMoveableType
@@ -34,7 +34,7 @@ public:
 	{
 		return Input_PickUpOption::NoResponse;
 	}
-	inline Input_PickUpOption Input_PickUp(GamePlayCharacter* _Player) override
+	inline Input_PickUpOption Input_PickUp(Player* _Player) override
 	{
 		_Player->Input_PickUp(_Player);
 		return Input_PickUpOption::PickUp;

@@ -154,7 +154,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Food_Recipe.h" />
-    <ClInclude Include="GamePlayCharacter.h" />
     <ClInclude Include="GamePlayEquipment.h" />
     <ClInclude Include="GamePlayFloor.h">
       <SubType>
@@ -228,7 +227,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Food_Recipe.cpp" />
-    <ClCompile Include="GamePlayCharacter.cpp" />
     <ClCompile Include="GamePlayEquipment.cpp" />
     <ClCompile Include="GamePlayFloor.cpp">
       <SubType>

@@ -1,13 +1,20 @@
 #include "PreCompile.h"
 #include "Player.h"
+#include "GamePlayFood.h"
+#include "GamePlayStaticObject.h"
 
 Player::Player()
 	:Speed_(400.0f)
 	, CurAngle_(0)
 	, CurDir_(PlayerDir::Back)
+	, CurHoldType_(PlayerHoldType::FireExtinguisher)
 	, PlayerCollision_(nullptr)
 	, PlayerRenderer_(nullptr)
 	, StateManager()
+	, Moveable_Current_(nullptr)
+	, Collision_Interact_(nullptr)
+	, Interact_Possible_Object_(nullptr)
+	, Interact_Possible_StaticObject_(nullptr)
 {
 
 }
@@ -19,6 +26,12 @@ Player::~Player()
 void Player::Start()
 {
 	GetTransform().SetLocalScale({ 1, 1, 1 });
+	//palyer key
+	//이동 - 방향키
+	//다지기/던지기 - 왼쪽 CTRL
+	//잡기/놓기 - SPACEBAR
+	//대쉬 - 왼쪽 ALT
+	//감정표현 - E
 	if (false == GameEngineInput::GetInst()->IsKey("PlayerLeft"))
 	{
 		GameEngineInput::GetInst()->CreateKey("PlayerLeft", VK_LEFT);
@@ -26,9 +39,10 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("PlayerFront", VK_UP);
 		GameEngineInput::GetInst()->CreateKey("PlayerBack", VK_DOWN);
 		GameEngineInput::GetInst()->CreateKey("PlayerDash", 'X');
-		GameEngineInput::GetInst()->CreateKey("PlayerHold", 'Z');
-		GameEngineInput::GetInst()->CreateKey("PlayerThrow", VK_SPACE);
+		GameEngineInput::GetInst()->CreateKey("PlayerHold", VK_SPACE);
+		GameEngineInput::GetInst()->CreateKey("PlayerInteract", VK_CONTROL);
 
+		//GameEngineInput::GetInst()->CreateKey("PlayerSlice", VK_CONTROL);
 	}
 
 
@@ -57,6 +71,12 @@ void Player::Start()
 	PlayerCollision_->ChangeOrder(CollisionOrder::Default);
 
 
+	GamePlayObject::Start();
+	GamePlayObject::SetObjectType(ObjectType::Character);
+	Collision_Interact_ = CreateComponent<GameEngineCollision>("PlayerCollision");
+	Collision_Interact_->SetDebugSetting(CollisionType::CT_SPHERE, { 0.8f, 0, 0, 0.7f });
+	GetCollisionObject()->ChangeOrder(CollisionOrder::Object_Character);
+
 
 	StateManager.CreateStateMember("Idle"
 		, std::bind(&Player::IdleUpdate, this, std::placeholders::_1, std::placeholders::_2)
@@ -78,6 +98,14 @@ void Player::Start()
 		, std::bind(&Player::SliceUpdate, this, std::placeholders::_1, std::placeholders::_2)
 		, std::bind(&Player::SliceStart, this, std::placeholders::_1)
 	);
+	StateManager.CreateStateMember("DishWash"
+		, std::bind(&Player::DishWashUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::DishWashStart, this, std::placeholders::_1)
+	);
+	StateManager.CreateStateMember("FireOff"
+		, std::bind(&Player::FireOffUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::FireOffStart, this, std::placeholders::_1)
+	);
 
 
 	StateManager.ChangeState("Idle");
@@ -90,6 +118,7 @@ void Player::Update(float _DeltaTime)
 {
 	StateManager.Update(_DeltaTime);
 	DashCheck();
+	Collision_AroundObject();
 }
 
 ///////////////////////////// 그외 함수들
@@ -348,10 +377,158 @@ void Player::DashCheck()
 	}
 	if (Speed_ > 400.0f)
 	{
-		Speed_ -= 200.0f * GameEngineTime::GetDeltaTime();
+		Speed_ -= 400.0f * GameEngineTime::GetDeltaTime();
 	}
 	else
 	{
 		Speed_ = 400.0f;
 	}
 }
+
+void Player::PlayerDirCheck() // 플레이어 방향 체크하고 회전시키는 함수
+{
+	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerFront"))
+	{
+		CurDir_ = PlayerDir::Front;
+		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft"))
+		{
+			CurDir_ = PlayerDir::FrontLeft;
+
+		}
+		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerRight"))
+		{
+			CurDir_ = PlayerDir::FrontRight;
+		}
+
+	}
+
+	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
+	{
+		CurDir_ = PlayerDir::Back;
+		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft"))
+		{
+			CurDir_ = PlayerDir::BackLeft;
+		}
+		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerRight"))
+		{
+			CurDir_ = PlayerDir::BackRight;
+		}
+
+	}
+
+	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft"))
+	{
+		CurDir_ = PlayerDir::Left;
+		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerFront"))
+		{
+			CurDir_ = PlayerDir::FrontLeft;
+		}
+		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
+		{
+			CurDir_ = PlayerDir::BackLeft;
+		}
+
+	}
+
+	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerRight"))
+	{
+
+		CurDir_ = PlayerDir::Right;
+		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerFront"))
+		{
+			CurDir_ = PlayerDir::FrontRight;
+		}
+		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
+		{
+			CurDir_ = PlayerDir::BackRight;
+		}
+
+	}
+
+	GetTransform().SetLocalRotation({ 0,CurAngle_, 0 });
+}
+
+void Player::Collision_AroundObject()
+{
+	if (Moveable_Current_ == nullptr &&
+		Collision_Interact_->IsCollision(CollisionType::CT_SPHERE, CollisionOrder::Object_Moveable, CollisionType::CT_SPHERE,
+			std::bind(&Player::GetCrashMoveableObject, this, std::placeholders::_1, std::placeholders::_2)))
+	{
+		if (GameEngineInput::GetInst()->IsDownKey("Interaction"))
+		{
+			if (Moveable_Current_ == nullptr &&
+				Interact_Possible_Object_->Input_PickUp(this) == Input_PickUpOption::PickUp)
+			{
+				Interact_Possible_Object_ = nullptr;
+				return;
+			}
+		}
+	}
+	else
+	{
+		if (Interact_Possible_Object_ != nullptr)
+		{
+			Interact_Possible_Object_->SetBloomEffectOff();
+			Interact_Possible_Object_ = nullptr;
+		}
+	}
+
+
+
+	if (Collision_Interact_->IsCollision(CollisionType::CT_SPHERE, CollisionOrder::Object_StaticObject, CollisionType::CT_SPHERE,
+		std::bind(&Player::GetCrashStaticObject, this, std::placeholders::_1, std::placeholders::_2)))
+	{
+		if (GameEngineInput::GetInst()->IsDownKey("Interaction"))
+		{
+			if (Moveable_Current_ == nullptr &&
+				Interact_Possible_StaticObject_->Input_PickUp(this) == Input_PickUpOption::PickUp)
+			{
+				Interact_Possible_StaticObject_->SetBloomEffectOff();
+				return;
+			}
+		}
+	}
+
+	else
+	{
+		if (Interact_Possible_StaticObject_ != nullptr)
+		{
+			Interact_Possible_StaticObject_->SetBloomEffectOff();
+			Interact_Possible_StaticObject_ = nullptr;
+		}
+	}
+
+}
+
+
+//////////////////////충돌 함수
+
+
+CollisionReturn Player::GetCrashMoveableObject(GameEngineCollision* _This, GameEngineCollision* _Other)
+{
+	if (Interact_Possible_Object_ != nullptr)
+	{
+		Interact_Possible_Object_->SetBloomEffectOff();
+		//Interact_Possible_StaticObject_ = nullptr;
+	}
+
+	Interact_Possible_Object_ = _Other->GetActor<GamePlayMoveable>();
+	Interact_Possible_Object_->SetBloomEffectOn();
+	return CollisionReturn::Break;
+}
+
+CollisionReturn Player::GetCrashStaticObject(GameEngineCollision* _This, GameEngineCollision* _Other)
+{
+	if (Interact_Possible_StaticObject_ != nullptr)
+	{
+		Interact_Possible_StaticObject_->SetBloomEffectOff();
+		//Interact_Possible_StaticObject_ = nullptr;
+	}
+	Interact_Possible_StaticObject_ = _Other->GetActor<GamePlayStaticObject>();
+	Interact_Possible_StaticObject_->SetBloomEffectOn();
+	return CollisionReturn::Break;
+}
+
+
+// 집는거 안해도되고 앞에 상호작용테이블 검사
+

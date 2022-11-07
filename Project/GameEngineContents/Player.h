@@ -1,11 +1,13 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
+#include "GamePlayObject.h"
 #include "Enums.h"
 
 // 설명 :
 class GameEngineFBXStaticRenderer;
 class GameEngineCollision;
-class Player : public GameEngineActor
+class GamePlayMoveable;
+class GamePlayStaticObject;
+class Player : public GamePlayObject
 {
 public:
 	// constrcuter destructer
@@ -38,14 +40,55 @@ protected:
 	void SliceStart(const StateInfo& _Info);
 	void SliceUpdate(float _DeltaTime, const StateInfo& _Info);
 
-	void DashCheck();
+	void DishWashStart(const StateInfo& _Info);
+	void DishWashUpdate(float _DeltaTime, const StateInfo& _Info);
 
+	void FireOffStart(const StateInfo& _Info);
+	void FireOffUpdate(float _DeltaTime, const StateInfo& _Info);
+
+	void DashCheck();
+	void PlayerDirCheck();
 	bool MoveAngle();
+
 	float Speed_;
 	float CurAngle_;
 	PlayerDir CurDir_;
+	PlayerHoldType CurHoldType_;
 
+public:
+	inline Input_PickUpOption Input_PickUp(Player* _Player) override { return Input_PickUpOption::NoResponse; }
+	inline Input_PickUpOption Input_PickUp(GamePlayMoveable* _Object) override
+	{
+		Moveable_Current_ = _Object;
+		//	Moveable_Current_->SetBloomEffectOff();
+		return Input_PickUpOption::PickUp;
+	}
+	inline GameEngineCollision* GetInteractCollision() const
+	{
+		return Collision_Interact_;
+	}
+public:
+	inline void SetBloomEffectOff() override
+	{
+		MsgBoxAssert("예방코드 / 캐릭터 블룸 미적용")
+	}
+	inline void SetBloomEffectOn() override
+	{
+		MsgBoxAssert("예방코드 / 캐릭터 블룸 미적용")
+	}
 private:
+
+	GameEngineCollision* Collision_Interact_; // 상호작용 콜리전
+	GamePlayMoveable* Interact_Possible_Object_;
+	GamePlayStaticObject* Interact_Possible_StaticObject_;
+
+	GamePlayMoveable* Moveable_Current_;
+
+	void Collision_AroundObject();
+
+	CollisionReturn GetCrashMoveableObject(GameEngineCollision* _This, GameEngineCollision* _Other);
+	CollisionReturn GetCrashStaticObject(GameEngineCollision* _This, GameEngineCollision* _Other);
+
 	GameEngineFBXStaticRenderer* PlayerRenderer_;
 	GameEngineCollision* PlayerCollision_;
 	GameEngineStateManager StateManager;

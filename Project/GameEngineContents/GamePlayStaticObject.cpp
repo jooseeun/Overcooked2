@@ -52,7 +52,7 @@ Input_PickUpOption GamePlayStaticObject::Input_PickUp(GamePlayMoveable* _Object)
 
 }
 
-Input_PickUpOption GamePlayStaticObject::Input_PickUp(GamePlayCharacter* _Player)
+Input_PickUpOption GamePlayStaticObject::Input_PickUp(Player* _Player)
 {
 	if (Stuff_Current_ != nullptr)
 	{

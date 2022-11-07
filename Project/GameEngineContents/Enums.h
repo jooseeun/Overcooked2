@@ -21,17 +21,24 @@ enum class CollisionOrder
 
 enum class PlayerDir
 {
-	Front = 0,
-	FrontRight = 45,
-	Right = 90,
-	BackRight = 135,
-	Back = 180,
-	BackLeft = 225,
-	Left = 270,
-	FrontLeft = 315,
+	Front,
+	FrontRight,
+	Right,
+	BackRight,
+	Back,
+	BackLeft,
+	Left,
+	FrontLeft,
 	Max
 };
-
+enum class PlayerHoldType
+	//컨트롤 키를 눌렀을때 어떤 상호작용을 할지 정하려고 만든 enum
+{
+	CanThrow, // 던질수 있는것
+	NotThrow, // 못던지는 도구
+	FireExtinguisher, // 소화기
+	Max // 손에 아무것도 없을때
+};
 enum class ToolInfo
 {
 	Dish, //접시
@@ -40,3 +47,4 @@ enum class ToolInfo
 	Pot, //냄비
 	CuttingBoard, //도마랑 칼
 };
+

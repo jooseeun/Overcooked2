@@ -47,7 +47,7 @@ Input_PickUpOption GamePlayTool::Input_PickUp(GamePlayMoveable* _Object)
 		return Moveable_Current_->Input_PickUp(_Object);
 	}
 }
-Input_PickUpOption GamePlayTool::Input_PickUp(GamePlayCharacter* _Player)
+Input_PickUpOption GamePlayTool::Input_PickUp(Player* _Player)
 {
 	if (Moveable_Current_ != nullptr)
 	{

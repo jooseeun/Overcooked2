@@ -19,7 +19,7 @@ enum class Input_PickUpOption
 };
 
 class GamePlayMoveable;
-class GamePlayCharacter;
+class Player;
 class GamePlayObject : public GameEngineActor
 {
 protected:
@@ -36,7 +36,7 @@ public:
 	GamePlayObject& operator=(GamePlayObject&& _Other) noexcept = delete;
 
 	virtual Input_PickUpOption Input_PickUp(GamePlayMoveable* _Object) { return Input_PickUpOption::NoResponse; }
-	virtual Input_PickUpOption Input_PickUp(GamePlayCharacter* _Player) { return Input_PickUpOption::NoResponse; }
+	virtual Input_PickUpOption Input_PickUp(Player* _Player) { return Input_PickUpOption::NoResponse; }
 
 
 protected:

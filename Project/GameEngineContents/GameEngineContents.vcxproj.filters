@@ -71,9 +71,6 @@
     <ClInclude Include="MeshToolLevel.h">
       <Filter>Level</Filter>
     </ClInclude>
-    <ClInclude Include="GamePlayCharacter.h">
-      <Filter>Contents\Template\Character</Filter>
-    </ClInclude>
     <ClInclude Include="GamePlayLevel.h">
       <Filter>Level\Stage</Filter>
     </ClInclude>
@@ -206,9 +203,6 @@
     <ClCompile Include="MeshToolLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
-    <ClCompile Include="GamePlayCharacter.cpp">
-      <Filter>Contents\Template\Character</Filter>
-    </ClCompile>
     <ClCompile Include="GamePlayLevel.cpp">
       <Filter>Level\Stage</Filter>
     </ClCompile>
@@ -318,9 +312,6 @@
     </Filter>
     <Filter Include="Contents\Object\Tool">
       <UniqueIdentifier>{49727864-ec15-4a21-bde5-0d09d170f79d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Contents\Template\Character">
-      <UniqueIdentifier>{0d233f92-3ef4-4411-addb-b002097fda80}</UniqueIdentifier>
     </Filter>
     <Filter Include="Contents\Template\Stuff">
       <UniqueIdentifier>{1d2432fe-d488-404e-8383-4ec5be63a85b}</UniqueIdentifier>
