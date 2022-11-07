@@ -2,6 +2,8 @@
 #include "Enums.h"
 #include <GameEngineCore/GlobalIOManager.h>
 
+class GamePlayStaticObject;
+class GamePlayOriginObject;
 class GameEngineLevel;
 class MapDataParser
 {
@@ -18,14 +20,19 @@ public:
 	void UnSortMapDataParsing(std::vector<MapData>& _Data, GameEngineLevel* _Level);
 
 	// Á¤·ÄµÈ ¸Ê µ¥ÀÌÅÍ ÆÄ½Ì
-	void SortMapDataParsing(std::vector<MapData>& _Data, GameEngineLevel* _Level);
+	std::vector<GamePlayStaticObject*>& SortMapDataParsing(std::vector<MapData>& _Data, GameEngineLevel* _Level);
+
+	std::vector<GamePlayOriginObject*>& GetOrigins()
+	{
+		return Origins_;
+	}
 
 protected:	
 
 private:
 	class GamePlayStaticObject* CurAcotr_;
 
-	std::vector<class GamePlayOriginObject*> Origins_;
+	std::vector<GamePlayOriginObject*> Origins_;
 };
 
 	

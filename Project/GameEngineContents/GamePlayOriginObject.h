@@ -2,6 +2,7 @@
 #include <GameEngineCore/GameEngineActor.h>
 
 //정렬된 맵 오브젝트를 배치할 때 사용되는 기준 엑터
+class GamePlayStaticObject;
 class GamePlayOriginObject : public GameEngineActor
 {
 public:
@@ -18,7 +19,7 @@ public:
 		return Renderer_;
 	}
 
-	std::vector<MapData>& GetStaticMeshInfo()
+	std::vector<GamePlayStaticObject*>& GetStaticMeshInfo()
 	{
 		return StaticMeshDatas_;
 	}
@@ -29,6 +30,6 @@ protected:
 private:
 	GameEngineFBXStaticRenderer* Renderer_;
 
-	std::vector<MapData> StaticMeshDatas_;
+	std::vector<GamePlayStaticObject*> StaticMeshDatas_;
 };
 

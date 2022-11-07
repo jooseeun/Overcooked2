@@ -16,7 +16,8 @@ void GamePlayMapObject::Start()
 
 	GetTransform().SetLocalScale({ 1.f, 1.f, 1.f });
 	GetCollisionObject()->ChangeOrder(CollisionOrder::Object_StaticObject);
-	GetCollisionObject()->GetTransform().SetWorldScale({ 100.f, 100.f, 100.f });	// 원래 크기는 0.01
+	GetCollisionObject()->SetDebugSetting(CollisionType::CT_AABB, { 0, 0, 0.8f, 0.5f });	// 일반 벽, 갈 수 없는 지역, NPC => 파랑
+	GetCollisionObject()->GetTransform().SetWorldScale({ 50.f, 50.f, 50.f });			// 원래 크기는 0.01
 }
 
 void GamePlayMapObject::Update(float _DeltaTime)

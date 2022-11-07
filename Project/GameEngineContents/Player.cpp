@@ -114,6 +114,16 @@ void Player::Start()
 
 
 }
+
+void  Player::LevelStartEvent()
+{
+	if (PlayerRenderer_ != nullptr)
+	{
+		PlayerRenderer_->ChangeLoadMaterial();
+
+	}
+}
+
 void Player::Update(float _DeltaTime)
 {
 	StateManager.Update(_DeltaTime);

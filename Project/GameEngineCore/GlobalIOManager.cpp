@@ -23,7 +23,7 @@ void GlobalIOManager::AddMapData(MapData _Data)
 	MapDataVector_.push_back(_Data);
 }
 
-void GlobalIOManager::Save(IOType _Type, std::string _AddName)
+bool GlobalIOManager::Save(IOType _Type, std::string _AddName)
 {
 	GameEngineDirectory Dir;
 	Dir.MoveParentToExitsChildDirectory("ContentsResources");
@@ -79,9 +79,10 @@ void GlobalIOManager::Save(IOType _Type, std::string _AddName)
 	}
 
 	SaveFile.WriteString(SaveString);
+	return true;
 }
 
-void GlobalIOManager::Load(IOType _Type, std::string _AddName)
+bool GlobalIOManager::Load(IOType _Type, std::string _AddName)
 {
 	Clear();
 
@@ -90,7 +91,24 @@ void GlobalIOManager::Load(IOType _Type, std::string _AddName)
 	Dir.Move("ContentsResources");
 	Dir.Move("SaveFiles");
 
+	bool FindFile = 0;
 	auto IOTypeName = magic_enum::enum_name(_Type);
+	std::vector<GameEngineFile> AllFile = Dir.GetAllFile();
+	for (int i = 0; i < AllFile.size(); ++i)
+	{
+		std::string FileName = AllFile[i].GetFileName();
+		std::string FbxName = static_cast<std::string>(IOTypeName) + "Data" + _AddName + ".txt";
+		if (FileName.find(FbxName) != std::string::npos)
+		{
+			FindFile = true;
+		}
+	}
+
+	if (false == FindFile)
+	{
+		return false;
+	}
+
 	GameEngineFile LoadFile = (Dir.GetFullPath() + "\\" + static_cast<std::string>(IOTypeName) + "Data" + _AddName + ".txt").c_str();
 	LoadFile.Open(OpenMode::Read);
 
@@ -247,6 +265,8 @@ void GlobalIOManager::Load(IOType _Type, std::string _AddName)
 	MapDataVector_;
 	MeshData_;
 	int a = 0;
+
+	return true;
 }
 
 void GlobalIOManager::Clear()
