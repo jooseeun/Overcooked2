@@ -42,8 +42,14 @@ void GamePlayCharacter::Collision_AroundObject()
 			if (Moveable_Current_ == nullptr &&
 				Interact_Possible_Object_->Input_PickUp(this) == Input_PickUpOption::PickUp)
 			{
+				Moveable_Current_->SetBloomEffectOff();
 				Interact_Possible_Object_ = nullptr;
 				return;
+			}
+			else if (Moveable_Current_ != nullptr && 
+				Interact_Possible_Object_->Input_PickUp(Moveable_Current_) == Input_PickUpOption::PickUp)
+			{
+
 			}
 		}
 	}
@@ -66,7 +72,7 @@ void GamePlayCharacter::Collision_AroundObject()
 			if (Moveable_Current_ == nullptr &&
 				Interact_Possible_StaticObject_->Input_PickUp(this) == Input_PickUpOption::PickUp)
 			{
-				Interact_Possible_StaticObject_->SetBloomEffectOff();
+				//Interact_Possible_StaticObject_->SetBloomEffectOff();
 				return;
 			}
 		}
