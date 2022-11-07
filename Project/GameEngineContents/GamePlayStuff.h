@@ -31,6 +31,12 @@ public:
 		return Enum_ObjectStuffType_;
 	}
 
+	inline ToolInfo GetToolInfoType()
+	{
+		return Enum_ToolInfo_;
+	}
+
+
 
 protected:
 
@@ -43,6 +49,11 @@ protected:
 
 	void LevelStartEvent() override {};
 	void LevelEndEvent() override {};
+
+	inline void SetToolInfoType(ToolInfo _Info)
+	{
+		Enum_ToolInfo_ = _Info;
+	}
 
 
 protected:
@@ -57,5 +68,6 @@ private:
 	ObjectStuffType Enum_ObjectStuffType_;
 
 private:
+	ToolInfo Enum_ToolInfo_;
 };
 

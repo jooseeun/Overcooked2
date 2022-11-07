@@ -41,7 +41,9 @@ enum class PlayerHoldType
 };
 enum class ToolInfo
 {
-	Dish, //접시
+	None,
+	Cooker, // 가스레인지
+	Plate, //접시
 	FireExtinguisher, //소화기
 	FryingPan, //프라이팬
 	Pot, //냄비

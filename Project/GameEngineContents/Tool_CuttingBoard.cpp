@@ -15,6 +15,8 @@ void Tool_CuttingBoard::Start()
 {
 	GamePlayTool::Start();
 	GamePlayTool::SetInteractOption(Input_InteractOption::Manual);
+	GamePlayTool::SetToolInfoType(ToolInfo::CuttingBoard);
+	
 }
 
 //Input_PickUpOption Tool_CuttingBoard::CheckMoveable(GamePlayMoveable* _Object)

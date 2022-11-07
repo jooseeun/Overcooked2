@@ -50,6 +50,7 @@ protected:
 	void LevelStartEvent() override {};
 	void LevelEndEvent() override {};
 
+
 protected:
 	inline void SetObjectType(ObjectType _Type)
 	{
