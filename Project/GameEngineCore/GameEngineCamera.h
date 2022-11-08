@@ -33,6 +33,11 @@ public:
 	GameEngineCamera& operator=(const GameEngineCamera& _Other) = delete;
 	GameEngineCamera& operator=(GameEngineCamera&& _Other) noexcept = delete;
 
+	std::map<int, std::list<class GameEngineRenderer*>> GetAllRenderer()
+	{
+		return AllRenderer_;
+	}
+
 	inline CAMERAPROJECTIONMODE GetProjectionMode()
 	{
 		return Mode;
