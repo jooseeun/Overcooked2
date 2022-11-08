@@ -1,15 +1,15 @@
 { 
 MeshName:CHEF.FBX;
 MeshInfoCount:5;
-Path:C:Users\MOA\Overcooked2\Project\ContentsResources\Mesh\Chef1\t_chef_head_alien_green_d.png;
-Mat:t_chef_head_alien_green_d.png;
-Path:C:\Users\MOA\Overcooked2\Project\ContentsResources\Mesh\Chef\t_chef_head_alien_green_d.png;
-Mat:t_chef_head_alien_green_d.png;
-Path:C:\seeun\OverCooked\Project\ContentsResources\Mesh\Player\t_chef_hat_fancy_d.png;
+Path:C:\Users\YS\OneDrive\Documents\DX_TeamPortfolio\MapResource\Matarial\3-4_Wizard\dlc11_city_path_plainoverlay_01.png;
+Mat:dlc11_city_path_plainoverlay_01.png;
+Path:C:\Users\YS\OneDrive\Documents\DX_TeamPortfolio\MapResource\Matarial\3-4_Wizard\dlc11_city_path_plainoverlay_01.png;
+Mat:dlc11_city_path_plainoverlay_01.png;
+Path:C:\Users\YS\OneDrive\Documents\DX_TeamPortfolio\MapResource\Matarial\3-4_Wizard\t_mine_floorboards_01_d.png;
+Mat:BAKEFLOOR2_2_WIZARD.PNG;
+Path:C:\Users\YS\OneDrive\Documents\DX_TeamPortfolio\MapResource\Matarial\3-4_Wizard\BakeFloor_Wizard.png;
 Mat:T_CHEF_BODY_D.PNG;
-Path:C:\Users\MOA\Overcooked2\Project\ContentsResources\Mesh\Chef\t_chef_head_alien_green_d.png;
-Mat:T_CHEF_BODY_D.PNG;
-Path:C:\Users\MOA\Overcooked2\Project\ContentsResources\Mesh\Chef\t_chef_head_alien_green_d.png;
-Mat:t_chef_head_alien_green_d.png;
+Path:C:\Users\YS\OneDrive\Documents\DX_TeamPortfolio\MapResource\Matarial\3-4_Wizard\dlc11_city_path_plainoverlay_01.png;
+Mat:dlc11_city_path_plainoverlay_01.png;
 }
 
