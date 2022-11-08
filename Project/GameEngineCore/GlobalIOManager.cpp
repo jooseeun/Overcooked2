@@ -68,7 +68,7 @@ bool GlobalIOManager::Save(IOType _Type, std::string _AddName)
 		SaveString += "{ \n";
 		SaveString += "MeshName:" + MeshData_.PreviewMeshName_ + ";\n";
 
-		int count_ = MeshData_.PreviewMeshInfo_.size();
+		size_t count_ = MeshData_.PreviewMeshInfo_.size();
 		SaveString += "MeshInfoCount:" + std::to_string(count_) + ";\n";
 		for (size_t j = 0; j < count_; j++)
 		{
@@ -228,7 +228,7 @@ bool GlobalIOManager::Load(IOType _Type, std::string _AddName)
 			if (std::string::npos != FindIndex)
 			{
 				TmpVector[CurIndex_].erase(0, FindIndex + 1);
-				TmpCount = std::stof(TmpVector[CurIndex_]);
+				TmpCount = std::stoi(TmpVector[CurIndex_]);
 			}
 		}
 

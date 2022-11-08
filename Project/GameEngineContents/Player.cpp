@@ -523,6 +523,10 @@ CollisionReturn Player::GetCrashMoveableObject(GameEngineCollision* _This, GameE
 	}
 
 	Interact_Possible_Object_ = _Other->GetActor<GamePlayMoveable>();
+	if (Interact_Possible_StaticObject_ == nullptr) // 임시코드
+	{
+		return CollisionReturn::Break;
+	}
 	Interact_Possible_Object_->SetBloomEffectOn();
 	return CollisionReturn::Break;
 }
@@ -535,6 +539,10 @@ CollisionReturn Player::GetCrashStaticObject(GameEngineCollision* _This, GameEng
 		//Interact_Possible_StaticObject_ = nullptr;
 	}
 	Interact_Possible_StaticObject_ = _Other->GetActor<GamePlayStaticObject>();
+	if (Interact_Possible_StaticObject_ == nullptr) // 임시코드
+	{
+		return CollisionReturn::Break;
+	}
 	Interact_Possible_StaticObject_->SetBloomEffectOn();
 	return CollisionReturn::Break;
 }

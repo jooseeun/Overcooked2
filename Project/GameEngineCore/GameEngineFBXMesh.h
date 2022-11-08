@@ -6,6 +6,7 @@
 #include "GameEngineIndexBuffer.h"
 #include "GameEngineTexture.h"
 #include "GameEngineMesh.h"
+#include "GameEngineStructuredBuffer.h"
 
 class FbxExIW
 {
@@ -534,7 +535,7 @@ public:
 		return RenderUnitInfos[_RenderUnitIndex].Indexs.size();
 	}
 
-	size_t GetBoneCount(UINT _Index)
+	size_t GetBoneCount(size_t _Index)
 	{
 		return AllBones[_Index].size();
 	}
@@ -549,14 +550,22 @@ public:
 		return MeshInfos;
 	}
 
+	size_t GetMeshInfosCount()
+	{
+		return MeshInfos.size();
+	}
+
 	// Bone 찾아주는 함수
-	Bone* FindBone(int MeshIndex, int _BoneIndex);
-	Bone* FindBone(int MeshIndex, std::string _Name);
+	Bone* FindBone(size_t MeshIndex, size_t _BoneIndex);
+	Bone* FindBone(size_t MeshIndex, std::string _Name);
 
 protected:
 	std::vector<FbxExMeshInfo> MeshInfos;
 	std::vector<FbxRenderUnitInfo> RenderUnitInfos;
+
 	std::vector<std::vector<Bone>> AllBones; // 본정보체
+	std::vector<std::shared_ptr<GameEngineStructuredBuffer>> AllBoneStructuredBuffers;
+
 	std::vector<std::map<std::string, Bone*>> AllFindMap;
 	std::vector<std::vector<FbxClusterData>> ClusterData;
 
@@ -602,5 +611,7 @@ public:
 	void DrawSetWeightAndIndexSetting(FbxRenderUnitInfo* _DrawSet, fbxsdk::FbxMesh* _Mesh, fbxsdk::FbxCluster* _Cluster, int _BoneIndex);
 	void CalAnimationVertexData(FbxRenderUnitInfo& _DrawSet);
 
-};
+	// 스트럭처드 버퍼 생성로직.
+	void CreateGameEngineStructuredBuffer();
 
+};
