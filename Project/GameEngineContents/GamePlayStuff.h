@@ -36,6 +36,10 @@ public:
 		return Enum_ToolInfo_;
 	}
 
+	inline void SetToolInfoType(ToolInfo _Info)
+	{
+		Enum_ToolInfo_ = _Info;
+	}
 
 
 protected:
@@ -50,10 +54,6 @@ protected:
 	void LevelStartEvent() override {};
 	void LevelEndEvent() override {};
 
-	inline void SetToolInfoType(ToolInfo _Info)
-	{
-		Enum_ToolInfo_ = _Info;
-	}
 
 
 protected:

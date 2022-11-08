@@ -1,9 +1,9 @@
 #pragma once
 #include "GamePlayObject.h"
 #include "Enums.h"
+#include "GamePlayStuff.h"
 
 // Ό³Έν :
-class GamePlayStuff;
 class GamePlayStaticObject : public GamePlayObject
 {
 protected:
@@ -30,6 +30,11 @@ public:
 	inline void SetStuff(GamePlayStuff* _Stuff)
 	{
 		Stuff_Current_ = _Stuff;
+
+		if (nullptr != _Stuff)
+		{
+			_Stuff->SetParent(this);
+		}
 	}
 	//inline int GetX() const
 	//{
