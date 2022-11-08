@@ -22,7 +22,7 @@ void GamePlayTool::Start()
 // ---------------------------------------Update
 void GamePlayTool::Update(float _DeltaTime)
 {
-	//if (Moveable_Current_ != nullptr && InteractOption_Current_ == Input_InteractOption::Auto)
+	//if (Moveable_Current_ != nullptr && InteractOption_Current_ == Input_AutoOption::Auto)
 	//{
 	//	Moveable_Current_->Cook_Update(_DeltaTime);
 	//}

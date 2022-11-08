@@ -44,13 +44,11 @@ enum class PlayerHoldType
 enum class ToolInfo
 {
 	None,
-	Cooker, // 가스레인지
 	Plate, //접시
 	FireExtinguisher, //소화기
 	FryingPan, //프라이팬
 	Pot, //냄비
 	CuttingBoard, //도마랑 칼
-	TrashCan, //쓰레기통
 	Max
 };
 

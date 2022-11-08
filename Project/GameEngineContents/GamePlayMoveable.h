@@ -11,9 +11,9 @@ enum class ObjectMoveableType
 };
 enum class CookedStat
 {
-	Nomal,
+	NoResponse,
 	Cooking,
-	Cooked
+	End
 };
 class GamePlayMoveable : public GamePlayStuff
 {
@@ -67,6 +67,7 @@ protected:
 	{
 		Enum_ObjectMoveableType_ = _Type;
 	}
+
 
 	//inline CookedStat GetCookedStat() const
 	//{

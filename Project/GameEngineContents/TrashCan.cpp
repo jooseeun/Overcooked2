@@ -35,8 +35,8 @@ Tool_TrashCan::~Tool_TrashCan()
 void Tool_TrashCan::Start()
 {
 	GamePlayTool::Start();
-	GamePlayTool::SetInteractOption(Input_InteractOption::Manual);
-	GamePlayTool::SetToolInfoType(ToolInfo::TrashCan);
+	GamePlayTool::SetInteractOption(AutoOption::Manual);
+	//GamePlayTool::SetToolInfoType(ToolInfo::TrashCan);
 }
 
 Input_PickUpOption Tool_TrashCan::CheckMoveable(GamePlayMoveable* _Object)
@@ -44,8 +44,8 @@ Input_PickUpOption Tool_TrashCan::CheckMoveable(GamePlayMoveable* _Object)
 	// _Object->버리는 함수 + SetParent;
 	return Input_PickUpOption::NoResponse;
 }
-
-Input_InteractOption Tool_TrashCan::Input_Action()
-{
-	return Input_InteractOption::NoResponse;
-}
+//
+//Input_AutoOption Tool_TrashCan::Input_Action()
+//{
+//	return Input_AutoOption::NoResponse;
+//}

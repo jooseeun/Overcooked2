@@ -55,7 +55,7 @@ protected:
 
 
 	Input_PickUpOption CheckMoveable(GamePlayMoveable* _Object) override;
-	Input_InteractOption Input_Action() override;
+	Input_UsingOption Input_Action(Player* _Player) override;
 private:
 	int StackValue_;
 };

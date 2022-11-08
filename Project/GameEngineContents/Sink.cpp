@@ -31,8 +31,8 @@ Tool_Sink::~Tool_Sink()
 void Tool_Sink::Start()
 {
 	GamePlayTool::Start();
-	GamePlayTool::SetInteractOption(Input_InteractOption::Manual);
-	GamePlayTool::SetToolInfoType(ToolInfo::Cooker);
+	GamePlayTool::SetInteractOption(AutoOption::Manual);
+	//GamePlayTool::SetToolInfoType(ToolInfo::Cooker);
 
 }
 
@@ -47,7 +47,7 @@ Input_PickUpOption Tool_Sink::CheckMoveable(GamePlayMoveable* _Object)
 	return Input_PickUpOption::NoResponse;
 }
 
-Input_InteractOption Tool_Sink::Input_Action()
+Input_UsingOption Tool_Sink::Input_Action(Player* _Player)
 {
-	return Input_InteractOption::NoResponse;
+	return Input_UsingOption::Using;
 }

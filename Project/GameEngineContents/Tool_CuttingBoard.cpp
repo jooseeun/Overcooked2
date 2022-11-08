@@ -14,7 +14,7 @@ Tool_CuttingBoard::~Tool_CuttingBoard()
 void Tool_CuttingBoard::Start()
 {
 	GamePlayTool::Start();
-	GamePlayTool::SetInteractOption(Input_InteractOption::Manual);
+	GamePlayTool::SetInteractOption(AutoOption::Manual);
 	GamePlayTool::SetToolInfoType(ToolInfo::CuttingBoard);
 	
 }

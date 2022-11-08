@@ -2,11 +2,17 @@
 #include "GamePlayStuff.h"
 #include "GamePlayMoveable.h"
 // 설명 :
-enum class Input_InteractOption
+enum class AutoOption
 {
 	NoResponse,
 	Auto,
 	Manual
+};
+enum class Input_UsingOption
+{
+	NoResponse,          
+	Using,        // 사용
+	Throwing,     // 던지기
 };
 enum class ObjectToolType
 {
@@ -48,17 +54,17 @@ protected:
 	Input_PickUpOption Input_PickUp(Player* _Player) final;
 	virtual Input_PickUpOption CheckMoveable(GamePlayMoveable* _Object);
 
-	virtual Input_InteractOption Input_Action() = 0;
+	virtual Input_UsingOption Input_Action(Player* _Player) = 0; // 이 장치를 사용하는 Player의 정보를 인자로 받는다
 
 
-	inline void SetInteractOption(Input_InteractOption _Option)
+	inline void SetInteractOption(AutoOption _Option)
 	{
 		InteractOption_Current_ = _Option;
 	}
 
 private:
 	GamePlayMoveable* Moveable_Current_;
-	Input_InteractOption InteractOption_Current_;
+	AutoOption InteractOption_Current_;
 
 
 	// Bloom

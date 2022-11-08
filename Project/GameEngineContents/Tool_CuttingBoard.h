@@ -15,9 +15,9 @@ public:
 	Tool_CuttingBoard& operator=(Tool_CuttingBoard&& _Other) noexcept = delete;
 
 	//Input_PickUpOption CheckMoveable(GamePlayMoveable* _Object) override;
-	Input_InteractOption Input_Action() override
+	Input_UsingOption Input_Action(Player* _Player) override
 	{
-		return Input_InteractOption::NoResponse;
+		return Input_UsingOption::Using; // ¼öÁ¤¿ä
 	}
 protected:
 	void Start() override;
