@@ -20,6 +20,7 @@ void Sink::Start()
 
 // ----------------------Tool---------------------------
 Tool_Sink::Tool_Sink()
+	: StackValue_(0)
 {
 }
 

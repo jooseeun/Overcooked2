@@ -30,5 +30,6 @@ protected:
 	void Start() override;
 private:
 	bool Dirty;
+
 };
 

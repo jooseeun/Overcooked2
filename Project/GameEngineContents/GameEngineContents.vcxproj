@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Cooker.h" />
     <ClInclude Include="CounterTop.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="Equipment_FireExtinguisher.h" />
@@ -224,6 +225,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Cooker.cpp" />
     <ClCompile Include="CounterTop.cpp" />
     <ClCompile Include="Equipment_FireExtinguisher.cpp" />
     <ClCompile Include="Equipment_FryingPan.cpp" />

@@ -14,3 +14,9 @@ void Equipment_FireExtinguisher::Start()
 	GamePlayEquipment::Start();
 	GamePlayEquipment::SetToolInfoType(ToolInfo::FireExtinguisher);
 }
+
+Input_PickUpOption Equipment_FireExtinguisher::Input_PickUp(Player* _Player)
+{
+	//_Player->
+	return Input_PickUpOption::PickUp;
+}

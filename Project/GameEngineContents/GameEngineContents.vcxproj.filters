@@ -149,6 +149,9 @@
     <ClInclude Include="Equipment_FryingPan.h">
       <Filter>Contents\Object\Tool</Filter>
     </ClInclude>
+    <ClInclude Include="Cooker.h">
+      <Filter>Contents\Object\StaticMesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -298,6 +301,9 @@
     </ClCompile>
     <ClCompile Include="Equipment_FryingPan.cpp">
       <Filter>Contents\Object\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="Cooker.cpp">
+      <Filter>Contents\Object\StaticMesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
