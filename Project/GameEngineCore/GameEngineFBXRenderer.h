@@ -19,7 +19,7 @@ public:
 	GameEngineFBXRenderer& operator=(GameEngineFBXRenderer&& _Other) noexcept = delete;
 
 	virtual void SetFBXMesh(const std::string& _Name, std::string _Material);
-	virtual void SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex, size_t _SubSetIndex = 0);
+	virtual GameEngineRenderUnit* SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex, size_t _SubSetIndex = 0);
 	virtual void ChangeLoadMaterial();
 
 	void Render(float _DeltaTime) override;
@@ -38,7 +38,6 @@ protected:
 
 private:
 	GameEngineFBXMesh* FBXMesh;
-
 	std::vector<std::vector<GameEngineRenderUnit>> Unit;
 
 };

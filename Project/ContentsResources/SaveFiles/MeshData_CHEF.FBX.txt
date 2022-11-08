@@ -6,7 +6,7 @@ Mat:t_chef_head_alien_green_d.png;
 Path:C:\Users\MOA\Overcooked2\Project\ContentsResources\Mesh\Chef\t_chef_head_alien_green_d.png;
 Mat:t_chef_head_alien_green_d.png;
 Path:C:\seeun\OverCooked\Project\ContentsResources\Mesh\Player\t_chef_hat_fancy_d.png;
-Mat:T_CHEF_BODY_D.PNG;
+Mat:t_chef_hat_fancy_d.png;
 Path:C:\Users\MOA\Overcooked2\Project\ContentsResources\Mesh\Chef\t_chef_head_alien_green_d.png;
 Mat:T_CHEF_BODY_D.PNG;
 Path:C:\Users\MOA\Overcooked2\Project\ContentsResources\Mesh\Chef\t_chef_head_alien_green_d.png;
