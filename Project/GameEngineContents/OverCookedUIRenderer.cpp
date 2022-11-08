@@ -30,6 +30,7 @@ void OverCookedUIRenderer::SetTextureRendererSetting()
 
 	GetShaderResources().SetConstantBufferLink("AtlasData", AtlasDataInst);
 	GetShaderResources().SetConstantBufferLink("PixelData", PixelDataInst);
+	GetShaderResources().SetConstantBufferLink("UIData", UIDataInst);
 }
 
 void OverCookedUIRenderer::Start()
@@ -116,11 +117,18 @@ void OverCookedUIRenderer::SetTexture(GameEngineTexture* _Texture)
 
 	CurTex = _Texture;
 	GetShaderResources().SetTexture("Tex", _Texture);
+	GetShaderResources().SetTexture("Tex2", _Texture);
 }
 
 void OverCookedUIRenderer::SetTexture(const std::string& _Name)
 {
 	CurTex = GetShaderResources().SetTexture("Tex", _Name);
+}
+
+void OverCookedUIRenderer::SetMaskTexture(const std::string_view _Name)
+{
+	UIDataInst.UsingMask = 1;
+	GetShaderResources().SetTexture("Tex2", _Name.data());
 }
 
 void OverCookedUIRenderer::SetFrame(UINT _Index)
@@ -165,6 +173,58 @@ void OverCookedUIRenderer::SetFolderTextureToIndex(const std::string& _Text, UIN
 
 void OverCookedUIRenderer::Update(float _Delta)
 {
+	if (IsPumping() == true)
+	{
+		if (Pump_IterTime_ >= 2.f)
+		{
+			StopPump();
+		}
+		Pump_IterTime_ += _Delta * PumpingSpeed_;
+		float4 CurScale = {};
+		if (Pump_IterTime_ < 1.f)
+		{
+			CurScale = float4::LerpLimit(PrevScale_, PrevScale_ * PumpRatio_, Pump_IterTime_);
+		}
+		else if (Pump_IterTime_ >= 1.f)
+		{
+			CurScale = float4::LerpLimit(PrevScale_ * PumpRatio_, PrevScale_, Pump_IterTime_ - 1.f);
+		}
+		GetTransform().SetLocalScale(CurScale);
+	}
+	if (IsDown_ == true)
+	{
+		DownIter_ += _Delta * DownSpeed_;
+		UIDataInst.DownDelta.y = DownIter_;
+		if (DownIter_ > 1.0f)
+		{
+			DownIter_ = -1000.f;
+		}
+	}
+}
+
+void OverCookedUIRenderer::StopPump()
+{
+	IsPumping_ = false;
+	GetTransform().SetLocalScale(PrevScale_);
+	Pump_IterTime_ = 0.f;
+}
+
+bool OverCookedUIRenderer::IsPumping()
+{
+	return IsPumping_;
+}
+
+void OverCookedUIRenderer::StartDown(float _Speed)
+{
+	if (IsDown_ == true)
+	{
+		return;
+	}
+	DownIter_ = -1000.f;
+	IsDown_ = true;
+	DownSpeed_ = _Speed;
+	DownIter_ = 100000.f;
+	UIDataInst.DownDelta = { 1.f,0.f,0.f,0.f };
 }
 
 void OverCookedUIRenderer::ScaleToCutTexture(int _Index)
@@ -183,6 +243,19 @@ void OverCookedUIRenderer::ScaleToCutTexture(int _Index)
 	}
 
 	GetTransform().SetLocalScale(Scale * ScaleRatio);
+}
+
+void OverCookedUIRenderer::StartPump(float _Ratio, float _Speed)
+{
+	//이미 펌핑중이면 들어오지 못하게
+	if (IsPumping() == true)
+	{
+		return;
+	}
+	PrevScale_ = GetTransform().GetLocalScale();
+	PumpingSpeed_ = _Speed;
+	PumpRatio_ = _Ratio;
+	IsPumping_ = true;
 }
 
 void OverCookedUIRenderer::ScaleToTexture()

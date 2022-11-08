@@ -3,6 +3,19 @@
 #include <GameEngineCore/GameEngineTextureRenderer.h>
 
 // 설명 :
+
+struct UIData
+{
+	int UsingMask;
+	float4 DownDelta;//{0 : 사용하지않음 1.f : 사용함,누적 DeltaTime,,,}
+
+	UIData()
+		: UsingMask(0)
+		, DownDelta(float4::ZERO)
+	{
+	}
+};
+
 class OverCookedUIRenderer : public GameEngineDefaultRenderer
 {
 	friend FrameAnimation;
@@ -42,6 +55,8 @@ public:
 
 	void SetTexture(const std::string& _Name);
 
+	void SetMaskTexture(const std::string_view _Name);
+
 	void SetFrame(UINT _Index);
 
 	GameEngineTexture* GetCurTexture();
@@ -62,12 +77,18 @@ public:
 
 	void ScaleToCutTexture(int _Index);
 
+	void StartPump(float _Ratio, float _Speed = 1.f);
+
+	void StartDown(float _Speed);
+
 protected:
 	void Start() override;
 
 	void SetTextureRendererSetting();
 
 	void Update(float _Delta) override;
+
+	void StopPump();
 
 private:
 	PIVOTMODE PivotMode;
@@ -78,7 +99,21 @@ private:
 
 	PixelData PixelDataInst;
 	AtlasData AtlasDataInst;
+	UIData UIDataInst;
 
 	std::map<std::string, FrameAnimation> FrameAni;
 	FrameAnimation* CurAni;
+
+	//Pump관련
+	float4 PrevScale_ = {};
+	float Pump_IterTime_ = 0.f;
+	float PumpingSpeed_ = 1.f;
+	float PumpRatio_ = 0.f;
+	bool IsPumping_ = false;
+	bool IsPumping();
+
+	//Down관련
+	bool IsDown_ = false;
+	float DownIter_ = 0.f;
+	float DownSpeed_ = 0.f;
 };

@@ -366,7 +366,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\ContentsResources\Hlsl\UI.hlsl">
+    <FxCompile Include="..\ContentsResources\ContentsShader\UI.hlsl">
       <Filter>UI</Filter>
     </FxCompile>
   </ItemGroup>
