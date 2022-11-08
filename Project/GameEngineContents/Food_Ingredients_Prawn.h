@@ -15,9 +15,9 @@ public:
 	Food_Ingredients_Prawn& operator=(Food_Ingredients_Prawn&& _Other) noexcept = delete;
 
 
-	CookedStat Cook_Start_Child() override;
+	//CookedStat Cook_Start_Child() override;
 	//void Cook_Update_Child(float _Delta) override;
-	GamePlayMoveable* Cook_End_Child() override;
+	//GamePlayMoveable* Cook_End_Child() override;
 protected:
 	void Start() override;
 

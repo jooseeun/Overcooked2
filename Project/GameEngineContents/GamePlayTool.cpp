@@ -22,10 +22,10 @@ void GamePlayTool::Start()
 // ---------------------------------------Update
 void GamePlayTool::Update(float _DeltaTime)
 {
-	if (Moveable_Current_ != nullptr && InteractOption_Current_ == Input_InteractOption::Auto)
-	{
-		Moveable_Current_->Cook_Update(_DeltaTime);
-	}
+	//if (Moveable_Current_ != nullptr && InteractOption_Current_ == Input_InteractOption::Auto)
+	//{
+	//	Moveable_Current_->Cook_Update(_DeltaTime);
+	//}
 }
 
 Input_PickUpOption GamePlayTool::Input_PickUp(GamePlayMoveable* _Object)

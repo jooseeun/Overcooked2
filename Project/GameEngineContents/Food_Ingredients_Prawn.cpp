@@ -38,11 +38,11 @@ void Food_Ingredients_Prawn::Start()
 
 
 }
-
-CookedStat Food_Ingredients_Prawn::Cook_Start_Child()
-{
-	return CookedStat::Nomal;
-}
+//
+//CookedStat Food_Ingredients_Prawn::Cook_Start_Child()
+//{
+//	return CookedStat::Nomal;
+//}
 
 
 //void Food_Ingredients_Prawn::Cook_Update_Child(float _Delta)
@@ -50,9 +50,9 @@ CookedStat Food_Ingredients_Prawn::Cook_Start_Child()
 //
 //}
 
-GamePlayMoveable* Food_Ingredients_Prawn::Cook_End_Child()
-{
-	GamePlayFood::SetObjectFoodClass(ObjectFoodClass::Prawn_Cutting);
-	// 매시 변경
-	return this;
-}
+//GamePlayMoveable* Food_Ingredients_Prawn::Cook_End_Child()
+//{
+//	GamePlayFood::SetObjectFoodClass(ObjectFoodClass::Prawn_Cutting);
+//	// 매시 변경
+//	return this;
+//}
