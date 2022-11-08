@@ -2,10 +2,19 @@
 #include "MapEditorWindow.h"
 #include "GamePlayLevel.h"
 #include "GamePlayOriginObject.h"
+#include "GamePlayStuff.h"
 
 #include "CounterTop.h"
 #include "TrashCan.h"
 #include "Servicehatch.h"
+
+#include "Equipment_Plate.h"
+#include "Equipment_FireExtinguisher.h"
+#include "Equipment_FryingPan.h"
+#include "Equipment_Pot.h"
+
+#include "Tool_CuttingBoard.h"
+
 
 namespace
 {
@@ -92,7 +101,7 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				for (size_t j = 0; j < DataActors.size(); j++)
 				{
 					MapData Data = { };
-					
+
 					Data.MapObjType_ = DataActors[j]->GetStaticObjectType();
 					Data.Transform_ = &DataActors[j]->GetTransform();
 					Data.Pos_ = DataActors[j]->GetTransform().GetWorldPosition();
@@ -335,7 +344,7 @@ void MapEditorWindow::UnSortToolTab()
 	{
 		GamePlayMapObject* Object = CurLevel_->CreateActor<GamePlayMapObject>();
 		Object->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
-	//	Object->GetTransform().SetLocalScale({ 1.f, 1.f, 1.f });
+		//	Object->GetTransform().SetLocalScale({ 1.f, 1.f, 1.f });
 		Object->SetName("UnNamed");
 
 		if (AllUnSortActorName_[SelectNameIndex] == "Collision_Wall")
@@ -501,10 +510,98 @@ void MapEditorWindow::SortToolTab()
 		if (ImGui::Selectable(Name.c_str(), ActorIndex == i))
 		{
 			ActorIndex = i;
+
 		}
 	}
 
 	ImGui::EndChild();
+	ImGui::Text("");
+
+	if (0 < SortActorList_.size())
+	{
+		auto ToolNames = magic_enum::enum_names<ToolInfo>();
+
+		const int Size = ToolNames.size();
+		static bool IsChecks_[Size] = { false };
+
+		for (size_t i = 0; i < ToolNames.size(); i++)
+		{
+			ImGui::Checkbox(ToolNames[i].data(), &IsChecks_[i]);
+		}
+
+		if (nullptr != SortActorList_[ActorIndex]->GetStuff())
+		{
+			auto CurType = magic_enum::enum_name(SortActorList_[ActorIndex]->GetStuff()->GetToolInfoType());
+
+			for (size_t i = 0; i < ToolNames.size(); i++)
+			{
+				if (ToolNames[i] == CurType)
+				{
+					IsChecks_[i] = true;
+					continue;
+				}
+
+				IsChecks_[i] = false;
+			}
+		}
+
+		else
+		{
+			for (size_t i = 0; i < ToolNames.size(); i++)
+			{
+				if (true == IsChecks_[i])
+				{
+					ToolInfo ToolType = static_cast<ToolInfo>(IsChecks_[i]);
+
+					switch (ToolType)
+					{
+					case ToolInfo::Plate:
+					{
+						//ºÎ¸ð·Î µÐ´Ù
+						Equipment_Plate* Plate = CurLevel_->CreateActor<Equipment_Plate>();
+
+						SortActorList_[ActorIndex]->SetStuff(Plate);
+						SortActorList_[ActorIndex]->SetParent(Plate);
+					}
+					break;
+					case ToolInfo::FireExtinguisher:
+					{
+						Equipment_FireExtinguisher* FireExtinguisher = CurLevel_->CreateActor<Equipment_FireExtinguisher>();
+
+						SortActorList_[ActorIndex]->SetStuff(FireExtinguisher);
+						SortActorList_[ActorIndex]->SetParent(FireExtinguisher);
+					}
+					break;
+					case ToolInfo::FryingPan:
+					{
+						Equipment_FryingPan* FryingPan = CurLevel_->CreateActor<Equipment_FryingPan>();
+
+						SortActorList_[ActorIndex]->SetStuff(FryingPan);
+						SortActorList_[ActorIndex]->SetParent(FryingPan);
+					}
+					break;
+					case ToolInfo::Pot:
+					{
+						Equipment_Pot* Pot = CurLevel_->CreateActor<Equipment_Pot>();
+
+						SortActorList_[ActorIndex]->SetStuff(Pot);
+						SortActorList_[ActorIndex]->SetParent(Pot);
+					}
+					break;
+					case ToolInfo::CuttingBoard:
+					{
+						Tool_CuttingBoard* CuttingBoard = CurLevel_->CreateActor<Tool_CuttingBoard>();
+
+						SortActorList_[ActorIndex]->SetStuff(CuttingBoard);
+						SortActorList_[ActorIndex]->SetParent(CuttingBoard);
+					}
+						break;
+					}
+				}
+			}
+		}
+	}
+
 	ImGui::Text("");
 
 	static int Index[2] = { 0, 0 };
@@ -561,7 +658,7 @@ void MapEditorWindow::SortToolTab()
 		CurStaticMesh_->SetParent(Origins_[OriginIndex]);
 
 		CurStaticMesh_->GetTransform().SetWorldPosition(Origins_[OriginIndex]->GetTransform().GetWorldPosition());
-		CurStaticMesh_->GetTransform().SetWorldMove({ Index[0] * (-INTERVAL), 0.f, Index[1] * INTERVAL});
+		CurStaticMesh_->GetTransform().SetWorldMove({ Index[0] * (-INTERVAL), 0.f, Index[1] * INTERVAL });
 
 		SortActorList_.push_back(CurStaticMesh_);
 		Origins_[OriginIndex]->GetStaticMeshInfo().push_back(CurStaticMesh_);
@@ -601,5 +698,39 @@ void MapEditorWindow::SortToolTab()
 
 	ImGui::EndTabItem();
 }
+
+void MapEditorWindow::SetToolCheckBox(int _Index)
+{
+	/*if (0 == SortActorList_.size())
+	{
+		return;
+	}
+
+	auto ToolNames = magic_enum::enum_names<ToolInfo>();
+
+	for (size_t i = 0; i < ToolNames.size(); i++)
+	{
+		if (nullptr == )
+		{
+			bool IsFalse = false;
+		}
+
+		else
+		{
+			auto CurType = magic_enum::enum_name(SortActorList_[i]->GetStuff()->GetToolInfoType());
+
+			if (ToolNames[i] == CurType)
+			{
+				bool IsTrue = true;
+				ImGui::Checkbox(ToolNames[i].data(), &IsTrue);
+				continue;
+			}
+
+			bool IsFalse = false;
+			ImGui::Checkbox(ToolNames[i].data(), &IsFalse);
+		}
+	}*/
+}
+
 
 

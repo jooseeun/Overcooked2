@@ -494,6 +494,7 @@ CollisionReturn Player::GetCrashTableObject(GameEngineCollision* _This, GameEngi
 		Interact_Possible_StaticObject_->SetBloomEffectOff();
 		//Interact_Possible_StaticObject_ = nullptr;
 	}
+
 	Interact_Possible_StaticObject_ = _Other->GetActor<GamePlayStaticObject>();
 	if (Interact_Possible_StaticObject_ == nullptr) // 임시코드
 	{

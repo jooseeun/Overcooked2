@@ -23,6 +23,8 @@ public:
 
 	void ShowLevelSelectTable();
 
+	void SetToolCheckBox(int _Index);
+
 	void SetLevel(GameEngineLevel* _CurLevel)
 	{
 		CurLevel_ = _CurLevel;
@@ -61,6 +63,8 @@ private:
 	MapDataParser DataParser_;
 
 	int LevelIndex_;
+
+	//std::vector<int> IsChecks_;
 
 private:
 	float4 Rotation_;
