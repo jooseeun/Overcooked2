@@ -55,7 +55,8 @@ protected:
 	float CurAngle_;
 	PlayerDir CurDir_;
 	PlayerHoldType CurHoldType_;
-
+	
+	
 public:
 	inline Input_PickUpOption Input_PickUp(Player* _Player) override { return Input_PickUpOption::NoResponse; }
 	inline Input_PickUpOption Input_PickUp(GamePlayMoveable* _Object) override
@@ -68,6 +69,13 @@ public:
 	{
 		return Collision_Interact_;
 	}
+
+	inline void SetCurHoldType(PlayerHoldType _CurHoldType)
+	{
+		CurHoldType_ = _CurHoldType;
+	}
+
+
 public:
 	inline void SetBloomEffectOff() override
 	{
