@@ -61,7 +61,7 @@ void Player::Start()
 
 
 	PlayerRenderer_ = CreateComponent<GameEngineFBXStaticRenderer>();
-	PlayerRenderer_->SetFBXMesh("Chef.FBX", "Texture");
+	PlayerRenderer_->SetFBXMesh("m_kevin_01.FBX", "Texture");
 	PlayerRenderer_->GetTransform().SetLocalPosition({-119,0,0});
 	//PlayerRenderer_ = CreateComponent<GameEngineFBXStaticRenderer>();
 	//PlayerRenderer_->SetFBXMesh("AlienGreen_CarDeath.FBX", "Texture");
