@@ -134,12 +134,6 @@
     <ClInclude Include="GamePlayFloor.h">
       <Filter>Map</Filter>
     </ClInclude>
-    <ClInclude Include="Tool_Sink.h">
-      <Filter>Contents\Object\Tool</Filter>
-    </ClInclude>
-    <ClInclude Include="Tool_TrashCan.h">
-      <Filter>Contents\Object\Tool</Filter>
-    </ClInclude>
     <ClInclude Include="Tool_Cooker.h">
       <Filter>Contents\Object\Tool</Filter>
     </ClInclude>
@@ -289,12 +283,6 @@
     </ClCompile>
     <ClCompile Include="PlayerState.cpp">
       <Filter>Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Tool_Sink.cpp">
-      <Filter>Contents\Object\Tool</Filter>
-    </ClCompile>
-    <ClCompile Include="Tool_TrashCan.cpp">
-      <Filter>Contents\Object\Tool</Filter>
     </ClCompile>
     <ClCompile Include="Tool_Cooker.cpp">
       <Filter>Contents\Object\Tool</Filter>
