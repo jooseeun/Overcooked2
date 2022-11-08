@@ -217,8 +217,6 @@
     <ClInclude Include="Stage_1_4.h" />
     <ClInclude Include="Tool_Cooker.h" />
     <ClInclude Include="Tool_CuttingBoard.h" />
-    <ClInclude Include="Tool_Sink.h" />
-    <ClInclude Include="Tool_TrashCan.h" />
     <ClInclude Include="TrashCan.h" />
     <ClInclude Include="UIDebugGUI.h">
       <SubType>
@@ -304,8 +302,6 @@
     <ClCompile Include="Stage_1_4.cpp" />
     <ClCompile Include="Tool_Cooker.cpp" />
     <ClCompile Include="Tool_CuttingBoard.cpp" />
-    <ClCompile Include="Tool_Sink.cpp" />
-    <ClCompile Include="Tool_TrashCan.cpp" />
     <ClCompile Include="TrashCan.cpp" />
     <ClCompile Include="UIDebugGUI.cpp">
       <SubType>

@@ -21,6 +21,6 @@ void GamePlayObject::Start()
 	Collision_Object_ = CreateComponent<GameEngineCollision>("Collision_Object");
 	Collision_Object_->SetDebugSetting(CollisionType::CT_AABB, {0, 0.8f, 0, 0.5f});
 	Collision_Object_->ChangeOrder(CollisionOrder::Object_None);
-	
 
+	AnimationMesh_Obejct_ = CreateComponent<GameEngineFBXAnimationRenderer>("AnimationMesh_Obejct");
 }

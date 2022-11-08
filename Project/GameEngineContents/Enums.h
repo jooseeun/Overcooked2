@@ -14,8 +14,10 @@ enum class CollisionOrder
 	Object_Character,
 	Object_Character_Interact,
 	Object_Moveable,
-	//
+
+	// Collision 물리 충돌용
 	Floor,			// 바닥 콜리전
+	Map_Object,
 
 };
 
@@ -48,5 +50,14 @@ enum class ToolInfo
 	FryingPan, //프라이팬
 	Pot, //냄비
 	CuttingBoard, //도마랑 칼
+	TrashCan, //쓰레기통
 };
 
+enum class UnsortMapObjType
+{
+	Static,			// 애니메이션 X
+	Animation,		// 애니메이션 O
+	Move,			// 애니메이션 O + 움직이는 애
+
+	Max,
+};

@@ -46,9 +46,9 @@ protected:
 protected:
 	Input_PickUpOption Input_PickUp(GamePlayMoveable* _Object) final;
 	Input_PickUpOption Input_PickUp(Player* _Player) final;
-	virtual Input_PickUpOption CheckMoveable(GamePlayMoveable* _Object) = 0;
+	virtual Input_PickUpOption CheckMoveable(GamePlayMoveable* _Object);
 
-	virtual Input_InteractOption Input_Interact() = 0;
+	virtual Input_InteractOption Input_Action() = 0;
 
 
 	inline void SetInteractOption(Input_InteractOption _Option)

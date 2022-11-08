@@ -349,9 +349,6 @@ void MapEditorWindow::UnSortToolTab()
 		}
 		else
 		{
-			//GameEngineFBXStaticRenderer* Renderer = Object->CreateComponent<GameEngineFBXStaticRenderer>();
-			//Renderer->SetFBXMesh(AllUnSortActorName_[SelectNameIndex] + ".fbx", "Texture");
-			//Renderer->GetTransform().SetLocalScale({ 100.f, 100.f, 100.f });
 			Object->SetMapObjectMesh(AllUnSortActorName_[SelectNameIndex]);
 			Object->SetName(AllUnSortActorName_[SelectNameIndex]);
 		}
