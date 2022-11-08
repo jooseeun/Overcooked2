@@ -13,6 +13,9 @@ void Stage_1_2::Start()
 {
 	CreateActor<LevelActor>()->SetLevelMesh("1_2.FBX");
 
+	GlobalIOManager::Load(IOType::SortMap, 1);
+	DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
+
 	GlobalIOManager::Load(IOType::UnsortMap, 1);
 	DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
 	GetMainCameraActorTransform().SetLocalRotation({ 60, 180, 0 });

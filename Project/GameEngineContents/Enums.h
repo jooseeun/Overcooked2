@@ -51,6 +51,7 @@ enum class ToolInfo
 	Pot, //³¿ºñ
 	CuttingBoard, //µµ¸¶¶û Ä®
 	TrashCan, //¾²·¹±âÅë
+	Max
 };
 
 enum class UnsortMapObjType

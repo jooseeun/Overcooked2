@@ -20,7 +20,7 @@ public:
 	void UnSortMapDataParsing(std::vector<MapData>& _Data, GameEngineLevel* _Level);
 
 	// Á¤·ÄµÈ ¸Ê µ¥ÀÌÅÍ ÆÄ½Ì
-	std::vector<GamePlayStaticObject*>& SortMapDataParsing(std::vector<MapData>& _Data, GameEngineLevel* _Level);
+	std::vector<GamePlayStaticObject*> SortMapDataParsing(std::vector<MapData>& _Data, GameEngineLevel* _Level);
 
 	std::vector<GamePlayOriginObject*>& GetOrigins()
 	{

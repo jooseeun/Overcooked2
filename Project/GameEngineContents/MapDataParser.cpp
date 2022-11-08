@@ -45,7 +45,7 @@ void MapDataParser::UnSortMapDataParsing(std::vector<MapData>& _Data, GameEngine
 	}
 }
 
-std::vector<GamePlayStaticObject*>& MapDataParser::SortMapDataParsing(std::vector<MapData>& _Data, GameEngineLevel* _Level)
+std::vector<GamePlayStaticObject*> MapDataParser::SortMapDataParsing(std::vector<MapData>& _Data, GameEngineLevel* _Level)
 {
 	std::vector<GamePlayStaticObject*> ActorList = {};
 

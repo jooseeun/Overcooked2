@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Cooker.h" />
     <ClInclude Include="CounterTop.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="Equipment_FireExtinguisher.h" />
@@ -158,6 +159,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Food_Recipe.h" />
+    <ClInclude Include="GamePlayBowl.h" />
     <ClInclude Include="GamePlayEquipment.h" />
     <ClInclude Include="GamePlayFloor.h">
       <SubType>
@@ -224,6 +226,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Cooker.cpp" />
     <ClCompile Include="CounterTop.cpp" />
     <ClCompile Include="Equipment_FireExtinguisher.cpp" />
     <ClCompile Include="Equipment_FryingPan.cpp" />
@@ -236,6 +239,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Food_Recipe.cpp" />
+    <ClCompile Include="GamePlayBowl.cpp" />
     <ClCompile Include="GamePlayEquipment.cpp" />
     <ClCompile Include="GamePlayFloor.cpp">
       <SubType>

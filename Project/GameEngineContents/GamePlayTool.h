@@ -27,10 +27,10 @@ public:
 	GamePlayTool& operator=(const GamePlayTool& _Other) = delete;
 	GamePlayTool& operator=(GamePlayTool&& _Other) noexcept = delete;
 
-	inline void Interact_Manual(float _DeltaTime)
-	{
-		Moveable_Current_->Cook_Update(_DeltaTime);
-	}
+	//inline void Interact_Manual(float _DeltaTime)
+	//{
+	//	Moveable_Current_->Cook_Update(_DeltaTime);
+	//}
 
 protected:
 	void Start() override;

@@ -35,13 +35,29 @@ public:
 	Tool_Sink& operator=(const Tool_Sink& _Other) = delete;
 	Tool_Sink& operator=(Tool_Sink&& _Other) noexcept = delete;
 
+	inline int GetStack() const
+	{
+		return StackValue_;
+	}
+
+	inline void SetPlusStack()
+	{
+		++StackValue_;
+	}
+
+	inline void SetZeroStack()
+	{
+		StackValue_ = 0;
+	}
+
 protected:
 	void Start() override;
+
 
 	Input_PickUpOption CheckMoveable(GamePlayMoveable* _Object) override;
 	Input_InteractOption Input_Action() override;
 private:
-
+	int StackValue_;
 };
 
 

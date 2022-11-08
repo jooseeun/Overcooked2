@@ -24,6 +24,7 @@
 // base
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEngineBase/GameEngineInput.h>
+#include <GameEngineBase/magic_enum.hpp>
 
 // core
 #include <GameEngineCore/CoreMinimal.h>
