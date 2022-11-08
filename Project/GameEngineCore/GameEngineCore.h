@@ -42,6 +42,11 @@ public:
 		return TmpVector;
 	}
 
+	static std::map<std::string, class GameEngineLevel*>& GetAllLevelRef()
+	{
+		return AllLevels;
+	}
+
 protected:
 	virtual std::string GetWindowTitle() { return "MainWindow"; }
 	virtual float4 StartWindowSize() { return { 1280.0f, 720.0f }; };
