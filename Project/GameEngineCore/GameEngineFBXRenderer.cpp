@@ -15,6 +15,20 @@ void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Ma
 {
 	GameEngineFBXMesh* FindFBXMesh = GameEngineFBXMesh::Find(_Name);
 
+
+	if (GlobalIOManager::Load(IOType::Mesh, "_" + _Name))
+	{
+		MeshData Data = GlobalIOManager::GetMeshData();
+
+		for (size_t j = 0; j < Data.PreviewMeshInfo_.size(); j++)
+		{
+			FindFBXMesh->GetFbxRenderUnit()[j].MaterialData[0].DifTexturePath = Data.PreviewMeshInfo_[j].DifTexturePath_;
+			FindFBXMesh->GetFbxRenderUnit()[j].MaterialData[0].DifTextureName = Data.PreviewMeshInfo_[j].DifTextureName_;
+		}
+	}
+
+
+
 	for (size_t UnitCount = 0; UnitCount < FindFBXMesh->GetRenderUnitCount(); UnitCount++)
 	{
 		for (size_t SubSetCount = 0; SubSetCount < FindFBXMesh->GetSubSetCount(UnitCount); SubSetCount++)
@@ -75,33 +89,36 @@ void GameEngineFBXRenderer::ChangeLoadMaterial()
 	{
 		return;
 	}
-	GlobalIOManager::Load(IOType::Mesh, "_" + FBXMesh->GetNameCopy());
-	MeshData Data = GlobalIOManager::GetMeshData();
-
-
-	for (size_t j = 0; j < Data.PreviewMeshInfo_.size(); j++)
+	if (GlobalIOManager::Load(IOType::Mesh, "_" + FBXMesh->GetNameCopy()) == true)
 	{
-		FBXMesh->GetMaterialSettingData(j, 0).DifTexturePath = Data.PreviewMeshInfo_[j].DifTexturePath_;
-		FBXMesh->GetMaterialSettingData(j, 0).DifTextureName = Data.PreviewMeshInfo_[j].DifTextureName_;
+		MeshData Data = GlobalIOManager::GetMeshData();
 
 
-		GameEngineRenderUnit& RenderUnit = Unit[j][0];
-		RenderUnit.SetPipeLine("Texture");
-
-		GameEngineMesh* FbxMesh = FBXMesh->GetGameEngineMesh(j, 0);
-		RenderUnit.SetMesh(FbxMesh);
-
-		if (RenderUnit.ShaderResources.IsTexture("DiffuseTexture"))
+		for (size_t j = 0; j < Data.PreviewMeshInfo_.size(); j++)
 		{
-			const FbxExMaterialSettingData& MatData = FBXMesh->GetMaterialSettingData(j, 0);
-			if (nullptr != GameEngineTexture::Find(MatData.DifTextureName))
-			{
-				RenderUnit.ShaderResources.SetTexture("DiffuseTexture", MatData.DifTextureName);
-			}
-		}
+			FBXMesh->GetMaterialSettingData(j, 0).DifTexturePath = Data.PreviewMeshInfo_[j].DifTexturePath_;
+			FBXMesh->GetMaterialSettingData(j, 0).DifTextureName = Data.PreviewMeshInfo_[j].DifTextureName_;
 
-		RenderUnit.SetRenderer(this);
+
+			GameEngineRenderUnit& RenderUnit = Unit[j][0];
+			RenderUnit.SetPipeLine("Texture");
+
+			GameEngineMesh* FbxMesh = FBXMesh->GetGameEngineMesh(j, 0);
+			RenderUnit.SetMesh(FbxMesh);
+
+			if (RenderUnit.ShaderResources.IsTexture("DiffuseTexture"))
+			{
+				const FbxExMaterialSettingData& MatData = FBXMesh->GetMaterialSettingData(j, 0);
+				if (nullptr != GameEngineTexture::Find(MatData.DifTextureName))
+				{
+					RenderUnit.ShaderResources.SetTexture("DiffuseTexture", MatData.DifTextureName);
+				}
+			}
+
+			RenderUnit.SetRenderer(this);
+		}
 	}
+	
 }
 
 void GameEngineFBXRenderer::Render(float _DeltaTime)

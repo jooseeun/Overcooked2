@@ -84,8 +84,6 @@ bool GlobalIOManager::Save(IOType _Type, std::string _AddName)
 
 bool GlobalIOManager::Load(IOType _Type, std::string _AddName)
 {
-	Clear();
-
 	GameEngineDirectory Dir;
 	Dir.MoveParentToExitsChildDirectory("ContentsResources");
 	Dir.Move("ContentsResources");
@@ -136,6 +134,7 @@ bool GlobalIOManager::Load(IOType _Type, std::string _AddName)
 	// 저장한 문자열을 값으로 변경
 	if (_Type == IOType::UnsortMap || _Type == IOType::SortMap) // 맵 로드
 	{
+		MapDataVector_.clear();
 		int DataValues = 6;
 		for (int i = 0; i < TmpVector.size() / DataValues; i++)
 		{

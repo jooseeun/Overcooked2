@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "GameEngineFBXStaticRenderer.h"
 #include "GameEngineVertexShader.h"
+#include "GlobalIOManager.h"
 
 GameEngineFBXStaticRenderer::GameEngineFBXStaticRenderer()
 {
@@ -12,6 +13,8 @@ GameEngineFBXStaticRenderer::~GameEngineFBXStaticRenderer()
 
 void GameEngineFBXStaticRenderer::SetFBXMesh(const std::string& _Name, std::string _Material)
 {
+
+
 	GameEngineMaterial* Mat = GameEngineMaterial::Find(_Material);
 
 	if (nullptr == Mat)

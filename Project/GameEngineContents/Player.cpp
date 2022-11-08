@@ -46,15 +46,15 @@ void Player::Start()
 	}
 
 
-	GameEngineFBXMesh* TestMesh = GameEngineFBXMesh::Find("Chef.FBX");
+	//GameEngineFBXMesh* TestMesh = GameEngineFBXMesh::Find("Chef.FBX");
 
-	std::string NewPath = "C:Users\\MOA\\Overcooked2\\Project\\ContentsResources\\Mesh\\Chef1\\t_chef_head_alien_green_d.png";
-	size_t idx = NewPath.rfind("\\");
+	//std::string NewPath = "C:Users\\MOA\\Overcooked2\\Project\\ContentsResources\\Mesh\\Chef1\\t_chef_head_alien_green_d.png";
+	//size_t idx = NewPath.rfind("\\");
 
-	std::string TestStr = NewPath.substr(0, idx);
+	//std::string TestStr = NewPath.substr(0, idx);
 
-	TestMesh->GetFbxRenderUnit()[0].MaterialData[0].DifTexturePath = NewPath;
-	TestMesh->GetFbxRenderUnit()[0].MaterialData[0].DifTextureName = "t_chef_head_alien_green_d.png";
+	//TestMesh->GetFbxRenderUnit()[0].MaterialData[0].DifTexturePath = NewPath;
+	//TestMesh->GetFbxRenderUnit()[0].MaterialData[0].DifTextureName = "t_chef_head_alien_green_d.png";
 
 
 
