@@ -14,9 +14,14 @@ public:
 	GlobalMouseInput& operator=(const GlobalMouseInput& _Other) = delete;
 	GlobalMouseInput& operator=(GlobalMouseInput&& _Other) noexcept = delete;
 
-	inline GameEngineActor* GetNearActor()
+	inline GameEngineTransform* GetNearTransform()
 	{
-		return NearActor_;
+		return NearTransform_;
+	}
+
+	inline void SetIsUI(bool _Value)
+	{
+		IsUI_ = _Value;
 	}
 
 protected:
@@ -32,7 +37,8 @@ private:
 	GameEngineCollision* Collision_;
 	GameEngineCollision* StartCollision_;
 	GameEngineCollision* GoalCollision_;
-	GameEngineActor* NearActor_;
+	GameEngineTransform* NearTransform_;
+	bool IsUI_;
 
 };
 

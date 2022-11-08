@@ -353,7 +353,12 @@ float4 GameEngineCamera::GetMouseMyPosition()
 {
 	float4 ScreenPos = GetMouseScreenPosition();
 	float4 WindowScale = GameEngineWindow::GetScale();
-	float4 Result = { ScreenPos.x - WindowScale.x * 0.5f, -ScreenPos.y + WindowScale.y * 0.5f, 0 };
+	return { ScreenPos.x - WindowScale.x * 0.5f, -ScreenPos.y + WindowScale.y * 0.5f, 0 };
+}
+
+float4 GameEngineCamera::GetMouseMyPositionWithRotation()
+{
+	float4 Result = GetMouseMyPosition();
 
 	float4x4 CameraRotation;
 	CameraRotation.RotationDegree(GetTransform().GetWorldRotation());
@@ -384,18 +389,6 @@ float4 GameEngineCamera::GetMouseWorldPosition()
 	Pos = Pos * ProjectionInvers;
 
 	return Pos;
-}
-
-float4 GameEngineCamera::GetMouseWorldPositionWithRotation()
-{
-	float4x4 CameraRotation;
-	CameraRotation.RotationDegree(GetTransform().GetWorldRotation());
-	//GameEngineDebug::OutPutString(CameraRotation.ArrV[0].ToString() + "\n" + CameraRotation.ArrV[1].ToString() + "\n" + CameraRotation.ArrV[2].ToString() + "\n" + CameraRotation.ArrV[3].ToString() + "\n");
-
-	float4 Result = GetMouseWorldPosition() * CameraRotation;
-	Result.w = 0;
-	//GameEngineDebug::OutPutString(Result.ToString());
-	return Result;
 }
 
 float4 GameEngineCamera::GetMouseWorldPositionToActor()

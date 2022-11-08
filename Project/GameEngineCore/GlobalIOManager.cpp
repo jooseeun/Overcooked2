@@ -113,10 +113,10 @@ bool GlobalIOManager::Load(IOType _Type, std::string _AddName)
 	std::string LoadS = "";
 	LoadS = LoadFile.GetString();
 
-	// \n, 공백, 중괄호 제거
+	// \n, 중괄호 제거
 	for (size_t i = 0; i < LoadS.size(); i++)
 	{
-		if (LoadS[i] == ' ' || LoadS[i] == '\n' || LoadS[i] == '{' || LoadS[i] == '}')
+		if (LoadS[i] == '\n' || LoadS[i] == '{' || LoadS[i] == '}')
 		{
 			LoadS.erase(i, 1);
 			--i;

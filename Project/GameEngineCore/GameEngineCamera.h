@@ -59,11 +59,11 @@ public:
 	float4 GetMouseScreenPosition();
 
 	float4 GetMouseMyPosition();
+	
+	float4 GetMouseMyPositionWithRotation();
 
 	float4 GetMouseWorldPosition();
 	
-	float4 GetMouseWorldPositionWithRotation();
-
 	float4 GetMouseWorldPositionToActor();
 
 	inline float4x4 GetView() 

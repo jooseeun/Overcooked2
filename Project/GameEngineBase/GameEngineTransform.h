@@ -292,6 +292,11 @@ public:
 
 	void Copy(const GameEngineTransform& _Trans);
 
+	GameEngineTransform* GetParentTransform()
+	{
+		return Parent;
+	}
+
 protected:
 
 private:

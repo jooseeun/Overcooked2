@@ -17,6 +17,10 @@ public:
 	MouseInputWindow& operator=(MouseInputWindow&& _Other) noexcept = delete;
 
 	void SetMouseInput(GlobalMouseInput* _Input);
+	void SetMouseRotate(float4 _Rot)
+	{
+		MouseRot_ = _Rot;
+	}
 
 protected:
 	void Initialize(class GameEngineLevel* _Level) override;
@@ -25,11 +29,13 @@ protected:
 private:
 	std::string SelectFolderTexture_;
 	GlobalMouseInput* Input_;
-	GameEngineActor* InputActor_;
+	GameEngineTransform* InputTransform_;
 	float Pos_[3];
 	float Rot_[3];
 	float Scale_[3];
 
 	bool IsChanging_;
+
+	float4 MouseRot_;
 };
 
