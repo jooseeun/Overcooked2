@@ -95,8 +95,8 @@ private:
 
 	void Collision_AroundObject();
 
-	CollisionReturn GetCrashMoveableObject(GameEngineCollision* _This, GameEngineCollision* _Other);
-	CollisionReturn GetCrashStaticObject(GameEngineCollision* _This, GameEngineCollision* _Other);
+	CollisionReturn GetCrashGroundObject(GameEngineCollision* _This, GameEngineCollision* _Other);
+	CollisionReturn GetCrashTableObject(GameEngineCollision* _This, GameEngineCollision* _Other);
 
 	GameEngineFBXStaticRenderer* PlayerRenderer_;
 	GameEngineCollision* PlayerCollision_;

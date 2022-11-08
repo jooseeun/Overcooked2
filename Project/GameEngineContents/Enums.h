@@ -51,5 +51,14 @@ enum class ToolInfo
 	Pot, //냄비
 	CuttingBoard, //도마랑 칼
 	TrashCan, //쓰레기통
+	Max
 };
 
+enum class UnsortMapObjType
+{
+	Static,			// 애니메이션 X
+	Animation,		// 애니메이션 O
+	Move,			// 애니메이션 O + 움직이는 애
+
+	Max,
+};

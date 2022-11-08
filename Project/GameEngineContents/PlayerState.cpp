@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "Player.h"
-
+#include "GamePlayFood.h"
+#include "GamePlayStaticObject.h"
 
 void Player::IdleStart(const StateInfo& _Info)
 {
@@ -93,7 +94,52 @@ void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::HoldStart(const StateInfo& _Info)
 {
+	if (Moveable_Current_ == nullptr &&
+		Collision_Interact_->IsCollision(CollisionType::CT_SPHERE, CollisionOrder::Object_Moveable, CollisionType::CT_SPHERE,
+			std::bind(&Player::GetCrashGroundObject, this, std::placeholders::_1, std::placeholders::_2)))
+		// 플레이어가 들고있는게 없고 검사 콜리전이 잡을 수 있는 콜리젼과 닿아있을때
+	{
 
+		if (Moveable_Current_ == nullptr &&
+			Interact_Possible_Object_->Input_PickUp(this) == Input_PickUpOption::PickUp)
+		{
+			Interact_Possible_Object_ = nullptr;
+			return;
+		}
+
+	}
+	else
+	{
+		if (Interact_Possible_Object_ != nullptr)
+		{
+			Interact_Possible_Object_->SetBloomEffectOff();
+			Interact_Possible_Object_ = nullptr;
+		}
+	}
+
+
+
+	if (Collision_Interact_->IsCollision(CollisionType::CT_SPHERE, CollisionOrder::Object_StaticObject, CollisionType::CT_SPHERE,
+		std::bind(&Player::GetCrashTableObject, this, std::placeholders::_1, std::placeholders::_2)))
+	{
+
+		if (Moveable_Current_ == nullptr &&
+			Interact_Possible_StaticObject_->Input_PickUp(this) == Input_PickUpOption::PickUp)
+		{
+			Interact_Possible_StaticObject_->SetBloomEffectOff();
+			return;
+		}
+
+	}
+
+	else
+	{
+		if (Interact_Possible_StaticObject_ != nullptr)
+		{
+			Interact_Possible_StaticObject_->SetBloomEffectOff();
+			Interact_Possible_StaticObject_ = nullptr;
+		}
+	}
 }
 void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 {
@@ -101,6 +147,9 @@ void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		StateManager.ChangeState("Idle");
 	}
+
+	
+
 }
 
 void Player::SliceStart(const StateInfo& _Info) // 자르는 도중 이동하면 취소됨

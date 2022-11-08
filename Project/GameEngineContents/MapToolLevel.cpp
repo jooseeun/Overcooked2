@@ -64,6 +64,7 @@ void MapToolLevel::Start()
 	Window_->GetAllUnSortActorName().push_back("m_kevin_01");
 	Window_->GetAllUnSortActorName().push_back("m_city_pigeon_01");
 	Window_->GetAllUnSortActorName().push_back("traffic_light_animated_01");
+	Window_->GetAllUnSortActorName().push_back("Bamboo2");
 }
 
 void MapToolLevel::Update(float _DeltaTime)
