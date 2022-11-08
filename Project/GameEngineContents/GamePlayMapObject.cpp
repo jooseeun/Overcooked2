@@ -2,7 +2,6 @@
 #include "GamePlayMapObject.h"
 
 GamePlayMapObject::GamePlayMapObject()
-	: Collision_(nullptr)
 {
 }
 
@@ -17,7 +16,7 @@ void GamePlayMapObject::Start()
 	GetTransform().SetLocalScale({ 1.f, 1.f, 1.f });
 	GetCollisionObject()->ChangeOrder(CollisionOrder::Map_Object);
 	GetCollisionObject()->SetDebugSetting(CollisionType::CT_AABB, { 0, 0, 0.8f, 0.5f });	// 일반 벽, 갈 수 없는 지역, NPC => 파랑
-	GetCollisionObject()->GetTransform().SetWorldScale({ 50.f, 50.f, 50.f });			// 원래 크기는 0.01
+	GetCollisionObject()->GetTransform().SetWorldScale({ 50.f, 50.f, 50.f });				// 원래 크기는 0.01
 }
 
 void GamePlayMapObject::Update(float _DeltaTime)
@@ -41,3 +40,4 @@ void GamePlayMapObject::SetMapObjectMesh(const std::string& _Name)
 		//GetFBXMesh()->GetTransform().SetWorldMove({ -1891.f, 0.f, -3908.f});
 	}
 }
+

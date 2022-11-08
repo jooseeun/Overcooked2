@@ -30,7 +30,7 @@ void MapDataParser::UnSortMapDataParsing(std::vector<MapData>& _Data, GameEngine
 			GamePlayMapObject* Object = _Level->CreateActor<GamePlayMapObject>();
 			Object->GetTransform().SetWorldPosition(_Data[i].Pos_);
 			Object->GetTransform().SetWorldRotation(_Data[i].Rot_);
-			Object->GetTransform().SetWorldScale(_Data[i].Scale_);
+			Object->GetTransform().SetWorldScale(_Data[i].Scale_); 
 		}
 		else
 		{

@@ -137,9 +137,16 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				Object->GetTransform().SetWorldScale(Vector[i].Scale_);
 				Object->GetTransform().SetWorldRotation(Vector[i].Rot_);
 				Object->SetName(Vector[i].ObjName_);
-				if (Vector[i].ObjName_ != "Collision_Wall" && Vector[i].ObjName_ == "Collision_Floor")
+
+				// 일반 메쉬
+				if (Vector[i].ObjName_ != "Collision_Wall" && Vector[i].ObjName_ != "Collision_Floor")
 				{
 					Object->SetMapObjectMesh(Vector[i].ObjName_);
+				}
+				else if(Vector[i].ObjName_ == "Collision_Floor")
+				{
+					// 바닥 콜리전이다
+					Object->GetCollisionObject()->SetDebugSetting(CollisionType::CT_AABB, { 0, 0.8f, 0.8f, 0.5f });
 				}
 
 				UnSortActorList_.push_back(Object);
@@ -354,7 +361,9 @@ void MapEditorWindow::UnSortToolTab()
 		else if (AllUnSortActorName_[SelectNameIndex] == "Collision_Floor")
 		{
 			Object->SetName("Collision_Floor");
-			Object->GetTransform().SetWorldPosition({ 0.f, -0.9f, 0.f });
+			Object->GetCollisionObject()->SetDebugSetting(CollisionType::CT_AABB, { 0, 0.8f, 0., 0.5f });
+			Object->GetCollisionObject()->SetDebugSetting(CollisionType::CT_AABB, { 0, 0.8f, 0.8f, 0.5f });
+			Object->GetTransform().SetWorldPosition({ 0.f, -49.f, 0.f });
 		}
 		else
 		{
@@ -393,15 +402,13 @@ void MapEditorWindow::UnSortToolTab()
 		ImGui::DragFloat("Position.y", &Position_.y);
 		ImGui::DragFloat("Position.z", &Position_.z);
 
-		ImGui::DragFloat("RendererPos.x", &RendererPos.x);
-		ImGui::DragFloat("RendererPos.y", &RendererPos.y);
-		ImGui::DragFloat("RendererPos.z", &RendererPos.z);
+		ImGui::InputFloat4("Position", Position_.Arr1D);
 
 		if (true == ImGui::Button("Position Reset"))
 		{
 			if ("Collision_Floor" == UnSortActorList_[SelectIndex]->GetName().substr(0, 15))
 			{
-				Position_ = { 0.f, -0.9f, 0.f };
+				Position_ = { 0.f, -49.f, 0.f };
 			}
 			else
 			{
@@ -418,6 +425,8 @@ void MapEditorWindow::UnSortToolTab()
 		ImGui::DragFloat("Rotation.y", &Rotation_.y);
 		ImGui::DragFloat("Rotation.z", &Rotation_.z);
 
+		ImGui::InputFloat4("Rotation_", Rotation_.Arr1D);
+
 		if (true == ImGui::Button("Rotation Reset"))
 		{
 			Rotation_ = { 0.f, 0.f, 0.f };
@@ -429,6 +438,8 @@ void MapEditorWindow::UnSortToolTab()
 		ImGui::DragFloat("Scale.x", &Scale_.x);
 		ImGui::DragFloat("Scale.y", &Scale_.y);
 		ImGui::DragFloat("Scale.z", &Scale_.z);
+
+		ImGui::InputFloat4("Scale", Scale_.Arr1D);
 
 		if (true == ImGui::Button("Scale Reset"))
 		{

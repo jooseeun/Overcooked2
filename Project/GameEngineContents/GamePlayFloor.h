@@ -15,12 +15,10 @@ public:
 	GamePlayFloor& operator=(const GamePlayFloor& _Other) = delete;
 	GamePlayFloor& operator=(GamePlayFloor&& _Other) noexcept = delete;
 
-protected:
 
 protected:
 	void Start() override;
 
 private:
-	GameEngineCollision* Collision_;
 };
 

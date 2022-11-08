@@ -18,11 +18,6 @@ public:
 	GamePlayMapObject& operator=(GamePlayMapObject&& _Other) noexcept = delete;
 
 public:
-	inline GameEngineCollision* GetCollision()
-	{
-		return Collision_;
-	}
-
 	void SetMapObjectMesh(const std::string& _Name);
 
 protected:
@@ -30,8 +25,7 @@ protected:
 	void Update(float _DeltaTime) override;
 
 private:
-	GameEngineCollision* Collision_;
-	GameEngineFBXAnimationRenderer* Renderer_;
+
 
 };
 
