@@ -160,16 +160,21 @@ void MeshSelectWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
                 PreviewMeshRenderer_ = MeshObject_->CreateComponent<GameEngineFBXStaticRenderer>();
                 PreviewMeshRenderer_->SetFBXMesh(AllFBXMesh_[FbxCurentIndex_]->GetName().data(), "Texture", SubSetCurentIndex_);
 
-                GameEngineFBXMesh* EditMesh = GameEngineFBXMesh::Find("Chef.FBX");
+                //GameEngineFBXMesh* EditMesh = GameEngineFBXMesh::Find("Chef.FBX");
 
-                for (int j = 0; j < EditMesh->GetFbxRenderUnit().size(); ++j)
-                {
-                    EditMesh->GetFbxRenderUnit()[j].MaterialData[0].DifTexturePath = MeshData_.PreviewMeshInfo_[j].DifTexturePath_;
-                    EditMesh->GetFbxRenderUnit()[j].MaterialData[0].DifTextureName = MeshData_.PreviewMeshInfo_[j].DifTextureName_;
+                //for (int j = 0; j < EditMesh->GetFbxRenderUnit().size(); ++j)
+                //{
+                //    if (EditMesh->GetFbxRenderUnit().empty() ==0)
+                //    {
+                //        int i = 0;
+                //    }
+
+                //    EditMesh->GetFbxRenderUnit()[j].MaterialData[0].DifTexturePath = MeshData_.PreviewMeshInfo_[j].DifTexturePath_;
+                //    EditMesh->GetFbxRenderUnit()[j].MaterialData[0].DifTextureName = MeshData_.PreviewMeshInfo_[j].DifTextureName_;
 
 
 
-                }
+                //}
 
 
 
