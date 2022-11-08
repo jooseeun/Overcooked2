@@ -71,6 +71,10 @@ protected:
 		return Mesh_Object_;
 	}
 
+	inline GameEngineFBXAnimationRenderer* GetAnimationFBXMesh() const
+	{
+		return AnimationMesh_Obejct_;
+	}
 
 	inline GameEngineCollision* GetCollisionObject() const
 	{
@@ -79,6 +83,7 @@ protected:
 
 private:
 	GameEngineFBXStaticRenderer* Mesh_Object_;
+	GameEngineFBXAnimationRenderer* AnimationMesh_Obejct_;
 	GameEngineCollision* Collision_Object_;
 
 	ObjectType Enum_ObjectType_;

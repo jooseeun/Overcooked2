@@ -53,3 +53,11 @@ enum class ToolInfo
 	TrashCan, //쓰레기통
 };
 
+enum class UnsortMapObjType
+{
+	Static,			// 애니메이션 X
+	Animation,		// 애니메이션 O
+	Move,			// 애니메이션 O + 움직이는 애
+
+	Max,
+};

@@ -38,5 +38,6 @@ void GamePlayMapObject::SetMapObjectMesh(const std::string& _Name)
 	else
 	{
 		GetFBXMesh()->GetTransform().SetWorldScale({ 100.f, 100.f, 100.f });
+		//GetFBXMesh()->GetTransform().SetWorldMove({ -1891.f, 0.f, -3908.f});
 	}
 }
