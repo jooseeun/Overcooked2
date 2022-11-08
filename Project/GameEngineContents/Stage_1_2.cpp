@@ -15,7 +15,8 @@ void Stage_1_2::Start()
 
 	GlobalIOManager::Load(IOType::UnsortMap, 1);
 	DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
-
+	GetMainCameraActorTransform().SetLocalRotation({ 60, 180, 0 });
+	GetMainCameraActorTransform().SetLocalPosition({ -2509, 2500 , 950 });
 }
 
 void Stage_1_2::Update(float _DeltaTime)

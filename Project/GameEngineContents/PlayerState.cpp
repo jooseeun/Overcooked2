@@ -104,6 +104,7 @@ void Player::HoldStart(const StateInfo& _Info)
 			Interact_Possible_Object_->Input_PickUp(this) == Input_PickUpOption::PickUp)
 		{
 			Interact_Possible_Object_ = nullptr;
+			Moveable_Current_->GetTransform().SetParentTransform(Moveable_Current_->GetTransform());
 			return;
 		}
 
@@ -114,6 +115,7 @@ void Player::HoldStart(const StateInfo& _Info)
 		{
 			Interact_Possible_Object_->SetBloomEffectOff();
 			Interact_Possible_Object_ = nullptr;
+			Moveable_Current_->GetTransform().SetParentTransform(Moveable_Current_->GetTransform());
 		}
 	}
 
@@ -138,13 +140,15 @@ void Player::HoldStart(const StateInfo& _Info)
 		{
 			Interact_Possible_StaticObject_->SetBloomEffectOff();
 			Interact_Possible_StaticObject_ = nullptr;
+			Moveable_Current_->GetTransform().SetParentTransform(Moveable_Current_->GetTransform());
 		}
 	}
 }
 void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerHold"))
+	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerHold")) // 놓기
 	{
+		Moveable_Current_->GetTransform().DetachTransform(); // 자식 떼어내기
 		StateManager.ChangeState("Idle");
 	}
 
@@ -154,7 +158,7 @@ void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::SliceStart(const StateInfo& _Info) // 자르는 도중 이동하면 취소됨
 {
-
+	
 }
 void Player::SliceUpdate(float _DeltaTime, const StateInfo& _Info)
 {
