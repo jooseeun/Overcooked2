@@ -1,7 +1,7 @@
 #pragma once
 #include "GamePlayEquipment.h"
+#include "GamePlayFood.h"
 
-class GamePlayFood;
 class GamePlayBowl : public GamePlayEquipment
 {
 public:
@@ -15,11 +15,11 @@ public:
 	GamePlayBowl& operator=(const GamePlayBowl& _Other) = delete;
 	GamePlayBowl& operator=(GamePlayBowl&& _Other) noexcept = delete;
 
-//	virtual void IsCanCombin(GamePlayFood* _Food);
+	virtual void IsCanCombin(GamePlayFood* _Food) {};
 protected:
 	void Start() override;
 private:
 
-	//std::
+	std::vector<ObjectFoodClass> Food_Current_;
 };
 
