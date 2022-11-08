@@ -460,61 +460,17 @@ void Player::PlayerDirCheck() // 플레이어 방향 체크하고 회전시키는 함수
 
 void Player::Collision_AroundObject()
 {
-	if (Moveable_Current_ == nullptr &&
-		Collision_Interact_->IsCollision(CollisionType::CT_SPHERE, CollisionOrder::Object_Moveable, CollisionType::CT_SPHERE,
-			std::bind(&Player::GetCrashMoveableObject, this, std::placeholders::_1, std::placeholders::_2)))
-	{
-		if (GameEngineInput::GetInst()->IsDownKey("PlayerHold"))
-		{
-			if (Moveable_Current_ == nullptr &&
-				Interact_Possible_Object_->Input_PickUp(this) == Input_PickUpOption::PickUp)
-			{
-				Interact_Possible_Object_ = nullptr;
-				return;
-			}
-		}
-	}
-	else
-	{
-		if (Interact_Possible_Object_ != nullptr)
-		{
-			Interact_Possible_Object_->SetBloomEffectOff();
-			Interact_Possible_Object_ = nullptr;
-		}
-	}
-
-
-
-	if (Collision_Interact_->IsCollision(CollisionType::CT_SPHERE, CollisionOrder::Object_StaticObject, CollisionType::CT_SPHERE,
-		std::bind(&Player::GetCrashStaticObject, this, std::placeholders::_1, std::placeholders::_2)))
-	{
-		if (GameEngineInput::GetInst()->IsDownKey("PlayerHold"))
-		{
-			if (Moveable_Current_ == nullptr &&
-				Interact_Possible_StaticObject_->Input_PickUp(this) == Input_PickUpOption::PickUp)
-			{
-				Interact_Possible_StaticObject_->SetBloomEffectOff();
-				return;
-			}
-		}
-	}
-
-	else
-	{
-		if (Interact_Possible_StaticObject_ != nullptr)
-		{
-			Interact_Possible_StaticObject_->SetBloomEffectOff();
-			Interact_Possible_StaticObject_ = nullptr;
-		}
-	}
-
+	Collision_Interact_->IsCollision(CollisionType::CT_SPHERE, CollisionOrder::Object_Moveable, CollisionType::CT_SPHERE,
+		std::bind(&Player::GetCrashGroundObject, this, std::placeholders::_1, std::placeholders::_2));
+	Collision_Interact_->IsCollision(CollisionType::CT_SPHERE, CollisionOrder::Object_StaticObject, CollisionType::CT_SPHERE,
+		std::bind(&Player::GetCrashTableObject, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 
 //////////////////////충돌 함수
 
 
-CollisionReturn Player::GetCrashMoveableObject(GameEngineCollision* _This, GameEngineCollision* _Other)
+CollisionReturn Player::GetCrashGroundObject(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
 	if (Interact_Possible_Object_ != nullptr)
 	{
@@ -531,7 +487,7 @@ CollisionReturn Player::GetCrashMoveableObject(GameEngineCollision* _This, GameE
 	return CollisionReturn::Break;
 }
 
-CollisionReturn Player::GetCrashStaticObject(GameEngineCollision* _This, GameEngineCollision* _Other)
+CollisionReturn Player::GetCrashTableObject(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
 	if (Interact_Possible_StaticObject_ != nullptr)
 	{
