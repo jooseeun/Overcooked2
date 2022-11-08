@@ -3,6 +3,7 @@
 #include "GlobalIOManager.h"
 
 GameEngineFBXRenderer::GameEngineFBXRenderer()
+	: FBXMesh(nullptr)
 {
 }
 
@@ -23,13 +24,13 @@ void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Ma
 	}
 }
 
-void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Material, size_t _MeshIndex, size_t _SubSetIndex)
+GameEngineRenderUnit* GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Material, size_t _MeshIndex, size_t _SubSetIndex)
 {
 	GameEngineFBXMesh* FindFBXMesh = GameEngineFBXMesh::Find(_Name);
 	if (nullptr == FindFBXMesh)
 	{
 		MsgBoxAssert("존재하지 않는 FBXMesh를 세팅했습니다.");
-		return;
+		return nullptr;
 	}
 
 	if (nullptr == FBXMesh && nullptr != FindFBXMesh)
@@ -65,6 +66,7 @@ void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Ma
 	}
 
 	RenderUnit.SetRenderer(this);
+	return &RenderUnit;
 }
 
 void GameEngineFBXRenderer::ChangeLoadMaterial()
