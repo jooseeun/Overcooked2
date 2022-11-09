@@ -107,9 +107,13 @@ private:
 
 	GameEngineFBXAnimationRenderer* PlayerRenderer_;
 	GameEngineCollision* PlayerFloorCollision_;
+	GameEngineCollision* PlayerForwardCollision_;
+	GameEngineCollision* PlayerForwardLeftCollision_;
+	GameEngineCollision* PlayerForwardRightCollision_;
+
+	//임시 콜리젼
 	GameEngineCollision* PlayerLeftCollision_;
 	GameEngineCollision* PlayerRightCollision_;
-	GameEngineCollision* PlayerForwardCollision_;
 	GameEngineCollision* PlayerBackCollision_;
 
 

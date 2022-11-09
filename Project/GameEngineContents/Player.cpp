@@ -72,7 +72,7 @@ void Player::Start()
 		PlayerRenderer_->SetFBXMesh("AlienGreen_CarDeath.FBX", "TextureAnimation");
 		PlayerRenderer_->CreateFBXAnimation("Test", "AlienGreen_CarDeath.FBX");
 		PlayerRenderer_->ChangeAnimation("Test");
-		PlayerRenderer_->GetTransform().SetLocalPosition({ -119,0,0 });
+		PlayerRenderer_->GetTransform().SetLocalPosition({ -7.26,0.085,7.12 });
 		PlayerRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
 		//PlayerRenderer_ = CreateComponent<GameEngineFBXStaticRenderer>();
 		//PlayerRenderer_->SetFBXMesh("AlienGreen_CarDeath.FBX", "Texture");
@@ -89,8 +89,23 @@ void Player::Start()
 		PlayerForwardCollision_->GetTransform().SetLocalScale({ 70,100,10 });
 		PlayerForwardCollision_->GetTransform().SetLocalPosition({ 0,0,-50 });
 		PlayerForwardCollision_->ChangeOrder(CollisionOrder::Object_Character);
+		PlayerForwardCollision_->SetDebugSetting(CollisionType::CT_AABB, { 0,0,0 });
 	}
 	{
+		PlayerForwardLeftCollision_ = CreateComponent<GameEngineCollision>();
+		PlayerForwardLeftCollision_->GetTransform().SetLocalScale({ 20,100,10 });
+		PlayerForwardLeftCollision_->GetTransform().SetLocalPosition({ 70,0,-50 });
+		PlayerForwardLeftCollision_->ChangeOrder(CollisionOrder::Max);
+		PlayerForwardLeftCollision_->SetDebugSetting(CollisionType::CT_AABB, { 0,0,0 });
+	}
+	{
+		PlayerForwardRightCollision_ = CreateComponent<GameEngineCollision>();
+		PlayerForwardRightCollision_->GetTransform().SetLocalScale({ 20,100,10 });
+		PlayerForwardRightCollision_->GetTransform().SetLocalPosition({ -70,0,-50 });
+		PlayerForwardRightCollision_->ChangeOrder(CollisionOrder::Max);
+		PlayerForwardRightCollision_->SetDebugSetting(CollisionType::CT_AABB, { 0,0,0 });
+	}
+	/*{
 		PlayerLeftCollision_ = CreateComponent<GameEngineCollision>();
 		PlayerLeftCollision_->GetTransform().SetLocalScale({ 10,100,90 });
 		PlayerLeftCollision_->GetTransform().SetLocalPosition({ -50,0,0 });
@@ -108,7 +123,7 @@ void Player::Start()
 		PlayerBackCollision_->GetTransform().SetLocalScale({ 90,100,10 });
 		PlayerBackCollision_->GetTransform().SetLocalPosition({ 0,0,50 });
 		PlayerBackCollision_->ChangeOrder(CollisionOrder::Object_Character);
-	}
+	}*/
 
 
 	GamePlayObject::Start();

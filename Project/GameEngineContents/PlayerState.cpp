@@ -74,6 +74,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (MoveAngle() == true)
 	{
+
 		if (PlayerForwardCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Map_Object, CollisionType::CT_AABB,
 			std::bind(&Player::GravityColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false && 
 			PlayerForwardCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Object_StaticObject, CollisionType::CT_AABB,
@@ -81,10 +82,56 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		{
 			GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * _DeltaTime);
 		}
+
 		else
 		{
-			int a=0;
+			if (CurDir_ == PlayerDir::FrontRight)
+			{
+				if (PlayerForwardRightCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Map_Object, CollisionType::CT_AABB,
+					std::bind(&Player::GravityColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false &&
+					PlayerForwardRightCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Object_StaticObject, CollisionType::CT_AABB,
+						std::bind(&Player::GravityColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
+				{
+					GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * _DeltaTime);
+					GetTransform().SetWorldMove(GetTransform().GetLeftVector() * Speed_ * _DeltaTime);
+				}
+
+			}
+			else if (CurDir_ == PlayerDir::FrontLeft)
+			{
+				if (PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Map_Object, CollisionType::CT_AABB,
+					std::bind(&Player::GravityColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false &&
+					PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Object_StaticObject, CollisionType::CT_AABB,
+						std::bind(&Player::GravityColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
+				{
+					GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * _DeltaTime);
+					GetTransform().SetWorldMove(GetTransform().GetRightVector() * Speed_ * _DeltaTime);
+				}
+			}
+			else if (CurDir_ == PlayerDir::BackLeft)
+			{
+				if (PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Map_Object, CollisionType::CT_AABB,
+					std::bind(&Player::GravityColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false &&
+					PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Object_StaticObject, CollisionType::CT_AABB,
+						std::bind(&Player::GravityColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
+				{
+					GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * _DeltaTime);
+					GetTransform().SetWorldMove(GetTransform().GetRightVector() * Speed_ * _DeltaTime);
+				}
+			}
+			else if (CurDir_ == PlayerDir::BackRight)
+			{
+				if (PlayerForwardRightCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Map_Object, CollisionType::CT_AABB,
+					std::bind(&Player::GravityColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false &&
+					PlayerForwardRightCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Object_StaticObject, CollisionType::CT_AABB,
+						std::bind(&Player::GravityColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
+				{
+					GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * _DeltaTime);
+					GetTransform().SetWorldMove(GetTransform().GetLeftVector() * Speed_ * _DeltaTime);
+				}
+			}
 		}
+
 	}
 	else
 	{
