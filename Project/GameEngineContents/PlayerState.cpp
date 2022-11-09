@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "GamePlayFood.h"
 #include "GamePlayStaticObject.h"
+#include <math.h>
 
 void Player::IdleStart(const StateInfo& _Info)
 {
@@ -74,65 +75,19 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (MoveAngle() == true)
 	{
-
 		if (PlayerForwardCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Map_Object, CollisionType::CT_AABB,
-			std::bind(&Player::GravityColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false && 
+			std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false &&
 			PlayerForwardCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Object_StaticObject, CollisionType::CT_AABB,
-				std::bind(&Player::GravityColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
+				std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
 		{
 			GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * _DeltaTime);
-		}
-
+		} // 플레이어 벽 출돌 체크
 		else
 		{
-			if (CurDir_ == PlayerDir::FrontRight)
-			{
-				if (PlayerForwardRightCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Map_Object, CollisionType::CT_AABB,
-					std::bind(&Player::GravityColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false &&
-					PlayerForwardRightCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Object_StaticObject, CollisionType::CT_AABB,
-						std::bind(&Player::GravityColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
-				{
-					GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * _DeltaTime);
-					GetTransform().SetWorldMove(GetTransform().GetLeftVector() * Speed_ * _DeltaTime);
-				}
-
-			}
-			else if (CurDir_ == PlayerDir::FrontLeft)
-			{
-				if (PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Map_Object, CollisionType::CT_AABB,
-					std::bind(&Player::GravityColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false &&
-					PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Object_StaticObject, CollisionType::CT_AABB,
-						std::bind(&Player::GravityColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
-				{
-					GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * _DeltaTime);
-					GetTransform().SetWorldMove(GetTransform().GetRightVector() * Speed_ * _DeltaTime);
-				}
-			}
-			else if (CurDir_ == PlayerDir::BackLeft)
-			{
-				if (PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Map_Object, CollisionType::CT_AABB,
-					std::bind(&Player::GravityColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false &&
-					PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Object_StaticObject, CollisionType::CT_AABB,
-						std::bind(&Player::GravityColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
-				{
-					GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * _DeltaTime);
-					GetTransform().SetWorldMove(GetTransform().GetRightVector() * Speed_ * _DeltaTime);
-				}
-			}
-			else if (CurDir_ == PlayerDir::BackRight)
-			{
-				if (PlayerForwardRightCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Map_Object, CollisionType::CT_AABB,
-					std::bind(&Player::GravityColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false &&
-					PlayerForwardRightCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Object_StaticObject, CollisionType::CT_AABB,
-						std::bind(&Player::GravityColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
-				{
-					GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * _DeltaTime);
-					GetTransform().SetWorldMove(GetTransform().GetLeftVector() * Speed_ * _DeltaTime);
-				}
-			}
+			MoveCollisionSide(_DeltaTime); // 플레이어가 벽이랑 충돌했을때 대각선 키 누르면 플레이어 밀려서 이동하는 함수
 		}
-
 	}
+
 	else
 	{
 		GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * 0.5f * _DeltaTime);

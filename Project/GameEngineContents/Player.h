@@ -52,7 +52,7 @@ protected:
 	bool MoveAngle();
 
 	void Gravity();
-
+	void MoveCollisionSide(float _DeltaTime);
 
 
 	//충돌함수
