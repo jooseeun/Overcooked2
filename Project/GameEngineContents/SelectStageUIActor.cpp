@@ -18,13 +18,6 @@ void SelectStageUIActor::Start()
 	LoadResource();
 	InitRenderer();
 	UIDebugGUI::Main_->AddMutableValue("PlayerCount", &PlayerCount_);
-
-	//CountDownFont_ = CreateComponent<GameEngineFontRenderer>("CowntDownFont");
-	//CountDownFont_->ChangeCamera(CAMERAORDER::UICAMERA);
-	//CountDownFont_->SetText("0sd4", "Naughty Squirrel");
-	//CountDownFont_->SetColor({ 120.f / 256.f,178.f / 256.f,218.f / 256.f,1 });
-	//CountDownFont_->SetSize(30.f);
-	//CountDownFont_->SetPositionMode(FontPositionMode::SCREEN);
 }
 
 void SelectStageUIActor::InitRenderer()
@@ -84,6 +77,16 @@ void SelectStageUIActor::InitRenderer()
 		CreatePlayerIcon(2, "NiceRice");
 		CreatePlayerIcon(3, "HelpMe");
 	}
+
+	//카운트 다운
+	CountDownFont_ = CreateComponent<GameEngineFontRenderer>("CowntDownFont");
+	CountDownFont_->ChangeCamera(CAMERAORDER::UICAMERA);
+	CountDownFont_->SetText("04", "Naughty Squirrel");
+	CountDownFont_->SetColor({ 120.f / 256.f,178.f / 256.f,218.f / 256.f,1 });
+	CountDownFont_->SetSize(58.f);
+	CountDownFont_->SetAffectTransform(true);
+	CountDownFont_->GetTransform().SetLocalPosition({ 340,345 });
+	CountDownFont_->Off();
 }
 
 void SelectStageUIActor::CreatePlayerIcon(int _Index, std::string_view _Name)
@@ -183,85 +186,104 @@ void SelectStageUIActor::LoadResource()
 
 void SelectStageUIActor::Update(float _DeltaTime)
 {
-	MovingMap(_DeltaTime);
-	//플레이어 아이콘 Update
+	switch (Phase_)
 	{
-		//버그 방지용
-		if (PlayerCount_ >= 5)
-		{
-			PlayerCount_ = 4;
-		}
-		if (PlayerCount_ <= -1)
-		{
-			PlayerCount_ = 0;
-		}
-		for (int i = 0; i < Icons_.size(); i++)
-		{
-			Icons_[i].Off();
-		}
+	case 0:// 0 : 키보드로 맵을 선택하는 단계 1 : 맵을 선택하고 기다리는 단계
+	{
+		MovingMap(_DeltaTime);
+		UpdatePlayerIcon();
+		break;
+	}
+	case 1://1 : 맵을 선택하고 기다리는 단계
+	{
+		//카운트다운 업데이트
+		int CountDownNum = static_cast<int>(CountDown_.GetCurTime());
+		CountDownFont_->SetText("0" + std::to_string(CountDownNum), "Naughty Squirrel");
+		CountDown_.Update(_DeltaTime);
+		break;
+	}
+	default:
+		break;
+	}
+}
 
-		//위치 정보 Update
-		std::vector<float4> IconPos;
-		float4 DefaultPos = Icons_[0].Parent->GetTransform().GetWorldPosition();
-		DefaultPos.x = 0;
-		switch (PlayerCount_)
-		{
-		case 1:
-		{
-			float4 Player0 = DefaultPos;
-			IconPos.push_back(Player0);
-			break;
-		}
+void SelectStageUIActor::UpdatePlayerIcon()
+{
+	//버그 방지용
+	if (PlayerCount_ >= 5)
+	{
+		PlayerCount_ = 4;
+	}
+	if (PlayerCount_ <= -1)
+	{
+		PlayerCount_ = 0;
+	}
+	for (int i = 0; i < Icons_.size(); i++)
+	{
+		Icons_[i].Off();
+	}
 
-		case 2:
-		{
-			float4 Player0 = DefaultPos;
-			Player0.x -= 140.f;
-			float4 Player1 = DefaultPos;
-			Player1.x += 140.f;
-			IconPos.push_back(Player0);
-			IconPos.push_back(Player1);
-			break;
-		}
-		case 3:
-		{
-			float4 Player0 = DefaultPos;
-			Player0.x -= 230.f;
-			float4 Player1 = DefaultPos;
-			float4 Player2 = DefaultPos;
-			Player2.x += 230.f;
-			IconPos.push_back(Player0);
-			IconPos.push_back(Player1);
-			IconPos.push_back(Player2);
-			break;
-		}
-		case 4:
-		{
-			float4 Player0 = DefaultPos;
-			Player0.x -= 360.f;
-			float4 Player1 = DefaultPos;
-			Player1.x -= 120.f;
-			float4 Player2 = DefaultPos;
-			Player2.x += 120.f;
-			float4 Player3 = DefaultPos;
-			Player3.x += 360.f;
-			IconPos.push_back(Player0);
-			IconPos.push_back(Player1);
-			IconPos.push_back(Player2);
-			IconPos.push_back(Player3);
-			break;
-		}
-		default:
-			break;
-		}
-		for (int i = 0; i < IconPos.size(); i++)
-		{
-			Icons_[i].Parent->GetTransform().SetWorldPosition(IconPos[i]);
-		}
-		for (int i = 0; i < PlayerCount_; i++)
-		{
-			Icons_[i].On();
-		}
+	//위치 정보 Update
+	std::vector<float4> IconPos;
+	float4 DefaultPos = Icons_[0].Parent->GetTransform().GetWorldPosition();
+	DefaultPos.x = 0;
+	switch (PlayerCount_)
+	{
+	case 1:
+	{
+		float4 Player0 = DefaultPos;
+		IconPos.push_back(Player0);
+		break;
+	}
+
+	case 2:
+	{
+		float4 Player0 = DefaultPos;
+		Player0.x -= 140.f;
+		float4 Player1 = DefaultPos;
+		Player1.x += 140.f;
+		IconPos.push_back(Player0);
+		IconPos.push_back(Player1);
+		break;
+	}
+	case 3:
+	{
+		float4 Player0 = DefaultPos;
+		Player0.x -= 230.f;
+		float4 Player1 = DefaultPos;
+		float4 Player2 = DefaultPos;
+		Player2.x += 230.f;
+		IconPos.push_back(Player0);
+		IconPos.push_back(Player1);
+		IconPos.push_back(Player2);
+		break;
+	}
+	case 4:
+	{
+		float4 Player0 = DefaultPos;
+		Player0.x -= 360.f;
+		float4 Player1 = DefaultPos;
+		Player1.x -= 120.f;
+		float4 Player2 = DefaultPos;
+		Player2.x += 120.f;
+		float4 Player3 = DefaultPos;
+		Player3.x += 360.f;
+		IconPos.push_back(Player0);
+		IconPos.push_back(Player1);
+		IconPos.push_back(Player2);
+		IconPos.push_back(Player3);
+		break;
+	}
+	default:
+		break;
+	}
+	for (int i = 0; i < IconPos.size(); i++)
+	{
+		Icons_[i].Parent->GetTransform().SetWorldPosition(IconPos[i]);
+	}
+	for (int i = 0; i < PlayerCount_; i++)
+	{
+		Icons_[i].On();
 	}
 }
 
@@ -277,8 +299,12 @@ void SelectStageUIActor::MovingMap(float _DeltaTime)
 		{
 			StartChange(-1); // 나는 내 오른쪽 것을 선택한다. & 이 맵들은 왼쪽으로 이동한다.
 		}
+		else if (GameEngineInput::GetInst()->IsDownKey("PlayerHold") == true)
+		{
+			StartSelectMap();
+		}
 	}
-	else
+	else //현재 화면 전환 중
 	{
 		if (CurInterval_Iter_ >= 1.f)
 		{
@@ -297,6 +323,40 @@ void SelectStageUIActor::MovingMap(float _DeltaTime)
 			}
 		}
 	}
+}
+
+void SelectStageUIActor::StartSelectMap()
+{
+	//CurPos가 StartIndex인 녀석을 Select하기
+	for (int i = 0; i < LevelSelect_.size(); i++)
+	{
+		LevelSelect_[i].Off();
+	}
+	SelectMap_->Off();
+	for (auto i : ArrowRenderer_)
+	{
+		i->Off();
+	}
+
+	int WantIndex = 0;
+	for (; WantIndex < LevelSelect_.size(); WantIndex++)
+	{
+		if (LevelSelect_[WantIndex].CurPos == StartIndex_)
+		{
+			break;
+		}
+	}
+	LevelSelect_[WantIndex].On();
+	LevelSelect_[WantIndex].LevelHighlisht->Off();
+	LevelSelect_[WantIndex].Font->Off();
+	LevelSelect_[WantIndex].Parent->StartPump(1.1f, 8.0f);
+
+	//카운트다운 시작
+	CountDown_.StartTimer(4.5);
+	CountDown_.SetTimeOverFunc(std::bind(&SelectStageUIActor::StartLevelChange, this, 3));
+	CountDownFont_->On();
+
+	Phase_ = 1;
 }
 
 void SelectStageUIActor::EndChange()
@@ -407,6 +467,7 @@ void SelectStageUIActor::CreateLevelSelect(std::string_view _MapFileName, int _B
 	NewFont->SetAffectTransform(true);
 	NewFont->GetTransform().SetLocalMove({ 0,-65.f,-1 });
 	NewFont->GetTransform().SetParentTransform(NewParent->GetTransform());
+	NewSelect.Font = NewFont;
 
 	LevelSelect_.push_back(NewSelect);
 }
@@ -475,6 +536,11 @@ bool SelectStageUIActor::IsChanging()
 	return IsChanging_;
 }
 
+void SelectStageUIActor::StartLevelChange(int _A)
+{
+	CountDownFont_->Off();
+}
+
 void SelectStageUIActor::PlayerIcon::Off()
 {
 	Parent->Off();
@@ -491,4 +557,24 @@ void SelectStageUIActor::PlayerIcon::On()
 	NameBox->On();
 	CountFont->On();
 	NameFont->On();
+}
+
+void SelectStageUIActor::LevelSelect::On()
+{
+	Parent->On();
+	Select->On();
+	Font->On();
+	Boarder->On();
+	BoarderSelected->On();
+	LevelHighlisht->On();
+}
+
+void SelectStageUIActor::LevelSelect::Off()
+{
+	Parent->Off();
+	Select->Off();
+	Font->Off();
+	Boarder->Off();
+	BoarderSelected->Off();
+	LevelHighlisht->Off();
 }

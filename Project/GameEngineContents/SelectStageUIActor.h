@@ -1,10 +1,16 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+#include "ContentsUtility.h"
+
+using namespace ContentsUtility;
+
 class OverCookedUIRenderer;
 class SelectStageUIActor : public GameEngineActor
 {
 	struct LevelSelect
 	{
+		void On();
+		void Off();
 		int Index; // 처음 등록했을 때 Index
 		int CurPos;
 		OverCookedUIRenderer* Parent;
@@ -45,7 +51,9 @@ protected:
 	void CreatePlayerIcon(int _Index, std::string_view _Name);
 	void LoadResource();
 	void Update(float _DeltaTime) override;
+	void UpdatePlayerIcon();
 	void MovingMap(float _DeltaTime);
+	void StartSelectMap();
 	void EndChange();
 	void End() override;
 
@@ -85,6 +93,13 @@ private:
 	//플레이어 아이콘
 	int PlayerCount_ = 1; //현재 접속한 플레이어 수
 	std::vector<PlayerIcon> Icons_;
+
+	//페이즈 관련
+	int Phase_ = 0;
+
+	//카운트다운 관련
+	Timer CountDown_ = 4.5f;
+	void StartLevelChange(int _A);
 
 	float4 DebugPos_;
 	float DebugSize_;
