@@ -75,16 +75,18 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (MoveAngle() == true)
 	{
+		// 플레이어 벽 출돌 체크
 		if (PlayerForwardCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Map_Object, CollisionType::CT_AABB,
 			std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false &&
 			PlayerForwardCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Object_StaticObject, CollisionType::CT_AABB,
 				std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
 		{
 			GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * _DeltaTime);
-		} // 플레이어 벽 출돌 체크
+		} 
 		else
 		{
-			MoveCollisionSide(_DeltaTime); // 플레이어가 벽이랑 충돌했을때 대각선 키 누르면 플레이어 밀려서 이동하는 함수
+			// 플레이어가 벽이랑 충돌했을때 대각선 키 누르면 플레이어 밀려서 이동하는 함수
+			MoveCollisionSideCheck(_DeltaTime);
 		}
 	}
 

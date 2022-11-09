@@ -534,7 +534,7 @@ void Player::Collision_AroundObject()
 		std::bind(&Player::GetCrashTableObject, this, std::placeholders::_1, std::placeholders::_2));
 }
 
-void Player::MoveCollisionSide(float _DeltaTime)
+void Player::MoveCollisionSideCheck(float _DeltaTime)
 {
 	if (CurDir_ == PlayerDir::FrontRight)
 	{
