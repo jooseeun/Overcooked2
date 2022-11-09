@@ -17,6 +17,7 @@ void SelectStageUIActor::Start()
 {
 	LoadResource();
 	InitRenderer();
+	UIDebugGUI::Main_->AddMutableValue("PlayerCount", &PlayerCount_);
 
 	//CountDownFont_ = CreateComponent<GameEngineFontRenderer>("CowntDownFont");
 	//CountDownFont_->ChangeCamera(CAMERAORDER::UICAMERA);
@@ -79,7 +80,9 @@ void SelectStageUIActor::InitRenderer()
 	//플레이어 아이콘
 	{
 		CreatePlayerIcon(0, "LoveSushi");
-		//CreatePlayerIcon(1, "AS40");
+		CreatePlayerIcon(1, "AS40");
+		CreatePlayerIcon(2, "NiceRice");
+		CreatePlayerIcon(3, "HelpMe");
 	}
 }
 
@@ -149,7 +152,11 @@ void SelectStageUIActor::CreatePlayerIcon(int _Index, std::string_view _Name)
 	NewNameFont->SetAffectTransform(true);
 	NewNameFont->GetTransform().SetLocalMove({ 0,-62.f,-1 });
 	NewNameFont->GetTransform().SetParentTransform(NewParent->GetTransform());
-	NewIcon.NameFont = NewCountFont;
+	NewIcon.NameFont = NewNameFont;
+
+	NewIcon.Off();
+
+	Icons_.push_back(NewIcon);
 }
 
 void SelectStageUIActor::LoadResource()
@@ -177,6 +184,85 @@ void SelectStageUIActor::LoadResource()
 void SelectStageUIActor::Update(float _DeltaTime)
 {
 	MovingMap(_DeltaTime);
+	//플레이어 아이콘 Update
+	{
+		//버그 방지용
+		if (PlayerCount_ >= 5)
+		{
+			PlayerCount_ = 4;
+		}
+		if (PlayerCount_ <= -1)
+		{
+			PlayerCount_ = 0;
+		}
+		for (int i = 0; i < Icons_.size(); i++)
+		{
+			Icons_[i].Off();
+		}
+
+		//위치 정보 Update
+		std::vector<float4> IconPos;
+		float4 DefaultPos = Icons_[0].Parent->GetTransform().GetWorldPosition();
+		DefaultPos.x = 0;
+		switch (PlayerCount_)
+		{
+		case 1:
+		{
+			float4 Player0 = DefaultPos;
+			IconPos.push_back(Player0);
+			break;
+		}
+
+		case 2:
+		{
+			float4 Player0 = DefaultPos;
+			Player0.x -= 140.f;
+			float4 Player1 = DefaultPos;
+			Player1.x += 140.f;
+			IconPos.push_back(Player0);
+			IconPos.push_back(Player1);
+			break;
+		}
+		case 3:
+		{
+			float4 Player0 = DefaultPos;
+			Player0.x -= 230.f;
+			float4 Player1 = DefaultPos;
+			float4 Player2 = DefaultPos;
+			Player2.x += 230.f;
+			IconPos.push_back(Player0);
+			IconPos.push_back(Player1);
+			IconPos.push_back(Player2);
+			break;
+		}
+		case 4:
+		{
+			float4 Player0 = DefaultPos;
+			Player0.x -= 360.f;
+			float4 Player1 = DefaultPos;
+			Player1.x -= 120.f;
+			float4 Player2 = DefaultPos;
+			Player2.x += 120.f;
+			float4 Player3 = DefaultPos;
+			Player3.x += 360.f;
+			IconPos.push_back(Player0);
+			IconPos.push_back(Player1);
+			IconPos.push_back(Player2);
+			IconPos.push_back(Player3);
+			break;
+		}
+		default:
+			break;
+		}
+		for (int i = 0; i < IconPos.size(); i++)
+		{
+			Icons_[i].Parent->GetTransform().SetWorldPosition(IconPos[i]);
+		}
+		for (int i = 0; i < PlayerCount_; i++)
+		{
+			Icons_[i].On();
+		}
+	}
 }
 
 void SelectStageUIActor::MovingMap(float _DeltaTime)
@@ -387,4 +473,22 @@ void SelectStageUIActor::ShowSelectEffect(int _Dir)
 bool SelectStageUIActor::IsChanging()
 {
 	return IsChanging_;
+}
+
+void SelectStageUIActor::PlayerIcon::Off()
+{
+	Parent->Off();
+	Hat->Off();
+	NameBox->Off();
+	CountFont->Off();
+	NameFont->Off();
+}
+
+void SelectStageUIActor::PlayerIcon::On()
+{
+	Parent->On();
+	Hat->On();
+	NameBox->On();
+	CountFont->On();
+	NameFont->On();
 }
