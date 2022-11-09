@@ -51,6 +51,8 @@ public:
 
 	void ResistDebug();
 
+	void ResistDebug(std::string_view _Name);
+
 	void SetTexture(GameEngineTexture* _Texture);
 
 	void SetTexture(const std::string& _Name);
@@ -80,6 +82,10 @@ public:
 	void StartPump(float _Ratio, float _Speed = 1.f);
 
 	void StartDown(float _Speed);
+
+	void SetSamplerWrap();
+
+	void SetSamplerPointClamp();
 
 protected:
 	void Start() override;

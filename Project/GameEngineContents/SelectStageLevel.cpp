@@ -17,11 +17,17 @@ void SelectStageLevel::Start()
 	UIDebugGUI::Main_ = GameEngineGUI::CreateGUIWindow<UIDebugGUI>("UIDebugGUI", nullptr);
 	UIDebugGUI::Main_->Off();
 
-	//GlobalMouseInput* Mouse = GEngine::GetCurrentLevel()->CreateActor<GlobalMouseInput>();
+	GlobalMouseInput* Mouse = CreateActor<GlobalMouseInput>();
+	Mouse->SetIsUI(true);
 }
 
 void SelectStageLevel::Update(float _DeltaTime)
 {
+	if (true == GameEngineInput::GetInst()->IsDownKey("FreeCameaOnOff"))
+	{
+		GetMainCameraActor()->FreeCameraModeOnOff();
+		GetUICameraActor()->FreeCameraModeOnOff();
+	}
 }
 
 void SelectStageLevel::End()

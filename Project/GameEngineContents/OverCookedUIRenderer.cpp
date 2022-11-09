@@ -28,6 +28,8 @@ void OverCookedUIRenderer::SetTextureRendererSetting()
 	AtlasDataInst.FrameData.SizeY = 1.0f;
 	AtlasDataInst.PivotPos = float4::ZERO;
 
+	//LINEARWRAP
+	GetShaderResources().SetSampler("LINEARWRAP", "LINEARCLAMP");
 	GetShaderResources().SetConstantBufferLink("AtlasData", AtlasDataInst);
 	GetShaderResources().SetConstantBufferLink("PixelData", PixelDataInst);
 	GetShaderResources().SetConstantBufferLink("UIData", UIDataInst);
@@ -40,6 +42,12 @@ void OverCookedUIRenderer::Start()
 	PushRendererToUICamera();
 
 	SetTextureRendererSetting();
+
+	GameEngineCollision* Collision_ = GetActor()->CreateComponent<GameEngineCollision>();
+	Collision_->SetDebugSetting(CollisionType::CT_AABB, { 1, 0, 0, 0.1f });
+	Collision_->SetParent(this);
+
+	int a = 0;
 }
 
 void OverCookedUIRenderer::SetSamplingModePoint()
@@ -105,6 +113,11 @@ void OverCookedUIRenderer::SetPivotToVector(const float4& _Value)
 void OverCookedUIRenderer::ResistDebug()
 {
 	UIDebugGUI::Main_->AddTransform(GetNameCopy(), &GetTransform());
+}
+
+void OverCookedUIRenderer::ResistDebug(std::string_view _Name)
+{
+	UIDebugGUI::Main_->AddTransform(_Name.data(), &GetTransform());
 }
 
 void OverCookedUIRenderer::SetTexture(GameEngineTexture* _Texture)
@@ -225,6 +238,17 @@ void OverCookedUIRenderer::StartDown(float _Speed)
 	DownSpeed_ = _Speed;
 	DownIter_ = 100000.f;
 	UIDataInst.DownDelta = { 1.f,0.f,0.f,0.f };
+}
+
+void OverCookedUIRenderer::SetSamplerWrap()
+{
+	//LINEARWRAP
+	GetShaderResources().SetSampler("LINEARWRAP", "LINEARWRAP");
+}
+
+void OverCookedUIRenderer::SetSamplerPointClamp()
+{
+	GetShaderResources().SetSampler("LINEARWRAP", "POINTCLAMP");
 }
 
 void OverCookedUIRenderer::ScaleToCutTexture(int _Index)

@@ -52,10 +52,6 @@ Output UI_VS(Input _Input)
         NewOutPut.Tex.y -= DownDelta.y;
 
     }
-    //
-    
-    
-  
     return NewOutPut;
 }
 
@@ -114,16 +110,16 @@ float4 UI_PS(Output _Input) : SV_Target0
     
         float4 TexColor = Tex.Sample(LINEARWRAP, _Input.Tex.xy);
         float4 TexColor2 = Tex2.Sample(LINEARWRAP, _Input.MaskTex.xy);
-        if(TexColor2.a == 0)
-        {
-            clip(-1);
-        }
+        //if(TexColor2.a == 0)
+        //{
+        //    clip(-1);
+        //}
         if (TexColor.a == 0)
         {
             clip(-1);
         }
     
-        float4 Result = (Tex.Sample(LINEARWRAP, _Input.Tex.xy) * MulColor) + PlusColor;
+        float4 Result = ((Tex.Sample(LINEARWRAP, _Input.Tex.xy) * MulColor) + PlusColor)*TexColor2.a;
         
     
         if (1 <= Result.a)

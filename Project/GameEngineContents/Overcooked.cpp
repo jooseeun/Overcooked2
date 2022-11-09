@@ -744,5 +744,6 @@ void Overcooked::InputMake()
 		GameEngineInput::GetInst()->CreateKey("LeftMouse", VK_LBUTTON);
 		GameEngineInput::GetInst()->CreateKey("RightMouse", VK_RBUTTON);
 		GameEngineInput::GetInst()->CreateKey("FreeCameaOnOff", 'O');
+		GameEngineInput::GetInst()->CreateKey("Test0", VK_NUMPAD0);
 	}
 }

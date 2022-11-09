@@ -33,12 +33,13 @@ void SelectStageUIActor::InitRenderer()
 	Background_ = CreateUIRenderer("UI_PauseScreen_Backdrop_01.png");
 
 	Header_ = CreateUIRenderer("t_ui_dialog_header_01_d.png");
-	Header_->GetTransform().SetLocalPosition({ -260,290 });
+	Header_->GetTransform().SetLocalPosition({ -260,290,-1 });
 
 	ControlGuide_ = CreateUIRenderer("control_bg.png");
-	ControlGuide_->GetTransform().SetLocalPosition({ -318,-308 });
+	ControlGuide_->GetTransform().SetLocalPosition({ -318,-308,-1 });
 
 	SelectMap_ = CreateUIRenderer("Selectmap.png");
+	SelectMap_->SetSamplerPointClamp();
 	SelectMap_->GetTransform().SetLocalPosition({ 20,-30 });
 
 	CreateLevelSelect("level_select_air_balloon.png", 1, "열기구 뷔페", 0);
@@ -53,9 +54,102 @@ void SelectStageUIActor::InitRenderer()
 	{
 		OverCookedUIRenderer* NewRenderer = CreateUIRenderer("screen_bg_overlay_01.png");
 		NewRenderer->SetMaskTexture("UI_PauseScreen_Backdrop_01.png");
-		//NewRenderer->GetTransform().SetLocalRotate({ 0,0,180.f });
+		NewRenderer->SetSamplerWrap();
 		NewRenderer->StartDown(0.2f);
 	}
+	{
+		OverCookedUIRenderer* NewRenderer = CreateUIRenderer("screen_bg_overlay_02.png");
+		NewRenderer->SetMaskTexture("UI_PauseScreen_Backdrop_01.png");
+		NewRenderer->SetSamplerWrap();
+		NewRenderer->StartDown(0.1f);
+	}
+
+	//화살표 렌더러
+	{
+		OverCookedUIRenderer* NewRenderer = CreateUIRenderer("UI_ArrowLeft_Dark_01.png");
+		NewRenderer->GetTransform().SetLocalPosition({ -200.f,-30.f });
+		ArrowRenderer_.push_back(NewRenderer);
+	}
+	{
+		OverCookedUIRenderer* NewRenderer = CreateUIRenderer("UI_ArrowRight_Dark_01.png");
+		NewRenderer->GetTransform().SetLocalPosition({ 210.f,-30.f });
+		ArrowRenderer_.push_back(NewRenderer);
+	}
+
+	//플레이어 아이콘
+	{
+		CreatePlayerIcon(0, "LoveSushi");
+		//CreatePlayerIcon(1, "AS40");
+	}
+}
+
+void SelectStageUIActor::CreatePlayerIcon(int _Index, std::string_view _Name)
+{
+	PlayerIcon NewIcon;
+
+	NewIcon.Index = _Index;
+	NewIcon.Name = _Name;
+
+	//부모
+	OverCookedUIRenderer* NewParent = CreateUIRenderer("AvatarSelectionRing.png");
+	NewParent->GetTransform().SetLocalScale({ 1,1,1 });
+	NewParent->GetTransform().SetLocalPosition({ 0,-180,0 });
+	NewParent->ResistDebug(std::to_string(_Index));
+	NewIcon.Parent = NewParent;
+
+	//Hat Icon
+	std::string HatFile;
+	switch (_Index)
+	{
+	case 0:
+		HatFile = "hat_blue.png";
+		break;
+	case 1:
+		HatFile = "hat_red.png";
+		break;
+	case 2:
+		HatFile = "hat_green.png";
+		break;
+	case 3:
+		HatFile = "hat_yellow.png";
+		break;
+	default:
+		break;
+	}
+
+	OverCookedUIRenderer* Hat = CreateUIRenderer(HatFile);
+	Hat->GetTransform().SetParentTransform(NewParent->GetTransform());
+	NewIcon.Hat = Hat;
+
+	OverCookedUIRenderer* NameBox = CreateUIRenderer("UI_BigButtonsSmall_01.png");
+	NameBox->ResistDebug();
+	NameBox->GetTransform().SetLocalPosition({ 0,-80,0 });
+	NameBox->GetTransform().SetParentTransform(NewParent->GetTransform());
+	NewIcon.NameBox = NameBox;
+
+	//숫자폰트
+	GameEngineFontRenderer* NewCountFont = CreateComponent<GameEngineFontRenderer>(_Name.data());
+	NewCountFont->ChangeCamera(CAMERAORDER::UICAMERA);
+	NewCountFont->SetText(std::to_string(_Index + 1), "Naughty Squirrel");
+	NewCountFont->SetColor({ 0.4f,0.4f,0.4f,0.6f });
+	NewCountFont->SetSize(49.f);
+	NewCountFont->SetLeftAndRightSort(LeftAndRightSort::CENTER);
+	NewCountFont->SetAffectTransform(true);
+	NewCountFont->GetTransform().SetLocalMove({ -80,50.f,-1 });
+	NewCountFont->GetTransform().SetParentTransform(NewParent->GetTransform());
+	NewIcon.CountFont = NewCountFont;
+
+	//이름폰트
+	GameEngineFontRenderer* NewNameFont = CreateComponent<GameEngineFontRenderer>(_Name.data());
+	NewNameFont->ChangeCamera(CAMERAORDER::UICAMERA);
+	NewNameFont->SetText(_Name.data(), "Naughty Squirrel");
+	NewNameFont->SetColor({ 1.f,1.f,1.f,1.f });
+	NewNameFont->SetSize(20.f);
+	NewNameFont->SetLeftAndRightSort(LeftAndRightSort::CENTER);
+	NewNameFont->SetAffectTransform(true);
+	NewNameFont->GetTransform().SetLocalMove({ 0,-62.f,-1 });
+	NewNameFont->GetTransform().SetParentTransform(NewParent->GetTransform());
+	NewIcon.NameFont = NewCountFont;
 }
 
 void SelectStageUIActor::LoadResource()
