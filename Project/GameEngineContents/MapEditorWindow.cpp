@@ -27,6 +27,7 @@ MapEditorWindow::MapEditorWindow()
 	: CurLevel_(nullptr)
 	, ObjectName_("Actor_")
 	, DataParser_{}
+	, LevelActor_(nullptr)
 {
 
 }

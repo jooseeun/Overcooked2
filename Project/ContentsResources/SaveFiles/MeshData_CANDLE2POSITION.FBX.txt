@@ -1,0 +1,7 @@
+{ 
+MeshName:CANDLE2POSITION.FBX;
+MeshInfoCount:1;
+Path:;
+Mat:T_WS_CANDLEABRA_01_D.PNG;
+}
+

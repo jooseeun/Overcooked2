@@ -245,8 +245,10 @@ void Overcooked::MeshLoad()
 		Dir.Move("Npc");
 		Dir.Move("MoveNPC_Beard_Orange_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("MoveNPC_Beard_Orange_01.FBX"));
-		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+		GameEngineDirectory MeshDir = Dir;
+		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("MoveNPC_Beard_Orange_01.FBX"));
+		GameEngineFBXAnimation* Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("MoveNPC_Beard_Orange_01.FBX"));
+
 	}
 	{
 		GameEngineDirectory Dir;
@@ -596,30 +598,30 @@ void Overcooked::MeshLoad()
 		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("exterior_car_blue_02.fbx"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Etc");
-		Dir.Move("exterior_car_green_01");
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Etc");
+	//	Dir.Move("exterior_car_green_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("exterior_car_green_01.FBX"));
-		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Etc");
-		Dir.Move("exterior_car_yellow_01");
+	//	GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("exterior_car_green_01.FBX"));
+	//	std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Etc");
+	//	Dir.Move("exterior_car_yellow_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("exterior_car_yellow_01.FBX"));
-		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
-	}
+	//	GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("exterior_car_yellow_01.FBX"));
+	//	std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+	//}
 	{
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExitsChildDirectory("ContentsResources");
@@ -714,6 +716,57 @@ void Overcooked::MeshLoad()
 		Dir.Move("Bamboo2");
 
 		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Bamboo2.FBX"));
+		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		Dir.Move("ContentsResources");
+		Dir.Move("Mesh");
+		Dir.Move("Object");
+		Dir.Move("Etc");
+		Dir.Move("Car_Blue");
+
+		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Car_Blue.FBX"));
+		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+	}
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		Dir.Move("ContentsResources");
+		Dir.Move("Mesh");
+		Dir.Move("Object");
+		Dir.Move("Etc");
+		Dir.Move("Car_Bluegreen");
+
+		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Car_Bluegreen.FBX"));
+		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		Dir.Move("ContentsResources");
+		Dir.Move("Mesh");
+		Dir.Move("Object");
+		Dir.Move("Etc");
+		Dir.Move("Car_Green");
+
+		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Car_Green.FBX"));
+		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		Dir.Move("ContentsResources");
+		Dir.Move("Mesh");
+		Dir.Move("Object");
+		Dir.Move("Etc");
+		Dir.Move("Car_Yellow");
+
+		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Car_Yellow.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 }

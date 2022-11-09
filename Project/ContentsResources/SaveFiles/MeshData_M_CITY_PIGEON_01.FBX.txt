@@ -1,0 +1,13 @@
+{ 
+MeshName:M_CITY_PIGEON_01.FBX;
+MeshInfoCount:4;
+Path:C:\Users\YS\OneDrive\Documents\DX_TeamPortfolio\Overcooked2\Project\ContentsResources\Mesh\Object\Etc\m_city_pigeon_01\T_CITY_PIGEON_01_D.PNG;
+Mat:T_CITY_PIGEON_01_D.PNG;
+Path:C:\Users\YS\OneDrive\Documents\DX_TeamPortfolio\Overcooked2\Project\ContentsResources\Mesh\Object\Etc\m_city_pigeon_01\T_CITY_PIGEON_01_D.PNG;
+Mat:T_CITY_PIGEON_01_D.PNG;
+Path:C:\Users\YS\OneDrive\Documents\DX_TeamPortfolio\Overcooked2\Project\ContentsResources\Mesh\Object\Etc\m_city_pigeon_01\T_CITY_PIGEON_01_D.PNG;
+Mat:T_CITY_PIGEON_01_D.PNG;
+Path:C:\Users\YS\OneDrive\Documents\DX_TeamPortfolio\Overcooked2\Project\ContentsResources\Mesh\Object\Etc\m_city_pigeon_01\t_city_pigeon_01_d.png;
+Mat:T_CITY_PIGEON_01_D.PNG;
+}
+
