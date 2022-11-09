@@ -59,6 +59,7 @@ protected:
 	CollisionReturn GetCrashGroundObject(GameEngineCollision* _This, GameEngineCollision* _Other);
 	CollisionReturn GetCrashTableObject(GameEngineCollision* _This, GameEngineCollision* _Other);
 	CollisionReturn GravityColCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
+	CollisionReturn MoveColCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
 	
 public:
 	inline Input_PickUpOption Input_PickUp(Player* _Player) override { return Input_PickUpOption::NoResponse; }
@@ -105,7 +106,13 @@ private:
 
 
 	GameEngineFBXAnimationRenderer* PlayerRenderer_;
-	GameEngineCollision* PlayerCollision_;
+	GameEngineCollision* PlayerFloorCollision_;
+	GameEngineCollision* PlayerLeftCollision_;
+	GameEngineCollision* PlayerRightCollision_;
+	GameEngineCollision* PlayerForwardCollision_;
+	GameEngineCollision* PlayerBackCollision_;
+
+
 	GameEngineStateManager StateManager;
 };
 

@@ -21,7 +21,7 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerHold"))
 	{
-		StateManager.ChangeState("Hold");
+		//StateManager.ChangeState("Hold");
 	}
 
 
@@ -74,7 +74,17 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (MoveAngle() == true)
 	{
-		GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * _DeltaTime);
+		if (PlayerForwardCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Map_Object, CollisionType::CT_AABB,
+			std::bind(&Player::GravityColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false && 
+			PlayerForwardCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Object_StaticObject, CollisionType::CT_AABB,
+				std::bind(&Player::GravityColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
+		{
+			GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * _DeltaTime);
+		}
+		else
+		{
+			int a=0;
+		}
 	}
 	else
 	{
@@ -101,7 +111,7 @@ void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 void Player::HoldStart(const StateInfo& _Info)
 {
 	if (CurrentHoldingObject_ == nullptr &&
-		Collision_Interact_->IsCollision(CollisionType::CT_SPHERE, CollisionOrder::Object_Moveable, CollisionType::CT_SPHERE,
+		Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Moveable, CollisionType::CT_OBB,
 			std::bind(&Player::GetCrashGroundObject, this, std::placeholders::_1, std::placeholders::_2)))
 		// 플레이어가 들고있는게 없고 검사 콜리전이 바닥에 떨어진 오브젝트 콜리젼과 닿아있을때
 	{
@@ -127,7 +137,7 @@ void Player::HoldStart(const StateInfo& _Info)
 
 
 
-	if (Collision_Interact_->IsCollision(CollisionType::CT_SPHERE, CollisionOrder::Object_StaticObject, CollisionType::CT_SPHERE,
+	if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 		std::bind(&Player::GetCrashTableObject, this, std::placeholders::_1, std::placeholders::_2)))
 		// 검사 콜리전이 테이블 콜리젼과 닿아있을때
 	{

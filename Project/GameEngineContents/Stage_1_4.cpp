@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "Stage_1_4.h"
+#include "Player.h"
 
 Stage_1_4::Stage_1_4() 
 {
@@ -17,6 +18,9 @@ void Stage_1_4::Start()
 	DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
 	GetMainCameraActorTransform().SetLocalRotation({ 60, 180, 0 });
 	GetMainCameraActorTransform().SetLocalPosition({ -1173  , 3300   , 2500 });
+
+	Player* MainPlayer = CreateActor<Player>();
+	MainPlayer->GetTransform().SetLocalPosition({ -1000, 1000, 1000 });
 }
 
 void Stage_1_4::Update(float _DeltaTime)

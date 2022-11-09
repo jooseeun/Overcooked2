@@ -8,7 +8,11 @@ Player::Player()
 	, CurAngle_(0)
 	, CurDir_(PlayerDir::Back)
 	, CurHoldType_(PlayerHoldType::FireExtinguisher)
-	, PlayerCollision_(nullptr)
+	, PlayerFloorCollision_(nullptr)
+	, PlayerLeftCollision_(nullptr)
+	, PlayerRightCollision_(nullptr)
+	, PlayerForwardCollision_(nullptr)
+	, PlayerBackCollision_(nullptr)
 	, PlayerRenderer_(nullptr)
 	, StateManager()
 	, CurrentHoldingObject_(nullptr)
@@ -63,19 +67,48 @@ void Player::Start()
 	//Test->SetFBXMesh("Chef1.FBX", "Texture");
 
 
+	{
+		PlayerRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();
+		PlayerRenderer_->SetFBXMesh("AlienGreen_CarDeath.FBX", "TextureAnimation");
+		PlayerRenderer_->CreateFBXAnimation("Test", "AlienGreen_CarDeath.FBX");
+		PlayerRenderer_->ChangeAnimation("Test");
+		PlayerRenderer_->GetTransform().SetLocalPosition({ -119,0,0 });
+		PlayerRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
+		//PlayerRenderer_ = CreateComponent<GameEngineFBXStaticRenderer>();
+		//PlayerRenderer_->SetFBXMesh("AlienGreen_CarDeath.FBX", "Texture");
+	}
 
-	PlayerRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();		
-	PlayerRenderer_->SetFBXMesh("AlienGreen_CarDeath.FBX", "TextureAnimation");
-	PlayerRenderer_->CreateFBXAnimation("Test", "AlienGreen_CarDeath.FBX");
-	PlayerRenderer_->ChangeAnimation("Test");
-	PlayerRenderer_->GetTransform().SetLocalPosition({-119,0,0});
-	PlayerRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
-	//PlayerRenderer_ = CreateComponent<GameEngineFBXStaticRenderer>();
-	//PlayerRenderer_->SetFBXMesh("AlienGreen_CarDeath.FBX", "Texture");
+	{
+		PlayerFloorCollision_ = CreateComponent<GameEngineCollision>();
+		PlayerFloorCollision_->GetTransform().SetLocalScale({ 100,15,100 });
+		PlayerFloorCollision_->GetTransform().SetLocalPosition({ 0,-20,0 });
+		PlayerFloorCollision_->ChangeOrder(CollisionOrder::Object_Character);
+	}
+	{
+		PlayerForwardCollision_ = CreateComponent<GameEngineCollision>();
+		PlayerForwardCollision_->GetTransform().SetLocalScale({ 70,100,10 });
+		PlayerForwardCollision_->GetTransform().SetLocalPosition({ 0,0,-50 });
+		PlayerForwardCollision_->ChangeOrder(CollisionOrder::Object_Character);
+	}
+	{
+		PlayerLeftCollision_ = CreateComponent<GameEngineCollision>();
+		PlayerLeftCollision_->GetTransform().SetLocalScale({ 10,100,90 });
+		PlayerLeftCollision_->GetTransform().SetLocalPosition({ -50,0,0 });
+		PlayerLeftCollision_->ChangeOrder(CollisionOrder::Object_Character);
+	}
+	{
+		PlayerRightCollision_ = CreateComponent<GameEngineCollision>();
+		PlayerRightCollision_->GetTransform().SetLocalScale({ 10,100,90 });
+		PlayerRightCollision_->GetTransform().SetLocalPosition({ 50,0,0 });
+		PlayerRightCollision_->ChangeOrder(CollisionOrder::Object_Character);
+	}
 
-	PlayerCollision_ = CreateComponent<GameEngineCollision>();
-	PlayerCollision_->GetTransform().SetLocalScale({ 100,30,100 });
-	PlayerCollision_->ChangeOrder(CollisionOrder::Object_Character);
+	{
+		PlayerBackCollision_ = CreateComponent<GameEngineCollision>();
+		PlayerBackCollision_->GetTransform().SetLocalScale({ 90,100,10 });
+		PlayerBackCollision_->GetTransform().SetLocalPosition({ 0,0,50 });
+		PlayerBackCollision_->ChangeOrder(CollisionOrder::Object_Character);
+	}
 
 
 	GamePlayObject::Start();
@@ -144,7 +177,7 @@ void Player::Update(float _DeltaTime)
 
 void Player::Gravity()
 {
-	if(PlayerCollision_->IsCollision(CollisionType::CT_OBB2D, CollisionOrder::Floor, CollisionType::CT_OBB2D,
+	if(PlayerFloorCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Floor, CollisionType::CT_OBB,
 		std::bind(&Player::GravityColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
 	{
 		GetTransform().SetWorldDownMove(300.0f, GameEngineTime::GetDeltaTime());
@@ -480,9 +513,9 @@ void Player::PlayerDirCheck() // 플레이어 방향 체크하고 회전시키는 함수
 
 void Player::Collision_AroundObject()
 {
-	Collision_Interact_->IsCollision(CollisionType::CT_SPHERE, CollisionOrder::Object_Moveable, CollisionType::CT_SPHERE,
+	Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Moveable, CollisionType::CT_OBB,
 		std::bind(&Player::GetCrashGroundObject, this, std::placeholders::_1, std::placeholders::_2));
-	Collision_Interact_->IsCollision(CollisionType::CT_SPHERE, CollisionOrder::Object_StaticObject, CollisionType::CT_SPHERE,
+	Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 		std::bind(&Player::GetCrashTableObject, this, std::placeholders::_1, std::placeholders::_2));
 }
 
@@ -526,6 +559,11 @@ CollisionReturn Player::GetCrashTableObject(GameEngineCollision* _This, GameEngi
 
 
 CollisionReturn Player::GravityColCheck(GameEngineCollision* _This, GameEngineCollision* _Other)
+{
+	return CollisionReturn::ContinueCheck;
+}
+
+CollisionReturn Player::MoveColCheck(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
 	return CollisionReturn::ContinueCheck;
 }
