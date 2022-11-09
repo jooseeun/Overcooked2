@@ -543,6 +543,16 @@ void MapEditorWindow::SortToolTab()
 			for (size_t j = 0; j < ToolNames.size(); ++j)
 			{
 				IsChecks_[j] = false;
+
+				if (nullptr != SortActorList_[ActorIndex]->GetStuff())
+				{
+					std::string_view CurType = magic_enum::enum_name(SortActorList_[ActorIndex]->GetStuff()->GetToolInfoType());
+
+					if (ToolNames[j] == CurType.data())
+					{
+						IsChecks_[j] = true;
+					}
+				}
 			}
 		}
 	}
@@ -564,10 +574,8 @@ void MapEditorWindow::SortToolTab()
 					{
 						SortActorList_[ActorIndex]->GetStuff()->Death();
 						SortActorList_[ActorIndex]->SetStuff(nullptr);
-						continue;
 					}
 
-					IsChecks_[i] = true;
 					continue;
 				}
 

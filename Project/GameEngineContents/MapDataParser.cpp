@@ -135,6 +135,15 @@ std::vector<GamePlayStaticObject*>& MapDataParser::SortMapDataParsing(std::vecto
 			break;
 		}
 
+		ToolInfo ToolType = static_cast<ToolInfo>(_Data[i].Index_.w);
+
+		switch (ToolType)
+		{
+		default:
+			break;
+		}
+
+
 		if (nullptr != CurAcotr_)
 		{
 			CurAcotr_->SetParent(Origins_[Order]);
