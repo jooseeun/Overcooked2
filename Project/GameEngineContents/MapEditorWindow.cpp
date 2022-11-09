@@ -30,7 +30,6 @@ MapEditorWindow::MapEditorWindow()
 	, LevelActor_(nullptr)
 	, ObjectName_("Actor_")
 	, DataParser_{}
-	, LevelActor_(nullptr)
 	, IsUnSort_(false)
 	, IsSort_(false)
 {
