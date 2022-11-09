@@ -33,7 +33,7 @@ public:
 
 		if (nullptr != _Stuff)
 		{
-			_Stuff->SetParent(this);
+			_Stuff->SetParentObject(this);
 		}
 	}
 	//inline int GetX() const
@@ -64,6 +64,18 @@ public:
 		return MyType_;
 	}
 
+	inline ToolInfo GetToolInfo() const
+	{
+		if (Stuff_Current_ == nullptr)
+		{
+			return ToolInfo::None;
+		}
+		else
+		{
+			return Stuff_Current_->GetToolInfoType();
+		}
+		 
+	}
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override {};

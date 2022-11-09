@@ -1,5 +1,6 @@
 #pragma once
 #include "GamePlayStaticObject.h"
+#include "GamePlayFood.h"
 
 //음식 스폰 박스
 class FoodBox : public GamePlayStaticObject
@@ -17,6 +18,6 @@ protected:
 	void Start() override;
 
 private:
-
+	ObjectFoodClass Enum_Ingredients_;
 };
 

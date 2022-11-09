@@ -42,6 +42,10 @@ public:
 	}
 
 
+public: 
+	void SetParentObject(GamePlayObject* _Object);      // Nullptr 검사 필요
+
+
 protected:
 
 	void Start() override;

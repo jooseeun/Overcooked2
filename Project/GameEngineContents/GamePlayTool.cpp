@@ -4,6 +4,8 @@
 
 GamePlayTool::GamePlayTool()
 	: Moveable_Current_(nullptr)
+	, EndCookingTime_(1.f)
+	, InteractOption_Current_(AutoOption::NoResponse)
 {
 }
 
@@ -22,10 +24,24 @@ void GamePlayTool::Start()
 // ---------------------------------------Update
 void GamePlayTool::Update(float _DeltaTime)
 {
-	//if (Moveable_Current_ != nullptr && InteractOption_Current_ == Input_AutoOption::Auto)
-	//{
-	//	Moveable_Current_->Cook_Update(_DeltaTime);
-	//}
+	if (Moveable_Current_ != nullptr)
+	{
+		if (InteractOption_Current_ == AutoOption::Auto)
+		{
+			Input_ActionToAuto_Update(Moveable_Current_, _DeltaTime);
+		}
+
+		if (Moveable_Current_->GetCookingTime() >= EndCookingTime_)
+		{
+			Input_Action_End(Moveable_Current_);
+		}
+	}
+}
+
+
+void GamePlayTool::Input_ActionToAuto_Update(GamePlayMoveable* _Moveable, float _DeltaTime)
+{
+	_Moveable->PlusCookingTime(_DeltaTime);
 }
 
 Input_PickUpOption GamePlayTool::Input_PickUp(GamePlayMoveable* _Object)
@@ -35,6 +51,7 @@ Input_PickUpOption GamePlayTool::Input_PickUp(GamePlayMoveable* _Object)
 		if (CheckMoveable(_Object) == Input_PickUpOption::PickUp)
 		{
 			Moveable_Current_ = _Object;
+			Moveable_Current_->SetParentObject(this);
 			return Input_PickUpOption::PickUp;
 		}
 		else
@@ -47,6 +64,7 @@ Input_PickUpOption GamePlayTool::Input_PickUp(GamePlayMoveable* _Object)
 		return Moveable_Current_->Input_PickUp(_Object);
 	}
 }
+
 Input_PickUpOption GamePlayTool::Input_PickUp(Player* _Player)
 {
 	if (Moveable_Current_ != nullptr)

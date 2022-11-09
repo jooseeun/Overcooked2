@@ -3,6 +3,7 @@
 
 GamePlayStuff::GamePlayStuff()
 	: Enum_ObjectStuffType_(ObjectStuffType::None)
+	, Enum_ToolInfo_(ToolInfo::None)
 
 {
 }
@@ -17,4 +18,10 @@ void GamePlayStuff::Start()
 	GamePlayObject::SetObjectType(ObjectType::Stuff);
 
 
+}
+
+
+void GamePlayStuff::SetParentObject(GamePlayObject* _Object)
+{
+	SetParent(_Object);
 }

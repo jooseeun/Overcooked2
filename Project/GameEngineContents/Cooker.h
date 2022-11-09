@@ -38,7 +38,7 @@ public:
 
 	Input_PickUpOption CheckMoveable(GamePlayMoveable* _Object) override;
 
-	Input_UsingOption Input_Action(Player* _Player) override
+	Input_UsingOption Input_ActionToManual(Player* _Player, float _DeltaTime) override
 	{
 		return Input_UsingOption::NoResponse; // ¼öÁ¤¿ä
 	}

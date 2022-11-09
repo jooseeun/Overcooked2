@@ -49,6 +49,15 @@ public:
 		return Enum_ObjectMoveableType_;
 	}
 
+	// Cooking
+	inline float GetCookingTime() const
+	{
+		return CookingGage_;
+	}
+	inline virtual void PlusCookingTime(float _Time)
+	{
+		CookingGage_ += _Time;
+	}
 
 protected:
 	void Start() override;
@@ -62,11 +71,16 @@ protected:
 	void LevelEndEvent() override {};
 
 
+
 protected:
 	inline void SetObjectMoveableType(ObjectMoveableType _Type)
 	{
 		Enum_ObjectMoveableType_ = _Type;
 	}
+
+
+
+
 
 
 	//inline CookedStat GetCookedStat() const
@@ -95,11 +109,6 @@ protected:
 	//	}
 	//}
 	//virtual GamePlayMoveable* Cook_End_Child() = 0;
-
-	inline float GetCookingGage() const
-	{
-		return CookingGage_;
-	}
 
 private:
 	ObjectMoveableType Enum_ObjectMoveableType_;

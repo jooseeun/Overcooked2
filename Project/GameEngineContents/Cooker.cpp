@@ -38,6 +38,7 @@ void Tool_Cooker::Start()
 {
 	GamePlayTool::Start();
 	GamePlayTool::SetInteractOption(AutoOption::Auto);
+	SetCookingEndTime(12.f);
 	//GamePlayTool::SetToolInfoType(ToolInfo::Cooker);
 }
 

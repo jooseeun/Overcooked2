@@ -2,6 +2,7 @@
 #include "FoodBox.h"
 
 FoodBox::FoodBox() 
+	: Enum_Ingredients_(ObjectFoodClass::None)
 {
 }
 

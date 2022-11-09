@@ -36,17 +36,19 @@ public:
 	Tool_TrashCan& operator=(const Tool_TrashCan& _Other) = delete;
 	Tool_TrashCan& operator=(Tool_TrashCan&& _Other) noexcept = delete;
 
-
-
 protected:
 	void Start() override;
 
+	void Input_ActionToAuto_Update(GamePlayMoveable* _Moveable, float _DeltaTime) override;
 	Input_PickUpOption CheckMoveable(GamePlayMoveable* _Object) override;
-	Input_UsingOption Input_Action(Player* _Player) override
-	{
-		return Input_UsingOption::NoResponse; // 수정요
-	}
-private:
+	Input_PickUpOption Input_PickUp(Player* _Player) override;
+	//Input_UsingOption Input_ActionToManual(Player* _Player) override
+	//{
+	//	return Input_UsingOption::NoResponse; // 수정요
+	//}
 
+	void Input_Action_End(GamePlayMoveable* _Moveable) override;
+private:
+	
 };
 

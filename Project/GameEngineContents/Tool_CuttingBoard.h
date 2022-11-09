@@ -15,10 +15,11 @@ public:
 	Tool_CuttingBoard& operator=(Tool_CuttingBoard&& _Other) noexcept = delete;
 
 	//Input_PickUpOption CheckMoveable(GamePlayMoveable* _Object) override;
-	Input_UsingOption Input_Action(Player* _Player) override
+	Input_UsingOption Input_ActionToManual(Player* _Player, float _DeltaTime) override
 	{
 		return Input_UsingOption::Using; // ¼öÁ¤¿ä
 	}
+	void Input_Action_End(GamePlayMoveable* _Moveable) override {};
 protected:
 	void Start() override;
 private:

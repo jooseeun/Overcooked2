@@ -3,6 +3,7 @@
 
 Equipment_Plate::Equipment_Plate() 
 	: Dirty(false)
+	, StackValue_(1)
 {
 }
 

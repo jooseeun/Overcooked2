@@ -19,6 +19,23 @@ public:
 	//Input_InteractOption Input_Interact() override;
 	Input_PickUpOption Input_PickUp(GamePlayMoveable* _Object) override;
 
+
+	inline int GetPlateStack() const
+	{
+		return StackValue_;
+	}
+
+	inline void PlusPlateStack()
+	{
+		++StackValue_;
+	}
+
+	inline void MinusPlateStack()
+	{
+		--StackValue_;
+	}
+
+
 	inline bool IsDirty()
 	{
 		return Dirty;
@@ -30,6 +47,6 @@ protected:
 	void Start() override;
 private:
 	bool Dirty;
-
+	int StackValue_;
 };
 

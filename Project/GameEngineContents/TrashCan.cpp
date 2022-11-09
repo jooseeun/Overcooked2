@@ -35,13 +35,31 @@ Tool_TrashCan::~Tool_TrashCan()
 void Tool_TrashCan::Start()
 {
 	GamePlayTool::Start();
-	GamePlayTool::SetInteractOption(AutoOption::Manual);
+	GamePlayTool::SetInteractOption(AutoOption::Auto);
+	SetCookingEndTime(1.f);
 	//GamePlayTool::SetToolInfoType(ToolInfo::TrashCan);
 }
 
+void Tool_TrashCan::Input_ActionToAuto_Update(GamePlayMoveable* _Moveable, float _DeltaTime)
+{
+	_Moveable->PlusCookingTime(_DeltaTime);
+	// 돌면서 작아지는 기능
+}
+
+void Tool_TrashCan::Input_Action_End(GamePlayMoveable* _Moveable)
+{
+	_Moveable->Death();// 삭제한다
+	SetCurrentMoveable(nullptr);
+}
+
+
 Input_PickUpOption Tool_TrashCan::CheckMoveable(GamePlayMoveable* _Object)
 {
-	// _Object->버리는 함수 + SetParent;
+	return Input_PickUpOption::PickUp;
+}
+
+Input_PickUpOption Tool_TrashCan::Input_PickUp(Player* _Player)
+{
 	return Input_PickUpOption::NoResponse;
 }
 //
