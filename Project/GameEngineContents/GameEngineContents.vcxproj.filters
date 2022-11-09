@@ -152,6 +152,9 @@
     <ClInclude Include="GamePlayBowl.h">
       <Filter>Contents\Template\Stuff\Moveable</Filter>
     </ClInclude>
+    <ClInclude Include="ContentsUtility.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -304,6 +307,9 @@
     </ClCompile>
     <ClCompile Include="GamePlayBowl.cpp">
       <Filter>Contents\Template\Stuff\Moveable</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsUtility.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
