@@ -41,6 +41,11 @@ void GlobalMouseInput::Start()
 
 void GlobalMouseInput::Update(float _Delta)
 {
+	if (true == GameEngineInput::GetInst()->IsDownKey("Test0"))
+	{
+		IsUI_ = !IsUI_;
+	}
+
 	if (true == GetLevel()->GetMainCameraActor()->IsFreeCameraMode())
 	{
 		StartCollision_->GetTransform().SetWorldScale({ 10, 10, 10 });
@@ -62,7 +67,7 @@ void GlobalMouseInput::TransformUpdate(float _Delta)
 	{
 		GameEngineTransform& CameraTransform = GetLevel()->GetUICameraActorTransform();
 		StartPos = CameraTransform.GetWorldPosition() + GetLevel()->GetMainCamera()->GetMouseMyPosition();
-		GoalPos = StartPos + float4(0, 0, 2000);
+		GoalPos = StartPos + float4(0, 0, 5000);
 		int a = 0;
 	}
 	else

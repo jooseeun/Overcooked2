@@ -46,6 +46,15 @@ void MouseInputWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		return;
 	}
 
+	if (true == ImGui::Button("UI"))
+	{
+		Input_->SetIsUI(true);
+	}
+	ImGui::SameLine();
+	if (true == ImGui::Button("Obj"))
+	{
+		Input_->SetIsUI(false);
+	}
 
 	if (true == ImGui::Button("Change Value"))
 	{
