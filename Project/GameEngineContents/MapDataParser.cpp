@@ -7,6 +7,7 @@
 #include "Servicehatch.h"
 
 MapDataParser::MapDataParser()
+	: CurAcotr_(nullptr)
 {
 }
 
@@ -45,9 +46,9 @@ void MapDataParser::UnSortMapDataParsing(std::vector<MapData>& _Data, GameEngine
 	}
 }
 
-std::vector<GamePlayStaticObject*> MapDataParser::SortMapDataParsing(std::vector<MapData>& _Data, GameEngineLevel* _Level)
+std::vector<GamePlayStaticObject*>& MapDataParser::SortMapDataParsing(std::vector<MapData>& _Data, GameEngineLevel* _Level)
 {
-	std::vector<GamePlayStaticObject*> ActorList = {};
+	SortActorList_.clear();
 
 	for (size_t i = 0; i < _Data.size(); ++i)
 	{
@@ -103,7 +104,7 @@ std::vector<GamePlayStaticObject*> MapDataParser::SortMapDataParsing(std::vector
 			break;
 		case MapObjType::CounterTop_WiZard:
 			break;
-		case MapObjType::GasRange:
+		case MapObjType::Cooker:
 			break;
 		case MapObjType::TrashCan:
 		{
@@ -128,7 +129,7 @@ std::vector<GamePlayStaticObject*> MapDataParser::SortMapDataParsing(std::vector
 		if (nullptr != CurAcotr_)
 		{
 			CurAcotr_->SetParent(Origins_[Order]);
-			ActorList.push_back(CurAcotr_);
+			SortActorList_.push_back(CurAcotr_);
 
 			CurAcotr_->GetTransform().SetWorldPosition(_Data[i].Pos_);
 			CurAcotr_->GetTransform().SetWorldRotation(_Data[i].Rot_);
@@ -138,6 +139,6 @@ std::vector<GamePlayStaticObject*> MapDataParser::SortMapDataParsing(std::vector
 		}
 	}	
 
-	return ActorList;
+	return SortActorList_;
 }
 

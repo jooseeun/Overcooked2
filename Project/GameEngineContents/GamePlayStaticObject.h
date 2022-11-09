@@ -81,6 +81,8 @@ private:
 
 	MapObjType MyType_;
 
+	float4 ToolPos_;
+
 	//int X_;
 	//int Y_;
 

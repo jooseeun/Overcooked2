@@ -7,6 +7,8 @@
 #include "CounterTop.h"
 #include "TrashCan.h"
 #include "Servicehatch.h"
+#include "Cooker.h"
+#include "PlateReturn.h"
 
 #include "Equipment_Plate.h"
 #include "Equipment_FireExtinguisher.h"
@@ -25,9 +27,12 @@ namespace
 
 MapEditorWindow::MapEditorWindow()
 	: CurLevel_(nullptr)
+	, LevelActor_(nullptr)
 	, ObjectName_("Actor_")
 	, DataParser_{}
 	, LevelActor_(nullptr)
+	, IsUnSort_(false)
+	, IsSort_(false)
 {
 
 }
@@ -109,6 +114,11 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 					Data.Rot_ = DataActors[j]->GetTransform().GetWorldRotation();
 					Data.Scale_ = DataActors[j]->GetTransform().GetWorldScale();
 					Data.Index_.z = static_cast<float>(i);
+
+					if (nullptr != DataActors[j]->GetStuff())
+					{
+						Data.Index_.w = static_cast<float>(DataActors[j]->GetStuff()->GetToolInfoType());
+					}
 
 					InputVector.push_back(Data);
 				}
@@ -226,6 +236,8 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				Prefabs_.push_back("CounterTop_NoEdge");
 				Prefabs_.push_back("TrashCan");
 				Prefabs_.push_back("Servicehatch");
+				Prefabs_.push_back("PlateReturn");
+				Prefabs_.push_back("Cooker");
 			}
 		}
 
@@ -680,6 +692,14 @@ void MapEditorWindow::SortToolTab()
 			CurStaticMesh_ = CurLevel_->CreateActor<Servicehatch>();
 			CurStaticMesh_->SetStaticObjectType(MapObjType::Servicehatch);
 			break;
+		case 5:
+			CurStaticMesh_ = CurLevel_->CreateActor<PlateReturn>();
+			CurStaticMesh_->SetStaticObjectType(MapObjType::PlateReturn);
+			break;
+		case 6:
+			CurStaticMesh_ = CurLevel_->CreateActor<Cooker>();
+			CurStaticMesh_->SetStaticObjectType(MapObjType::Cooker);
+			break;
 		}
 
 		//기준 엑터의 자식으로 둔다.
@@ -718,6 +738,16 @@ void MapEditorWindow::SortToolTab()
 				DataVector.erase(DataVector.begin() + i);
 			}
 		}
+
+		if (SortActorList_.size() < ActorIndex)
+		{
+			--ActorIndex;
+
+			if (0 > ActorIndex)
+			{
+				ActorIndex = 0;
+			}
+		}
 	}
 
 	ImGui::Text("");
@@ -730,39 +760,6 @@ void MapEditorWindow::SortToolTab()
 	}
 
 	ImGui::EndTabItem();
-}
-
-void MapEditorWindow::SetToolCheckBox(int _Index)
-{
-	/*if (0 == SortActorList_.size())
-	{
-		return;
-	}
-
-	auto ToolNames = magic_enum::enum_names<ToolInfo>();
-
-	for (size_t i = 0; i < ToolNames.size(); i++)
-	{
-		if (nullptr == )
-		{
-			bool IsFalse = false;
-		}
-
-		else
-		{
-			auto CurType = magic_enum::enum_name(SortActorList_[i]->GetStuff()->GetToolInfoType());
-
-			if (ToolNames[i] == CurType)
-			{
-				bool IsTrue = true;
-				ImGui::Checkbox(ToolNames[i].data(), &IsTrue);
-				continue;
-			}
-
-			bool IsFalse = false;
-			ImGui::Checkbox(ToolNames[i].data(), &IsFalse);
-		}
-	}*/
 }
 
 

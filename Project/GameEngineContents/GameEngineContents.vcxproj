@@ -204,6 +204,10 @@
     <ClInclude Include="MouseInputWindow.h" />
     <ClInclude Include="Overcooked.h" />
     <ClInclude Include="OverCookedUIRenderer.h" />
+    <ClInclude Include="PlateReturn.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Player.h" />
     <ClInclude Include="PreCompile.h" />
     <ClInclude Include="Rail.h" />
@@ -287,6 +291,10 @@
     <ClCompile Include="MouseInputWindow.cpp" />
     <ClCompile Include="Overcooked.cpp" />
     <ClCompile Include="OverCookedUIRenderer.cpp" />
+    <ClCompile Include="PlateReturn.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerState.cpp">
       <SubType>

@@ -16,7 +16,10 @@ void Tool_CuttingBoard::Start()
 	GamePlayTool::Start();
 	GamePlayTool::SetInteractOption(AutoOption::Manual);
 	GamePlayTool::SetToolInfoType(ToolInfo::CuttingBoard);
-	
+
+	GetFBXMesh()->SetFBXMesh("CuttingBoard.fbx", "Texture");
+	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
+	GetFBXMesh()->GetTransform().SetWorldMove({ 0, 0, 0 });
 }
 
 //Input_PickUpOption Tool_CuttingBoard::CheckMoveable(GamePlayMoveable* _Object)

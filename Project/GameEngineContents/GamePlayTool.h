@@ -66,6 +66,8 @@ private:
 	GamePlayMoveable* Moveable_Current_;
 	AutoOption InteractOption_Current_;
 
+	float4 FoodPos_;
+
 
 	// Bloom
 public:

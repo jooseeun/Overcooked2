@@ -152,6 +152,9 @@
     <ClInclude Include="GamePlayBowl.h">
       <Filter>Contents\Template\Stuff\Moveable</Filter>
     </ClInclude>
+    <ClInclude Include="PlateReturn.h">
+      <Filter>Contents\Object\StaticMesh</Filter>
+    </ClInclude>
     <ClInclude Include="ContentsUtility.h">
       <Filter>UI</Filter>
     </ClInclude>
@@ -310,6 +313,9 @@
     </ClCompile>
     <ClCompile Include="ContentsUtility.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="PlateReturn.cpp">
+      <Filter>Contents\Object\StaticMesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

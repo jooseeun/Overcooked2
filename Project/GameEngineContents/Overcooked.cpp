@@ -188,6 +188,46 @@ void Overcooked::MeshLoad()
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		Dir.Move("ContentsResources");
+		Dir.Move("Mesh");
+		Dir.Move("Object");
+		Dir.Move("StaticObject");
+		Dir.Move("PlateReturn");
+
+		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_plate_return_01.fbx"));
+		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		Dir.Move("ContentsResources");
+		Dir.Move("Mesh");
+		Dir.Move("Object");
+		Dir.Move("Stuff");
+		Dir.Move("Tool");
+		Dir.Move("CuttingBoard");
+
+		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("CuttingBoard.fbx"));
+		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		Dir.Move("ContentsResources");
+		Dir.Move("Mesh");
+		Dir.Move("Object");
+		Dir.Move("StaticObject");
+		Dir.Move("Cooker");
+
+		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_cooker_01.fbx"));
+		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+	}
+
 	// 맵툴 오브젝트
 	{
 		GameEngineDirectory Dir;
