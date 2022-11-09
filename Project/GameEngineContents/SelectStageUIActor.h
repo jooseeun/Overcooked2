@@ -15,6 +15,18 @@ class SelectStageUIActor : public GameEngineActor
 		OverCookedUIRenderer* BoarderSelected;
 		OverCookedUIRenderer* LevelHighlisht;
 	};
+
+	struct PlayerIcon
+	{
+		int Index; //0 ~ 3
+		OverCookedUIRenderer* Parent;
+		OverCookedUIRenderer* Hat;
+		OverCookedUIRenderer* NameBox;
+
+		std::string Name;
+		GameEngineFontRenderer* CountFont;
+		GameEngineFontRenderer* NameFont;
+	};
 public:
 	SelectStageUIActor();
 	~SelectStageUIActor();
@@ -27,6 +39,7 @@ public:
 protected:
 	void Start() override;
 	void InitRenderer();
+	void CreatePlayerIcon(int _Index, std::string_view _Name);
 	void LoadResource();
 	void Update(float _DeltaTime) override;
 	void MovingMap(float _DeltaTime);
@@ -46,6 +59,7 @@ private:
 	OverCookedUIRenderer* ControlGuide_ = nullptr;
 	OverCookedUIRenderer* SelectMap_ = nullptr;
 
+	std::vector<OverCookedUIRenderer*> ArrowRenderer_; // 화살표 렌더러
 	std::vector<OverCookedUIRenderer*> MaskBackground_;
 
 	GameEngineFontRenderer* CountDownFont_ = nullptr;
@@ -64,6 +78,10 @@ private:
 	void ShowSelectEffect(int _Dir);
 	bool IsChanging();
 	int MovingDir_ = 0;
+
+	//플레이어 아이콘
+	int PlayerCount_ = 1; //현재 접속한 플레이어 수
+	std::vector<PlayerIcon> Icons_;
 
 	float4 DebugPos_;
 	float DebugSize_;
