@@ -32,6 +32,7 @@ MapEditorWindow::MapEditorWindow()
 	, DataParser_{}
 	, IsUnSort_(false)
 	, IsSort_(false)
+	, LevelIndex_(0)
 {
 
 }
@@ -738,7 +739,7 @@ void MapEditorWindow::SortToolTab()
 			}
 		}
 
-		if (SortActorList_.size() < ActorIndex)
+		if (SortActorList_.size() <= ActorIndex)
 		{
 			--ActorIndex;
 

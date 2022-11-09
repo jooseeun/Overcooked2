@@ -5,6 +5,7 @@
 #include "CounterTop.h"
 #include "TrashCan.h"
 #include "Servicehatch.h"
+#include "PlateReturn.h"
 
 MapDataParser::MapDataParser()
 	: CurAcotr_(nullptr)
@@ -31,7 +32,7 @@ void MapDataParser::UnSortMapDataParsing(std::vector<MapData>& _Data, GameEngine
 			GamePlayMapObject* Object = _Level->CreateActor<GamePlayMapObject>();
 			Object->GetTransform().SetWorldPosition(_Data[i].Pos_);
 			Object->GetTransform().SetWorldRotation(_Data[i].Rot_);
-			Object->GetTransform().SetWorldScale(_Data[i].Scale_); 
+			Object->GetTransform().SetWorldScale(_Data[i].Scale_);
 		}
 		else
 		{
@@ -78,6 +79,8 @@ std::vector<GamePlayStaticObject*>& MapDataParser::SortMapDataParsing(std::vecto
 
 			Object->SetCounterTopType(CounterTopType::Normal);
 			Object->SetConterTopMesh(CounterTopType::Normal);
+
+			Object->SetStaticObjectType(MapObjType::CounterTop);
 		}
 		break;
 		case MapObjType::CounterTop_Corner:
@@ -90,7 +93,7 @@ std::vector<GamePlayStaticObject*>& MapDataParser::SortMapDataParsing(std::vecto
 
 			Object->SetStaticObjectType(MapObjType::CounterTop_Corner);
 		}
-			break;
+		break;
 		case MapObjType::CounterTop_NoEdge:
 		{
 			CurAcotr_ = _Level->CreateActor<CounterTop>();
@@ -101,7 +104,7 @@ std::vector<GamePlayStaticObject*>& MapDataParser::SortMapDataParsing(std::vecto
 
 			Object->SetStaticObjectType(MapObjType::CounterTop_NoEdge);
 		}
-			break;
+		break;
 		case MapObjType::CounterTop_WiZard:
 			break;
 		case MapObjType::Cooker:
@@ -111,7 +114,7 @@ std::vector<GamePlayStaticObject*>& MapDataParser::SortMapDataParsing(std::vecto
 			CurAcotr_ = _Level->CreateActor<TrashCan>();
 			CurAcotr_->SetStaticObjectType(MapObjType::TrashCan);
 		}
-			break;
+		break;
 		case MapObjType::Sink:
 			break;
 		case MapObjType::Servicehatch:
@@ -119,7 +122,13 @@ std::vector<GamePlayStaticObject*>& MapDataParser::SortMapDataParsing(std::vecto
 			CurAcotr_ = _Level->CreateActor<Servicehatch>();
 			CurAcotr_->SetStaticObjectType(MapObjType::Servicehatch);
 		}
-			break;
+		break;
+		case MapObjType::PlateReturn:
+		{
+			CurAcotr_ = _Level->CreateActor<PlateReturn>();
+			CurAcotr_->SetStaticObjectType(MapObjType::PlateReturn);
+		}
+		break;
 		case MapObjType::FoodBox:
 			break;
 		default:
@@ -135,9 +144,11 @@ std::vector<GamePlayStaticObject*>& MapDataParser::SortMapDataParsing(std::vecto
 			CurAcotr_->GetTransform().SetWorldRotation(_Data[i].Rot_);
 			CurAcotr_->GetTransform().SetWorldScale(_Data[i].Scale_);
 
+			Origins_[Order]->GetStaticMeshInfo().push_back(CurAcotr_);
+
 			CurAcotr_ = nullptr;
 		}
-	}	
+	}
 
 	return SortActorList_;
 }
