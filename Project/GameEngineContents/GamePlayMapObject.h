@@ -18,13 +18,19 @@ public:
 	GamePlayMapObject& operator=(GamePlayMapObject&& _Other) noexcept = delete;
 
 public:
-	void SetMapObjectMesh(const std::string& _Name);
+	inline MapObjType GetMapObjType()
+	{
+		return ObjType_;
+	}
+
+	void SetMapObjectMesh(const std::string& _Name, MapObjType _ObjType);
 
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
 private:
+	MapObjType ObjType_;
 
 
 };

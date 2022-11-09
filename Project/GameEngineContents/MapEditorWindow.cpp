@@ -17,6 +17,9 @@
 
 #include "Tool_CuttingBoard.h"
 
+#include "Npc.h"
+#include "Car.h"
+#include "TrafficLight.h"
 
 namespace
 {
@@ -77,6 +80,8 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 			{
 				TmpData.ObjName_ = UnSortActorList_[i]->GetName();
 				TmpData.Transform_ = &UnSortActorList_[i]->GetTransform();
+				TmpData.MapObjType_ = UnSortActorList_[i]->GetMapObjType();
+				
 				GlobalIOManager::AddMapData(TmpData);
 			}
 
@@ -143,24 +148,69 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 			std::vector<MapData>& Vector = GlobalIOManager::GetMapDataVector();
 			for (size_t i = 0; i < Vector.size(); i++)
 			{
-				GamePlayMapObject* Object = CurLevel_->CreateActor<GamePlayMapObject>();
-				Object->GetTransform().SetWorldPosition(Vector[i].Pos_);
-				Object->GetTransform().SetWorldScale(Vector[i].Scale_);
-				Object->GetTransform().SetWorldRotation(Vector[i].Rot_);
-				Object->SetName(Vector[i].ObjName_);
-
-				// 일반 메쉬
-				if (Vector[i].ObjName_ != "Collision_Wall" && Vector[i].ObjName_ != "Collision_Floor")
+				switch (Vector[i].MapObjType_)
 				{
-					Object->SetMapObjectMesh(Vector[i].ObjName_);
-				}
-				else if (Vector[i].ObjName_ == "Collision_Floor")
+				case MapObjType::Npc:
 				{
-					// 바닥 콜리전이다
-					Object->GetCollisionObject()->SetDebugSetting(CollisionType::CT_AABB, { 0, 0.8f, 0.8f, 0.5f });
+					Npc* Object = CurLevel_->CreateActor<Npc>();
+					Object->GetTransform().SetWorldPosition(Vector[i].Pos_);
+					Object->GetTransform().SetWorldScale(Vector[i].Scale_);
+					Object->GetTransform().SetWorldRotation(Vector[i].Rot_);
+					Object->SetName(Vector[i].ObjName_);
+					UnSortActorList_.push_back(Object);
 				}
+				break;
+				case MapObjType::Car:
+				{
+					Car* Object = CurLevel_->CreateActor<Car>();
+					Object->GetTransform().SetWorldPosition(Vector[i].Pos_);
+					Object->GetTransform().SetWorldScale(Vector[i].Scale_);
+					Object->GetTransform().SetWorldRotation(Vector[i].Rot_);
+					Object->SetName(Vector[i].ObjName_);
+					UnSortActorList_.push_back(Object);
+				}
+				break;
+				case MapObjType::TrafficLight:
+				{
+					TrafficLight* Object = CurLevel_->CreateActor<TrafficLight>();
+					Object->GetTransform().SetWorldPosition(Vector[i].Pos_);
+					Object->GetTransform().SetWorldScale(Vector[i].Scale_);
+					Object->GetTransform().SetWorldRotation(Vector[i].Rot_);
+					Object->SetName(Vector[i].ObjName_);
+					UnSortActorList_.push_back(Object);
+				}
+				break;
+				default:
+				{
+					GamePlayMapObject* Object = CurLevel_->CreateActor<GamePlayMapObject>();
+					Object->GetTransform().SetWorldPosition(Vector[i].Pos_);
+					Object->GetTransform().SetWorldScale(Vector[i].Scale_);
+					Object->GetTransform().SetWorldRotation(Vector[i].Rot_);
+					Object->SetName(Vector[i].ObjName_);
+					UnSortActorList_.push_back(Object);
+				}
+				break;
+				}
+				// ********* 콜리전 추가 필요
+				
+				//GamePlayMapObject* Object = CurLevel_->CreateActor<GamePlayMapObject>();
+				//Object->GetTransform().SetWorldPosition(Vector[i].Pos_);
+				//Object->GetTransform().SetWorldScale(Vector[i].Scale_);
+				//Object->GetTransform().SetWorldRotation(Vector[i].Rot_);
+				//Object->SetName(Vector[i].ObjName_);
 
-				UnSortActorList_.push_back(Object);
+				//// 일반 메쉬
+				//if (Vector[i].ObjName_ != "Collision_Wall" && Vector[i].ObjName_ != "Collision_Floor")
+				//{
+				//	Object->SetMapObjectMesh(Vector[i].ObjName_);
+				//}
+				//else if (Vector[i].ObjName_ == "Collision_Floor")
+				//{
+				//	// 바닥 콜리전이다
+				//	Object->GetCollisionObject()->SetDebugSetting(CollisionType::CT_AABB, { 0, 0.8f, 0.8f, 0.5f });
+				//}
+
+				//UnSortActorList_.push_back(Object);
 			}
 		}
 
@@ -345,6 +395,11 @@ void MapEditorWindow::UnSortToolTab()
 
 	static int SelectIndex = 0;
 
+	auto RendererType = magic_enum::enum_names<MapObjType>();
+	const int Size = RendererType.size();
+	static bool IsCheckType[Size] = { false };
+	static MapObjType ObjectTypeIndex = MapObjType::Max;
+
 	for (int i = 0; i < UnSortActorList_.size(); ++i)
 	{
 		char Label[1024] = { '\0' };
@@ -359,31 +414,94 @@ void MapEditorWindow::UnSortToolTab()
 	ImGui::EndChild();
 	ImGui::EndTabItem();
 
+	for (size_t i = 0; i < RendererType.size(); ++i)
+	{
+		if (i < 10)
+		{
+			continue;
+		}
+		MapObjType Type = static_cast<MapObjType>(i);
+
+		if (MapObjType::Max != Type)
+		{
+			// 체크 상황 계속 확인중
+			ImGui::Checkbox(RendererType[i].data(), &IsCheckType[i]);
+		}
+	}
+
+	for (size_t i = 0; i < RendererType.size(); i++)
+	{
+		if (false != IsCheckType[i])
+		{
+			// 체크박스 중 true인 애가 있다 -> 타입 지정
+			ObjectTypeIndex = static_cast<MapObjType>(i);
+		}
+	}
+
 	// 오브젝트 생성 
 	if (true == ImGui::Button("Create"))
 	{
-		GamePlayMapObject* Object = CurLevel_->CreateActor<GamePlayMapObject>();
-		Object->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
-		//	Object->GetTransform().SetLocalScale({ 1.f, 1.f, 1.f });
-		Object->SetName("UnNamed");
-
-		if (AllUnSortActorName_[SelectNameIndex] == "Collision_Wall")
+		switch (ObjectTypeIndex)
 		{
-			Object->SetName("Collision_Wall");
-		}
-		else if (AllUnSortActorName_[SelectNameIndex] == "Collision_Floor")
+		case MapObjType::Npc:
 		{
-			Object->SetName("Collision_Floor");
-			Object->GetCollisionObject()->SetDebugSetting(CollisionType::CT_AABB, { 0, 0.8f, 0., 0.5f });
-			Object->GetCollisionObject()->SetDebugSetting(CollisionType::CT_AABB, { 0, 0.8f, 0.8f, 0.5f });
-			Object->GetTransform().SetWorldPosition({ 0.f, -49.f, 0.f });
-		}
-		else
-		{
-			Object->SetMapObjectMesh(AllUnSortActorName_[SelectNameIndex]);
+			Npc* Object = CurLevel_->CreateActor<Npc>();
+			Object->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
+			Object->SetMapObjectMesh(AllUnSortActorName_[SelectNameIndex], ObjectTypeIndex);
 			Object->SetName(AllUnSortActorName_[SelectNameIndex]);
+			UnSortActorList_.push_back(Object);
 		}
-		UnSortActorList_.push_back(Object);
+			break;
+		case MapObjType::Car:
+		{
+			Car* Object = CurLevel_->CreateActor<Car>();
+			Object->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
+			Object->SetMapObjectMesh(AllUnSortActorName_[SelectNameIndex], ObjectTypeIndex);
+			Object->SetName(AllUnSortActorName_[SelectNameIndex]);
+			UnSortActorList_.push_back(Object);
+		}
+			break;
+		case MapObjType::TrafficLight:
+		{
+			TrafficLight* Object = CurLevel_->CreateActor<TrafficLight>();
+			Object->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
+			Object->SetMapObjectMesh(AllUnSortActorName_[SelectNameIndex], ObjectTypeIndex);
+			Object->SetName(AllUnSortActorName_[SelectNameIndex]);
+			UnSortActorList_.push_back(Object);
+		}
+			break;
+		default:
+		{
+			GamePlayMapObject* Object = CurLevel_->CreateActor<GamePlayMapObject>();
+			Object->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
+			Object->SetMapObjectMesh(AllUnSortActorName_[SelectNameIndex], ObjectTypeIndex);
+			Object->SetName(AllUnSortActorName_[SelectNameIndex]);
+			UnSortActorList_.push_back(Object);
+		}
+			break;
+		}
+		//GamePlayMapObject* Object = CurLevel_->CreateActor<GamePlayMapObject>();
+		//Object->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
+		////	Object->GetTransform().SetLocalScale({ 1.f, 1.f, 1.f });
+		//Object->SetName("UnNamed");
+
+		//if (AllUnSortActorName_[SelectNameIndex] == "Collision_Wall")
+		//{
+		//	Object->SetName("Collision_Wall");
+		//}
+		//else if (AllUnSortActorName_[SelectNameIndex] == "Collision_Floor")
+		//{
+		//	Object->SetName("Collision_Floor");
+		//	Object->GetCollisionObject()->SetDebugSetting(CollisionType::CT_AABB, { 0, 0.8f, 0., 0.5f });
+		//	Object->GetCollisionObject()->SetDebugSetting(CollisionType::CT_AABB, { 0, 0.8f, 0.8f, 0.5f });
+		//	Object->GetTransform().SetWorldPosition({ 0.f, -49.f, 0.f });
+		//}
+		//else
+		//{
+		//	Object->SetMapObjectMesh(AllUnSortActorName_[SelectNameIndex]);
+		//	Object->SetName(AllUnSortActorName_[SelectNameIndex]);
+		//}
+		//UnSortActorList_.push_back(Object);
 	}
 
 	ImGui::SameLine();

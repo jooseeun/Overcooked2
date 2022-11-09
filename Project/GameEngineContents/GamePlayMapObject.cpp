@@ -24,22 +24,73 @@ void GamePlayMapObject::Update(float _DeltaTime)
 
 }
 
-void GamePlayMapObject::SetMapObjectMesh(const std::string& _Name)
+void GamePlayMapObject::SetMapObjectMesh(const std::string& _Name, MapObjType _ObjType)
 {
-	GetAnimationFBXMesh()->SetFBXMesh(_Name + ".fbx", "TextureAnimation");
-	GetAnimationFBXMesh()->CreateFBXAnimation("Test", _Name + ".fbx");
-	GetAnimationFBXMesh()->ChangeAnimation("Test");
-	//GetFBXMesh()->GetTransform().SetLocalScale({ 100.f, 100.f, 100.f });
-
-	// 수정 필요 => Chef 테스트 끝나면 삭제 
-	if (_Name == "Chef")
+	ObjType_ = _ObjType;
+	switch (ObjType_)
 	{
-		GetAnimationFBXMesh()->GetTransform().SetWorldScale({ 1.f, 1.f, 1.f });
+	case MapObjType::StaticNoCollision:
+	{
+		GetFBXMesh()->GetTransform().SetWorldScale({ 100.f, 100.f, 100.f });
+		GetFBXMesh()->SetFBXMesh(_Name + ".fbx", "Texture");
+		GetCollisionObject()->Off();
 	}
-	else
+		break;
+	case MapObjType::AnimationNoCollision:
 	{
 		GetAnimationFBXMesh()->GetTransform().SetWorldScale({ 100.f, 100.f, 100.f });
-		//GetFBXMesh()->GetTransform().SetWorldMove({ -1891.f, 0.f, -3908.f});
+		GetAnimationFBXMesh()->SetFBXMesh(_Name + ".fbx", "TextureAnimation");
+		GetAnimationFBXMesh()->CreateFBXAnimation("Test", _Name + ".fbx");
+		GetAnimationFBXMesh()->ChangeAnimation("Test");
+		GetCollisionObject()->Off();
 	}
+		break;
+	case MapObjType::Animation:
+	{
+		GetAnimationFBXMesh()->GetTransform().SetWorldScale({ 100.f, 100.f, 100.f });
+		GetAnimationFBXMesh()->SetFBXMesh(_Name + ".fbx", "TextureAnimation");
+		GetAnimationFBXMesh()->CreateFBXAnimation("Test", _Name + ".fbx");
+		GetAnimationFBXMesh()->ChangeAnimation("Test");
+	}
+		break;
+	case MapObjType::Npc:
+	{
+		GetAnimationFBXMesh()->GetTransform().SetWorldScale({ 100.f, 100.f, 100.f });
+		GetAnimationFBXMesh()->SetFBXMesh(_Name + ".fbx", "TextureAnimation");
+		GetAnimationFBXMesh()->CreateFBXAnimation("Test", _Name + ".fbx");
+		GetAnimationFBXMesh()->ChangeAnimation("Test");
+	}
+		break;
+	case MapObjType::Car:
+	{
+		GetAnimationFBXMesh()->GetTransform().SetWorldScale({ 100.f, 100.f, 100.f });
+		GetAnimationFBXMesh()->SetFBXMesh(_Name + ".fbx", "TextureAnimation");
+		GetAnimationFBXMesh()->CreateFBXAnimation("Test", _Name + ".fbx");
+		GetAnimationFBXMesh()->ChangeAnimation("Test");
+	}
+		break;
+	case MapObjType::TrafficLight:
+	{
+		GetFBXMesh()->GetTransform().SetWorldScale({ 100.f, 100.f, 100.f });
+		GetFBXMesh()->SetFBXMesh(_Name + ".fbx", "Texture");
+	}
+		break;
+	default:
+		break;
+	}
+
+
+	//GetAnimationFBXMesh()->SetFBXMesh(_Name + ".fbx", "TextureAnimation");
+	//GetAnimationFBXMesh()->CreateFBXAnimation("Test", _Name + ".fbx");
+	//GetAnimationFBXMesh()->ChangeAnimation("Test");
+	//// 수정 필요 => Chef 테스트 끝나면 삭제 
+	//if (_Name == "Chef")
+	//{
+	//	GetFBXMesh()->GetTransform().SetWorldScale({ 1.f, 1.f, 1.f });
+	//}
+	//else
+	//{
+	//	GetFBXMesh()->GetTransform().SetWorldScale({ 100.f, 100.f, 100.f });
+	//}
 }
 

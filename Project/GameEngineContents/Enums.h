@@ -52,11 +52,16 @@ enum class ToolInfo
 	Max
 };
 
-enum class UnsortMapObjType
-{
-	Static,			// 애니메이션 X
-	Animation,		// 애니메이션 O
-	Move,			// 애니메이션 O + 움직이는 애
-
-	Max,
-};
+//enum class UnsortMapObjType
+//{
+//	StaticNoCollision,		// 애니메이션 X, 콜리전 X		ex) Grass, Bamboo
+//	//Static,					// 애니메이션 X				ex) TrafficLight 
+//	AnimationNoCollision,	// 애니메이션 O, 콜리전 x		ex) Candle, Pigeon_Idle, Pigeon_Move
+//	Animation,				// 애니메이션 O				ex) Kevin
+//
+//	Npc,					// 애니메이션 O, 콜리전 O
+//	Car,					// 애니메이션 X
+//	TrafficLight,			// 애니메이션 X, 콜리전 O
+//
+//	Max,
+//};

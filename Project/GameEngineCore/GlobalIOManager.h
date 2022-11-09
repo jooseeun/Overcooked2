@@ -22,15 +22,14 @@ enum class MapObjType
 	PlateReturn,		//그릇 되돌아 나오는 타일
 	FoodBox,			//음식 스폰 박스
 
-	Npc_Static,			// 움직이지 않는 NPC
-	Npc_Move,			// 1-2 레벨 내 움직이는 NPC
-	Car_Static,			// 움직이지 않는 자동차
-	Car_Move,			// 1-2 레벨 내 움직이는 자동차
-	Grass,
-	Pigeon,
-	TrafficLight,
-	Candle_Move,		// 1-4 레벨 내 움직이는 초
+	StaticNoCollision,		// 애니메이션 X, 콜리전 X		ex) Grass, Bamboo
+	AnimationNoCollision,	// 애니메이션 O, 콜리전 x		ex) Candle, Pigeon_Idle, Pigeon_Move
+	Animation,				// 애니메이션 O				ex) Kevin
+	Npc,					// 애니메이션 O, 콜리전 O
+	Car,					// 애니메이션 X
+	TrafficLight,			// 애니메이션 X, 콜리전 O
 	Collision,			// 벽, 바닥용 콜리전
+	Max,
 };
 
 struct MapData
