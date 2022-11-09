@@ -1,0 +1,7 @@
+{ 
+MeshName:BAMBOO2.FBX;
+MeshInfoCount:1;
+Path:C:\Users\YS\OneDrive\Documents\DX_TeamPortfolio\MapResource\Matarial\4-1_City\t_city_bambooplant_01_d.png;
+Mat:T_CITY_BAMBOOPLANT_01_D.PNG;
+}
+

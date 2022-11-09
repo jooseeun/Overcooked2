@@ -1,0 +1,7 @@
+{ 
+MeshName:M_KEVIN_01.FBX;
+MeshInfoCount:1;
+Path:\T_KEVIN_01_D.PNG;
+Mat:T_KEVIN_01_D.PNG;
+}
+

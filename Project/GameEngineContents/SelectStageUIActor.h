@@ -18,6 +18,9 @@ class SelectStageUIActor : public GameEngineActor
 
 	struct PlayerIcon
 	{
+	public:
+		void Off();
+		void On();
 		int Index; //0 ~ 3
 		OverCookedUIRenderer* Parent;
 		OverCookedUIRenderer* Hat;

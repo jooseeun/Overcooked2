@@ -55,8 +55,8 @@ void MapToolLevel::Start()
 	Window_->GetAllUnSortActorName().push_back("NPC_Mike_Wizard_01");
 	Window_->GetAllUnSortActorName().push_back("NPC_Mike_Yellow_01");
 	Window_->GetAllUnSortActorName().push_back("exterior_car_blue_02");
-	Window_->GetAllUnSortActorName().push_back("exterior_car_green_01");
-	Window_->GetAllUnSortActorName().push_back("exterior_car_yellow_01");
+	//Window_->GetAllUnSortActorName().push_back("exterior_car_green_01");
+	//Window_->GetAllUnSortActorName().push_back("exterior_car_yellow_01");
 	Window_->GetAllUnSortActorName().push_back("Candle1Position");
 	Window_->GetAllUnSortActorName().push_back("Candle2Position");
 	Window_->GetAllUnSortActorName().push_back("Candle3Position");
@@ -65,6 +65,11 @@ void MapToolLevel::Start()
 	Window_->GetAllUnSortActorName().push_back("m_city_pigeon_01");
 	Window_->GetAllUnSortActorName().push_back("traffic_light_animated_01");
 	Window_->GetAllUnSortActorName().push_back("Bamboo2");
+	Window_->GetAllUnSortActorName().push_back("Car_Blue");
+	Window_->GetAllUnSortActorName().push_back("Car_Bluegreen");
+	Window_->GetAllUnSortActorName().push_back("Car_Green");
+	Window_->GetAllUnSortActorName().push_back("Car_Yellow");
+
 }
 
 void MapToolLevel::Update(float _DeltaTime)

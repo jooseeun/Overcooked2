@@ -1,0 +1,7 @@
+{ 
+MeshName:TRAFFIC_LIGHT_ANIMATED_01.FBX;
+MeshInfoCount:1;
+Path:;
+Mat:T_CITY_TRAFFIC_LIGHT_01_D.PNG;
+}
+

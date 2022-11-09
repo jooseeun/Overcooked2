@@ -1,0 +1,7 @@
+{ 
+MeshName:EXTERIOR_GRASS_01.FBX;
+MeshInfoCount:1;
+Path:;
+Mat:T_CITY_PLANT_01_D.PNG;
+}
+
