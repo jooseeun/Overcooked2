@@ -74,8 +74,8 @@ void Player::Start()
 	//PlayerRenderer_->SetFBXMesh("AlienGreen_CarDeath.FBX", "Texture");
 
 	PlayerCollision_ = CreateComponent<GameEngineCollision>();
-	PlayerCollision_->GetTransform().SetLocalScale({ 100,100,100 });
-	PlayerCollision_->ChangeOrder(CollisionOrder::Default);
+	PlayerCollision_->GetTransform().SetLocalScale({ 100,30,100 });
+	PlayerCollision_->ChangeOrder(CollisionOrder::Object_Character);
 
 
 	GamePlayObject::Start();
@@ -134,11 +134,24 @@ void  Player::LevelStartEvent()
 void Player::Update(float _DeltaTime)
 {
 	StateManager.Update(_DeltaTime);
+	Gravity();
 	DashCheck();
 	Collision_AroundObject();
 }
 
 ///////////////////////////// 그외 함수들
+
+
+void Player::Gravity()
+{
+	if(PlayerCollision_->IsCollision(CollisionType::CT_OBB2D, CollisionOrder::Floor, CollisionType::CT_OBB2D,
+		std::bind(&Player::GravityColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
+	{
+		GetTransform().SetWorldDownMove(300.0f, GameEngineTime::GetDeltaTime());
+	}
+
+}
+
 bool Player::MoveAngle()
 {
 
@@ -512,5 +525,9 @@ CollisionReturn Player::GetCrashTableObject(GameEngineCollision* _This, GameEngi
 }
 
 
+CollisionReturn Player::GravityColCheck(GameEngineCollision* _This, GameEngineCollision* _Other)
+{
+	return CollisionReturn::ContinueCheck;
+}
 // 집는거 안해도되고 앞에 상호작용테이블 검사
 

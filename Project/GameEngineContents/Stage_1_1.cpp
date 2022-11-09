@@ -22,7 +22,7 @@ void Stage_1_1::Start()
 	DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
 
 	Player* MainPlayer = CreateActor<Player>();
-	MainPlayer->GetTransform().SetLocalPosition({ -1500, 0, 0 });
+	MainPlayer->GetTransform().SetLocalPosition({ -1500, 500, 0});
 
 	GlobalMouseInput* Mouse = CreateActor<GlobalMouseInput>();
 

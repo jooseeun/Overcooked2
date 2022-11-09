@@ -51,11 +51,14 @@ protected:
 	void PlayerDirCheck();
 	bool MoveAngle();
 
-	float Speed_;
-	float CurAngle_;
-	PlayerDir CurDir_;
-	PlayerHoldType CurHoldType_;
-	
+	void Gravity();
+
+
+
+	//충돌함수
+	CollisionReturn GetCrashGroundObject(GameEngineCollision* _This, GameEngineCollision* _Other);
+	CollisionReturn GetCrashTableObject(GameEngineCollision* _This, GameEngineCollision* _Other);
+	CollisionReturn GravityColCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
 	
 public:
 	inline Input_PickUpOption Input_PickUp(Player* _Player) override { return Input_PickUpOption::NoResponse; }
@@ -86,6 +89,10 @@ public:
 		MsgBoxAssert("예방코드 / 캐릭터 블룸 미적용")
 	}
 private:
+	float Speed_;
+	float CurAngle_;
+	PlayerDir CurDir_;
+	PlayerHoldType CurHoldType_;
 
 	GameEngineCollision* Collision_Interact_; // 상호작용 콜리전
 	GamePlayMoveable* Interact_GroundObject_;
@@ -95,8 +102,7 @@ private:
 
 	void Collision_AroundObject();
 
-	CollisionReturn GetCrashGroundObject(GameEngineCollision* _This, GameEngineCollision* _Other);
-	CollisionReturn GetCrashTableObject(GameEngineCollision* _This, GameEngineCollision* _Other);
+
 
 	GameEngineFBXAnimationRenderer* PlayerRenderer_;
 	GameEngineCollision* PlayerCollision_;
