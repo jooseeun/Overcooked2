@@ -5,7 +5,7 @@
 #include <GameEngineBase/GameEngineNameObject.h>
 #include <GameEngineBase/GameEngineString.h>
 
-class GameEngineGUIWindow : public GameEngineNameObject, public GameEngineUpdateObject
+class GameEngineGUIWindow : public GameEngineNameObject, public GameEngineUpdateObject, public std::enable_shared_from_this<GameEngineGUIWindow>
 {
 	friend class GameEngineGUI;
 
@@ -14,13 +14,13 @@ class GameEngineGUIWindow : public GameEngineNameObject, public GameEngineUpdate
 
 
 private:
-	void Begin() 
+	void Begin()
 	{
 		std::string Name = GameEngineString::AnsiToUTF8Return(GetName().data());
 		ImGui::Begin(Name.c_str(), &IsUpdateRef());
 	}
 
-	void End() 
+	void End()
 	{
 		ImGui::End();
 	}
@@ -52,10 +52,10 @@ public:
 	static void GUIRender(GameEngineLevel* _Level, float _DeltaTime);
 
 	template<typename GUIWindowType>
-	static GUIWindowType* CreateGUIWindow(const std::string& _Name, GameEngineLevel* _Level)
+	static std::shared_ptr<GUIWindowType> CreateGUIWindow(const std::string& _Name, GameEngineLevel* _Level)
 	{
-		GUIWindowType* Window = new GUIWindowType();
-		GameEngineGUIWindow* InitWindow = Window;
+		std::shared_ptr<GUIWindowType> Window = std::make_shared<GUIWindowType>();
+		GameEngineGUIWindow* InitWindow = Window.get();
 		InitWindow->SetName(_Name);
 		InitWindow->Initialize(_Level);
 		Windows.push_back(Window);
@@ -69,7 +69,7 @@ public:
 protected:
 
 protected:
-	static std::list<GameEngineGUIWindow*> Windows;
+	static std::list<std::shared_ptr<GameEngineGUIWindow>> Windows;
 
 	static void GUIDestroy();
 };

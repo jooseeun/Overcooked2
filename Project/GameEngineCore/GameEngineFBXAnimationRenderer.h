@@ -88,6 +88,7 @@ private:
 	std::shared_ptr<FBXRendererAnimation> CurAnimation;
 
 	std::map<size_t, std::vector<float4x4>> AnimationBoneMatrixs;
+	// std::map<size_t, std::vector<float4x4>> PrevAnimationBoneMatrixs;
 	std::map<size_t, std::vector<AnimationBoneData>> AnimationBoneDatas;
 };
 

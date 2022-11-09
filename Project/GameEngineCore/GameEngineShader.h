@@ -41,13 +41,13 @@ public:
 	GameEngineConstantBuffer* Res;
 	// 각자가 가진 정보에 대한 주소
 	const void* SetData;
-	UINT Size;
-
+	size_t Size;
 
 	// 자기메모리로 할당할 것이다.
 	std::vector<char> OriginalData;
 
 	void Setting() const;
+	void Bind();
 
 public:
 	GameEngineConstantBufferSetter() 
@@ -67,6 +67,7 @@ class GameEngineTextureSetter : public ShaderResSetter
 public:
 	void Setting() const;
 	void Reset() const;
+	void Bind();
 
 public:
 	GameEngineTexture* Res;
@@ -77,6 +78,7 @@ class GameEngineSamplerSetter : public ShaderResSetter
 {
 public:
 	void Setting() const;
+	void Bind();
 
 public:
 	GameEngineSampler* Res;
@@ -87,8 +89,8 @@ class GameEngineStructuredBufferSetter : public ShaderResSetter
 {
 public:
 	void Setting() const;
-
 	void Resize(int _Count);
+	void Bind();
 
 	template<typename DataType>
 	void Push(DataType& _Data, int _Count)
@@ -111,7 +113,9 @@ private:
 
 public:
 	GameEngineStructuredBuffer* Res;
-	std::vector<char> CpuDataBuffer;
+	const void* SetData;
+	size_t Size;
+	std::vector<char> OriginalData;
 };
 
 

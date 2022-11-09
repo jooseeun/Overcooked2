@@ -4,8 +4,7 @@
 #include "GameEngineDevice.h"
 #include "portable-file-dialogs.h"
 
-
-std::list<GameEngineGUIWindow*> GameEngineGUI::Windows;
+std::list<std::shared_ptr<GameEngineGUIWindow>> GameEngineGUI::Windows;
 
 GameEngineGUI::GameEngineGUI() 
 {
@@ -57,7 +56,7 @@ void GameEngineGUI::GUIRender(GameEngineLevel* _Level, float _DeltaTime)
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
 
-    for (GameEngineGUIWindow* GUIWIndow : Windows)
+    for (std::shared_ptr<GameEngineGUIWindow> GUIWIndow : Windows)
     {
         if (false == GUIWIndow->IsUpdate())
         {
@@ -109,12 +108,6 @@ std::string GameEngineGUI::OpenFileDlg(const std::string& _Title, const std::str
 
 void GameEngineGUI::GUIDestroy()
 {
-    for (GameEngineGUIWindow* GUIWIndow : Windows)
-    {
-        delete GUIWIndow;
-    }
-
-
     ImGui_ImplDX11_Shutdown();
     ImGui_ImplWin32_Shutdown();
     ImGui::DestroyContext();

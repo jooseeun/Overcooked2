@@ -7,6 +7,10 @@ GameEngineFBXMesh::GameEngineFBXMesh()
 
 GameEngineFBXMesh::~GameEngineFBXMesh()
 {
+	for (size_t i = 0; i < AllBoneStructuredBuffers.size(); i++)
+	{
+		delete AllBoneStructuredBuffers[i];
+	}
 }
 
 
@@ -86,6 +90,16 @@ Bone* GameEngineFBXMesh::FindBone(size_t MeshIndex, std::string _Name)
 
 	return AllFindMap[MeshIndex][_Name];
 
+}
+
+GameEngineStructuredBuffer* GameEngineFBXMesh::GetAnimationStructuredBuffer(size_t _Index)
+{
+	if (AllBoneStructuredBuffers.size() <= _Index)
+	{
+		MsgBoxAssert("스트럭처드 버퍼 인덱스 오버");
+	}
+
+	return AllBoneStructuredBuffers[_Index];
 }
 
 bool GameEngineFBXMesh::IsOddNegativeScale(const fbxsdk::FbxAMatrix& TotalMatrix)
@@ -1676,11 +1690,9 @@ void GameEngineFBXMesh::BuildSkeletonSystem(fbxsdk::FbxScene* pScene, std::vecto
 
 void GameEngineFBXMesh::CreateGameEngineStructuredBuffer()
 {
-	AllBoneStructuredBuffers.resize(AllBones.size());
-
 	for (size_t i = 0; i < AllBones.size(); i++)
 	{
-		std::shared_ptr<GameEngineStructuredBuffer> NewStructuredBuffer = AllBoneStructuredBuffers.emplace_back(std::make_shared<GameEngineStructuredBuffer>());
+		GameEngineStructuredBuffer* NewStructuredBuffer = AllBoneStructuredBuffers.emplace_back(new GameEngineStructuredBuffer());
 		NewStructuredBuffer->CreateResize(sizeof(float4x4), static_cast<int>(AllBones[i].size()), nullptr);
 	}
 }

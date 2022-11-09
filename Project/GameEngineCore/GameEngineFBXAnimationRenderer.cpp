@@ -106,6 +106,15 @@ void FBXRendererAnimation::Update(float _DeltaTime)
 				// 로컬 포지션
 				AnimationBoneData[i].Pos = float4::Lerp(CurData.T, NextData.T, CurFrameTime);
 
+				// 블렌딩? 준비용
+				//PrevAnimation[i].Scale;
+				//PrevAnimation[i].RotQuaternion;
+				//PrevAnimation[i].Pos;
+				//AnimationBoneData[i].Scale;
+				//AnimationBoneData[i].RotQuaternion;
+				//AnimationBoneData[i].Pos;
+				// float4::Lerp(PrevAnimation[i].Scale, AnimationBoneData[i].Scale, 0.0);
+
 				size_t Size = sizeof(float4x4);
 				// 자신의 원본행렬과 곱해준다 큰 의미는 없다.
 
@@ -198,12 +207,17 @@ GameEngineRenderUnit* GameEngineFBXAnimationRenderer::SetFBXMesh(const std::stri
 	// 이때 스트럭처드 버퍼를 세팅할거냐.
 	if (Unit->ShaderResources.IsStructuredBuffer("ArrAniMationMatrix"))
 	{
-		int a = 0;
-		// Unit->ShaderResources.GetStructuredBuffer();
-		// 어? 크기가 나의 본 개수를 다 포함시킬수 없네?
-		// 리사이즈
+		GameEngineStructuredBufferSetter* AnimationBuffer = Unit->ShaderResources.GetStructuredBuffer("ArrAniMationMatrix");
+		AnimationBuffer->Res = GetFBXMesh()->GetAnimationStructuredBuffer(_MeshIndex);
+		if (nullptr == AnimationBuffer->Res)
+		{
+			MsgBoxAssert("애니메이션용 스트럭처드 버퍼가 존재하지 않습니다.");
+			return Unit;
+		}
 
-		// Unit->ShaderResources.GetStructuredBuffer()->Res = GetFBXMesh()->GetStructBuffer();
+		AnimationBuffer->SetData = &AnimationBoneMatrixs[_MeshIndex][0];
+		AnimationBuffer->Size = AnimationBoneMatrixs[_MeshIndex].size() * sizeof(float4x4);
+		AnimationBuffer->Bind();
 	}
 
 	return Unit;

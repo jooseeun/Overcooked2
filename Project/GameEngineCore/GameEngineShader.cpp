@@ -14,6 +14,26 @@ void GameEngineConstantBufferSetter::Setting() const
 	SettingFunction();
 }
 
+void GameEngineConstantBufferSetter::Bind()
+{
+	if (nullptr == Res)
+	{
+		MsgBoxAssert("존재하지 않는 상수버퍼를 사용하려고 했습니다.");
+	}
+
+	switch (ShaderType)
+	{
+	case ShaderType::Vertex:
+		SettingFunction = std::bind(&GameEngineConstantBuffer::VSSetting, Res, BindPoint);
+		break;
+	case ShaderType::Pixel:
+		SettingFunction = std::bind(&GameEngineConstantBuffer::PSSetting, Res, BindPoint);
+		break;
+	default:
+		break;
+	}
+}
+
 void GameEngineTextureSetter::Setting() const
 {
 	SettingFunction();
@@ -24,19 +44,56 @@ void GameEngineTextureSetter::Reset() const
 	ResetFunction();
 }
 
+void GameEngineTextureSetter::Bind()
+{
+	if (nullptr == Res)
+	{
+		MsgBoxAssert("존재하지 않는 텍스처를 사용하려고 했습니다.");
+	}
+
+	switch (ShaderType)
+	{
+	case ShaderType::Vertex:
+		SettingFunction = std::bind(&GameEngineTexture::VSSetting, Res, BindPoint);
+		ResetFunction = std::bind(&GameEngineTexture::VSReset, Res, BindPoint);
+		break;
+	case ShaderType::Pixel:
+		SettingFunction = std::bind(&GameEngineTexture::PSSetting, Res, BindPoint);
+		ResetFunction = std::bind(&GameEngineTexture::PSReset, Res, BindPoint);
+		break;
+	default:
+		break;
+	}
+}
+
 void GameEngineSamplerSetter::Setting() const
 {
 	SettingFunction();
 }
 
-void GameEngineStructuredBufferSetter::Setting() const
+void GameEngineSamplerSetter::Bind()
 {
-	if (true == CpuDataBuffer.empty())
+	if (nullptr == Res)
 	{
-		return;
+		MsgBoxAssert("존재하지 않는 샘플러를 사용하려고 했습니다.");
 	}
 
-	Res->ChangeData(&CpuDataBuffer[0], CpuDataBuffer.size());
+	switch (ShaderType)
+	{
+	case ShaderType::Vertex:
+		SettingFunction = std::bind(&GameEngineSampler::VSSetting, Res, BindPoint);
+		break;
+	case ShaderType::Pixel:
+		SettingFunction = std::bind(&GameEngineSampler::PSSetting, Res, BindPoint);
+		break;
+	default:
+		break;
+	}
+}
+
+void GameEngineStructuredBufferSetter::Setting() const
+{
+	Res->ChangeData(SetData, Size);
 	SettingFunction();
 }
 
@@ -48,17 +105,34 @@ int GameEngineStructuredBufferSetter::GetDataSize()
 void GameEngineStructuredBufferSetter::Resize(int _Count)
 {
 	Res->CreateResize(_Count, nullptr);
-	CpuDataBuffer.resize(Res->GetDataSize() * _Count);
+	OriginalData.resize(Res->GetDataSize() * _Count);
+}
+
+void GameEngineStructuredBufferSetter::Bind()
+{
+	if (nullptr == Res)
+	{
+		MsgBoxAssert("존재하지 않는 스트럭처드 버퍼를 사용하려고 했습니다.");
+	}
+
+	switch (ShaderType)
+	{
+	case ShaderType::Vertex:
+		SettingFunction = std::bind(&GameEngineStructuredBuffer::VSSetting, Res, BindPoint);
+		break;
+	case ShaderType::Pixel:
+		SettingFunction = std::bind(&GameEngineStructuredBuffer::PSSetting, Res, BindPoint);
+		break;
+	default:
+		break;
+	}
 }
 
 void GameEngineStructuredBufferSetter::PushData(const void* Data, int _Count)
 {
 	int Count = Res->GetDataSize() * _Count;
-	memcpy_s(&CpuDataBuffer[Count], CpuDataBuffer.size(), Data, Res->GetDataSize());
+	memcpy_s(&OriginalData[Count], OriginalData.size(), Data, Res->GetDataSize());
 }
-
-
-
 
 void GameEngineShader::AutoCompile(const std::string& _Path)
 {

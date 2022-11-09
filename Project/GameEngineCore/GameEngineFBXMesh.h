@@ -559,12 +559,14 @@ public:
 	Bone* FindBone(size_t MeshIndex, size_t _BoneIndex);
 	Bone* FindBone(size_t MeshIndex, std::string _Name);
 
+	GameEngineStructuredBuffer* GetAnimationStructuredBuffer(size_t _Index);
+
 protected:
 	std::vector<FbxExMeshInfo> MeshInfos;
 	std::vector<FbxRenderUnitInfo> RenderUnitInfos;
 
 	std::vector<std::vector<Bone>> AllBones; // 본정보체
-	std::vector<std::shared_ptr<GameEngineStructuredBuffer>> AllBoneStructuredBuffers;
+	std::vector<GameEngineStructuredBuffer*> AllBoneStructuredBuffers;
 
 	std::vector<std::map<std::string, Bone*>> AllFindMap;
 	std::vector<std::vector<FbxClusterData>> ClusterData;

@@ -21,11 +21,27 @@ struct AniMat
 
 StructuredBuffer<AniMat> ArrAniMationMatrix : register(t11);
 
+void Skinning(inout float4 _Pos, inout float4 _Weight, inout int4 _Index, StructuredBuffer<AniMat> _ArrMatrix)
+{
+    float4 CalPos = (float4)0.0f;
+    _Pos.w = 1.0f;
+    for (int i = 0; i < 4; ++i)
+    {
+        AniMat Mat = _ArrMatrix[_Index[i]];
+        CalPos += _Weight[i] * mul(_Pos, Mat.Mat);
+    }
+
+    _Pos = CalPos;
+}
+
 Output TextureAnimation_VS(Input _Input)
 {
     Output NewOutPut = (Output)0;
 
-    NewOutPut.POSITION = mul(_Input.POSITION, ArrAniMationMatrix[_Input.BLENDINDICES[0]].Mat);
+    NewOutPut.POSITION = _Input.POSITION;
+    Skinning(NewOutPut.POSITION, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
+    NewOutPut.POSITION.w = 1.0f;
+
     NewOutPut.POSITION = mul(NewOutPut.POSITION, WorldViewProjection);
     NewOutPut.TEXCOORD = NewOutPut.TEXCOORD;
 
