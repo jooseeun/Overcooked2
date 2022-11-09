@@ -3,7 +3,7 @@
 #include "Enums.h"
 
 // 설명 :
-class GameEngineFBXStaticRenderer;
+class GameEngineFBXAnimationRenderer;
 class GameEngineCollision;
 class GamePlayMoveable;
 class GamePlayStaticObject;
@@ -61,7 +61,7 @@ public:
 	inline Input_PickUpOption Input_PickUp(Player* _Player) override { return Input_PickUpOption::NoResponse; }
 	inline Input_PickUpOption Input_PickUp(GamePlayMoveable* _Object) override
 	{
-		Moveable_Current_ = _Object;
+		CurrentHoldingObject_ = _Object;
 		//	Moveable_Current_->SetBloomEffectOff();
 		return Input_PickUpOption::PickUp;
 	}
@@ -88,17 +88,17 @@ public:
 private:
 
 	GameEngineCollision* Collision_Interact_; // 상호작용 콜리전
-	GamePlayMoveable* Interact_Possible_Object_;
-	GamePlayStaticObject* Interact_Possible_StaticObject_;
+	GamePlayMoveable* Interact_GroundObject_;
+	GamePlayStaticObject* Interact_TableObject_;
 
-	GamePlayMoveable* Moveable_Current_;
+	GamePlayMoveable* CurrentHoldingObject_;
 
 	void Collision_AroundObject();
 
 	CollisionReturn GetCrashGroundObject(GameEngineCollision* _This, GameEngineCollision* _Other);
 	CollisionReturn GetCrashTableObject(GameEngineCollision* _This, GameEngineCollision* _Other);
 
-	GameEngineFBXStaticRenderer* PlayerRenderer_;
+	GameEngineFBXAnimationRenderer* PlayerRenderer_;
 	GameEngineCollision* PlayerCollision_;
 	GameEngineStateManager StateManager;
 };

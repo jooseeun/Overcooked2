@@ -212,6 +212,17 @@ void Overcooked::MeshLoad()
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		Dir.Move("ContentsResources");
+		Dir.Move("Mesh");
+		Dir.Move("Chef1");
+
+		GameEngineDirectory MeshDir = Dir;
+		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_CarDeath.FBX"));
+		GameEngineFBXAnimation* Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_CarDeath.FBX"));
+	}
 	//{
 	//	GameEngineDirectory Dir;
 	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");

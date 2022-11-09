@@ -25,20 +25,26 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 
 
-	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerInteract"))
+	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerInteract")) //컨트롤키
 	{
-		if (CurHoldType_ == PlayerHoldType::CanThrow)
+		if (CurrentHoldingObject_ != nullptr)
+			//손에 무언가 있을때
 		{
-			StateManager.ChangeState("Throw");
+			if (CurHoldType_ == PlayerHoldType::CanThrow)
+			{
+				StateManager.ChangeState("Throw");
+			}
+			else if (CurHoldType_ == PlayerHoldType::FireExtinguisher)
+			{
+				StateManager.ChangeState("FireOff");
+			}
 		}
-		else if (CurHoldType_ == PlayerHoldType::FireExtinguisher)
-		{
-			StateManager.ChangeState("FireOff");
-		}
-		else if (CurHoldType_ == PlayerHoldType::Max)
-		{
+
+		else
 			//손에 아무것도 없을때
+		{
 			//앞의 타일 검사
+			//Interact_TableObject_->Input_PickUp(this) == Input_PickUpOption::PickUp;
 			//다지기, 설거지둘중 하나
 
 
@@ -94,28 +100,28 @@ void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::HoldStart(const StateInfo& _Info)
 {
-	if (Moveable_Current_ == nullptr &&
+	if (CurrentHoldingObject_ == nullptr &&
 		Collision_Interact_->IsCollision(CollisionType::CT_SPHERE, CollisionOrder::Object_Moveable, CollisionType::CT_SPHERE,
 			std::bind(&Player::GetCrashGroundObject, this, std::placeholders::_1, std::placeholders::_2)))
-		// 플레이어가 들고있는게 없고 검사 콜리전이 잡을 수 있는 콜리젼과 닿아있을때
+		// 플레이어가 들고있는게 없고 검사 콜리전이 바닥에 떨어진 오브젝트 콜리젼과 닿아있을때
 	{
 
-		if (Moveable_Current_ == nullptr &&
-			Interact_Possible_Object_->Input_PickUp(this) == Input_PickUpOption::PickUp)
+		if (CurrentHoldingObject_ == nullptr &&
+			Interact_GroundObject_->Input_PickUp(this) == Input_PickUpOption::PickUp)
 		{
-			Interact_Possible_Object_ = nullptr;
-			Moveable_Current_->GetTransform().SetParentTransform(Moveable_Current_->GetTransform());
+			Interact_GroundObject_ = nullptr;
+			CurrentHoldingObject_->GetTransform().SetParentTransform(CurrentHoldingObject_->GetTransform());
 			return;
 		}
 
 	}
 	else
 	{
-		if (Interact_Possible_Object_ != nullptr)
+		if (Interact_GroundObject_ != nullptr)
 		{
-			Interact_Possible_Object_->SetBloomEffectOff();
-			Interact_Possible_Object_ = nullptr;
-			Moveable_Current_->GetTransform().SetParentTransform(Moveable_Current_->GetTransform());
+			Interact_GroundObject_->SetBloomEffectOff();
+			Interact_GroundObject_ = nullptr;
+			CurrentHoldingObject_->GetTransform().SetParentTransform(CurrentHoldingObject_->GetTransform());
 		}
 	}
 
@@ -123,12 +129,13 @@ void Player::HoldStart(const StateInfo& _Info)
 
 	if (Collision_Interact_->IsCollision(CollisionType::CT_SPHERE, CollisionOrder::Object_StaticObject, CollisionType::CT_SPHERE,
 		std::bind(&Player::GetCrashTableObject, this, std::placeholders::_1, std::placeholders::_2)))
+		// 검사 콜리전이 테이블 콜리젼과 닿아있을때
 	{
 
-		if (Moveable_Current_ == nullptr &&
-			Interact_Possible_StaticObject_->Input_PickUp(this) == Input_PickUpOption::PickUp)
+		if (CurrentHoldingObject_ == nullptr &&
+			Interact_TableObject_->Input_PickUp(this) == Input_PickUpOption::PickUp)
 		{
-			Interact_Possible_StaticObject_->SetBloomEffectOff();
+			Interact_TableObject_->SetBloomEffectOff();
 			return;
 		}
 
@@ -136,11 +143,11 @@ void Player::HoldStart(const StateInfo& _Info)
 
 	else
 	{
-		if (Interact_Possible_StaticObject_ != nullptr)
+		if (Interact_TableObject_ != nullptr)
 		{
-			Interact_Possible_StaticObject_->SetBloomEffectOff();
-			Interact_Possible_StaticObject_ = nullptr;
-			Moveable_Current_->GetTransform().SetParentTransform(Moveable_Current_->GetTransform());
+			Interact_TableObject_->SetBloomEffectOff();
+			Interact_TableObject_ = nullptr;
+			CurrentHoldingObject_->GetTransform().SetParentTransform(CurrentHoldingObject_->GetTransform());
 		}
 	}
 }
@@ -148,7 +155,7 @@ void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerHold")) // 놓기
 	{
-		Moveable_Current_->GetTransform().DetachTransform(); // 자식 떼어내기
+		CurrentHoldingObject_->GetTransform().DetachTransform(); // 자식 떼어내기
 		StateManager.ChangeState("Idle");
 	}
 

@@ -11,10 +11,10 @@ Player::Player()
 	, PlayerCollision_(nullptr)
 	, PlayerRenderer_(nullptr)
 	, StateManager()
-	, Moveable_Current_(nullptr)
+	, CurrentHoldingObject_(nullptr)
 	, Collision_Interact_(nullptr)
-	, Interact_Possible_Object_(nullptr)
-	, Interact_Possible_StaticObject_(nullptr)
+	, Interact_GroundObject_(nullptr)
+	, Interact_TableObject_(nullptr)
 {
 
 }
@@ -59,10 +59,17 @@ void Player::Start()
 
 
 
+	//GameEngineFBXStaticRenderer* Test = CreateComponent<GameEngineFBXStaticRenderer>();
+	//Test->SetFBXMesh("Chef1.FBX", "Texture");
 
-	PlayerRenderer_ = CreateComponent<GameEngineFBXStaticRenderer>();
-	PlayerRenderer_->SetFBXMesh("m_kevin_01.FBX", "Texture");
+
+
+	PlayerRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();		
+	PlayerRenderer_->SetFBXMesh("AlienGreen_CarDeath.FBX", "TextureAnimation");
+	PlayerRenderer_->CreateFBXAnimation("Test", "AlienGreen_CarDeath.FBX");
+	PlayerRenderer_->ChangeAnimation("Test");
 	PlayerRenderer_->GetTransform().SetLocalPosition({-119,0,0});
+	PlayerRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
 	//PlayerRenderer_ = CreateComponent<GameEngineFBXStaticRenderer>();
 	//PlayerRenderer_->SetFBXMesh("AlienGreen_CarDeath.FBX", "Texture");
 
@@ -472,35 +479,35 @@ void Player::Collision_AroundObject()
 
 CollisionReturn Player::GetCrashGroundObject(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
-	if (Interact_Possible_Object_ != nullptr)
+	if (Interact_GroundObject_ != nullptr)
 	{
-		Interact_Possible_Object_->SetBloomEffectOff();
+		Interact_GroundObject_->SetBloomEffectOff();
 		//Interact_Possible_StaticObject_ = nullptr;
 	}
 
-	Interact_Possible_Object_ = _Other->GetActor<GamePlayMoveable>();
-	if (Interact_Possible_StaticObject_ == nullptr) // 임시코드
+	Interact_GroundObject_ = _Other->GetActor<GamePlayMoveable>();
+	if (Interact_TableObject_ == nullptr) // 임시코드
 	{
 		return CollisionReturn::Break;
 	}
-	Interact_Possible_Object_->SetBloomEffectOn();
+	Interact_GroundObject_->SetBloomEffectOn();
 	return CollisionReturn::Break;
 }
 
 CollisionReturn Player::GetCrashTableObject(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
-	if (Interact_Possible_StaticObject_ != nullptr)
+	if (Interact_TableObject_ != nullptr)
 	{
-		Interact_Possible_StaticObject_->SetBloomEffectOff();
+		Interact_TableObject_->SetBloomEffectOff();
 		//Interact_Possible_StaticObject_ = nullptr;
 	}
 
-	Interact_Possible_StaticObject_ = _Other->GetActor<GamePlayStaticObject>();
-	if (Interact_Possible_StaticObject_ == nullptr) // 임시코드
+	Interact_TableObject_ = _Other->GetActor<GamePlayStaticObject>();
+	if (Interact_TableObject_ == nullptr) // 임시코드
 	{
 		return CollisionReturn::Break;
 	}
-	Interact_Possible_StaticObject_->SetBloomEffectOn();
+	Interact_TableObject_->SetBloomEffectOn();
 	return CollisionReturn::Break;
 }
 
