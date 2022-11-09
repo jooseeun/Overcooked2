@@ -62,11 +62,11 @@ void SelectStageUIActor::InitRenderer()
 		NewRenderer->SetMaskTexture("UI_PauseScreen_Backdrop_01.png");
 		NewRenderer->SetSamplerWrap();
 		NewRenderer->StartDown(0.1f);
-	}¤Óµ¿
+	}
 
-		//È­»ìÇ¥ ·»´õ·¯
+	//È­»ìÇ¥ ·»´õ·¯
 	{
-		OverCookedUIRenderer * NewRenderer = CreateUIRenderer("UI_ArrowLeft_Dark_01.png");
+		OverCookedUIRenderer* NewRenderer = CreateUIRenderer("UI_ArrowLeft_Dark_01.png");
 		NewRenderer->GetTransform().SetLocalPosition({ -200.f,-30.f });
 		ArrowRenderer_.push_back(NewRenderer);
 	}
