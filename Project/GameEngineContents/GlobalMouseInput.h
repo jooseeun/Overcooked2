@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
+class MouseInputWindow;
 class GlobalMouseInput : public GameEngineActor
 {
 public:
@@ -33,7 +34,7 @@ private:
 	void ClickUpdate(float _Delta);
 	CollisionReturn CollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
 
-	class MouseInputWindow* MouseWindow_;
+	std::shared_ptr<MouseInputWindow> MouseWindow_;
 	GameEngineCollision* Collision_;
 	GameEngineCollision* StartCollision_;
 	GameEngineCollision* GoalCollision_;

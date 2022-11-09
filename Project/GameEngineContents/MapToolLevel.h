@@ -22,7 +22,7 @@ protected:
 	void LevelEndEvent() override;
 
 private:
-	MapEditorWindow* Window_;
-	IOManagerWindow* IOWindow_;
+	std::shared_ptr<MapEditorWindow> Window_;
+	std::shared_ptr<IOManagerWindow> IOWindow_;
 };
 

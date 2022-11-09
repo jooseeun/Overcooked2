@@ -25,7 +25,7 @@ protected:
 	void LevelEndEvent() override;
 
 private:
-	MeshSelectWindow* MeshSelectWindow_;
+	std::shared_ptr<MeshSelectWindow> MeshSelectWindow_;
 
 };
 

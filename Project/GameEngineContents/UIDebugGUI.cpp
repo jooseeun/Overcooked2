@@ -12,7 +12,7 @@ std::map<std::string, int*> UIDebugGUI::MutableValue_int_;
 std::map<std::string, float4*> UIDebugGUI::MutableValue_float4_;
 std::map<std::string, GameEngineTransform*> UIDebugGUI::Transform_;
 
-UIDebugGUI* UIDebugGUI::Main_ = nullptr;
+std::shared_ptr<UIDebugGUI> UIDebugGUI::Main_ = nullptr;
 
 UIDebugGUI::UIDebugGUI()
 {

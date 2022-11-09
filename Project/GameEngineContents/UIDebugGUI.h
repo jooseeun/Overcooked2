@@ -65,5 +65,5 @@ private:
 	static std::map<std::string, GameEngineTransform*> Transform_;
 
 public:
-	static UIDebugGUI* Main_;
+	static std::shared_ptr<UIDebugGUI> Main_;
 };
