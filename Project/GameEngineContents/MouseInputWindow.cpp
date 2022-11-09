@@ -18,8 +18,13 @@ MouseInputWindow::~MouseInputWindow()
 
 void MouseInputWindow::SetMouseInput(GlobalMouseInput* _Input)
 {
+	if (true == IsChanging_)
+	{
+		return;
+	}
+
 	Input_ = _Input;
-	//GEngine::GetCurrentLevel()->Create
+	InputTransform_ = Input_->GetNearTransform();
 }
 
 void MouseInputWindow::Initialize(GameEngineLevel* _Level)

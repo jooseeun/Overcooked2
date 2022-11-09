@@ -21,6 +21,10 @@ public:
 	{
 		MouseRot_ = _Rot;
 	}
+	bool GetIsChanging()
+	{
+		return IsChanging_;
+	}
 
 protected:
 	void Initialize(class GameEngineLevel* _Level) override;

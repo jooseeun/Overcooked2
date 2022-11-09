@@ -40,6 +40,12 @@ void OverCookedUIRenderer::Start()
 	PushRendererToUICamera();
 
 	SetTextureRendererSetting();
+
+	GameEngineCollision* Collision_ = GetActor()->CreateComponent<GameEngineCollision>();
+	Collision_->SetDebugSetting(CollisionType::CT_AABB, {1, 0, 0, 0.1f});
+	Collision_->SetParent(this);
+
+	int a = 0;
 }
 
 void OverCookedUIRenderer::SetSamplingModePoint()

@@ -18,31 +18,29 @@ GlobalMouseInput::~GlobalMouseInput()
 
 void GlobalMouseInput::Start()
 {
-	IsUI_ = true;
 	MouseWindow_ = MapEditorGUI::CreateGUIWindow<MouseInputWindow>("MouseInput", nullptr);
 	MouseWindow_->Off();
 
-	//Collision_ = CreateComponent<GameEngineCollision>();
-	//Collision_->GetTransform().SetWorldScale({ 0.1f, 0.1f, 10000 });
-	//Collision_->ChangeOrder(CollisionOrder::Mouse);
-	//Collision_->SetDebugSetting(CollisionType::CT_AABB, { 1.0f, 1.0f, 0.0f, 0.1f });
-	//
-	//StartCollision_ = CreateComponent<GameEngineCollision>();
-	//StartCollision_->GetTransform().SetWorldScale({ 0.1f, 0.1f, 0.1f });
-	//StartCollision_->GetTransform().SetWorldScale({ 10, 10, 10 });
-	//StartCollision_->ChangeOrder(CollisionOrder::Max);
-	//StartCollision_->SetDebugSetting(CollisionType::CT_AABB, { 1.0f, 1.0f, 0.0f, 0.5f });
-	////StartCollision_->Off();
-	//
-	//GoalCollision_ = CreateComponent<GameEngineCollision>();
-	//GoalCollision_->GetTransform().SetWorldScale({ 10, 10, 10 });
-	//GoalCollision_->ChangeOrder(CollisionOrder::Max);
-	//GoalCollision_->SetDebugSetting(CollisionType::CT_AABB, { 1.0f, 1.0f, 0.0f, 1.0f });
+	Collision_ = CreateComponent<GameEngineCollision>();
+	Collision_->GetTransform().SetWorldScale({ 0.1f, 0.1f, 10000 });
+	Collision_->ChangeOrder(CollisionOrder::Mouse);
+	Collision_->SetDebugSetting(CollisionType::CT_AABB, { 1.0f, 1.0f, 0.0f, 0.1f });
+	
+	StartCollision_ = CreateComponent<GameEngineCollision>();
+	StartCollision_->GetTransform().SetWorldScale({ 0.1f, 0.1f, 0.1f });
+	StartCollision_->GetTransform().SetWorldScale({ 10, 10, 10 });
+	StartCollision_->ChangeOrder(CollisionOrder::Max);
+	StartCollision_->SetDebugSetting(CollisionType::CT_AABB, { 1.0f, 1.0f, 0.0f, 0.5f });
+	StartCollision_->Off();
+	
+	GoalCollision_ = CreateComponent<GameEngineCollision>();
+	GoalCollision_->GetTransform().SetWorldScale({ 10, 10, 10 });
+	GoalCollision_->ChangeOrder(CollisionOrder::Max);
+	GoalCollision_->SetDebugSetting(CollisionType::CT_AABB, { 1.0f, 1.0f, 0.0f, 1.0f });
 }
 
 void GlobalMouseInput::Update(float _Delta)
 {
-	return;
 	if (true == GetLevel()->GetMainCameraActor()->IsFreeCameraMode())
 	{
 		StartCollision_->GetTransform().SetWorldScale({ 10, 10, 10 });
@@ -57,27 +55,20 @@ void GlobalMouseInput::Update(float _Delta)
 
 void GlobalMouseInput::TransformUpdate(float _Delta)
 {
-	float4 AddPos;
 	float4 StartPos;
 	float4 GoalPos;
 
 	if (true == IsUI_)
 	{
 		GameEngineTransform& CameraTransform = GetLevel()->GetUICameraActorTransform();
-		AddPos = (CameraTransform.GetForwardVector() * 1350 + GetLevel()->GetMainCamera()->GetMouseMyPosition()) * 0.1f;
-		StartPos = CameraTransform.GetWorldPosition() + CameraTransform.GetForwardVector();
-		GoalPos = CameraTransform.GetWorldPosition() + AddPos * 10;
-		while (GoalPos.z <= 1000)
-		{
-			GoalPos += AddPos;
-		}
-
+		StartPos = CameraTransform.GetWorldPosition() + GetLevel()->GetMainCamera()->GetMouseMyPosition();
+		GoalPos = StartPos + float4(0, 0, 2000);
 		int a = 0;
 	}
 	else
 	{
 		GameEngineTransform& CameraTransform = GetLevel()->GetMainCameraActorTransform();
-		AddPos = (CameraTransform.GetForwardVector() * 1350 + GetLevel()->GetMainCamera()->GetMouseMyPositionWithRotation()) * 0.1f;
+		float4 AddPos = (CameraTransform.GetForwardVector() * 1350 + GetLevel()->GetMainCamera()->GetMouseMyPositionWithRotation()) * 0.1f;
 		StartPos = CameraTransform.GetWorldPosition() + CameraTransform.GetForwardVector();
 		GoalPos = CameraTransform.GetWorldPosition() + AddPos * 100;
 		while (GoalPos.y >= 0 && AddPos.y < 0)
@@ -90,17 +81,28 @@ void GlobalMouseInput::TransformUpdate(float _Delta)
 	Collision_->GetTransform().SetWorldRotation(float4::GetDegree3D(StartPos, GoalPos));
 	Collision_->GetTransform().SetWorldScale({ 10.1f, 10.1f, (StartPos - GoalPos).Length() });
 
-	MouseWindow_->SetMouseRotate(float4::GetDegree3D(StartPos, GoalPos));
-
 	StartCollision_->GetTransform().SetWorldPosition(StartPos);
 	GoalCollision_->GetTransform().SetWorldPosition(GoalPos);
 }
 
 void GlobalMouseInput::ClickUpdate(float _Delta)
 {
+	// 윈도우 밖 클릭했을때 리턴
+	if (GetLevel()->GetMainCamera()->GetMouseMyPosition().x >= 640 || GetLevel()->GetMainCamera()->GetMouseMyPosition().x <= -640
+		|| GetLevel()->GetMainCamera()->GetMouseMyPosition().y >= 360 || GetLevel()->GetMainCamera()->GetMouseMyPosition().y <= -360)
+	{
+		return;
+	}
+
 	if (true == GameEngineInput::GetInst()->IsDownKey("LeftMouse"))
 	{
 		Collision_->SetDebugSetting(CollisionType::CT_AABB, { 0.0f, 1.0f, 0.0f, 0.1f });
+		if (true == MouseWindow_->GetIsChanging())
+		{
+			return;
+		}
+
+		NearTransform_ = nullptr;
 		Collision_->IsCollision(CollisionOrder::Default, std::bind(&GlobalMouseInput::CollisionCheck, this, std::placeholders::_1, std::placeholders::_2));
 	}
 	else if (true == GameEngineInput::GetInst()->IsUpKey("LeftMouse"))
@@ -125,17 +127,21 @@ CollisionReturn GlobalMouseInput::CollisionCheck(GameEngineCollision* _This, Gam
 	}
 	else
 	{
-		float4 CameraPos;
+		float Distance1;
+		float Distance2;
 		if (true == IsUI_)
 		{
-			CameraPos = GetLevel()->GetUICameraActorTransform().GetWorldPosition();
+			float4 CameraPos = GetLevel()->GetUICameraActorTransform().GetWorldPosition();
+			Distance1 = std::abs(CameraPos.z - OtherTransform->GetWorldPosition().z);
+			Distance2 = std::abs(CameraPos.z - NearTransform_->GetWorldPosition().z);
 		}
 		else
 		{
-			CameraPos = GetLevel()->GetMainCameraActorTransform().GetWorldPosition();
+			float4 CameraPos = GetLevel()->GetMainCameraActorTransform().GetWorldPosition();
+			Distance1 = (CameraPos - OtherTransform->GetWorldPosition()).Length();
+			Distance2 = (CameraPos - NearTransform_->GetWorldPosition()).Length();
 		}
-		float Distance1 = (CameraPos - OtherTransform->GetWorldPosition()).Length();
-		float Distance2 = (CameraPos - NearTransform_->GetWorldPosition()).Length();
+
 		if (Distance1 < Distance2)
 		{
 			NearTransform_ = OtherTransform;
