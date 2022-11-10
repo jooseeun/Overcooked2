@@ -7,17 +7,19 @@ GameEngineFBXMesh::GameEngineFBXMesh()
 
 GameEngineFBXMesh::~GameEngineFBXMesh()
 {
-	for (size_t i = 0; i < AllBoneStructuredBuffers.size(); i++)
-	{
-		delete AllBoneStructuredBuffers[i];
-	}
+	//for (size_t i = 0; i < AllBoneStructuredBuffers.size(); i++)
+	//{
+	//	delete AllBoneStructuredBuffers[i];
+	//}
+
+	AllBoneStructuredBuffers.clear();
 }
 
 
 
-GameEngineFBXMesh* GameEngineFBXMesh::Load(const std::string& _Path, const std::string& _Name)
+std::shared_ptr<GameEngineFBXMesh> GameEngineFBXMesh::Load(const std::string& _Path, const std::string& _Name)
 {
-	GameEngineFBXMesh* NewRes = CreateResName(_Name);
+	std::shared_ptr<GameEngineFBXMesh> NewRes = CreateResName(_Name);
 	NewRes->SetPath(_Path);
 	NewRes->LoadMesh(_Path, _Name);
 	return NewRes;
@@ -90,16 +92,6 @@ Bone* GameEngineFBXMesh::FindBone(size_t MeshIndex, std::string _Name)
 
 	return AllFindMap[MeshIndex][_Name];
 
-}
-
-GameEngineStructuredBuffer* GameEngineFBXMesh::GetAnimationStructuredBuffer(size_t _Index)
-{
-	if (AllBoneStructuredBuffers.size() <= _Index)
-	{
-		MsgBoxAssert("스트럭처드 버퍼 인덱스 오버");
-	}
-
-	return AllBoneStructuredBuffers[_Index];
 }
 
 bool GameEngineFBXMesh::IsOddNegativeScale(const fbxsdk::FbxAMatrix& TotalMatrix)
@@ -555,7 +547,7 @@ void GameEngineFBXMesh::VertexBufferCheck()
 		RenderUnit.BoundScaleBox.x = RenderUnit.MaxBoundBox.x - RenderUnit.MinBoundBox.x;
 		RenderUnit.BoundScaleBox.y = RenderUnit.MaxBoundBox.y - RenderUnit.MinBoundBox.y;
 		RenderUnit.BoundScaleBox.z = RenderUnit.MaxBoundBox.z - RenderUnit.MinBoundBox.z;
-
+		
 		// 머티리얼 정보를 얻어오고 텍스처의 경로를 알아낸다.
 		FbxRenderUnitInfoMaterialSetting(pMeshNode, &RenderUnit);
 
@@ -893,7 +885,7 @@ void GameEngineFBXMesh::MeshNodeCheck()
 	}
 }
 
-GameEngineMesh* GameEngineFBXMesh::GetGameEngineMesh(size_t _MeshIndex, size_t _SubIndex)
+std::shared_ptr<GameEngineMesh> GameEngineFBXMesh::GetGameEngineMesh(size_t _MeshIndex, size_t _SubIndex)
 {
 	if (RenderUnitInfos.size() <= _MeshIndex)
 	{
@@ -904,7 +896,7 @@ GameEngineMesh* GameEngineFBXMesh::GetGameEngineMesh(size_t _MeshIndex, size_t _
 
 	if (nullptr == Unit.VertexBuffer)
 	{
-		GameEngineVertexBuffer* VertexBuffer = GameEngineVertexBuffer::Create(Unit.Vertexs);
+		std::shared_ptr<GameEngineVertexBuffer> VertexBuffer = GameEngineVertexBuffer::Create(Unit.Vertexs);
 
 		if (nullptr == VertexBuffer)
 		{
@@ -926,7 +918,7 @@ GameEngineMesh* GameEngineFBXMesh::GetGameEngineMesh(size_t _MeshIndex, size_t _
 
 	if (nullptr == Unit.IndexBuffers[_SubIndex])
 	{
-		GameEngineIndexBuffer* IndexBuffer = GameEngineIndexBuffer::Create(Unit.Indexs[_SubIndex]);
+		std::shared_ptr<GameEngineIndexBuffer> IndexBuffer = GameEngineIndexBuffer::Create(Unit.Indexs[_SubIndex]);
 
 		if (nullptr == IndexBuffer)
 		{
@@ -953,7 +945,7 @@ GameEngineMesh* GameEngineFBXMesh::GetGameEngineMesh(size_t _MeshIndex, size_t _
 		&& "" != Unit.MaterialData[_SubIndex].DifTextureName
 		)
 	{
-		GameEngineTexture* Texture = GameEngineTexture::Find(Unit.MaterialData[_SubIndex].DifTextureName);
+		std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Find(Unit.MaterialData[_SubIndex].DifTextureName);
 
 		if (nullptr == Texture)
 		{
@@ -965,12 +957,12 @@ GameEngineMesh* GameEngineFBXMesh::GetGameEngineMesh(size_t _MeshIndex, size_t _
 			GameEngineTexture::Load(FilePath);
 		}
 	}
-
+	
 
 	return Unit.Meshs[_SubIndex];
 }
 
-FbxExMaterialSettingData& GameEngineFBXMesh::GetMaterialSettingData(size_t _MeshIndex, size_t _SubIndex)
+ FbxExMaterialSettingData& GameEngineFBXMesh::GetMaterialSettingData(size_t _MeshIndex, size_t _SubIndex)
 {
 	if (RenderUnitInfos.size() <= _MeshIndex)
 	{
@@ -1126,7 +1118,7 @@ bool GameEngineFBXMesh::ImportBone()
 					}
 
 					// 겹치는 이름의 링크는 이 새이름을 바꾸면
-					// 앞으로 펼쳐질 본과 관련된 모든곳에서z
+					// 앞으로 펼쳐질 본과 관련된 모든곳에서
 					// 이 이름으로 계산될것이므로 걱정할 필요가 없어진다.
 					AltLink->SetName(newName.Buffer());
 				}
@@ -1212,11 +1204,6 @@ bool GameEngineFBXMesh::ImportBone()
 				{
 					for (int ClusterIndex = 0; ClusterIndex < ClusterArray.size(); ClusterIndex++)
 					{
-						if (0 == ClusterArray[0].size())
-						{
-							continue;
-						}
-
 						fbxsdk::FbxCluster* Cluster = ClusterArray[0][ClusterIndex];
 						if (Link == Cluster->GetLink())
 						{
@@ -1442,8 +1429,8 @@ void GameEngineFBXMesh::CalAnimationVertexData(FbxRenderUnitInfo& _DrawSet)
 			{
 				std::sort(_WI.second.begin(), _WI.second.end(),
 					[](const FbxExIW& _Left, const FbxExIW& _Right) {
-					return _Left.Weight > _Right.Weight;
-				}
+						return _Left.Weight > _Right.Weight;
+					}
 				);
 
 				double dInterPolate = 0.0;
@@ -1473,6 +1460,7 @@ void GameEngineFBXMesh::CalAnimationVertexData(FbxRenderUnitInfo& _DrawSet)
 		}
 	}
 }
+
 
 void GameEngineFBXMesh::LoadSkinAndCluster()
 {
@@ -1692,7 +1680,17 @@ void GameEngineFBXMesh::CreateGameEngineStructuredBuffer()
 {
 	for (size_t i = 0; i < AllBones.size(); i++)
 	{
-		GameEngineStructuredBuffer* NewStructuredBuffer = AllBoneStructuredBuffers.emplace_back(new GameEngineStructuredBuffer());
+		std::shared_ptr<GameEngineStructuredBuffer> NewStructuredBuffer = AllBoneStructuredBuffers.emplace_back(std::make_shared<GameEngineStructuredBuffer>());
 		NewStructuredBuffer->CreateResize(sizeof(float4x4), static_cast<int>(AllBones[i].size()), nullptr);
 	}
+}
+
+std::shared_ptr<GameEngineStructuredBuffer> GameEngineFBXMesh::GetAnimationStructuredBuffer(size_t _Index)
+{
+	if (AllBoneStructuredBuffers.size() <= _Index)
+	{
+		MsgBoxAssert("스트럭처드 버퍼 인덱스 오버");
+	}
+
+	return AllBoneStructuredBuffers[_Index];
 }

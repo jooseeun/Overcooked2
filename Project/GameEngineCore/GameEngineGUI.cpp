@@ -4,6 +4,7 @@
 #include "GameEngineDevice.h"
 #include "portable-file-dialogs.h"
 
+
 std::list<std::shared_ptr<GameEngineGUIWindow>> GameEngineGUI::Windows;
 
 GameEngineGUI::GameEngineGUI() 
@@ -39,6 +40,7 @@ void GameEngineGUI::Initialize()
     Dir.Move("GameEngineResources");
     Dir.Move("Font");
 
+
     io.Fonts->AddFontFromFileTTF(Dir.PlusFilePath("malgun.ttf").c_str(), 18.0f, NULL, io.Fonts->GetGlyphRangesKorean());
 
 
@@ -55,6 +57,7 @@ void GameEngineGUI::GUIRender(GameEngineLevel* _Level, float _DeltaTime)
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
+
 
     for (std::shared_ptr<GameEngineGUIWindow> GUIWIndow : Windows)
     {

@@ -9,6 +9,7 @@
 #include "GameEngineStructuredBuffer.h"
 #include <math.h>
 
+
 // Resources Header
 #include "GameEngineVertexBuffer.h"
 #include "GameEngineIndexBuffer.h"
@@ -110,9 +111,9 @@ void EngineSubSetting()
 
 	{
 		D3D11_RASTERIZER_DESC Desc = { D3D11_FILL_SOLID, D3D11_CULL_NONE };
+
 		GameEngineRasterizer::Create("EngineRasterizer", Desc);
 	}
-
 	{
 		D3D11_DEPTH_STENCIL_DESC Desc = { 0 };
 
@@ -132,6 +133,7 @@ void EngineSubSetting()
 		Desc.StencilEnable = false;
 		GameEngineDepthStencil::Create("AlwaysDepth", Desc);
 	}
+
 }
 
 void EngineTextureLoad()
@@ -206,6 +208,7 @@ void EngineTextureLoad()
 		GameEngineSampler::Create("LINEARMIRROR", Desc);
 	}
 
+
 	GameEngineDirectory Dir;
 
 	Dir.MoveParentToExitsChildDirectory("GameEngineResources");
@@ -236,35 +239,38 @@ void ShaderCompile()
 	}
 }
 
+
+
 void EngineRenderingPipeLine()
 {
 	{
-		GameEngineMaterial* NewPipe = GameEngineMaterial::Create("Color");
+		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("Color");
 		NewPipe->SetVertexShader("Color.hlsl");
 		NewPipe->SetPixelShader("Color.hlsl");
 	}
 
 	{
-		GameEngineMaterial* NewPipe = GameEngineMaterial::Create("Texture");
+		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("Texture");
 		NewPipe->SetVertexShader("Texture.hlsl");
 		NewPipe->SetPixelShader("Texture.hlsl");
 	}
 
 	{
-		GameEngineMaterial* NewPipe = GameEngineMaterial::Create("TextureAtlas");
+		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("TextureAtlas");
 		NewPipe->SetVertexShader("TextureAtlas.hlsl");
 		NewPipe->SetPixelShader("TextureAtlas.hlsl");
 		// NewPipe->InstancingSetting();
 	}
 
 	{
-		GameEngineMaterial* NewPipe = GameEngineMaterial::Create("TextureAnimation");
+		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("TextureAnimation");
 		NewPipe->SetVertexShader("TextureAnimation.hlsl");
 		NewPipe->SetPixelShader("TextureAnimation.hlsl");
 	}
 
+
 	{
-		GameEngineMaterial* NewPipe = GameEngineMaterial::Create("3DDebug");
+		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("3DDebug");
 		//NewPipe->SetInputAssembler1VertexBuffer("Box");
 		//NewPipe->SetInputAssembler2IndexBuffer("Box");
 		NewPipe->SetVertexShader("Debug3D.hlsl");
@@ -273,7 +279,7 @@ void EngineRenderingPipeLine()
 	}
 
 	{
-		GameEngineMaterial* NewPipe = GameEngineMaterial::Create("TargetMerge");
+		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("TargetMerge");
 		//NewPipe->SetInputAssembler1VertexBuffer("FullRect");
 		//NewPipe->SetInputAssembler2IndexBuffer("FullRect");
 		NewPipe->SetVertexShader("TargetMerge.hlsl");
@@ -282,14 +288,14 @@ void EngineRenderingPipeLine()
 	}
 
 	{
-		GameEngineMaterial* NewPipe = GameEngineMaterial::Create("DebugTexture");
+		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("DebugTexture");
 		NewPipe->SetVertexShader("DebugTexture.hlsl");
 		NewPipe->SetPixelShader("DebugTexture.hlsl");
 	}
 
 	// PostEffect
 	{
-		GameEngineMaterial* NewPipe = GameEngineMaterial::Create("Blur");
+		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("Blur");
 		//NewPipe->SetInputAssembler1VertexBuffer("FullRect");
 		//NewPipe->SetInputAssembler2IndexBuffer("FullRect");
 		NewPipe->SetVertexShader("Blur.hlsl");
@@ -299,6 +305,7 @@ void EngineRenderingPipeLine()
 
 void EngineMesh()
 {
+
 	{
 		std::vector<GameEngineVertex> Vertex;
 		Vertex.push_back({ float4(-0.5f, 0.5f)	, float4(0.0f, 0.0f) }); // 왼쪽 위
@@ -307,6 +314,7 @@ void EngineMesh()
 		Vertex.push_back({ float4(-0.5f, -0.5f)	, float4(0.0f, 1.0f) }); // 왼쪽 아래점
 		GameEngineVertexBuffer::Create("Rect", Vertex);
 	}
+
 
 	{
 		std::vector<int> Index;
@@ -332,11 +340,12 @@ void EngineMesh()
 	{
 		std::vector<GameEngineVertex> Vertex;
 		Vertex.push_back({ float4(-1.0f, 1.0f)	, float4(0.0f, 0.0f) }); // 왼쪽 위
-		Vertex.push_back({ float4(1.0f, 1.0f)	, float4(1.0f, 0.0f) }); // 오른쪽 위점
+		Vertex.push_back({ float4(1.0f, 1.0f)	, float4(1.0f, 0.0f) });  // 오른쪽 위점
 		Vertex.push_back({ float4(1.0f, -1.0f)	, float4(1.0f, 1.0f) }); // 오른쪽 아래점
 		Vertex.push_back({ float4(-1.0f, -1.0f)	, float4(0.0f, 1.0f) }); // 왼쪽 아래점
 		GameEngineVertexBuffer::Create("FullRect", Vertex);
 	}
+
 
 	{
 		std::vector<int> Index;
@@ -359,6 +368,9 @@ void EngineMesh()
 	{
 		GameEngineMesh::Create("FullRect");
 	}
+
+
+
 
 	{
 		std::vector<GameEngineVertex> Vertex;
@@ -399,6 +411,7 @@ void EngineMesh()
 		Vertex[22] = { float4::VectorRotationToDegreeXAxis(Vertex[2].POSITION, 90.f) , float4(1.0f, 1.0f) };
 		Vertex[23] = { float4::VectorRotationToDegreeXAxis(Vertex[3].POSITION, 90.f), float4(0.0f, 1.0f) };
 
+
 		GameEngineVertexBuffer::Create("Box", Vertex);
 	}
 
@@ -436,6 +449,7 @@ void GameEngineCore::EngineResourcesInitialize()
 
 	EngineRenderingPipeLine();
 }
+
 
 void GameEngineCore::EngineResourcesDestroy()
 {

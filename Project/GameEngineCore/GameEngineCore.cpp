@@ -15,7 +15,9 @@
 
 GameEngineLevel* GameEngineCore::CurrentLevel = nullptr;
 GameEngineLevel* GameEngineCore::NextLevel = nullptr;
+
 GameEngineThreadPool GameEngineCore::EngineThreadPool;
+
 
 std::map<std::string, class GameEngineLevel*> GameEngineCore::AllLevels;
 
@@ -114,7 +116,6 @@ void GameEngineCore::CoreUpdate(GameEngineCore* _UserCore)
 		_UserCore->Update(DeltaTime);
 		CurrentLevel->LevelUpdate(DeltaTime);
 	}
-
 }
 
 void GameEngineCore::CoreEnd(GameEngineCore* _UserCore) 
@@ -169,13 +170,13 @@ void GameEngineCore::WindowCreate(const std::string& _Name, GameEngineCore* _Use
 void GameEngineCore::InitializeLevel(GameEngineLevel* _Level, const std::string _Name)
 {
 	{
-		GameEngineCameraActor* actor = _Level->CreateActor<GameEngineCameraActor>();
+		std::shared_ptr<GameEngineCameraActor> actor = _Level->CreateActor<GameEngineCameraActor>();
 		actor->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
 		actor->GetTransform().SetLocalPosition({ 0.0f, 0.0f, -100.0f });
 	}
 
 	{
-		GameEngineCameraActor* actor = _Level->CreateActor<GameEngineCameraActor>();
+		std::shared_ptr<GameEngineCameraActor> actor = _Level->CreateActor<GameEngineCameraActor>();
 		actor->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
 		actor->GetTransform().SetLocalPosition({ 0.0f, 0.0f, -100.0f });
 	}

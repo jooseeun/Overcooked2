@@ -24,12 +24,12 @@ public:
 
 	void AllResourcesReset();
 
-	void ResourcesCheck(GameEngineMaterial* _Line);
+	void ResourcesCheck(std::shared_ptr < GameEngineMaterial> _Line);
 
 	template<typename Res>
-	void SetConstantBufferLink(const std::string& _Name, const Res& Data) 
+	void SetConstantBufferLink(const std::string& _Name, const Res& Data)
 	{
-		SetConstantBufferLink(_Name , &Data, sizeof(Res));
+		SetConstantBufferLink(_Name, &Data, sizeof(Res));
 	}
 
 	void SetConstantBufferLink(const std::string& _Name, const void* Data, UINT _Size);
@@ -71,22 +71,20 @@ public:
 	void SetConstantBufferNew(const std::string& _Name, const void* Data, UINT _Size);
 
 
-	GameEngineTexture* SetTexture(const std::string& _Name, const std::string& _TextureName);
+	std::shared_ptr < GameEngineTexture> SetTexture(const std::string& _Name, const std::string& _TextureName);
 
-	GameEngineTexture* SetTexture(const std::string& _Name, const std::string& _FolderTextureName, int _Index);
+	std::shared_ptr < GameEngineTexture> SetTexture(const std::string& _Name, const std::string& _FolderTextureName, int _Index);
 
-	GameEngineTexture* SetTexture(const std::string& _Name, GameEngineTexture* _TextureName);
+	std::shared_ptr < GameEngineTexture> SetTexture(const std::string& _Name, std::shared_ptr<GameEngineTexture> _TextureName);
 
 
-	GameEngineSampler* SetSampler(const std::string& _Name, const std::string& _TextureName);
+	std::shared_ptr < GameEngineSampler> SetSampler(const std::string& _Name, const std::string& _TextureName);
 
-	GameEngineSampler* SetSampler(const std::string& _Name, GameEngineSampler* _SamplerName);
+	std::shared_ptr < GameEngineSampler> SetSampler(const std::string& _Name, std::shared_ptr < GameEngineSampler> _SamplerName);
 
 	// 인스턴싱을 하려고 하는데 그 쉐이더에서 상수버퍼를 사용했을때.
 	void AllConstantBufferNew();
 
-
-	// Get함수
 	bool IsTexture(const std::string& _Name);
 
 	bool IsSampler(const std::string& _Name);
@@ -99,21 +97,22 @@ public:
 
 
 protected:
-	void ShaderCheck(GameEngineShader* _Shader);
+	void ShaderCheck(std::shared_ptr < GameEngineShader> _Shader);
 
 private:
 	// 컬러가 
 	// 픽셀 쉐이더에서는 같은 Color(바이트 덩어리)인데 레드를 세팅해주고 싶고
 	// 버텍스 쉐이더에서는 같은 Color(바이트 덩어리)인데 블루를 세팅해주고 싶고
 	// 그건 아직 구분하지 않겠습니다.
+	// 픽셀쉐이더와 버텍스 쉐이더에서 똑같이 transformdata를 사용할 가능성이 있게 만들어놨으니까.
 	std::multimap<std::string, GameEngineConstantBufferSetter> ConstantBufferSettingMap;
 	std::multimap<std::string, GameEngineTextureSetter> TextureSettingMap;
 	std::multimap<std::string, GameEngineSamplerSetter> SamplerSettingMap;
 	std::multimap<std::string, GameEngineStructuredBufferSetter> StructuredBufferSettingMap;
 
-	void BindConstantBuffer(GameEngineConstantBufferSetter& _Setter, GameEngineConstantBuffer* _Res);
-	void BindSampler(GameEngineSamplerSetter& _Setter, GameEngineSampler* _Res);
-	void BindTexture(GameEngineTextureSetter& _Setter, GameEngineTexture* _Res);
-	void BindStructuredBuffer(GameEngineStructuredBufferSetter& _Setter, GameEngineStructuredBuffer* _Res);
+	void BindConstantBuffer(GameEngineConstantBufferSetter& _Setter, std::shared_ptr < GameEngineConstantBuffer> _Res);
+	void BindSampler(GameEngineSamplerSetter& _Setter, std::shared_ptr < GameEngineSampler> _Res);
+	void BindTexture(GameEngineTextureSetter& _Setter, std::shared_ptr < GameEngineTexture> _Res);
+	void BindStructuredBuffer(GameEngineStructuredBufferSetter& _Setter, std::shared_ptr < GameEngineStructuredBuffer> _Res);
 };
 

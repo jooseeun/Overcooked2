@@ -22,10 +22,12 @@ GameEngineVertexShader::~GameEngineVertexShader()
 	//	InstancingBinaryPtr = nullptr;
 	//}
 
-	if (nullptr != InstancingVertexShader)
-	{
-		delete InstancingVertexShader;
-	}
+	//if (nullptr != InstancingVertexShader)
+	//{
+	//	delete InstancingVertexShader;
+	//}
+
+	InstancingVertexShader = nullptr;
 
 	if (nullptr != ShaderPtr)
 	{
@@ -52,15 +54,15 @@ void GameEngineVertexShader::Setting()
 	GameEngineDevice::GetContext()->VSSetShader(ShaderPtr, nullptr, 0);
 }
 
-GameEngineVertexShader* GameEngineVertexShader::Load(std::string _Path, std::string _EntryPoint, UINT _VersionHigh /*= 5*/, UINT _VersionLow /*= 0*/)
+std::shared_ptr< GameEngineVertexShader> GameEngineVertexShader::Load(std::string _Path, std::string _EntryPoint, UINT _VersionHigh /*= 5*/, UINT _VersionLow /*= 0*/)
 {
 	return Load(_Path, GameEnginePath::GetFileName(_Path), _EntryPoint, _VersionHigh, _VersionLow);
 }
 
 
-GameEngineVertexShader* GameEngineVertexShader::Load(std::string _Path, std::string _Name, std::string _EntryPoint, UINT _VersionHigh = 5, UINT _VersionLow = 0)
+std::shared_ptr< GameEngineVertexShader> GameEngineVertexShader::Load(std::string _Path, std::string _Name, std::string _EntryPoint, UINT _VersionHigh = 5, UINT _VersionLow = 0)
 {
-	GameEngineVertexShader* NewRes = CreateResName(_Name);
+	std::shared_ptr< GameEngineVertexShader> NewRes = CreateResName(_Name);
 	NewRes->ShaderCompile(_Path, _EntryPoint, _VersionHigh, _VersionLow);
 
 	return NewRes;
@@ -77,12 +79,15 @@ void GameEngineVertexShader::ShaderCompile(std::string _Path, std::string _Entry
 #ifdef _DEBUG
 	Flag = D3D10_SHADER_DEBUG;
 #endif
+
 	Flag |= D3DCOMPILE_PACK_MATRIX_ROW_MAJOR;
 
 	ID3DBlob* Error;
+
 	std::wstring UnicodePath = GameEngineString::AnsiToUniCodeReturn(_Path);
 
-	if (S_OK != D3DCompileFromFile(
+	// 쉐이더 
+	if (D3DCompileFromFile(
 		UnicodePath.c_str(), // 파일 경로
 		nullptr,  // 매크로 ()
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,  // 헤더 ()
@@ -122,7 +127,8 @@ void GameEngineVertexShader::InstancingShaderCompile(std::string _Path, std::str
 	Flag = D3D10_SHADER_DEBUG;
 #endif
 
-	InstancingVertexShader = new GameEngineVertexShader();
+
+	InstancingVertexShader = std::make_shared<GameEngineVertexShader>();
 	InstancingVertexShader->SetName(_EntryPoint);
 
 	Flag |= D3DCOMPILE_PACK_MATRIX_ROW_MAJOR;
@@ -131,7 +137,8 @@ void GameEngineVertexShader::InstancingShaderCompile(std::string _Path, std::str
 
 	std::wstring UnicodePath = GameEngineString::AnsiToUniCodeReturn(_Path);
 
-	if (S_OK != D3DCompileFromFile(
+	// 쉐이더 
+	if (D3DCompileFromFile(
 		UnicodePath.c_str(), // 파일 경로
 		nullptr,  // 매크로 ()
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,  // 헤더 ()

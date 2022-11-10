@@ -16,7 +16,8 @@ enum class CollisionReturn
 
 // 설명 :
 class GameEngineCollisionFunctionInit;
-class GameEngineCollision : public GameEngineTransformComponent
+class GameEngineCollision 
+	: public GameEngineTransformComponent
 {
 	friend GameEngineCollisionFunctionInit;
 
@@ -60,16 +61,17 @@ public:
 	template<typename EnumType>
 	bool IsCollision(CollisionType _ThisType, EnumType _GroupOrder
 		, CollisionType _OtherCollision
-		, std::function<CollisionReturn(GameEngineCollision* _This, GameEngineCollision* _Other)> _Function = nullptr)
+		, std::function<CollisionReturn(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)> _Function = nullptr)
 	{
+
 		return IsCollision(_ThisType, static_cast<int>(_GroupOrder), _OtherCollision, _Function);
 	}
 
 	bool IsCollisionEnterBase(CollisionType _ThisType, int _GroupOrder
 		, CollisionType _OtherType
-		, std::function<CollisionReturn(GameEngineCollision* _This, GameEngineCollision* _Other)> _Enter = nullptr
-		, std::function<CollisionReturn(GameEngineCollision* _This, GameEngineCollision* _Other)> _Update = nullptr
-		, std::function<CollisionReturn(GameEngineCollision* _This, GameEngineCollision* _Other)> _Exit = nullptr
+		, std::function<CollisionReturn(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)> _Enter = nullptr
+		, std::function<CollisionReturn(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)> _Update = nullptr
+		, std::function<CollisionReturn(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)> _Exit = nullptr
 	) 
 	{
 		return IsCollision(_ThisType, _GroupOrder, _OtherType, _Update, _Enter, _Exit);
@@ -77,9 +79,9 @@ public:
 
 	bool IsCollisionExitBase(CollisionType _ThisType, int _GroupOrder
 		, CollisionType _OtherType
-		, std::function<CollisionReturn(GameEngineCollision* _This, GameEngineCollision* _Other)> _Exit = nullptr
-		, std::function<CollisionReturn(GameEngineCollision* _This, GameEngineCollision* _Other)> _Update = nullptr
-		, std::function<CollisionReturn(GameEngineCollision* _This, GameEngineCollision* _Other)> _Enter = nullptr
+		, std::function<CollisionReturn(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)> _Enter = nullptr
+		, std::function<CollisionReturn(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)> _Update = nullptr
+		, std::function<CollisionReturn(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)> _Exit = nullptr
 	) 
 	{
 		return IsCollision(_ThisType, _GroupOrder, _OtherType, _Update, _Enter, _Exit);
@@ -89,9 +91,9 @@ public:
 	// 넣어줘야할 함수의 리턴하는 bool값이 true라는 건 이제 더이상 충돌체크를 하지 말라는 end의 true이다.
 	bool IsCollision(CollisionType _ThisType, int _GroupOrder
 		, CollisionType _OtherType
-		, std::function<CollisionReturn(GameEngineCollision* _This, GameEngineCollision* _Other)> _Update = nullptr
-		, std::function<CollisionReturn(GameEngineCollision* _This, GameEngineCollision* _Other)> _Enter = nullptr
-		, std::function<CollisionReturn(GameEngineCollision* _This, GameEngineCollision* _Other)> _Exit = nullptr
+		, std::function<CollisionReturn(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)> _Update = nullptr
+		, std::function<CollisionReturn(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)> _Enter = nullptr
+		, std::function<CollisionReturn(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)> _Exit = nullptr
 	);
 
 	void SetDebugSetting(CollisionType _DebugType, float4 _Color) 
@@ -124,7 +126,7 @@ protected:
 private:
 	CollisionMode eCollisionMode;
 
-	std::set<GameEngineCollision*> CollisionCheck;
+	std::set<std::shared_ptr< GameEngineCollision>> CollisionCheck;
 
 	CAMERAORDER DebugCameraOrder;
 

@@ -168,16 +168,13 @@
     <ClInclude Include="GameEngineMesh.h">
       <Filter>Resources\InputAssembler</Filter>
     </ClInclude>
-    <ClInclude Include="ThirdParty\inc\fbxsdk.h">
-      <Filter>ThirdParty\Inc</Filter>
-    </ClInclude>
     <ClInclude Include="GameEngineFBX.h">
       <Filter>Resources\FBX</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineFBXAnimation.h">
+    <ClInclude Include="GameEngineFBXMesh.h">
       <Filter>Resources\FBX</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineFBXMesh.h">
+    <ClInclude Include="GameEngineFBXAnimation.h">
       <Filter>Resources\FBX</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineFBXRenderer.h">
@@ -354,10 +351,10 @@
     <ClCompile Include="GameEngineFBX.cpp">
       <Filter>Resources\FBX</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineFBXAnimation.cpp">
+    <ClCompile Include="GameEngineFBXMesh.cpp">
       <Filter>Resources\FBX</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineFBXMesh.cpp">
+    <ClCompile Include="GameEngineFBXAnimation.cpp">
       <Filter>Resources\FBX</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineFBXRenderer.cpp">
@@ -459,10 +456,10 @@
       <UniqueIdentifier>{3a3bf4d0-95cd-440d-bf1c-69a00a292dd1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resources\FBX">
-      <UniqueIdentifier>{5cb21bca-2d6c-488e-b0b6-e58e874e5504}</UniqueIdentifier>
+      <UniqueIdentifier>{fc7acf9f-14f5-4be4-8a07-77bd9cc92e77}</UniqueIdentifier>
     </Filter>
     <Filter Include="Global">
-      <UniqueIdentifier>{aadaf3b0-7c57-4815-be58-bef8e81e89d9}</UniqueIdentifier>
+      <UniqueIdentifier>{4735fc8f-88c2-4061-8525-b68c36f91482}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -483,6 +480,9 @@
     </CopyFileToFolders>
     <CopyFileToFolders Include="ThirdParty\bin\Debug\FW1FontWrapper.dll">
       <Filter>ThirdParty\Lib\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\bin\Release\libfbxsdk.dll">
+      <Filter>ThirdParty\Lib\Release</Filter>
     </CopyFileToFolders>
     <CopyFileToFolders Include="ThirdParty\bin\Debug\libfbxsdk.dll">
       <Filter>ThirdParty\Lib\Debug</Filter>
@@ -508,29 +508,14 @@
     <CopyFileToFolders Include="ThirdParty\bin\Debug\zlib-mt.lib">
       <Filter>ThirdParty\Lib\Debug</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="ThirdParty\bin\Release\libfbxsdk.dll">
-      <Filter>ThirdParty\Lib\Release</Filter>
-    </CopyFileToFolders>
     <CopyFileToFolders Include="ThirdParty\bin\Release\libfbxsdk.lib">
       <Filter>ThirdParty\Lib\Release</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="ThirdParty\bin\Release\libfbxsdk-md.lib">
-      <Filter>ThirdParty\Lib\Release</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="ThirdParty\bin\Release\libfbxsdk-mt.lib">
-      <Filter>ThirdParty\Lib\Release</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="ThirdParty\bin\Release\libxml2-md.lib">
-      <Filter>ThirdParty\Lib\Release</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="ThirdParty\bin\Release\libxml2-mt.lib">
-      <Filter>ThirdParty\Lib\Release</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="ThirdParty\bin\Release\zlib-md.lib">
-      <Filter>ThirdParty\Lib\Release</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="ThirdParty\bin\Release\zlib-mt.lib">
-      <Filter>ThirdParty\Lib\Release</Filter>
-    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\bin\Release\libfbxsdk-md.lib" />
+    <CopyFileToFolders Include="ThirdParty\bin\Release\libfbxsdk-mt.lib" />
+    <CopyFileToFolders Include="ThirdParty\bin\Release\libxml2-md.lib" />
+    <CopyFileToFolders Include="ThirdParty\bin\Release\libxml2-mt.lib" />
+    <CopyFileToFolders Include="ThirdParty\bin\Release\zlib-md.lib" />
+    <CopyFileToFolders Include="ThirdParty\bin\Release\zlib-mt.lib" />
   </ItemGroup>
 </Project>

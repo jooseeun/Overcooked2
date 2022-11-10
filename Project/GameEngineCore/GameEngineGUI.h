@@ -14,13 +14,13 @@ class GameEngineGUIWindow : public GameEngineNameObject, public GameEngineUpdate
 
 
 private:
-	void Begin()
+	void Begin() 
 	{
 		std::string Name = GameEngineString::AnsiToUTF8Return(GetName().data());
 		ImGui::Begin(Name.c_str(), &IsUpdateRef());
 	}
 
-	void End()
+	void End() 
 	{
 		ImGui::End();
 	}
@@ -52,7 +52,7 @@ public:
 	static void GUIRender(GameEngineLevel* _Level, float _DeltaTime);
 
 	template<typename GUIWindowType>
-	static std::shared_ptr<GUIWindowType> CreateGUIWindow(const std::string& _Name, GameEngineLevel* _Level)
+	static std::shared_ptr <GUIWindowType> CreateGUIWindow(const std::string& _Name, GameEngineLevel* _Level)
 	{
 		std::shared_ptr<GUIWindowType> Window = std::make_shared<GUIWindowType>();
 		GameEngineGUIWindow* InitWindow = Window.get();

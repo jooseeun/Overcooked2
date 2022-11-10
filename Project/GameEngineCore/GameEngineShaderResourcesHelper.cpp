@@ -49,7 +49,7 @@ void GameEngineShaderResourcesHelper::AllResourcesReset()
 	}
 }
 
-void GameEngineShaderResourcesHelper::ResourcesCheck(GameEngineMaterial* _Line)
+void GameEngineShaderResourcesHelper::ResourcesCheck(std::shared_ptr<GameEngineMaterial> _Line)
 {
 	if (nullptr == _Line)
 	{
@@ -61,7 +61,7 @@ void GameEngineShaderResourcesHelper::ResourcesCheck(GameEngineMaterial* _Line)
 
 }
 
-void GameEngineShaderResourcesHelper::ShaderCheck(GameEngineShader* _Shader)
+void GameEngineShaderResourcesHelper::ShaderCheck(std::shared_ptr < GameEngineShader> _Shader)
 {
 	// 픽셀쉐이더와 버텍스 쉐이더에서 transform데이터 같은 중요 상수버퍼의 이름을 똑같이 해서 사용하고 싶다면??????
 	for (const std::pair<std::string, GameEngineConstantBufferSetter>& Data : _Shader->ConstantBufferSettingMap)
@@ -78,6 +78,7 @@ void GameEngineShaderResourcesHelper::ShaderCheck(GameEngineShader* _Shader)
 			TextureSettingMap.insert(std::make_pair(Data.first, Data.second));
 
 		InsertIter->second.Bind();
+
 	}
 
 
@@ -97,6 +98,7 @@ void GameEngineShaderResourcesHelper::ShaderCheck(GameEngineShader* _Shader)
 
 		InsertIter->second.Bind();
 	}
+
 }
 
 
@@ -188,7 +190,7 @@ void GameEngineShaderResourcesHelper::SetConstantBufferLink(
 
 
 
-GameEngineTexture* GameEngineShaderResourcesHelper::SetTexture(const std::string& _Name, const std::string& _TextureName)
+std::shared_ptr<GameEngineTexture> GameEngineShaderResourcesHelper::SetTexture(const std::string& _Name, const std::string& _TextureName)
 {
 	if (false == IsTexture(_Name))
 	{
@@ -201,7 +203,7 @@ GameEngineTexture* GameEngineShaderResourcesHelper::SetTexture(const std::string
 	return SetTexture(_Name, GameEngineTexture::Find(_TextureName));
 }
 
-GameEngineTexture* GameEngineShaderResourcesHelper::SetTexture(const std::string& _Name, const std::string& _FolderTextureName, int _Index)
+std::shared_ptr < GameEngineTexture> GameEngineShaderResourcesHelper::SetTexture(const std::string& _Name, const std::string& _FolderTextureName, int _Index)
 {
 	if (false == IsTexture(_Name))
 	{
@@ -213,7 +215,7 @@ GameEngineTexture* GameEngineShaderResourcesHelper::SetTexture(const std::string
 
 	std::string TextureName = GameEngineString::ToUpperReturn(_FolderTextureName);
 
-	GameEngineFolderTexture* Tex = GameEngineFolderTexture::Find(TextureName);
+	std::shared_ptr < GameEngineFolderTexture> Tex = GameEngineFolderTexture::Find(TextureName);
 
 	if (nullptr == Tex)
 	{
@@ -223,7 +225,7 @@ GameEngineTexture* GameEngineShaderResourcesHelper::SetTexture(const std::string
 	return SetTexture(_Name, Tex->GetTexture(_Index));
 }
 
-GameEngineTexture* GameEngineShaderResourcesHelper::SetTexture(const std::string& _Name, GameEngineTexture* _Texture)
+std::shared_ptr < GameEngineTexture> GameEngineShaderResourcesHelper::SetTexture(const std::string& _Name, std::shared_ptr < GameEngineTexture> _Texture)
 {
 	std::string Name = GameEngineString::ToUpperReturn(_Name);
 
@@ -248,7 +250,8 @@ GameEngineTexture* GameEngineShaderResourcesHelper::SetTexture(const std::string
 	return _Texture;
 }
 
-GameEngineSampler* GameEngineShaderResourcesHelper::SetSampler(const std::string& _Name, const std::string& _TextureName)
+
+std::shared_ptr < GameEngineSampler> GameEngineShaderResourcesHelper::SetSampler(const std::string& _Name, const std::string& _TextureName)
 {
 	if (false == IsSampler(_Name))
 	{
@@ -262,7 +265,7 @@ GameEngineSampler* GameEngineShaderResourcesHelper::SetSampler(const std::string
 
 }
 
-GameEngineSampler* GameEngineShaderResourcesHelper::SetSampler(const std::string& _Name, GameEngineSampler* _Res)
+std::shared_ptr < GameEngineSampler> GameEngineShaderResourcesHelper::SetSampler(const std::string& _Name, std::shared_ptr < GameEngineSampler> _Res)
 {
 	std::string Name = GameEngineString::ToUpperReturn(_Name);
 
@@ -282,6 +285,7 @@ GameEngineSampler* GameEngineShaderResourcesHelper::SetSampler(const std::string
 	{
 		NameStartIter->second.Res = _Res;
 		NameStartIter->second.Bind();
+		// BindSampler(NameStartIter->second, _Res);
 	}
 
 	return _Res;

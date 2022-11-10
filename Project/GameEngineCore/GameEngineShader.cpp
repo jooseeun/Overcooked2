@@ -14,26 +14,6 @@ void GameEngineConstantBufferSetter::Setting() const
 	SettingFunction();
 }
 
-void GameEngineConstantBufferSetter::Bind()
-{
-	if (nullptr == Res)
-	{
-		MsgBoxAssert("존재하지 않는 상수버퍼를 사용하려고 했습니다.");
-	}
-
-	switch (ShaderType)
-	{
-	case ShaderType::Vertex:
-		SettingFunction = std::bind(&GameEngineConstantBuffer::VSSetting, Res, BindPoint);
-		break;
-	case ShaderType::Pixel:
-		SettingFunction = std::bind(&GameEngineConstantBuffer::PSSetting, Res, BindPoint);
-		break;
-	default:
-		break;
-	}
-}
-
 void GameEngineTextureSetter::Setting() const
 {
 	SettingFunction();
@@ -44,51 +24,9 @@ void GameEngineTextureSetter::Reset() const
 	ResetFunction();
 }
 
-void GameEngineTextureSetter::Bind()
-{
-	if (nullptr == Res)
-	{
-		MsgBoxAssert("존재하지 않는 텍스처를 사용하려고 했습니다.");
-	}
-
-	switch (ShaderType)
-	{
-	case ShaderType::Vertex:
-		SettingFunction = std::bind(&GameEngineTexture::VSSetting, Res, BindPoint);
-		ResetFunction = std::bind(&GameEngineTexture::VSReset, Res, BindPoint);
-		break;
-	case ShaderType::Pixel:
-		SettingFunction = std::bind(&GameEngineTexture::PSSetting, Res, BindPoint);
-		ResetFunction = std::bind(&GameEngineTexture::PSReset, Res, BindPoint);
-		break;
-	default:
-		break;
-	}
-}
-
 void GameEngineSamplerSetter::Setting() const
 {
 	SettingFunction();
-}
-
-void GameEngineSamplerSetter::Bind()
-{
-	if (nullptr == Res)
-	{
-		MsgBoxAssert("존재하지 않는 샘플러를 사용하려고 했습니다.");
-	}
-
-	switch (ShaderType)
-	{
-	case ShaderType::Vertex:
-		SettingFunction = std::bind(&GameEngineSampler::VSSetting, Res, BindPoint);
-		break;
-	case ShaderType::Pixel:
-		SettingFunction = std::bind(&GameEngineSampler::PSSetting, Res, BindPoint);
-		break;
-	default:
-		break;
-	}
 }
 
 void GameEngineStructuredBufferSetter::Setting() const
@@ -108,31 +46,14 @@ void GameEngineStructuredBufferSetter::Resize(int _Count)
 	OriginalData.resize(Res->GetDataSize() * _Count);
 }
 
-void GameEngineStructuredBufferSetter::Bind()
-{
-	if (nullptr == Res)
-	{
-		MsgBoxAssert("존재하지 않는 스트럭처드 버퍼를 사용하려고 했습니다.");
-	}
-
-	switch (ShaderType)
-	{
-	case ShaderType::Vertex:
-		SettingFunction = std::bind(&GameEngineStructuredBuffer::VSSetting, Res, BindPoint);
-		break;
-	case ShaderType::Pixel:
-		SettingFunction = std::bind(&GameEngineStructuredBuffer::PSSetting, Res, BindPoint);
-		break;
-	default:
-		break;
-	}
-}
-
 void GameEngineStructuredBufferSetter::PushData(const void* Data, int _Count)
 {
 	int Count = Res->GetDataSize() * _Count;
 	memcpy_s(&OriginalData[Count], OriginalData.size(), Data, Res->GetDataSize());
 }
+
+
+
 
 void GameEngineShader::AutoCompile(const std::string& _Path)
 {
@@ -151,7 +72,7 @@ void GameEngineShader::AutoCompile(const std::string& _Path)
 		// 7부터 찾아라 앞쪽으로
 		// 1
 
-		GameEngineVertexShader* Vertex = nullptr;
+		std::shared_ptr< GameEngineVertexShader> Vertex = nullptr;
 
 		{
 			size_t FirstIndex = AllHlslCode.find_last_of(" ", VSEntryIndex);
@@ -218,7 +139,6 @@ void GameEngineShader::CreateVersion(const std::string& _ShaderType, UINT _Versi
 
 void GameEngineShader::ShaderResCheck(const std::string_view& _Name)
 {
-	// 애니메이션 쉐이더 테스트용
 	if (std::string::npos != _Name.find("TEXTUREANIMATION.HLSL"))
 	{
 		int a = 0;
@@ -338,6 +258,7 @@ void GameEngineShader::ShaderResCheck(const std::string_view& _Name)
 			NewSetter.BindPoint = ResInfo.BindPoint;
 
 			StructuredBufferSettingMap.insert(std::make_pair(Name, NewSetter));
+
 			break;
 		}
 		default:
@@ -349,6 +270,7 @@ void GameEngineShader::ShaderResCheck(const std::string_view& _Name)
 		// 이 순간 상수버퍼가 만들어져야 합니다.
 
 		int a = 0;
+
 	}
 
 	ConstantBufferSettingMap;
@@ -379,6 +301,8 @@ bool GameEngineShader::IsTexture(const std::string& _Name)
 	return false;
 }
 
+
+
 bool GameEngineShader::IsSampler(const std::string& _Name)
 {
 	std::string Key = GameEngineString::ToUpperReturn(_Name);
@@ -390,6 +314,8 @@ bool GameEngineShader::IsSampler(const std::string& _Name)
 
 	return false;
 }
+
+
 
 bool GameEngineShader::IsConstantBuffer(const std::string& _Name)
 {
@@ -413,4 +339,98 @@ bool GameEngineShader::IsStructuredBuffer(const std::string& _Name)
 	}
 
 	return false;
+}
+
+
+
+
+void GameEngineTextureSetter::Bind()
+{
+	// Res = _Res;
+
+	if (nullptr == Res)
+	{
+		MsgBoxAssert("존재하지 않는 텍스처를 사용하려고 했습니다.");
+	}
+
+	switch (ShaderType)
+	{
+	case ShaderType::Vertex:
+		SettingFunction = std::bind(&GameEngineTexture::VSSetting, Res, BindPoint);
+		ResetFunction = std::bind(&GameEngineTexture::VSReset, Res, BindPoint);
+		break;
+	case ShaderType::Pixel:
+		SettingFunction = std::bind(&GameEngineTexture::PSSetting, Res, BindPoint);
+		ResetFunction = std::bind(&GameEngineTexture::PSReset, Res, BindPoint);
+		break;
+	default:
+		break;
+	}
+}
+
+
+void GameEngineConstantBufferSetter::Bind()
+{
+	// Res = _Res;
+
+	if (nullptr == Res)
+	{
+		MsgBoxAssert("존재하지 않는 상수버퍼를 사용하려고 했습니다.");
+	}
+
+	switch (ShaderType)
+	{
+	case ShaderType::Vertex:
+		SettingFunction = std::bind(&GameEngineConstantBuffer::VSSetting, Res, BindPoint);
+		break;
+	case ShaderType::Pixel:
+		SettingFunction = std::bind(&GameEngineConstantBuffer::PSSetting, Res, BindPoint);
+		break;
+	default:
+		break;
+	}
+}
+
+void GameEngineSamplerSetter::Bind()
+{
+	// Res = _Res;
+
+	if (nullptr == Res)
+	{
+		MsgBoxAssert("존재하지 않는 샘플러를 사용하려고 했습니다.");
+	}
+
+	switch (ShaderType)
+	{
+	case ShaderType::Vertex:
+		SettingFunction = std::bind(&GameEngineSampler::VSSetting, Res, BindPoint);
+		break;
+	case ShaderType::Pixel:
+		SettingFunction = std::bind(&GameEngineSampler::PSSetting, Res, BindPoint);
+		break;
+	default:
+		break;
+	}
+}
+
+void GameEngineStructuredBufferSetter::Bind()
+{
+	// Res = _Res;
+
+	if (nullptr == Res)
+	{
+		MsgBoxAssert("존재하지 않는 샘플러를 사용하려고 했습니다.");
+	}
+
+	switch (ShaderType)
+	{
+	case ShaderType::Vertex:
+		SettingFunction = std::bind(&GameEngineStructuredBuffer::VSSetting, Res, BindPoint);
+		break;
+	case ShaderType::Pixel:
+		SettingFunction = std::bind(&GameEngineStructuredBuffer::PSSetting, Res, BindPoint);
+		break;
+	default:
+		break;
+	}
 }

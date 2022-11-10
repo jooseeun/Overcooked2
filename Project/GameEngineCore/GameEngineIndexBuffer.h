@@ -9,29 +9,27 @@
 // 설명 :
 class GameEngineIndexBuffer : public GameEngineRes<GameEngineIndexBuffer>
 {
-	friend GameEngineRes<GameEngineIndexBuffer>;
-
 public:
 	template<typename IndexType>
-	static GameEngineIndexBuffer* Create(const std::string& _Name, const std::vector<IndexType>& _Vertex)
+	static std::shared_ptr < GameEngineIndexBuffer> Create(const std::string& _Name, const std::vector<IndexType>& _Vertex)
 	{
 		return Create(_Name, &_Vertex[0] , sizeof(IndexType), static_cast<unsigned int>(_Vertex.size()));
 	}
-	static GameEngineIndexBuffer* Create(const std::string& _Name, const void* _Data, UINT _IndexSize, UINT _IndexCount);
 
-	// 언네임드
+	static std::shared_ptr < GameEngineIndexBuffer> Create(const std::string& _Name, const void* _Data, UINT _IndexSize, UINT _IndexCount);
+
 	template<typename IndexType>
-	static GameEngineIndexBuffer* Create(const std::vector<IndexType>& _Vertex)
+	static std::shared_ptr < GameEngineIndexBuffer> Create(const std::vector<IndexType>& _Vertex)
 	{
 		return Create(&_Vertex[0], sizeof(IndexType), static_cast<unsigned int>(_Vertex.size()));
 	}
-	static GameEngineIndexBuffer* Create(const void* _Data, UINT _IndexSize, UINT _IndexCount);
 
-private:
-	// constrcuter destructer
+	static std::shared_ptr < GameEngineIndexBuffer> Create(const void* _Data, UINT _IndexSize, UINT _IndexCount);
+
 	GameEngineIndexBuffer();
 	~GameEngineIndexBuffer();
 
+private:
 	// delete Function
 	GameEngineIndexBuffer(const GameEngineIndexBuffer& _Other) = delete;
 	GameEngineIndexBuffer(GameEngineIndexBuffer&& _Other) noexcept = delete;

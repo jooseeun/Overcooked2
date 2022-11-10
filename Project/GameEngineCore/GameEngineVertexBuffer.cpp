@@ -20,25 +20,17 @@ GameEngineVertexBuffer::~GameEngineVertexBuffer()
 }
 
 
-GameEngineVertexBuffer* GameEngineVertexBuffer::Create(
+std::shared_ptr<GameEngineVertexBuffer> GameEngineVertexBuffer::Create(
 	const std::string& _Name, 
 	const void* _Data, UINT _VertexSize,
 	UINT _VertexCount,
 	const GameEngineLayOutDesc& _LayOut
 )
 {
-	GameEngineVertexBuffer* NewRes = CreateResName(_Name);
+	std::shared_ptr<GameEngineVertexBuffer> NewRes = CreateResName(_Name);
 	NewRes->LayOutDesc = &_LayOut;
 	NewRes->BufferCreate(_Data, _VertexSize, _VertexCount);
 
-	return NewRes;
-}
-
-GameEngineVertexBuffer* GameEngineVertexBuffer::Create(const void* _Data, UINT _VertexSize, UINT _VertexCount, const GameEngineLayOutDesc& _LayOut)
-{
-	GameEngineVertexBuffer* NewRes = CreateResUnName();
-	NewRes->LayOutDesc = &_LayOut;
-	NewRes->BufferCreate(_Data, _VertexSize, _VertexCount);
 	return NewRes;
 }
 
@@ -76,6 +68,15 @@ void GameEngineVertexBuffer::BufferCreate(const void* _Data, UINT _VertexSize, U
 		MsgBoxAssert("버텍스 버퍼 생성에 실패했습니다.");
 	}
 }
+
+std::shared_ptr<GameEngineVertexBuffer> GameEngineVertexBuffer::Create(const void* _Data, UINT _VertexSize, UINT _VertexCount, const GameEngineLayOutDesc& _LayOut)
+{
+	std::shared_ptr<GameEngineVertexBuffer> NewRes = CreateResUnName();
+	NewRes->LayOutDesc = &_LayOut;
+	NewRes->BufferCreate(_Data, _VertexSize, _VertexCount);
+	return NewRes;
+}
+
 
 // 이 세팅은 1개의 매쉬를 그리는 세팅 세팅
 void GameEngineVertexBuffer::Setting()

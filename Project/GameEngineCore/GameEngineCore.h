@@ -6,6 +6,10 @@
 #include <GameEngineBase/GameEngineThreadPool.h>
 #include <map>
 
+
+
+//class GameEngineLevel;
+
 // Ό³Έν :
 class GameEngineCore
 {
@@ -49,8 +53,8 @@ public:
 
 protected:
 	virtual std::string GetWindowTitle() { return "MainWindow"; }
-	virtual float4 StartWindowSize() { return { 1280.0f, 720.0f }; };
-	virtual float4 StartWindowPosition() { return { 100, 200 }; };
+	virtual float4 StartWindowSize() { return { 1280.0f, 720.0f }; }
+	virtual float4 StartWindowPosition() { return { 100, 200 }; }
 
 	virtual void Start() = 0;
 	virtual void Update(float _DeltaTime) = 0;
@@ -78,6 +82,7 @@ protected:
 	static bool ChangeLevel(const std::string& _Name);
 
 private:
+
 	static std::map<std::string, class GameEngineLevel*> AllLevels;
 	static GameEngineLevel* CurrentLevel;
 	static GameEngineLevel* NextLevel;

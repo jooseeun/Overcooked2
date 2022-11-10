@@ -15,19 +15,22 @@ public:
 	
 public:
 	template<typename VertexType>
-	static GameEngineVertexBuffer* Create(const std::string& _Name, const std::vector<VertexType>& _Vertex)
+	static std::shared_ptr<GameEngineVertexBuffer> Create(const std::string& _Name, const std::vector<VertexType>& _Vertex)
 	{
 		return Create(_Name, &_Vertex[0], static_cast<UINT>(sizeof(VertexType)), static_cast<UINT>(_Vertex.size()), VertexType::LayOut);
 	}
-	static GameEngineVertexBuffer* Create(const std::string& _Name, const void* _Data, UINT _VertexSize, UINT _VertexCount, const GameEngineLayOutDesc& _LayOut);
 
-	// 언네임드
+
+	static std::shared_ptr<GameEngineVertexBuffer> Create(const std::string& _Name, const void* _Data, UINT _VertexSize, UINT _VertexCount, const GameEngineLayOutDesc& _LayOut);
+
 	template<typename VertexType>
-	static GameEngineVertexBuffer* Create(const std::vector<VertexType>& _Vertex)
+	static std::shared_ptr<GameEngineVertexBuffer> Create(const std::vector<VertexType>& _Vertex)
 	{
 		return Create(&_Vertex[0], static_cast<UINT>(sizeof(VertexType)), static_cast<UINT>(_Vertex.size()), VertexType::LayOut);
 	}
-	static GameEngineVertexBuffer* Create(const void* _Data, UINT _VertexSize, UINT _VertexCount, const GameEngineLayOutDesc& _LayOut);
+
+	static std::shared_ptr<GameEngineVertexBuffer> Create(const void* _Data, UINT _VertexSize, UINT _VertexCount, const GameEngineLayOutDesc& _LayOut);
+
 
 public:
 	const GameEngineLayOutDesc& GetLayOutDesc()
@@ -52,6 +55,10 @@ public:
 		return VertexSize;
 	}
 
+	// constrcuter destructer
+	GameEngineVertexBuffer();
+	~GameEngineVertexBuffer();
+
 
 protected:
 	void BufferCreate(const void* _Data, UINT _VertexSize, UINT _VertexCount);
@@ -71,9 +78,6 @@ private:
 
 	const GameEngineLayOutDesc* LayOutDesc;
 
-	// constrcuter destructer
-	GameEngineVertexBuffer();
-	~GameEngineVertexBuffer();
 
 	// delete Function
 	GameEngineVertexBuffer(const GameEngineVertexBuffer& _Other) = delete;

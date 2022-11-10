@@ -145,9 +145,11 @@ public:
 
 	std::vector<FbxExMaterialSettingData> MaterialData;
 
-	GameEngineVertexBuffer* VertexBuffer;
-	std::vector<GameEngineIndexBuffer*> IndexBuffers;
-	std::vector<GameEngineMesh*> Meshs;
+
+	std::shared_ptr<GameEngineVertexBuffer> VertexBuffer;
+	std::vector< std::shared_ptr<GameEngineIndexBuffer>> IndexBuffers;
+
+	std::vector<std::shared_ptr<GameEngineMesh>> Meshs;
 
 	FbxRenderUnitInfo() :
 		IsLod(false),
@@ -160,6 +162,8 @@ public:
 	{
 	}
 };
+
+
 
 struct JointPos
 {
@@ -496,7 +500,6 @@ struct Bone
 };
 
 
-// 설명 :
 class GameEngineMesh;
 class GameEngineFBXAnimation;
 class GameEngineFBXMesh : public GameEngineFBX, public GameEngineRes<GameEngineFBXMesh>
@@ -514,16 +517,16 @@ public:
 	GameEngineFBXMesh& operator=(const GameEngineFBXMesh& _Other) = delete;
 	GameEngineFBXMesh& operator=(GameEngineFBXMesh&& _Other) noexcept = delete;
 
-	static GameEngineFBXMesh* Load(const std::string& _Path)
+	static std::shared_ptr<GameEngineFBXMesh> Load(const std::string& _Path)
 	{
 		return Load(_Path, GameEnginePath::GetFileName(_Path));
 	}
 
-	static GameEngineFBXMesh* Load(const std::string& _Path, const std::string& _Name);
+	static std::shared_ptr<GameEngineFBXMesh> Load(const std::string& _Path, const std::string& _Name);
 
-	GameEngineMesh* GetGameEngineMesh(size_t _MeshIndex, size_t _SubIndex);
+	std::shared_ptr<GameEngineMesh> GetGameEngineMesh(size_t _MeshIndex, size_t _SubIndex);
 
-	FbxExMaterialSettingData& GetMaterialSettingData(size_t _MeshIndex, size_t _SubIndex);
+	 FbxExMaterialSettingData& GetMaterialSettingData(size_t _MeshIndex, size_t _SubIndex);
 
 	size_t GetRenderUnitCount()
 	{
@@ -559,19 +562,19 @@ public:
 	Bone* FindBone(size_t MeshIndex, size_t _BoneIndex);
 	Bone* FindBone(size_t MeshIndex, std::string _Name);
 
-	GameEngineStructuredBuffer* GetAnimationStructuredBuffer(size_t _Index);
+	std::shared_ptr<GameEngineStructuredBuffer> GetAnimationStructuredBuffer(size_t _Index);
 
 protected:
 	std::vector<FbxExMeshInfo> MeshInfos;
 	std::vector<FbxRenderUnitInfo> RenderUnitInfos;
 
 	std::vector<std::vector<Bone>> AllBones; // 본정보체
-	std::vector<GameEngineStructuredBuffer*> AllBoneStructuredBuffers;
+	std::vector<std::shared_ptr<GameEngineStructuredBuffer>> AllBoneStructuredBuffers; // 본정보체
 
 	std::vector<std::map<std::string, Bone*>> AllFindMap;
 	std::vector<std::vector<FbxClusterData>> ClusterData;
 
-public:
+private:
 	void LoadMesh(const std::string& _Path, const std::string& _Name);
 
 	void MeshLoad();
@@ -617,3 +620,4 @@ public:
 	void CreateGameEngineStructuredBuffer();
 
 };
+

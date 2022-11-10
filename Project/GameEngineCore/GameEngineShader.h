@@ -38,7 +38,7 @@ class GameEngineConstantBufferSetter : public ShaderResSetter
 	friend GameEngineShader;
 
 public:
-	GameEngineConstantBuffer* Res;
+	std::shared_ptr<GameEngineConstantBuffer> Res;
 	// 각자가 가진 정보에 대한 주소
 	const void* SetData;
 	size_t Size;
@@ -67,10 +67,11 @@ class GameEngineTextureSetter : public ShaderResSetter
 public:
 	void Setting() const;
 	void Reset() const;
+
 	void Bind();
 
 public:
-	GameEngineTexture* Res;
+	std::shared_ptr < GameEngineTexture> Res;
 };
 
 class GameEngineSampler;
@@ -79,9 +80,8 @@ class GameEngineSamplerSetter : public ShaderResSetter
 public:
 	void Setting() const;
 	void Bind();
-
 public:
-	GameEngineSampler* Res;
+	std::shared_ptr < GameEngineSampler> Res;
 };
 
 class GameEngineStructuredBuffer;
@@ -89,6 +89,7 @@ class GameEngineStructuredBufferSetter : public ShaderResSetter
 {
 public:
 	void Setting() const;
+
 	void Resize(int _Count);
 	void Bind();
 
@@ -112,7 +113,8 @@ private:
 	void PushData(const void* Data, int _Count);
 
 public:
-	GameEngineStructuredBuffer* Res;
+	// 상수버퍼와 완전히 동일하게 동일하게 생각하면 됩니다.
+	std::shared_ptr < GameEngineStructuredBuffer> Res;
 	const void* SetData;
 	size_t Size;
 	std::vector<char> OriginalData;
@@ -165,13 +167,19 @@ protected:
 
 	ShaderType ShaderSettingType;
 
+
 private:
 	std::map<std::string, GameEngineConstantBufferSetter> ConstantBufferSettingMap;
 	std::map<std::string, GameEngineTextureSetter> TextureSettingMap;
 	std::map<std::string, GameEngineSamplerSetter> SamplerSettingMap;
 	std::map<std::string, GameEngineStructuredBufferSetter> StructuredBufferSettingMap;
 
+
 	std::string EntryPoint;
+
+	// std::map<unsigned int, ConstantBuffer> 
+
+	// void SetConstantBuffer() override;
 
 };
 

@@ -69,12 +69,15 @@ void GameEngineStatusWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 		ImGui::SameLine();
 	}
+
 	ImGui::NewLine();
 	std::string AllRenderTarget = "AllRenderTarget";
 	ImGui::Text(AllRenderTarget.c_str());
 
 	for (std::pair<std::string, GameEngineRenderTarget*> RenderTargetPair : DebugRenderTarget)
 	{
+		// ImGui::Text(RenderTarget.first.c_str());
+
 		if (true == ImGui::TreeNodeEx(RenderTargetPair.first.c_str(), 0))
 		{
 			GameEngineRenderTarget* RenderTarget = RenderTargetPair.second;

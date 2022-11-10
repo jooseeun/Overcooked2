@@ -34,14 +34,14 @@ GameEngineCamera::~GameEngineCamera()
 {
 }
 
-bool ZSort(GameEngineRenderer* _Left, GameEngineRenderer* _Right)
+bool ZSort(std::shared_ptr<GameEngineRenderer> _Left, std::shared_ptr<GameEngineRenderer> _Right)
 {
 	return _Left->GetTransform().GetWorldPosition().z > _Right->GetTransform().GetWorldPosition().z;
 }
 
 GameEngineInstancing* GameEngineCamera::GetInstancing(const std::string& _Name)
 {
-	GameEngineMaterial* Instancing = GameEngineMaterial::Find(_Name);
+	std::shared_ptr<GameEngineMaterial> Instancing = GameEngineMaterial::Find(_Name);
 	return GetInstancing(Instancing);
 }
 
@@ -87,14 +87,14 @@ void GameEngineCamera::Render(float _DeltaTime)
 		// 랜더링 하면서 인스턴싱 데이터를 수집하고
 		// 수집하면서 ++DataInsert
 		// 랜더링 하기 전에
-		for (std::pair<const int, std::list<GameEngineRenderer*>>& Group : AllRenderer_)
+		for (std::pair<const int, std::list<std::shared_ptr<GameEngineRenderer>>>& Group : AllRenderer_)
 		{
 			float ScaleTime = GameEngineTime::GetInst()->GetDeltaTime(Group.first);
 
-			std::list<GameEngineRenderer*>& RenderList = Group.second;
+			std::list<std::shared_ptr<GameEngineRenderer>>& RenderList = Group.second;
 			RenderList.sort(ZSort);
 
-			for (GameEngineRenderer* const Renderer : Group.second)
+			for (std::shared_ptr<GameEngineRenderer>& Renderer : Group.second)
 			{
 				if (false == Renderer->IsUpdate())
 				{
@@ -138,7 +138,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 void GameEngineCamera::SetCameraOrder(CAMERAORDER _Order)
 {
-	GetActor()->GetLevel()->PushCamera(this, _Order);
+	GetActor()->GetLevel()->PushCamera(std::dynamic_pointer_cast<GameEngineCamera>(shared_from_this()), _Order);
 }
 
 void GameEngineCamera::Start()
@@ -151,7 +151,7 @@ void GameEngineCamera::Start()
 	// CameraRenderTarget->CreateDepthTexture()
 }
 
-void GameEngineCamera::PushRenderer(GameEngineRenderer* _Renderer)
+void GameEngineCamera::PushRenderer(std::shared_ptr<GameEngineRenderer> _Renderer)
 {
 	AllRenderer_[_Renderer->RenderingOrder].push_back(_Renderer);
 }
@@ -170,7 +170,7 @@ float4 GameEngineCamera::GetWorldPositionToScreenPosition(const float4& _Pos)
 }
 
 
-GameEngineInstancing* GameEngineCamera::GetInstancing(GameEngineMaterial* _Pipe)
+GameEngineInstancing* GameEngineCamera::GetInstancing(std::shared_ptr < GameEngineMaterial> _Pipe)
 {
 	if (nullptr == _Pipe)
 	{
@@ -178,52 +178,14 @@ GameEngineInstancing* GameEngineCamera::GetInstancing(GameEngineMaterial* _Pipe)
 	}
 
 	std::unordered_map<GameEngineMaterial*, GameEngineInstancing>::iterator FindIter
-		= InstancingMap.find(_Pipe);
+		= InstancingMap.find(_Pipe.get());
 
-	//// 여태까지 인스턴싱을 켜거나 시도하지 않았던 녀석인데
-	//// 이제부터 인스턴싱을 할거니까 달라고 할수도 있죠?
-	//if (FindIter == InstancingMap.end())
-	//{
-	//	GameEngineInstancing& Instancing = InstancingMap[_Pipe];
-	//	GameEngineVertexBuffer* Buffer = _Pipe->GetVertexBuffer();
-	//	// InstancingMap[_Pipe].
-	//	Instancing.InstancingPipeLine = GameEngineMaterial::Create();
-	//	Instancing.InstancingPipeLine->Copy(_Pipe);
-	//	Instancing.InstancingPipeLine->SetVertexShader(_Pipe->GetVertexShader()->GetInstancingShader());
-
-	//	Instancing.ShaderResources.ResourcesCheck(Instancing.InstancingPipeLine);
-	//	Instancing.ShaderResources.AllConstantBufferNew();
-
-	//	Instancing.Size = Buffer->GetLayOutDesc()->InstancingSize;
-	//	Instancing.Buffer = GameEngineInstancingBuffer::Create(GameEngineInstancing::StartInstancingCount, Buffer->GetLayOutDesc()->InstancingSize);
-	//	Instancing.DataBuffer.resize(GameEngineInstancing::StartInstancingCount * static_cast<unsigned int>(Instancing.Size));
-	//	Instancing.MaxDataCount = GameEngineInstancing::StartInstancingCount;
-
-	//	// 엔진에서 책임진다.
-	//	if (Instancing.ShaderResources.IsStructuredBuffer("AllInstancingTransformData"))
-	//	{
-	//		GameEngineStructuredBufferSetter* Setter = Instancing.ShaderResources.GetStructuredBuffer("AllInstancingTransformData");
-
-	//		if (nullptr != Setter->Res)
-	//		{
-	//			Setter->Resize(Instancing.MaxDataCount);
-	//		}
-	//		else
-	//		{
-	//			MsgBoxAssert("인스턴싱용 구조화 버퍼가 만들어지지 않았습니다.");
-	//		}
-	//	}
-
-
-
-	//	FindIter = InstancingMap.find(_Pipe);
-	//}
 
 	return &FindIter->second;
 }
 
 
-void GameEngineCamera::PushInstancing(GameEngineMaterial* _Pipe, int Count)
+void GameEngineCamera::PushInstancing(std::shared_ptr<GameEngineMaterial> _Pipe, int Count)
 {
 	if (false == _Pipe->GetVertexShader()->IsInstancing())
 	{
@@ -232,80 +194,34 @@ void GameEngineCamera::PushInstancing(GameEngineMaterial* _Pipe, int Count)
 
 	// Camera->gameenginepipeline
 
-	GameEngineInstancing& Instancing = InstancingMap[_Pipe];
+	GameEngineInstancing& Instancing = InstancingMap[_Pipe.get()];
 
 	Instancing.Count += Count;
 
-	//if (GameEngineInstancing::MinInstancingCount <= Instancing.Count
-	//	&& nullptr == Instancing.Buffer)
-	//{
-
-	//	GameEngineVertexBuffer* Buffer = _Pipe->GetVertexBuffer();
-	//	// InstancingMap[_Pipe].
-	//	Instancing.InstancingPipeLine = GameEngineMaterial::Create();
-	//	Instancing.InstancingPipeLine->Copy(_Pipe);
-	//	Instancing.InstancingPipeLine->SetVertexShader(_Pipe->GetVertexShader()->GetInstancingShader());
-
-	//	// 스트럭처드 버퍼가 만들어졌을뿐
-	//	Instancing.ShaderResources.ResourcesCheck(Instancing.InstancingPipeLine);
-	//	Instancing.ShaderResources.AllConstantBufferNew();
-
-
-	//	// 이 단계 다음에 어떤 상수버퍼를 가지고있고 그걸 세팅해야한다는 정보가 만들어진다.
-	//	// 세팅을 해줘야.
-
-	//	Instancing.Size = Buffer->GetLayOutDesc()->InstancingSize;
-	//	Instancing.Buffer = GameEngineInstancingBuffer::Create(GameEngineInstancing::StartInstancingCount, Buffer->GetLayOutDesc()->InstancingSize);
-	//	Instancing.DataBuffer.resize(GameEngineInstancing::StartInstancingCount * Instancing.Size);
-	//}
-	//else if(nullptr != Instancing.Buffer
-	//	&& Instancing.Count > Instancing.Buffer->GetBufferCount())
-	//{
-	//	//           105                           100
-	//	GameEngineVertexBuffer* Buffer = _Pipe->GetVertexBuffer();
-	//	int NextBufferSize = static_cast<int>(Instancing.Count * 1.5);
-	//	Instancing.Buffer->BufferCreate(NextBufferSize, Buffer->GetLayOutDesc()->InstancingSize);
-	//	Instancing.DataBuffer.resize(NextBufferSize * Instancing.Size);
-
-	//	if (Instancing.ShaderResources.IsStructuredBuffer("AllInstancingTransformData"))
-	//	{
-	//		GameEngineStructuredBufferSetter* Setter = Instancing.ShaderResources.GetStructuredBuffer("AllInstancingTransformData");
-
-	//		if (nullptr != Setter->Res)
-	//		{
-	//			Setter->Resize(Instancing.MaxDataCount);
-	//		}
-	//		else
-	//		{
-	//			MsgBoxAssert("인스턴싱용 구조화 버퍼가 만들어지지 않았습니다.");
-	//		}
-	//	}
-
-	//}
 }
 
-int GameEngineCamera::PushInstancingIndex(GameEngineMaterial* _Pipe)
+int GameEngineCamera::PushInstancingIndex(std::shared_ptr<GameEngineMaterial> _Pipe)
 {
-	int InsertCount = InstancingMap[_Pipe].DataInsert;
+	int InsertCount = InstancingMap[_Pipe.get()].DataInsert;
 	return PushInstancingData(_Pipe, &InsertCount, sizeof(int));
 }
 
 
-int GameEngineCamera::PushInstancingData(GameEngineMaterial* _Pipe, void* _DataPtr, int _Size)
+int GameEngineCamera::PushInstancingData(std::shared_ptr<GameEngineMaterial> _Pipe, void* _DataPtr, int _Size)
 {
-	int DataOffset = InstancingMap[_Pipe].DataInsert * _Size;
+	int DataOffset = InstancingMap[_Pipe.get()].DataInsert * _Size;
 
 	// 넣어주다가 사이즈가 오버되면 어떻하지?
 	// 아니다.
 	// PushInstancing에서 이미 버퍼는 충분한 사이즈만큼 늘어나 있어야 한다.
 
-	char* DataPtr = &InstancingMap[_Pipe].DataBuffer[DataOffset];
-	memcpy_s(DataPtr, InstancingMap[_Pipe].DataBuffer.size() - DataOffset, _DataPtr, _Size);
+	char* DataPtr = &InstancingMap[_Pipe.get()].DataBuffer[DataOffset];
+	memcpy_s(DataPtr, InstancingMap[_Pipe.get()].DataBuffer.size() - DataOffset, _DataPtr, _Size);
 	DataOffset += _Size;
 
-	int ResultIndex = InstancingMap[_Pipe].DataInsert;
+	int ResultIndex = InstancingMap[_Pipe.get()].DataInsert;
 
-	++InstancingMap[_Pipe].DataInsert;
+	++InstancingMap[_Pipe.get()].DataInsert;
 
 	return ResultIndex;
 }
@@ -313,14 +229,14 @@ int GameEngineCamera::PushInstancingData(GameEngineMaterial* _Pipe, void* _DataP
 
 void GameEngineCamera::Release(float _DelataTime)
 {
-	std::map<int, std::list<GameEngineRenderer*>>::iterator StartGroupIter = AllRenderer_.begin();
-	std::map<int, std::list<GameEngineRenderer*>>::iterator EndGroupIter = AllRenderer_.end();
+	std::map<int, std::list<std::shared_ptr<GameEngineRenderer>>>::iterator StartGroupIter = AllRenderer_.begin();
+	std::map<int, std::list<std::shared_ptr<GameEngineRenderer>>>::iterator EndGroupIter = AllRenderer_.end();
 
 	for (; StartGroupIter != EndGroupIter; ++StartGroupIter)
 	{
-		std::list<GameEngineRenderer*>& Group = StartGroupIter->second;
-		std::list<GameEngineRenderer*>::iterator GroupStart = Group.begin();
-		std::list<GameEngineRenderer*>::iterator GroupEnd = Group.end();
+		std::list<std::shared_ptr<GameEngineRenderer>>& Group = StartGroupIter->second;
+		std::list<std::shared_ptr<GameEngineRenderer>>::iterator GroupStart = Group.begin();
+		std::list<std::shared_ptr<GameEngineRenderer>>::iterator GroupEnd = Group.end();
 
 		for (; GroupStart != GroupEnd; )
 		{
@@ -375,6 +291,7 @@ void GameEngineCamera::Update(float _DeltaTime)
 	PrevMouse = MousePos;
 }
 
+// 뷰포트에 있는거죠?
 float4 GameEngineCamera::GetMouseWorldPosition()
 {
 	float4 Pos = GetMouseScreenPosition();
@@ -387,16 +304,18 @@ float4 GameEngineCamera::GetMouseWorldPosition()
 
 	Pos = Pos * ViewPort;
 	Pos = Pos * ProjectionInvers;
+	// 마우스는 뷰포트의 좌표다?
 
 	return Pos;
 }
+
 
 float4 GameEngineCamera::GetMouseWorldPositionToActor()
 {
 	return GetTransform().GetWorldPosition() + GetMouseWorldPosition();
 }
 
-void GameEngineCamera::ChangeRenderingOrder(GameEngineRenderer* _Renderer, int _ChangeOrder)
+void GameEngineCamera::ChangeRenderingOrder(std::shared_ptr<GameEngineRenderer> _Renderer, int _ChangeOrder)
 {
 	// 0번째에서 삭제되고
 	AllRenderer_[_Renderer->GetRenderingOrder()].remove(_Renderer);
@@ -407,7 +326,7 @@ void GameEngineCamera::ChangeRenderingOrder(GameEngineRenderer* _Renderer, int _
 	AllRenderer_[_Renderer->GetRenderingOrder()].push_back(_Renderer);
 }
 
-void GameEngineCamera::OverRenderer(GameEngineCamera* _NextCamera) 
+void GameEngineCamera::OverRenderer(std::shared_ptr < GameEngineCamera> _NextCamera)
 {
 	if (nullptr == _NextCamera)
 	{
@@ -415,14 +334,14 @@ void GameEngineCamera::OverRenderer(GameEngineCamera* _NextCamera)
 		return;
 	}
 
-	std::map<int, std::list<GameEngineRenderer*>>::iterator StartGroupIter = AllRenderer_.begin();
-	std::map<int, std::list<GameEngineRenderer*>>::iterator EndGroupIter = AllRenderer_.end();
+	std::map<int, std::list<std::shared_ptr<GameEngineRenderer>>>::iterator StartGroupIter = AllRenderer_.begin();
+	std::map<int, std::list<std::shared_ptr<GameEngineRenderer>>>::iterator EndGroupIter = AllRenderer_.end();
 
 	for (; StartGroupIter != EndGroupIter; ++StartGroupIter)
 	{
-		std::list<GameEngineRenderer*>& Group = StartGroupIter->second;
-		std::list<GameEngineRenderer*>::iterator GroupStart = Group.begin();
-		std::list<GameEngineRenderer*>::iterator GroupEnd = Group.end();
+		std::list<std::shared_ptr<GameEngineRenderer>>& Group = StartGroupIter->second;
+		std::list<std::shared_ptr<GameEngineRenderer>>::iterator GroupStart = Group.begin();
+		std::list<std::shared_ptr<GameEngineRenderer>>::iterator GroupEnd = Group.end();
 
 		for (; GroupStart != GroupEnd; )
 		{

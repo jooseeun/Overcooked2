@@ -4,7 +4,6 @@
 #include <string>
 #include <GameEngineBase/GameEngineNameObject.h>
 #include <GameEngineBase/GameEngineString.h>
-#include <mutex>
 
 //class MyLock
 //{
@@ -52,20 +51,20 @@ public:
 		return Path;
 	}
 
-	bool IsOriginal()
+	bool IsOriginal() 
 	{
 		return Original;
 	}
 
 	// constrcuter destructer
-	GameEngineRes()
+	GameEngineRes() 
 		: Original(true)
 	{
 	}
 	virtual ~GameEngineRes() {}
 
 	// delete Function
-	GameEngineRes(const GameEngineRes& _Other)
+	GameEngineRes(const GameEngineRes& _Other) 
 		: Original(false)
 	{
 
@@ -75,11 +74,11 @@ public:
 	GameEngineRes& operator=(const GameEngineRes& _Other) = delete;
 	GameEngineRes& operator=(GameEngineRes&& _Other) noexcept = delete;
 
-	static ResType* Find(const std::string& _Name)
+	static std::shared_ptr < ResType> Find(const std::string& _Name)
 	{
 		std::string UpperName = GameEngineString::ToUpperReturn(_Name);
 
-		typename std::map<std::string, ResType*>::iterator Iter;
+		typename std::map<std::string, std::shared_ptr < ResType>>::iterator Iter;
 
 		{
 			std::lock_guard<std::mutex> LockInst(NamedResLock);
@@ -90,51 +89,53 @@ public:
 				return nullptr;
 			}
 		}
-
+		
 		return Iter->second;
 	}
 
-	static void ResourcesDestroy()
+	static void ResourcesDestroy() 
 	{
-		for (auto& Res : UnNamedRes)
-		{
-			delete Res;
-		}
+		UnNamedRes.clear();
+		NamedRes.clear();
+		//for (auto& Res : UnNamedRes)
+		//{
+		//	delete Res;
+		//}
 
-		for (auto& Res : NamedRes)
-		{
-			delete Res.second;
-		}
+		//for (auto& Res : NamedRes)
+		//{
+		//	delete Res.second;
+		//}
 	}
 
 protected:
-	static ResType* CreateResName(const std::string& _Name = "")
+	static std::shared_ptr < ResType> CreateResName(const std::string& _Name = "")
 	{
 		if (NamedRes.end() != NamedRes.find(GameEngineString::ToUpperReturn(_Name)))
 		{
 			MsgBoxAssertString("같은 이름의 리소스를 또 생성했습니다." + _Name);
 		}
 
-		ResType* Res = CreateRes(_Name);
+		std::shared_ptr < ResType> Res = CreateRes(_Name);
 
 		std::lock_guard<std::mutex> LockInst(NamedResLock);
 		NamedRes.insert(std::make_pair(Res->GetNameCopy(), Res));
 		return Res;
 	}
 
-	static ResType* CreateResUnName()
+	static std::shared_ptr < ResType> CreateResUnName()
 	{
-		ResType* Res = CreateRes();
+		std::shared_ptr < ResType> Res = CreateRes();
 		std::lock_guard<std::mutex> LockInst(UnNamedResLock);
 		UnNamedRes.push_back(Res);
 		return Res;
 	}
 
-	static ResType* CreateRes(const std::string& _Name = "")
+	static std::shared_ptr<ResType> CreateRes(const std::string& _Name = "")
 	{
 		std::string Name = GameEngineString::ToUpperReturn(_Name);
 
-		ResType* NewRes = new ResType();
+		std::shared_ptr<ResType> NewRes = std::make_shared<ResType>();
 		NewRes->SetName(Name);
 
 		return NewRes;
@@ -144,8 +145,8 @@ protected:
 	std::string Path;
 
 private:
-	static std::map<std::string, ResType*> NamedRes;
-	static std::list<ResType*> UnNamedRes;
+	static std::map<std::string, std::shared_ptr<ResType>> NamedRes;
+	static std::list<std::shared_ptr<ResType>> UnNamedRes;
 
 	static std::mutex NamedResLock;
 	static std::mutex UnNamedResLock;
@@ -153,13 +154,15 @@ private:
 };
 
 template<typename ResType>
-std::map<std::string, ResType*> GameEngineRes<ResType>::NamedRes;
+std::map<std::string, std::shared_ptr<ResType>> GameEngineRes<ResType>::NamedRes;
 
 template<typename ResType>
-std::list<ResType*> GameEngineRes<ResType>::UnNamedRes;
+std::list<std::shared_ptr<ResType>> GameEngineRes<ResType>::UnNamedRes;
 
 template<typename ResType>
 std::mutex GameEngineRes<ResType>::NamedResLock;
 
 template<typename ResType>
 std::mutex GameEngineRes<ResType>::UnNamedResLock;
+
+

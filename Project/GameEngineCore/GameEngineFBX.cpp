@@ -2,16 +2,82 @@
 #include "GameEngineFBX.h"
 #include <GameEngineBase/GameEngineString.h>
 
-GameEngineFBX::GameEngineFBX()
-	: Manager(nullptr)
-	, IOSetting(nullptr)
-	, Importer(nullptr)
-	, Scene(nullptr)
-	, RootNode(nullptr)
+GameEngineFBX::GameEngineFBX() 
+	:
+	IOSetting(nullptr),
+	Importer(nullptr),
+	Scene(nullptr),
+	RootNode(nullptr),
+	Manager(nullptr)
 {
 }
 
-GameEngineFBX::~GameEngineFBX()
+
+
+
+float4x4 GameEngineFBX::FbxMatTofloat4x4(const fbxsdk::FbxAMatrix& _BaseTrans)
+{
+	float4x4 Mat;
+
+	for (int y = 0; y < 4; y++)
+	{
+		for (int x = 0; x < 4; x++)
+		{
+			Mat.Arr2D[y][x] = (float)_BaseTrans.Get(y, x);
+		}
+	}
+
+	return Mat;
+}
+
+fbxsdk::FbxAMatrix GameEngineFBX::float4x4ToFbxAMatrix(const float4x4& _MATRIX)
+{
+	fbxsdk::FbxAMatrix mat;
+	for (int y = 0; y < 4; y++)
+	{
+		for (int x = 0; x < 4; x++)
+		{
+			mat.mData[y].mData[x] = _MATRIX.Arr2D[y][x];
+		}
+	}
+
+	return mat;
+}
+
+float4 GameEngineFBX::FbxVecTofloat4(const fbxsdk::FbxVector4& _BaseVector)
+{
+	float4 Vec;
+	Vec.Arr1D[0] = (float)_BaseVector.mData[0];
+	Vec.Arr1D[1] = (float)_BaseVector.mData[1];
+	Vec.Arr1D[2] = (float)_BaseVector.mData[2];
+	Vec.Arr1D[3] = (float)_BaseVector.mData[3];
+
+	return Vec;
+
+}
+
+float4 GameEngineFBX::FbxVecToTransform(const fbxsdk::FbxVector4& _BaseVector)
+{
+	float4 Vec;
+	Vec.Arr1D[0] = (float)_BaseVector.mData[0];
+	Vec.Arr1D[1] = (float)_BaseVector.mData[1];
+	Vec.Arr1D[2] = -(float)_BaseVector.mData[2];
+	Vec.Arr1D[3] = (float)_BaseVector.mData[3];
+	return Vec;
+}
+
+float4 GameEngineFBX::FbxQuaternionTofloat4(const fbxsdk::FbxQuaternion& _BaseQ)
+{
+	float4 Vec;
+	Vec.Arr1D[0] = (float)_BaseQ.mData[0];
+	Vec.Arr1D[1] = (float)_BaseQ.mData[1];
+	Vec.Arr1D[2] = -(float)_BaseQ.mData[2];
+	Vec.Arr1D[3] = -(float)_BaseQ.mData[3];
+	return Vec;
+}
+
+
+GameEngineFBX::~GameEngineFBX() 
 {
 	if (nullptr != Scene)
 	{
@@ -35,37 +101,20 @@ GameEngineFBX::~GameEngineFBX()
 	}
 }
 
-std::vector<FBXNodeInfo> GameEngineFBX::CheckAllNode()
-{
-	std::vector<FBXNodeInfo> AllNode;
-
-	RecursiveAllNode(RootNode);
-
-	return AllNode;
-}
-
-void GameEngineFBX::FBXInit(std::string _Path)
-{
-	if (false == CreateFBXSystemInitialize(_Path))
-	{
-		MsgBoxAssert("시스템 로드에 실패했습니다.");
-	}
-
-	FBXConvertScene();
-}
-
 bool GameEngineFBX::CreateFBXSystemInitialize(const std::string& _Path)
 {
-	Manager = fbxsdk::FbxManager::Create();
-	if (nullptr == Manager)
-	{
-		MsgBoxAssert("FBX 매니저 생성에 실패했습니다.");
-		return false;
-	}
+		Manager = fbxsdk::FbxManager::Create();
+		if (nullptr == Manager)
+		{
+			MsgBoxAssert("FBX 매니저 생성에 실패했습니다.");
+			return false;
+		}
 
 	IOSetting = fbxsdk::FbxIOSettings::Create(Manager, IOSROOT);
 	Importer = fbxsdk::FbxImporter::Create(Manager, "");
-	if (false == Importer->Initialize(GameEngineString::AnsiToUTF8Return(_Path).c_str(), -1, IOSetting))
+
+	if (false == 
+		Importer->Initialize(GameEngineString::AnsiToUTF8Return(_Path).c_str(), -1, IOSetting))
 	{
 		Importer->Destroy();
 		IOSetting->Destroy();
@@ -74,6 +123,7 @@ bool GameEngineFBX::CreateFBXSystemInitialize(const std::string& _Path)
 	}
 
 	Scene = fbxsdk::FbxScene::Create(Manager, "");
+
 	if (nullptr == Scene)
 	{
 		MsgBoxAssert("FBX 씬생성 실패.");
@@ -154,7 +204,7 @@ void GameEngineFBX::FBXConvertScene()
 	}
 	else if (OriginUpVector == fbxsdk::FbxAxisSystem::EUpVector::eXAxis)
 	{
-		//origin up vector 가 x up vector 일때를 아직 만나보지를 못했다.
+
 
 		AxisVector.mData[1] += OriginUpSign * 90;
 	}
@@ -190,6 +240,15 @@ void GameEngineFBX::FBXConvertScene()
 	return;
 }
 
+std::vector<FBXNodeInfo> GameEngineFBX::CheckAllNode()
+{
+	std::vector<FBXNodeInfo> AllNode;
+
+	RecursiveAllNode(RootNode);
+
+	return AllNode;
+}
+
 void GameEngineFBX::FBXInfoDebugFunction(fbxsdk::FbxNode* _RootNode)
 {
 	if (nullptr == _RootNode)
@@ -200,81 +259,39 @@ void GameEngineFBX::FBXInfoDebugFunction(fbxsdk::FbxNode* _RootNode)
 	std::string Name = _RootNode->GetName();
 }
 
-float4x4 GameEngineFBX::FbxMatTofloat4x4(const fbxsdk::FbxAMatrix& _BaseTrans)
+void GameEngineFBX::RecursiveAllNode(fbxsdk::FbxNode* _Node, std::function<void(fbxsdk::FbxNode*)> _Function /*= nullptr*/)
 {
-	float4x4 Mat;
-	for (int y = 0; y < 4; y++)
-	{
-		for (int x = 0; x < 4; x++)
-		{
-			Mat.Arr2D[y][x] = (float)_BaseTrans.Get(y, x);
-		}
-	}
-
-	return Mat;
-}
-
-fbxsdk::FbxAMatrix GameEngineFBX::float4x4ToFbxAMatrix(const float4x4& _MATRIX)
-{
-	fbxsdk::FbxAMatrix mat;
-	for (int y = 0; y < 4; y++)
-	{
-		for (int x = 0; x < 4; x++)
-		{
-			mat.mData[y].mData[x] = _MATRIX.Arr2D[y][x];
-		}
-	}
-
-	return mat;
-}
-
-float4 GameEngineFBX::FbxVecTofloat4(const fbxsdk::FbxVector4& _BaseVector)
-{
-	float4 Vec;
-	Vec.Arr1D[0] = (float)_BaseVector.mData[0];
-	Vec.Arr1D[1] = (float)_BaseVector.mData[1];
-	Vec.Arr1D[2] = (float)_BaseVector.mData[2];
-	Vec.Arr1D[3] = (float)_BaseVector.mData[3];
-	return Vec;
-}
-
-float4 GameEngineFBX::FbxVecToTransform(const fbxsdk::FbxVector4& _BaseVector)
-{
-	float4 Vec;
-	Vec.Arr1D[0] = (float)_BaseVector.mData[0];
-	Vec.Arr1D[1] = (float)_BaseVector.mData[1];
-	Vec.Arr1D[2] = -(float)_BaseVector.mData[2];
-	Vec.Arr1D[3] = (float)_BaseVector.mData[3];
-	return Vec;
-}
-
-float4 GameEngineFBX::FbxQuaternionTofloat4(const fbxsdk::FbxQuaternion& _BaseQ)
-{
-	float4 Vec;
-	Vec.Arr1D[0] = (float)_BaseQ.mData[0];
-	Vec.Arr1D[1] = (float)_BaseQ.mData[1];
-	Vec.Arr1D[2] = -(float)_BaseQ.mData[2];
-	Vec.Arr1D[3] = -(float)_BaseQ.mData[3];
-	return Vec;
-}
-
-void GameEngineFBX::RecursiveAllNode(fbxsdk::FbxNode* _Node, std::function<void(fbxsdk::FbxNode*)> _Function)
-{
+	// 노드의 정보들을 얻어올수가 있습니다.
+	// fbxsdk::FbxNodeAttribute* Info = _Node->GetNodeAttribute();
 	if (nullptr != _Function)
 	{
 		_Function(_Node);
 	}
 
+	//FBXNodeInfo& NewNodeInfo = _AllNode.emplace_back();
+	//NewNodeInfo.Name = _Node->GetName();
+	//NewNodeInfo.Node = _Node;
+
 	fbxsdk::FbxNodeAttribute* Info = _Node->GetNodeAttribute();
-	if (nullptr != Info)
-	{
-		fbxsdk::FbxNodeAttribute::EType Type = Info->GetAttributeType();
-	}
+
+	fbxsdk::FbxNodeAttribute::EType Type = Info->GetAttributeType();
 
 	int Count = _Node->GetChildCount();
+
 	for (int i = 0; i < Count; i++)
 	{
 		fbxsdk::FbxNode* Node = _Node->GetChild(i);
 		RecursiveAllNode(Node);
 	}
+
+}
+
+void GameEngineFBX::FBXInit(std::string _Path)
+{
+	if (false == CreateFBXSystemInitialize(_Path))
+	{
+		MsgBoxAssert("시스템 로드에 실패했습니다.");
+	}
+
+	FBXConvertScene();
 }

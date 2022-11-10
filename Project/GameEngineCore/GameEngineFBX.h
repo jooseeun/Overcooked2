@@ -11,6 +11,7 @@
 
 #include <functional>
 
+
 struct FBXNodeInfo
 {
 public:
@@ -39,6 +40,7 @@ protected:
 	bool CreateFBXSystemInitialize(const std::string& _Path);
 
 	void FBXConvertScene();
+
 	void FBXInfoDebugFunction(fbxsdk::FbxNode* _RootNode);
 
 	// 기하 컨버트
@@ -46,11 +48,12 @@ protected:
 	fbxsdk::FbxAMatrix float4x4ToFbxAMatrix(const float4x4& _MATRIX);
 	float4 FbxVecTofloat4(const fbxsdk::FbxVector4& _BaseVector);
 	float4 FbxVecToTransform(const fbxsdk::FbxVector4& _BaseVector);
-	float4 FbxQuaternionTofloat4(const fbxsdk::FbxQuaternion& _BaseQ);
+	float4 FbxQuaternionTofloat4(const fbxsdk::FbxQuaternion& _BaseVector); \
 
 	void RecursiveAllNode(fbxsdk::FbxNode* _Node, std::function<void(fbxsdk::FbxNode*)> _Function = nullptr);
 
 	fbxsdk::FbxManager* Manager;
+
 	fbxsdk::FbxIOSettings* IOSetting;
 	fbxsdk::FbxImporter* Importer;
 	fbxsdk::FbxScene* Scene;
@@ -60,7 +63,6 @@ protected:
 	fbxsdk::FbxAMatrix JointMatrix;
 	fbxsdk::FbxVector4 AxisVector;
 
-private:
 
 };
 

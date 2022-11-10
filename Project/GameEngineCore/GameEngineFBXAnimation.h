@@ -41,7 +41,6 @@ public:
 	}
 };
 
-
 class FbxExBoneFrame
 {
 public:
@@ -75,7 +74,7 @@ public:
 	std::string				AniName;
 	fbxsdk::FbxTime			StartTime; // 설정된 애니메이션 시간
 	fbxsdk::FbxTime			EndTime; // 
-	fbxsdk::FbxLongLong		TimeStartCount;
+	fbxsdk::FbxLongLong		TimeStartCount; 
 	fbxsdk::FbxLongLong		TimeEndCount;
 	fbxsdk::FbxLongLong		FrameCount;
 	fbxsdk::FbxTime::EMode	TimeMode;
@@ -144,6 +143,7 @@ public:
 	~FbxExAniData() {}
 };
 
+
 // 설명 :
 class GameEngineFBXMesh;
 class GameEngineFBXAnimation : public GameEngineFBX, public GameEngineRes<GameEngineFBXAnimation>
@@ -159,13 +159,15 @@ public:
 	GameEngineFBXAnimation& operator=(const GameEngineFBXAnimation& _Other) = delete;
 	GameEngineFBXAnimation& operator=(GameEngineFBXAnimation&& _Other) noexcept = delete;
 
-	static GameEngineFBXAnimation* Load(const std::string& _Path)
+	static std::shared_ptr<GameEngineFBXAnimation> Load(const std::string& _Path)
 	{
 		return Load(_Path, GameEnginePath::GetFileName(_Path));
 	}
-	static GameEngineFBXAnimation* Load(const std::string& _Path, const std::string& _Name);
 
-	void AnimationMatrixLoad(GameEngineFBXMesh* _Mesh, int _AnimationIndex);
+	static std::shared_ptr<GameEngineFBXAnimation> Load(const std::string& _Path, const std::string& _Name);
+
+
+	void AnimationMatrixLoad(std::shared_ptr <GameEngineFBXMesh> _Mesh, int _AnimationIndex);
 
 	FbxExAniData* GetAnimationData(int _Index)
 	{
@@ -180,9 +182,9 @@ public:
 protected:
 	void LoadMesh(const std::string& _Path, const std::string& _Name);
 
-	void ProcessAnimationLoad(GameEngineFBXMesh* _Mesh, fbxsdk::FbxNode* pNode, int _index);
-	bool AnimationLoad(GameEngineFBXMesh* _Mesh, fbxsdk::FbxNode* _Node, int AnimationIndex);
-	void ProcessAnimationCheckState(GameEngineFBXMesh* _Fbx, int userAniDataIndex);
+	void ProcessAnimationLoad(std::shared_ptr <GameEngineFBXMesh> _Mesh, fbxsdk::FbxNode* pNode, int _index);
+	bool AnimationLoad(std::shared_ptr <GameEngineFBXMesh> _Mesh, fbxsdk::FbxNode* _Node, int AnimationIndex);
+	void ProcessAnimationCheckState(std::shared_ptr <GameEngineFBXMesh> _Fbx, int userAniDataIndex);
 	fbxsdk::FbxAMatrix GetGeometryTransformation(fbxsdk::FbxNode* pNode);
 
 	std::vector<FbxExAniData> AnimationDatas;

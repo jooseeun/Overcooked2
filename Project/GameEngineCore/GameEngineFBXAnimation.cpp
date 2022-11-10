@@ -2,18 +2,18 @@
 #include "GameEngineFBXAnimation.h"
 #include "GameEngineFBXMesh.h"
 
-GameEngineFBXAnimation::GameEngineFBXAnimation()
+GameEngineFBXAnimation::GameEngineFBXAnimation() 
 {
 }
 
-GameEngineFBXAnimation::~GameEngineFBXAnimation()
+GameEngineFBXAnimation::~GameEngineFBXAnimation() 
 {
 }
 
 
-GameEngineFBXAnimation* GameEngineFBXAnimation::Load(const std::string& _Path, const std::string& _Name)
+std::shared_ptr<GameEngineFBXAnimation> GameEngineFBXAnimation::Load(const std::string& _Path, const std::string& _Name)
 {
-	GameEngineFBXAnimation* NewRes = CreateResName(_Name);
+	std::shared_ptr<GameEngineFBXAnimation> NewRes = CreateResName(_Name);
 	NewRes->SetPath(_Path);
 	NewRes->LoadMesh(_Path, _Name);
 	return NewRes;
@@ -84,7 +84,7 @@ fbxsdk::FbxAMatrix GameEngineFBXAnimation::GetGeometryTransformation(fbxsdk::Fbx
 }
 
 
-bool GameEngineFBXAnimation::AnimationLoad(GameEngineFBXMesh* _Mesh, fbxsdk::FbxNode* _Node, int AnimationIndex)
+bool GameEngineFBXAnimation::AnimationLoad(std::shared_ptr <GameEngineFBXMesh> _Mesh, fbxsdk::FbxNode* _Node, int AnimationIndex)
 {
 	FbxAnimStack* stack = Scene->GetSrcObject<FbxAnimStack>(AnimationIndex);
 	Scene->SetCurrentAnimationStack(stack);
@@ -196,7 +196,7 @@ bool GameEngineFBXAnimation::AnimationLoad(GameEngineFBXMesh* _Mesh, fbxsdk::Fbx
 }
 
 
-void GameEngineFBXAnimation::ProcessAnimationCheckState(GameEngineFBXMesh* _Fbx, int userAniDataIndex)
+void GameEngineFBXAnimation::ProcessAnimationCheckState(std::shared_ptr <GameEngineFBXMesh> _Fbx, int userAniDataIndex)
 {
 	FbxExAniData& userAniData = AnimationDatas.at(userAniDataIndex);
 	fbxsdk::FbxLongLong fbxTime = userAniData.EndTime.Get() - userAniData.StartTime.Get() + 1;
@@ -246,7 +246,8 @@ void GameEngineFBXAnimation::ProcessAnimationCheckState(GameEngineFBXMesh* _Fbx,
 }
 
 
-void GameEngineFBXAnimation::ProcessAnimationLoad(GameEngineFBXMesh* _Mesh, fbxsdk::FbxNode* pNode, int _index)
+
+void GameEngineFBXAnimation::ProcessAnimationLoad(std::shared_ptr <GameEngineFBXMesh> _Mesh, fbxsdk::FbxNode* pNode, int _index)
 {
 	fbxsdk::FbxNodeAttribute* pNodeAttribute = pNode->GetNodeAttribute();
 	if (nullptr != pNodeAttribute)
@@ -280,7 +281,8 @@ void GameEngineFBXAnimation::ProcessAnimationLoad(GameEngineFBXMesh* _Mesh, fbxs
 }
 
 
-void GameEngineFBXAnimation::AnimationMatrixLoad(GameEngineFBXMesh* _Mesh, int _AnimationIndex)
+
+void GameEngineFBXAnimation::AnimationMatrixLoad(std::shared_ptr <GameEngineFBXMesh> _Mesh, int _AnimationIndex)
 {
 	if (0 == AnimationDatas.size())
 	{

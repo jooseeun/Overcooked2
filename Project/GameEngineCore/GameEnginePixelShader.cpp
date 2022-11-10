@@ -16,7 +16,14 @@ GameEnginePixelShader::~GameEnginePixelShader()
 	}
 }
 
-GameEnginePixelShader* GameEnginePixelShader::Load(
+
+// Color.hlsl
+// 같은 쉐이더파일내에
+// 버텍스쉐이더를 2개 작성못합니다.
+
+// Color_VS
+
+std::shared_ptr<GameEnginePixelShader> GameEnginePixelShader::Load(
 	const std::string& _Path,
 	const std::string& _EntryPoint,
 	UINT _VersionHigh /*= 5*/, UINT _VersionLow /*= 0*/)
@@ -25,13 +32,13 @@ GameEnginePixelShader* GameEnginePixelShader::Load(
 }
 
 
-GameEnginePixelShader* GameEnginePixelShader::Load(
+std::shared_ptr < GameEnginePixelShader> GameEnginePixelShader::Load(
 	const std::string& _Path,
 	const std::string& _Name,
 	const std::string& _EntryPoint,
 	UINT _VersionHigh = 5, UINT _VersionLow = 0)
 {
-	GameEnginePixelShader* NewRes = CreateResName(_Name);
+	std::shared_ptr < GameEnginePixelShader> NewRes = CreateResName(_Name);
 	NewRes->ShaderCompile(_Path, _EntryPoint, _VersionHigh, _VersionLow);
 	return NewRes;
 }
