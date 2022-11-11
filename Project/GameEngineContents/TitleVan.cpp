@@ -3,6 +3,7 @@
 
 
 TitleVan::TitleVan() 
+	:Van_(nullptr)
 {
 }
 

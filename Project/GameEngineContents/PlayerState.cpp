@@ -22,7 +22,7 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerHold"))
 	{
-		//StateManager.ChangeState("Hold");
+		StateManager.ChangeState("Hold");
 	}
 
 
@@ -122,15 +122,16 @@ void Player::HoldStart(const StateInfo& _Info)
 {
 	if (CurrentHoldingObject_ == nullptr &&
 		Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Moveable, CollisionType::CT_OBB,
-			std::bind(&Player::GetCrashGroundObject, this, std::placeholders::_1, std::placeholders::_2)))
+			std::bind(&Player::GetCrashGroundObject, this, std::placeholders::_1, std::placeholders::_2)) == true)
 		// 플레이어가 들고있는게 없고 검사 콜리전이 바닥에 떨어진 오브젝트 콜리젼과 닿아있을때
 	{
 
 		if (CurrentHoldingObject_ == nullptr &&
-			Interact_GroundObject_->Input_PickUp(std::dynamic_pointer_cast<Player>(shared_from_this())) == Input_PickUpOption::PickUp)
+			Input_PickUp(Interact_GroundObject_) == Input_PickUpOption::PickUp)
 		{
 			Interact_GroundObject_ = nullptr;
-			CurrentHoldingObject_->GetTransform().SetParentTransform(CurrentHoldingObject_->GetTransform());
+			CurrentHoldingObject_->DetachObject();
+			CurrentHoldingObject_->SetParent(shared_from_this());
 			return;
 		}
 
@@ -148,14 +149,15 @@ void Player::HoldStart(const StateInfo& _Info)
 
 
 	if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
-		std::bind(&Player::GetCrashTableObject, this, std::placeholders::_1, std::placeholders::_2)))
+		std::bind(&Player::GetCrashTableObject, this, std::placeholders::_1, std::placeholders::_2))==true)
 		// 검사 콜리전이 테이블 콜리젼과 닿아있을때
 	{
 
 		if (CurrentHoldingObject_ == nullptr &&
-			Interact_TableObject_->Input_PickUp(std::dynamic_pointer_cast<Player>(shared_from_this())) == Input_PickUpOption::PickUp)
+			Input_PickUp(Interact_GroundObject_) == Input_PickUpOption::PickUp)
 		{
 			Interact_TableObject_->SetBloomEffectOff();
+			//CurrentHoldingObject_->GetTransform().SetParentTransform(CurrentHoldingObject_->GetTransform());
 			return;
 		}
 
@@ -167,7 +169,7 @@ void Player::HoldStart(const StateInfo& _Info)
 		{
 			Interact_TableObject_->SetBloomEffectOff();
 			Interact_TableObject_ = nullptr;
-			CurrentHoldingObject_->GetTransform().SetParentTransform(CurrentHoldingObject_->GetTransform());
+			//CurrentHoldingObject_->GetTransform().SetParentTransform(CurrentHoldingObject_->GetTransform());
 		}
 	}
 }
@@ -175,7 +177,7 @@ void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerHold")) // 놓기
 	{
-		CurrentHoldingObject_->GetTransform().DetachTransform(); // 자식 떼어내기
+		//CurrentHoldingObject_->GetTransform().DetachTransform(); // 자식 떼어내기
 		StateManager.ChangeState("Idle");
 	}
 
