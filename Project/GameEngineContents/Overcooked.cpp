@@ -4,6 +4,8 @@
 #include "SelectStageLevel.h"
 #include "MapToolLevel.h"
 
+#include "TitleLevel.h"
+
 #include "Stage_1_1.h"
 #include "Stage_1_2.h"
 #include "Stage_1_3.h"
@@ -34,6 +36,7 @@ void Overcooked::Start()
 	CreateLevel<Stage_1_4>("Stage_1_4");
 	CreateLevel<MapToolLevel>("MapToolLevel");
 	CreateLevel<MeshToolLevel>("MeshToolLevel");
+	CreateLevel<TitleLevel>("TitleLevel");
 
 	ChangeLevel("Stage_1_1");
 
@@ -156,12 +159,23 @@ void Overcooked::MeshLoad()
 		Dir.Move("Mesh");
 		Dir.Move("Object");
 		Dir.Move("StaticObject");
+		Dir.Move("TitleVan");
+
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_van_01.fbx"));
+		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+	}
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		Dir.Move("ContentsResources");
+		Dir.Move("Mesh");
+		Dir.Move("Object");
+		Dir.Move("StaticObject");
 		Dir.Move("CounterTop_NoEdge");
 
 		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_countertop_no_edge_01.fbx"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
-
 	{
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExitsChildDirectory("ContentsResources");

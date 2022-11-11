@@ -167,6 +167,12 @@
     <ClInclude Include="TrafficLight.h">
       <Filter>Contents\Object\MapObject</Filter>
     </ClInclude>
+    <ClInclude Include="TitleLevel.h">
+      <Filter>Level\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleVan.h">
+      <Filter>Contents\Object\MapObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -333,6 +339,12 @@
       <Filter>Contents\Object\MapObject</Filter>
     </ClCompile>
     <ClCompile Include="TrafficLight.cpp">
+      <Filter>Contents\Object\MapObject</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLevel.cpp">
+      <Filter>Level\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleVan.cpp">
       <Filter>Contents\Object\MapObject</Filter>
     </ClCompile>
   </ItemGroup>

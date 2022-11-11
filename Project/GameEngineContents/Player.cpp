@@ -63,8 +63,6 @@ void Player::Start()
 
 
 
-	//GameEngineFBXStaticRenderer* Test = CreateComponent<GameEngineFBXStaticRenderer>();
-	//Test->SetFBXMesh("Chef1.FBX", "Texture");
 
 
 	{

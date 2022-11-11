@@ -233,6 +233,14 @@
     <ClInclude Include="Stage_1_2.h" />
     <ClInclude Include="Stage_1_3.h" />
     <ClInclude Include="Stage_1_4.h" />
+    <ClInclude Include="TitleLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TitleVan.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Tool_CuttingBoard.h" />
     <ClInclude Include="TrafficLight.h">
       <SubType>
@@ -339,6 +347,14 @@
     <ClCompile Include="Stage_1_2.cpp" />
     <ClCompile Include="Stage_1_3.cpp" />
     <ClCompile Include="Stage_1_4.cpp" />
+    <ClCompile Include="TitleLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TitleVan.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Tool_CuttingBoard.cpp" />
     <ClCompile Include="TrafficLight.cpp">
       <SubType>
