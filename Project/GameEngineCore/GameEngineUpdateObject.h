@@ -45,9 +45,9 @@ public:
 
 	inline bool IsUpdate()
 	{
-		if (nullptr != Parent)
+		if (nullptr != Parent.lock())
 		{
-			return IsUpdate_ && false == IsDeath_ && true == Parent->IsUpdate();
+			return IsUpdate_ && false == IsDeath_ && true == Parent.lock()->IsUpdate();
 		}
 		else
 		{
@@ -58,9 +58,9 @@ public:
 
 	inline bool IsDeath()
 	{
-		if (nullptr != Parent)
+		if (nullptr != Parent.lock())
 		{
-			return IsDeath_ || true == Parent->IsDeath();
+			return IsDeath_ || true == Parent.lock()->IsDeath();
 		}
 		else {
 			return IsDeath_;
@@ -118,26 +118,26 @@ public:
 		Order_ = _Order;
 	}
 
+	std::shared_ptr<GameEngineUpdateObject> GetParent()
+	{
+		return Parent.lock();
+	}
+
+	template<typename Type>
+	std::shared_ptr<Type> GetParent()
+	{
+		return std::dynamic_pointer_cast<Type>(Parent.lock());
+	}
+
 	template<typename ParentType>
-	ParentType* GetParent()
+	std::shared_ptr<ParentType> GetRoot()
 	{
-		return dynamic_cast<ParentType*>(Parent);
+		return std::dynamic_pointer_cast<ParentType>(GetRoot());
 	}
 
-	GameEngineUpdateObject* GetParent()
+	std::shared_ptr<GameEngineUpdateObject> GetRoot()
 	{
-		return Parent;
-	}
-
-	template<typename ParentType>
-	ParentType* GetRoot()
-	{
-		return dynamic_cast<ParentType*>(GetRoot());
-	}
-
-	GameEngineUpdateObject* GetRoot()
-	{
-		GameEngineUpdateObject* CurObject = this;
+		std::shared_ptr<GameEngineUpdateObject> CurObject = shared_from_this();
 
 		while (nullptr != CurObject->GetParent())
 		{
@@ -147,8 +147,7 @@ public:
 		return CurObject;
 	}
 
-
-	virtual void SetParent(GameEngineUpdateObject* _Parent);
+	virtual void SetParent(std::shared_ptr<GameEngineUpdateObject> _Parent);
 	virtual void DetachObject();
 
 	virtual void ReleaseHierarchy();
@@ -203,8 +202,6 @@ protected:
 	std::list<std::shared_ptr<GameEngineUpdateObject>> Childs;
 
 
-
-
 private:
 	int Order_;
 	bool IsReleaseUpdate_;
@@ -214,6 +211,6 @@ private:
 	bool IsUpdate_;
 	bool IsDeath_;
 
-	GameEngineUpdateObject* Parent;
+	std::weak_ptr<GameEngineUpdateObject> Parent;
 };
 

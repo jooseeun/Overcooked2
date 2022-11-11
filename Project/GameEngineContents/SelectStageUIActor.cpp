@@ -46,13 +46,13 @@ void SelectStageUIActor::InitRenderer()
 
 	//마스크 렌더러
 	{
-		OverCookedUIRenderer* NewRenderer = CreateUIRenderer("screen_bg_overlay_01.png");
+		std::shared_ptr<OverCookedUIRenderer> NewRenderer = CreateUIRenderer("screen_bg_overlay_01.png");
 		NewRenderer->SetMaskTexture("UI_PauseScreen_Backdrop_01.png");
 		NewRenderer->SetSamplerWrap();
 		NewRenderer->StartDown(0.2f);
 	}
 	{
-		OverCookedUIRenderer* NewRenderer = CreateUIRenderer("screen_bg_overlay_02.png");
+		std::shared_ptr<OverCookedUIRenderer> NewRenderer = CreateUIRenderer("screen_bg_overlay_02.png");
 		NewRenderer->SetMaskTexture("UI_PauseScreen_Backdrop_01.png");
 		NewRenderer->SetSamplerWrap();
 		NewRenderer->StartDown(0.1f);
@@ -60,12 +60,12 @@ void SelectStageUIActor::InitRenderer()
 
 	//화살표 렌더러
 	{
-		OverCookedUIRenderer* NewRenderer = CreateUIRenderer("UI_ArrowLeft_Dark_01.png");
+		std::shared_ptr<OverCookedUIRenderer> NewRenderer = CreateUIRenderer("UI_ArrowLeft_Dark_01.png");
 		NewRenderer->GetTransform().SetLocalPosition({ -200.f,-30.f });
 		ArrowRenderer_.push_back(NewRenderer);
 	}
 	{
-		OverCookedUIRenderer* NewRenderer = CreateUIRenderer("UI_ArrowRight_Dark_01.png");
+		std::shared_ptr<OverCookedUIRenderer> NewRenderer = CreateUIRenderer("UI_ArrowRight_Dark_01.png");
 		NewRenderer->GetTransform().SetLocalPosition({ 210.f,-30.f });
 		ArrowRenderer_.push_back(NewRenderer);
 	}
@@ -97,7 +97,7 @@ void SelectStageUIActor::CreatePlayerIcon(int _Index, std::string_view _Name)
 	NewIcon.Name = _Name;
 
 	//부모
-	OverCookedUIRenderer* NewParent = CreateUIRenderer("AvatarSelectionRing.png");
+	std::shared_ptr<OverCookedUIRenderer> NewParent = CreateUIRenderer("AvatarSelectionRing.png");
 	NewParent->GetTransform().SetLocalScale({ 1,1,1 });
 	NewParent->GetTransform().SetLocalPosition({ 0,-180,0 });
 	NewParent->ResistDebug(std::to_string(_Index));
@@ -123,18 +123,18 @@ void SelectStageUIActor::CreatePlayerIcon(int _Index, std::string_view _Name)
 		break;
 	}
 
-	OverCookedUIRenderer* Hat = CreateUIRenderer(HatFile);
+	std::shared_ptr<OverCookedUIRenderer> Hat = CreateUIRenderer(HatFile);
 	Hat->GetTransform().SetParentTransform(NewParent->GetTransform());
 	NewIcon.Hat = Hat;
 
-	OverCookedUIRenderer* NameBox = CreateUIRenderer("UI_BigButtonsSmall_01.png");
+	std::shared_ptr<OverCookedUIRenderer> NameBox = CreateUIRenderer("UI_BigButtonsSmall_01.png");
 	NameBox->ResistDebug();
 	NameBox->GetTransform().SetLocalPosition({ 0,-80,0 });
 	NameBox->GetTransform().SetParentTransform(NewParent->GetTransform());
 	NewIcon.NameBox = NameBox;
 
 	//숫자폰트
-	GameEngineFontRenderer* NewCountFont = CreateComponent<GameEngineFontRenderer>(_Name.data());
+	std::shared_ptr<GameEngineFontRenderer> NewCountFont = CreateComponent<GameEngineFontRenderer>(_Name.data());
 	NewCountFont->ChangeCamera(CAMERAORDER::UICAMERA);
 	NewCountFont->SetText(std::to_string(_Index + 1), "Naughty Squirrel");
 	NewCountFont->SetColor({ 0.4f,0.4f,0.4f,0.6f });
@@ -146,7 +146,7 @@ void SelectStageUIActor::CreatePlayerIcon(int _Index, std::string_view _Name)
 	NewIcon.CountFont = NewCountFont;
 
 	//이름폰트
-	GameEngineFontRenderer* NewNameFont = CreateComponent<GameEngineFontRenderer>(_Name.data());
+	std::shared_ptr<GameEngineFontRenderer> NewNameFont = CreateComponent<GameEngineFontRenderer>(_Name.data());
 	NewNameFont->ChangeCamera(CAMERAORDER::UICAMERA);
 	NewNameFont->SetText(_Name.data(), "Naughty Squirrel");
 	NewNameFont->SetColor({ 1.f,1.f,1.f,1.f });
@@ -424,41 +424,41 @@ void SelectStageUIActor::CreateLevelSelect(std::string_view _MapFileName, int _B
 	NewSelect.CurPos = _Index;
 
 	//부모
-	OverCookedUIRenderer* NewParent = CreateUIRenderer("AvatarSelectionRing.png");
+	std::shared_ptr<OverCookedUIRenderer> NewParent = CreateUIRenderer("AvatarSelectionRing.png");
 	NewParent->GetTransform().SetLocalScale({ 1,1,1 });
 	NewParent->GetTransform().SetLocalPosition({ XSize * (_Index - StartIndex_),130,-10 });
 	//NewParent->Off();
 	NewSelect.Parent = NewParent;
 
 	//맵 이미지
-	OverCookedUIRenderer* NewRenderer = CreateUIRenderer(_MapFileName.data());
+	std::shared_ptr<OverCookedUIRenderer> NewRenderer = CreateUIRenderer(_MapFileName.data());
 	NewRenderer->GetTransform().SetParentTransform(NewParent->GetTransform());
 	NewSelect.Select = NewRenderer;
 
 	NewSelect.BoarderType = _BoarderType;
 
 	//Non Selected Boarder
-	OverCookedUIRenderer* NewBoarder = CreateUIRenderer("level_boarder_0" + std::to_string(NewSelect.BoarderType) + "_not_selected.png");
+	std::shared_ptr<OverCookedUIRenderer> NewBoarder = CreateUIRenderer("level_boarder_0" + std::to_string(NewSelect.BoarderType) + "_not_selected.png");
 	NewBoarder->GetTransform().SetParentTransform(NewParent->GetTransform());
 	NewBoarder->GetTransform().SetLocalMove({ 0,0,-1 });
 	NewSelect.Boarder = NewBoarder;
 
 	//Select Boarder
-	OverCookedUIRenderer* NewSelectBoarder = CreateUIRenderer("level_boarder_0" + std::to_string(NewSelect.BoarderType) + "_selected.png");
+	std::shared_ptr<OverCookedUIRenderer> NewSelectBoarder = CreateUIRenderer("level_boarder_0" + std::to_string(NewSelect.BoarderType) + "_selected.png");
 	NewSelectBoarder->GetTransform().SetParentTransform(NewParent->GetTransform());
 	NewSelectBoarder->GetTransform().SetLocalMove({ 0,0,-1 });
 	NewSelectBoarder->Off();
 	NewSelect.BoarderSelected = NewSelectBoarder;
 
 	//레벨하이라이트
-	OverCookedUIRenderer* LevelHighlight = CreateUIRenderer("level_highlight.png");
+	std::shared_ptr<OverCookedUIRenderer> LevelHighlight = CreateUIRenderer("level_highlight.png");
 	LevelHighlight->GetTransform().SetParentTransform(NewParent->GetTransform());
 	LevelHighlight->GetTransform().SetLocalMove({ 0,0,-10 });
 	LevelHighlight->Off();
 	NewSelect.LevelHighlisht = LevelHighlight;
 
 	//폰트
-	GameEngineFontRenderer* NewFont = CreateComponent<GameEngineFontRenderer>(_Text.data());
+	std::shared_ptr<GameEngineFontRenderer> NewFont = CreateComponent<GameEngineFontRenderer>(_Text.data());
 	NewFont->ChangeCamera(CAMERAORDER::UICAMERA);
 	NewFont->SetText(_Text.data(), "Naughty Squirrel");
 	NewFont->SetColor({ 0.4f,0.4f,0.4f,1 });
@@ -472,9 +472,9 @@ void SelectStageUIActor::CreateLevelSelect(std::string_view _MapFileName, int _B
 	LevelSelect_.push_back(NewSelect);
 }
 
-OverCookedUIRenderer* SelectStageUIActor::CreateUIRenderer(std::string_view _TextrueName)
+std::shared_ptr<OverCookedUIRenderer> SelectStageUIActor::CreateUIRenderer(std::string_view _TextrueName)
 {
-	OverCookedUIRenderer* NewRenderer = CreateComponent<OverCookedUIRenderer>(_TextrueName.data());
+	std::shared_ptr<OverCookedUIRenderer> NewRenderer = CreateComponent<OverCookedUIRenderer>(_TextrueName.data());
 	NewRenderer->SetTexture(_TextrueName.data());
 	NewRenderer->ScaleToTexture();
 	return NewRenderer;

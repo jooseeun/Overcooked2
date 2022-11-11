@@ -47,12 +47,12 @@ private:
 
 	MeshData MeshData_;
 
-	GameEngineFBXRenderer* PreviewMeshRenderer_;			// 선택한 fbx의 서브셋의 랜더러
-	GameEngineFBXMesh* PreviewMesh_;						// 선택한 서브셋의 매쉬정보
+	std::shared_ptr<GameEngineFBXRenderer> PreviewMeshRenderer_;			// 선택한 fbx의 서브셋의 랜더러
+	std::shared_ptr<GameEngineFBXMesh> PreviewMesh_;						// 선택한 서브셋의 매쉬정보
 	
 	std::string FbxName_;
-	std::vector<GameEngineFBXMesh*> AllFBXMesh_;			// 게임 내의 모든 fbx
-	std::vector<GameEngineTexture*> AllMaterialTexture_;	// 선택한 fbx의 매테리얼
+	std::vector<std::shared_ptr<GameEngineFBXMesh>> AllFBXMesh_;			// 게임 내의 모든 fbx
+	std::vector<std::shared_ptr<GameEngineTexture>> AllMaterialTexture_;	// 선택한 fbx의 매테리얼
 
 };
 

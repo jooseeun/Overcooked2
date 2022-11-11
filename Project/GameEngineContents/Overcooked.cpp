@@ -59,7 +59,7 @@ void Overcooked::LoadMaterial()
 	}
 
 	{
-		GameEngineMaterial* NewPipe = GameEngineMaterial::Create("UI");
+		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("UI");
 		NewPipe->SetVertexShader("UI.hlsl");
 		NewPipe->SetPixelShader("UI.hlsl");
 	}
@@ -83,7 +83,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Level");
 		Dir.Move("1_1");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("1_1.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("1_1.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 
@@ -95,7 +95,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Level");
 		Dir.Move("1_2");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("1_2.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("1_2.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 
@@ -107,7 +107,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Level");
 		Dir.Move("1_3");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("1_3.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("1_3.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 
@@ -119,7 +119,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Level");
 		Dir.Move("1_4");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("1_4.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("1_4.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 
@@ -132,7 +132,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("StaticObject");
 		Dir.Move("CounterTop");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_countertop_01.fbx"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_countertop_01.fbx"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 
@@ -145,7 +145,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("StaticObject");
 		Dir.Move("CounterTop_Corner");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_lorry_countertop_corner_01.fbx"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_lorry_countertop_corner_01.fbx"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 
@@ -158,7 +158,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("StaticObject");
 		Dir.Move("CounterTop_NoEdge");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_countertop_no_edge_01.fbx"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_countertop_no_edge_01.fbx"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 
@@ -171,7 +171,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("StaticObject");
 		Dir.Move("TrashCan");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_bin_01.fbx"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_bin_01.fbx"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 
@@ -184,7 +184,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("StaticObject");
 		Dir.Move("Servicehatch");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_dlc08_servicehatch_01.fbx"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_dlc08_servicehatch_01.fbx"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 
@@ -197,7 +197,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("StaticObject");
 		Dir.Move("PlateReturn");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_plate_return_01.fbx"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_plate_return_01.fbx"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 
@@ -211,7 +211,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Tool");
 		Dir.Move("CuttingBoard");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("CuttingBoard.fbx"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("CuttingBoard.fbx"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 
@@ -224,7 +224,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("StaticObject");
 		Dir.Move("Cooker");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_cooker_01.fbx"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_cooker_01.fbx"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 
@@ -236,7 +236,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Mesh");
 		Dir.Move("Chef");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Chef.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Chef.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 
@@ -248,7 +248,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Mesh");
 		Dir.Move("Chef1");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Chef1.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Chef1.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 
@@ -260,8 +260,8 @@ void Overcooked::MeshLoad()
 		Dir.Move("Chef1");
 
 		GameEngineDirectory MeshDir = Dir;
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_CarDeath.FBX"));
-		GameEngineFBXAnimation* Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_CarDeath.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_CarDeath.FBX"));
+		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_CarDeath.FBX"));
 	}
 	//{
 	//	GameEngineDirectory Dir;
@@ -286,8 +286,8 @@ void Overcooked::MeshLoad()
 		Dir.Move("MoveNPC_Beard_Orange_01");
 
 		GameEngineDirectory MeshDir = Dir;
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("MoveNPC_Beard_Orange_01.FBX"));
-		GameEngineFBXAnimation* Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("MoveNPC_Beard_Orange_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("MoveNPC_Beard_Orange_01.FBX"));
+		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("MoveNPC_Beard_Orange_01.FBX"));
 
 	}
 	{
@@ -299,7 +299,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Npc");
 		Dir.Move("MoveNPC_Beard_Waiter_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("MoveNPC_Beard_Waiter_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("MoveNPC_Beard_Waiter_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -311,7 +311,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Npc");
 		Dir.Move("MoveNPC_Dora_Civ_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("MoveNPC_Dora_Civ_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("MoveNPC_Dora_Civ_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -323,7 +323,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Npc");
 		Dir.Move("MoveNPC_Hispanic_Yellow_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("MoveNPC_Hispanic_Yellow_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("MoveNPC_Hispanic_Yellow_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -335,7 +335,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Npc");
 		Dir.Move("MoveNPC_Mike_Civ_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("MoveNPC_Mike_Civ_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("MoveNPC_Mike_Civ_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -347,7 +347,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Npc");
 		Dir.Move("NPC_Asian_Blue_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Asian_Blue_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Asian_Blue_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -359,7 +359,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Npc");
 		Dir.Move("NPC_Beard_Green_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Beard_Green_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Beard_Green_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -371,7 +371,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Npc");
 		Dir.Move("NPC_Beard_Waiter_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Beard_Waiter_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Beard_Waiter_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -383,7 +383,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Npc");
 		Dir.Move("NPC_Beard_Yellow_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Beard_Yellow_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Beard_Yellow_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -395,7 +395,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Npc");
 		Dir.Move("NPC_Dora_Civ_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Dora_Civ_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Dora_Civ_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -407,7 +407,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Npc");
 		Dir.Move("NPC_Dora_Orange_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Dora_Orange_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Dora_Orange_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -419,7 +419,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Npc");
 		Dir.Move("NPC_Dora_Wizard_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Dora_Wizard_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Dora_Wizard_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -431,7 +431,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Npc");
 		Dir.Move("NPC_DoraBlonde_Blue_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_DoraBlonde_Blue_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_DoraBlonde_Blue_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -443,7 +443,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Npc");
 		Dir.Move("NPC_DoraBlonde_Green_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_DoraBlonde_Green_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_DoraBlonde_Green_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -455,7 +455,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Npc");
 		Dir.Move("NPC_DoraBlonde_Orange_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_DoraBlonde_Orange_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_DoraBlonde_Orange_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -467,7 +467,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Npc");
 		Dir.Move("NPC_DoraBlonde_Wizard_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_DoraBlonde_Wizard_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_DoraBlonde_Wizard_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -479,7 +479,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Npc");
 		Dir.Move("NPC_DoraBlonde_Yellow_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_DoraBlonde_Yellow_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_DoraBlonde_Yellow_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -491,7 +491,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Npc");
 		Dir.Move("NPC_Ginger_Blue_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Ginger_Blue_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Ginger_Blue_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -503,7 +503,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Npc");
 		Dir.Move("NPC_Ginger_Green_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Ginger_Green_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Ginger_Green_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -515,7 +515,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Npc");
 		Dir.Move("NPC_Hispanic_Brown_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Hispanic_Brown_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Hispanic_Brown_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -527,7 +527,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Npc");
 		Dir.Move("NPC_Hispanic_Orange_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Hispanic_Orange_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Hispanic_Orange_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -539,7 +539,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Npc");
 		Dir.Move("NPC_Hispanic_Wizard_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Hispanic_Wizard_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Hispanic_Wizard_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -551,7 +551,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Npc");
 		Dir.Move("NPC_MiddleEastern_Waiter_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_MiddleEastern_Waiter_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_MiddleEastern_Waiter_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -563,7 +563,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Npc");
 		Dir.Move("NPC_MiddleEatern_Green_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_MiddleEatern_Green_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_MiddleEatern_Green_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -575,7 +575,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Npc");
 		Dir.Move("NPC_MiddleEatern_Orange_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_MiddleEatern_Orange_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_MiddleEatern_Orange_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -587,7 +587,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Npc");
 		Dir.Move("NPC_MiddleEatern_Wizard_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_MiddleEatern_Wizard_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_MiddleEatern_Wizard_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -599,7 +599,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Npc");
 		Dir.Move("NPC_Mike_Blue_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Mike_Blue_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Mike_Blue_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -611,7 +611,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Npc");
 		Dir.Move("NPC_Mike_Wizard_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Mike_Wizard_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Mike_Wizard_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -623,20 +623,20 @@ void Overcooked::MeshLoad()
 		Dir.Move("Npc");
 		Dir.Move("NPC_Mike_Yellow_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Mike_Yellow_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("NPC_Mike_Yellow_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Etc");
-		Dir.Move("exterior_car_blue_02");
-
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("exterior_car_blue_02.fbx"));
-		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+		//GameEngineDirectory Dir;
+		//Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		//Dir.Move("ContentsResources");
+		//Dir.Move("Mesh");
+		//Dir.Move("Object");
+		//Dir.Move("Etc");
+		//Dir.Move("exterior_car_blue_02");
+		//
+		//std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("exterior_car_blue_02.fbx"));
+		//std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	//{
 	//	GameEngineDirectory Dir;
@@ -671,7 +671,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Etc");
 		Dir.Move("Candle1Position");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Candle1Position.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Candle1Position.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -683,7 +683,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Etc");
 		Dir.Move("Candle2Position");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Candle2Position.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Candle2Position.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -695,7 +695,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Etc");
 		Dir.Move("Candle3Position");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Candle3Position.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Candle3Position.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -707,7 +707,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Etc");
 		Dir.Move("exterior_grass_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("exterior_grass_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("exterior_grass_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -719,7 +719,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Etc");
 		Dir.Move("m_kevin_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_kevin_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_kevin_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -731,7 +731,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Etc");
 		Dir.Move("m_city_pigeon_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_city_pigeon_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_city_pigeon_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -743,7 +743,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Etc");
 		Dir.Move("traffic_light_animated_01");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("traffic_light_animated_01.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("traffic_light_animated_01.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -755,7 +755,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Etc");
 		Dir.Move("Bamboo2");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Bamboo2.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Bamboo2.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 
@@ -768,7 +768,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Etc");
 		Dir.Move("Car_Blue");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Car_Blue.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Car_Blue.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 	{
@@ -780,7 +780,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Etc");
 		Dir.Move("Car_Bluegreen");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Car_Bluegreen.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Car_Bluegreen.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 
@@ -793,7 +793,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Etc");
 		Dir.Move("Car_Green");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Car_Green.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Car_Green.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 
@@ -806,7 +806,7 @@ void Overcooked::MeshLoad()
 		Dir.Move("Etc");
 		Dir.Move("Car_Yellow");
 
-		GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Car_Yellow.FBX"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Car_Yellow.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 }

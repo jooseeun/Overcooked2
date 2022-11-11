@@ -30,11 +30,11 @@ public:
 	GamePlayMoveable& operator=(GamePlayMoveable&& _Other) noexcept = delete;
 
 public:
-	inline Input_PickUpOption Input_PickUp(GamePlayMoveable* _Object) override
+	inline Input_PickUpOption Input_PickUp(std::shared_ptr<GamePlayMoveable> _Object) override
 	{
 		return Input_PickUpOption::NoResponse;
 	}
-	inline Input_PickUpOption Input_PickUp(Player* _Player) override
+	inline Input_PickUpOption Input_PickUp(std::shared_ptr<Player> _Player) override
 	{
 		_Player->Input_PickUp(_Player);
 		return Input_PickUpOption::PickUp;

@@ -30,10 +30,10 @@ void Equipment_Plate::SetClean()
 	// 텍스쳐 변경필요
 }
 
-Input_PickUpOption Equipment_Plate::Input_PickUp(GamePlayMoveable* _Object)
+Input_PickUpOption Equipment_Plate::Input_PickUp(std::shared_ptr<GamePlayMoveable> _Object)
 {
 	if (_Object->GetToolInfoType() == ToolInfo::Plate &&
-		dynamic_cast<Equipment_Plate*>(_Object)->IsDirty())
+		std::dynamic_pointer_cast<Equipment_Plate>(_Object)->IsDirty())
 	{
 		
 	}

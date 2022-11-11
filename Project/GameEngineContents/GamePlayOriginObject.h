@@ -14,12 +14,12 @@ public:
 	GamePlayOriginObject& operator=(const GamePlayOriginObject& _Other) = delete;
 	GamePlayOriginObject& operator=(GamePlayOriginObject&& _Other) noexcept = delete;
 
-	GameEngineFBXStaticRenderer* GetRenderer()
+	std::shared_ptr<GameEngineFBXStaticRenderer> GetRenderer()
 	{
 		return Renderer_;
 	}
 
-	std::vector<GamePlayStaticObject*>& GetStaticMeshInfo()
+	std::vector<std::shared_ptr<GamePlayStaticObject>>& GetStaticMeshInfo()
 	{
 		return StaticMeshDatas_;
 	}
@@ -28,8 +28,8 @@ protected:
 	void Start() override;
 
 private:
-	GameEngineFBXStaticRenderer* Renderer_;
+	std::shared_ptr<GameEngineFBXStaticRenderer> Renderer_;
 
-	std::vector<GamePlayStaticObject*> StaticMeshDatas_;
+	std::vector<std::shared_ptr<GamePlayStaticObject>> StaticMeshDatas_;
 };
 

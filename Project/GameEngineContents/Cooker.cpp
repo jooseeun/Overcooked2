@@ -42,9 +42,9 @@ void Tool_Cooker::Start()
 	//GamePlayTool::SetToolInfoType(ToolInfo::Cooker);
 }
 
-Input_PickUpOption Tool_Cooker::CheckMoveable(GamePlayMoveable* _Object)
+Input_PickUpOption Tool_Cooker::CheckMoveable(std::shared_ptr<GamePlayMoveable> _Object)
 {
-	GamePlayBowl* Bowl = dynamic_cast<GamePlayBowl*>(_Object);
+	std::shared_ptr<GamePlayBowl> Bowl = std::dynamic_pointer_cast<GamePlayBowl>(_Object);
 	if (Bowl != nullptr)
 	{
 		switch (Bowl->GetToolInfoType())

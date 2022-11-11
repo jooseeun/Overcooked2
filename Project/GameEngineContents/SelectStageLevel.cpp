@@ -13,11 +13,11 @@ SelectStageLevel::~SelectStageLevel()
 
 void SelectStageLevel::Start()
 {
-	SelectStageUIActor* NewActor = CreateActor< SelectStageUIActor>();
+	std::shared_ptr<SelectStageUIActor> NewActor = CreateActor<SelectStageUIActor>();
 	UIDebugGUI::Main_ = GameEngineGUI::CreateGUIWindow<UIDebugGUI>("UIDebugGUI", nullptr);
 	UIDebugGUI::Main_->Off();
 
-	GlobalMouseInput* Mouse = CreateActor<GlobalMouseInput>();
+	std::shared_ptr<GlobalMouseInput> Mouse = CreateActor<GlobalMouseInput>();
 	Mouse->SetIsUI(true);
 }
 

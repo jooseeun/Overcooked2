@@ -121,7 +121,7 @@ void Player::HoldStart(const StateInfo& _Info)
 	{
 
 		if (CurrentHoldingObject_ == nullptr &&
-			Interact_GroundObject_->Input_PickUp(this) == Input_PickUpOption::PickUp)
+			Interact_GroundObject_->Input_PickUp(std::dynamic_pointer_cast<Player>(shared_from_this())) == Input_PickUpOption::PickUp)
 		{
 			Interact_GroundObject_ = nullptr;
 			CurrentHoldingObject_->GetTransform().SetParentTransform(CurrentHoldingObject_->GetTransform());
@@ -147,7 +147,7 @@ void Player::HoldStart(const StateInfo& _Info)
 	{
 
 		if (CurrentHoldingObject_ == nullptr &&
-			Interact_TableObject_->Input_PickUp(this) == Input_PickUpOption::PickUp)
+			Interact_TableObject_->Input_PickUp(std::dynamic_pointer_cast<Player>(shared_from_this())) == Input_PickUpOption::PickUp)
 		{
 			Interact_TableObject_->SetBloomEffectOff();
 			return;

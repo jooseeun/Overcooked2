@@ -4,6 +4,7 @@
 #include <string>
 #include <GameEngineBase/GameEngineNameObject.h>
 #include <GameEngineBase/GameEngineString.h>
+#include <mutex>
 
 //class MyLock
 //{
@@ -29,10 +30,10 @@ class GameEngineRes : public GameEngineNameObject
 {
 public:
 
-	static std::vector<ResType*> GetNamedResCopy()
+	static std::vector<std::shared_ptr<ResType>> GetNamedResCopy()
 	{
-		std::vector<ResType*> AllNamedRes;
-		for (std::pair<std::string, ResType*> Pair : NamedRes)
+		std::vector<std::shared_ptr<ResType>> AllNamedRes;
+		for (std::pair<std::string, std::shared_ptr<ResType>> Pair : NamedRes)
 		{
 			AllNamedRes.push_back(Pair.second);
 		}	
@@ -109,7 +110,7 @@ public:
 	}
 
 protected:
-	static std::shared_ptr < ResType> CreateResName(const std::string& _Name = "")
+	static std::shared_ptr<ResType> CreateResName(const std::string& _Name = "")
 	{
 		if (NamedRes.end() != NamedRes.find(GameEngineString::ToUpperReturn(_Name)))
 		{

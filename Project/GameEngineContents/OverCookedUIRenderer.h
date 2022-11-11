@@ -53,7 +53,7 @@ public:
 
 	void ResistDebug(std::string_view _Name);
 
-	void SetTexture(GameEngineTexture* _Texture);
+	void SetTexture(std::shared_ptr<GameEngineTexture> _Texture);
 
 	void SetTexture(const std::string& _Name);
 
@@ -61,7 +61,7 @@ public:
 
 	void SetFrame(UINT _Index);
 
-	GameEngineTexture* GetCurTexture();
+	std::shared_ptr<GameEngineTexture> GetCurTexture();
 
 	void SetTexture(const std::string& _Name, UINT _Index);
 
@@ -71,7 +71,7 @@ public:
 
 	void SetPivotToVector(const float4& _Value);
 
-	void SetTexture(GameEngineTexture* _Texture, UINT _Index);
+	void SetTexture(std::shared_ptr<GameEngineTexture> _Texture, UINT _Index);
 
 	void SetFolderTextureToIndex(const std::string& _Text, UINT _Index);
 
@@ -101,14 +101,14 @@ private:
 	SCALEMODE ScaleMode;
 	float ScaleRatio;
 
-	GameEngineTexture* CurTex;
+	std::shared_ptr<GameEngineTexture> CurTex;
 
 	PixelData PixelDataInst;
 	AtlasData AtlasDataInst;
 	UIData UIDataInst;
 
 	std::map<std::string, FrameAnimation> FrameAni;
-	FrameAnimation* CurAni;
+	std::shared_ptr<FrameAnimation> CurAni;
 
 	//Pump°ü·Ã
 	float4 PrevScale_ = {};

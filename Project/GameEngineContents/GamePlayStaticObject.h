@@ -19,21 +19,21 @@ public:
 	GamePlayStaticObject& operator=(GamePlayStaticObject&& _Other) noexcept = delete;
 
 public:
-	Input_PickUpOption Input_PickUp(GamePlayMoveable* _Object) override;
-	Input_PickUpOption Input_PickUp(Player* _Player) override;
+	Input_PickUpOption Input_PickUp(std::shared_ptr<GamePlayMoveable> _Object) override;
+	Input_PickUpOption Input_PickUp(std::shared_ptr<Player> _Player) override;
 
 
-	inline GamePlayStuff* GetStuff() const
+	inline std::shared_ptr<GamePlayStuff> GetStuff() const
 	{
 		return Stuff_Current_;
 	}
-	inline void SetStuff(GamePlayStuff* _Stuff)
+	inline void SetStuff(std::shared_ptr<GamePlayStuff> _Stuff)
 	{
 		Stuff_Current_ = _Stuff;
 
 		if (nullptr != _Stuff)
 		{
-			_Stuff->SetParentObject(this);
+			_Stuff->SetParentObject(std::dynamic_pointer_cast<GamePlayObject>(shared_from_this()));
 		}
 	}
 	//inline int GetX() const
@@ -89,7 +89,7 @@ protected:
 
 
 private:
-	GamePlayStuff* Stuff_Current_;
+	std::shared_ptr<GamePlayStuff> Stuff_Current_;
 
 	MapObjType MyType_;
 

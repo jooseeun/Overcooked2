@@ -40,7 +40,7 @@ void GamePlayStaticObject::SetBloomEffectOn()
 	}
 }
 
-Input_PickUpOption GamePlayStaticObject::Input_PickUp(GamePlayMoveable* _Object)
+Input_PickUpOption GamePlayStaticObject::Input_PickUp(std::shared_ptr<GamePlayMoveable> _Object)
 {
 	if (Stuff_Current_ != nullptr)
 	{
@@ -54,7 +54,7 @@ Input_PickUpOption GamePlayStaticObject::Input_PickUp(GamePlayMoveable* _Object)
 
 }
 
-Input_PickUpOption GamePlayStaticObject::Input_PickUp(Player* _Player)
+Input_PickUpOption GamePlayStaticObject::Input_PickUp(std::shared_ptr<Player> _Player)
 {
 	if (Stuff_Current_ != nullptr)
 	{

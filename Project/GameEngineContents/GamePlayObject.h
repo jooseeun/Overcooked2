@@ -35,8 +35,8 @@ public:
 	GamePlayObject& operator=(const GamePlayObject& _Other) = delete;
 	GamePlayObject& operator=(GamePlayObject&& _Other) noexcept = delete;
 
-	virtual Input_PickUpOption Input_PickUp(GamePlayMoveable* _Object) { return Input_PickUpOption::NoResponse; }
-	virtual Input_PickUpOption Input_PickUp(Player* _Player) { return Input_PickUpOption::NoResponse; }
+	virtual Input_PickUpOption Input_PickUp(std::shared_ptr<GamePlayMoveable> _Object) { return Input_PickUpOption::NoResponse; }
+	virtual Input_PickUpOption Input_PickUp(std::shared_ptr<Player> _Player) { return Input_PickUpOption::NoResponse; }
 
 
 protected:
@@ -66,25 +66,25 @@ protected:
 		return Enum_ObjectType_;
 	}
 
-	inline GameEngineFBXStaticRenderer* GetFBXMesh() const
+	inline std::shared_ptr<GameEngineFBXStaticRenderer> GetFBXMesh() const
 	{
 		return Mesh_Object_;
 	}
 
-	inline GameEngineFBXAnimationRenderer* GetAnimationFBXMesh() const
+	inline std::shared_ptr<GameEngineFBXAnimationRenderer> GetAnimationFBXMesh() const
 	{
 		return AnimationMesh_Obejct_;
 	}
 
-	inline GameEngineCollision* GetCollisionObject() const
+	inline std::shared_ptr<GameEngineCollision> GetCollisionObject() const
 	{
 		return Collision_Object_;
 	}
 
 private:
-	GameEngineFBXStaticRenderer* Mesh_Object_;
-	GameEngineFBXAnimationRenderer* AnimationMesh_Obejct_;
-	GameEngineCollision* Collision_Object_;
+	std::shared_ptr<GameEngineFBXStaticRenderer> Mesh_Object_;
+	std::shared_ptr<GameEngineFBXAnimationRenderer> AnimationMesh_Obejct_;
+	std::shared_ptr<GameEngineCollision> Collision_Object_;
 
 	ObjectType Enum_ObjectType_;
 

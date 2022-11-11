@@ -17,7 +17,7 @@ public:
 
 	//Input_PickUpOption CheckMoveable(GamePlayMoveable* _Object) override;
 	//Input_InteractOption Input_Interact() override;
-	Input_PickUpOption Input_PickUp(GamePlayMoveable* _Object) override;
+	Input_PickUpOption Input_PickUp(std::shared_ptr<GamePlayMoveable> _Object) override;
 
 
 	inline int GetPlateStack() const

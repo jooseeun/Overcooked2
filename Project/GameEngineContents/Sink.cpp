@@ -38,11 +38,11 @@ void Tool_Sink::Start()
 }
 
 
-Input_PickUpOption Tool_Sink::Input_PickUp(GamePlayMoveable* _Object)
+Input_PickUpOption Tool_Sink::Input_PickUp(std::shared_ptr<GamePlayMoveable> _Object)
 {
 
 	if (_Object->GetToolInfoType() == ToolInfo::Plate &&
-		dynamic_cast<Equipment_Plate*>(_Object)->IsDirty())
+		std::dynamic_pointer_cast<Equipment_Plate>(_Object)->IsDirty())
 	{
 
 		if (GetCurrentMoveable() == nullptr)
@@ -51,7 +51,7 @@ Input_PickUpOption Tool_Sink::Input_PickUp(GamePlayMoveable* _Object)
 		}
 		else
 		{
-			dynamic_cast<Equipment_Plate*>(GetCurrentMoveable())->PlusPlateStack();
+			std::dynamic_pointer_cast<Equipment_Plate>(GetCurrentMoveable())->PlusPlateStack();
 			_Object->Death();
 		}
 
@@ -62,10 +62,10 @@ Input_PickUpOption Tool_Sink::Input_PickUp(GamePlayMoveable* _Object)
 
 }
 
-Input_PickUpOption Tool_Sink::CheckMoveable(GamePlayMoveable* _Object)
+Input_PickUpOption Tool_Sink::CheckMoveable(std::shared_ptr<GamePlayMoveable> _Object)
 {
 	if (_Object->GetToolInfoType() == ToolInfo::Plate &&
-		dynamic_cast<Equipment_Plate*>(_Object)->IsDirty())
+		std::dynamic_pointer_cast<Equipment_Plate>(_Object)->IsDirty())
 	{
 		return Input_PickUpOption::PickUp;
 	}
@@ -73,7 +73,7 @@ Input_PickUpOption Tool_Sink::CheckMoveable(GamePlayMoveable* _Object)
 	return Input_PickUpOption::NoResponse;
 }
 
-Input_UsingOption Tool_Sink::Input_ActionToManual(Player* _Player, float _DeltaTime)
+Input_UsingOption Tool_Sink::Input_ActionToManual(std::shared_ptr<Player> _Player, float _DeltaTime)
 {
 	if (GetCurrentMoveable() == nullptr)
 	{
@@ -86,9 +86,9 @@ Input_UsingOption Tool_Sink::Input_ActionToManual(Player* _Player, float _DeltaT
 	return Input_UsingOption::Using;
 }
 
-void Tool_Sink::Input_Action_End(GamePlayMoveable* _Moveable)
+void Tool_Sink::Input_Action_End(std::shared_ptr<GamePlayMoveable> _Moveable)
 {
-	Equipment_Plate* Plate = dynamic_cast<Equipment_Plate*>(_Moveable);
+	std::shared_ptr<Equipment_Plate> Plate = std::dynamic_pointer_cast<Equipment_Plate>(_Moveable);
 	if (Plate->GetPlateStack() > 1)
 	{
 		Plate->MinusPlateStack();

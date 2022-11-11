@@ -58,7 +58,7 @@ public:
 		return Enum_ObjectFoodClass_;
 	}
 
-	inline Input_PickUpOption Input_PickUp(GamePlayMoveable* _Object) override
+	inline Input_PickUpOption Input_PickUp(std::shared_ptr<GamePlayMoveable> _Object) override
 	{
 		return Input_PickUpOption::NoResponse;
 	}

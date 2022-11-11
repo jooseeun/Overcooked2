@@ -19,7 +19,7 @@ void Stage_1_3::Start()
 	GetMainCameraActorTransform().SetLocalRotation({ 60, 180, 0 });
 	GetMainCameraActorTransform().SetLocalPosition({ -2606 , 1900  , 900 });
 
-	Player* MainPlayer = CreateActor<Player>();
+	std::shared_ptr<Player> MainPlayer = CreateActor<Player>();
 	MainPlayer->GetTransform().SetLocalPosition({ -2606, 500, 0 });
 }
 

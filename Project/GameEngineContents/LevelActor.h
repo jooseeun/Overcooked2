@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 
+class GameEngineFBXStaticRenderer;
 class LevelActor : public GameEngineActor
 {
 
@@ -25,6 +26,6 @@ protected:
 	void End() override;
 
 private:
-	class GameEngineFBXStaticRenderer* Renderer_;
+	std::shared_ptr<GameEngineFBXStaticRenderer> Renderer_;
 };
 

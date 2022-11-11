@@ -274,7 +274,10 @@ void GameEngineFBX::RecursiveAllNode(fbxsdk::FbxNode* _Node, std::function<void(
 
 	fbxsdk::FbxNodeAttribute* Info = _Node->GetNodeAttribute();
 
-	fbxsdk::FbxNodeAttribute::EType Type = Info->GetAttributeType();
+	if (nullptr != Info)
+	{
+		fbxsdk::FbxNodeAttribute::EType Type = Info->GetAttributeType();
+	}
 
 	int Count = _Node->GetChildCount();
 

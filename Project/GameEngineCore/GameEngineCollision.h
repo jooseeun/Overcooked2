@@ -51,9 +51,9 @@ public:
 
 	template<typename EnumType>
 	bool IsCollision(EnumType _GroupOrder
-		, std::function<CollisionReturn(GameEngineCollision* _This, GameEngineCollision* _Other)> _Update = nullptr
-		, std::function<CollisionReturn(GameEngineCollision* _This, GameEngineCollision* _Other)> _Enter = nullptr
-		, std::function<CollisionReturn(GameEngineCollision* _This, GameEngineCollision* _Other)> _Exit = nullptr)
+		, std::function<CollisionReturn(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)> _Update = nullptr
+		, std::function<CollisionReturn(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)> _Enter = nullptr
+		, std::function<CollisionReturn(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)> _Exit = nullptr)
 	{
 		return IsCollision(CollisionType::CT_OBB, static_cast<int>(_GroupOrder), CollisionType::CT_OBB, _Update, _Enter, _Exit);
 	}
@@ -63,7 +63,6 @@ public:
 		, CollisionType _OtherCollision
 		, std::function<CollisionReturn(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)> _Function = nullptr)
 	{
-
 		return IsCollision(_ThisType, static_cast<int>(_GroupOrder), _OtherCollision, _Function);
 	}
 
@@ -126,7 +125,7 @@ protected:
 private:
 	CollisionMode eCollisionMode;
 
-	std::set<std::shared_ptr< GameEngineCollision>> CollisionCheck;
+	std::set<std::shared_ptr<GameEngineCollision>> CollisionCheck;
 
 	CAMERAORDER DebugCameraOrder;
 

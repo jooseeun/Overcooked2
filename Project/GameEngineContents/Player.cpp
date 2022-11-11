@@ -713,7 +713,7 @@ void Player::MoveCollisionSideCheck(float _DeltaTime)
 //////////////////////충돌 함수
 
 
-CollisionReturn Player::GetCrashGroundObject(GameEngineCollision* _This, GameEngineCollision* _Other)
+CollisionReturn Player::GetCrashGroundObject(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 {
 	if (Interact_GroundObject_ != nullptr)
 	{
@@ -730,7 +730,7 @@ CollisionReturn Player::GetCrashGroundObject(GameEngineCollision* _This, GameEng
 	return CollisionReturn::Break;
 }
 
-CollisionReturn Player::GetCrashTableObject(GameEngineCollision* _This, GameEngineCollision* _Other)
+CollisionReturn Player::GetCrashTableObject(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 {
 	if (Interact_TableObject_ != nullptr)
 	{
@@ -748,12 +748,12 @@ CollisionReturn Player::GetCrashTableObject(GameEngineCollision* _This, GameEngi
 }
 
 
-CollisionReturn Player::GravityColCheck(GameEngineCollision* _This, GameEngineCollision* _Other)
+CollisionReturn Player::GravityColCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 {
 	return CollisionReturn::ContinueCheck;
 }
 
-CollisionReturn Player::MoveColCheck(GameEngineCollision* _This, GameEngineCollision* _Other)
+CollisionReturn Player::MoveColCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 {
 	return CollisionReturn::ContinueCheck;
 }

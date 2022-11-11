@@ -116,7 +116,7 @@ void GlobalMouseInput::ClickUpdate(float _Delta)
 	}
 }
 
-CollisionReturn GlobalMouseInput::CollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other)
+CollisionReturn GlobalMouseInput::CollisionCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 {
 	GameEngineTransform* OtherTransform = _Other->GetTransform().GetParentTransform();
 	if (nullptr == OtherTransform)

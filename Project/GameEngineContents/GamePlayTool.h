@@ -51,13 +51,13 @@ protected:
 	void LevelEndEvent() override {};
 
 protected:
-	Input_PickUpOption Input_PickUp(GamePlayMoveable* _Object) override; // 이 이상으로 특별한 이유 없이 오버라이드 금지
-	Input_PickUpOption Input_PickUp(Player* _Player) override;			  // 이 이상으로 특별한 이유 없이 오버라이드 금지
-	virtual Input_PickUpOption CheckMoveable(GamePlayMoveable* _Object);
+	Input_PickUpOption Input_PickUp(std::shared_ptr<GamePlayMoveable> _Object) override; // 이 이상으로 특별한 이유 없이 오버라이드 금지
+	Input_PickUpOption Input_PickUp(std::shared_ptr<Player> _Player) override;			  // 이 이상으로 특별한 이유 없이 오버라이드 금지
+	virtual Input_PickUpOption CheckMoveable(std::shared_ptr<GamePlayMoveable> _Object);
 
-	virtual Input_UsingOption Input_ActionToManual(Player* _Player, float _DeltaTime) { return Input_UsingOption::NoResponse; };         // 이 툴(도마 등)을 사용하는 Player의 정보를 인자로 받는다
-	virtual void Input_Action_End(GamePlayMoveable* _Moveable) = 0;
-	virtual void Input_ActionToAuto_Update(GamePlayMoveable* _Moveable, float _DeltaTime);
+	virtual Input_UsingOption Input_ActionToManual(std::shared_ptr<Player> _Player, float _DeltaTime) { return Input_UsingOption::NoResponse; };         // 이 툴(도마 등)을 사용하는 Player의 정보를 인자로 받는다
+	virtual void Input_Action_End(std::shared_ptr<GamePlayMoveable> _Moveable) = 0;
+	virtual void Input_ActionToAuto_Update(std::shared_ptr<GamePlayMoveable> _Moveable, float _DeltaTime);
 	//virtual void Input_ActionToAuto_Start(GamePlayMoveable* _Moveable, float _DeltaTime) {};
 
 
@@ -76,13 +76,13 @@ protected:
 	}
 
 private:
-	GamePlayMoveable* Moveable_Current_;
+	std::shared_ptr<GamePlayMoveable> Moveable_Current_;
 protected:
-	inline void SetCurrentMoveable(GamePlayMoveable* _Moveable)
+	inline void SetCurrentMoveable(std::shared_ptr<GamePlayMoveable> _Moveable)
 	{
 		Moveable_Current_ = _Moveable;
 	}
-	inline GamePlayMoveable* GetCurrentMoveable() const
+	inline std::shared_ptr<GamePlayMoveable> GetCurrentMoveable() const
 	{
 		return Moveable_Current_;
 	}

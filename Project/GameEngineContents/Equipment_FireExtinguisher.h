@@ -14,7 +14,7 @@ public:
 	Equipment_FireExtinguisher& operator=(const Equipment_FireExtinguisher& _Other) = delete;
 	Equipment_FireExtinguisher& operator=(Equipment_FireExtinguisher&& _Other) noexcept = delete;
 
-	Input_PickUpOption Input_PickUp(Player* _Player) override;
+	Input_PickUpOption Input_PickUp(std::shared_ptr<Player> _Player) override;
 	// PlayerHoldType
 protected:
 	void Start() override;

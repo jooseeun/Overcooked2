@@ -107,7 +107,7 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 				InputVector.push_back(OriginData);
 
-				std::vector<GamePlayStaticObject*>& DataActors = Origins_[i]->GetStaticMeshInfo();
+				std::vector<std::shared_ptr<GamePlayStaticObject>>& DataActors = Origins_[i]->GetStaticMeshInfo();
 
 				for (size_t j = 0; j < DataActors.size(); j++)
 				{
@@ -152,7 +152,7 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				{
 				case MapObjType::Npc:
 				{
-					Npc* Object = CurLevel_->CreateActor<Npc>();
+					std::shared_ptr<Npc> Object = CurLevel_->CreateActor<Npc>();
 					Object->GetTransform().SetWorldPosition(Vector[i].Pos_);
 					Object->GetTransform().SetWorldScale(Vector[i].Scale_);
 					Object->GetTransform().SetWorldRotation(Vector[i].Rot_);
@@ -162,7 +162,7 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				break;
 				case MapObjType::Car:
 				{
-					Car* Object = CurLevel_->CreateActor<Car>();
+					std::shared_ptr<Car> Object = CurLevel_->CreateActor<Car>();
 					Object->GetTransform().SetWorldPosition(Vector[i].Pos_);
 					Object->GetTransform().SetWorldScale(Vector[i].Scale_);
 					Object->GetTransform().SetWorldRotation(Vector[i].Rot_);
@@ -172,7 +172,7 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				break;
 				case MapObjType::TrafficLight:
 				{
-					TrafficLight* Object = CurLevel_->CreateActor<TrafficLight>();
+					std::shared_ptr<TrafficLight> Object = CurLevel_->CreateActor<TrafficLight>();
 					Object->GetTransform().SetWorldPosition(Vector[i].Pos_);
 					Object->GetTransform().SetWorldScale(Vector[i].Scale_);
 					Object->GetTransform().SetWorldRotation(Vector[i].Rot_);
@@ -182,7 +182,7 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				break;
 				default:
 				{
-					GamePlayMapObject* Object = CurLevel_->CreateActor<GamePlayMapObject>();
+					std::shared_ptr<GamePlayMapObject> Object = CurLevel_->CreateActor<GamePlayMapObject>();
 					Object->GetTransform().SetWorldPosition(Vector[i].Pos_);
 					Object->GetTransform().SetWorldScale(Vector[i].Scale_);
 					Object->GetTransform().SetWorldRotation(Vector[i].Rot_);
@@ -247,7 +247,7 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 			//Sort ÅÇÀ» Àß¸ø ´­·¶À» ¶§ »ý¼ºµÈ ±âÁØ ¿¢ÅÍµé ¼û±â±â
 			if (0 < Origins_.size())
 			{
-				std::vector<GamePlayOriginObject*>::iterator StartIter = Origins_.begin();
+				std::vector<std::shared_ptr<GamePlayOriginObject>>::iterator StartIter = Origins_.begin();
 
 				for (StartIter = Origins_.begin(); StartIter != Origins_.end(); ++StartIter)
 				{
@@ -261,7 +261,7 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		{
 			if (0 == Origins_.size())
 			{
-				GamePlayOriginObject* Origin = CurLevel_->CreateActor<GamePlayOriginObject>();
+				std::shared_ptr<GamePlayOriginObject> Origin = CurLevel_->CreateActor<GamePlayOriginObject>();
 
 				Origin->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
 
@@ -273,7 +273,7 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 			else
 			{
-				GamePlayOriginObject* Origin = Origins_.front();
+				std::shared_ptr<GamePlayOriginObject> Origin = Origins_.front();
 				Origin->On();
 			}
 
@@ -445,7 +445,7 @@ void MapEditorWindow::UnSortToolTab()
 		{
 		case MapObjType::Npc:
 		{
-			Npc* Object = CurLevel_->CreateActor<Npc>();
+			std::shared_ptr<Npc> Object = CurLevel_->CreateActor<Npc>();
 			Object->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
 			Object->SetMapObjectMesh(AllUnSortActorName_[SelectNameIndex], ObjectTypeIndex);
 			Object->SetName(AllUnSortActorName_[SelectNameIndex]);
@@ -454,7 +454,7 @@ void MapEditorWindow::UnSortToolTab()
 			break;
 		case MapObjType::Car:
 		{
-			Car* Object = CurLevel_->CreateActor<Car>();
+			std::shared_ptr<Car> Object = CurLevel_->CreateActor<Car>();
 			Object->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
 			Object->SetMapObjectMesh(AllUnSortActorName_[SelectNameIndex], ObjectTypeIndex);
 			Object->SetName(AllUnSortActorName_[SelectNameIndex]);
@@ -463,7 +463,7 @@ void MapEditorWindow::UnSortToolTab()
 			break;
 		case MapObjType::TrafficLight:
 		{
-			TrafficLight* Object = CurLevel_->CreateActor<TrafficLight>();
+			std::shared_ptr<TrafficLight> Object = CurLevel_->CreateActor<TrafficLight>();
 			Object->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
 			Object->SetMapObjectMesh(AllUnSortActorName_[SelectNameIndex], ObjectTypeIndex);
 			Object->SetName(AllUnSortActorName_[SelectNameIndex]);
@@ -472,7 +472,7 @@ void MapEditorWindow::UnSortToolTab()
 			break;
 		default:
 		{
-			GamePlayMapObject* Object = CurLevel_->CreateActor<GamePlayMapObject>();
+			std::shared_ptr<GamePlayMapObject> Object = CurLevel_->CreateActor<GamePlayMapObject>();
 			Object->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
 			Object->SetMapObjectMesh(AllUnSortActorName_[SelectNameIndex], ObjectTypeIndex);
 			Object->SetName(AllUnSortActorName_[SelectNameIndex]);
@@ -611,7 +611,7 @@ void MapEditorWindow::SortToolTab()
 
 	if (ImGui::Button("Origin Create"))
 	{
-		GamePlayOriginObject* Origin = CurLevel_->CreateActor<GamePlayOriginObject>();
+		std::shared_ptr<GamePlayOriginObject> Origin = CurLevel_->CreateActor<GamePlayOriginObject>();
 
 		Origin->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
 
@@ -714,7 +714,7 @@ void MapEditorWindow::SortToolTab()
 					case ToolInfo::Plate:
 					{
 						//ºÎ¸ð·Î µÐ´Ù
-						Equipment_Plate* Plate = CurLevel_->CreateActor<Equipment_Plate>();
+						std::shared_ptr<Equipment_Plate> Plate = CurLevel_->CreateActor<Equipment_Plate>();
 						SortActorList_[ActorIndex]->SetStuff(Plate);
 
 						//SortActorList_[ActorIndex]->GetStuff()->SetToolInfoType(ToolInfo::Plate);
@@ -722,7 +722,7 @@ void MapEditorWindow::SortToolTab()
 					break;
 					case ToolInfo::FireExtinguisher:
 					{
-						Equipment_FireExtinguisher* FireExtinguisher = CurLevel_->CreateActor<Equipment_FireExtinguisher>();
+						std::shared_ptr<Equipment_FireExtinguisher> FireExtinguisher = CurLevel_->CreateActor<Equipment_FireExtinguisher>();
 						SortActorList_[ActorIndex]->SetStuff(FireExtinguisher);
 
 						//SortActorList_[ActorIndex]->GetStuff()->SetToolInfoType(ToolInfo::FireExtinguisher);
@@ -730,7 +730,7 @@ void MapEditorWindow::SortToolTab()
 					break;
 					case ToolInfo::FryingPan:
 					{
-						Equipment_FryingPan* FryingPan = CurLevel_->CreateActor<Equipment_FryingPan>();
+						std::shared_ptr<Equipment_FryingPan> FryingPan = CurLevel_->CreateActor<Equipment_FryingPan>();
 						SortActorList_[ActorIndex]->SetStuff(FryingPan);
 
 						//SortActorList_[ActorIndex]->GetStuff()->SetToolInfoType(ToolInfo::FryingPan);
@@ -738,7 +738,7 @@ void MapEditorWindow::SortToolTab()
 					break;
 					case ToolInfo::Pot:
 					{
-						Equipment_Pot* Pot = CurLevel_->CreateActor<Equipment_Pot>();
+						std::shared_ptr<Equipment_Pot> Pot = CurLevel_->CreateActor<Equipment_Pot>();
 						SortActorList_[ActorIndex]->SetStuff(Pot);
 
 						//SortActorList_[ActorIndex]->GetStuff()->SetToolInfoType(ToolInfo::Pot);
@@ -746,7 +746,7 @@ void MapEditorWindow::SortToolTab()
 					break;
 					case ToolInfo::CuttingBoard:
 					{
-						Tool_CuttingBoard* CuttingBoard = CurLevel_->CreateActor<Tool_CuttingBoard>();
+						std::shared_ptr<Tool_CuttingBoard> CuttingBoard = CurLevel_->CreateActor<Tool_CuttingBoard>();
 						SortActorList_[ActorIndex]->SetStuff(CuttingBoard);
 
 						//SortActorList_[ActorIndex]->GetStuff()->SetToolInfoType(ToolInfo::CuttingBoard);
@@ -780,7 +780,7 @@ void MapEditorWindow::SortToolTab()
 		case 0:
 		{
 			CurStaticMesh_ = CurLevel_->CreateActor<CounterTop>();
-			CounterTop* Object = dynamic_cast<CounterTop*>(CurStaticMesh_);
+			std::shared_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurStaticMesh_);
 
 			Object->SetCounterTopType(CounterTopType::Normal);
 			Object->SetConterTopMesh(CounterTopType::Normal);
@@ -791,7 +791,7 @@ void MapEditorWindow::SortToolTab()
 		case 1:
 		{
 			CurStaticMesh_ = CurLevel_->CreateActor<CounterTop>();
-			CounterTop* Object = dynamic_cast<CounterTop*>(CurStaticMesh_);
+			std::shared_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurStaticMesh_);
 
 			Object->SetCounterTopType(CounterTopType::Corner);
 			Object->SetConterTopMesh(CounterTopType::Corner);
@@ -802,7 +802,7 @@ void MapEditorWindow::SortToolTab()
 		case 2:
 		{
 			CurStaticMesh_ = CurLevel_->CreateActor<CounterTop>();
-			CounterTop* Object = dynamic_cast<CounterTop*>(CurStaticMesh_);
+			std::shared_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurStaticMesh_);
 
 			Object->SetCounterTopType(CounterTopType::NoEdge);
 			Object->SetConterTopMesh(CounterTopType::NoEdge);
@@ -854,7 +854,7 @@ void MapEditorWindow::SortToolTab()
 		SortActorList_[ActorIndex]->Death();
 		SortActorList_.erase(SortActorList_.begin() + ActorIndex);
 
-		std::vector<GamePlayStaticObject*>& DataVector = Origins_[OriginIndex]->GetStaticMeshInfo();
+		std::vector<std::shared_ptr<GamePlayStaticObject>>& DataVector = Origins_[OriginIndex]->GetStaticMeshInfo();
 
 		for (size_t i = 0; i < DataVector.size(); ++i)
 		{

@@ -56,20 +56,20 @@ protected:
 
 
 	//충돌함수
-	CollisionReturn GetCrashGroundObject(GameEngineCollision* _This, GameEngineCollision* _Other);
-	CollisionReturn GetCrashTableObject(GameEngineCollision* _This, GameEngineCollision* _Other);
-	CollisionReturn GravityColCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
-	CollisionReturn MoveColCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
+	CollisionReturn GetCrashGroundObject(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
+	CollisionReturn GetCrashTableObject(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
+	CollisionReturn GravityColCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
+	CollisionReturn MoveColCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 	
 public:
-	inline Input_PickUpOption Input_PickUp(Player* _Player) override { return Input_PickUpOption::NoResponse; }
-	inline Input_PickUpOption Input_PickUp(GamePlayMoveable* _Object) override
+	inline Input_PickUpOption Input_PickUp(std::shared_ptr<Player> _Player) override { return Input_PickUpOption::NoResponse; }
+	inline Input_PickUpOption Input_PickUp(std::shared_ptr<GamePlayMoveable> _Object) override
 	{
 		CurrentHoldingObject_ = _Object;
 		//	Moveable_Current_->SetBloomEffectOff();
 		return Input_PickUpOption::PickUp;
 	}
-	inline GameEngineCollision* GetInteractCollision() const
+	inline std::shared_ptr<GameEngineCollision> GetInteractCollision() const
 	{
 		return Collision_Interact_;
 	}
@@ -95,26 +95,26 @@ private:
 	PlayerDir CurDir_;
 	PlayerHoldType CurHoldType_;
 
-	GameEngineCollision* Collision_Interact_; // 상호작용 콜리전
-	GamePlayMoveable* Interact_GroundObject_;
-	GamePlayStaticObject* Interact_TableObject_;
+	std::shared_ptr<GameEngineCollision> Collision_Interact_; // 상호작용 콜리전
+	std::shared_ptr<GamePlayMoveable> Interact_GroundObject_;
+	std::shared_ptr<GamePlayStaticObject> Interact_TableObject_;
 
-	GamePlayMoveable* CurrentHoldingObject_;
+	std::shared_ptr<GamePlayMoveable> CurrentHoldingObject_;
 
 	void Collision_AroundObject();
 
 
 
-	GameEngineFBXAnimationRenderer* PlayerRenderer_;
-	GameEngineCollision* PlayerFloorCollision_;
-	GameEngineCollision* PlayerForwardCollision_;
-	GameEngineCollision* PlayerForwardLeftCollision_;
-	GameEngineCollision* PlayerForwardRightCollision_;
+	std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerRenderer_;
+	std::shared_ptr<GameEngineCollision> PlayerFloorCollision_;
+	std::shared_ptr<GameEngineCollision> PlayerForwardCollision_;
+	std::shared_ptr<GameEngineCollision> PlayerForwardLeftCollision_;
+	std::shared_ptr<GameEngineCollision> PlayerForwardRightCollision_;
 
 	//임시 콜리젼
-	GameEngineCollision* PlayerLeftCollision_;
-	GameEngineCollision* PlayerRightCollision_;
-	GameEngineCollision* PlayerBackCollision_;
+	std::shared_ptr<GameEngineCollision> PlayerLeftCollision_;
+	std::shared_ptr<GameEngineCollision> PlayerRightCollision_;
+	std::shared_ptr<GameEngineCollision> PlayerBackCollision_;
 
 
 	GameEngineStateManager StateManager;

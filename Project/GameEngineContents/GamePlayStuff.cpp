@@ -21,7 +21,7 @@ void GamePlayStuff::Start()
 }
 
 
-void GamePlayStuff::SetParentObject(GamePlayObject* _Object)
+void GamePlayStuff::SetParentObject(std::shared_ptr<GamePlayObject> _Object)
 {
 	SetParent(_Object);
 }

@@ -22,32 +22,32 @@ void MapDataParser::UnSortMapDataParsing(std::vector<MapData>& _Data, GameEngine
 	{
 		if (_Data[i].ObjName_ == "Collision_Floor")
 		{
-			GamePlayFloor* Object = _Level->CreateActor<GamePlayFloor>();
+			std::shared_ptr<GamePlayFloor> Object = _Level->CreateActor<GamePlayFloor>();
 			Object->GetTransform().SetWorldPosition(_Data[i].Pos_);
 			Object->GetTransform().SetWorldRotation(_Data[i].Rot_);
 			Object->GetTransform().SetWorldScale(_Data[i].Scale_);
 		}
 		else if (_Data[i].ObjName_ == "Collision_Wall")
 		{
-			GamePlayMapObject* Object = _Level->CreateActor<GamePlayMapObject>();
+			std::shared_ptr<GamePlayMapObject> Object = _Level->CreateActor<GamePlayMapObject>();
 			Object->GetTransform().SetWorldPosition(_Data[i].Pos_);
 			Object->GetTransform().SetWorldRotation(_Data[i].Rot_);
 			Object->GetTransform().SetWorldScale(_Data[i].Scale_);
 		}
 		else
 		{
-			GamePlayMapObject* Object = _Level->CreateActor<GamePlayMapObject>();
+			std::shared_ptr<GamePlayMapObject> Object = _Level->CreateActor<GamePlayMapObject>();
 			Object->GetTransform().SetWorldPosition(_Data[i].Pos_);
 			Object->GetTransform().SetWorldRotation(_Data[i].Rot_);
 			Object->GetTransform().SetWorldScale(_Data[i].Scale_);
 
-			GameEngineFBXStaticRenderer* Renderer = Object->CreateComponent<GameEngineFBXStaticRenderer>();
+			std::shared_ptr<GameEngineFBXStaticRenderer> Renderer = Object->CreateComponent<GameEngineFBXStaticRenderer>();
 			Renderer->SetFBXMesh(_Data[i].ObjName_ + ".fbx", "Texture");
 		}
 	}
 }
 
-std::vector<GamePlayStaticObject*>& MapDataParser::SortMapDataParsing(std::vector<MapData>& _Data, GameEngineLevel* _Level)
+std::vector<std::shared_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataParsing(std::vector<MapData>& _Data, GameEngineLevel* _Level)
 {
 	SortActorList_.clear();
 
@@ -56,7 +56,7 @@ std::vector<GamePlayStaticObject*>& MapDataParser::SortMapDataParsing(std::vecto
 		//기준 엑터라면
 		if (MapObjType::Origin == _Data[i].MapObjType_)
 		{
-			GamePlayOriginObject* Origin = _Level->CreateActor<GamePlayOriginObject>();
+			std::shared_ptr<GamePlayOriginObject> Origin = _Level->CreateActor<GamePlayOriginObject>();
 
 			Origin->GetTransform().SetWorldPosition(_Data[i].Pos_);
 			Origin->GetTransform().SetWorldRotation(_Data[i].Rot_);
@@ -75,7 +75,7 @@ std::vector<GamePlayStaticObject*>& MapDataParser::SortMapDataParsing(std::vecto
 		case MapObjType::CounterTop:
 		{
 			CurAcotr_ = _Level->CreateActor<CounterTop>();
-			CounterTop* Object = dynamic_cast<CounterTop*>(CurAcotr_);
+			std::shared_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurAcotr_);
 
 			Object->SetCounterTopType(CounterTopType::Normal);
 			Object->SetConterTopMesh(CounterTopType::Normal);
@@ -86,7 +86,7 @@ std::vector<GamePlayStaticObject*>& MapDataParser::SortMapDataParsing(std::vecto
 		case MapObjType::CounterTop_Corner:
 		{
 			CurAcotr_ = _Level->CreateActor<CounterTop>();
-			CounterTop* Object = dynamic_cast<CounterTop*>(CurAcotr_);
+			std::shared_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurAcotr_);
 
 			Object->SetCounterTopType(CounterTopType::Corner);
 			Object->SetConterTopMesh(CounterTopType::Corner);
@@ -97,7 +97,7 @@ std::vector<GamePlayStaticObject*>& MapDataParser::SortMapDataParsing(std::vecto
 		case MapObjType::CounterTop_NoEdge:
 		{
 			CurAcotr_ = _Level->CreateActor<CounterTop>();
-			CounterTop* Object = dynamic_cast<CounterTop*>(CurAcotr_);
+			std::shared_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurAcotr_);
 
 			Object->SetCounterTopType(CounterTopType::NoEdge);
 			Object->SetConterTopMesh(CounterTopType::NoEdge);

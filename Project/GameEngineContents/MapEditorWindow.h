@@ -5,6 +5,8 @@
 class GamePlayOriginObject;
 class GamePlayLevel;
 class LevelActor;
+class GamePlayMapObject;
+class GamePlayStaticObject;
 class MapEditorWindow : public GameEngineGUIWindow
 {
 public:
@@ -28,7 +30,7 @@ public:
 		CurLevel_ = _CurLevel;
 	}
 
-	std::vector<class GamePlayMapObject*>& GetUnSortActorList()
+	std::vector<std::shared_ptr<GamePlayMapObject>>& GetUnSortActorList()
 	{
 		return UnSortActorList_;
 	}
@@ -43,20 +45,20 @@ protected:
 	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
 
 private:
-	std::vector<class GamePlayMapObject*> UnSortActorList_;
-	std::vector<class GamePlayStaticObject*> SortActorList_;
+	std::vector<std::shared_ptr<GamePlayMapObject>> UnSortActorList_;
+	std::vector<std::shared_ptr<GamePlayStaticObject>> SortActorList_;
 
 	std::vector<std::string> Prefabs_;
 
 	GameEngineLevel* CurLevel_;
 
-	LevelActor* LevelActor_;
+	std::shared_ptr<LevelActor> LevelActor_;
 
 	//타일맵 기준 엑터
-	std::vector<GamePlayOriginObject*> Origins_;
+	std::vector<std::shared_ptr<GamePlayOriginObject>> Origins_;
 
 	//현재 생성한 타일
-	GamePlayStaticObject* CurStaticMesh_;
+	std::shared_ptr<GamePlayStaticObject> CurStaticMesh_;
 
 	MapDataParser DataParser_;
 

@@ -13,13 +13,13 @@ class SelectStageUIActor : public GameEngineActor
 		void Off();
 		int Index; // 처음 등록했을 때 Index
 		int CurPos;
-		OverCookedUIRenderer* Parent;
-		OverCookedUIRenderer* Select;
-		GameEngineFontRenderer* Font;
+		std::shared_ptr<OverCookedUIRenderer> Parent;
+		std::shared_ptr<OverCookedUIRenderer> Select;
+		std::shared_ptr<GameEngineFontRenderer> Font;
 		int BoarderType; //1,2,3
-		OverCookedUIRenderer* Boarder;
-		OverCookedUIRenderer* BoarderSelected;
-		OverCookedUIRenderer* LevelHighlisht;
+		std::shared_ptr<OverCookedUIRenderer> Boarder;
+		std::shared_ptr<OverCookedUIRenderer> BoarderSelected;
+		std::shared_ptr<OverCookedUIRenderer> LevelHighlisht;
 	};
 
 	struct PlayerIcon
@@ -28,13 +28,13 @@ class SelectStageUIActor : public GameEngineActor
 		void Off();
 		void On();
 		int Index; //0 ~ 3
-		OverCookedUIRenderer* Parent;
-		OverCookedUIRenderer* Hat;
-		OverCookedUIRenderer* NameBox;
+		std::shared_ptr<OverCookedUIRenderer> Parent;
+		std::shared_ptr<OverCookedUIRenderer> Hat;
+		std::shared_ptr<OverCookedUIRenderer> NameBox;
 
 		std::string Name;
-		GameEngineFontRenderer* CountFont;
-		GameEngineFontRenderer* NameFont;
+		std::shared_ptr<GameEngineFontRenderer> CountFont;
+		std::shared_ptr<GameEngineFontRenderer> NameFont;
 	};
 public:
 	SelectStageUIActor();
@@ -61,19 +61,19 @@ protected:
 
 	void CreateLevelSelect(std::string_view _MapFileName, int _BoarderType, std::string_view _Text, int _Index);
 
-	OverCookedUIRenderer* CreateUIRenderer(std::string_view _TextrueName);
+	std::shared_ptr<OverCookedUIRenderer> CreateUIRenderer(std::string_view _TextrueName);
 
 private:
-	OverCookedUIRenderer* EndBackground_ = nullptr;
-	OverCookedUIRenderer* Background_ = nullptr;
-	OverCookedUIRenderer* Header_ = nullptr;
-	OverCookedUIRenderer* ControlGuide_ = nullptr;
-	OverCookedUIRenderer* SelectMap_ = nullptr;
+	std::shared_ptr<OverCookedUIRenderer> EndBackground_ = nullptr;
+	std::shared_ptr<OverCookedUIRenderer> Background_ = nullptr;
+	std::shared_ptr<OverCookedUIRenderer> Header_ = nullptr;
+	std::shared_ptr<OverCookedUIRenderer> ControlGuide_ = nullptr;
+	std::shared_ptr<OverCookedUIRenderer> SelectMap_ = nullptr;
 
-	std::vector<OverCookedUIRenderer*> ArrowRenderer_; // 화살표 렌더러
-	std::vector<OverCookedUIRenderer*> MaskBackground_;
+	std::vector<std::shared_ptr<OverCookedUIRenderer>> ArrowRenderer_; // 화살표 렌더러
+	std::vector<std::shared_ptr<OverCookedUIRenderer>> MaskBackground_;
 
-	GameEngineFontRenderer* CountDownFont_ = nullptr;
+	std::shared_ptr<GameEngineFontRenderer> CountDownFont_ = nullptr;
 
 	std::vector<LevelSelect> LevelSelect_;
 

@@ -32,12 +32,12 @@ protected:
 private:
 	void TransformUpdate(float _Delta);
 	void ClickUpdate(float _Delta);
-	CollisionReturn CollisionCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
+	CollisionReturn CollisionCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 
 	std::shared_ptr<MouseInputWindow> MouseWindow_;
-	GameEngineCollision* Collision_;
-	GameEngineCollision* StartCollision_;
-	GameEngineCollision* GoalCollision_;
+	std::shared_ptr<GameEngineCollision> Collision_;
+	std::shared_ptr<GameEngineCollision> StartCollision_;
+	std::shared_ptr<GameEngineCollision> GoalCollision_;
 	GameEngineTransform* NearTransform_;
 	bool IsUI_;
 

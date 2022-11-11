@@ -35,26 +35,26 @@ void MeshToolLevel::LevelStartEvent()
 void MeshToolLevel::LevelEndEvent()
 {
 	MeshSelectWindow_->Off();
-	std::map<std::string, class GameEngineLevel*> Levels = GameEngineCore::GetAllLevelRef();
+	std::map<std::string, GameEngineLevel*> Levels = GameEngineCore::GetAllLevelRef();
 
-	std::map<std::string, class GameEngineLevel*>::iterator StartIter = Levels.begin();
-	std::map<std::string, class GameEngineLevel*>::iterator EndIter = Levels.end();
+	std::map<std::string, GameEngineLevel*>::iterator StartIter = Levels.begin();
+	std::map<std::string, GameEngineLevel*>::iterator EndIter = Levels.end();
 
 	for (; StartIter != EndIter; ++StartIter)
 	{
-		std::map<int, std::list<class GameEngineRenderer*>> AllRenderer = StartIter->second->GetMainCamera()->GetAllRenderer();
-		std::map<int, std::list<GameEngineRenderer*>>::iterator StartGroupIter = AllRenderer.begin();
-		std::map<int, std::list<GameEngineRenderer*>>::iterator EndGroupIter = AllRenderer.end();
+		std::map<int, std::list<std::shared_ptr<GameEngineRenderer>>> AllRenderer = StartIter->second->GetMainCamera()->GetAllRenderer();
+		std::map<int, std::list<std::shared_ptr<GameEngineRenderer>>>::iterator StartGroupIter = AllRenderer.begin();
+		std::map<int, std::list<std::shared_ptr<GameEngineRenderer>>>::iterator EndGroupIter = AllRenderer.end();
 
 		for (; StartGroupIter != EndGroupIter; ++StartGroupIter)
 		{
-			std::list<GameEngineRenderer*>& Group = StartGroupIter->second;
-			std::list<GameEngineRenderer*>::iterator GroupStart = Group.begin();
-			std::list<GameEngineRenderer*>::iterator GroupEnd = Group.end();
+			std::list<std::shared_ptr<GameEngineRenderer>>& Group = StartGroupIter->second;
+			std::list<std::shared_ptr<GameEngineRenderer>>::iterator GroupStart = Group.begin();
+			std::list<std::shared_ptr<GameEngineRenderer>>::iterator GroupEnd = Group.end();
 
 			for (; GroupStart != GroupEnd; ++GroupStart)
 			{
-				GameEngineFBXRenderer* GameEngineFBXRenderer_ = dynamic_cast<GameEngineFBXRenderer*>((*GroupStart));
+				std::shared_ptr<GameEngineFBXRenderer> GameEngineFBXRenderer_ = std::dynamic_pointer_cast<GameEngineFBXRenderer>((*GroupStart));
 				if (GameEngineFBXRenderer_ != nullptr)
 				{
 					GameEngineFBXRenderer_->ChangeLoadMaterial();

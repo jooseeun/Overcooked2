@@ -43,9 +43,9 @@ void OverCookedUIRenderer::Start()
 
 	SetTextureRendererSetting();
 
-	GameEngineCollision* Collision_ = GetActor()->CreateComponent<GameEngineCollision>();
+	std::shared_ptr<GameEngineCollision> Collision_ = GetActor()->CreateComponent<GameEngineCollision>();
 	Collision_->SetDebugSetting(CollisionType::CT_AABB, { 1, 0, 0, 0.1f });
-	Collision_->SetParent(this);
+	Collision_->SetParent(std::dynamic_pointer_cast<GameEngineUpdateObject>(shared_from_this()));
 
 	int a = 0;
 }
@@ -120,7 +120,7 @@ void OverCookedUIRenderer::ResistDebug(std::string_view _Name)
 	UIDebugGUI::Main_->AddTransform(_Name.data(), &GetTransform());
 }
 
-void OverCookedUIRenderer::SetTexture(GameEngineTexture* _Texture)
+void OverCookedUIRenderer::SetTexture(std::shared_ptr<GameEngineTexture> _Texture)
 {
 	if (nullptr == _Texture)
 	{
@@ -149,7 +149,7 @@ void OverCookedUIRenderer::SetFrame(UINT _Index)
 	AtlasDataInst.FrameData = CurTex->GetFrameData(_Index);
 }
 
-GameEngineTexture* OverCookedUIRenderer::GetCurTexture()
+std::shared_ptr<GameEngineTexture> OverCookedUIRenderer::GetCurTexture()
 {
 	return CurTex;
 }
@@ -160,7 +160,7 @@ void OverCookedUIRenderer::SetTexture(const std::string& _Name, UINT _Index)
 	SetFrame(_Index);
 }
 
-void OverCookedUIRenderer::SetTexture(GameEngineTexture* _Texture, UINT _Index)
+void OverCookedUIRenderer::SetTexture(std::shared_ptr<GameEngineTexture> _Texture, UINT _Index)
 {
 	if (nullptr == _Texture)
 	{
@@ -174,7 +174,7 @@ void OverCookedUIRenderer::SetTexture(GameEngineTexture* _Texture, UINT _Index)
 
 void OverCookedUIRenderer::SetFolderTextureToIndex(const std::string& _Text, UINT _Index)
 {
-	GameEngineFolderTexture* FolderTexture = GameEngineFolderTexture::Find(_Text);
+	std::shared_ptr<GameEngineFolderTexture> FolderTexture = GameEngineFolderTexture::Find(_Text);
 
 	SetTexture(FolderTexture->GetTexture(_Index));
 

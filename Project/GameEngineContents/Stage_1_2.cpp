@@ -20,7 +20,7 @@ void Stage_1_2::Start()
 	GlobalIOManager::Load(IOType::UnsortMap, 1);
 	DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
 
-	Player* MainPlayer = CreateActor<Player>();
+	std::shared_ptr<Player> MainPlayer = CreateActor<Player>();
 	MainPlayer->GetTransform().SetLocalPosition({ -1500, 500, 0 });
 
 	GetMainCameraActorTransform().SetLocalRotation({ 60, 180, 0 });

@@ -46,12 +46,12 @@ public:
 	GameEngineTexture& operator=(const GameEngineTexture& _Other) = delete;
 	GameEngineTexture& operator=(GameEngineTexture&& _Other) noexcept = delete;
 
-	static std::shared_ptr < GameEngineTexture> Load(const std::string& _Path)
+	static std::shared_ptr<GameEngineTexture> Load(const std::string& _Path)
 	{
 		return Load(_Path, GameEnginePath::GetFileName(_Path));
 	}
 
-	static std::shared_ptr < GameEngineTexture> Load(const std::string& _Path, const std::string& _Name);
+	static std::shared_ptr<GameEngineTexture> Load(const std::string& _Path, const std::string& _Name);
 
 	// static
 	static std::shared_ptr < GameEngineTexture> Create(const std::string& _Name, ID3D11Texture2D* _Texture);

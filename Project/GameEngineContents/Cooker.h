@@ -36,9 +36,9 @@ public:
 	Tool_Cooker& operator=(const Tool_Cooker& _Other) = delete;
 	Tool_Cooker& operator=(Tool_Cooker&& _Other) noexcept = delete;
 
-	Input_PickUpOption CheckMoveable(GamePlayMoveable* _Object) override;
+	Input_PickUpOption CheckMoveable(std::shared_ptr<GamePlayMoveable> _Object) override;
 
-	Input_UsingOption Input_ActionToManual(Player* _Player, float _DeltaTime) override
+	Input_UsingOption Input_ActionToManual(std::shared_ptr<Player> _Player, float _DeltaTime) override
 	{
 		return Input_UsingOption::NoResponse; // ¼öÁ¤¿ä
 	}

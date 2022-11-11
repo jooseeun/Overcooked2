@@ -75,7 +75,7 @@ void MeshSelectWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
                     AllMaterialTexture_.clear();
                 }
                 FbxName_ = AllFBXMesh_[FbxCurentIndex_]->GetName().data();
-                MeshObject* MeshObject_ = GEngine::GetCurrentLevel()->CreateActor<MeshObject>();
+                std::shared_ptr<MeshObject> MeshObject_ = GEngine::GetCurrentLevel()->CreateActor<MeshObject>();
                 PreviewMeshRenderer_ = MeshObject_->CreateComponent<GameEngineFBXStaticRenderer>();
                 PreviewMeshRenderer_->SetFBXMesh(FbxName_, "Texture", SubSetCurentIndex_);
                 PreviewMesh_ = PreviewMeshRenderer_->GetFBXMesh();
@@ -135,7 +135,7 @@ void MeshSelectWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
         for (size_t i = 0; i < AllMaterialTexture_.size(); i++)
         {
-            GameEngineTexture* MaterialImage = AllMaterialTexture_[i];
+            std::shared_ptr<GameEngineTexture> MaterialImage = AllMaterialTexture_[i];
             // MaterialImage->Get
             if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(MaterialImage->CreateShaderResourceView()), { 2048 / 7, 2048 / 7 }))
             {
@@ -156,7 +156,7 @@ void MeshSelectWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
                 PreviewMeshRenderer_->Death();
                 PreviewMeshRenderer_ = nullptr;
 
-                MeshObject* MeshObject_ = GEngine::GetCurrentLevel()->CreateActor<MeshObject>();
+                std::shared_ptr<MeshObject> MeshObject_ = GEngine::GetCurrentLevel()->CreateActor<MeshObject>();
                 PreviewMeshRenderer_ = MeshObject_->CreateComponent<GameEngineFBXStaticRenderer>();
                 PreviewMeshRenderer_->SetFBXMesh(AllFBXMesh_[FbxCurentIndex_]->GetName().data(), "Texture", SubSetCurentIndex_);
 
