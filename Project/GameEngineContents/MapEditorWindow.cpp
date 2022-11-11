@@ -608,6 +608,10 @@ void MapEditorWindow::SortToolTab()
 		if (ImGui::Selectable(Name.c_str(), OriginIndex == i))
 		{
 			OriginIndex = i;
+
+			SortActorList_.clear();
+
+			SortActorList_ = Origins_[OriginIndex]->GetStaticMeshInfo();
 		}
 	}
 
@@ -730,40 +734,30 @@ void MapEditorWindow::SortToolTab()
 						//ºÎ¸ð·Î µÐ´Ù
 						std::shared_ptr<Equipment_Plate> Plate = CurLevel_->CreateActor<Equipment_Plate>();
 						SortActorList_[ActorIndex]->SetStuff(Plate);
-
-						//SortActorList_[ActorIndex]->GetStuff()->SetToolInfoType(ToolInfo::Plate);
 					}
 					break;
 					case ToolInfo::FireExtinguisher:
 					{
 						std::shared_ptr<Equipment_FireExtinguisher> FireExtinguisher = CurLevel_->CreateActor<Equipment_FireExtinguisher>();
 						SortActorList_[ActorIndex]->SetStuff(FireExtinguisher);
-
-						//SortActorList_[ActorIndex]->GetStuff()->SetToolInfoType(ToolInfo::FireExtinguisher);
 					}
 					break;
 					case ToolInfo::FryingPan:
 					{
 						std::shared_ptr<Equipment_FryingPan> FryingPan = CurLevel_->CreateActor<Equipment_FryingPan>();
 						SortActorList_[ActorIndex]->SetStuff(FryingPan);
-
-						//SortActorList_[ActorIndex]->GetStuff()->SetToolInfoType(ToolInfo::FryingPan);
 					}
 					break;
 					case ToolInfo::Pot:
 					{
 						std::shared_ptr<Equipment_Pot> Pot = CurLevel_->CreateActor<Equipment_Pot>();
 						SortActorList_[ActorIndex]->SetStuff(Pot);
-
-						//SortActorList_[ActorIndex]->GetStuff()->SetToolInfoType(ToolInfo::Pot);
 					}
 					break;
 					case ToolInfo::CuttingBoard:
 					{
 						std::shared_ptr<Tool_CuttingBoard> CuttingBoard = CurLevel_->CreateActor<Tool_CuttingBoard>();
 						SortActorList_[ActorIndex]->SetStuff(CuttingBoard);
-
-						//SortActorList_[ActorIndex]->GetStuff()->SetToolInfoType(ToolInfo::CuttingBoard);
 					}
 					break;
 					}

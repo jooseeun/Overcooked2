@@ -30,7 +30,7 @@ public:
 protected:	
 
 private:
-	std::shared_ptr<GamePlayStaticObject> CurAcotr_;
+	std::shared_ptr<GamePlayStaticObject> CurActor_;
 
 	std::vector<std::shared_ptr<GamePlayOriginObject>> Origins_;
 	std::vector<std::shared_ptr<GamePlayStaticObject>> SortActorList_;

@@ -20,7 +20,7 @@
 #include "TrafficLight.h"
 
 MapDataParser::MapDataParser()
-	: CurAcotr_(nullptr)
+	: CurActor_(nullptr)
 {
 }
 
@@ -132,8 +132,8 @@ std::vector<std::shared_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPa
 		{
 		case MapObjType::CounterTop:
 		{
-			CurAcotr_ = _Level->CreateActor<CounterTop>();
-			std::shared_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurAcotr_);
+			CurActor_ = _Level->CreateActor<CounterTop>();
+			std::shared_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurActor_);
 
 			Object->SetCounterTopType(CounterTopType::Normal);
 			Object->SetConterTopMesh(CounterTopType::Normal);
@@ -143,8 +143,8 @@ std::vector<std::shared_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPa
 		break;
 		case MapObjType::CounterTop_Corner:
 		{
-			CurAcotr_ = _Level->CreateActor<CounterTop>();
-			std::shared_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurAcotr_);
+			CurActor_ = _Level->CreateActor<CounterTop>();
+			std::shared_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurActor_);
 
 			Object->SetCounterTopType(CounterTopType::Corner);
 			Object->SetConterTopMesh(CounterTopType::Corner);
@@ -154,8 +154,8 @@ std::vector<std::shared_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPa
 		break;
 		case MapObjType::CounterTop_NoEdge:
 		{
-			CurAcotr_ = _Level->CreateActor<CounterTop>();
-			std::shared_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurAcotr_);
+			CurActor_ = _Level->CreateActor<CounterTop>();
+			std::shared_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurActor_);
 
 			Object->SetCounterTopType(CounterTopType::NoEdge);
 			Object->SetConterTopMesh(CounterTopType::NoEdge);
@@ -167,28 +167,28 @@ std::vector<std::shared_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPa
 			break;
 		case MapObjType::Cooker:
 		{
-			CurAcotr_ = _Level->CreateActor<Cooker>();
-			CurAcotr_->SetStaticObjectType(MapObjType::Cooker);
-		}
+			CurActor_ = _Level->CreateActor<Cooker>();
+			CurActor_->SetStaticObjectType(MapObjType::Cooker);
+		}	
 			break;
 		case MapObjType::TrashCan:
 		{
-			CurAcotr_ = _Level->CreateActor<TrashCan>();
-			CurAcotr_->SetStaticObjectType(MapObjType::TrashCan);
+			CurActor_ = _Level->CreateActor<TrashCan>();
+			CurActor_->SetStaticObjectType(MapObjType::TrashCan);
 		}
 		break;
 		case MapObjType::Sink:
 			break;
 		case MapObjType::Servicehatch:
 		{
-			CurAcotr_ = _Level->CreateActor<Servicehatch>();
-			CurAcotr_->SetStaticObjectType(MapObjType::Servicehatch);
+			CurActor_ = _Level->CreateActor<Servicehatch>();
+			CurActor_->SetStaticObjectType(MapObjType::Servicehatch);
 		}
 		break;
 		case MapObjType::PlateReturn:
 		{
-			CurAcotr_ = _Level->CreateActor<PlateReturn>();
-			CurAcotr_->SetStaticObjectType(MapObjType::PlateReturn);
+			CurActor_ = _Level->CreateActor<PlateReturn>();
+			CurActor_->SetStaticObjectType(MapObjType::PlateReturn);
 		}
 		break;
 		case MapObjType::FoodBox:
@@ -197,7 +197,7 @@ std::vector<std::shared_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPa
 			break;
 		}
 		
-		if (nullptr != CurAcotr_)
+		if (nullptr != CurActor_)
 		{
 			ToolInfo ToolType = static_cast<ToolInfo>(_Data[i].Index_.y);
 
@@ -207,51 +207,51 @@ std::vector<std::shared_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPa
 			{
 				//ºÎ¸ð·Î µÐ´Ù
 				std::shared_ptr<Equipment_Plate> Plate = _Level->CreateActor<Equipment_Plate>();
-				CurAcotr_->SetStuff(Plate);
+				CurActor_->SetStuff(Plate);
 			}
 			break;
 			case ToolInfo::FireExtinguisher:
 			{
 				std::shared_ptr<Equipment_FireExtinguisher> FireExtinguisher = _Level->CreateActor<Equipment_FireExtinguisher>();
-				CurAcotr_->SetStuff(FireExtinguisher);
+				CurActor_->SetStuff(FireExtinguisher);
 			}
 			break;
 			case ToolInfo::FryingPan:
 			{
 				std::shared_ptr<Equipment_FryingPan> FryingPan = _Level->CreateActor<Equipment_FryingPan>();
-				CurAcotr_->SetStuff(FryingPan);
+				CurActor_->SetStuff(FryingPan);
 			}
 			break;
 			case ToolInfo::Pot:
 			{
 				std::shared_ptr<Equipment_Pot> Pot = _Level->CreateActor<Equipment_Pot>();
-				CurAcotr_->SetStuff(Pot);
+				CurActor_->SetStuff(Pot);
 			}
 			break;
 			case ToolInfo::CuttingBoard:
 			{
 				std::shared_ptr<Tool_CuttingBoard> CuttingBoard = _Level->CreateActor<Tool_CuttingBoard>();
-				CurAcotr_->SetStuff(CuttingBoard);
+				CurActor_->SetStuff(CuttingBoard);
 			}
 			break;
 			}
 
-			CurAcotr_->SetParent(Origins_[Order]);
-			SortActorList_.push_back(CurAcotr_);
+			CurActor_->SetParent(Origins_[Order]);
+			SortActorList_.push_back(CurActor_);
 
-			CurAcotr_->GetTransform().SetWorldPosition(_Data[i].Pos_);
-			CurAcotr_->GetTransform().SetWorldRotation(_Data[i].Rot_);
-			CurAcotr_->GetTransform().SetWorldScale(_Data[i].Scale_);
+			CurActor_->GetTransform().SetWorldPosition(_Data[i].Pos_);
+			CurActor_->GetTransform().SetWorldRotation(_Data[i].Rot_);
+			CurActor_->GetTransform().SetWorldScale(_Data[i].Scale_);
 
-			if (nullptr != CurAcotr_->GetStuff())
+			if (nullptr != CurActor_->GetStuff())
 			{
-				float4 ToolPos = CurAcotr_->GetToolPos();
-				CurAcotr_->GetStuff()->GetTransform().SetWorldPosition(ToolPos);
+				float4 ToolPos = CurActor_->GetToolPos();
+				CurActor_->GetStuff()->GetTransform().SetWorldPosition(ToolPos);
 			}
 
-			Origins_[Order]->GetStaticMeshInfo().push_back(CurAcotr_);
+			Origins_[Order]->GetStaticMeshInfo().push_back(CurActor_);
 
-			CurAcotr_ = nullptr;
+			CurActor_ = nullptr;
 		}
 	}
 
