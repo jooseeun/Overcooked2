@@ -38,6 +38,20 @@ public:
 	virtual Input_PickUpOption Input_PickUp(std::shared_ptr<GamePlayMoveable> _Object) { return Input_PickUpOption::NoResponse; }
 	virtual Input_PickUpOption Input_PickUp(std::shared_ptr<Player> _Player) { return Input_PickUpOption::NoResponse; }
 
+	inline std::shared_ptr<GameEngineFBXStaticRenderer> GetFBXMesh() const
+	{
+		return Mesh_Object_;
+	}
+
+	inline std::shared_ptr<GameEngineFBXAnimationRenderer> GetAnimationFBXMesh() const
+	{
+		return AnimationMesh_Obejct_;
+	}
+
+	inline std::shared_ptr<GameEngineCollision> GetCollisionObject() const
+	{
+		return Collision_Object_;
+	}
 
 protected:
 	void Start() override;
@@ -64,21 +78,6 @@ protected:
 			MsgBoxAssert("Object의 ObjectType이 설정되지 않았습니다. (GamePlayObject::Enum_ObjectType_ 설정)");
 		}
 		return Enum_ObjectType_;
-	}
-
-	inline std::shared_ptr<GameEngineFBXStaticRenderer> GetFBXMesh() const
-	{
-		return Mesh_Object_;
-	}
-
-	inline std::shared_ptr<GameEngineFBXAnimationRenderer> GetAnimationFBXMesh() const
-	{
-		return AnimationMesh_Obejct_;
-	}
-
-	inline std::shared_ptr<GameEngineCollision> GetCollisionObject() const
-	{
-		return Collision_Object_;
 	}
 
 private:

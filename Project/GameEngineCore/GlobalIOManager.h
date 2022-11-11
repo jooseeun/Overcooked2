@@ -28,7 +28,9 @@ enum class MapObjType
 	Npc,					// 애니메이션 O, 콜리전 O
 	Car,					// 애니메이션 X
 	TrafficLight,			// 애니메이션 X, 콜리전 O
-	Collision,			// 벽, 바닥용 콜리전
+	Collision_Wall,			// 벽, 바닥용 콜리전
+	Collision_Floor,
+
 	Max,
 };
 

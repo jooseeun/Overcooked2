@@ -63,10 +63,8 @@ void GamePlayMapObject::SetMapObjectMesh(const std::string& _Name, MapObjType _O
 		break;
 	case MapObjType::Car:
 	{
-		GetAnimationFBXMesh()->GetTransform().SetWorldScale({ 100.f, 100.f, 100.f });
-		GetAnimationFBXMesh()->SetFBXMesh(_Name + ".fbx", "TextureAnimation");
-		GetAnimationFBXMesh()->CreateFBXAnimation("Test", _Name + ".fbx");
-		GetAnimationFBXMesh()->ChangeAnimation("Test");
+		GetFBXMesh()->GetTransform().SetWorldScale({ 100.f, 100.f, 100.f });
+		GetFBXMesh()->SetFBXMesh(_Name + ".fbx", "Texture");
 	}
 		break;
 	case MapObjType::TrafficLight:

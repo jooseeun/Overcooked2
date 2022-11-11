@@ -21,6 +21,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameEngineShader", "GameEngineResources\GameEngineShader\GameEngineShader.vcxproj", "{688CB3C2-7CC3-4E51-B028-9614041DA912}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameEngineApp", "GameEngineApp\GameEngineApp.vcxproj", "{75BE9C37-A153-4BC1-A3B4-9FC0951F9DF1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{632B5499-9469-4D15-B256-FAE7C96C8778} = {632B5499-9469-4D15-B256-FAE7C96C8778}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ContentsResources", "ContentsResources\ContentsResources.vcxproj", "{FB4197F8-12E0-4F7D-AE44-812BF0BC85FF}"
 EndProject

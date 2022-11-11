@@ -23,6 +23,11 @@ public:
 		return ObjType_;
 	}
 
+	inline void SetMapObjType(MapObjType _ObjType)
+	{
+		ObjType_ = _ObjType;
+	}
+
 	void SetMapObjectMesh(const std::string& _Name, MapObjType _ObjType);
 
 protected:

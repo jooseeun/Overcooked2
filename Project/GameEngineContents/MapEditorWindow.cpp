@@ -35,6 +35,7 @@ MapEditorWindow::MapEditorWindow()
 	, IsUnSort_(false)
 	, IsSort_(false)
 	, LevelIndex_(0)
+	, IsUnSortLoad_(false)
 {
 
 }
@@ -78,7 +79,9 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 			for (size_t i = 0; i < UnSortActorList_.size(); i++)
 			{
 				TmpData.ObjName_ = UnSortActorList_[i]->GetName();
-				TmpData.Transform_ = &UnSortActorList_[i]->GetTransform();
+				TmpData.Pos_ = UnSortActorList_[i]->GetTransform().GetWorldPosition();
+				TmpData.Scale_ = UnSortActorList_[i]->GetCollisionObject()->GetTransform().GetWorldScale();
+				TmpData.Rot_ = UnSortActorList_[i]->GetTransform().GetWorldRotation();
 				TmpData.MapObjType_ = UnSortActorList_[i]->GetMapObjType();
 				
 				GlobalIOManager::AddMapData(TmpData);
@@ -141,6 +144,7 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	{
 		if (true == IsUnSort_)
 		{
+
 			GlobalIOManager::Load(IOType::UnsortMap, LevelIndex_);
 			DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), CurLevel_);
 
@@ -153,8 +157,10 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				{
 					std::shared_ptr<Npc> Object = CurLevel_->CreateActor<Npc>();
 					Object->GetTransform().SetWorldPosition(Vector[i].Pos_);
-					Object->GetTransform().SetWorldScale(Vector[i].Scale_);
+					Object->GetCollisionObject()->GetTransform().SetWorldScale(Vector[i].Scale_);
 					Object->GetTransform().SetWorldRotation(Vector[i].Rot_);
+					Object->SetMapObjectMesh(Vector[i].ObjName_, Vector[i].MapObjType_);
+					Object->SetMapObjType(Vector[i].MapObjType_);
 					Object->SetName(Vector[i].ObjName_);
 					UnSortActorList_.push_back(Object);
 				}
@@ -163,8 +169,10 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				{
 					std::shared_ptr<Car> Object = CurLevel_->CreateActor<Car>();
 					Object->GetTransform().SetWorldPosition(Vector[i].Pos_);
-					Object->GetTransform().SetWorldScale(Vector[i].Scale_);
+					Object->GetCollisionObject()->GetTransform().SetWorldScale(Vector[i].Scale_);
 					Object->GetTransform().SetWorldRotation(Vector[i].Rot_);
+					Object->SetMapObjectMesh(Vector[i].ObjName_, Vector[i].MapObjType_);
+					Object->SetMapObjType(Vector[i].MapObjType_);
 					Object->SetName(Vector[i].ObjName_);
 					UnSortActorList_.push_back(Object);
 				}
@@ -173,8 +181,32 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				{
 					std::shared_ptr<TrafficLight> Object = CurLevel_->CreateActor<TrafficLight>();
 					Object->GetTransform().SetWorldPosition(Vector[i].Pos_);
-					Object->GetTransform().SetWorldScale(Vector[i].Scale_);
+					Object->GetCollisionObject()->GetTransform().SetWorldScale(Vector[i].Scale_);
 					Object->GetTransform().SetWorldRotation(Vector[i].Rot_);
+					Object->SetMapObjectMesh(Vector[i].ObjName_, Vector[i].MapObjType_);
+					Object->SetMapObjType(Vector[i].MapObjType_);
+					Object->SetName(Vector[i].ObjName_);
+					UnSortActorList_.push_back(Object);
+				}
+				break;
+				case MapObjType::Collision_Wall:
+				{
+					std::shared_ptr<GamePlayMapObject> Object = CurLevel_->CreateActor<GamePlayMapObject>();
+					Object->GetTransform().SetWorldPosition(Vector[i].Pos_);
+					Object->GetCollisionObject()->GetTransform().SetWorldScale(Vector[i].Scale_);
+					Object->GetTransform().SetWorldRotation(Vector[i].Rot_);
+					Object->SetMapObjType(Vector[i].MapObjType_);
+					Object->SetName(Vector[i].ObjName_);
+					UnSortActorList_.push_back(Object);
+				}
+				break;
+				case MapObjType::Collision_Floor:
+				{
+					std::shared_ptr<GamePlayFloor> Object = CurLevel_->CreateActor<GamePlayFloor>();
+					Object->GetTransform().SetWorldPosition(Vector[i].Pos_);
+					Object->GetCollisionObject()->GetTransform().SetWorldScale(Vector[i].Scale_);
+					Object->GetTransform().SetWorldRotation(Vector[i].Rot_);
+					Object->SetMapObjType(Vector[i].MapObjType_);
 					Object->SetName(Vector[i].ObjName_);
 					UnSortActorList_.push_back(Object);
 				}
@@ -183,33 +215,15 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				{
 					std::shared_ptr<GamePlayMapObject> Object = CurLevel_->CreateActor<GamePlayMapObject>();
 					Object->GetTransform().SetWorldPosition(Vector[i].Pos_);
-					Object->GetTransform().SetWorldScale(Vector[i].Scale_);
+					Object->GetCollisionObject()->GetTransform().SetWorldScale(Vector[i].Scale_);
 					Object->GetTransform().SetWorldRotation(Vector[i].Rot_);
+					Object->SetMapObjectMesh(Vector[i].ObjName_, Vector[i].MapObjType_);
+					Object->SetMapObjType(Vector[i].MapObjType_);
 					Object->SetName(Vector[i].ObjName_);
 					UnSortActorList_.push_back(Object);
 				}
 				break;
 				}
-				// ********* 콜리전 추가 필요
-				
-				//GamePlayMapObject* Object = CurLevel_->CreateActor<GamePlayMapObject>();
-				//Object->GetTransform().SetWorldPosition(Vector[i].Pos_);
-				//Object->GetTransform().SetWorldScale(Vector[i].Scale_);
-				//Object->GetTransform().SetWorldRotation(Vector[i].Rot_);
-				//Object->SetName(Vector[i].ObjName_);
-
-				//// 일반 메쉬
-				//if (Vector[i].ObjName_ != "Collision_Wall" && Vector[i].ObjName_ != "Collision_Floor")
-				//{
-				//	Object->SetMapObjectMesh(Vector[i].ObjName_);
-				//}
-				//else if (Vector[i].ObjName_ == "Collision_Floor")
-				//{
-				//	// 바닥 콜리전이다
-				//	Object->GetCollisionObject()->SetDebugSetting(CollisionType::CT_AABB, { 0, 0.8f, 0.8f, 0.5f });
-				//}
-
-				//UnSortActorList_.push_back(Object);
 			}
 		}
 
@@ -415,7 +429,7 @@ void MapEditorWindow::UnSortToolTab()
 
 	for (size_t i = 0; i < RendererType.size(); ++i)
 	{
-		if (i < 10)
+		if (i <= 10)
 		{
 			continue;
 		}
@@ -448,6 +462,7 @@ void MapEditorWindow::UnSortToolTab()
 			Object->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
 			Object->SetMapObjectMesh(AllUnSortActorName_[SelectNameIndex], ObjectTypeIndex);
 			Object->SetName(AllUnSortActorName_[SelectNameIndex]);
+			Object->SetMapObjType(ObjectTypeIndex);
 			UnSortActorList_.push_back(Object);
 		}
 			break;
@@ -466,41 +481,39 @@ void MapEditorWindow::UnSortToolTab()
 			Object->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
 			Object->SetMapObjectMesh(AllUnSortActorName_[SelectNameIndex], ObjectTypeIndex);
 			Object->SetName(AllUnSortActorName_[SelectNameIndex]);
+			Object->SetMapObjType(ObjectTypeIndex);
 			UnSortActorList_.push_back(Object);
 		}
 			break;
+		case MapObjType::Collision_Wall:
+		{
+			std::shared_ptr<GamePlayMapObject> Object = CurLevel_->CreateActor<GamePlayMapObject>();
+			Object->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
+			Object->SetName(AllUnSortActorName_[SelectNameIndex]);
+			Object->SetMapObjType(ObjectTypeIndex);
+			UnSortActorList_.push_back(Object);
+		}
+		break;
+		case MapObjType::Collision_Floor:
+		{
+			std::shared_ptr<GamePlayFloor> Object = CurLevel_->CreateActor<GamePlayFloor>();
+			Object->GetTransform().SetWorldPosition({ 0.f, -49.f, 0.f });
+			Object->SetName(AllUnSortActorName_[SelectNameIndex]);
+			Object->SetMapObjType(ObjectTypeIndex);
+			UnSortActorList_.push_back(Object);
+		}
+		break;
 		default:
 		{
 			std::shared_ptr<GamePlayMapObject> Object = CurLevel_->CreateActor<GamePlayMapObject>();
 			Object->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
 			Object->SetMapObjectMesh(AllUnSortActorName_[SelectNameIndex], ObjectTypeIndex);
 			Object->SetName(AllUnSortActorName_[SelectNameIndex]);
+			Object->SetMapObjType(ObjectTypeIndex);
 			UnSortActorList_.push_back(Object);
 		}
 			break;
 		}
-		//GamePlayMapObject* Object = CurLevel_->CreateActor<GamePlayMapObject>();
-		//Object->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
-		////	Object->GetTransform().SetLocalScale({ 1.f, 1.f, 1.f });
-		//Object->SetName("UnNamed");
-
-		//if (AllUnSortActorName_[SelectNameIndex] == "Collision_Wall")
-		//{
-		//	Object->SetName("Collision_Wall");
-		//}
-		//else if (AllUnSortActorName_[SelectNameIndex] == "Collision_Floor")
-		//{
-		//	Object->SetName("Collision_Floor");
-		//	Object->GetCollisionObject()->SetDebugSetting(CollisionType::CT_AABB, { 0, 0.8f, 0., 0.5f });
-		//	Object->GetCollisionObject()->SetDebugSetting(CollisionType::CT_AABB, { 0, 0.8f, 0.8f, 0.5f });
-		//	Object->GetTransform().SetWorldPosition({ 0.f, -49.f, 0.f });
-		//}
-		//else
-		//{
-		//	Object->SetMapObjectMesh(AllUnSortActorName_[SelectNameIndex]);
-		//	Object->SetName(AllUnSortActorName_[SelectNameIndex]);
-		//}
-		//UnSortActorList_.push_back(Object);
 	}
 
 	ImGui::SameLine();
@@ -563,19 +576,21 @@ void MapEditorWindow::UnSortToolTab()
 		}
 		UnSortActorList_[SelectIndex]->GetTransform().SetWorldRotation(Rotation_);
 
-		Scale_ = UnSortActorList_[SelectIndex]->GetTransform().GetWorldScale();
-		ImGui::Text("Scale");
-		ImGui::DragFloat("Scale.x", &Scale_.x);
-		ImGui::DragFloat("Scale.y", &Scale_.y);
-		ImGui::DragFloat("Scale.z", &Scale_.z);
+		// Actor 크기는 1 1 1로 고정
+		// 콜리전 기본 크기는 50 50 50
+		CollisionScale_ = UnSortActorList_[SelectIndex]->GetCollisionObject()->GetTransform().GetWorldScale();
+		ImGui::Text("Collision Scale");
+		ImGui::DragFloat("Collision Scale.x", &CollisionScale_.x);
+		ImGui::DragFloat("Collision Scale.y", &CollisionScale_.y);
+		ImGui::DragFloat("Collision Scale.z", &CollisionScale_.z);
 
-		ImGui::InputFloat4("Scale", Scale_.Arr1D);
+		ImGui::InputFloat4("Collision Scale", CollisionScale_.Arr1D);
 
-		if (true == ImGui::Button("Scale Reset"))
+		if (true == ImGui::Button("Collision Scale Reset"))
 		{
-			Scale_ = { 1.f, 1.f, 1.f };
+			CollisionScale_ = { 1.f, 1.f, 1.f };
 		}
-		UnSortActorList_[SelectIndex]->GetTransform().SetWorldScale(Scale_);
+		UnSortActorList_[SelectIndex]->GetCollisionObject()->GetTransform().SetWorldScale(CollisionScale_);
 	}
 }
 

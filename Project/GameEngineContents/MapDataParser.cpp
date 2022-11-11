@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "MapDataParser.h"
 #include "GamePlayOriginObject.h"
+#include "GamePlayMapObject.h"
 
 #include "CounterTop.h"
 #include "TrashCan.h"
@@ -13,6 +14,10 @@
 #include "Equipment_FryingPan.h"
 #include "Equipment_Pot.h"
 #include "Tool_CuttingBoard.h"
+
+#include "Npc.h"
+#include "Car.h"
+#include "TrafficLight.h"
 
 MapDataParser::MapDataParser()
 	: CurAcotr_(nullptr)
@@ -27,29 +32,75 @@ void MapDataParser::UnSortMapDataParsing(std::vector<MapData>& _Data, GameEngine
 {
 	for (size_t i = 0; i < _Data.size(); i++)
 	{
-		if (_Data[i].ObjName_ == "Collision_Floor")
+		switch (_Data[i].MapObjType_)
+		{
+		case MapObjType::Npc:
+		{
+			std::shared_ptr<Npc> Object = _Level->CreateActor<Npc>();
+			Object->GetTransform().SetWorldPosition(_Data[i].Pos_);
+			Object->GetCollisionObject()->GetTransform().SetWorldScale(_Data[i].Scale_);
+			Object->GetTransform().SetWorldRotation(_Data[i].Rot_);
+			Object->SetMapObjectMesh(_Data[i].ObjName_, _Data[i].MapObjType_);
+			Object->SetMapObjType(_Data[i].MapObjType_);
+			Object->SetName(_Data[i].ObjName_);
+		}
+		break;
+		case MapObjType::Car:
+		{
+			std::shared_ptr<Car> Object = _Level->CreateActor<Car>();
+			Object->GetTransform().SetWorldPosition(_Data[i].Pos_);
+			Object->GetCollisionObject()->GetTransform().SetWorldScale(_Data[i].Scale_);
+			Object->GetTransform().SetWorldRotation(_Data[i].Rot_);
+			Object->SetMapObjectMesh(_Data[i].ObjName_, _Data[i].MapObjType_);
+			Object->SetMapObjType(_Data[i].MapObjType_);
+			Object->SetName(_Data[i].ObjName_);
+		}
+		break;
+		case MapObjType::TrafficLight:
+		{
+			std::shared_ptr<TrafficLight> Object = _Level->CreateActor<TrafficLight>();
+			Object->GetTransform().SetWorldPosition(_Data[i].Pos_);
+			Object->GetCollisionObject()->GetTransform().SetWorldScale(_Data[i].Scale_);
+			Object->GetTransform().SetWorldRotation(_Data[i].Rot_);
+			Object->SetMapObjectMesh(_Data[i].ObjName_, _Data[i].MapObjType_);
+			Object->SetMapObjType(_Data[i].MapObjType_);
+			Object->SetName(_Data[i].ObjName_);
+		}
+		break;
+		case MapObjType::Collision_Wall:
+		{
+			std::shared_ptr<GamePlayMapObject> Object = _Level->CreateActor<GamePlayMapObject>();
+			Object->GetTransform().SetWorldPosition(_Data[i].Pos_);
+			Object->GetCollisionObject()->GetTransform().SetWorldScale(_Data[i].Scale_);
+			Object->GetTransform().SetWorldRotation(_Data[i].Rot_);
+			Object->SetMapObjectMesh(_Data[i].ObjName_, _Data[i].MapObjType_);
+			Object->SetMapObjType(_Data[i].MapObjType_);
+			Object->SetName(_Data[i].ObjName_);
+		}
+		break;
+		case MapObjType::Collision_Floor:
 		{
 			std::shared_ptr<GamePlayFloor> Object = _Level->CreateActor<GamePlayFloor>();
 			Object->GetTransform().SetWorldPosition(_Data[i].Pos_);
+			Object->GetCollisionObject()->GetTransform().SetWorldScale(_Data[i].Scale_);
 			Object->GetTransform().SetWorldRotation(_Data[i].Rot_);
-			Object->GetTransform().SetWorldScale(_Data[i].Scale_);
-		}
-		else if (_Data[i].ObjName_ == "Collision_Wall")
-		{
-			std::shared_ptr<GamePlayMapObject> Object = _Level->CreateActor<GamePlayMapObject>();
-			Object->GetTransform().SetWorldPosition(_Data[i].Pos_);
-			Object->GetTransform().SetWorldRotation(_Data[i].Rot_);
-			Object->GetTransform().SetWorldScale(_Data[i].Scale_);
-		}
-		else
-		{
-			std::shared_ptr<GamePlayMapObject> Object = _Level->CreateActor<GamePlayMapObject>();
-			Object->GetTransform().SetWorldPosition(_Data[i].Pos_);
-			Object->GetTransform().SetWorldRotation(_Data[i].Rot_);
-			Object->GetTransform().SetWorldScale(_Data[i].Scale_);
+			Object->SetMapObjectMesh(_Data[i].ObjName_, _Data[i].MapObjType_);
+			Object->SetMapObjType(_Data[i].MapObjType_);
+			Object->SetName(_Data[i].ObjName_);
 
-			std::shared_ptr<GameEngineFBXStaticRenderer> Renderer = Object->CreateComponent<GameEngineFBXStaticRenderer>();
-			Renderer->SetFBXMesh(_Data[i].ObjName_ + ".fbx", "Texture");
+		}
+		break;
+		default:
+		{
+			std::shared_ptr<GamePlayMapObject> Object = _Level->CreateActor<GamePlayMapObject>();
+			Object->GetTransform().SetWorldPosition(_Data[i].Pos_);
+			Object->GetCollisionObject()->GetTransform().SetWorldScale(_Data[i].Scale_);
+			Object->GetTransform().SetWorldRotation(_Data[i].Rot_);
+			Object->SetMapObjectMesh(_Data[i].ObjName_, _Data[i].MapObjType_);
+			Object->SetMapObjType(_Data[i].MapObjType_);
+			Object->SetName(_Data[i].ObjName_);
+		}
+		break;
 		}
 	}
 }

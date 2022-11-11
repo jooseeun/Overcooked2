@@ -67,7 +67,7 @@ private:
 private:
 	float4 Rotation_;
 	float4 Position_;
-	float4 Scale_;
+	float4 CollisionScale_;
 
 	std::string ObjectName_;
 	int Index_;
@@ -76,5 +76,7 @@ private:
 
 	bool IsUnSort_;
 	bool IsSort_;
+
+	bool IsUnSortLoad_;
 };
 
