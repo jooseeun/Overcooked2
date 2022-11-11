@@ -74,8 +74,20 @@ public:
 		{
 			return Stuff_Current_->GetToolInfoType();
 		}
-		 
 	}
+
+	inline void SetToolPos(float4& _Pos)
+	{
+		ToolPos_ = _Pos;
+	}
+
+	virtual float4 GetToolPos() 
+	{
+		ToolPos_ = GetTransform().GetWorldPosition() + float4{ 0, 50.f };
+
+		return ToolPos_;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override {};
@@ -87,13 +99,13 @@ protected:
 	void LevelStartEvent() override {};
 	void LevelEndEvent() override {};
 
+	float4 ToolPos_;
 
 private:
 	std::shared_ptr<GamePlayStuff> Stuff_Current_;
 
 	MapObjType MyType_;
 
-	float4 ToolPos_;
 
 	//int X_;
 	//int Y_;

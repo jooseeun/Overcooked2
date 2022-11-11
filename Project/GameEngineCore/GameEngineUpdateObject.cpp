@@ -42,6 +42,7 @@ void GameEngineUpdateObject::DetachObject()
 	if (nullptr != Parent.lock())
 	{
 		Parent.lock()->Childs.remove(shared_from_this());
+		Parent.reset();
 	}
 }
 

@@ -5,6 +5,7 @@
 
 GamePlayStaticObject::GamePlayStaticObject() 
 	: Stuff_Current_(nullptr)
+	, ToolPos_(float4::ZERO)
 {
 }
 
@@ -17,9 +18,7 @@ void GamePlayStaticObject::Start()
 	GamePlayObject::Start();
 	GamePlayObject::SetObjectType(ObjectType::StaticObject);
 	GetCollisionObject()->ChangeOrder(CollisionOrder::Object_StaticObject);
-
-	ToolPos_ = GetTransform().GetWorldPosition() + float4{0, 30.f};
-}
+} 
 
 void GamePlayStaticObject::SetBloomEffectOff()
 {

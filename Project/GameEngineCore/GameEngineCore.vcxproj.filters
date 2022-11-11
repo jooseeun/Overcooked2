@@ -189,6 +189,9 @@
     <ClInclude Include="GlobalIOManager.h">
       <Filter>Global</Filter>
     </ClInclude>
+    <ClInclude Include="GlobalVignette.h">
+      <Filter>Object\Component\Rendering\PostEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineActor.cpp">
@@ -368,6 +371,9 @@
     </ClCompile>
     <ClCompile Include="GlobalIOManager.cpp">
       <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalVignette.cpp">
+      <Filter>Object\Component\Rendering\PostEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

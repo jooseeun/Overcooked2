@@ -15,6 +15,13 @@ public:
 	Cooker& operator=(const Cooker& _Other) = delete;
 	Cooker& operator=(Cooker&& _Other) noexcept = delete;
 
+	float4 GetToolPos() override
+	{
+		ToolPos_ = GetTransform().GetWorldPosition() + float4{ 0, 60.f };
+
+		return ToolPos_;
+	};
+
 protected:
 	void Start() override;
 private:
@@ -42,7 +49,7 @@ public:
 	{
 		return Input_UsingOption::NoResponse; // ¼öÁ¤¿ä
 	}
-
+	
 protected:
 	void Start() override;
 private:
