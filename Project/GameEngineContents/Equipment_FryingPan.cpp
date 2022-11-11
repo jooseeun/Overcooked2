@@ -14,4 +14,6 @@ void Equipment_FryingPan::Start()
 	GamePlayBowl::Start();
 	GamePlayBowl::SetToolInfoType(ToolInfo::FryingPan);
 
+	GetFBXMesh()->SetFBXMesh("m_sk_fryingpan_01.fbx", "Texture");
+	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 }

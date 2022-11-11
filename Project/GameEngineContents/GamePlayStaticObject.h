@@ -99,13 +99,13 @@ protected:
 	void LevelStartEvent() override {};
 	void LevelEndEvent() override {};
 
+	float4 ToolPos_;
 
 private:
 	std::shared_ptr<GamePlayStuff> Stuff_Current_;
 
 	MapObjType MyType_;
 
-	float4 ToolPos_;
 
 	//int X_;
 	//int Y_;
