@@ -7,7 +7,8 @@
 #include "GameEngineTexture.h"
 #include "GameEngineMesh.h"
 #include "GameEngineStructuredBuffer.h"
-
+#include <map>
+	
 class FbxExIW
 {
 public:

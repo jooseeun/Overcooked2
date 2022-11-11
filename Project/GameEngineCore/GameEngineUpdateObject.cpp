@@ -8,6 +8,7 @@ GameEngineUpdateObject::GameEngineUpdateObject()
 	, AccTime_(0.0f)
 	, DeathTime_(0.0f)
 	, Order_(0)
+	, Parent()
 {
 }
 
