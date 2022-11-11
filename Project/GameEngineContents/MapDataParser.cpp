@@ -6,6 +6,7 @@
 #include "TrashCan.h"
 #include "Servicehatch.h"
 #include "PlateReturn.h"
+#include "Cooker.h"
 
 #include "Equipment_Plate.h"
 #include "Equipment_FireExtinguisher.h"
@@ -114,6 +115,10 @@ std::vector<std::shared_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPa
 		case MapObjType::CounterTop_WiZard:
 			break;
 		case MapObjType::Cooker:
+		{
+			CurAcotr_ = _Level->CreateActor<Cooker>();
+			CurAcotr_->SetStaticObjectType(MapObjType::Cooker);
+		}
 			break;
 		case MapObjType::TrashCan:
 		{
