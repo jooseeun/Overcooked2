@@ -235,6 +235,20 @@ void Overcooked::MeshLoad()
 		Dir.Move("ContentsResources");
 		Dir.Move("Mesh");
 		Dir.Move("Object");
+		Dir.Move("Stuff");
+		Dir.Move("Tool");
+		Dir.Move("Plate");
+
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_plate_02.fbx"));
+		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		Dir.Move("ContentsResources");
+		Dir.Move("Mesh");
+		Dir.Move("Object");
 		Dir.Move("StaticObject");
 		Dir.Move("Cooker");
 

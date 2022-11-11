@@ -14,7 +14,6 @@
 #include "Equipment_FireExtinguisher.h"
 #include "Equipment_FryingPan.h"
 #include "Equipment_Pot.h"
-
 #include "Tool_CuttingBoard.h"
 
 #include "Npc.h"
@@ -122,7 +121,7 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 					if (nullptr != DataActors[j]->GetStuff())
 					{
-						Data.Index_.w = static_cast<float>(DataActors[j]->GetStuff()->GetToolInfoType());
+						Data.Index_.y = static_cast<float>(DataActors[j]->GetStuff()->GetToolInfoType());
 					}
 
 					InputVector.push_back(Data);
@@ -753,6 +752,9 @@ void MapEditorWindow::SortToolTab()
 					}
 					break;
 					}
+
+					float4 ToolPos = SortActorList_[ActorIndex]->GetToolPos();
+					SortActorList_[ActorIndex]->GetStuff()->GetTransform().SetWorldPosition(ToolPos);
 				}
 			}
 		}
