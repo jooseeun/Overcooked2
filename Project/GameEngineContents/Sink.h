@@ -22,8 +22,10 @@ private:
 };
 
 // Ό³Έν :
+class Equipment_Plate;
 class Tool_Sink : public GamePlayTool
 {
+
 public:
 	// constrcuter destructer
 	Tool_Sink();
@@ -46,6 +48,9 @@ protected:
 	void Input_Action_End(std::shared_ptr<GamePlayMoveable> _Moveable) override;
 private:
 
+
+
+	std::shared_ptr<Equipment_Plate> ReturnCleanPlate_;
 };
 
 

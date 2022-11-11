@@ -48,15 +48,12 @@ Input_PickUpOption Tool_Sink::Input_PickUp(std::shared_ptr<GamePlayMoveable> _Ob
 		if (GetCurrentMoveable() == nullptr)
 		{
 			SetCurrentMoveable(_Object);
+			return Input_PickUpOption::PickUp;
 		}
 		else
 		{
-			std::dynamic_pointer_cast<Equipment_Plate>(GetCurrentMoveable())->PlusPlateStack();
-			_Object->Death();
+			return std::dynamic_pointer_cast<Equipment_Plate>(GetCurrentMoveable())->Input_PickUp(_Object);
 		}
-
-		return Input_PickUpOption::PickUp;
-
 	}
 	return Input_PickUpOption::NoResponse;
 
@@ -89,18 +86,19 @@ Input_UsingOption Tool_Sink::Input_ActionToManual(std::shared_ptr<Player> _Playe
 void Tool_Sink::Input_Action_End(std::shared_ptr<GamePlayMoveable> _Moveable)
 {
 	std::shared_ptr<Equipment_Plate> Plate = std::dynamic_pointer_cast<Equipment_Plate>(_Moveable);
-	if (Plate->GetPlateStack() > 1)
+	if (ReturnCleanPlate_ == nullptr)
 	{
-		Plate->MinusPlateStack();
+		ReturnCleanPlate_ = Plate;
+	}
 
 
-		//GetLevel()->CreateActor<Equipment_Plate>();
-	
-
+	if (Plate->Pile_Plate_ != nullptr)
+	{
+		SetCurrentMoveable(Plate->Pile_Plate_);
 	}
 	else
 	{
-		//SetCurrentMoveable(nullptr)
+		
 	}
 	// 옆에 접시 생성
 }

@@ -4,6 +4,7 @@
 
 class Equipment_Plate final : public GamePlayBowl
 {
+	friend class Tool_Sink;
 public:
 	// constrcuter destructer
 	Equipment_Plate();
@@ -18,27 +19,17 @@ public:
 	//Input_PickUpOption CheckMoveable(GamePlayMoveable* _Object) override;
 	//Input_InteractOption Input_Interact() override;
 	Input_PickUpOption Input_PickUp(std::shared_ptr<GamePlayMoveable> _Object) override;
-
-
-	inline int GetPlateStack() const
-	{
-		return StackValue_;
-	}
-
-	inline void PlusPlateStack()
-	{
-		++StackValue_;
-	}
-
-	inline void MinusPlateStack()
-	{
-		--StackValue_;
-	}
-
+	Input_PickUpOption Input_PickUp(std::shared_ptr<Player> _Player) override;
+	
 
 	inline bool IsDirty()
 	{
-		return Dirty;
+		return Dirty_;
+	}
+
+	inline void SetWashing()
+	{
+		Washing_ = true;
 	}
 
 	void SetDirty();
@@ -46,7 +37,9 @@ public:
 protected:
 	void Start() override;
 private:
-	bool Dirty;
-	int StackValue_;
+	bool Dirty_;
+	bool Washing_;
+
+	std::shared_ptr<Equipment_Plate> Pile_Plate_;
 };
 
