@@ -219,6 +219,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GlobalIOManager.h" />
+    <ClInclude Include="GlobalVignette.h" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui.h" />
     <ClInclude Include="imgui_impl_dx11.h" />
@@ -435,6 +436,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GlobalIOManager.cpp" />
+    <ClCompile Include="GlobalVignette.cpp" />
     <ClCompile Include="imgui.cpp" />
     <ClCompile Include="imgui_draw.cpp" />
     <ClCompile Include="imgui_impl_dx11.cpp" />
