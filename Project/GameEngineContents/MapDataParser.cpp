@@ -7,6 +7,12 @@
 #include "Servicehatch.h"
 #include "PlateReturn.h"
 
+#include "Equipment_Plate.h"
+#include "Equipment_FireExtinguisher.h"
+#include "Equipment_FryingPan.h"
+#include "Equipment_Pot.h"
+#include "Tool_CuttingBoard.h"
+
 MapDataParser::MapDataParser()
 	: CurAcotr_(nullptr)
 {
@@ -134,24 +140,58 @@ std::vector<std::shared_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPa
 		default:
 			break;
 		}
-
-		ToolInfo ToolType = static_cast<ToolInfo>(_Data[i].Index_.w);
-
-		switch (ToolType)
-		{
-		default:
-			break;
-		}
-
-
+		
 		if (nullptr != CurAcotr_)
 		{
+			ToolInfo ToolType = static_cast<ToolInfo>(_Data[i].Index_.y);
+
+			switch (ToolType)
+			{
+			case ToolInfo::Plate:
+			{
+				//ºÎ¸ð·Î µÐ´Ù
+				std::shared_ptr<Equipment_Plate> Plate = _Level->CreateActor<Equipment_Plate>();
+				CurAcotr_->SetStuff(Plate);
+			}
+			break;
+			case ToolInfo::FireExtinguisher:
+			{
+				std::shared_ptr<Equipment_FireExtinguisher> FireExtinguisher = _Level->CreateActor<Equipment_FireExtinguisher>();
+				CurAcotr_->SetStuff(FireExtinguisher);
+			}
+			break;
+			case ToolInfo::FryingPan:
+			{
+				std::shared_ptr<Equipment_FryingPan> FryingPan = _Level->CreateActor<Equipment_FryingPan>();
+				CurAcotr_->SetStuff(FryingPan);
+			}
+			break;
+			case ToolInfo::Pot:
+			{
+				std::shared_ptr<Equipment_Pot> Pot = _Level->CreateActor<Equipment_Pot>();
+				CurAcotr_->SetStuff(Pot);
+			}
+			break;
+			case ToolInfo::CuttingBoard:
+			{
+				std::shared_ptr<Tool_CuttingBoard> CuttingBoard = _Level->CreateActor<Tool_CuttingBoard>();
+				CurAcotr_->SetStuff(CuttingBoard);
+			}
+			break;
+			}
+
 			CurAcotr_->SetParent(Origins_[Order]);
 			SortActorList_.push_back(CurAcotr_);
 
 			CurAcotr_->GetTransform().SetWorldPosition(_Data[i].Pos_);
 			CurAcotr_->GetTransform().SetWorldRotation(_Data[i].Rot_);
 			CurAcotr_->GetTransform().SetWorldScale(_Data[i].Scale_);
+
+			if (nullptr != CurAcotr_->GetStuff())
+			{
+				float4 ToolPos = CurAcotr_->GetToolPos();
+				CurAcotr_->GetStuff()->GetTransform().SetWorldPosition(ToolPos);
+			}
 
 			Origins_[Order]->GetStaticMeshInfo().push_back(CurAcotr_);
 

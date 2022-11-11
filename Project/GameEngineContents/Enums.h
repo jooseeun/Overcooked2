@@ -43,7 +43,7 @@ enum class PlayerHoldType
 };
 enum class ToolInfo
 {
-	None,
+	None = 0,
 	Plate, //접시
 	FireExtinguisher, //소화기
 	FryingPan, //프라이팬
