@@ -75,6 +75,10 @@ private:
 
 	std::shared_ptr<GameEngineFontRenderer> CountDownFont_ = nullptr;
 
+	//Transition
+	std::shared_ptr<OverCookedUIRenderer> BlackRenderer_ = nullptr;
+	std::shared_ptr<OverCookedUIRenderer> TransitionIcon_ = nullptr;
+
 	std::vector<LevelSelect> LevelSelect_;
 
 	float Interval_ = 360.f;

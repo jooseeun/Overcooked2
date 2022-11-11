@@ -2,15 +2,13 @@
 #include <GameEngineCore/GameEngineDefaultRenderer.h>
 #include <GameEngineCore/GameEngineTextureRenderer.h>
 
-// 설명 :
-
 struct UIData
 {
-	int UsingMask;
+	int UIMode; // 0: 기본 1: 마스크 2: Transition
 	float4 DownDelta;//{0 : 사용하지않음 1.f : 사용함,누적 DeltaTime,,,}
 
 	UIData()
-		: UsingMask(0)
+		: UIMode(0)
 		, DownDelta(float4::ZERO)
 	{
 	}
@@ -87,6 +85,8 @@ public:
 
 	void SetSamplerPointClamp();
 
+	void StartFadeOut(float _StartRatio); //주의! CameraOrder : AboveUICAMERA로 해야함
+
 protected:
 	void Start() override;
 
@@ -122,4 +122,8 @@ private:
 	bool IsDown_ = false;
 	float DownIter_ = 0.f;
 	float DownSpeed_ = 0.f;
+
+	//Transition 관련
+	float TransitionRatio_;
+	float AccTime_;
 };

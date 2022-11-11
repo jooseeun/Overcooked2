@@ -27,7 +27,7 @@ cbuffer AtlasData : register(b1)
 
 cbuffer UIData : register(b2)
 {
-    int UsingMask; // 0 : false, 1 : true
+    int UIMode; // 0 : ±âº», 1 : MaskMode , 2: TransitionMode
     
     float4 DownDelta;
 };
@@ -52,6 +52,14 @@ Output UI_VS(Input _Input)
         NewOutPut.Tex.y -= DownDelta.y;
 
     }
+    
+    //Transition¿ë
+    if(UIMode == 2)
+    {
+        Output NewOutPut = (Output) 0;
+        NewOutPut.Pos = _Input.Pos;
+        NewOutPut.Tex = _Input.Tex;
+    }
     return NewOutPut;
 }
 
@@ -67,7 +75,7 @@ Texture2D Tex2 : register(t1);
 SamplerState LINEARWRAP : register(s0);
 float4 UI_PS(Output _Input) : SV_Target0
 {
-    if(UsingMask == 0)
+    if (UIMode == 0)
     {
         if (_Input.Tex.x < Slice.x)
         {
@@ -95,7 +103,7 @@ float4 UI_PS(Output _Input) : SV_Target0
     
         return Result;
     }
-    else if(UsingMask == 1)
+    else if (UIMode == 1)
     {
     
         if (_Input.Tex.x < Slice.x)
@@ -126,6 +134,22 @@ float4 UI_PS(Output _Input) : SV_Target0
         {
             Result.a = 1.0f;
 
+        }
+        //if (0.1f <= Result.a)
+        //{
+        //    Result.a = -100.f;
+
+        //}
+        return Result;
+    }
+    else if (UIMode == 2)
+    {
+        float4 Result = (0, 0, 0, 0);
+        float4 TexColor = Tex.Sample(LINEARWRAP, _Input.Tex.xy);
+        if(TexColor.a <= 0.1)
+        {
+            Result.a = -10;
+            return Result;
         }
         return Result;
     }

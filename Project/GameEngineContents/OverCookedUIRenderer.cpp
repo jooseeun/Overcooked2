@@ -136,11 +136,12 @@ void OverCookedUIRenderer::SetTexture(std::shared_ptr<GameEngineTexture> _Textur
 void OverCookedUIRenderer::SetTexture(const std::string& _Name)
 {
 	CurTex = GetShaderResources().SetTexture("Tex", _Name);
+	GetShaderResources().SetTexture("Tex2", _Name);
 }
 
 void OverCookedUIRenderer::SetMaskTexture(const std::string_view _Name)
 {
-	UIDataInst.UsingMask = 1;
+	UIDataInst.UIMode = 1;
 	GetShaderResources().SetTexture("Tex2", _Name.data());
 }
 
@@ -213,6 +214,25 @@ void OverCookedUIRenderer::Update(float _Delta)
 			DownIter_ = -1000.f;
 		}
 	}
+
+	//Transition
+	if (UIDataInst.UIMode == 2)
+	{
+		//(Speed + 7.0f * _Delta) * _Delta
+		AccTime_ -= _Delta * 18.f;
+		if (AccTime_ < 0.4f)
+		{
+			AccTime_ = 0.4f;
+		}
+
+		TransitionRatio_ -= _Delta * AccTime_;
+		float4 CurScale = CurTex->GetScale() * TransitionRatio_;
+		GetTransform().SetLocalScale(CurScale);
+		if (TransitionRatio_ < 0.05f)
+		{
+			Off();
+		}
+	}
 }
 
 void OverCookedUIRenderer::StopPump()
@@ -249,6 +269,15 @@ void OverCookedUIRenderer::SetSamplerWrap()
 void OverCookedUIRenderer::SetSamplerPointClamp()
 {
 	GetShaderResources().SetSampler("LINEARWRAP", "POINTCLAMP");
+}
+
+void OverCookedUIRenderer::StartFadeOut(float _StartRatio)
+{
+	UIDataInst.UIMode = 2;
+	TransitionRatio_ = _StartRatio;
+	AccTime_ = 16.0f;
+	float4 CurScale = CurTex->GetScale() * TransitionRatio_;
+	GetTransform().SetLocalScale(CurScale);
 }
 
 void OverCookedUIRenderer::ScaleToCutTexture(int _Index)

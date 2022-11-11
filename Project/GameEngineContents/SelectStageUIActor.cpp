@@ -18,6 +18,7 @@ void SelectStageUIActor::Start()
 	LoadResource();
 	InitRenderer();
 	UIDebugGUI::Main_->AddMutableValue("PlayerCount", &PlayerCount_);
+	//std::shared_ptr<OverCookedTransition> NewEffect = GetLevel()->GetUICamera()->GetCameraRenderTarget()->AddEffect<OverCookedTransition>();
 }
 
 void SelectStageUIActor::InitRenderer()
@@ -87,6 +88,16 @@ void SelectStageUIActor::InitRenderer()
 	CountDownFont_->SetAffectTransform(true);
 	CountDownFont_->GetTransform().SetLocalPosition({ 340,345 });
 	CountDownFont_->Off();
+
+	//Transition
+	BlackRenderer_ = CreateUIRenderer("Black.png");
+	BlackRenderer_->ChangeCamera(CAMERAORDER::AboveUICAMERA);
+	BlackRenderer_->Off();
+
+	TransitionIcon_ = CreateUIRenderer("UI_Transitions_02.png");
+	TransitionIcon_->ChangeCamera(CAMERAORDER::AboveUICAMERA);
+	TransitionIcon_->Off();
+	//TransitionIcon_->StartFadeOut(7.0f);
 }
 
 void SelectStageUIActor::CreatePlayerIcon(int _Index, std::string_view _Name)
@@ -539,6 +550,9 @@ bool SelectStageUIActor::IsChanging()
 void SelectStageUIActor::StartLevelChange(int _A)
 {
 	CountDownFont_->Off();
+	TransitionIcon_->On();
+	TransitionIcon_->StartFadeOut(7.0f);
+	BlackRenderer_->On();
 }
 
 void SelectStageUIActor::PlayerIcon::Off()
