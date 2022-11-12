@@ -20,9 +20,9 @@ public:
 	void UnSortMapDataParsing(std::vector<MapData>& _Data, GameEngineLevel* _Level);
 
 	// Á¤·ÄµÈ ¸Ê µ¥ÀÌÅÍ ÆÄ½Ì
-	std::vector<std::shared_ptr<GamePlayStaticObject>>& SortMapDataParsing(std::vector<MapData>& _Data, GameEngineLevel* _Level);
+	std::vector<std::weak_ptr<GamePlayStaticObject>>& SortMapDataParsing(std::vector<MapData>& _Data, GameEngineLevel* _Level);
 
-	std::vector<std::shared_ptr<GamePlayOriginObject>>& GetOrigins()
+	std::vector<std::weak_ptr<GamePlayOriginObject>>& GetOrigins()
 	{
 		return Origins_;
 	}
@@ -30,10 +30,10 @@ public:
 protected:	
 
 private:
-	std::shared_ptr<GamePlayStaticObject> CurActor_;
+	std::weak_ptr<GamePlayStaticObject> CurActor_;
 
-	std::vector<std::shared_ptr<GamePlayOriginObject>> Origins_;
-	std::vector<std::shared_ptr<GamePlayStaticObject>> SortActorList_;
+	std::vector<std::weak_ptr<GamePlayOriginObject>> Origins_;
+	std::vector<std::weak_ptr<GamePlayStaticObject>> SortActorList_;
 };
 
 	

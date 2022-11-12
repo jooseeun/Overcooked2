@@ -30,7 +30,7 @@ public:
 		CurLevel_ = _CurLevel;
 	}
 
-	std::vector<std::shared_ptr<GamePlayMapObject>>& GetUnSortActorList()
+	std::vector<std::weak_ptr<GamePlayMapObject>>& GetUnSortActorList()
 	{
 		return UnSortActorList_;
 	}
@@ -45,20 +45,20 @@ protected:
 	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
 
 private:
-	std::vector<std::shared_ptr<GamePlayMapObject>> UnSortActorList_;
-	std::vector<std::shared_ptr<GamePlayStaticObject>> SortActorList_;
+	std::vector<std::weak_ptr<GamePlayMapObject>> UnSortActorList_;
+	std::vector<std::weak_ptr<GamePlayStaticObject>> SortActorList_;
 
 	std::vector<std::string> Prefabs_;
 
 	GameEngineLevel* CurLevel_;
 
-	std::shared_ptr<LevelActor> LevelActor_;
+	std::weak_ptr<LevelActor> LevelActor_;
 
 	//타일맵 기준 엑터
-	std::vector<std::shared_ptr<GamePlayOriginObject>> Origins_;
+	std::vector<std::weak_ptr<GamePlayOriginObject>> Origins_;
 
 	//현재 생성한 타일
-	std::shared_ptr<GamePlayStaticObject> CurStaticMesh_;
+	std::weak_ptr<GamePlayStaticObject> CurStaticMesh_;
 
 	MapDataParser DataParser_;
 

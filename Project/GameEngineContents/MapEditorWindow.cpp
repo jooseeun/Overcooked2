@@ -29,7 +29,7 @@ namespace
 
 MapEditorWindow::MapEditorWindow()
 	: CurLevel_(nullptr)
-	, LevelActor_(nullptr)
+	, LevelActor_()
 	, ObjectName_("Actor_")
 	, DataParser_{}
 	, IsUnSort_(false)
@@ -78,11 +78,11 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 			MapData TmpData = {};
 			for (size_t i = 0; i < UnSortActorList_.size(); i++)
 			{
-				TmpData.ObjName_ = UnSortActorList_[i]->GetName();
-				TmpData.Pos_ = UnSortActorList_[i]->GetTransform().GetWorldPosition();
-				TmpData.Scale_ = UnSortActorList_[i]->GetCollisionObject()->GetTransform().GetWorldScale();
-				TmpData.Rot_ = UnSortActorList_[i]->GetTransform().GetWorldRotation();
-				TmpData.MapObjType_ = UnSortActorList_[i]->GetMapObjType();
+				TmpData.ObjName_ = UnSortActorList_[i].lock()->GetName();
+				TmpData.Pos_ = UnSortActorList_[i].lock()->GetTransform().GetWorldPosition();
+				TmpData.Scale_ = UnSortActorList_[i].lock()->GetCollisionObject()->GetTransform().GetWorldScale();
+				TmpData.Rot_ = UnSortActorList_[i].lock()->GetTransform().GetWorldRotation();
+				TmpData.MapObjType_ = UnSortActorList_[i].lock()->GetMapObjType();
 				
 				GlobalIOManager::AddMapData(TmpData);
 			}
@@ -102,29 +102,29 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				MapData OriginData = { };
 
 				OriginData.MapObjType_ = MapObjType::Origin;
-				OriginData.Transform_ = &Origins_[i]->GetTransform();
-				OriginData.Pos_ = Origins_[i]->GetTransform().GetWorldPosition();
-				OriginData.Rot_ = Origins_[i]->GetTransform().GetWorldRotation();
-				OriginData.Scale_ = Origins_[i]->GetTransform().GetWorldScale();
+				OriginData.Transform_ = &Origins_[i].lock()->GetTransform();
+				OriginData.Pos_ = Origins_[i].lock()->GetTransform().GetWorldPosition();
+				OriginData.Rot_ = Origins_[i].lock()->GetTransform().GetWorldRotation();
+				OriginData.Scale_ = Origins_[i].lock()->GetTransform().GetWorldScale();
 
 				InputVector.push_back(OriginData);
 
-				std::vector<std::shared_ptr<GamePlayStaticObject>>& DataActors = Origins_[i]->GetStaticMeshInfo();
+				std::vector<std::weak_ptr<GamePlayStaticObject>>& DataActors = Origins_[i].lock()->GetStaticMeshInfo();
 
 				for (size_t j = 0; j < DataActors.size(); j++)
 				{
 					MapData Data = { };
 
-					Data.MapObjType_ = DataActors[j]->GetStaticObjectType();
-					Data.Transform_ = &DataActors[j]->GetTransform();
-					Data.Pos_ = DataActors[j]->GetTransform().GetWorldPosition();
-					Data.Rot_ = DataActors[j]->GetTransform().GetWorldRotation();
-					Data.Scale_ = DataActors[j]->GetTransform().GetWorldScale();
+					Data.MapObjType_ = DataActors[j].lock()->GetStaticObjectType();
+					Data.Transform_ = &DataActors[j].lock()->GetTransform();
+					Data.Pos_ = DataActors[j].lock()->GetTransform().GetWorldPosition();
+					Data.Rot_ = DataActors[j].lock()->GetTransform().GetWorldRotation();
+					Data.Scale_ = DataActors[j].lock()->GetTransform().GetWorldScale();
 					Data.Index_.z = static_cast<float>(i);
 
-					if (nullptr != DataActors[j]->GetStuff())
+					if (nullptr != DataActors[j].lock()->GetStuff())
 					{
-						Data.Index_.y = static_cast<float>(DataActors[j]->GetStuff()->GetToolInfoType());
+						Data.Index_.y = static_cast<float>(DataActors[j].lock()->GetStuff()->GetToolInfoType());
 					}
 
 					InputVector.push_back(Data);
@@ -155,71 +155,71 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				{
 				case MapObjType::Npc:
 				{
-					std::shared_ptr<Npc> Object = CurLevel_->CreateActor<Npc>();
-					Object->GetTransform().SetWorldPosition(Vector[i].Pos_);
-					Object->GetCollisionObject()->GetTransform().SetWorldScale(Vector[i].Scale_);
-					Object->GetTransform().SetWorldRotation(Vector[i].Rot_);
-					Object->SetMapObjectMesh(Vector[i].ObjName_, Vector[i].MapObjType_);
-					Object->SetMapObjType(Vector[i].MapObjType_);
-					Object->SetName(Vector[i].ObjName_);
+					std::weak_ptr<Npc> Object = CurLevel_->CreateActor<Npc>();
+					Object.lock()->GetTransform().SetWorldPosition(Vector[i].Pos_);
+					Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(Vector[i].Scale_);
+					Object.lock()->GetTransform().SetWorldRotation(Vector[i].Rot_);
+					Object.lock()->SetMapObjectMesh(Vector[i].ObjName_, Vector[i].MapObjType_);
+					Object.lock()->SetMapObjType(Vector[i].MapObjType_);
+					Object.lock()->SetName(Vector[i].ObjName_);
 					UnSortActorList_.push_back(Object);
 				}
 				break;
 				case MapObjType::Car:
 				{
-					std::shared_ptr<Car> Object = CurLevel_->CreateActor<Car>();
-					Object->GetTransform().SetWorldPosition(Vector[i].Pos_);
-					Object->GetCollisionObject()->GetTransform().SetWorldScale(Vector[i].Scale_);
-					Object->GetTransform().SetWorldRotation(Vector[i].Rot_);
-					Object->SetMapObjectMesh(Vector[i].ObjName_, Vector[i].MapObjType_);
-					Object->SetMapObjType(Vector[i].MapObjType_);
-					Object->SetName(Vector[i].ObjName_);
+					std::weak_ptr<Car> Object = CurLevel_->CreateActor<Car>();
+					Object.lock()->GetTransform().SetWorldPosition(Vector[i].Pos_);
+					Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(Vector[i].Scale_);
+					Object.lock()->GetTransform().SetWorldRotation(Vector[i].Rot_);
+					Object.lock()->SetMapObjectMesh(Vector[i].ObjName_, Vector[i].MapObjType_);
+					Object.lock()->SetMapObjType(Vector[i].MapObjType_);
+					Object.lock()->SetName(Vector[i].ObjName_);
 					UnSortActorList_.push_back(Object);
 				}
 				break;
 				case MapObjType::TrafficLight:
 				{
-					std::shared_ptr<TrafficLight> Object = CurLevel_->CreateActor<TrafficLight>();
-					Object->GetTransform().SetWorldPosition(Vector[i].Pos_);
-					Object->GetCollisionObject()->GetTransform().SetWorldScale(Vector[i].Scale_);
-					Object->GetTransform().SetWorldRotation(Vector[i].Rot_);
-					Object->SetMapObjectMesh(Vector[i].ObjName_, Vector[i].MapObjType_);
-					Object->SetMapObjType(Vector[i].MapObjType_);
-					Object->SetName(Vector[i].ObjName_);
+					std::weak_ptr<TrafficLight> Object = CurLevel_->CreateActor<TrafficLight>();
+					Object.lock()->GetTransform().SetWorldPosition(Vector[i].Pos_);
+					Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(Vector[i].Scale_);
+					Object.lock()->GetTransform().SetWorldRotation(Vector[i].Rot_);
+					Object.lock()->SetMapObjectMesh(Vector[i].ObjName_, Vector[i].MapObjType_);
+					Object.lock()->SetMapObjType(Vector[i].MapObjType_);
+					Object.lock()->SetName(Vector[i].ObjName_);
 					UnSortActorList_.push_back(Object);
 				}
 				break;
 				case MapObjType::Collision_Wall:
 				{
-					std::shared_ptr<GamePlayMapObject> Object = CurLevel_->CreateActor<GamePlayMapObject>();
-					Object->GetTransform().SetWorldPosition(Vector[i].Pos_);
-					Object->GetCollisionObject()->GetTransform().SetWorldScale(Vector[i].Scale_);
-					Object->GetTransform().SetWorldRotation(Vector[i].Rot_);
-					Object->SetMapObjType(Vector[i].MapObjType_);
-					Object->SetName(Vector[i].ObjName_);
+					std::weak_ptr<GamePlayMapObject> Object = CurLevel_->CreateActor<GamePlayMapObject>();
+					Object.lock()->GetTransform().SetWorldPosition(Vector[i].Pos_);
+					Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(Vector[i].Scale_);
+					Object.lock()->GetTransform().SetWorldRotation(Vector[i].Rot_);
+					Object.lock()->SetMapObjType(Vector[i].MapObjType_);
+					Object.lock()->SetName(Vector[i].ObjName_);
 					UnSortActorList_.push_back(Object);
 				}
 				break;
 				case MapObjType::Collision_Floor:
 				{
-					std::shared_ptr<GamePlayFloor> Object = CurLevel_->CreateActor<GamePlayFloor>();
-					Object->GetTransform().SetWorldPosition(Vector[i].Pos_);
-					Object->GetCollisionObject()->GetTransform().SetWorldScale(Vector[i].Scale_);
-					Object->GetTransform().SetWorldRotation(Vector[i].Rot_);
-					Object->SetMapObjType(Vector[i].MapObjType_);
-					Object->SetName(Vector[i].ObjName_);
+					std::weak_ptr<GamePlayFloor> Object = CurLevel_->CreateActor<GamePlayFloor>();
+					Object.lock()->GetTransform().SetWorldPosition(Vector[i].Pos_);
+					Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(Vector[i].Scale_);
+					Object.lock()->GetTransform().SetWorldRotation(Vector[i].Rot_);
+					Object.lock()->SetMapObjType(Vector[i].MapObjType_);
+					Object.lock()->SetName(Vector[i].ObjName_);
 					UnSortActorList_.push_back(Object);
 				}
 				break;
 				default:
 				{
-					std::shared_ptr<GamePlayMapObject> Object = CurLevel_->CreateActor<GamePlayMapObject>();
-					Object->GetTransform().SetWorldPosition(Vector[i].Pos_);
-					Object->GetCollisionObject()->GetTransform().SetWorldScale(Vector[i].Scale_);
-					Object->GetTransform().SetWorldRotation(Vector[i].Rot_);
-					Object->SetMapObjectMesh(Vector[i].ObjName_, Vector[i].MapObjType_);
-					Object->SetMapObjType(Vector[i].MapObjType_);
-					Object->SetName(Vector[i].ObjName_);
+					std::weak_ptr<GamePlayMapObject> Object = CurLevel_->CreateActor<GamePlayMapObject>();
+					Object.lock()->GetTransform().SetWorldPosition(Vector[i].Pos_);
+					Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(Vector[i].Scale_);
+					Object.lock()->GetTransform().SetWorldRotation(Vector[i].Rot_);
+					Object.lock()->SetMapObjectMesh(Vector[i].ObjName_, Vector[i].MapObjType_);
+					Object.lock()->SetMapObjType(Vector[i].MapObjType_);
+					Object.lock()->SetName(Vector[i].ObjName_);
 					UnSortActorList_.push_back(Object);
 				}
 				break;
@@ -235,10 +235,10 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 			for (size_t i = 0; i < Origins_.size(); i++)
 			{
-				if (nullptr != Origins_[i])
+				if (nullptr != Origins_[i].lock())
 				{
-					Origins_[i]->Death();
-					Origins_[i] = nullptr;
+					Origins_[i].lock()->Death();
+					Origins_[i].reset();
 				}
 			}
 
@@ -260,11 +260,11 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 			//Sort 탭을 잘못 눌렀을 때 생성된 기준 엑터들 숨기기
 			if (0 < Origins_.size())
 			{
-				std::vector<std::shared_ptr<GamePlayOriginObject>>::iterator StartIter = Origins_.begin();
+				std::vector<std::weak_ptr<GamePlayOriginObject>>::iterator StartIter = Origins_.begin();
 
 				for (StartIter = Origins_.begin(); StartIter != Origins_.end(); ++StartIter)
 				{
-					(*StartIter)->Off();
+					(*StartIter).lock()->Off();
 				}
 			}
 		}
@@ -274,20 +274,20 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		{
 			if (0 == Origins_.size())
 			{
-				std::shared_ptr<GamePlayOriginObject> Origin = CurLevel_->CreateActor<GamePlayOriginObject>();
+				std::weak_ptr<GamePlayOriginObject> Origin = CurLevel_->CreateActor<GamePlayOriginObject>();
 
-				Origin->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
+				Origin.lock()->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
 
-				Origin->GetRenderer()->SetFBXMesh("m_sk_countertop_01.fbx", "Texture");
-				Origin->GetRenderer()->GetTransform().SetWorldScale({ 100, 100, 100 });
+				Origin.lock()->GetRenderer().lock()->SetFBXMesh("m_sk_countertop_01.fbx", "Texture");
+				Origin.lock()->GetRenderer().lock()->GetTransform().SetWorldScale({ 100, 100, 100 });
 
 				Origins_.push_back(Origin);
 			}
 
 			else
 			{
-				std::shared_ptr<GamePlayOriginObject> Origin = Origins_.front();
-				Origin->On();
+				std::weak_ptr<GamePlayOriginObject> Origin = Origins_.front();
+				Origin.lock()->On();
 			}
 
 			SortToolTab();
@@ -341,10 +341,10 @@ void MapEditorWindow::ShowLevelSelectTable()
 			{
 				LevelIndex_ = i;
 
-				if (nullptr != LevelActor_)
+				if (nullptr != LevelActor_.lock())
 				{
-					LevelActor_->Death();
-					LevelActor_ = nullptr;
+					LevelActor_.lock()->Death();
+					LevelActor_.reset();
 				}
 
 				LevelActor_ = CurLevel_->CreateActor<LevelActor>();
@@ -352,23 +352,23 @@ void MapEditorWindow::ShowLevelSelectTable()
 				switch (LevelIndex_)
 				{
 				case 0:
-					LevelActor_->SetLevelMesh("1_1.FBX");
+					LevelActor_.lock()->SetLevelMesh("1_1.FBX");
 					break;
 
 				case 1:
-					LevelActor_->SetLevelMesh("1_2.FBX");
+					LevelActor_.lock()->SetLevelMesh("1_2.FBX");
 					break;
 
 				case 2:
-					LevelActor_->SetLevelMesh("1_3.FBX");
+					LevelActor_.lock()->SetLevelMesh("1_3.FBX");
 					break;
 
 				case 3:
-					LevelActor_->SetLevelMesh("1_4.FBX");
+					LevelActor_.lock()->SetLevelMesh("1_4.FBX");
 					break;
 
 				default:
-					LevelActor_->SetLevelMesh("1_1.FBX");
+					LevelActor_.lock()->SetLevelMesh("1_1.FBX");
 					break;
 				}
 			}
@@ -416,7 +416,7 @@ void MapEditorWindow::UnSortToolTab()
 	for (int i = 0; i < UnSortActorList_.size(); ++i)
 	{
 		char Label[1024] = { '\0' };
-		std::string Name = UnSortActorList_[i]->GetNameCopy().c_str() + std::to_string(i);
+		std::string Name = UnSortActorList_[i].lock()->GetNameCopy().c_str() + std::to_string(i);
 		if (ImGui::Selectable(Name.c_str(), SelectIndex == i))
 		{
 			SelectIndex = i;
@@ -458,58 +458,58 @@ void MapEditorWindow::UnSortToolTab()
 		{
 		case MapObjType::Npc:
 		{
-			std::shared_ptr<Npc> Object = CurLevel_->CreateActor<Npc>();
-			Object->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
-			Object->SetMapObjectMesh(AllUnSortActorName_[SelectNameIndex], ObjectTypeIndex);
-			Object->SetName(AllUnSortActorName_[SelectNameIndex]);
-			Object->SetMapObjType(ObjectTypeIndex);
+			std::weak_ptr<Npc> Object = CurLevel_->CreateActor<Npc>();
+			Object.lock()->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
+			Object.lock()->SetMapObjectMesh(AllUnSortActorName_[SelectNameIndex], ObjectTypeIndex);
+			Object.lock()->SetName(AllUnSortActorName_[SelectNameIndex]);
+			Object.lock()->SetMapObjType(ObjectTypeIndex);
 			UnSortActorList_.push_back(Object);
 		}
 			break;
 		case MapObjType::Car:
 		{
-			std::shared_ptr<Car> Object = CurLevel_->CreateActor<Car>();
-			Object->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
-			Object->SetMapObjectMesh(AllUnSortActorName_[SelectNameIndex], ObjectTypeIndex);
-			Object->SetName(AllUnSortActorName_[SelectNameIndex]);
+			std::weak_ptr<Car> Object = CurLevel_->CreateActor<Car>();
+			Object.lock()->GetTransform().SetWorldPosition({0.f, 0.f, 0.f});
+			Object.lock()->SetMapObjectMesh(AllUnSortActorName_[SelectNameIndex], ObjectTypeIndex);
+			Object.lock()->SetName(AllUnSortActorName_[SelectNameIndex]);
 			UnSortActorList_.push_back(Object);
 		}
 			break;
 		case MapObjType::TrafficLight:
 		{
-			std::shared_ptr<TrafficLight> Object = CurLevel_->CreateActor<TrafficLight>();
-			Object->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
-			Object->SetMapObjectMesh(AllUnSortActorName_[SelectNameIndex], ObjectTypeIndex);
-			Object->SetName(AllUnSortActorName_[SelectNameIndex]);
-			Object->SetMapObjType(ObjectTypeIndex);
+			std::weak_ptr<TrafficLight> Object = CurLevel_->CreateActor<TrafficLight>();
+			Object.lock()->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
+			Object.lock()->SetMapObjectMesh(AllUnSortActorName_[SelectNameIndex], ObjectTypeIndex);
+			Object.lock()->SetName(AllUnSortActorName_[SelectNameIndex]);
+			Object.lock()->SetMapObjType(ObjectTypeIndex);
 			UnSortActorList_.push_back(Object);
 		}
 			break;
 		case MapObjType::Collision_Wall:
 		{
-			std::shared_ptr<GamePlayMapObject> Object = CurLevel_->CreateActor<GamePlayMapObject>();
-			Object->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
-			Object->SetName(AllUnSortActorName_[SelectNameIndex]);
-			Object->SetMapObjType(ObjectTypeIndex);
+			std::weak_ptr<GamePlayMapObject> Object = CurLevel_->CreateActor<GamePlayMapObject>();
+			Object.lock()->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
+			Object.lock()->SetName(AllUnSortActorName_[SelectNameIndex]);
+			Object.lock()->SetMapObjType(ObjectTypeIndex);
 			UnSortActorList_.push_back(Object);
 		}
 		break;
 		case MapObjType::Collision_Floor:
 		{
-			std::shared_ptr<GamePlayFloor> Object = CurLevel_->CreateActor<GamePlayFloor>();
-			Object->GetTransform().SetWorldPosition({ 0.f, -49.f, 0.f });
-			Object->SetName(AllUnSortActorName_[SelectNameIndex]);
-			Object->SetMapObjType(ObjectTypeIndex);
+			std::weak_ptr<GamePlayFloor> Object = CurLevel_->CreateActor<GamePlayFloor>();
+			Object.lock()->GetTransform().SetWorldPosition({ 0.f, -49.f, 0.f });
+			Object.lock()->SetName(AllUnSortActorName_[SelectNameIndex]);
+			Object.lock()->SetMapObjType(ObjectTypeIndex);
 			UnSortActorList_.push_back(Object);
 		}
 		break;
 		default:
 		{
-			std::shared_ptr<GamePlayMapObject> Object = CurLevel_->CreateActor<GamePlayMapObject>();
-			Object->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
-			Object->SetMapObjectMesh(AllUnSortActorName_[SelectNameIndex], ObjectTypeIndex);
-			Object->SetName(AllUnSortActorName_[SelectNameIndex]);
-			Object->SetMapObjType(ObjectTypeIndex);
+			std::weak_ptr<GamePlayMapObject> Object = CurLevel_->CreateActor<GamePlayMapObject>();
+			Object.lock()->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
+			Object.lock()->SetMapObjectMesh(AllUnSortActorName_[SelectNameIndex], ObjectTypeIndex);
+			Object.lock()->SetName(AllUnSortActorName_[SelectNameIndex]);
+			Object.lock()->SetMapObjType(ObjectTypeIndex);
 			UnSortActorList_.push_back(Object);
 		}
 			break;
@@ -522,7 +522,7 @@ void MapEditorWindow::UnSortToolTab()
 	if (true == ImGui::Button("Delete")
 		&& false == UnSortActorList_.empty())
 	{
-		UnSortActorList_[SelectIndex]->Death();
+		UnSortActorList_[SelectIndex].lock()->Death();
 		UnSortActorList_.erase(UnSortActorList_.begin() + SelectIndex);
 
 		if (UnSortActorList_.size() <= SelectIndex)
@@ -538,8 +538,8 @@ void MapEditorWindow::UnSortToolTab()
 	// Transform
 	if (false == UnSortActorList_.empty())
 	{
-		Position_ = UnSortActorList_[SelectIndex]->GetTransform().GetWorldPosition();
-		float4 RendererPos = UnSortActorList_[SelectIndex]->GetFBXMesh()->GetTransform().GetLocalPosition();
+		Position_ = UnSortActorList_[SelectIndex].lock()->GetTransform().GetWorldPosition();
+		float4 RendererPos = UnSortActorList_[SelectIndex].lock()->GetFBXMesh()->GetTransform().GetLocalPosition();
 		ImGui::Text("Position");
 		ImGui::DragFloat("Position.x", &Position_.x);
 		ImGui::DragFloat("Position.y", &Position_.y);
@@ -549,7 +549,7 @@ void MapEditorWindow::UnSortToolTab()
 
 		if (true == ImGui::Button("Position Reset"))
 		{
-			if ("Collision_Floor" == UnSortActorList_[SelectIndex]->GetName().substr(0, 15))
+			if ("Collision_Floor" == UnSortActorList_[SelectIndex].lock()->GetName().substr(0, 15))
 			{
 				Position_ = { 0.f, -49.f, 0.f };
 			}
@@ -559,10 +559,10 @@ void MapEditorWindow::UnSortToolTab()
 				RendererPos = { 0.f, 0.f, 0.f };
 			}
 		}
-		UnSortActorList_[SelectIndex]->GetTransform().SetWorldPosition(Position_);
-		UnSortActorList_[SelectIndex]->GetFBXMesh()->GetTransform().SetLocalPosition(RendererPos);
+		UnSortActorList_[SelectIndex].lock()->GetTransform().SetWorldPosition(Position_);
+		UnSortActorList_[SelectIndex].lock()->GetFBXMesh()->GetTransform().SetLocalPosition(RendererPos);
 
-		Rotation_ = UnSortActorList_[SelectIndex]->GetTransform().GetWorldRotation();
+		Rotation_ = UnSortActorList_[SelectIndex].lock()->GetTransform().GetWorldRotation();
 		ImGui::Text("Rotation");
 		ImGui::DragFloat("Rotation.x", &Rotation_.x);
 		ImGui::DragFloat("Rotation.y", &Rotation_.y);
@@ -574,11 +574,11 @@ void MapEditorWindow::UnSortToolTab()
 		{
 			Rotation_ = { 0.f, 0.f, 0.f };
 		}
-		UnSortActorList_[SelectIndex]->GetTransform().SetWorldRotation(Rotation_);
+		UnSortActorList_[SelectIndex].lock()->GetTransform().SetWorldRotation(Rotation_);
 
 		// Actor 크기는 1 1 1로 고정
 		// 콜리전 기본 크기는 50 50 50
-		CollisionScale_ = UnSortActorList_[SelectIndex]->GetCollisionObject()->GetTransform().GetWorldScale();
+		CollisionScale_ = UnSortActorList_[SelectIndex].lock()->GetCollisionObject()->GetTransform().GetWorldScale();
 		ImGui::Text("Collision Scale");
 		ImGui::DragFloat("Collision Scale.x", &CollisionScale_.x);
 		ImGui::DragFloat("Collision Scale.y", &CollisionScale_.y);
@@ -590,7 +590,7 @@ void MapEditorWindow::UnSortToolTab()
 		{
 			CollisionScale_ = { 1.f, 1.f, 1.f };
 		}
-		UnSortActorList_[SelectIndex]->GetCollisionObject()->GetTransform().SetWorldScale(CollisionScale_);
+		UnSortActorList_[SelectIndex].lock()->GetCollisionObject()->GetTransform().SetWorldScale(CollisionScale_);
 	}
 }
 
@@ -611,7 +611,7 @@ void MapEditorWindow::SortToolTab()
 
 			SortActorList_.clear();
 
-			SortActorList_ = Origins_[OriginIndex]->GetStaticMeshInfo();
+			SortActorList_ = Origins_[OriginIndex].lock()->GetStaticMeshInfo();
 		}
 	}
 
@@ -620,21 +620,21 @@ void MapEditorWindow::SortToolTab()
 
 	//기준 엑터 트랜스폼
 	{
-		float4 Pos = Origins_[OriginIndex]->GetTransform().GetWorldPosition();
+		float4 Pos = Origins_[OriginIndex].lock()->GetTransform().GetWorldPosition();
 
 		float Float3[3] = { Pos.x, Pos.y, Pos.z };
 		ImGui::DragFloat3("Position", Float3);
-		Origins_[OriginIndex]->GetTransform().SetWorldPosition({ Float3[0], Float3[1], Float3[2] });
+		Origins_[OriginIndex].lock()->GetTransform().SetWorldPosition({ Float3[0], Float3[1], Float3[2] });
 	}
 
 	if (ImGui::Button("Origin Create"))
 	{
-		std::shared_ptr<GamePlayOriginObject> Origin = CurLevel_->CreateActor<GamePlayOriginObject>();
+		std::weak_ptr<GamePlayOriginObject> Origin = CurLevel_->CreateActor<GamePlayOriginObject>();
 
-		Origin->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
+		Origin.lock()->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
 
-		Origin->GetRenderer()->GetTransform().SetWorldScale({ 100, 100, 100 });
-		Origin->GetRenderer()->SetFBXMesh("m_sk_countertop_01.fbx", "Texture");
+		Origin.lock()->GetRenderer().lock()->GetTransform().SetWorldScale({ 100, 100, 100 });
+		Origin.lock()->GetRenderer().lock()->SetFBXMesh("m_sk_countertop_01.fbx", "Texture");
 
 		Origins_.push_back(Origin);
 	}
@@ -680,9 +680,9 @@ void MapEditorWindow::SortToolTab()
 			{
 				IsChecks_[j] = false;
 
-				if (nullptr != SortActorList_[ActorIndex]->GetStuff())
+				if (nullptr != SortActorList_[ActorIndex].lock()->GetStuff())
 				{
-					std::string_view CurType = magic_enum::enum_name(SortActorList_[ActorIndex]->GetStuff()->GetToolInfoType());
+					std::string_view CurType = magic_enum::enum_name(SortActorList_[ActorIndex].lock()->GetStuff()->GetToolInfoType());
 
 					if (ToolNames[j] == CurType.data())
 					{
@@ -698,9 +698,9 @@ void MapEditorWindow::SortToolTab()
 
 	if (0 < SortActorList_.size())
 	{
-		if (nullptr != SortActorList_[ActorIndex]->GetStuff())
+		if (nullptr != SortActorList_[ActorIndex].lock()->GetStuff())
 		{
-			auto CurType = magic_enum::enum_name(SortActorList_[ActorIndex]->GetStuff()->GetToolInfoType());
+			auto CurType = magic_enum::enum_name(SortActorList_[ActorIndex].lock()->GetStuff()->GetToolInfoType());
 
 			for (size_t i = 0; i < ToolNames.size(); ++i)
 			{
@@ -708,8 +708,8 @@ void MapEditorWindow::SortToolTab()
 				{
 					if (false == IsChecks_[i])
 					{
-						SortActorList_[ActorIndex]->GetStuff()->Death();
-						SortActorList_[ActorIndex]->SetStuff(nullptr);
+						SortActorList_[ActorIndex].lock()->GetStuff()->Death();
+						SortActorList_[ActorIndex].lock()->SetStuff(nullptr);
 					}
 
 					continue;
@@ -733,37 +733,37 @@ void MapEditorWindow::SortToolTab()
 					{
 						//부모로 둔다
 						std::shared_ptr<Equipment_Plate> Plate = CurLevel_->CreateActor<Equipment_Plate>();
-						SortActorList_[ActorIndex]->SetStuff(Plate);
+						SortActorList_[ActorIndex].lock()->SetStuff(Plate);
 					}
 					break;
 					case ToolInfo::FireExtinguisher:
 					{
 						std::shared_ptr<Equipment_FireExtinguisher> FireExtinguisher = CurLevel_->CreateActor<Equipment_FireExtinguisher>();
-						SortActorList_[ActorIndex]->SetStuff(FireExtinguisher);
+						SortActorList_[ActorIndex].lock()->SetStuff(FireExtinguisher);
 					}
 					break;
 					case ToolInfo::FryingPan:
 					{
 						std::shared_ptr<Equipment_FryingPan> FryingPan = CurLevel_->CreateActor<Equipment_FryingPan>();
-						SortActorList_[ActorIndex]->SetStuff(FryingPan);
+						SortActorList_[ActorIndex].lock()->SetStuff(FryingPan);
 					}
 					break;
 					case ToolInfo::Pot:
 					{
 						std::shared_ptr<Equipment_Pot> Pot = CurLevel_->CreateActor<Equipment_Pot>();
-						SortActorList_[ActorIndex]->SetStuff(Pot);
+						SortActorList_[ActorIndex].lock()->SetStuff(Pot);
 					}
 					break;
 					case ToolInfo::CuttingBoard:
 					{
 						std::shared_ptr<Tool_CuttingBoard> CuttingBoard = CurLevel_->CreateActor<Tool_CuttingBoard>();
-						SortActorList_[ActorIndex]->SetStuff(CuttingBoard);
+						SortActorList_[ActorIndex].lock()->SetStuff(CuttingBoard);
 					}
 					break;
 					}
 
-					float4 ToolPos = SortActorList_[ActorIndex]->GetToolPos();
-					SortActorList_[ActorIndex]->GetStuff()->GetTransform().SetWorldPosition(ToolPos);
+					float4 ToolPos = SortActorList_[ActorIndex].lock()->GetToolPos();
+					SortActorList_[ActorIndex].lock()->GetStuff()->GetTransform().SetWorldPosition(ToolPos);
 				}
 			}
 		}
@@ -791,62 +791,62 @@ void MapEditorWindow::SortToolTab()
 		case 0:
 		{
 			CurStaticMesh_ = CurLevel_->CreateActor<CounterTop>();
-			std::shared_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurStaticMesh_);
+			std::weak_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurStaticMesh_.lock());
 
-			Object->SetCounterTopType(CounterTopType::Normal);
-			Object->SetConterTopMesh(CounterTopType::Normal);
+			Object.lock()->SetCounterTopType(CounterTopType::Normal);
+			Object.lock()->SetConterTopMesh(CounterTopType::Normal);
 
-			Object->SetStaticObjectType(MapObjType::CounterTop);
+			Object.lock()->SetStaticObjectType(MapObjType::CounterTop);
 		}
 		break;
 		case 1:
 		{
 			CurStaticMesh_ = CurLevel_->CreateActor<CounterTop>();
-			std::shared_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurStaticMesh_);
+			std::weak_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurStaticMesh_.lock());
 
-			Object->SetCounterTopType(CounterTopType::Corner);
-			Object->SetConterTopMesh(CounterTopType::Corner);
+			Object.lock()->SetCounterTopType(CounterTopType::Corner);
+			Object.lock()->SetConterTopMesh(CounterTopType::Corner);
 
-			Object->SetStaticObjectType(MapObjType::CounterTop_Corner);
+			Object.lock()->SetStaticObjectType(MapObjType::CounterTop_Corner);
 		}
 		break;
 		case 2:
 		{
 			CurStaticMesh_ = CurLevel_->CreateActor<CounterTop>();
-			std::shared_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurStaticMesh_);
+			std::weak_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurStaticMesh_.lock());
 
-			Object->SetCounterTopType(CounterTopType::NoEdge);
-			Object->SetConterTopMesh(CounterTopType::NoEdge);
+			Object.lock()->SetCounterTopType(CounterTopType::NoEdge);
+			Object.lock()->SetConterTopMesh(CounterTopType::NoEdge);
 
-			Object->SetStaticObjectType(MapObjType::CounterTop_NoEdge);
+			Object.lock()->SetStaticObjectType(MapObjType::CounterTop_NoEdge);
 		}
 		break;
 		case 3:
 			CurStaticMesh_ = CurLevel_->CreateActor<TrashCan>();
-			CurStaticMesh_->SetStaticObjectType(MapObjType::TrashCan);
+			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::TrashCan);
 			break;
 		case 4:
 			CurStaticMesh_ = CurLevel_->CreateActor<Servicehatch>();
-			CurStaticMesh_->SetStaticObjectType(MapObjType::Servicehatch);
+			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::Servicehatch);
 			break;
 		case 5:
 			CurStaticMesh_ = CurLevel_->CreateActor<PlateReturn>();
-			CurStaticMesh_->SetStaticObjectType(MapObjType::PlateReturn);
+			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::PlateReturn);
 			break;
 		case 6:
 			CurStaticMesh_ = CurLevel_->CreateActor<Cooker>();
-			CurStaticMesh_->SetStaticObjectType(MapObjType::Cooker);
+			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::Cooker);
 			break;
 		}
 
 		//기준 엑터의 자식으로 둔다.
-		CurStaticMesh_->SetParent(Origins_[OriginIndex]);
+		CurStaticMesh_.lock()->SetParent(Origins_[OriginIndex].lock());
 
-		CurStaticMesh_->GetTransform().SetWorldPosition(Origins_[OriginIndex]->GetTransform().GetWorldPosition());
-		CurStaticMesh_->GetTransform().SetWorldMove({ Index[0] * (-INTERVAL), 0.f, Index[1] * INTERVAL });
+		CurStaticMesh_.lock()->GetTransform().SetWorldPosition(Origins_[OriginIndex].lock()->GetTransform().GetWorldPosition());
+		CurStaticMesh_.lock()->GetTransform().SetWorldMove({ Index[0] * (-INTERVAL), 0.f, Index[1] * INTERVAL });
 
 		SortActorList_.push_back(CurStaticMesh_);
-		Origins_[OriginIndex]->GetStaticMeshInfo().push_back(CurStaticMesh_);
+		Origins_[OriginIndex].lock()->GetStaticMeshInfo().push_back(CurStaticMesh_);
 
 		ActorIndex = static_cast<int>(SortActorList_.size() - 1);
 
@@ -862,15 +862,15 @@ void MapEditorWindow::SortToolTab()
 		&& 0 < SortActorList_.size()
 		&& ActorIndex < SortActorList_.size())
 	{
-		SortActorList_[ActorIndex]->Death();
+		SortActorList_[ActorIndex].lock()->Death();
 		SortActorList_.erase(SortActorList_.begin() + ActorIndex);
 
-		std::vector<std::shared_ptr<GamePlayStaticObject>>& DataVector = Origins_[OriginIndex]->GetStaticMeshInfo();
+		std::vector<std::weak_ptr<GamePlayStaticObject>>& DataVector = Origins_[OriginIndex].lock()->GetStaticMeshInfo();
 
 		for (size_t i = 0; i < DataVector.size(); ++i)
 		{
-			if (DataVector[i]->IsDeath()
-				|| nullptr == DataVector[i])
+			if (DataVector[i].lock()->IsDeath()
+				|| nullptr == DataVector[i].lock())
 			{
 				DataVector.erase(DataVector.begin() + i);
 			}
@@ -893,7 +893,7 @@ void MapEditorWindow::SortToolTab()
 		&& 0 < SortActorList_.size()
 		&& ActorIndex < SortActorList_.size())
 	{
-		SortActorList_[ActorIndex]->GetTransform().SetAddWorldRotation({ 0.f, 90.f, 0.f });
+		SortActorList_[ActorIndex].lock()->GetTransform().SetAddWorldRotation({0.f, 90.f, 0.f});
 	}
 
 	ImGui::EndTabItem();
