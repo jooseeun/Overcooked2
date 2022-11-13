@@ -75,7 +75,8 @@ public:
 	GameEngineFBXAnimationRenderer& operator=(const GameEngineFBXAnimationRenderer& _Other) = delete;
 	GameEngineFBXAnimationRenderer& operator=(GameEngineFBXAnimationRenderer&& _Other) noexcept = delete;
 
-	void SetFBXMesh(const std::string& _Name, std::string _Material) override;
+	void SetFBXMesh(const std::string& _Name) override;
+	void SetFBXMesh(const std::string& _Name, const std::string& _Material) override;
 	GameEngineRenderUnit* SetFBXMesh(const std::string& _Name, std::string _Material, size_t _MeshIndex, size_t _SubSetIndex = 0) override;
 
 	void CreateFBXAnimation(const std::string& _AnimationName, const std::string& _AnimationFBX, int _Index = 0);

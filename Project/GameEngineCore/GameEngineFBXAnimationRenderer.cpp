@@ -139,7 +139,12 @@ void FBXRendererAnimation::Reset()
 	Start = 0;
 }
 
-void GameEngineFBXAnimationRenderer::SetFBXMesh(const std::string& _Name, std::string _Material)
+void GameEngineFBXAnimationRenderer::SetFBXMesh(const std::string& _Name)
+{
+	SetFBXMesh(_Name, "TextureAnimation");
+}
+
+void GameEngineFBXAnimationRenderer::SetFBXMesh(const std::string& _Name, const std::string& _Material)
 {
 	std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Find(_Material);
 

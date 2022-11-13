@@ -15,7 +15,8 @@ public:
 	GameEngineFBXStaticRenderer& operator=(const GameEngineFBXStaticRenderer& _Other) = delete;
 	GameEngineFBXStaticRenderer& operator=(GameEngineFBXStaticRenderer&& _Other) noexcept = delete;
 
-	void SetFBXMesh(const std::string& _Name, std::string _Material) override;
+	void SetFBXMesh(const std::string& _Name) override;
+	void SetFBXMesh(const std::string& _Name, const std::string& _Material) override;
 	GameEngineRenderUnit* SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex, size_t _SubSetIndex = 0) override;
 
 

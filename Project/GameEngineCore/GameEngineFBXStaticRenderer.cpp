@@ -10,7 +10,12 @@ GameEngineFBXStaticRenderer::~GameEngineFBXStaticRenderer()
 {
 }
 
-void GameEngineFBXStaticRenderer::SetFBXMesh(const std::string& _Name, std::string _Material) 
+void GameEngineFBXStaticRenderer::SetFBXMesh(const std::string& _Name)
+{
+	SetFBXMesh(_Name, "Texture");
+}
+
+void GameEngineFBXStaticRenderer::SetFBXMesh(const std::string& _Name, const std::string& _Material)
 {
 	std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Find(_Material);
 
