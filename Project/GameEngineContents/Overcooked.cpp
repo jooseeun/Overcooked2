@@ -938,7 +938,7 @@ void Overcooked::TextureLoad()
 			GameEngineDirectory Dir;
 			Dir.MoveParentToExitsChildDirectory("ContentsResources");
 			Dir.Move("ContentsResources");
-			Dir.Move("Texture");U
+			Dir.Move("Texture");
 			Dir.Move("UI");
 			Dir.Move("SelectStage");
 
