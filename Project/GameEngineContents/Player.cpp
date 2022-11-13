@@ -131,8 +131,8 @@ void Player::Start()
 	GamePlayObject::Start();
 	GamePlayObject::SetObjectType(ObjectType::Character);
 	Collision_Interact_ = CreateComponent<GameEngineCollision>("PlayerCollision");
-	Collision_Interact_->GetTransform().SetLocalScale({ 100,100,100 });
-	Collision_Interact_->GetTransform().SetLocalPosition({ 0,0,-100 });
+	Collision_Interact_->GetTransform().SetLocalScale({ 50,100,200});
+	Collision_Interact_->GetTransform().SetLocalPosition({ 0,0,-60 });
 	GetCollisionObject()->ChangeOrder(CollisionOrder::Object_Character);
 
 
