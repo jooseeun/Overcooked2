@@ -599,7 +599,13 @@ void MapEditorWindow::SortToolTab()
 	ImGui::BeginChild("Origin List", ImVec2(150, 100), true);
 
 	static int OriginIndex = 0;
+	static int PrefabIndex = 0;
 	static int ActorIndex = 0;
+
+	auto ToolNames = magic_enum::enum_names<ToolInfo>();
+
+	const int Size = ToolNames.size();
+	static bool IsChecks_[Size] = { false };
 
 	for (int i = 0; i < Origins_.size(); ++i)
 	{
@@ -614,6 +620,26 @@ void MapEditorWindow::SortToolTab()
 			SortActorList_.clear();
 
 			SortActorList_ = Origins_[OriginIndex].lock()->GetStaticMeshInfo();
+
+			for (size_t j = 0; j < ToolNames.size(); ++j)
+			{
+				IsChecks_[j] = false;
+
+				if (0 == SortActorList_.size())
+				{
+					continue;
+				}
+
+				if (nullptr != SortActorList_[ActorIndex].lock()->GetStuff())
+				{
+					std::string_view CurType = magic_enum::enum_name(SortActorList_[ActorIndex].lock()->GetStuff()->GetToolInfoType());
+
+					if (ToolNames[j] == CurType.data())
+					{
+						IsChecks_[j] = true;
+					}
+				}
+			}
 		}
 	}
 
@@ -645,8 +671,6 @@ void MapEditorWindow::SortToolTab()
 
 	ImGui::BeginChild("PrefabList", ImVec2(150, 100), true);
 
-	static int PrefabIndex = 0;
-
 	for (int i = 0; i < Prefabs_.size(); ++i)
 	{
 		char Label[1024] = { '\0' };
@@ -661,11 +685,6 @@ void MapEditorWindow::SortToolTab()
 	ImGui::SameLine();
 
 	ImGui::BeginChild("SortActorList", ImVec2(150, 100), true);
-
-	auto ToolNames = magic_enum::enum_names<ToolInfo>();
-
-	const int Size = ToolNames.size();
-	static bool IsChecks_[Size] = { false };
 
 	for (int i = 0; i < SortActorList_.size(); ++i)
 	{
