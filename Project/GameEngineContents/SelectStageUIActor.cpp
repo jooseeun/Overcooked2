@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "SelectStageUIActor.h"
+
 #include "OverCookedUIRenderer.h"
 #include "UIDebugGUI.h"
 #include <GameEngineCore/GameEngineFont.h>
@@ -13,16 +14,11 @@ SelectStageUIActor::~SelectStageUIActor()
 {
 }
 
-void SelectStageUIActor::Start()
+void SelectStageUIActor::UIStart()
 {
-	LoadResource();
-	InitRenderer();
 	UIDebugGUI::Main_->AddMutableValue("PlayerCount", &PlayerCount_);
-	//std::shared_ptr<OverCookedTransition> NewEffect = GetLevel()->GetUICamera()->GetCameraRenderTarget()->AddEffect<OverCookedTransition>();
-}
 
-void SelectStageUIActor::InitRenderer()
-{
+
 	EndBackground_ = CreateUIRenderer("EndBackground.png");
 
 	Background_ = CreateUIRenderer("UI_PauseScreen_Backdrop_01.png");
@@ -88,16 +84,33 @@ void SelectStageUIActor::InitRenderer()
 	CountDownFont_->SetAffectTransform(true);
 	CountDownFont_->GetTransform().SetLocalPosition({ 340,345 });
 	CountDownFont_->Off();
+}
 
-	//Transition
-	BlackRenderer_ = CreateUIRenderer("Black.png");
-	BlackRenderer_->ChangeCamera(CAMERAORDER::AboveUICAMERA);
-	BlackRenderer_->Off();
+void SelectStageUIActor::UIUpdate(float _DeltaTime)
+{
+	switch (Phase_)
+	{
+	case 0:// 0 : 키보드로 맵을 선택하는 단계 1 : 맵을 선택하고 기다리는 단계
+	{
+		MovingMap(_DeltaTime);
+		UpdatePlayerIcon();
+		break;
+	}
+	case 1://1 : 맵을 선택하고 기다리는 단계
+	{
+		//카운트다운 업데이트
+		int CountDownNum = static_cast<int>(CountDown_.GetCurTime());
+		CountDownFont_->SetText("0" + std::to_string(CountDownNum), "Naughty Squirrel");
+		CountDown_.Update(_DeltaTime);
+		break;
+	}
+	default:
+		break;
+	}
+}
 
-	TransitionIcon_ = CreateUIRenderer("UI_Transitions_02.png");
-	TransitionIcon_->ChangeCamera(CAMERAORDER::AboveUICAMERA);
-	TransitionIcon_->Off();
-	//TransitionIcon_->StartFadeOut(7.0f);
+void SelectStageUIActor::UIEnd()
+{
 }
 
 void SelectStageUIActor::CreatePlayerIcon(int _Index, std::string_view _Name)
@@ -171,51 +184,6 @@ void SelectStageUIActor::CreatePlayerIcon(int _Index, std::string_view _Name)
 	NewIcon.Off();
 
 	Icons_.push_back(NewIcon);
-}
-
-void SelectStageUIActor::LoadResource()
-{
-	//필요한 리소스 로드
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Texture");
-		Dir.Move("UI");
-		Dir.Move("SelectStage");
-
-		std::vector<GameEngineFile> Textures = Dir.GetAllFile();
-
-		for (size_t i = 0; i < Textures.size(); i++)
-		{
-			GameEngineTexture::Load(Textures[i].GetFullPath());
-		}
-	}
-
-	GameEngineFont::Load("Naughty Squirrel");
-}
-
-void SelectStageUIActor::Update(float _DeltaTime)
-{
-	switch (Phase_)
-	{
-	case 0:// 0 : 키보드로 맵을 선택하는 단계 1 : 맵을 선택하고 기다리는 단계
-	{
-		MovingMap(_DeltaTime);
-		UpdatePlayerIcon();
-		break;
-	}
-	case 1://1 : 맵을 선택하고 기다리는 단계
-	{
-		//카운트다운 업데이트
-		int CountDownNum = static_cast<int>(CountDown_.GetCurTime());
-		CountDownFont_->SetText("0" + std::to_string(CountDownNum), "Naughty Squirrel");
-		CountDown_.Update(_DeltaTime);
-		break;
-	}
-	default:
-		break;
-	}
 }
 
 void SelectStageUIActor::UpdatePlayerIcon()
@@ -415,15 +383,6 @@ void SelectStageUIActor::EndChange()
 	IsChanging_ = false;
 }
 
-void SelectStageUIActor::End()
-{
-}
-
-void SelectStageUIActor::ResistDebug(std::string_view _Name, GameEngineTransform& Trans)
-{
-	UIDebugGUI::Main_->AddTransform(_Name.data(), &Trans);
-}
-
 void SelectStageUIActor::CreateLevelSelect(std::string_view _MapFileName, int _BoarderType, std::string_view _Text, int _Index)
 {
 	float XSize = Interval_;
@@ -483,14 +442,6 @@ void SelectStageUIActor::CreateLevelSelect(std::string_view _MapFileName, int _B
 	LevelSelect_.push_back(NewSelect);
 }
 
-std::shared_ptr<OverCookedUIRenderer> SelectStageUIActor::CreateUIRenderer(std::string_view _TextrueName)
-{
-	std::shared_ptr<OverCookedUIRenderer> NewRenderer = CreateComponent<OverCookedUIRenderer>(_TextrueName.data());
-	NewRenderer->SetTexture(_TextrueName.data());
-	NewRenderer->ScaleToTexture();
-	return NewRenderer;
-}
-
 void SelectStageUIActor::StartChange(int _Dir)
 {
 	ShowSelectEffect(_Dir);
@@ -546,6 +497,7 @@ bool SelectStageUIActor::IsChanging()
 {
 	return IsChanging_;
 }
+
 
 void SelectStageUIActor::StartLevelChange(int _A)
 {

@@ -14,6 +14,13 @@ struct UIData
 	}
 };
 
+enum TransitionType
+{
+	Clover,
+	Chicken,
+	Onion
+};
+
 class OverCookedUIRenderer : public GameEngineDefaultRenderer
 {
 	friend FrameAnimation;

@@ -1,11 +1,7 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
-#include "ContentsUtility.h"
+#include "UIActor.h"
 
-using namespace ContentsUtility;
-
-class OverCookedUIRenderer;
-class SelectStageUIActor : public GameEngineActor
+class SelectStageUIActor : public UIActor
 {
 	struct LevelSelect
 	{
@@ -41,32 +37,31 @@ public:
 	~SelectStageUIActor();
 
 	SelectStageUIActor(const SelectStageUIActor& _Other) = delete;
-	SelectStageUIActor(const SelectStageUIActor&& _Other) noexcept = delete;
-	SelectStageUIActor& operator=(const SelectStageUIActor& _Ohter) = delete;
-	SelectStageUIActor& operator=(const SelectStageUIActor&& _Other) noexcept = delete;
+	SelectStageUIActor(SelectStageUIActor&& _Other) noexcept = delete;
+	SelectStageUIActor& operator=(const SelectStageUIActor& _Other) = delete;
+	SelectStageUIActor& operator=(const SelectStageUIActor&& _Other) = delete;
 
 protected:
-	void Start() override;
-	void InitRenderer();
+	void UIStart() override;
+	void UIUpdate(float _DeltaTime) override;
+	void UIEnd() override;
+
+private:
 	void CreatePlayerIcon(int _Index, std::string_view _Name);
-	void LoadResource();
-	void Update(float _DeltaTime) override;
 	void UpdatePlayerIcon();
 	void MovingMap(float _DeltaTime);
 	void StartSelectMap();
 	void EndChange();
-	void End() override;
-
-	void ResistDebug(std::string_view _Name, GameEngineTransform& Trans);
 
 	void CreateLevelSelect(std::string_view _MapFileName, int _BoarderType, std::string_view _Text, int _Index);
 
-	std::shared_ptr<OverCookedUIRenderer> CreateUIRenderer(std::string_view _TextrueName);
+private:
 
 private:
 	std::shared_ptr<OverCookedUIRenderer> EndBackground_ = nullptr;
 	std::shared_ptr<OverCookedUIRenderer> Background_ = nullptr;
 	std::shared_ptr<OverCookedUIRenderer> Header_ = nullptr;
+
 	std::shared_ptr<OverCookedUIRenderer> ControlGuide_ = nullptr;
 	std::shared_ptr<OverCookedUIRenderer> SelectMap_ = nullptr;
 
@@ -74,10 +69,6 @@ private:
 	std::vector<std::shared_ptr<OverCookedUIRenderer>> MaskBackground_;
 
 	std::shared_ptr<GameEngineFontRenderer> CountDownFont_ = nullptr;
-
-	//Transition
-	std::shared_ptr<OverCookedUIRenderer> BlackRenderer_ = nullptr;
-	std::shared_ptr<OverCookedUIRenderer> TransitionIcon_ = nullptr;
 
 	std::vector<LevelSelect> LevelSelect_;
 
@@ -104,7 +95,5 @@ private:
 	//카운트다운 관련
 	Timer CountDown_ = 4.5f;
 	void StartLevelChange(int _A);
-
-	float4 DebugPos_;
-	float DebugSize_;
 };
+
