@@ -129,59 +129,132 @@ void Player::HoldStart(const StateInfo& _Info)
 		if (CurrentHoldingObject_ == nullptr &&
 			Input_PickUp(Interact_GroundObject_) == Input_PickUpOption::PickUp)
 		{
+			if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
+				std::bind(&Player::GetCrashTableObject, this, std::placeholders::_1, std::placeholders::_2)) == true)
+			{
+				Interact_TableObject_->SetStuff(nullptr);
+			}
 			Interact_GroundObject_ = nullptr;
 			CurrentHoldingObject_->DetachObject();
 			CurrentHoldingObject_->SetParent(shared_from_this());
+			CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,50,-80 });
 			return;
 		}
-
-	}
+		else
+		{
+			 
+			StateManager.ChangeState("Idle");
+			return;
+		}
+	} 
 	else
 	{
 		if (Interact_GroundObject_ != nullptr)
 		{
 			Interact_GroundObject_->SetBloomEffectOff();
 			Interact_GroundObject_ = nullptr;
-			CurrentHoldingObject_->GetTransform().SetParentTransform(CurrentHoldingObject_->GetTransform());
-		}
-	}
-
-
-
-	if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
-		std::bind(&Player::GetCrashTableObject, this, std::placeholders::_1, std::placeholders::_2))==true)
-		// 검사 콜리전이 테이블 콜리젼과 닿아있을때
-	{
-
-		if (CurrentHoldingObject_ == nullptr &&
-			Input_PickUp(Interact_GroundObject_) == Input_PickUpOption::PickUp)
-		{
-			Interact_TableObject_->SetBloomEffectOff();
-			//CurrentHoldingObject_->GetTransform().SetParentTransform(CurrentHoldingObject_->GetTransform());
 			return;
 		}
-
-	}
-
-	else
-	{
-		if (Interact_TableObject_ != nullptr)
+		else
 		{
-			Interact_TableObject_->SetBloomEffectOff();
-			Interact_TableObject_ = nullptr;
-			//CurrentHoldingObject_->GetTransform().SetParentTransform(CurrentHoldingObject_->GetTransform());
+
+			StateManager.ChangeState("Idle");
+			return;
 		}
 	}
+
+
+
+	//if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
+	//	std::bind(&Player::GetCrashTableObject, this, std::placeholders::_1, std::placeholders::_2))==true)
+	//	// 검사 콜리전이 테이블 콜리젼과 닿아있을때
+	//{
+
+	//	if (CurrentHoldingObject_ == nullptr &&
+	//		Input_PickUp(Interact_GroundObject_) == Input_PickUpOption::PickUp)
+	//	{
+	//		Interact_TableObject_->SetBloomEffectOff();
+	//		Interact_TableObject_ = nullptr;
+	//		CurrentHoldingObject_->DetachObject();
+	//		CurrentHoldingObject_->SetParent(shared_from_this());
+	//		return;
+	//	}
+	//	else
+	//	{
+
+	//		StateManager.ChangeState("Idle");
+	//		return;
+	//	}
+	//}
+
+	//else
+	//{
+	//	if (Interact_TableObject_ != nullptr)
+	//	{
+	//		Interact_TableObject_->SetBloomEffectOff();
+	//		Interact_TableObject_ = nullptr;
+	//		CurrentHoldingObject_->DetachObject();
+	//		CurrentHoldingObject_->SetParent(shared_from_this());
+	//		return;
+	//	}
+	//	else
+	//	{
+
+	//		StateManager.ChangeState("Idle");
+	//		return;
+	//	}
+	//}
 }
 void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerHold")) // 놓기
+	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerHold")) // 놓기
 	{
-		//CurrentHoldingObject_->GetTransform().DetachTransform(); // 자식 떼어내기
+
+		Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
+			std::bind(&Player::PutUpObjectTable, this, std::placeholders::_1, std::placeholders::_2));
+		CurrentHoldingObject_->DetachObject();
+		CurrentHoldingObject_ = nullptr;
 		StateManager.ChangeState("Idle");
+		return;
 	}
 
-	
+
+	 // Player object 를 든 상태로도 이동 가능하게 하기
+	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft") ||
+		true == GameEngineInput::GetInst()->IsPressKey("PlayerRight") ||
+		true == GameEngineInput::GetInst()->IsPressKey("PlayerFront") ||
+		true == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
+	{
+		PlayerDirCheck();
+
+		if (MoveAngle() == true)
+		{
+			// 플레이어 벽 출돌 체크
+			if (PlayerForwardCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Map_Object, CollisionType::CT_AABB,
+				std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false &&
+				PlayerForwardCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Object_StaticObject, CollisionType::CT_AABB,
+					std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
+			{
+				GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * _DeltaTime);
+			}
+			else
+			{
+				// 플레이어가 벽이랑 충돌했을때 대각선 키 누르면 플레이어 밀려서 이동하는 함수
+				MoveCollisionSideCheck(_DeltaTime);
+			}
+		}
+
+		else
+		{
+			if (PlayerForwardCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Map_Object, CollisionType::CT_AABB,
+				std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false &&
+				PlayerForwardCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Object_StaticObject, CollisionType::CT_AABB,
+					std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
+			{
+				GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * 0.5f * _DeltaTime);
+			}
+		}
+	}
 
 }
 

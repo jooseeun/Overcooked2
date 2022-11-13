@@ -4,6 +4,7 @@
 
 // Ό³Έν :
 class GameEngineFBXAnimationRenderer;
+class GameEngineFBXStaticRenderer;
 class GameEngineCollision;
 class GamePlayMoveable;
 class GamePlayStaticObject;
@@ -60,6 +61,7 @@ protected:
 	CollisionReturn GetCrashTableObject(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 	CollisionReturn GravityColCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 	CollisionReturn MoveColCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
+	CollisionReturn PutUpObjectTable(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 	
 public:
 	inline Input_PickUpOption Input_PickUp(std::shared_ptr<Player> _Player) override { return Input_PickUpOption::NoResponse; }
@@ -105,7 +107,7 @@ private:
 
 
 
-	std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerRenderer_;
+	std::shared_ptr<GameEngineFBXStaticRenderer> PlayerRenderer_;
 	std::shared_ptr<GameEngineCollision> PlayerFloorCollision_;
 	std::shared_ptr<GameEngineCollision> PlayerForwardCollision_;
 	std::shared_ptr<GameEngineCollision> PlayerForwardLeftCollision_;

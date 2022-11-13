@@ -7,7 +7,7 @@ Player::Player()
 	:Speed_(400.0f)
 	, CurAngle_(0)
 	, CurDir_(PlayerDir::Back)
-	, CurHoldType_(PlayerHoldType::FireExtinguisher)
+	, CurHoldType_(PlayerHoldType::Max)
 	, PlayerFloorCollision_(nullptr)
 	, PlayerLeftCollision_(nullptr)
 	, PlayerRightCollision_(nullptr)
@@ -62,19 +62,23 @@ void Player::Start()
 
 
 
-
-
-
+	//임시 Player StaticRenderer
 	{
-		PlayerRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();
-		PlayerRenderer_->SetFBXMesh("AlienGreen_CarDeath.FBX", "TextureAnimation");
-		PlayerRenderer_->CreateFBXAnimation("Test", "AlienGreen_CarDeath.FBX");
-		PlayerRenderer_->ChangeAnimation("Test");
-		PlayerRenderer_->GetTransform().SetLocalPosition({ -7.26,0.085,7.12 });
-		PlayerRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
-		//PlayerRenderer_ = CreateComponent<GameEngineFBXStaticRenderer>();
-		//PlayerRenderer_->SetFBXMesh("AlienGreen_CarDeath.FBX", "Texture");
+		PlayerRenderer_ = CreateComponent<GameEngineFBXStaticRenderer>();
+		PlayerRenderer_->SetFBXMesh("Chef1.FBX", "Texture");
+		
 	}
+
+
+
+	//{
+	//	PlayerRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();
+	//	PlayerRenderer_->SetFBXMesh("AlienGreen_CarDeath.FBX", "TextureAnimation");
+	//	PlayerRenderer_->CreateFBXAnimation("Test", "AlienGreen_CarDeath.FBX");
+	//	PlayerRenderer_->ChangeAnimation("Test");
+	//	PlayerRenderer_->GetTransform().SetLocalPosition({ -7.26,0.085,7.12 });
+	//	PlayerRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
+	//}
 
 	{
 		PlayerFloorCollision_ = CreateComponent<GameEngineCollision>();
@@ -746,6 +750,22 @@ CollisionReturn Player::GetCrashTableObject(std::shared_ptr<GameEngineCollision>
 	return CollisionReturn::Break;
 }
 
+CollisionReturn Player::PutUpObjectTable(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
+{
+	 
+ 	Interact_TableObject_ = _Other->GetActor<GamePlayStaticObject>();
+    if (Interact_TableObject_->GetStuff() == nullptr) // 임시코드
+	{                  	
+		Interact_TableObject_->SetStuff(CurrentHoldingObject_);
+		float4 ToolPos = Interact_TableObject_->GetToolPos();
+		Interact_TableObject_->GetStuff()->GetTransform().SetWorldPosition(ToolPos);
+
+		
+		return CollisionReturn::Break; 
+	}
+	Interact_TableObject_->SetBloomEffectOn();
+	return CollisionReturn::Break;
+}
 
 CollisionReturn Player::GravityColCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 {

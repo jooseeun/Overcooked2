@@ -55,7 +55,7 @@ Input_PickUpOption Equipment_Plate::Input_PickUp(std::shared_ptr<GamePlayMoveabl
 					Pile_Plate_Before = Pile_Plate;
 					Pile_Plate = Pile_Plate->Pile_Plate_;
 					if (Pile_Plate_Before == Pile_Plate)
-					{
+					{ 
 						MsgBoxAssert("무한 루프입니다")
 					}
 
