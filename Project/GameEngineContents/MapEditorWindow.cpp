@@ -230,8 +230,7 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		else if (true == IsSort_)
 		{
 			GlobalIOManager::Load(IOType::SortMap, LevelIndex_);
-
-			SortActorList_ = DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), CurLevel_);
+			DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), CurLevel_);
 
 			for (size_t i = 0; i < Origins_.size(); i++)
 			{
@@ -243,6 +242,7 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 			}
 
 			Origins_ = DataParser_.GetOrigins();
+			SortActorList_ = Origins_[0].lock()->GetStaticMeshInfo();
 
 			GameEngineDebug::OutPutString(LevelIndex_ + "번째 정렬된 맵 데이터 파일을 불러왔습니다.");
 		}
@@ -599,6 +599,7 @@ void MapEditorWindow::SortToolTab()
 	ImGui::BeginChild("Origin List", ImVec2(150, 100), true);
 
 	static int OriginIndex = 0;
+	static int ActorIndex = 0;
 
 	for (int i = 0; i < Origins_.size(); ++i)
 	{
@@ -608,6 +609,7 @@ void MapEditorWindow::SortToolTab()
 		if (ImGui::Selectable(Name.c_str(), OriginIndex == i))
 		{
 			OriginIndex = i;
+			ActorIndex = 0;
 
 			SortActorList_.clear();
 
@@ -659,8 +661,6 @@ void MapEditorWindow::SortToolTab()
 	ImGui::SameLine();
 
 	ImGui::BeginChild("SortActorList", ImVec2(150, 100), true);
-
-	static int ActorIndex = 0;
 
 	auto ToolNames = magic_enum::enum_names<ToolInfo>();
 
@@ -873,6 +873,7 @@ void MapEditorWindow::SortToolTab()
 				|| nullptr == DataVector[i].lock())
 			{
 				DataVector.erase(DataVector.begin() + i);
+				break;
 			}
 		}
 

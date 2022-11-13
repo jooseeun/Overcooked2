@@ -250,8 +250,7 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 			}
 
 			Origins_[Order].lock()->GetStaticMeshInfo().push_back(CurActor_.lock());
-
-			CurActor_.lock() = nullptr;
+			CurActor_.reset();
 		}
 	}
 
