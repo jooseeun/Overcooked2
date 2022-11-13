@@ -2,6 +2,7 @@
 #include "OverCookedUIRenderer.h"
 #include <GameEngineCore/GameEngineTexture.h>
 #include <GameEngineCore/GameEngineFolderTexture.h>
+#include <GameEngineBase/GameEngineRandom.h>
 
 #include "UIDebugGUI.h"
 
@@ -219,16 +220,16 @@ void OverCookedUIRenderer::Update(float _Delta)
 	if (UIDataInst.UIMode == 2)
 	{
 		//(Speed + 7.0f * _Delta) * _Delta
-		AccTime_ -= _Delta * 18.f;
-		if (AccTime_ < 0.4f)
+		AccTime_ -= _Delta * 23.5f;
+		if (AccTime_ < 0.25f)
 		{
-			AccTime_ = 0.4f;
+			AccTime_ = 0.25f;
 		}
 
 		TransitionRatio_ -= _Delta * AccTime_;
 		float4 CurScale = CurTex->GetScale() * TransitionRatio_;
 		GetTransform().SetLocalScale(CurScale);
-		if (TransitionRatio_ < 0.05f)
+		if (TransitionRatio_ < 0.01f)
 		{
 			Off();
 		}
@@ -275,7 +276,24 @@ void OverCookedUIRenderer::StartFadeOut(float _StartRatio)
 {
 	UIDataInst.UIMode = 2;
 	TransitionRatio_ = _StartRatio;
-	AccTime_ = 16.0f;
+	AccTime_ = 18.0f;
+	//³­¼ö·Î ·£´ý IconGet
+	std::string FileName;
+	int RandomValue = GameEngineRandom::MainRandom.RandomInt(0, 100);
+	if (RandomValue < 33)
+	{
+		FileName = "UI_Transitions_02.png";
+	}
+	else if (RandomValue >= 33 && RandomValue < 66)
+	{
+		FileName = "UI_Transitions_03.png";
+	}
+	else
+	{
+		FileName = "UI_Transitions_04.png";
+	}
+	SetTexture(FileName);
+	
 	float4 CurScale = CurTex->GetScale() * TransitionRatio_;
 	GetTransform().SetLocalScale(CurScale);
 }

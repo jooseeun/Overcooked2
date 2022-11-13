@@ -113,7 +113,7 @@
     <ClInclude Include="OverCookedUIRenderer.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="SelectStageUIActor.h">
+    <ClInclude Include="UIActor.h">
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="Servicehatch.h">
@@ -172,6 +172,12 @@
     </ClInclude>
     <ClInclude Include="TitleVan.h">
       <Filter>Contents\Object\MapObject</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectStageUIActor.h">
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -284,7 +290,7 @@
     <ClCompile Include="OverCookedUIRenderer.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="SelectStageUIActor.cpp">
+    <ClCompile Include="UIActor.cpp">
       <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="UIDebugGUI.cpp">
@@ -346,6 +352,12 @@
     </ClCompile>
     <ClCompile Include="TitleVan.cpp">
       <Filter>Contents\Object\MapObject</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectStageUIActor.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
