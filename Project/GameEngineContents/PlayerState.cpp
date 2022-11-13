@@ -20,13 +20,13 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 
 
-	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerHold"))
+	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerHold"))
 	{
 		StateManager.ChangeState("Hold");
 	}
 
 
-	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerInteract")) //컨트롤키
+	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerInteract")) //컨트롤키
 	{
 		if (CurrentHoldingObject_ != nullptr)
 			//손에 무언가 있을때
@@ -149,25 +149,14 @@ void Player::HoldStart(const StateInfo& _Info)
 	} 
 	else
 	{
-		if (Interact_GroundObject_ != nullptr)
-		{
-			Interact_GroundObject_->SetBloomEffectOff();
-			Interact_GroundObject_ = nullptr;
-			return;
-		}
-		else
-		{
-
-			StateManager.ChangeState("Idle");
-			return;
-		}
+		StateManager.ChangeState("Idle");
+		return;
 	}
 
 
 
 	//if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 	//	std::bind(&Player::GetCrashTableObject, this, std::placeholders::_1, std::placeholders::_2))==true)
-	//	// 검사 콜리전이 테이블 콜리젼과 닿아있을때
 	//{
 
 	//	if (CurrentHoldingObject_ == nullptr &&
@@ -210,9 +199,9 @@ void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerHold")) // 놓기
 	{
 
+		CurrentHoldingObject_->DetachObject();
 		Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 			std::bind(&Player::PutUpObjectTable, this, std::placeholders::_1, std::placeholders::_2));
-		CurrentHoldingObject_->DetachObject();
 		CurrentHoldingObject_ = nullptr;
 		StateManager.ChangeState("Idle");
 		return;
