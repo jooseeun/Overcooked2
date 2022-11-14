@@ -33,6 +33,17 @@ void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, const std::stri
 	}
 }
 
+void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex)
+{
+	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(_Name);
+
+	for (size_t SubSetCount = 0; SubSetCount < FindFBXMesh->GetSubSetCount(MeshIndex); SubSetCount++)
+	{
+		size_t SubSet = FindFBXMesh->GetSubSetCount(MeshIndex);
+
+		SetFBXMesh(_Name, _Material, MeshIndex, SubSetCount);
+	}
+}
 
 // SetFbxMesh를 해서 만들어진 랜더 유니트를 사용하게 하기 위해서 리턴해준다.
 GameEngineRenderUnit* GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name,

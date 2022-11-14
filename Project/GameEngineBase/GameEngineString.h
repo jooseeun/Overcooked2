@@ -44,6 +44,7 @@ public:
 	static std::string UTF8ToAnsiReturn(const std::string& _UTF8);
 
 	static std::vector<std::string> Split(const std::string& _Input, char _Find);
+	static std::string Replace(const std::string& _Text, const std::string_view& _OldText, const std::string_view& _ChangeText);
 
 protected:
 

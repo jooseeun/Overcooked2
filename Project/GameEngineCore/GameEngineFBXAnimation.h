@@ -81,7 +81,7 @@ public:
 	__int64					FbxModeCount;
 	double					FbxModeRate;
 
-	std::vector<std::vector<FbxExBoneFrame>> AniFrameData;
+	std::map<size_t, std::vector<FbxExBoneFrame>> AniFrameData;
 
 	void Write(GameEngineFile* _File) const
 	{
@@ -146,6 +146,7 @@ public:
 
 // Ό³Έν :
 class GameEngineFBXMesh;
+class GameEngineFBXAnimationRenderer;
 class GameEngineFBXAnimation : public GameEngineFBX, public GameEngineRes<GameEngineFBXAnimation>
 {
 public:
@@ -167,7 +168,7 @@ public:
 	static std::shared_ptr<GameEngineFBXAnimation> Load(const std::string& _Path, const std::string& _Name);
 
 
-	void AnimationMatrixLoad(std::shared_ptr <GameEngineFBXMesh> _Mesh, int _AnimationIndex);
+	void AnimationMatrixLoad(std::shared_ptr <GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimationRenderer> _Renderer, int _AnimationIndex);
 
 	FbxExAniData* GetAnimationData(int _Index)
 	{

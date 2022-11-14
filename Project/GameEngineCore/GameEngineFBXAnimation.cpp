@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "GameEngineFBXAnimation.h"
 #include "GameEngineFBXMesh.h"
+#include "GameEngineFBXAnimationRenderer.h"
 
 GameEngineFBXAnimation::GameEngineFBXAnimation() 
 {
@@ -282,7 +283,7 @@ void GameEngineFBXAnimation::ProcessAnimationLoad(std::shared_ptr <GameEngineFBX
 
 
 
-void GameEngineFBXAnimation::AnimationMatrixLoad(std::shared_ptr <GameEngineFBXMesh> _Mesh, int _AnimationIndex)
+void GameEngineFBXAnimation::AnimationMatrixLoad(std::shared_ptr <GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimationRenderer> _Renderer, int _AnimationIndex)
 {
 	if (0 == AnimationDatas.size())
 	{
@@ -295,7 +296,11 @@ void GameEngineFBXAnimation::AnimationMatrixLoad(std::shared_ptr <GameEngineFBXM
 		return;
 	}
 
-	AnimationDatas[_AnimationIndex].AniFrameData.resize(_Mesh->MeshInfos.size());
+	for (size_t i = 0; i < _Mesh->MeshInfos.size(); i++)
+	{
+		AnimationDatas[_AnimationIndex].AniFrameData[i];
+	}
+
 	for (UINT MeshCount = 0; MeshCount < _Mesh->MeshInfos.size(); MeshCount++)
 	{
 		AnimationDatas[_AnimationIndex].AniFrameData[MeshCount].resize(_Mesh->GetBoneCount(MeshCount));

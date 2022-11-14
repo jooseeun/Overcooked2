@@ -222,3 +222,16 @@ std::vector<std::string> GameEngineString::Split(const std::string& _Input, char
 
 	return Result;
 }
+
+std::string GameEngineString::Replace(const std::string& _Text, const std::string_view& _OldText, const std::string_view& _ChangeText)
+{
+	size_t FindIndex = _Text.find(_OldText);
+	if (FindIndex == std::string::npos)
+	{
+		return _Text;
+	}
+
+	std::string Text = _Text;
+	Text = Text.replace(FindIndex, _OldText.size(), _ChangeText);
+	return Text;
+}

@@ -125,7 +125,7 @@ struct FbxExMeshInfo
 	}
 };
 
-struct FbxRenderUnitInfo
+struct FbxRenderUnitInfo : public Serializer
 {
 public:
 	int VectorIndex;
@@ -161,6 +161,30 @@ public:
 
 	~FbxRenderUnitInfo()
 	{
+	}
+
+	void Write(GameEngineFile& _File) override
+	{
+		_File.Write(VectorIndex);
+		_File.Write(IsLodLv);
+		_File.Write(IsLod);
+		_File.Write(MinBoundBox);
+		_File.Write(MaxBoundBox);
+		_File.Write(BoundScaleBox);
+		_File.Write(Vertexs);
+		_File.Write(Indexs);
+
+	}
+
+	void Read(GameEngineFile& _File) override
+	{
+		_File.Read(VectorIndex);
+		_File.Read(IsLodLv);
+		_File.Read(IsLod);
+		_File.Read(MinBoundBox);
+		_File.Read(MaxBoundBox);
+		_File.Read(BoundScaleBox);
+
 	}
 };
 
@@ -534,6 +558,17 @@ public:
 		return RenderUnitInfos.size();
 	}
 
+	FbxRenderUnitInfo* GetRenderUnit(size_t _Index)
+	{
+		if (RenderUnitInfos.size() <= _Index)
+		{
+			MsgBoxAssert("랜더 유니트 정보의 인덱스를 초과했습니다.");
+			return nullptr;
+		}
+
+		return &RenderUnitInfos[_Index];
+	}
+
 	size_t GetSubSetCount(size_t _RenderUnitIndex)
 	{
 		return RenderUnitInfos[_RenderUnitIndex].Indexs.size();
@@ -564,6 +599,9 @@ public:
 	Bone* FindBone(size_t MeshIndex, std::string _Name);
 
 	std::shared_ptr<GameEngineStructuredBuffer> GetAnimationStructuredBuffer(size_t _Index);
+
+	void UserLoad(const std::string_view& _Path);
+	void UserSave(const std::string_view& _Path);
 
 protected:
 	std::vector<FbxExMeshInfo> MeshInfos;
