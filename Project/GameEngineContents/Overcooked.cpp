@@ -2,6 +2,7 @@
 #include "Overcooked.h"
 
 #include "SelectStageLevel.h"
+#include "LoadingLevel.h"
 #include "MapToolLevel.h"
 
 #include "TitleLevel.h"
@@ -29,6 +30,7 @@ void Overcooked::Start()
 	LoadMaterial();
 
 	CreateLevel<SelectStageLevel>("SelectStage");
+	CreateLevel<LoadingLevel>("LoadingLevel");
 
 	CreateLevel<Stage_1_1>("Stage_1_1");
 	CreateLevel<Stage_1_2>("Stage_1_2");
@@ -310,7 +312,6 @@ void Overcooked::MeshLoad()
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 
-
 	{
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExitsChildDirectory("ContentsResources");
@@ -340,10 +341,8 @@ void Overcooked::MeshLoad()
 	//	Dir.Move("Mesh");
 	//	Dir.Move("Chef1");
 
-
 	//	GameEngineFBXMesh* Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("ChefOriginal.FBX"));
 	//	std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
-
 
 	//}
 	{
@@ -358,7 +357,6 @@ void Overcooked::MeshLoad()
 		GameEngineDirectory MeshDir = Dir;
 		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("MoveNPC_Beard_Orange_01.FBX"));
 		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("MoveNPC_Beard_Orange_01.FBX"));
-
 	}
 	{
 		GameEngineDirectory Dir;
@@ -913,7 +911,6 @@ void Overcooked::MeshLoad()
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 }
-
 
 void Overcooked::TextureLoad()
 {

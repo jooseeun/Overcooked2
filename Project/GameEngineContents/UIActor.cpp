@@ -20,17 +20,28 @@ void UIActor::Start()
 	//std::shared_ptr<OverCookedTransition> NewEffect = GetLevel()->GetUICamera()->GetCameraRenderTarget()->AddEffect<OverCookedTransition>();
 }
 
-
 void UIActor::Update(float _DeltaTime)
 {
 	UIUpdate(_DeltaTime);
-	
 }
-
 
 void UIActor::End()
 {
 	UIEnd();
+}
+
+void UIActor::StartFadeOut()
+{
+	TransitionIcon_->On();
+	TransitionIcon_->StartFadeOut(7.0f);
+	BlackRenderer_->On();
+}
+
+void UIActor::StartFadeIn()
+{
+	TransitionIcon_->On();
+	TransitionIcon_->StartFadeIn();
+	BlackRenderer_->On();
 }
 
 void UIActor::ResistDebug(std::string_view _Name, GameEngineTransform& Trans)
@@ -55,11 +66,9 @@ void UIActor::InitTransitionRenderer()
 		BlackRenderer_->Off();
 	}
 
-
 	TransitionIcon_ = CreateComponent<OverCookedUIRenderer>();
 	TransitionIcon_->SetTexture("UI_Transitions_02.png");
 	TransitionIcon_->ScaleToTexture();
 	TransitionIcon_->ChangeCamera(CAMERAORDER::AboveUICAMERA);
 	TransitionIcon_->Off();
 }
-

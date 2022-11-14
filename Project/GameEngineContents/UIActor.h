@@ -6,7 +6,6 @@ using namespace ContentsUtility;
 class OverCookedUIRenderer;
 class UIActor : public GameEngineActor
 {
-
 public:
 	UIActor();
 	~UIActor();
@@ -16,10 +15,14 @@ public:
 	UIActor& operator=(const UIActor& _Ohter) = delete;
 	UIActor& operator=(const UIActor&& _Other) noexcept = delete;
 
+	void StartFadeOut();
+	void StartFadeIn();
+
 protected:
 	virtual void UIStart() = 0;
 	virtual void UIUpdate(float _DeltaTime) = 0;
 	virtual void UIEnd() { };
+
 	void ResistDebug(std::string_view _Name, GameEngineTransform& Trans);
 	std::shared_ptr<OverCookedUIRenderer> CreateUIRenderer(std::string_view _TextrueName);
 
@@ -30,6 +33,6 @@ private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 	void End() override;
-	
+
 	void InitTransitionRenderer();
 };

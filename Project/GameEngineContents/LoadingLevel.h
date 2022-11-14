@@ -2,6 +2,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 
 class UIDebugGUI;
+class LoadingUIActor;
 class LoadingLevel : public GameEngineLevel
 {
 public:
@@ -20,6 +21,5 @@ protected:
 	void LevelStartEvent() override;
 	void LevelEndEvent() override;
 private:
-
+	std::shared_ptr< LoadingUIActor> UIActor_;
 };
-

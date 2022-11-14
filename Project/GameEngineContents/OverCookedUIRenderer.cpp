@@ -216,11 +216,20 @@ void OverCookedUIRenderer::Update(float _Delta)
 		}
 	}
 
-	//Transition
-	if (UIDataInst.UIMode == 2)
+	UpdateTransition(_Delta);
+}
+
+void OverCookedUIRenderer::UpdateTransition(float _Delta)
+{
+	if (UIDataInst.UIMode != 2)
 	{
-		//(Speed + 7.0f * _Delta) * _Delta
-		AccTime_ -= _Delta * 23.5f;
+		return;
+	}
+	if (IsFadeOut_ == true)
+	{
+		//Transition
+
+		AccTime_ -= _Delta * 23.f;
 		if (AccTime_ < 0.25f)
 		{
 			AccTime_ = 0.25f;
@@ -232,6 +241,22 @@ void OverCookedUIRenderer::Update(float _Delta)
 		if (TransitionRatio_ < 0.01f)
 		{
 			Off();
+		}
+	}
+	else
+	{
+		AccTime_ += _Delta;
+
+		float X = AccTime_ * AccTime_ * AccTime_;
+
+		float Speed = pow(10.0f, X) - 1.f;
+
+		TransitionRatio_ = Speed;
+		float4 CurScale = CurTex->GetScale() * TransitionRatio_;
+		GetTransform().SetLocalScale(CurScale);
+		if (TransitionRatio_ > 20.0f)
+		{
+			IsFinishFadeIn_ = true;
 		}
 	}
 }
@@ -274,6 +299,7 @@ void OverCookedUIRenderer::SetSamplerPointClamp()
 
 void OverCookedUIRenderer::StartFadeOut(float _StartRatio)
 {
+	IsFadeOut_ = true;
 	UIDataInst.UIMode = 2;
 	TransitionRatio_ = _StartRatio;
 	AccTime_ = 18.0f;
@@ -293,7 +319,34 @@ void OverCookedUIRenderer::StartFadeOut(float _StartRatio)
 		FileName = "UI_Transitions_04.png";
 	}
 	SetTexture(FileName);
-	
+
+	float4 CurScale = CurTex->GetScale() * TransitionRatio_;
+	GetTransform().SetLocalScale(CurScale);
+}
+
+void OverCookedUIRenderer::StartFadeIn()
+{
+	IsFadeOut_ = false;
+	UIDataInst.UIMode = 2;
+	TransitionRatio_ = 0.01f;
+	AccTime_ = 0.05f;
+	//³­¼ö·Î ·£´ý IconGet
+	std::string FileName;
+	int RandomValue = GameEngineRandom::MainRandom.RandomInt(0, 100);
+	if (RandomValue < 33)
+	{
+		FileName = "UI_Transitions_02.png";
+	}
+	else if (RandomValue >= 33 && RandomValue < 66)
+	{
+		FileName = "UI_Transitions_03.png";
+	}
+	else
+	{
+		FileName = "UI_Transitions_04.png";
+	}
+	SetTexture(FileName);
+
 	float4 CurScale = CurTex->GetScale() * TransitionRatio_;
 	GetTransform().SetLocalScale(CurScale);
 }

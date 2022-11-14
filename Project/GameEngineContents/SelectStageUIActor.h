@@ -47,6 +47,7 @@ protected:
 	void UIEnd() override;
 
 private:
+	void InitRenderer();
 	void CreatePlayerIcon(int _Index, std::string_view _Name);
 	void UpdatePlayerIcon();
 	void MovingMap(float _DeltaTime);
@@ -61,12 +62,12 @@ private:
 	std::shared_ptr<OverCookedUIRenderer> EndBackground_ = nullptr;
 	std::shared_ptr<OverCookedUIRenderer> Background_ = nullptr;
 	std::shared_ptr<OverCookedUIRenderer> Header_ = nullptr;
+	std::vector<std::shared_ptr<OverCookedUIRenderer>> MaskBackground_;
 
 	std::shared_ptr<OverCookedUIRenderer> ControlGuide_ = nullptr;
 	std::shared_ptr<OverCookedUIRenderer> SelectMap_ = nullptr;
 
 	std::vector<std::shared_ptr<OverCookedUIRenderer>> ArrowRenderer_; // 화살표 렌더러
-	std::vector<std::shared_ptr<OverCookedUIRenderer>> MaskBackground_;
 
 	std::shared_ptr<GameEngineFontRenderer> CountDownFont_ = nullptr;
 
@@ -92,8 +93,7 @@ private:
 	//페이즈 관련
 	int Phase_ = 0;
 
-	//카운트다운 관련
+	//카운트다운&Transition 관련
 	Timer CountDown_ = 4.5f;
-	void StartLevelChange(int _A);
+	void StartTransition(int _A);
 };
-
