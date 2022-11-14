@@ -136,7 +136,6 @@ void SelectStageUIActor::CreatePlayerIcon(int _Index, std::string_view _Name)
 	std::shared_ptr<OverCookedUIRenderer> NewParent = CreateUIRenderer("AvatarSelectionRing.png");
 	NewParent->GetTransform().SetLocalScale({ 1,1,1 });
 	NewParent->GetTransform().SetLocalPosition({ 0,-180,0 });
-	NewParent->ResistDebug(std::to_string(_Index));
 	NewIcon.Parent = NewParent;
 
 	//Hat Icon
@@ -164,7 +163,6 @@ void SelectStageUIActor::CreatePlayerIcon(int _Index, std::string_view _Name)
 	NewIcon.Hat = Hat;
 
 	std::shared_ptr<OverCookedUIRenderer> NameBox = CreateUIRenderer("UI_BigButtonsSmall_01.png");
-	NameBox->ResistDebug();
 	NameBox->GetTransform().SetLocalPosition({ 0,-80,0 });
 	NameBox->GetTransform().SetParentTransform(NewParent->GetTransform());
 	NewIcon.NameBox = NameBox;

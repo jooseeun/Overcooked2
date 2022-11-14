@@ -22,13 +22,28 @@ public:
 	LoadingUIActor& operator=(const LoadingUIActor&& _Other) noexcept = delete;
 protected:
 	void UIStart() override;
+	void InitRenderer();
 	void UIUpdate(float _DeltaTime) override;
 	void UIEnd() override;
 private:
-	std::shared_ptr<OverCookedUIRenderer> EndBackground_ = nullptr;
-	std::shared_ptr<OverCookedUIRenderer> Background_ = nullptr;
-	std::shared_ptr<OverCookedUIRenderer> Header_ = nullptr;
+	std::shared_ptr<OverCookedUIRenderer> EndBackground_;
+	std::shared_ptr<OverCookedUIRenderer> Background_;
+	std::shared_ptr<OverCookedUIRenderer> Header_;
 	std::vector<std::shared_ptr<OverCookedUIRenderer>> MaskBackground_;
 
 	LevelSelect CurMap_;
+
+	//최고점수 관련
+	int HigestScore_ = 20;
+	std::shared_ptr<GameEngineFontRenderer> HighestScoreRenderer_;
+
+	//Star & Score
+	void CreateStarNScoreRenderer(const float4& _Pos, int _Score);
+	std::vector< std::shared_ptr<OverCookedUIRenderer>> StarRenderer_;
+	std::vector< std::shared_ptr<GameEngineFontRenderer>> ScoreRenderer_;
+	std::vector<int> Score_ = { 350,650,950 };
+
+	//Loading
+	std::shared_ptr<OverCookedUIRenderer> LoadingBackRenderer_;
+	std::shared_ptr<OverCookedUIRenderer> LoadingFrontRenderer_;
 };
