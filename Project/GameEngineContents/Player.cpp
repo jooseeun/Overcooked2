@@ -63,22 +63,22 @@ void Player::Start()
 
 
 	//юс╫ц Player StaticRenderer
-	{
-		PlayerRenderer_ = CreateComponent<GameEngineFBXStaticRenderer>();
-		PlayerRenderer_->SetFBXMesh("Chef1.FBX", "Texture");
-		
-	}
-
-
-
 	//{
-	//	PlayerRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();
-	//	PlayerRenderer_->SetFBXMesh("AlienGreen_CarDeath.FBX", "TextureAnimation");
-	//	PlayerRenderer_->CreateFBXAnimation("Test", "AlienGreen_CarDeath.FBX");
-	//	PlayerRenderer_->ChangeAnimation("Test");
-	//	PlayerRenderer_->GetTransform().SetLocalPosition({ -7.26,0.085,7.12 });
-	//	PlayerRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
+	//	PlayerRenderer_ = CreateComponent<GameEngineFBXStaticRenderer>();
+	//	PlayerRenderer_->SetFBXMesh("Chef1.FBX", "Texture");
+	//	
 	//}
+
+
+
+	{
+		PlayerRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();
+		PlayerRenderer_->SetFBXMesh("AlienGreen_CarDeath.FBX", "TextureAnimation");
+		PlayerRenderer_->CreateFBXAnimation("Test", "AlienGreen_CarDeath.FBX");
+		PlayerRenderer_->ChangeAnimation("Test");
+		PlayerRenderer_->GetTransform().SetLocalPosition({ -7.26,0.085,7.12 });
+		PlayerRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
+	}
 
 	{
 		PlayerFloorCollision_ = CreateComponent<GameEngineCollision>();

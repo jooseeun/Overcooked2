@@ -118,7 +118,6 @@ void GameEngineRenderUnit::SetPipeLine(const std::string& _Name)
 		InputLayOut = GameEngineInputLayOut::Create(Mesh->GetLayOutDesc(), PipeLine->GetVertexShader());
 	}
 
-
 	ShaderResources.ResourcesCheck(PipeLine);
 
 }

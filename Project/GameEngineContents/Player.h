@@ -107,7 +107,7 @@ private:
 
 
 
-	std::shared_ptr<GameEngineFBXStaticRenderer> PlayerRenderer_;
+	std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerRenderer_;
 	std::shared_ptr<GameEngineCollision> PlayerFloorCollision_;
 	std::shared_ptr<GameEngineCollision> PlayerForwardCollision_;
 	std::shared_ptr<GameEngineCollision> PlayerForwardLeftCollision_;

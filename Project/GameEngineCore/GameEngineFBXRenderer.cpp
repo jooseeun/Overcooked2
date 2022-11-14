@@ -94,7 +94,31 @@ void GameEngineFBXRenderer::ChangeLoadMaterial()
 		return;
 	}
 
-	SetFBXMesh(FBXMesh->GetNameCopy());
+	if (GlobalIOManager::Load(IOType::Mesh, "_" + FBXMesh->GetNameCopy()) == true)
+	{
+		MeshData Data = GlobalIOManager::GetMeshData();
+
+
+		for (size_t j = 0; j < Data.PreviewMeshInfo_.size(); j++)
+		{
+			FBXMesh->GetMaterialSettingData(j, 0).DifTexturePath = Data.PreviewMeshInfo_[j].DifTexturePath_;
+			FBXMesh->GetMaterialSettingData(j, 0).DifTextureName = Data.PreviewMeshInfo_[j].DifTextureName_;
+
+
+			GameEngineRenderUnit& RenderUnit = Unit[j][0];
+
+			if (RenderUnit.ShaderResources.IsTexture("DiffuseTexture"))
+			{
+				const FbxExMaterialSettingData& MatData = FBXMesh->GetMaterialSettingData(j, 0);
+				if (nullptr != GameEngineTexture::Find(MatData.DifTextureName))
+				{
+					RenderUnit.ShaderResources.SetTexture("DiffuseTexture", MatData.DifTextureName);
+				}
+			}
+
+			RenderUnit.SetRenderer(std::dynamic_pointer_cast<GameEngineRenderer>(shared_from_this()));
+		}
+	}
 }
 
 void GameEngineFBXRenderer::Render(float _DeltaTime) 
