@@ -303,6 +303,8 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				Prefabs_.push_back("PlateReturn");
 				Prefabs_.push_back("Cooker");
 				Prefabs_.push_back("Sink");
+				Prefabs_.push_back("CounterTop_Wizard");
+				//Prefabs_.push_back("Wizard_Sink");
 			}
 		}
 
@@ -862,6 +864,17 @@ void MapEditorWindow::SortToolTab()
 			CurStaticMesh_ = CurLevel_->CreateActor<Sink>();
 			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::Sink);
 			break;
+		case 8:
+		{
+			CurStaticMesh_ = CurLevel_->CreateActor<CounterTop>();
+			std::weak_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurStaticMesh_.lock());
+
+			Object.lock()->SetCounterTopType(CounterTopType::Wizard);
+			Object.lock()->SetConterTopMesh(CounterTopType::Wizard);
+
+			Object.lock()->SetStaticObjectType(MapObjType::CounterTop_WiZard);
+		}
+		break;
 		}
 
 		//기준 엑터의 자식으로 둔다.

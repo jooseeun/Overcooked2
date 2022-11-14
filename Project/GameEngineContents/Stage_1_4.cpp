@@ -2,17 +2,20 @@
 #include "Stage_1_4.h"
 #include "Player.h"
 
-Stage_1_4::Stage_1_4() 
+Stage_1_4::Stage_1_4()
 {
 }
 
-Stage_1_4::~Stage_1_4() 
+Stage_1_4::~Stage_1_4()
 {
 }
 
 void Stage_1_4::Start()
 {
 	CreateActor<LevelActor>()->SetLevelMesh("1_4.FBX");
+
+	GlobalIOManager::Load(IOType::SortMap, 3);
+	DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
 
 	GlobalIOManager::Load(IOType::UnsortMap, 3);
 	DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);

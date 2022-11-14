@@ -151,6 +151,32 @@ void Overcooked::MeshLoad()
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("StaticObject");
+	//	Dir.Move("CounterTop_Wizard");
+
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_wizard_countertop_01.fbx"));
+	//	std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+	//}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		Dir.Move("ContentsResources");
+		Dir.Move("Mesh");
+		Dir.Move("Object");
+		Dir.Move("StaticObject");
+		Dir.Move("CounterTop_Wizard");
+
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_wizard_countertop_05.fbx"));
+		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+	}
+
 	{
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExitsChildDirectory("ContentsResources");

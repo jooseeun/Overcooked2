@@ -2,6 +2,12 @@
 #include "GamePlayStaticObject.h"
 #include "GamePlayTool.h"
 
+enum class SinkType
+{
+	Normal,
+	Wizard
+};
+
 //ΩÃ≈©¥Î
 class Sink : public GamePlayStaticObject
 {

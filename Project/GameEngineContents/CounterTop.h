@@ -5,7 +5,8 @@ enum class CounterTopType
 {
 	Normal,
 	Corner,
-	NoEdge
+	NoEdge,
+	Wizard
 };
 
 // Á¶¸®´ë

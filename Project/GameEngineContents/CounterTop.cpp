@@ -33,6 +33,9 @@ void CounterTop::SetConterTopMesh(CounterTopType _Type)
 	case CounterTopType::NoEdge:
 		Name = "m_sk_countertop_no_edge_01.fbx";
 		break;
+	case CounterTopType::Wizard:
+		Name = "m_wizard_countertop_05.fbx";
+		break;		
 	default:
 		break;
 	}
