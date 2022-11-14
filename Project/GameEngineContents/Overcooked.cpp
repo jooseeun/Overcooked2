@@ -80,79 +80,15 @@ void Overcooked::End()
 
 void Overcooked::MeshLoad()
 {
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Level");
-		Dir.Move("1_1");
+	std::vector<std::string_view> TmpMeshs;
+	TmpMeshs.push_back("Level\\1_1\\1_1.FBX");
+	TmpMeshs.push_back("Level\\1_2\\1_2.FBX");
+	TmpMeshs.push_back("Level\\1_3\\1_3.FBX");
+	TmpMeshs.push_back("Level\\1_4\\1_4.FBX");
+	TmpMeshs.push_back("Object\\StaticObject\\CounterTop\\m_sk_countertop_01.FBX");
+	TmpMeshs.push_back("Object\\StaticObject\\CounterTop_Corner\\m_lorry_countertop_corner_01.FBX");
 
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("1_1.FBX"));
-		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
-	}
-
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Level");
-		Dir.Move("1_2");
-
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("1_2.FBX"));
-		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
-	}
-
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Level");
-		Dir.Move("1_3");
-
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("1_3.FBX"));
-		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
-	}
-
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Level");
-		Dir.Move("1_4");
-
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("1_4.FBX"));
-		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
-	}
-
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("StaticObject");
-		Dir.Move("CounterTop");
-
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_countertop_01.fbx"));
-		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
-	}
-
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("StaticObject");
-		Dir.Move("CounterTop_Corner");
-
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_lorry_countertop_corner_01.fbx"));
-		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
-	}
+	GameEngineFBXMesh::LoadAll(TmpMeshs);
 
 	{
 		GameEngineDirectory Dir;

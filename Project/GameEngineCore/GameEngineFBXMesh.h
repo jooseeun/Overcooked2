@@ -542,6 +542,25 @@ public:
 	GameEngineFBXMesh& operator=(const GameEngineFBXMesh& _Other) = delete;
 	GameEngineFBXMesh& operator=(GameEngineFBXMesh&& _Other) noexcept = delete;
 
+	static std::vector<std::weak_ptr<GameEngineFBXMesh>> LoadAll(std::vector<std::string_view>& _Paths)
+	{
+		std::vector<std::weak_ptr<GameEngineFBXMesh>> ResultVec;
+		for (size_t i = 0; i < _Paths.size(); i++)
+		{
+			GameEngineDirectory Dir;
+			Dir.MoveParentToExitsChildDirectory("ContentsResources");
+			Dir.Move("ContentsResources");
+			Dir.Move("Mesh");
+
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath(_Paths[i].data()));
+			std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+
+			ResultVec.push_back(Mesh);
+		}
+		
+		return ResultVec;
+	}
+
 	static std::shared_ptr<GameEngineFBXMesh> Load(const std::string& _Path)
 	{
 		return Load(_Path, GameEnginePath::GetFileName(_Path));
