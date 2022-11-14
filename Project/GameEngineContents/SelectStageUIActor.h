@@ -52,6 +52,7 @@ private:
 	void UpdatePlayerIcon();
 	void MovingMap(float _DeltaTime);
 	void StartSelectMap();
+	void SetCurStage(int _Index);
 	void EndChange();
 
 	void CreateLevelSelect(std::string_view _MapFileName, int _BoarderType, std::string_view _Text, int _Index);

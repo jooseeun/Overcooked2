@@ -3,6 +3,7 @@
 
 #include "OverCookedUIRenderer.h"
 #include "UIDebugGUI.h"
+#include "GlobalGameData.h"
 #include <GameEngineCore/GameEngineFont.h>
 #include <GameEngineCore/GameEngineFontRenderer.h>
 
@@ -340,12 +341,41 @@ void SelectStageUIActor::StartSelectMap()
 	LevelSelect_[WantIndex].Font->Off();
 	LevelSelect_[WantIndex].Parent->StartPump(1.1f, 8.0f);
 
+	SetCurStage(WantIndex);
+
 	//카운트다운 시작
 	CountDown_.StartTimer(4.5);
 	CountDown_.SetTimeOverFunc(std::bind(&SelectStageUIActor::StartTransition, this, 3));
 	CountDownFont_->On();
 
 	Phase_ = 1;
+}
+
+void SelectStageUIActor::SetCurStage(int _Index)
+{
+	std::string WantStage;
+	switch (_Index)
+	{
+	case 4: //초밥시티
+	{
+		WantStage = "1-1";
+		//StageName = "4-1";
+		//StageName = "케빈 3";
+		break;
+	}
+	case 5: //마술사의 키친
+	{
+		WantStage = "3-4";
+
+		break;
+	}
+	default:
+		WantStage = "1-1";
+
+		break;
+	}
+
+	GlobalGameData::SetCurStage(WantStage);
 }
 
 void SelectStageUIActor::EndChange()

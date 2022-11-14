@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "LoadingUIActor.h"
 
+#include "GlobalGameData.h"
 #include "OverCookedUIRenderer.h"
 
 LoadingUIActor::LoadingUIActor()
@@ -57,11 +58,11 @@ void LoadingUIActor::InitRenderer()
 		NewFont->SetSize(35.f);
 		NewFont->SetLeftAndRightSort(LeftAndRightSort::CENTER);
 		NewFont->SetAffectTransform(true);
-		NewFont->GetTransform().SetLocalMove({ 0,-65.f,-1 });
+		NewFont->GetTransform().SetLocalMove({ 0,-58.f,-1 });
 		NewFont->GetTransform().SetParentTransform(NewParent->GetTransform());
 		NewSelect.Font = NewFont;
 
-		CurMap_ = NewSelect;
+		CurStage_ = NewSelect;
 	}
 
 	//마스크 렌더러
@@ -113,11 +114,33 @@ void LoadingUIActor::UIUpdate(float _DeltaTime)
 	}
 
 	//UpdateInfo
+	StageData CurData = GlobalGameData::GetCurStageRef();
+	StageName_ = CurData.StageName;
+	StageThema_ = CurData.StageThema;
+
+	//RenderInfo
 	HighestScoreRenderer_->SetText("최고점수: " + std::to_string(HigestScore_), "Naughty Squirrel");
 
 	for (int i = 0; i < ScoreRenderer_.size(); i++)
 	{
 		ScoreRenderer_[i]->SetText(std::to_string(Score_[i]), "Naughty Squirrel");
+	}
+	CurStage_.Font->SetText(StageName_, "Naughty Squirrel");
+
+	switch (CurData.StageThema)
+	{
+	case Thema::SushiCity:
+	{
+		CurStage_.Select->SetTexture("level_select_sushi.png");
+		break;
+	}
+	case Thema::WizardKitchen:
+	{
+		CurStage_.Select->SetTexture("level_select_wizard.png");
+		break;
+	}
+	default:
+		break;
 	}
 }
 

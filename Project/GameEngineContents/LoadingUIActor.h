@@ -1,5 +1,6 @@
 #pragma once
 #include "UIActor.h"
+#include "GlobalGameData.h"
 
 class OverCookedUIRenderer;
 class LoadingUIActor : public UIActor
@@ -31,17 +32,21 @@ private:
 	std::shared_ptr<OverCookedUIRenderer> Header_;
 	std::vector<std::shared_ptr<OverCookedUIRenderer>> MaskBackground_;
 
-	LevelSelect CurMap_;
+	LevelSelect CurStage_;
 
 	//최고점수 관련
 	int HigestScore_ = 20;
 	std::shared_ptr<GameEngineFontRenderer> HighestScoreRenderer_;
 
 	//Star & Score
+	std::vector<int> Score_ = { 350,650,950 };
 	void CreateStarNScoreRenderer(const float4& _Pos, int _Score);
 	std::vector< std::shared_ptr<OverCookedUIRenderer>> StarRenderer_;
 	std::vector< std::shared_ptr<GameEngineFontRenderer>> ScoreRenderer_;
-	std::vector<int> Score_ = { 350,650,950 };
+
+	//Info
+	std::string StageName_;
+	Thema StageThema_;
 
 	//Loading
 	std::shared_ptr<OverCookedUIRenderer> LoadingBackRenderer_;
