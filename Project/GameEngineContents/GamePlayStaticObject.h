@@ -36,6 +36,12 @@ public:
 			_Stuff->SetParentObject(std::dynamic_pointer_cast<GamePlayObject>(shared_from_this()));
 		}
 	}
+	inline void ReSetStuff()
+	{
+		Stuff_Current_.reset();
+	}
+
+
 	//inline int GetX() const
 	//{
 	//	return X_;

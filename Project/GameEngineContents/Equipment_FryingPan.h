@@ -14,6 +14,7 @@ public:
 	Equipment_FryingPan& operator=(const Equipment_FryingPan& _Other) = delete;
 	Equipment_FryingPan& operator=(Equipment_FryingPan&& _Other) noexcept = delete;
 
+	
 protected:
 	void Start() override;
 private:

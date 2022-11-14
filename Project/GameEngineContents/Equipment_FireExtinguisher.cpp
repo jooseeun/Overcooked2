@@ -21,5 +21,6 @@ void Equipment_FireExtinguisher::Start()
 Input_PickUpOption Equipment_FireExtinguisher::Input_PickUp(std::shared_ptr<Player> _Player)
 {
 	//_Player->
+	_Player->SetCurHoldType(PlayerHoldType::FireExtinguisher);
 	return Input_PickUpOption::PickUp;
 }
