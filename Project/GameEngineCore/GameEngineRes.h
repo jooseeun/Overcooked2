@@ -30,9 +30,9 @@ class GameEngineRes : public GameEngineNameObject
 {
 public:
 
-	static std::vector<std::shared_ptr<ResType>> GetNamedResCopy()
+	static std::vector<std::weak_ptr<ResType>> GetNamedResCopy()
 	{
-		std::vector<std::shared_ptr<ResType>> AllNamedRes;
+		std::vector<std::weak_ptr<ResType>> AllNamedRes;
 		for (std::pair<std::string, std::shared_ptr<ResType>> Pair : NamedRes)
 		{
 			AllNamedRes.push_back(Pair.second);
