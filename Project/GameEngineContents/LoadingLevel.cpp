@@ -2,8 +2,16 @@
 #include "LoadingLevel.h"
 #include "UIDebugGUI.h"
 
+#include "LoadingUIActor.h"
+
 LoadingLevel::LoadingLevel()
 {
+	{
+		std::shared_ptr<GameEngineCameraActor> CameraActor = CreateActor<GameEngineCameraActor>();
+		CameraActor->GetTransform().SetLocalPosition({ 0.0f, 0.0f, -100.0f });
+		CameraActor->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
+		CameraActor->GetCameraComponent()->SetCameraOrder(CAMERAORDER::AboveUICAMERA);
+	}
 }
 
 LoadingLevel::~LoadingLevel()
@@ -12,7 +20,7 @@ LoadingLevel::~LoadingLevel()
 
 void LoadingLevel::Start()
 {
-	//std::shared_ptr<SelectStageUIActor> NewActor = CreateActor<SelectStageUIActor>();
+	UIActor_ = CreateActor<LoadingUIActor>();
 
 	std::shared_ptr<GlobalMouseInput> Mouse = CreateActor<GlobalMouseInput>();
 	Mouse->SetIsUI(true);
@@ -34,6 +42,7 @@ void LoadingLevel::End()
 void LoadingLevel::LevelStartEvent()
 {
 	UIDebugGUI::Main_->On();
+	UIActor_->StartFadeIn();
 }
 
 void LoadingLevel::LevelEndEvent()

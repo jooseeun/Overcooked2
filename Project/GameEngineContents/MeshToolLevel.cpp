@@ -10,7 +10,6 @@ MeshToolLevel::~MeshToolLevel()
 {
 }
 
-
 void MeshToolLevel::Start()
 {
 	MeshSelectWindow_ = MeshEditorGUI::CreateGUIWindow<MeshSelectWindow>("MeshSelectWindow", nullptr);
@@ -54,15 +53,12 @@ void MeshToolLevel::LevelEndEvent()
 
 			for (; GroupStart != GroupEnd; ++GroupStart)
 			{
-				std::shared_ptr<GameEngineFBXRenderer> GameEngineFBXRenderer_ = std::dynamic_pointer_cast<GameEngineFBXRenderer>((*GroupStart));
-				if (GameEngineFBXRenderer_ != nullptr)
+				std::weak_ptr<GameEngineFBXRenderer> GameEngineFBXRenderer_ = std::dynamic_pointer_cast<GameEngineFBXRenderer>((*GroupStart));
+				if (GameEngineFBXRenderer_.lock() != nullptr)
 				{
-					GameEngineFBXRenderer_->ChangeLoadMaterial();
+					GameEngineFBXRenderer_.lock()->ChangeLoadMaterial();
 				}
-
 			}
 		}
-
-
 	}
 }

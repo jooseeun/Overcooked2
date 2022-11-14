@@ -125,7 +125,7 @@ struct FbxExMeshInfo
 	}
 };
 
-struct FbxRenderUnitInfo
+struct FbxRenderUnitInfo : public Serializer
 {
 public:
 	int VectorIndex;
@@ -161,6 +161,30 @@ public:
 
 	~FbxRenderUnitInfo()
 	{
+	}
+
+	void Write(GameEngineFile& _File) override
+	{
+		_File.Write(VectorIndex);
+		_File.Write(IsLodLv);
+		_File.Write(IsLod);
+		_File.Write(MinBoundBox);
+		_File.Write(MaxBoundBox);
+		_File.Write(BoundScaleBox);
+		_File.Write(Vertexs);
+		_File.Write(Indexs);
+
+	}
+
+	void Read(GameEngineFile& _File) override
+	{
+		_File.Read(VectorIndex);
+		_File.Read(IsLodLv);
+		_File.Read(IsLod);
+		_File.Read(MinBoundBox);
+		_File.Read(MaxBoundBox);
+		_File.Read(BoundScaleBox);
+
 	}
 };
 
@@ -518,6 +542,25 @@ public:
 	GameEngineFBXMesh& operator=(const GameEngineFBXMesh& _Other) = delete;
 	GameEngineFBXMesh& operator=(GameEngineFBXMesh&& _Other) noexcept = delete;
 
+	static std::vector<std::weak_ptr<GameEngineFBXMesh>> LoadAll(std::vector<std::string_view>& _Paths)
+	{
+		std::vector<std::weak_ptr<GameEngineFBXMesh>> ResultVec;
+		for (size_t i = 0; i < _Paths.size(); i++)
+		{
+			GameEngineDirectory Dir;
+			Dir.MoveParentToExitsChildDirectory("ContentsResources");
+			Dir.Move("ContentsResources");
+			Dir.Move("Mesh");
+
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath(_Paths[i].data()));
+			std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+
+			ResultVec.push_back(Mesh);
+		}
+		
+		return ResultVec;
+	}
+
 	static std::shared_ptr<GameEngineFBXMesh> Load(const std::string& _Path)
 	{
 		return Load(_Path, GameEnginePath::GetFileName(_Path));
@@ -532,6 +575,17 @@ public:
 	size_t GetRenderUnitCount()
 	{
 		return RenderUnitInfos.size();
+	}
+
+	FbxRenderUnitInfo* GetRenderUnit(size_t _Index)
+	{
+		if (RenderUnitInfos.size() <= _Index)
+		{
+			MsgBoxAssert("랜더 유니트 정보의 인덱스를 초과했습니다.");
+			return nullptr;
+		}
+
+		return &RenderUnitInfos[_Index];
 	}
 
 	size_t GetSubSetCount(size_t _RenderUnitIndex)
@@ -564,6 +618,9 @@ public:
 	Bone* FindBone(size_t MeshIndex, std::string _Name);
 
 	std::shared_ptr<GameEngineStructuredBuffer> GetAnimationStructuredBuffer(size_t _Index);
+
+	void UserLoad(const std::string_view& _Path);
+	void UserSave(const std::string_view& _Path);
 
 protected:
 	std::vector<FbxExMeshInfo> MeshInfos;

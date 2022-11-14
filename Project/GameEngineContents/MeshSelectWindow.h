@@ -36,9 +36,7 @@ protected:
 	void Initialize(class GameEngineLevel* _Level) override;
 	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
 
-
 private:
-
 	int FbxCurentIndex_;
 	int SubSetCurentIndex_;
 	int SelectMaterial_;
@@ -47,12 +45,12 @@ private:
 
 	MeshData MeshData_;
 
-	std::shared_ptr<GameEngineFBXRenderer> PreviewMeshRenderer_;			// 선택한 fbx의 서브셋의 랜더러
-	std::shared_ptr<GameEngineFBXMesh> PreviewMesh_;						// 선택한 서브셋의 매쉬정보
+	std::weak_ptr<GameEngineFBXRenderer> PreviewMeshRenderer_;			// 선택한 fbx의 서브셋의 랜더러
+	std::weak_ptr<GameEngineFBXMesh> PreviewMesh_;						// 선택한 서브셋의 매쉬정보
 	
 	std::string FbxName_;
-	std::vector<std::shared_ptr<GameEngineFBXMesh>> AllFBXMesh_;			// 게임 내의 모든 fbx
-	std::vector<std::shared_ptr<GameEngineTexture>> AllMaterialTexture_;	// 선택한 fbx의 매테리얼
+	std::vector<std::weak_ptr<GameEngineFBXMesh>> AllFBXMesh_;			// 게임 내의 모든 fbx
+	std::vector<std::weak_ptr<GameEngineTexture>> AllMaterialTexture_;	// 선택한 fbx의 매테리얼
 
 };
 

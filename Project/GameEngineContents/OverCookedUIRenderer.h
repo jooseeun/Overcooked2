@@ -94,12 +94,16 @@ public:
 
 	void StartFadeOut(float _StartRatio); //주의! CameraOrder : AboveUICAMERA로 해야함
 
+	void StartFadeIn();
+
 protected:
 	void Start() override;
 
 	void SetTextureRendererSetting();
 
 	void Update(float _Delta) override;
+
+	void UpdateTransition(float _Delta);
 
 	void StopPump();
 
@@ -131,6 +135,11 @@ private:
 	float DownSpeed_ = 0.f;
 
 	//Transition 관련
+	bool IsFadeOut_; //true : FadeOut, false : FadeIn
+public:
+	bool IsFinishFadeIn_ = false;
+private:
+
 	float TransitionRatio_;
 	float AccTime_;
 };

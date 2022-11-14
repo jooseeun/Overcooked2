@@ -14,6 +14,13 @@ void Sink::Start()
 	GamePlayStaticObject::Start();
 
 	SetStuff(GetLevel()->CreateActor<Tool_Sink>());
+
+	GetCollisionObject()->GetTransform().SetWorldScale({ 230, 50, 150 });
+	GetCollisionObject()->GetTransform().SetWorldMove({ -60, 25, -10 });
+
+	GetFBXMesh()->SetFBXMesh("m_sk_sink_01.fbx", "Texture");
+	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
+	GetFBXMesh()->GetTransform().SetWorldMove({ -60, 0, 0 });
 }
 
 

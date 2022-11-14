@@ -179,6 +179,9 @@
     <ClInclude Include="SelectStageUIActor.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="LoadingUIActor.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -357,6 +360,9 @@
       <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="SelectStageUIActor.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingUIActor.cpp">
       <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>

@@ -23,7 +23,7 @@ void FBXRendererAnimation::Init(int _Index)
 	// GameENgineFBXAnimation의 행렬 정보가 완전해지는것은 
 	// CalFbxExBoneFrameTransMatrix가 호출되고 난 후입니다.
 	// 애니메이션의 행렬이 계산되는겁니다.
-	Aniamtion->AnimationMatrixLoad(Mesh, _Index);
+	Aniamtion->AnimationMatrixLoad(Mesh, ParentRenderer->CastThis<GameEngineFBXAnimationRenderer>(), _Index);
 	FBXAnimationData = Aniamtion->GetAnimationData(_Index);
 	Start = 0;
 	End = static_cast<unsigned int>(FBXAnimationData->TimeEndCount);
@@ -33,14 +33,9 @@ void FBXRendererAnimation::Init(int _Index)
 
 void FBXRendererAnimation::Update(float _DeltaTime)
 {
-	// 0~24진행이죠?
 	CurFrameTime += _DeltaTime;
-	//                      0.1
-	// 1
 	while (CurFrameTime >= FrameTime)
 	{
-		// 여분의 시간이 남게되죠?
-		// 여분의 시간이 중요합니다.
 		CurFrameTime -= FrameTime;
 		++CurFrame;
 
@@ -59,7 +54,6 @@ void FBXRendererAnimation::Update(float _DeltaTime)
 		NextFrame = 0;
 	}
 
-	// mesh      subset
 	std::vector<std::vector<GameEngineRenderUnit>>& Units = ParentRenderer->GetAllRenderUnit();
 
 	for (size_t UnitSetIndex = 0; UnitSetIndex < Units.size(); ++UnitSetIndex)
@@ -68,13 +62,15 @@ void FBXRendererAnimation::Update(float _DeltaTime)
 		{
 			GameEngineRenderUnit& Render = Units[UnitSetIndex][RenderUnitIndex];
 
-			// 위험!!!! 위험!!!! 뭔가 기분이 멜랑꽇ㄹㅁㄴ어ㅏ림ㄴㅇ엉라ㅣㅁㄴ
 			std::map<size_t, std::vector<float4x4>>::iterator MatrixIter = ParentRenderer->AnimationBoneMatrixs.find(UnitSetIndex);
-			// 68개 
+			if (MatrixIter == ParentRenderer->AnimationBoneMatrixs.end())
+			{
+				continue;
+			}
+
 			std::vector<float4x4>& AnimationBoneMatrix = MatrixIter->second;
 
 			std::map<size_t, std::vector<AnimationBoneData>>::iterator AnimationDataIter = ParentRenderer->AnimationBoneDatas.find(UnitSetIndex);
-			// 68개 
 			std::vector<AnimationBoneData>& AnimationBoneData = AnimationDataIter->second;
 
 			size_t MeshIndex = MatrixIter->first;
@@ -217,6 +213,11 @@ GameEngineRenderUnit* GameEngineFBXAnimationRenderer::SetFBXMesh(const std::stri
 		if (nullptr == AnimationBuffer->Res)
 		{
 			MsgBoxAssert("애니메이션용 스트럭처드 버퍼가 존재하지 않습니다.");
+			return Unit;
+		}
+
+		if (0 == AnimationBoneMatrixs[_MeshIndex].size())
+		{
 			return Unit;
 		}
 
