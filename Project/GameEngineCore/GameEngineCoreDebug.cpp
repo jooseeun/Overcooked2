@@ -168,6 +168,8 @@ namespace GameEngineDebug
 
 		DebugTextureRenderUnit->SetPipeLine("3DDebug");
 
+		DebugRenderUnit->GetPipeLine()->SetWireFrame();
+
 		//TextureRenderingPipeLine = GameEngineMaterial::Find("DebugTexture");
 		//TextureShaderResources.ResourcesCheck(TextureRenderingPipeLine);
 
@@ -196,6 +198,18 @@ namespace GameEngineDebug
 
 		DebugData.clear();
 		int a = 0;
+	}
+
+	void SetWireFrame()
+	{
+		DebugRenderUnit->GetPipeLine()->SetWireFrame();
+
+	}
+
+	void SetFillSolid()
+	{
+		DebugRenderUnit->GetPipeLine()->SetFillSolid();
+
 	}
 
 };

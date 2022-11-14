@@ -2,6 +2,7 @@
 #include "GameEngineRes.h"
 
 
+
 // Ό³Έν :
 class GameEngineInputLayOut;
 class GameEngineVertexBuffer;
@@ -80,6 +81,13 @@ public:
 	}
 
 	void Copy(std::shared_ptr<GameEngineMaterial> _Original);
+
+
+
+	void SetWireFrame();
+
+	void SetFillSolid();
+
 
 protected:
 

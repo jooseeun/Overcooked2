@@ -281,3 +281,15 @@ void GameEngineMaterial::Copy(std::shared_ptr<GameEngineMaterial> _Original)
 	DepthStencil			= _Original->DepthStencil;
 	Blend					= _Original->Blend;
 }
+
+void GameEngineMaterial::SetWireFrame()
+{
+	Rasterizer = GameEngineRasterizer::Find("EngineRasterizer_Wire");
+
+}
+
+void GameEngineMaterial::SetFillSolid()
+{
+	Rasterizer = GameEngineRasterizer::Find("EngineRasterizer");
+
+}

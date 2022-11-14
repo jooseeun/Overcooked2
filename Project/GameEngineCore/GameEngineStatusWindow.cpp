@@ -58,6 +58,19 @@ void GameEngineStatusWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		GEngine::CollisionDebugSwitch();
 	}
 
+	if (true == ImGui::Button("CollisionWireFrame"))
+	{
+		GameEngineDebug::SetWireFrame();
+	}
+	ImGui::SameLine();
+
+	if (true == ImGui::Button("CollisionFillSolid"))
+	{
+		GameEngineDebug::SetFillSolid();
+	}
+	ImGui::NewLine();
+
+
 	CameraGUI(_Level, _DeltaTime);
 	ImGui::Text("Level Select");
 	for (std::pair<std::string, GameEngineLevel*> Pair : GameEngineCore::AllLevels)

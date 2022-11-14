@@ -135,6 +135,11 @@ public:
 
 	void AllClear();
 
+	std::map<int, std::list<std::shared_ptr<GameEngineCollision>>>& GetAllCollisions()
+	{
+		return AllCollisions;
+	}
+
 protected:
 	
 

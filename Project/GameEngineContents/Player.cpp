@@ -73,8 +73,8 @@ void Player::Start()
 
 	{
 		PlayerRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();
-		PlayerRenderer_->SetFBXMesh("AlienGreen_CarDeath.FBX", "TextureAnimation");
-		PlayerRenderer_->CreateFBXAnimation("Test", "AlienGreen_CarDeath.FBX");
+		PlayerRenderer_->SetFBXMesh("uuu.FBX", "TextureAnimation");
+		PlayerRenderer_->CreateFBXAnimation("Test", "uuu.FBX");
 		PlayerRenderer_->ChangeAnimation("Test");
 		PlayerRenderer_->GetTransform().SetLocalPosition({ -7.26,0.085,7.12 });
 		PlayerRenderer_->GetTransform().SetLocalScale({ 100,100,100 });

@@ -21,4 +21,8 @@ namespace GameEngineDebug
 	void DrawSphere(const GameEngineTransform& _Trans, std::shared_ptr<GameEngineCamera> _Camera, const float4& _Color);
 
 	void Debug3DRender();
+
+	void SetWireFrame();
+
+	void SetFillSolid();
 }
