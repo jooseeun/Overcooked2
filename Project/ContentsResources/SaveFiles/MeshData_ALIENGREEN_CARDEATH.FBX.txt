@@ -1,0 +1,15 @@
+{ 
+MeshName:ALIENGREEN_CARDEATH.FBX;
+MeshInfoCount:5;
+Path:C:\seeun\OverCooked\Project\ContentsResources\Mesh\Object\PlayerAnimation\t_chef_body_d.png;
+Mat:PLACEHOLDER COMPOSITE MAP.PNG;
+Path:C:\seeun\OverCooked\Project\ContentsResources\Mesh\Object\PlayerAnimation\t_chef_head_alien_green_d.png;
+Mat:BODY_N.PNG;
+Path:C:\seeun\OverCooked\Project\ContentsResources\Mesh\Object\PlayerAnimation\t_chef_head_alien_green_d.png;
+Mat:BODY_N.PNG;
+Path:C:\seeun\OverCooked\Project\ContentsResources\Mesh\Object\PlayerAnimation\t_chef_head_alien_green_d.png;
+Mat:t_chef_head_alien_green_d.png;
+Path:C:\seeun\OverCooked\Project\ContentsResources\Mesh\Object\PlayerAnimation\T_CHEF_CLEAVER_D.PNG;
+Mat:T_CHEF_CLEAVER_D.PNG;
+}
+
