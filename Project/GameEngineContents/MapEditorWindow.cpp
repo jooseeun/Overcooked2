@@ -145,87 +145,14 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	{
 		if (true == IsUnSort_)
 		{
+			// 비어있지않다면
+			if (false == UnSortActorList_.empty())
+			{
+				return;
+			}
 
 			GlobalIOManager::Load(IOType::UnsortMap, LevelIndex_);
-			DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), CurLevel_);
-
-			std::vector<MapData>& Vector = GlobalIOManager::GetMapDataVector();
-			for (size_t i = 0; i < Vector.size(); i++)
-			{
-				switch (Vector[i].MapObjType_)
-				{
-				case MapObjType::Npc:
-				{
-					std::weak_ptr<Npc> Object = CurLevel_->CreateActor<Npc>();
-					Object.lock()->GetTransform().SetWorldPosition(Vector[i].Pos_);
-					Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(Vector[i].Scale_);
-					Object.lock()->GetTransform().SetWorldRotation(Vector[i].Rot_);
-					Object.lock()->SetMapObjectMesh(Vector[i].ObjName_, Vector[i].MapObjType_);
-					Object.lock()->SetMapObjType(Vector[i].MapObjType_);
-					Object.lock()->SetName(Vector[i].ObjName_);
-					UnSortActorList_.push_back(Object);
-				}
-				break;
-				case MapObjType::Car:
-				{
-					std::weak_ptr<Car> Object = CurLevel_->CreateActor<Car>();
-					Object.lock()->GetTransform().SetWorldPosition(Vector[i].Pos_);
-					Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(Vector[i].Scale_);
-					Object.lock()->GetTransform().SetWorldRotation(Vector[i].Rot_);
-					Object.lock()->SetMapObjectMesh(Vector[i].ObjName_, Vector[i].MapObjType_);
-					Object.lock()->SetMapObjType(Vector[i].MapObjType_);
-					Object.lock()->SetName(Vector[i].ObjName_);
-					UnSortActorList_.push_back(Object);
-				}
-				break;
-				case MapObjType::TrafficLight:
-				{
-					std::weak_ptr<TrafficLight> Object = CurLevel_->CreateActor<TrafficLight>();
-					Object.lock()->GetTransform().SetWorldPosition(Vector[i].Pos_);
-					Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(Vector[i].Scale_);
-					Object.lock()->GetTransform().SetWorldRotation(Vector[i].Rot_);
-					Object.lock()->SetMapObjectMesh(Vector[i].ObjName_, Vector[i].MapObjType_);
-					Object.lock()->SetMapObjType(Vector[i].MapObjType_);
-					Object.lock()->SetName(Vector[i].ObjName_);
-					UnSortActorList_.push_back(Object);
-				}
-				break;
-				case MapObjType::Collision_Wall:
-				{
-					std::weak_ptr<GamePlayMapObject> Object = CurLevel_->CreateActor<GamePlayMapObject>();
-					Object.lock()->GetTransform().SetWorldPosition(Vector[i].Pos_);
-					Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(Vector[i].Scale_);
-					Object.lock()->GetTransform().SetWorldRotation(Vector[i].Rot_);
-					Object.lock()->SetMapObjType(Vector[i].MapObjType_);
-					Object.lock()->SetName(Vector[i].ObjName_);
-					UnSortActorList_.push_back(Object);
-				}
-				break;
-				case MapObjType::Collision_Floor:
-				{
-					std::weak_ptr<GamePlayFloor> Object = CurLevel_->CreateActor<GamePlayFloor>();
-					Object.lock()->GetTransform().SetWorldPosition(Vector[i].Pos_);
-					Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(Vector[i].Scale_);
-					Object.lock()->GetTransform().SetWorldRotation(Vector[i].Rot_);
-					Object.lock()->SetMapObjType(Vector[i].MapObjType_);
-					Object.lock()->SetName(Vector[i].ObjName_);
-					UnSortActorList_.push_back(Object);
-				}
-				break;
-				default:
-				{
-					std::weak_ptr<GamePlayMapObject> Object = CurLevel_->CreateActor<GamePlayMapObject>();
-					Object.lock()->GetTransform().SetWorldPosition(Vector[i].Pos_);
-					Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(Vector[i].Scale_);
-					Object.lock()->GetTransform().SetWorldRotation(Vector[i].Rot_);
-					Object.lock()->SetMapObjectMesh(Vector[i].ObjName_, Vector[i].MapObjType_);
-					Object.lock()->SetMapObjType(Vector[i].MapObjType_);
-					Object.lock()->SetName(Vector[i].ObjName_);
-					UnSortActorList_.push_back(Object);
-				}
-				break;
-				}
-			}
+			UnSortActorList_ = DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), CurLevel_);
 		}
 
 		else if (true == IsSort_)
@@ -385,13 +312,26 @@ void MapEditorWindow::ShowLevelSelectTable()
 
 void MapEditorWindow::UnSortToolTab()
 {
-	// 만들 수 있는 오브젝트 리스트
+	static int SelectIndex = 0;
+
+	if (true == ImGui::Button("Clear")
+		&& false == UnSortActorList_.empty())
+	{
+		for (size_t i = 0; i < UnSortActorList_.size(); i++)
+		{
+			UnSortActorList_[i].lock()->Death();
+		}
+
+		SelectIndex = 0;
+		UnSortActorList_.clear();
+	}
+
+	// 만들 수 있는 오브젝트 리스트ds
 	ImGui::BeginChild("ActorNameGroup", ImVec2(250, 250), true);
 	ImGui::Text("ActorNameList");
 	ImGui::BeginChild("AllUnSortActorName", ImVec2(230, 230), true);
 
 	static int SelectNameIndex = 0;
-
 	for (int i = 0; i < AllUnSortActorName_.size(); ++i)
 	{
 		char Label[1024] = { '\0' };
@@ -410,7 +350,6 @@ void MapEditorWindow::UnSortToolTab()
 	ImGui::Text("Created ActorList");
 	ImGui::BeginChild("UnSortActorList", ImVec2(230, 230), true);
 
-	static int SelectIndex = 0;
 
 	auto RendererType = magic_enum::enum_names<MapObjType>();
 	const int Size = RendererType.size();
@@ -450,10 +389,19 @@ void MapEditorWindow::UnSortToolTab()
 	{
 		if (false != IsCheckType[i])
 		{
+ 		//	for (size_t j = 0; j < RendererType.size(); j++)
+			//{
+			//	if (false != IsCheckType[j] && i != j)
+			//	{
+			//		IsCheckType[j] = false;
+			//		break;
+			//	}
+			//}
 			// 체크박스 중 true인 애가 있다 -> 타입 지정
 			ObjectTypeIndex = static_cast<MapObjType>(i);
 		}
 	}
+
 
 	// 오브젝트 생성 
 	if (true == ImGui::Button("Create"))
@@ -548,8 +496,11 @@ void MapEditorWindow::UnSortToolTab()
 		ImGui::DragFloat("Position.x", &Position_.x);
 		ImGui::DragFloat("Position.y", &Position_.y);
 		ImGui::DragFloat("Position.z", &Position_.z);
-
+		ImGui::DragFloat("RendererPosition.x", &RendererPos.x);
+		ImGui::DragFloat("RendererPosition.y", &RendererPos.y);
+		ImGui::DragFloat("RendererPosition.z", &RendererPos.z);
 		ImGui::InputFloat4("Position", Position_.Arr1D);
+		ImGui::InputFloat4("RendererPosition", RendererPos.Arr1D);
 
 		if (true == ImGui::Button("Position Reset"))
 		{
@@ -583,18 +534,21 @@ void MapEditorWindow::UnSortToolTab()
 		// Actor 크기는 1 1 1로 고정
 		// 콜리전 기본 크기는 50 50 50
 		CollisionScale_ = UnSortActorList_[SelectIndex].lock()->GetCollisionObject()->GetTransform().GetWorldScale();
+		float4 Scale = UnSortActorList_[SelectIndex].lock()->GetTransform().GetWorldScale();
 		ImGui::Text("Collision Scale");
 		ImGui::DragFloat("Collision Scale.x", &CollisionScale_.x);
 		ImGui::DragFloat("Collision Scale.y", &CollisionScale_.y);
 		ImGui::DragFloat("Collision Scale.z", &CollisionScale_.z);
 
 		ImGui::InputFloat4("Collision Scale", CollisionScale_.Arr1D);
+		ImGui::InputFloat4("Scale", Scale.Arr1D);
 
 		if (true == ImGui::Button("Collision Scale Reset"))
 		{
 			CollisionScale_ = { 1.f, 1.f, 1.f };
 		}
 		UnSortActorList_[SelectIndex].lock()->GetCollisionObject()->GetTransform().SetWorldScale(CollisionScale_);
+		UnSortActorList_[SelectIndex].lock()->GetTransform().SetWorldScale(Scale);
 	}
 }
 
@@ -937,6 +891,3 @@ void MapEditorWindow::SortToolTab()
 
 	ImGui::EndTabItem();
 }
-
-
-

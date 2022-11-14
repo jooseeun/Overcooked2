@@ -29,8 +29,10 @@ MapDataParser::~MapDataParser()
 {
 }
 
-void MapDataParser::UnSortMapDataParsing(std::vector<MapData>& _Data, GameEngineLevel* _Level)
+std::vector<std::weak_ptr<GamePlayMapObject>>& MapDataParser::UnSortMapDataParsing(std::vector<MapData>& _Data, GameEngineLevel* _Level)
 {
+	UnSortActorList_.clear();
+
 	for (size_t i = 0; i < _Data.size(); i++)
 	{
 		switch (_Data[i].MapObjType_)
@@ -44,6 +46,7 @@ void MapDataParser::UnSortMapDataParsing(std::vector<MapData>& _Data, GameEngine
 			Object.lock()->SetMapObjectMesh(_Data[i].ObjName_, _Data[i].MapObjType_);
 			Object.lock()->SetMapObjType(_Data[i].MapObjType_);
 			Object.lock()->SetName(_Data[i].ObjName_);
+			UnSortActorList_.push_back(Object);
 		}
 		break;
 		case MapObjType::Car:
@@ -55,6 +58,7 @@ void MapDataParser::UnSortMapDataParsing(std::vector<MapData>& _Data, GameEngine
 			Object.lock()->SetMapObjectMesh(_Data[i].ObjName_, _Data[i].MapObjType_);
 			Object.lock()->SetMapObjType(_Data[i].MapObjType_);
 			Object.lock()->SetName(_Data[i].ObjName_);
+			UnSortActorList_.push_back(Object);
 		}
 		break;
 		case MapObjType::TrafficLight:
@@ -66,6 +70,8 @@ void MapDataParser::UnSortMapDataParsing(std::vector<MapData>& _Data, GameEngine
 			Object.lock()->SetMapObjectMesh(_Data[i].ObjName_, _Data[i].MapObjType_);
 			Object.lock()->SetMapObjType(_Data[i].MapObjType_);
 			Object.lock()->SetName(_Data[i].ObjName_);
+			UnSortActorList_.push_back(Object);
+
 		}
 		break;
 		case MapObjType::Collision_Wall:
@@ -77,6 +83,8 @@ void MapDataParser::UnSortMapDataParsing(std::vector<MapData>& _Data, GameEngine
 			Object.lock()->SetMapObjectMesh(_Data[i].ObjName_, _Data[i].MapObjType_);
 			Object.lock()->SetMapObjType(_Data[i].MapObjType_);
 			Object.lock()->SetName(_Data[i].ObjName_);
+			UnSortActorList_.push_back(Object);
+
 		}
 		break;
 		case MapObjType::Collision_Floor:
@@ -88,7 +96,7 @@ void MapDataParser::UnSortMapDataParsing(std::vector<MapData>& _Data, GameEngine
 			Object.lock()->SetMapObjectMesh(_Data[i].ObjName_, _Data[i].MapObjType_);
 			Object.lock()->SetMapObjType(_Data[i].MapObjType_);
 			Object.lock()->SetName(_Data[i].ObjName_);
-
+			UnSortActorList_.push_back(Object);
 		}
 		break;
 		default:
@@ -100,10 +108,18 @@ void MapDataParser::UnSortMapDataParsing(std::vector<MapData>& _Data, GameEngine
 			Object.lock()->SetMapObjectMesh(_Data[i].ObjName_, _Data[i].MapObjType_);
 			Object.lock()->SetMapObjType(_Data[i].MapObjType_);
 			Object.lock()->SetName(_Data[i].ObjName_);
+			if (_Data[i].ObjName_ == "m_kevin_01")
+			{
+				Object.lock()->GetAnimationFBXMesh()->GetTransform().SetLocalScale({65.f, 65.f, 65.f});
+			}
+			UnSortActorList_.push_back(Object);
+
 		}
 		break;
 		}
 	}
+
+	return UnSortActorList_;
 }
 
 std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataParsing(std::vector<MapData>& _Data, GameEngineLevel* _Level)

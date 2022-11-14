@@ -4,6 +4,7 @@
 
 class GamePlayStaticObject;
 class GamePlayOriginObject;
+class GamePlayMapObject;
 class GameEngineLevel;
 class MapDataParser
 {
@@ -17,7 +18,7 @@ public:
 	MapDataParser& operator=(MapDataParser&& _Other) noexcept = delete;
 
 	// 정렬되지 않은 맵 데이터 파싱
-	void UnSortMapDataParsing(std::vector<MapData>& _Data, GameEngineLevel* _Level);
+	std::vector<std::weak_ptr<GamePlayMapObject>>& UnSortMapDataParsing(std::vector<MapData>& _Data, GameEngineLevel* _Level);
 
 	// 정렬된 맵 데이터 파싱
 	std::vector<std::weak_ptr<GamePlayStaticObject>>& SortMapDataParsing(std::vector<MapData>& _Data, GameEngineLevel* _Level);
@@ -34,6 +35,8 @@ private:
 
 	std::vector<std::weak_ptr<GamePlayOriginObject>> Origins_;
 	std::vector<std::weak_ptr<GamePlayStaticObject>> SortActorList_;
+	std::vector<std::weak_ptr<GamePlayMapObject>> UnSortActorList_;
+
 };
 
 	

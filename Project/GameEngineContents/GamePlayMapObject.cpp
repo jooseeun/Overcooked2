@@ -48,7 +48,7 @@ void GamePlayMapObject::SetMapObjectMesh(const std::string& _Name, MapObjType _O
 	case MapObjType::Animation:
 	{
 		GetAnimationFBXMesh()->GetTransform().SetWorldScale({ 100.f, 100.f, 100.f });
-		GetAnimationFBXMesh()->SetFBXMesh(_Name + ".fbx", "TextureAnimation");
+		GetAnimationFBXMesh()->SetFBXMesh(_Name + ".fbx", "TextureAnimation", 0, 0);
 		GetAnimationFBXMesh()->CreateFBXAnimation("Test", _Name + ".fbx");
 		GetAnimationFBXMesh()->ChangeAnimation("Test");
 	}
@@ -76,19 +76,5 @@ void GamePlayMapObject::SetMapObjectMesh(const std::string& _Name, MapObjType _O
 	default:
 		break;
 	}
-
-
-	//GetAnimationFBXMesh()->SetFBXMesh(_Name + ".fbx", "TextureAnimation");
-	//GetAnimationFBXMesh()->CreateFBXAnimation("Test", _Name + ".fbx");
-	//GetAnimationFBXMesh()->ChangeAnimation("Test");
-	//// 수정 필요 => Chef 테스트 끝나면 삭제 
-	//if (_Name == "Chef")
-	//{
-	//	GetFBXMesh()->GetTransform().SetWorldScale({ 1.f, 1.f, 1.f });
-	//}
-	//else
-	//{
-	//	GetFBXMesh()->GetTransform().SetWorldScale({ 100.f, 100.f, 100.f });
-	//}
 }
 
