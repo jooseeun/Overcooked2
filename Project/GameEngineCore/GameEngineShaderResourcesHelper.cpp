@@ -65,10 +65,10 @@ void GameEngineShaderResourcesHelper::ShaderCheck(std::shared_ptr < GameEngineSh
 	// 픽셀쉐이더와 버텍스 쉐이더에서 transform데이터 같은 중요 상수버퍼의 이름을 똑같이 해서 사용하고 싶다면??????
 	for (const std::pair<std::string, GameEngineConstantBufferSetter>& Data : _Shader->ConstantBufferSettingMap)
 	{
-		//if (_Shader->ConstantBufferSettingMap.size() == ConstantBufferSettingMap.size())
-		//{
-		//	break;
-		//}
+		if (_Shader->ConstantBufferSettingMap.size() == ConstantBufferSettingMap.size())
+		{
+			break;
+		}
 		std::multimap<std::string, GameEngineConstantBufferSetter>::iterator InsertIter =
 			ConstantBufferSettingMap.insert(std::make_pair(Data.first, Data.second));
 
@@ -77,10 +77,10 @@ void GameEngineShaderResourcesHelper::ShaderCheck(std::shared_ptr < GameEngineSh
 
 	for (const std::pair<std::string, GameEngineTextureSetter>& Data : _Shader->TextureSettingMap)
 	{
-		//if (_Shader->TextureSettingMap.size() == TextureSettingMap.size())
-		//{
-		//	break;
-		//}
+		if (_Shader->TextureSettingMap.size() == TextureSettingMap.size())
+		{
+			break;
+		}
 		std::multimap<std::string, GameEngineTextureSetter>::iterator InsertIter =
 			TextureSettingMap.insert(std::make_pair(Data.first, Data.second));
 
@@ -91,10 +91,10 @@ void GameEngineShaderResourcesHelper::ShaderCheck(std::shared_ptr < GameEngineSh
 
 	for (const std::pair<std::string, GameEngineSamplerSetter>& Data : _Shader->SamplerSettingMap)
 	{
-		//if (_Shader->SamplerSettingMap.size() == SamplerSettingMap.size())
-		//{
-		//	break;
-		//}
+		if (_Shader->SamplerSettingMap.size() == SamplerSettingMap.size())
+		{
+			break;
+		}
 		std::multimap<std::string, GameEngineSamplerSetter>::iterator InsertIter =
 			SamplerSettingMap.insert(std::make_pair(Data.first, Data.second));
 
@@ -104,10 +104,10 @@ void GameEngineShaderResourcesHelper::ShaderCheck(std::shared_ptr < GameEngineSh
 
 	for (const std::pair<std::string, GameEngineStructuredBufferSetter>& Data : _Shader->StructuredBufferSettingMap)
 	{
-		//if (_Shader->StructuredBufferSettingMap.size() == StructuredBufferSettingMap.size())
-		//{
-		//	break;
-		//}
+		if (_Shader->StructuredBufferSettingMap.size() == StructuredBufferSettingMap.size())
+		{
+			break;
+		}
 		std::multimap<std::string, GameEngineStructuredBufferSetter>::iterator InsertIter =
 			StructuredBufferSettingMap.insert(std::make_pair(Data.first, Data.second));
 

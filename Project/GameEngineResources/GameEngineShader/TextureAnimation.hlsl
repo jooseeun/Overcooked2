@@ -43,7 +43,7 @@ Output TextureAnimation_VS(Input _Input)
     NewOutPut.POSITION.w = 1.0f;
 
     NewOutPut.POSITION = mul(NewOutPut.POSITION, WorldViewProjection);
-    NewOutPut.TEXCOORD = NewOutPut.TEXCOORD;
+    NewOutPut.TEXCOORD = _Input.TEXCOORD;
 
     return NewOutPut;
 }
