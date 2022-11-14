@@ -114,6 +114,20 @@ void Overcooked::MeshLoad()
 		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_countertop_no_edge_01.fbx"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		Dir.Move("ContentsResources");
+		Dir.Move("Mesh");
+		Dir.Move("Object");
+		Dir.Move("StaticObject");
+		Dir.Move("Sink");
+
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_sink_01.fbx"));
+		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+	}
+
 	{
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExitsChildDirectory("ContentsResources");

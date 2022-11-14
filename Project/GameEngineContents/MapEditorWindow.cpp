@@ -8,6 +8,7 @@
 #include "TrashCan.h"
 #include "Servicehatch.h"
 #include "Cooker.h"
+#include "Sink.h"
 #include "PlateReturn.h"
 
 #include "Equipment_Plate.h"
@@ -301,6 +302,7 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				Prefabs_.push_back("Servicehatch");
 				Prefabs_.push_back("PlateReturn");
 				Prefabs_.push_back("Cooker");
+				Prefabs_.push_back("Sink");
 			}
 		}
 
@@ -855,6 +857,10 @@ void MapEditorWindow::SortToolTab()
 		case 6:
 			CurStaticMesh_ = CurLevel_->CreateActor<Cooker>();
 			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::Cooker);
+			break;
+		case 7:
+			CurStaticMesh_ = CurLevel_->CreateActor<Sink>();
+			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::Sink);
 			break;
 		}
 

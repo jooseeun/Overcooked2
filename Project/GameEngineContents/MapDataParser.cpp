@@ -8,6 +8,7 @@
 #include "Servicehatch.h"
 #include "PlateReturn.h"
 #include "Cooker.h"
+#include "Sink.h"
 
 #include "Equipment_Plate.h"
 #include "Equipment_FireExtinguisher.h"
@@ -178,6 +179,8 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 		}
 		break;
 		case MapObjType::Sink:
+			CurActor_ = _Level->CreateActor<Sink>();
+			CurActor_.lock()->SetStaticObjectType(MapObjType::Sink);
 			break;
 		case MapObjType::Servicehatch:
 		{
