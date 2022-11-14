@@ -129,6 +129,53 @@ std::vector<GameEngineFile> GameEngineDirectory::GetAllFile(const std::string& _
 
 }
 
+std::vector<GameEngineFile> GameEngineDirectory::GetAllFileRecursion(const std::string& _Ext)
+{
+	std::filesystem::directory_iterator DirIter(Path_);
+
+	std::string Ext = _Ext;
+	if (Ext != "")
+	{
+		GameEngineString::ToUpper(Ext);
+		if (std::string::npos == Ext.find("."))
+		{
+			Ext = "." + Ext;
+		}
+	}
+
+	std::vector<GameEngineFile> Return;
+	for (const std::filesystem::directory_entry& Entry : DirIter)
+	{
+		if (true == Entry.is_directory())
+		{
+			GameEnginePath NewPath = Entry.path();
+			GameEngineDirectory Dir = NewPath.GetFullPath().c_str();
+			std::vector<GameEngineFile> TmpVec = Dir.GetAllFileRecursion(_Ext);
+			for (size_t i = 0; i < TmpVec.size(); i++)
+			{
+				Return.push_back(TmpVec[i]);
+			}
+			continue;
+		}
+
+		if (Ext != "")
+		{
+			GameEnginePath NewPath = Entry.path();
+			std::string OtherExt = NewPath.GetExtension();
+			GameEngineString::ToUpper(OtherExt);
+
+			if (OtherExt != Ext)
+			{
+				continue;
+			}
+		}
+
+		Return.push_back(GameEngineFile(Entry.path()));
+	}
+
+	return Return;
+}
+
 std::vector<GameEngineDirectory> GameEngineDirectory::GetAllDirectory()
 {
 	std::filesystem::directory_iterator DirIter(Path_);

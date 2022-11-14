@@ -524,7 +524,6 @@ struct Bone
 	}
 };
 
-
 class GameEngineMesh;
 class GameEngineFBXAnimation;
 class GameEngineFBXMesh : public GameEngineFBX, public GameEngineRes<GameEngineFBXMesh>
@@ -560,6 +559,8 @@ public:
 		
 		return ResultVec;
 	}
+
+	static std::vector<std::weak_ptr<GameEngineFBXMesh>> LoadLevel(const std::string& _Level);
 
 	static std::shared_ptr<GameEngineFBXMesh> Load(const std::string& _Path)
 	{

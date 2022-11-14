@@ -81,14 +81,11 @@ void Overcooked::End()
 void Overcooked::MeshLoad()
 {
 	std::vector<std::string_view> TmpMeshs;
-	TmpMeshs.push_back("Level\\1_1\\1_1.FBX");
-	TmpMeshs.push_back("Level\\1_2\\1_2.FBX");
-	TmpMeshs.push_back("Level\\1_3\\1_3.FBX");
-	TmpMeshs.push_back("Level\\1_4\\1_4.FBX");
 	TmpMeshs.push_back("Object\\StaticObject\\CounterTop\\m_sk_countertop_01.FBX");
 	TmpMeshs.push_back("Object\\StaticObject\\CounterTop_Corner\\m_lorry_countertop_corner_01.FBX");
-
 	GameEngineFBXMesh::LoadAll(TmpMeshs);
+
+	std::vector<std::weak_ptr<GameEngineFBXMesh>> Test = GameEngineFBXMesh::LoadLevel("Level");
 
 	{
 		GameEngineDirectory Dir;

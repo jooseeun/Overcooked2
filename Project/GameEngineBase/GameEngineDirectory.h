@@ -28,6 +28,8 @@ public:
 
 	std::vector<GameEngineFile> GetAllFile(const std::string& _Ext = "");
 
+	std::vector<GameEngineFile> GetAllFileRecursion(const std::string& _Ext = "");
+
 	// 리커시브라고 붙은 녀석은 하위까지 다 도는 녀석
 	std::vector<GameEngineDirectory> GetAllDirectory();
 

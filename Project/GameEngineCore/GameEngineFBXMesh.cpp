@@ -15,7 +15,23 @@ GameEngineFBXMesh::~GameEngineFBXMesh()
 	AllBoneStructuredBuffers.clear();
 }
 
+std::vector<std::weak_ptr<GameEngineFBXMesh>> GameEngineFBXMesh::LoadLevel(const std::string& _Level)
+{
+	std::vector<std::weak_ptr<GameEngineFBXMesh>> Result;
+	GameEngineDirectory Dir;
+	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	Dir.Move("ContentsResources");
+	Dir.Move("Mesh");
+	Dir.Move(_Level);
 
+	std::vector<GameEngineFile> AllFiles = Dir.GetAllFileRecursion(".FBX");
+	for (size_t i = 0; i < AllFiles.size(); i++)
+	{
+		Result.push_back(Load(AllFiles[i].GetFullPath()));
+	}
+
+	return Result;
+}
 
 std::shared_ptr<GameEngineFBXMesh> GameEngineFBXMesh::Load(const std::string& _Path, const std::string& _Name)
 {
