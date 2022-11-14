@@ -13,7 +13,7 @@ void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, const std::stri
 {
 	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(_Name);
 
-	if (GlobalIOManager::Load(IOType::Mesh, "_" + _Name))
+	if (GlobalIOManager::Load(IOType::Mesh, "_" + FindFBXMesh->GetNameCopy()))
 	{
 		MeshData Data = GlobalIOManager::GetMeshData();
 
