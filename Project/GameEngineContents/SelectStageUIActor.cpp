@@ -18,7 +18,11 @@ void SelectStageUIActor::UIStart()
 {
 	UIDebugGUI::Main_->AddMutableValue("PlayerCount", &PlayerCount_);
 
+	InitRenderer();
+}
 
+void SelectStageUIActor::InitRenderer()
+{
 	EndBackground_ = CreateUIRenderer("EndBackground.png");
 
 	Background_ = CreateUIRenderer("UI_PauseScreen_Backdrop_01.png");
@@ -102,6 +106,14 @@ void SelectStageUIActor::UIUpdate(float _DeltaTime)
 		int CountDownNum = static_cast<int>(CountDown_.GetCurTime());
 		CountDownFont_->SetText("0" + std::to_string(CountDownNum), "Naughty Squirrel");
 		CountDown_.Update(_DeltaTime);
+		break;
+	}
+	case 2://Transition애니메이션 대기
+	{
+		if (TransitionIcon_->IsUpdate() == false)
+		{
+			GEngine::ChangeLevel("LoadingLevel");
+		}
 		break;
 	}
 	default:
@@ -332,7 +344,7 @@ void SelectStageUIActor::StartSelectMap()
 
 	//카운트다운 시작
 	CountDown_.StartTimer(4.5);
-	CountDown_.SetTimeOverFunc(std::bind(&SelectStageUIActor::StartLevelChange, this, 3));
+	CountDown_.SetTimeOverFunc(std::bind(&SelectStageUIActor::StartTransition, this, 3));
 	CountDownFont_->On();
 
 	Phase_ = 1;
@@ -498,13 +510,12 @@ bool SelectStageUIActor::IsChanging()
 	return IsChanging_;
 }
 
-
-void SelectStageUIActor::StartLevelChange(int _A)
+void SelectStageUIActor::StartTransition(int _A)
 {
 	CountDownFont_->Off();
-	TransitionIcon_->On();
-	TransitionIcon_->StartFadeOut(7.0f);
-	BlackRenderer_->On();
+	StartFadeOut();
+	Phase_ = 2;
+	//GEngine::ChangeLevel("LoadingLevel");
 }
 
 void SelectStageUIActor::PlayerIcon::Off()
