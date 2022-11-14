@@ -75,7 +75,7 @@ public:
 	GameEngineRes& operator=(const GameEngineRes& _Other) = delete;
 	GameEngineRes& operator=(GameEngineRes&& _Other) noexcept = delete;
 
-	static std::shared_ptr < ResType> Find(const std::string& _Name)
+	static std::shared_ptr<ResType> Find(const std::string& _Name)
 	{
 		std::string UpperName = GameEngineString::ToUpperReturn(_Name);
 

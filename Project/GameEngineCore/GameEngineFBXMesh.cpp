@@ -19,6 +19,12 @@ GameEngineFBXMesh::~GameEngineFBXMesh()
 
 std::shared_ptr<GameEngineFBXMesh> GameEngineFBXMesh::Load(const std::string& _Path, const std::string& _Name)
 {
+	std::shared_ptr<GameEngineFBXMesh> FindRes = Find(_Name);
+	if (nullptr != FindRes)
+	{
+		return FindRes;
+	}
+
 	std::shared_ptr<GameEngineFBXMesh> NewRes = CreateResName(_Name);
 	NewRes->SetPath(_Path);
 	NewRes->LoadMesh(_Path, _Name);
