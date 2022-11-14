@@ -34,12 +34,15 @@ public:
 		if (nullptr != _Stuff)
 		{
 			_Stuff->SetParentObject(std::dynamic_pointer_cast<GamePlayObject>(shared_from_this()));
+			Stuff_Current_->GetCollisionObject()->Off();
 		}
 	}
 	inline void ReSetStuff()
 	{
 		Stuff_Current_.reset();
 	}
+
+	std::shared_ptr<GamePlayMoveable> GetMoveable() const;
 
 
 	//inline int GetX() const

@@ -71,7 +71,7 @@ Input_PickUpOption GamePlayTool::Input_PickUp(std::shared_ptr<Player> _Player)
 	{
 		if (Moveable_Current_->Input_PickUp(_Player) == Input_PickUpOption::PickUp)
 		{
-			Moveable_Current_ = nullptr;
+			Moveable_Current_.reset();
 		}
 	}
 	return  Input_PickUpOption::NoResponse;

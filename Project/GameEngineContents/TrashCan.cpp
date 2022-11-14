@@ -49,7 +49,7 @@ void Tool_TrashCan::Input_ActionToAuto_Update(std::shared_ptr<GamePlayMoveable> 
 void Tool_TrashCan::Input_Action_End(std::shared_ptr<GamePlayMoveable> _Moveable)
 {
 	_Moveable->Death();// 삭제한다
-	SetCurrentMoveable(nullptr);
+	ReSetCurrentMoveable();
 }
 
 

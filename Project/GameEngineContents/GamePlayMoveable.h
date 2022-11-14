@@ -37,6 +37,7 @@ public:
 	inline Input_PickUpOption Input_PickUp(std::shared_ptr<Player> _Player) override
 	{
 		_Player->Input_PickUp(_Player);
+		GetCollisionObject()->Off();
 		return Input_PickUpOption::PickUp;
 	}
 

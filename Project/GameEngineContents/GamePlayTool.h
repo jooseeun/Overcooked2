@@ -34,10 +34,15 @@ public:
 	GamePlayTool& operator=(const GamePlayTool& _Other) = delete;
 	GamePlayTool& operator=(GamePlayTool&& _Other) noexcept = delete;
 
-	//inline void Interact_Manual(float _DeltaTime)
-	//{
-	//	Moveable_Current_->Cook_Update(_DeltaTime);
-	//}
+
+	inline std::shared_ptr<GamePlayMoveable> GetCurrentMoveable() const
+	{
+		return Moveable_Current_;
+	}
+	inline void ReSetCurrentMoveable()
+	{
+		Moveable_Current_.reset();
+	}
 
 protected:
 	void Start() override;
@@ -75,17 +80,24 @@ protected:
 		return EndCookingTime_;
 	}
 
+
+
 private:
 	std::shared_ptr<GamePlayMoveable> Moveable_Current_;
 protected:
 	inline void SetCurrentMoveable(std::shared_ptr<GamePlayMoveable> _Moveable)
 	{
-		Moveable_Current_ = _Moveable;
+		if (_Moveable == nullptr)
+		{
+			ReSetCurrentMoveable();
+		}
+		else
+		{
+			Moveable_Current_ = _Moveable;
+		}
+		
 	}
-	inline std::shared_ptr<GamePlayMoveable> GetCurrentMoveable() const
-	{
-		return Moveable_Current_;
-	}
+
 
 
 private:

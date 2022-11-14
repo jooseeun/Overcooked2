@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "GamePlayFood.h"
 #include "GamePlayStaticObject.h"
+#include "GamePlayTool.h"
 #include <math.h>
 
 void Player::IdleStart(const StateInfo& _Info)
@@ -120,91 +121,79 @@ void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::HoldStart(const StateInfo& _Info)
 {
-	if (CurrentHoldingObject_ == nullptr &&
-		Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Moveable, CollisionType::CT_OBB,
-			std::bind(&Player::GetCrashGroundObject, this, std::placeholders::_1, std::placeholders::_2)) == true)
-		// 플레이어가 들고있는게 없고 검사 콜리전이 바닥에 떨어진 오브젝트 콜리젼과 닿아있을때
-	{
 
-		if (CurrentHoldingObject_ == nullptr &&
-			Input_PickUp(Interact_GroundObject_) == Input_PickUpOption::PickUp)
-		{
-			if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
-				std::bind(&Player::GetCrashTableObject, this, std::placeholders::_1, std::placeholders::_2)) == true)
-			{
-				Interact_TableObject_->SetStuff(nullptr);
-			}
-			Interact_GroundObject_ = nullptr;
-			CurrentHoldingObject_->DetachObject();
-			CurrentHoldingObject_->SetParent(shared_from_this());
-			CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,50,-80 });
-			return;
-		}
-		else
-		{
-			 
-			StateManager.ChangeState("Idle");
-			return;
-		}
-	} 
-	else
+	 
+	if (CurrentHoldingObject_ == nullptr) // 잡고있는 오브젝트가 없으면
 	{
+		if (Interact_GroundObject_ != nullptr)
+		{
+			if (Interact_GroundObject_->Input_PickUp(std::dynamic_pointer_cast<Player>(shared_from_this())) == Input_PickUpOption::PickUp)
+			{
+				CurrentHoldingObject_ = Interact_GroundObject_;
+				CurrentHoldingObject_->DetachObject();
+				CurrentHoldingObject_->SetParent(shared_from_this());
+				CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,50,-80 });
+				return;
+			}
+		}
+		else if (Interact_TableObject_ != nullptr)
+		{
+			if (Interact_TableObject_->Input_PickUp(std::dynamic_pointer_cast<Player>(shared_from_this())) == Input_PickUpOption::PickUp)
+			{
+				CurrentHoldingObject_->DetachObject();
+				CurrentHoldingObject_->SetParent(shared_from_this());
+				CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,50,-80 });
+				return;
+			}
+		}
 		StateManager.ChangeState("Idle");
 		return;
 	}
+	else
+	{
 
+	}
 
-
-	//if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
-	//	std::bind(&Player::GetCrashTableObject, this, std::placeholders::_1, std::placeholders::_2))==true)
-	//{
-
-	//	if (CurrentHoldingObject_ == nullptr &&
-	//		Input_PickUp(Interact_GroundObject_) == Input_PickUpOption::PickUp)
-	//	{
-	//		Interact_TableObject_->SetBloomEffectOff();
-	//		Interact_TableObject_ = nullptr;
-	//		CurrentHoldingObject_->DetachObject();
-	//		CurrentHoldingObject_->SetParent(shared_from_this());
-	//		return;
-	//	}
-	//	else
-	//	{
-
-	//		StateManager.ChangeState("Idle");
-	//		return;
-	//	}
-	//}
-
-	//else
-	//{
-	//	if (Interact_TableObject_ != nullptr)
-	//	{
-	//		Interact_TableObject_->SetBloomEffectOff();
-	//		Interact_TableObject_ = nullptr;
-	//		CurrentHoldingObject_->DetachObject();
-	//		CurrentHoldingObject_->SetParent(shared_from_this());
-	//		return;
-	//	}
-	//	else
-	//	{
-
-	//		StateManager.ChangeState("Idle");
-	//		return;
-	//	}
-	//}
 }
 void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerHold")) // 놓기
-	{
-
-		CurrentHoldingObject_->DetachObject();
-		Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
-			std::bind(&Player::PutUpObjectTable, this, std::placeholders::_1, std::placeholders::_2));
-		CurrentHoldingObject_ = nullptr;
-		StateManager.ChangeState("Idle");
-		return;
+	{ 
+		if (Interact_GroundObject_ != nullptr)
+		{
+			if (Interact_GroundObject_->Input_PickUp(CurrentHoldingObject_) == Input_PickUpOption::PickUp)
+			{
+				CurrentHoldingObject_.reset();
+				StateManager.ChangeState("Idle");
+				return;
+			}
+		}
+		else
+		{
+			CurrentHoldingObject_->GetCollisionObject()->On();
+			CurrentHoldingObject_->DetachObject();
+			CurrentHoldingObject_.reset();
+			StateManager.ChangeState("Idle");
+     		return;
+   	  	}
+      
+	  	if (Interact_TableObject_ != nullptr) 
+	   	 {
+		 	if (Interact_TableObject_->Input_PickUp(CurrentHoldingObject_) == Input_PickUpOption::PickUp)
+			{
+				CurrentHoldingObject_.reset();
+				StateManager.ChangeState("Idle");
+				return;
+			}
+		}
+		else
+		{
+			CurrentHoldingObject_->GetCollisionObject()->On();
+			CurrentHoldingObject_->DetachObject();
+			CurrentHoldingObject_.reset();
+			StateManager.ChangeState("Idle");
+			return;
+		}
 	}
 
 
