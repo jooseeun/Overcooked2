@@ -81,7 +81,7 @@ void Player::Start()
 
 
 
-		PlayerRenderer_->ChangeAnimation("Walk");
+		PlayerRenderer_->ChangeAnimation("Idle");
 		PlayerRenderer_->GetTransform().SetLocalRotation({ 0,180,0 });
 		PlayerRenderer_->GetTransform().SetLocalPosition({ -7.26,0.085,7.12 });
 		PlayerRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
@@ -538,10 +538,17 @@ void Player::PlayerDirCheck() // 플레이어 방향 체크하고 회전시키는 함수
 
 void Player::Collision_AroundObject()
 {
-	Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Moveable, CollisionType::CT_OBB,
-		std::bind(&Player::GetCrashGroundObject, this, std::placeholders::_1, std::placeholders::_2));
-	Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
-		std::bind(&Player::GetCrashTableObject, this, std::placeholders::_1, std::placeholders::_2));
+	if (Collision_Interact_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Object_Moveable, CollisionType::CT_AABB,
+		std::bind(&Player::GetCrashGroundObject, this, std::placeholders::_1, std::placeholders::_2)) == false)
+	{
+		Interact_GroundObject_ = nullptr;
+	}
+	if (Collision_Interact_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Object_StaticObject, CollisionType::CT_AABB,
+		std::bind(&Player::GetCrashTableObject, this, std::placeholders::_1, std::placeholders::_2)) == false)
+	{
+		Interact_TableObject_ = nullptr;
+	}
+;
 }
 
 void Player::MoveCollisionSideCheck(float _DeltaTime)
