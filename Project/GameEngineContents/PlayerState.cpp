@@ -132,6 +132,7 @@ void Player::HoldStart(const StateInfo& _Info)
 				CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,50,-80 });
 				return;
 			}
+
 		}
 		else if (Interact_TableObject_ != nullptr)
 		{
@@ -140,12 +141,17 @@ void Player::HoldStart(const StateInfo& _Info)
 				if (Collision_Interact_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Object_StaticObject, CollisionType::CT_AABB,
 					std::bind(&Player::GetCrashTableObject, this, std::placeholders::_1, std::placeholders::_2)) == true)
 				{
-					Interact_TableObject_->SetStuff(nullptr);
+				 	Interact_TableObject_->SetStuff(nullptr);
 				}
 				CurrentHoldingObject_->DetachObject();
 				CurrentHoldingObject_->SetParent(shared_from_this());
 				CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,50,-80 });
 				return;
+			}
+			else
+			{
+				StateManager.ChangeState("Idle");
+				return;  
 			}
 		}
 		else
@@ -162,52 +168,12 @@ void Player::HoldStart(const StateInfo& _Info)
 		return;
 	}
 
-
-
-	//if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
-	//	std::bind(&Player::GetCrashTableObject, this, std::placeholders::_1, std::placeholders::_2))==true)
-	//{
-
-	//	if (CurrentHoldingObject_ == nullptr &&
-	//		Input_PickUp(Interact_GroundObject_) == Input_PickUpOption::PickUp)
-	//	{
-	//		Interact_TableObject_->SetBloomEffectOff();
-	//		Interact_TableObject_ = nullptr;
-	//		CurrentHoldingObject_->DetachObject();
-	//		CurrentHoldingObject_->SetParent(shared_from_this());
-	//		return;
-	//	}
-	//	else
-	//	{
-
-	//		StateManager.ChangeState("Idle");
-	//		return;
-	//	}
-	//}
-
-	//else
-	//{
-	//	if (Interact_TableObject_ != nullptr)
-	//	{
-	//		Interact_TableObject_->SetBloomEffectOff();
-	//		Interact_TableObject_ = nullptr;
-	//		CurrentHoldingObject_->DetachObject();
-	//		CurrentHoldingObject_->SetParent(shared_from_this());
-	//		return;
-	//	}
-	//	else
-	//	{
-
-	//		StateManager.ChangeState("Idle");
-	//		return;
-	//	}
-	//}
 }
 void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerHold")) // ³õ±â
-	{
-
+	{ 
+		 
 		CurrentHoldingObject_->DetachObject();
 		Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 			std::bind(&Player::PutUpObjectTable, this, std::placeholders::_1, std::placeholders::_2));
