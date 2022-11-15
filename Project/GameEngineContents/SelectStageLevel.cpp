@@ -5,12 +5,12 @@
 
 SelectStageLevel::SelectStageLevel()
 {
-	{
+	/*{
 		std::shared_ptr<GameEngineCameraActor> CameraActor = CreateActor<GameEngineCameraActor>();
 		CameraActor->GetTransform().SetLocalPosition({ 0.0f, 0.0f, -100.0f });
 		CameraActor->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
 		CameraActor->GetCameraComponent()->SetCameraOrder(CAMERAORDER::AboveUICAMERA);
-	}
+	}*/
 }
 
 SelectStageLevel::~SelectStageLevel()
