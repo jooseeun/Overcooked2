@@ -538,12 +538,12 @@ void Player::PlayerDirCheck() // 플레이어 방향 체크하고 회전시키는 함수
 
 void Player::Collision_AroundObject()
 {
-	if (Collision_Interact_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Object_Moveable, CollisionType::CT_AABB,
+	if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Moveable, CollisionType::CT_OBB,
 		std::bind(&Player::GetCrashGroundObject, this, std::placeholders::_1, std::placeholders::_2)) == false)
 	{
 		Interact_GroundObject_ = nullptr;
 	}
-	if (Collision_Interact_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Object_StaticObject, CollisionType::CT_AABB,
+	if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 		std::bind(&Player::GetCrashTableObject, this, std::placeholders::_1, std::placeholders::_2)) == false)
 	{
 		Interact_TableObject_ = nullptr;
@@ -770,10 +770,11 @@ CollisionReturn Player::PutUpObjectTable(std::shared_ptr<GameEngineCollision> _T
  	Interact_TableObject_ = _Other->GetActor<GamePlayStaticObject>();
     if (Interact_TableObject_->GetStuff() == nullptr) // 임시코드
 	{                  	
+		CurrentHoldingObject_->DetachObject();
 		Interact_TableObject_->SetStuff(CurrentHoldingObject_);
 		float4 ToolPos = Interact_TableObject_->GetToolPos();
 		Interact_TableObject_->GetStuff()->GetTransform().SetWorldPosition(ToolPos);
-
+		CurrentHoldingObject_ = nullptr;
 		
 		return CollisionReturn::Break; 
 	}

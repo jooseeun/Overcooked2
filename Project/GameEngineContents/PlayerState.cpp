@@ -138,7 +138,7 @@ void Player::HoldStart(const StateInfo& _Info)
 		{
 			if (Interact_TableObject_->Input_PickUp(std::dynamic_pointer_cast<Player>(shared_from_this())) == Input_PickUpOption::PickUp)
 			{
-				if (Collision_Interact_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Object_StaticObject, CollisionType::CT_AABB,
+				if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 					std::bind(&Player::GetCrashTableObject, this, std::placeholders::_1, std::placeholders::_2)) == true)
 				{
 				 	Interact_TableObject_->SetStuff(nullptr);
@@ -173,11 +173,9 @@ void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerHold")) // ³õ±â
 	{ 
-		 
-		CurrentHoldingObject_->DetachObject();
+
 		Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 			std::bind(&Player::PutUpObjectTable, this, std::placeholders::_1, std::placeholders::_2));
-		CurrentHoldingObject_ = nullptr; 
 		StateManager.ChangeState("Idle");
 		return;
 	}
