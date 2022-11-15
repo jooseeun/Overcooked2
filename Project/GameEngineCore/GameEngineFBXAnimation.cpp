@@ -302,11 +302,11 @@ void GameEngineFBXAnimation::AnimationMatrixLoad(std::shared_ptr <GameEngineFBXM
 	GameEngineFile SaveFile = GameEngineFile(GetPath().c_str());
 	SaveFile.ChangeExtension(".AnimationFBX");
 	SaveFile.GetExtension();
-	if (SaveFile.IsExits())
-	{
-		UserLoad(SaveFile.GetFullPath());
-		return;
-	}
+	//if (SaveFile.IsExits())
+	//{
+	//	UserLoad(SaveFile.GetFullPath());
+	//	return;
+	//}
 
 	if (0 == AnimationDatas.size())
 	{
@@ -333,10 +333,10 @@ void GameEngineFBXAnimation::AnimationMatrixLoad(std::shared_ptr <GameEngineFBXM
 
 	ProcessAnimationCheckState(_Mesh, _AnimationIndex);
 
-	if (false == SaveFile.IsExits())
-	{
-		UserSave(SaveFile.GetFullPath());
-	}
+	//if (false == SaveFile.IsExits())
+	//{
+	//	UserSave(SaveFile.GetFullPath());
+	//}
 
 	AnimationDatas;
 }

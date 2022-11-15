@@ -38,6 +38,7 @@ std::shared_ptr<GameEngineFBXMesh> GameEngineFBXMesh::Load(const std::string& _P
 	std::shared_ptr<GameEngineFBXMesh> FindRes = Find(_Name);
 	if (nullptr != FindRes)
 	{
+		FindRes->SetPath(_Path);
 		return FindRes;
 	}
 
@@ -54,20 +55,20 @@ void GameEngineFBXMesh::LoadMesh(const std::string& _Path, const std::string& _N
 	SaveFile.GetExtension();
 
 	FBXInit(_Path);
-	if (SaveFile.IsExits())
-	{
-		UserLoad(SaveFile.GetFullPath());
-		CreateGameEngineStructuredBuffer();
-		return;
-	}
+	//if (SaveFile.IsExits())
+	//{
+	//	UserLoad(SaveFile.GetFullPath());
+	//	CreateGameEngineStructuredBuffer();
+	//	return;
+	//}
 
 	MeshLoad();
 	CreateGameEngineStructuredBuffer();
 
-	if (false == SaveFile.IsExits())
-	{
-		UserSave(SaveFile.GetFullPath());
-	}
+	//if (false == SaveFile.IsExits())
+	//{
+	//	UserSave(SaveFile.GetFullPath());
+	//}
 }
 
 void GameEngineFBXMesh::MeshLoad()
