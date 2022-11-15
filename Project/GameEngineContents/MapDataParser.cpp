@@ -19,6 +19,7 @@
 #include "Npc.h"
 #include "Car.h"
 #include "TrafficLight.h"
+#include "Candle.h"
 
 MapDataParser::MapDataParser()
 	: CurActor_()
@@ -71,7 +72,32 @@ std::vector<std::weak_ptr<GamePlayMapObject>>& MapDataParser::UnSortMapDataParsi
 			Object.lock()->SetMapObjType(_Data[i].MapObjType_);
 			Object.lock()->SetName(_Data[i].ObjName_);
 			UnSortActorList_.push_back(Object);
-
+		}
+		break;
+		case MapObjType::Candle:
+		{
+			std::weak_ptr<Candle> Object = _Level->CreateActor<Candle>();
+			Object.lock()->GetTransform().SetWorldPosition(_Data[i].Pos_);
+			Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(_Data[i].Scale_);
+			Object.lock()->GetTransform().SetWorldRotation(_Data[i].Rot_);
+			Object.lock()->SetMapObjectMesh(_Data[i].ObjName_, _Data[i].MapObjType_);
+			Object.lock()->SetMapObjType(_Data[i].MapObjType_);
+			Object.lock()->SetName(_Data[i].ObjName_);
+			
+			UnSortActorList_.push_back(Object);
+		}
+		break;
+		case MapObjType::Pigeon_Grounded:
+		{
+			std::weak_ptr<GamePlayMapObject> Object = _Level->CreateActor<GamePlayMapObject>();
+			Object.lock()->GetTransform().SetWorldPosition(_Data[i].Pos_);
+			Object.lock()->GetAnimationFBXMesh()->GetTransform().SetLocalScale({ 150.f, 150.f, 150.f });
+			Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(_Data[i].Scale_);
+			Object.lock()->GetTransform().SetWorldRotation(_Data[i].Rot_);
+			Object.lock()->SetMapObjectMesh(_Data[i].ObjName_, _Data[i].MapObjType_);
+			Object.lock()->SetMapObjType(_Data[i].MapObjType_);
+			Object.lock()->SetName(_Data[i].ObjName_);
+			UnSortActorList_.push_back(Object);
 		}
 		break;
 		case MapObjType::Collision_Wall:
@@ -84,7 +110,6 @@ std::vector<std::weak_ptr<GamePlayMapObject>>& MapDataParser::UnSortMapDataParsi
 			Object.lock()->SetMapObjType(_Data[i].MapObjType_);
 			Object.lock()->SetName(_Data[i].ObjName_);
 			UnSortActorList_.push_back(Object);
-
 		}
 		break;
 		case MapObjType::Collision_Floor:
@@ -113,7 +138,6 @@ std::vector<std::weak_ptr<GamePlayMapObject>>& MapDataParser::UnSortMapDataParsi
 				Object.lock()->GetAnimationFBXMesh()->GetTransform().SetLocalScale({65.f, 65.f, 65.f});
 			}
 			UnSortActorList_.push_back(Object);
-
 		}
 		break;
 		}
