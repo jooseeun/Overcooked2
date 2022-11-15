@@ -32,6 +32,11 @@ std::string GameEnginePath::GetExtension() const
 	return Path_.extension().string();
 }
 
+std::string GameEnginePath::GetExtensionToUpper() const
+{
+	return GameEngineString::ToUpperReturn(Path_.extension().string());
+}
+
 std::string GameEnginePath::GetFileName()  const
 {
 	return Path_.filename().string();
@@ -56,7 +61,7 @@ bool GameEnginePath::ChangeExtension(const std::string_view& _Extension)
 {
 	std::string Path = Path_.string();
 	GameEngineString::ToUpper(Path);
-	Path = GameEngineString::Replace(Path, GetExtension(), _Extension);
+	Path = GameEngineString::Replace(Path, GetExtensionToUpper(), _Extension);
 
 	if (Path == Path_.string())
 	{

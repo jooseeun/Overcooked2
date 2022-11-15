@@ -225,7 +225,7 @@ std::vector<std::string> GameEngineString::Split(const std::string& _Input, char
 
 std::string GameEngineString::Replace(const std::string& _Text, const std::string_view& _OldText, const std::string_view& _ChangeText)
 {
-	size_t FindIndex = _Text.find(_OldText);
+	size_t FindIndex = _Text.rfind(_OldText);
 	if (FindIndex == std::string::npos)
 	{
 		return _Text;
