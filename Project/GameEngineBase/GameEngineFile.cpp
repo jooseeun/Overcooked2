@@ -123,6 +123,11 @@ void GameEngineFile::Write(const int& _Data)
 	Write(&_Data, sizeof(int));
 }
 
+void GameEngineFile::Write(const unsigned int& _Data)
+{
+	Write(&_Data, sizeof(unsigned int));
+}
+
 void GameEngineFile::Read(void* _Buffer, size_t _BufferSize, size_t _ReadSize)
 {
 	fread_s(_Buffer, _BufferSize, _ReadSize, 1, FilePtr);
@@ -161,6 +166,11 @@ void GameEngineFile::Read(int& _Data)
 	Read(&_Data, sizeof(int), sizeof(int));
 }
 
+void GameEngineFile::Read(unsigned int& _Data)
+{
+	Read(&_Data, sizeof(unsigned int), sizeof(unsigned int));
+}
+
 std::string GameEngineFile::GetString()
 {
 	std::string AllString;
@@ -173,7 +183,6 @@ std::string GameEngineFile::GetString()
 
 	return AllString;
 }
-
 
 uintmax_t GameEngineFile::GetFileSize() const
 {
