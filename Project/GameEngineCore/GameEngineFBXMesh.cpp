@@ -55,20 +55,20 @@ void GameEngineFBXMesh::LoadMesh(const std::string& _Path, const std::string& _N
 	SaveFile.GetExtension();
 
 	FBXInit(_Path);
-	//if (SaveFile.IsExits())
-	//{
-	//	UserLoad(SaveFile.GetFullPath());
-	//	CreateGameEngineStructuredBuffer();
-	//	return;
-	//}
+	if (true == SaveFile.IsExits())
+	{
+		UserLoad(SaveFile.GetFullPath());
+		CreateGameEngineStructuredBuffer();
+		return;
+	}
 
 	MeshLoad();
 	CreateGameEngineStructuredBuffer();
 
-	//if (false == SaveFile.IsExits())
-	//{
-	//	UserSave(SaveFile.GetFullPath());
-	//}
+	if (false == SaveFile.IsExits())
+	{
+		UserSave(SaveFile.GetFullPath());
+	}
 }
 
 void GameEngineFBXMesh::MeshLoad()

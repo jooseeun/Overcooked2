@@ -28,6 +28,8 @@ public:
 
 	std::string GetExtension() const;
 
+	std::string GetExtensionToUpper() const;
+
 	bool ChangeExtension(const std::string_view& _Extension);
 
 	std::string GetFileName() const;
