@@ -19,6 +19,7 @@ Player::Player()
 	, Collision_Interact_(nullptr)
 	, Interact_GroundObject_(nullptr)
 	, Interact_TableObject_(nullptr)
+	, FireOff_(false)
 {
 
 }
@@ -81,7 +82,7 @@ void Player::Start()
 
 
 
-		PlayerRenderer_->ChangeAnimation("Idle");
+		PlayerRenderer_->ChangeAnimation("WalkHolding");
 		PlayerRenderer_->GetTransform().SetLocalRotation({ 0,180,0 });
 		PlayerRenderer_->GetTransform().SetLocalPosition({ -7.26,0.085,7.12 });
 		PlayerRenderer_->GetTransform().SetLocalScale({ 100,100,100 });

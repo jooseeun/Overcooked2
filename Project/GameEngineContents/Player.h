@@ -96,6 +96,7 @@ private:
 	float CurAngle_;
 	PlayerDir CurDir_;
 	PlayerHoldType CurHoldType_;
+	bool FireOff_;
 
 	std::shared_ptr<GameEngineCollision> Collision_Interact_; // 상호작용 콜리전
 	std::shared_ptr<GamePlayMoveable> Interact_GroundObject_;

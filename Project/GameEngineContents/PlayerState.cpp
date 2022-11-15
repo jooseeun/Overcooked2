@@ -120,6 +120,10 @@ void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::HoldStart(const StateInfo& _Info)
 {
+	if (FireOff_ == true)
+	{
+		return;
+	}
 	if (CurrentHoldingObject_ == nullptr)
 		// 플레이어가 들고있는때
 	{
@@ -171,9 +175,27 @@ void Player::HoldStart(const StateInfo& _Info)
 }
 void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerInteract")) //컨트롤키
+	{
+		if (CurrentHoldingObject_ != nullptr)
+			//손에 무언가 있을때
+		{
+			if (CurHoldType_ == PlayerHoldType::CanThrow)
+			{
+				StateManager.ChangeState("Throw");
+			}
+			else if (CurHoldType_ == PlayerHoldType::FireExtinguisher)
+			{
+				StateManager.ChangeState("FireOff");
+			}
+		}
+	}
 	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerHold")) // 놓기
 	{ 
-
+		if (FireOff_ == true)
+		{
+			FireOff_ = false;
+		}
 		Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 			std::bind(&Player::PutUpObjectTable, this, std::placeholders::_1, std::placeholders::_2));
 		StateManager.ChangeState("Idle");
@@ -256,13 +278,14 @@ void Player::DishWashUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::FireOffStart(const StateInfo& _Info)
 {
-
+	FireOff_ = true;
 }
 void Player::FireOffUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+
 	if (false == GameEngineInput::GetInst()->IsPressKey("PlayerInteract"))
 	{
-		StateManager.ChangeState("Idle");
+		StateManager.ChangeState("Hold");
 		return;
 	}
 
