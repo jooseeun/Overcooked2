@@ -318,7 +318,7 @@ void Overcooked::MeshLoad()
 	//	std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 
 	//}
-	/*{
+	{
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExitsChildDirectory("ContentsResources");
 		Dir.Move("ContentsResources");
@@ -885,7 +885,7 @@ void Overcooked::MeshLoad()
 
 		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Car_Yellow.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
-	}*/
+	}
 }
 
 void Overcooked::TextureLoad()
