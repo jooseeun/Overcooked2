@@ -6,7 +6,7 @@
 Player::Player()
 	:Speed_(400.0f)
 	, CurAngle_(0)
-	, CurDir_(PlayerDir::Back)
+	, CurDir_(PlayerDir::Front)
 	, CurHoldType_(PlayerHoldType::Max)
 	, PlayerFloorCollision_(nullptr)
 	, PlayerLeftCollision_(nullptr)
@@ -73,9 +73,16 @@ void Player::Start()
 
 	{
 		PlayerRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();
-		PlayerRenderer_->SetFBXMesh("uuu.FBX", "TextureAnimation");
-		PlayerRenderer_->CreateFBXAnimation("Test", "uuu.FBX");
-		PlayerRenderer_->ChangeAnimation("Test");
+		PlayerRenderer_->SetFBXMesh("AlienGreen_Idle.FBX", "TextureAnimation");
+
+		PlayerRenderer_->CreateFBXAnimation("Idle", "AlienGreen_Idle.FBX");
+		PlayerRenderer_->CreateFBXAnimation("Walk", "AlienGreen_Walk.FBX");
+		PlayerRenderer_->CreateFBXAnimation("WalkHolding", "AlienGreen_WalkHolding.FBX");
+
+
+
+		PlayerRenderer_->ChangeAnimation("Walk");
+		PlayerRenderer_->GetTransform().SetLocalRotation({ 0,180,0 });
 		PlayerRenderer_->GetTransform().SetLocalPosition({ -7.26,0.085,7.12 });
 		PlayerRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
 	}

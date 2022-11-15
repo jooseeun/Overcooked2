@@ -8,6 +8,7 @@
 void Player::IdleStart(const StateInfo& _Info)
 {
 	Speed_ = 400.0f;
+	PlayerRenderer_->ChangeAnimation("Walk");
 }
 void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 {
@@ -59,6 +60,7 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 void Player::MoveStart(const StateInfo& _Info)
 {
 
+	PlayerRenderer_->ChangeAnimation("Walk");
 }
 void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 {
