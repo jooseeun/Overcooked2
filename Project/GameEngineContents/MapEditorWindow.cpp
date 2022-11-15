@@ -20,6 +20,7 @@
 #include "Npc.h"
 #include "Car.h"
 #include "TrafficLight.h"
+#include "Candle.h"
 
 namespace
 {
@@ -313,6 +314,7 @@ void MapEditorWindow::ShowLevelSelectTable()
 void MapEditorWindow::UnSortToolTab()
 {
 	static int SelectIndex = 0;
+	static int CandleTypeIndex = 0;
 
 	if (true == ImGui::Button("Clear")
 		&& false == UnSortActorList_.empty())
@@ -437,6 +439,17 @@ void MapEditorWindow::UnSortToolTab()
 			UnSortActorList_.push_back(Object);
 		}
 			break;
+		case MapObjType::Candle:
+		{
+			std::weak_ptr<Candle> Object = CurLevel_->CreateActor<Candle>();
+			Object.lock()->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
+			Object.lock()->SetMapObjectMesh(AllUnSortActorName_[SelectNameIndex], ObjectTypeIndex);
+			Object.lock()->SetName(AllUnSortActorName_[SelectNameIndex]);
+			Object.lock()->SetMapObjType(ObjectTypeIndex);
+		//	Object.lock()->SetCandleTypeIndex(C);
+			UnSortActorList_.push_back(Object);
+		}
+		break;
 		case MapObjType::Collision_Wall:
 		{
 			std::weak_ptr<GamePlayMapObject> Object = CurLevel_->CreateActor<GamePlayMapObject>();
@@ -550,6 +563,7 @@ void MapEditorWindow::UnSortToolTab()
 		UnSortActorList_[SelectIndex].lock()->GetCollisionObject()->GetTransform().SetWorldScale(CollisionScale_);
 		UnSortActorList_[SelectIndex].lock()->GetTransform().SetWorldScale(Scale);
 	}
+
 }
 
 void MapEditorWindow::SortToolTab()

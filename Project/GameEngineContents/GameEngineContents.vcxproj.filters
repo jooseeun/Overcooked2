@@ -185,6 +185,12 @@
     <ClInclude Include="GlobalGameData.h">
       <Filter>Global</Filter>
     </ClInclude>
+    <ClInclude Include="Candle.h">
+      <Filter>Contents\Object\MapObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Pigeon_Flying.h">
+      <Filter>Contents\Object\MapObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -370,6 +376,12 @@
     </ClCompile>
     <ClCompile Include="GlobalGameData.cpp">
       <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="Candle.cpp">
+      <Filter>Contents\Object\MapObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Pigeon_Flying.cpp">
+      <Filter>Contents\Object\MapObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

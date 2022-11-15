@@ -36,10 +36,10 @@ void GamePlayMapObject::SetMapObjectMesh(const std::string& _Name, MapObjType _O
 		GetCollisionObject()->Off();
 	}
 		break;
-	case MapObjType::AnimationNoCollision:
+	case MapObjType::Pigeon_Grounded:
 	{
-		GetAnimationFBXMesh()->GetTransform().SetWorldScale({ 100.f, 100.f, 100.f });
-		GetAnimationFBXMesh()->SetFBXMesh(_Name + ".fbx", "TextureAnimation");
+		GetAnimationFBXMesh()->GetTransform().SetWorldScale({ 150.f, 150.f, 150.f });
+		GetAnimationFBXMesh()->SetFBXMesh(_Name + ".fbx", "TextureAnimation", 1);	// Grounded
 		GetAnimationFBXMesh()->CreateFBXAnimation("Test", _Name + ".fbx");
 		GetAnimationFBXMesh()->ChangeAnimation("Test");
 		GetCollisionObject()->Off();
@@ -68,6 +68,11 @@ void GamePlayMapObject::SetMapObjectMesh(const std::string& _Name, MapObjType _O
 	}
 		break;
 	case MapObjType::TrafficLight:
+	{
+		GetFBXMesh()->GetTransform().SetWorldScale({ 100.f, 100.f, 100.f });
+		GetFBXMesh()->SetFBXMesh(_Name + ".fbx", "Texture");
+	}
+	case MapObjType::Candle:
 	{
 		GetFBXMesh()->GetTransform().SetWorldScale({ 100.f, 100.f, 100.f });
 		GetFBXMesh()->SetFBXMesh(_Name + ".fbx", "Texture");

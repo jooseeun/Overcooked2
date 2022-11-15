@@ -23,11 +23,12 @@ enum class MapObjType
 	FoodBox,			//음식 스폰 박스
 
 	StaticNoCollision,		// 애니메이션 X, 콜리전 X		ex) Grass, Bamboo
-	AnimationNoCollision,	// 애니메이션 O, 콜리전 x		ex) Candle, Pigeon_Idle, Pigeon_Move
+	Pigeon_Grounded,		// 애니메이션 O, 콜리전 x		ex) Pigeon_Idle
 	Animation,				// 애니메이션 O				ex) Kevin
 	Npc,					// 애니메이션 O, 콜리전 O
 	Car,					// 애니메이션 X
 	TrafficLight,			// 애니메이션 X, 콜리전 O
+	Candle,					// 애니메이션 X
 	Collision_Wall,			// 벽, 바닥용 콜리전
 	Collision_Floor,
 
