@@ -365,7 +365,7 @@ void SelectStageUIActor::SetCurStage(int _Index)
 	}
 	case 5: //마술사의 키친
 	{
-		WantStage = "3-4";
+		WantStage = "1-4";
 
 		break;
 	}

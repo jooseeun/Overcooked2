@@ -21,6 +21,8 @@ public:
 	LoadingUIActor(const LoadingUIActor&& _Other) noexcept = delete;
 	LoadingUIActor& operator=(const LoadingUIActor& _Ohter) = delete;
 	LoadingUIActor& operator=(const LoadingUIActor&& _Other) noexcept = delete;
+
+	void StartLoad();
 protected:
 	void UIStart() override;
 	void InitRenderer();
@@ -51,4 +53,7 @@ private:
 	//Loading
 	std::shared_ptr<OverCookedUIRenderer> LoadingBackRenderer_;
 	std::shared_ptr<OverCookedUIRenderer> LoadingFrontRenderer_;
+
+	//Time
+	float AccTime_ = 0.f;
 };

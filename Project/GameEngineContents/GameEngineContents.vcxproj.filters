@@ -191,6 +191,9 @@
     <ClInclude Include="Pigeon_Flying.h">
       <Filter>Contents\Object\MapObject</Filter>
     </ClInclude>
+    <ClInclude Include="LoadingData.h">
+      <Filter>Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -382,6 +385,9 @@
     </ClCompile>
     <ClCompile Include="Pigeon_Flying.cpp">
       <Filter>Contents\Object\MapObject</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingData.cpp">
+      <Filter>Data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

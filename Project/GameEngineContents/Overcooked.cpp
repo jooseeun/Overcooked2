@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "Overcooked.h"
 
+#include "LoadingData.h"
+
 #include "SelectStageLevel.h"
 #include "LoadingLevel.h"
 #include "MapToolLevel.h"
@@ -29,18 +31,36 @@ void Overcooked::Start()
 	InputMake();
 	LoadMaterial();
 
+	//1-1 1-3
+	LoadingData::AddFunc("1-1", std::bind(&Overcooked::LoadStage, this, "1-1"));
+	LoadingData::AddFunc("1-2", std::bind(&Overcooked::LoadStage, this, "1-2"));
+
+	//LoadingData::AddFunc("1-2", std::bind(&Overcooked::dfsdf, this, ));
+
+	//LoadingInfo::AddFunc("Stage1_1", std::bind(&Overcooked::InitResourceStage1_1, this));
+	//LoadingInfo::AddFunc("Stage1_2", std::bind(&Overcooked::InitResourceStage1_2, this));
+
+	//or ;
+
+	//LoadingInfo::AddFunc("Stage1_1", std::bind(&Overcooked::InitResource, this, "Stage1_1"));
+	//LoadingInfo::AddFunc("Stage1_1", std::bind(&Overcooked::InitResource, this, "Stage1_2"));
+	//InitResource(std::string _Name)
+	//{
+	//	LoadLevelMesh(_Name);
+	//}
+
 	CreateLevel<SelectStageLevel>("SelectStage");
 	CreateLevel<LoadingLevel>("LoadingLevel");
 
-	CreateLevel<Stage_1_1>("Stage_1_1");
-	CreateLevel<Stage_1_2>("Stage_1_2");
-	CreateLevel<Stage_1_3>("Stage_1_3");
-	CreateLevel<Stage_1_4>("Stage_1_4");
+	CreateLevel<Stage_1_1>("1-1");
+	CreateLevel<Stage_1_2>("1-2");
+	//CreateLevel<Stage_1_3>("Stage_1_3");
+	//CreateLevel<Stage_1_4>("Stage_1_4");
 	CreateLevel<MapToolLevel>("MapToolLevel");
 	CreateLevel<MeshToolLevel>("MeshToolLevel");
 	CreateLevel<TitleLevel>("TitleLevel");
 
-	ChangeLevel("Stage_1_1");
+	ChangeLevel("SelectStage");
 
 	GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
 }
@@ -99,31 +119,29 @@ void Overcooked::MeshLoad()
 		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_van_01.fbx"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("StaticObject");
-		Dir.Move("CounterTop_NoEdge");
 
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_countertop_no_edge_01.fbx"));
-		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
-	}
+	//
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("StaticObject");
+	//	Dir.Move("CounterTop_NoEdge");
 
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("StaticObject");
-		Dir.Move("Sink");
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_countertop_no_edge_01.fbx"));
+	//	std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+	//}
 
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_sink_01.fbx"));
-		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
-	}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("StaticObject");
+	//	Dir.Move("Sink");
 
 	{
 		GameEngineDirectory Dir;
@@ -134,36 +152,41 @@ void Overcooked::MeshLoad()
 		Dir.Move("StaticObject");
 		Dir.Move("FoodBox");
 
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("CreateBox.fbx"));
+		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_sink_01.fbx"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
 
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("StaticObject");
-		Dir.Move("TrashCan");
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_sink_01.fbx"));
+	//	std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+	//}
 
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_bin_01.fbx"));
-		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
-	}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("StaticObject");
+	//	Dir.Move("TrashCan");
 
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("StaticObject");
-		Dir.Move("Servicehatch");
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_bin_01.fbx"));
+	//	std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+	//}
 
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_dlc08_servicehatch_01.fbx"));
-		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
-	}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("StaticObject");
+	//	Dir.Move("Servicehatch");
 
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_dlc08_servicehatch_01.fbx"));
+	//	std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+	//}
+
+	//
 	{
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExitsChildDirectory("ContentsResources");
@@ -401,7 +424,6 @@ void Overcooked::MeshLoad()
 			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_WalkHolding.FBX"));
 			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_WalkHolding.FBX"));
 		}
-
 	}
 	//{
 	//	GameEngineDirectory Dir;
@@ -1031,5 +1053,77 @@ void Overcooked::InputMake()
 		GameEngineInput::GetInst()->CreateKey("RightMouse", VK_RBUTTON);
 		GameEngineInput::GetInst()->CreateKey("FreeCameaOnOff", 'O');
 		GameEngineInput::GetInst()->CreateKey("Test0", VK_NUMPAD0);
+	}
+
+	if (false == GameEngineInput::GetInst()->IsKey("PlayerLeft"))
+	{
+		GameEngineInput::GetInst()->CreateKey("PlayerLeft", VK_LEFT);
+		GameEngineInput::GetInst()->CreateKey("PlayerRight", VK_RIGHT);
+		GameEngineInput::GetInst()->CreateKey("PlayerFront", VK_UP);
+		GameEngineInput::GetInst()->CreateKey("PlayerBack", VK_DOWN);
+		GameEngineInput::GetInst()->CreateKey("PlayerDash", 'X');
+		GameEngineInput::GetInst()->CreateKey("PlayerHold", VK_SPACE);
+		GameEngineInput::GetInst()->CreateKey("PlayerInteract", VK_CONTROL);
+
+		//GameEngineInput::GetInst()->CreateKey("PlayerSlice", VK_CONTROL);
+	}
+}
+
+void Overcooked::LoadStage(std::string_view _StageName)
+{
+	//GameEngineFBXMesh::LoadLevel("Level");
+	//if (_StageName.data() == "1-1")
+	{
+		{
+			GameEngineDirectory Dir;
+			Dir.MoveParentToExitsChildDirectory("ContentsResources");
+			Dir.Move("ContentsResources");
+			Dir.Move("Mesh");
+			Dir.Move("Object");
+			Dir.Move("StaticObject");
+			Dir.Move("CounterTop_NoEdge");
+
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_countertop_no_edge_01.fbx"));
+			std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+		}
+
+		{
+			GameEngineDirectory Dir;
+			Dir.MoveParentToExitsChildDirectory("ContentsResources");
+			Dir.Move("ContentsResources");
+			Dir.Move("Mesh");
+			Dir.Move("Object");
+			Dir.Move("StaticObject");
+			Dir.Move("Sink");
+
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_sink_01.fbx"));
+			std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+		}
+
+		{
+			GameEngineDirectory Dir;
+			Dir.MoveParentToExitsChildDirectory("ContentsResources");
+			Dir.Move("ContentsResources");
+			Dir.Move("Mesh");
+			Dir.Move("Object");
+			Dir.Move("StaticObject");
+			Dir.Move("TrashCan");
+
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_bin_01.fbx"));
+			std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+		}
+
+		{
+			GameEngineDirectory Dir;
+			Dir.MoveParentToExitsChildDirectory("ContentsResources");
+			Dir.Move("ContentsResources");
+			Dir.Move("Mesh");
+			Dir.Move("Object");
+			Dir.Move("StaticObject");
+			Dir.Move("Servicehatch");
+
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_dlc08_servicehatch_01.fbx"));
+			std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+		}
 	}
 }

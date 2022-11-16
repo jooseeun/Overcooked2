@@ -4,12 +4,18 @@
 #include "GlobalGameData.h"
 #include "OverCookedUIRenderer.h"
 
+#include "LoadingData.h"
 LoadingUIActor::LoadingUIActor()
 {
 }
 
 LoadingUIActor::~LoadingUIActor()
 {
+}
+
+void LoadingUIActor::StartLoad()
+{
+	LoadingData::GetFunc(GlobalGameData::GetCurStage().StageName)();
 }
 
 void LoadingUIActor::UIStart()
@@ -106,6 +112,13 @@ void LoadingUIActor::InitRenderer()
 
 void LoadingUIActor::UIUpdate(float _DeltaTime)
 {
+	//시간이 지나면 다음 레벨로 전이
+	AccTime_ += _DeltaTime;
+	if (AccTime_ > 1.f)
+	{
+		AccTime_ = 0.f;
+		GEngine::ChangeLevel(StageName_);
+	}
 	if (TransitionIcon_->IsFinishFadeIn_ == true)
 	{
 		TransitionIcon_->Off();

@@ -4,9 +4,10 @@
 
 #include "LoadingUIActor.h"
 
+#include "LoadingData.h"
+
 LoadingLevel::LoadingLevel()
 {
-
 }
 
 LoadingLevel::~LoadingLevel()
@@ -38,6 +39,9 @@ void LoadingLevel::LevelStartEvent()
 {
 	UIDebugGUI::Main_->On();
 	UIActor_->StartFadeIn();
+	UIActor_->StartLoad();
+
+	//LoadingData::GetFunc("1-1")();
 }
 
 void LoadingLevel::LevelEndEvent()
