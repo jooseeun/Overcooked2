@@ -99,19 +99,20 @@ void MeshSelectWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
                 {
                     std::string FileName = Textures[i].GetFileName();
                     std::string Ex = GameEngineString::ToUpperReturn(GameEnginePath::GetExtension(FileName));
-                    if (Ex == ".FBX")
+                    if (Ex == ".PNG")
                     {
-                        continue;
+                        if (GameEngineTexture::Find(Textures[i].GetFileName()) == nullptr)
+                        {
+                            AllMaterialTexture_.push_back(GameEngineTexture::Load(Textures[i].GetFullPath()));
+                        }
+                        else
+                        {
+                            AllMaterialTexture_.push_back(GameEngineTexture::Find(Textures[i].GetFileName()));
+                        }
                     }
 
-                    if (GameEngineTexture::Find(Textures[i].GetFileName()) == nullptr)
-                    {
-                        AllMaterialTexture_.push_back(GameEngineTexture::Load(Textures[i].GetFullPath()));
-                    }
-                    else
-                    {
-                        AllMaterialTexture_.push_back(GameEngineTexture::Find(Textures[i].GetFileName()));
-                    }
+
+
                 }
             }
 
