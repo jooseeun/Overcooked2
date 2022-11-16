@@ -256,7 +256,7 @@ void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 	else
 	{
-		PlayerIdleRenderer_->ChangeAnimation("Hold");
+		PlayerIdleRenderer_->ChangeAnimation("IdleHolding");
 		PlayerIdleRenderer_->GetTransform().SetLocalRotation({ 0,180,0 });
 		PlayerIdleRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
 	}
