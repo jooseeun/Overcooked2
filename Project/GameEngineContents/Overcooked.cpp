@@ -473,583 +473,583 @@ void Overcooked::LoadStage(std::string_view _StageName)
 
 void Overcooked::LoadCommonResource()
 {
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Chef");
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Chef");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("uuu.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("uuu.FBX"));
-	}
-	//Player Resource Animation 로드
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Player");
-		Dir.Move("AlienGreen");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("uuu.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("uuu.FBX"));
+	//}
+	////Player Resource Animation 로드
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Player");
+	//	Dir.Move("AlienGreen");
 
-		//{
-		//	GameEngineDirectory MeshDir = Dir;
-		//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_Wash.FBX"));
-		//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_Wash.FBX"));
-		//}
-		{
-			GameEngineDirectory MeshDir = Dir;
-			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_CarDeath.FBX"));
-			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_CarDeath.FBX"));
-		}
+	//	//{
+	//	//	GameEngineDirectory MeshDir = Dir;
+	//	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_Wash.FBX"));
+	//	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_Wash.FBX"));
+	//	//}
+	//	{
+	//		GameEngineDirectory MeshDir = Dir;
+	//		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_CarDeath.FBX"));
+	//		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_CarDeath.FBX"));
+	//	}
 
-		{
-			GameEngineDirectory MeshDir = Dir;
-			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_Chop.FBX"));
-			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_Chop.FBX"));
-		}
-		{
-			GameEngineDirectory MeshDir = Dir;
-			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_Death.FBX"));
-			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_Death.FBX"));
-		}
-		{
-			GameEngineDirectory MeshDir = Dir;
-			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_Drowning.FBX"));
-			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_Drowning.FBX"));
-		}
-		{
-			GameEngineDirectory MeshDir = Dir;
-			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_Fall.FBX"));
-			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_Fall.FBX"));
-		}
-		{
-			GameEngineDirectory MeshDir = Dir;
-			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_Idle.FBX"));
-			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_Idle.FBX"));
-		}
-		{
-			GameEngineDirectory MeshDir = Dir;
-			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_Idle2.FBX"));
-			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_Idle2.FBX"));
-		}
-		{
-			GameEngineDirectory MeshDir = Dir;
-			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_IdleHolding.FBX"));
-			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_IdleHolding.FBX"));
-		}
-		{
-			GameEngineDirectory MeshDir = Dir;
-			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_Slip.FBX"));
-			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_Slip.FBX"));
-		}
-		{
-			GameEngineDirectory MeshDir = Dir;
-			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_Stand.FBX"));
-			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_Stand.FBX"));
-		}
-		{
-			GameEngineDirectory MeshDir = Dir;
-			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_Throw.FBX"));
-			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_Throw.FBX"));
-		}
-		{
-			GameEngineDirectory MeshDir = Dir;
-			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_Walk.FBX"));
-			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_Walk.FBX"));
-		}
-		{
-			GameEngineDirectory MeshDir = Dir;
-			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_WalkHolding.FBX"));
-			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_WalkHolding.FBX"));
-		}
-		{
-			GameEngineDirectory MeshDir = Dir;
-			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_Wash.FBX"));
-			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_Wash.FBX"));
-		}
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("MoveNPC_Beard_Orange_01");
+	//	{
+	//		GameEngineDirectory MeshDir = Dir;
+	//		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_Chop.FBX"));
+	//		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_Chop.FBX"));
+	//	}
+	//	{
+	//		GameEngineDirectory MeshDir = Dir;
+	//		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_Death.FBX"));
+	//		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_Death.FBX"));
+	//	}
+	//	{
+	//		GameEngineDirectory MeshDir = Dir;
+	//		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_Drowning.FBX"));
+	//		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_Drowning.FBX"));
+	//	}
+	//	{
+	//		GameEngineDirectory MeshDir = Dir;
+	//		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_Fall.FBX"));
+	//		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_Fall.FBX"));
+	//	}
+	//	{
+	//		GameEngineDirectory MeshDir = Dir;
+	//		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_Idle.FBX"));
+	//		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_Idle.FBX"));
+	//	}
+	//	{
+	//		GameEngineDirectory MeshDir = Dir;
+	//		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_Idle2.FBX"));
+	//		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_Idle2.FBX"));
+	//	}
+	//	{
+	//		GameEngineDirectory MeshDir = Dir;
+	//		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_IdleHolding.FBX"));
+	//		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_IdleHolding.FBX"));
+	//	}
+	//	{
+	//		GameEngineDirectory MeshDir = Dir;
+	//		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_Slip.FBX"));
+	//		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_Slip.FBX"));
+	//	}
+	//	{
+	//		GameEngineDirectory MeshDir = Dir;
+	//		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_Stand.FBX"));
+	//		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_Stand.FBX"));
+	//	}
+	//	{
+	//		GameEngineDirectory MeshDir = Dir;
+	//		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_Throw.FBX"));
+	//		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_Throw.FBX"));
+	//	}
+	//	{
+	//		GameEngineDirectory MeshDir = Dir;
+	//		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_Walk.FBX"));
+	//		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_Walk.FBX"));
+	//	}
+	//	{
+	//		GameEngineDirectory MeshDir = Dir;
+	//		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_WalkHolding.FBX"));
+	//		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_WalkHolding.FBX"));
+	//	}
+	//	{
+	//		GameEngineDirectory MeshDir = Dir;
+	//		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("AlienGreen_Wash.FBX"));
+	//		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_Wash.FBX"));
+	//	}
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("MoveNPC_Beard_Orange_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("MoveNPC_Beard_Orange_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("MoveNPC_Beard_Orange_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("MoveNPC_Beard_Waiter_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("MoveNPC_Beard_Orange_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("MoveNPC_Beard_Orange_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("MoveNPC_Beard_Waiter_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("MoveNPC_Beard_Waiter_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("MoveNPC_Beard_Waiter_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("MoveNPC_Dora_Civ_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("MoveNPC_Beard_Waiter_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("MoveNPC_Beard_Waiter_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("MoveNPC_Dora_Civ_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("MoveNPC_Dora_Civ_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("MoveNPC_Dora_Civ_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("MoveNPC_Hispanic_Yellow_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("MoveNPC_Dora_Civ_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("MoveNPC_Dora_Civ_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("MoveNPC_Hispanic_Yellow_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("MoveNPC_Hispanic_Yellow_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("MoveNPC_Hispanic_Yellow_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("MoveNPC_Mike_Civ_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("MoveNPC_Hispanic_Yellow_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("MoveNPC_Hispanic_Yellow_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("MoveNPC_Mike_Civ_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("MoveNPC_Mike_Civ_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("MoveNPC_Mike_Civ_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("NPC_Asian_Blue_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("MoveNPC_Mike_Civ_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("MoveNPC_Mike_Civ_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("NPC_Asian_Blue_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Asian_Blue_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Asian_Blue_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("NPC_Beard_Green_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Asian_Blue_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Asian_Blue_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("NPC_Beard_Green_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Beard_Green_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Beard_Green_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("NPC_Beard_Waiter_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Beard_Green_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Beard_Green_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("NPC_Beard_Waiter_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Beard_Waiter_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Beard_Waiter_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("NPC_Beard_Yellow_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Beard_Waiter_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Beard_Waiter_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("NPC_Beard_Yellow_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Beard_Yellow_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Beard_Yellow_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("NPC_Dora_Civ_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Beard_Yellow_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Beard_Yellow_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("NPC_Dora_Civ_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Dora_Civ_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Dora_Civ_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("NPC_Dora_Orange_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Dora_Civ_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Dora_Civ_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("NPC_Dora_Orange_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Dora_Orange_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Dora_Orange_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("NPC_Dora_Wizard_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Dora_Orange_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Dora_Orange_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("NPC_Dora_Wizard_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Dora_Wizard_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Dora_Wizard_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("NPC_DoraBlonde_Blue_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Dora_Wizard_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Dora_Wizard_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("NPC_DoraBlonde_Blue_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_DoraBlonde_Blue_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_DoraBlonde_Blue_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("NPC_DoraBlonde_Green_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_DoraBlonde_Blue_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_DoraBlonde_Blue_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("NPC_DoraBlonde_Green_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_DoraBlonde_Green_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_DoraBlonde_Green_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("NPC_DoraBlonde_Orange_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_DoraBlonde_Green_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_DoraBlonde_Green_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("NPC_DoraBlonde_Orange_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_DoraBlonde_Orange_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_DoraBlonde_Orange_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("NPC_DoraBlonde_Wizard_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_DoraBlonde_Orange_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_DoraBlonde_Orange_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("NPC_DoraBlonde_Wizard_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_DoraBlonde_Wizard_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_DoraBlonde_Wizard_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("NPC_DoraBlonde_Yellow_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_DoraBlonde_Wizard_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_DoraBlonde_Wizard_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("NPC_DoraBlonde_Yellow_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_DoraBlonde_Yellow_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_DoraBlonde_Yellow_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("NPC_Ginger_Blue_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_DoraBlonde_Yellow_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_DoraBlonde_Yellow_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("NPC_Ginger_Blue_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Ginger_Blue_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Ginger_Blue_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("NPC_Ginger_Green_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Ginger_Blue_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Ginger_Blue_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("NPC_Ginger_Green_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Ginger_Green_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Ginger_Green_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("NPC_Hispanic_Brown_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Ginger_Green_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Ginger_Green_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("NPC_Hispanic_Brown_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Hispanic_Brown_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Hispanic_Brown_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("NPC_Hispanic_Orange_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Hispanic_Brown_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Hispanic_Brown_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("NPC_Hispanic_Orange_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Hispanic_Orange_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Hispanic_Orange_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("NPC_Hispanic_Wizard_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Hispanic_Orange_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Hispanic_Orange_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("NPC_Hispanic_Wizard_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Hispanic_Wizard_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Hispanic_Wizard_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("NPC_MiddleEastern_Waiter_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Hispanic_Wizard_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Hispanic_Wizard_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("NPC_MiddleEastern_Waiter_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_MiddleEastern_Waiter_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_MiddleEastern_Waiter_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("NPC_MiddleEatern_Green_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_MiddleEastern_Waiter_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_MiddleEastern_Waiter_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("NPC_MiddleEatern_Green_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_MiddleEatern_Green_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_MiddleEatern_Green_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("NPC_MiddleEatern_Orange_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_MiddleEatern_Green_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_MiddleEatern_Green_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("NPC_MiddleEatern_Orange_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_MiddleEatern_Orange_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_MiddleEatern_Orange_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("NPC_MiddleEatern_Wizard_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_MiddleEatern_Orange_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_MiddleEatern_Orange_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("NPC_MiddleEatern_Wizard_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_MiddleEatern_Wizard_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_MiddleEatern_Wizard_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("NPC_Mike_Blue_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_MiddleEatern_Wizard_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_MiddleEatern_Wizard_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("NPC_Mike_Blue_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Mike_Blue_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Mike_Blue_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("NPC_Mike_Wizard_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Mike_Blue_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Mike_Blue_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("NPC_Mike_Wizard_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Mike_Wizard_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Mike_Wizard_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("NPC_Mike_Yellow_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Mike_Wizard_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Mike_Wizard_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("NPC_Mike_Yellow_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Mike_Yellow_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Mike_Yellow_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("NPC_Beard_Brown_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Mike_Yellow_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Mike_Yellow_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("NPC_Beard_Brown_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Beard_Brown_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Beard_Brown_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("NPC_Mike_Brown_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Beard_Brown_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Beard_Brown_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("NPC_Mike_Brown_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Mike_Brown_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Mike_Brown_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Npc");
-		Dir.Move("NPC_WizBoy_Blue_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_Mike_Brown_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_Mike_Brown_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Npc");
+	//	Dir.Move("NPC_WizBoy_Blue_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_WizBoy_Blue_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_WizBoy_Blue_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Etc");
-		Dir.Move("Candle1Position");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_WizBoy_Blue_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_WizBoy_Blue_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Etc");
+	//	Dir.Move("Candle1Position");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Candle1Position.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Candle1Position.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Etc");
-		Dir.Move("Candle2Position");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Candle1Position.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Candle1Position.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Etc");
+	//	Dir.Move("Candle2Position");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Candle2Position.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Candle2Position.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Etc");
-		Dir.Move("Candle3Position");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Candle2Position.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Candle2Position.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Etc");
+	//	Dir.Move("Candle3Position");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Candle3Position.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Candle3Position.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Etc");
-		Dir.Move("m_kevin_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Candle3Position.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Candle3Position.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Etc");
+	//	Dir.Move("m_kevin_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("m_kevin_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("m_kevin_01.FBX"));
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("Etc");
-		Dir.Move("m_city_pigeon_01");
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("m_kevin_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("m_kevin_01.FBX"));
+	//}
+	//{
+	//	GameEngineDirectory Dir;
+	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//	Dir.Move("ContentsResources");
+	//	Dir.Move("Mesh");
+	//	Dir.Move("Object");
+	//	Dir.Move("Etc");
+	//	Dir.Move("m_city_pigeon_01");
 
-		GameEngineDirectory MeshDir = Dir;
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("m_city_pigeon_01.FBX"));
-		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("m_city_pigeon_01.FBX"));
-	}
+	//	GameEngineDirectory MeshDir = Dir;
+	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("m_city_pigeon_01.FBX"));
+	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("m_city_pigeon_01.FBX"));
+	//}
 }
