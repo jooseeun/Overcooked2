@@ -27,22 +27,22 @@ void GamePlayTool::Update(float _DeltaTime)
 	if (Moveable_Current_ != nullptr)
 	{
 		if (InteractOption_Current_ == AutoOption::Auto)
-		{+
+		{
 			Input_ActionToAuto_Update(Moveable_Current_, _DeltaTime);
 		}
 
 		if (Moveable_Current_->GetCookingTime() >= EndCookingTime_)
 		{
-			Input_Action_End(Moveable_Current_);
+			//Input_Action_End(Moveable_Current_);
 		}
 	}
 }
 
 
-//void GamePlayTool::Input_ActionToAuto_Update(std::shared_ptr<GamePlayMoveable> _Moveable, float _DeltaTime)
-//{
-//	_Moveable->PlusCookingTime(_DeltaTime);
-//}
+void GamePlayTool::Input_ActionToAuto_Update(std::weak_ptr<GamePlayMoveable> _Moveable, float _DeltaTime)
+{
+	//_Moveable->PlusCookingTime(_DeltaTime);
+}
 
 Input_PickUpOption GamePlayTool::Input_PickUp(std::shared_ptr<GamePlayMoveable> _Object)
 {
