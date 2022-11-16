@@ -77,7 +77,6 @@ private:
 	bool IsUnSort_;
 	bool IsSort_;
 
-	bool IsUnSortLoad_;
-	bool IsCandle_;
+	bool IsCandleCheckBox_;
 };
 

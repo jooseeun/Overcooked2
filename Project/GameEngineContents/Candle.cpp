@@ -40,5 +40,17 @@ void Candle::Update(float _DeltaTime)
 
 void Candle::SetCandleTypeIndex(float4 TypeIndex)
 {
-	
+	CandleTypeIndex_ = TypeIndex.x;
+	if (TypeIndex.x == 0)
+	{
+		CandleType_ = CandleType::Middle;
+	}
+	else if (TypeIndex.x == 1)
+	{
+		CandleType_ = CandleType::Left;
+	}
+	else if (TypeIndex.x == 2)
+	{
+		CandleType_ = CandleType::Right;
+	}
 }

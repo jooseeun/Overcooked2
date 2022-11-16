@@ -38,8 +38,7 @@ MapEditorWindow::MapEditorWindow()
 	, IsUnSort_(false)
 	, IsSort_(false)
 	, LevelIndex_(0)
-	, IsUnSortLoad_(false)
-	, IsCandle_(false)
+	, IsCandleCheckBox_(false)
 {
 
 }
@@ -321,7 +320,6 @@ void MapEditorWindow::UnSortToolTab()
 	auto CandleMoveType = magic_enum::enum_names<CandleType>();
 	const int CandleSize = CandleMoveType.size();
 	static bool IsCheckCandle[CandleSize] = { false };
-	static CandleType CandleTypes = CandleType::Max;
 
 	if (true == ImGui::Button("Clear")
 		&& false == UnSortActorList_.empty())
@@ -379,6 +377,8 @@ void MapEditorWindow::UnSortToolTab()
 	ImGui::EndChild();
 	ImGui::EndTabItem();
 
+	ImGui::BeginChild("MapObjType", ImVec2(250, 230), true);
+
 	for (size_t i = 0; i < RendererType.size(); ++i)
 	{
 		if (i <= 10)
@@ -412,12 +412,17 @@ void MapEditorWindow::UnSortToolTab()
 		}
 	}
 
+	ImGui::EndChild();
+	ImGui::SameLine();
+	ImGui::BeginChild("CandleType", ImVec2(250, 250), true);
+
+
 
 	for (size_t i = 0; i < CandleMoveType.size(); ++i)
 	{
 		CandleType Type = static_cast<CandleType>(i);
 
-		if (CandleType::Max != CandleTypes)
+		if (CandleType::Max != Type)
 		{
 			// 체크 상황 계속 확인중
 			ImGui::Checkbox(CandleMoveType[i].data(), &IsCheckCandle[i]);

@@ -25,6 +25,11 @@ public:
 	Candle& operator=(Candle&& _Other) noexcept = delete;
 
 public:
+	inline int GetCandleTypeIndex()
+	{
+		return CandleTypeIndex_;
+	}
+
 	inline CandleType GetCandleType()
 	{
 		return CandleType_;
@@ -38,5 +43,6 @@ protected:
 
 private:
 	CandleType CandleType_;
+	int CandleTypeIndex_;
 };
 
