@@ -25,4 +25,5 @@ private:
 	void InputMake();
 
 	void LoadStage(std::string_view _StageName);
+	void LoadCommonResource();
 };

@@ -56,4 +56,7 @@ private:
 
 	//Time
 	float AccTime_ = 0.f;
+
+	//bool
+	bool IsLoadFirst_ = true;//최초의 로딩
 };

@@ -15,6 +15,13 @@ LoadingUIActor::~LoadingUIActor()
 
 void LoadingUIActor::StartLoad()
 {
+	if (IsLoadFirst_ == true)
+	{
+		IsLoadFirst_ = false;
+		LoadingData::GetFunc("FirstLoad")();
+		LoadingData::GetFunc(GlobalGameData::GetCurStage().StageName)();
+		return;
+	}
 	LoadingData::GetFunc(GlobalGameData::GetCurStage().StageName)();
 }
 
