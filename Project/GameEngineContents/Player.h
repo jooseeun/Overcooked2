@@ -106,9 +106,15 @@ private:
 
 	void Collision_AroundObject();
 
+	void IdleRendererON();
+	void WalkRendererON();
+	void ChopRendererON();
+	void WashRendererON();
 
-
-	std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerRenderer_;
+	std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerIdleRenderer_;
+	std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerWalkRenderer_;
+	std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerChopRenderer_;
+	std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerWashRenderer_;
 	std::shared_ptr<GameEngineCollision> PlayerFloorCollision_;
 	std::shared_ptr<GameEngineCollision> PlayerForwardCollision_;
 	std::shared_ptr<GameEngineCollision> PlayerForwardLeftCollision_;

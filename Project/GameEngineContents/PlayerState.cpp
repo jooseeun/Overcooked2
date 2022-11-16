@@ -6,6 +6,11 @@
 
 void Player::IdleStart(const StateInfo& _Info)
 {
+	IdleRendererON();		
+	PlayerIdleRenderer_->ChangeAnimation("Idle");
+	PlayerIdleRenderer_->GetTransform().SetLocalRotation({ 0,180,0 });
+	PlayerIdleRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
+
 	Speed_ = 400.0f;
 }
 void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -57,7 +62,7 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::MoveStart(const StateInfo& _Info)
 {
-
+	WalkRendererON();
 }
 void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 {
@@ -106,9 +111,13 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 void Player::ThrowStart(const StateInfo& _Info)
 {
 
+	IdleRendererON();
 }
 void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	PlayerIdleRenderer_->ChangeAnimation("Throw");
+	PlayerIdleRenderer_->GetTransform().SetLocalRotation({ 0,180,0 });
+	PlayerIdleRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
 
 	if (false == GameEngineInput::GetInst()->IsPressKey("PlayerThrow"))
 	{
@@ -171,7 +180,10 @@ void Player::HoldStart(const StateInfo& _Info)
 		StateManager.ChangeState("Idle");
 		return;
 	}
-
+	IdleRendererON();
+	PlayerIdleRenderer_->ChangeAnimation("IdleHolding");
+	PlayerIdleRenderer_->GetTransform().SetLocalRotation({ 0,180,0 });
+	PlayerIdleRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
 }
 void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 {
@@ -209,6 +221,9 @@ void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 		true == GameEngineInput::GetInst()->IsPressKey("PlayerFront") ||
 		true == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
 	{
+		PlayerIdleRenderer_->ChangeAnimation("WalkHolding");
+		PlayerIdleRenderer_->GetTransform().SetLocalRotation({ 0,180,0 });
+		PlayerIdleRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
 		PlayerDirCheck();
 
 		if (MoveAngle() == true)
@@ -239,12 +254,18 @@ void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 			}
 		}
 	}
+	else
+	{
+		PlayerIdleRenderer_->ChangeAnimation("Hold");
+		PlayerIdleRenderer_->GetTransform().SetLocalRotation({ 0,180,0 });
+		PlayerIdleRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
+	}
 
 }
 
 void Player::SliceStart(const StateInfo& _Info) // 자르는 도중 이동하면 취소됨
 {
-
+	ChopRendererON();
 }
 void Player::SliceUpdate(float _DeltaTime, const StateInfo& _Info)
 {

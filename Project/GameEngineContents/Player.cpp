@@ -13,7 +13,10 @@ Player::Player()
 	, PlayerRightCollision_(nullptr)
 	, PlayerForwardCollision_(nullptr)
 	, PlayerBackCollision_(nullptr)
-	, PlayerRenderer_(nullptr)
+	, PlayerIdleRenderer_(nullptr)
+	, PlayerWalkRenderer_(nullptr)
+	, PlayerChopRenderer_(nullptr)
+	, PlayerWashRenderer_(nullptr)
 	, StateManager()
 	, CurrentHoldingObject_(nullptr)
 	, Collision_Interact_(nullptr)
@@ -73,19 +76,53 @@ void Player::Start()
 
 
 	{
-		PlayerRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();
-		PlayerRenderer_->SetFBXMesh("AlienGreen_Idle.FBX", "TextureAnimation");
+		PlayerIdleRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();
+		PlayerIdleRenderer_->SetFBXMesh("AlienGreen_Idle.FBX", "TextureAnimation");
 
-		PlayerRenderer_->CreateFBXAnimation("Idle", "AlienGreen_Idle.FBX");
-		PlayerRenderer_->CreateFBXAnimation("Walk", "AlienGreen_Walk.FBX");
-		PlayerRenderer_->CreateFBXAnimation("WalkHolding", "AlienGreen_WalkHolding.FBX");
+		PlayerIdleRenderer_->CreateFBXAnimation("Idle", "AlienGreen_Idle.FBX"); //o
+		PlayerIdleRenderer_->CreateFBXAnimation("Idle2", "AlienGreen_Idle2.FBX"); //o
+		PlayerIdleRenderer_->CreateFBXAnimation("WalkHolding", "AlienGreen_WalkHolding.FBX"); //o
+		PlayerIdleRenderer_->CreateFBXAnimation("CarDeath", "AlienGreen_CarDeath.FBX");//o
+		PlayerIdleRenderer_->CreateFBXAnimation("Death", "AlienGreen_Death.FBX"); //o
+		PlayerIdleRenderer_->CreateFBXAnimation("Drowning", "AlienGreen_Drowning.FBX"); //o
+		PlayerIdleRenderer_->CreateFBXAnimation("Fall", "AlienGreen_Fall.FBX"); //o
+		PlayerIdleRenderer_->CreateFBXAnimation("IdleHolding", "AlienGreen_IdleHolding.FBX"); //o
+		PlayerIdleRenderer_->CreateFBXAnimation("Slip", "AlienGreen_Slip.FBX");//o
+		PlayerIdleRenderer_->CreateFBXAnimation("Stand", "AlienGreen_Stand.FBX");//o
+		PlayerIdleRenderer_->CreateFBXAnimation("Throw", "AlienGreen_Throw.FBX");//o
 
 
+		PlayerIdleRenderer_->ChangeAnimation("Idle");
+		PlayerIdleRenderer_->GetTransform().SetLocalRotation({ 0,180,0 });
+		PlayerIdleRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
 
-		PlayerRenderer_->ChangeAnimation("WalkHolding");
-		PlayerRenderer_->GetTransform().SetLocalRotation({ 0,180,0 });
-		PlayerRenderer_->GetTransform().SetLocalPosition({ -7.26,0.085,7.12 });
-		PlayerRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
+		PlayerWalkRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();
+		PlayerWalkRenderer_->SetFBXMesh("AlienGreen_Walk.FBX", "TextureAnimation");
+		PlayerWalkRenderer_->CreateFBXAnimation("Walk", "AlienGreen_Walk.FBX"); // Idle 호환 x
+		PlayerWalkRenderer_->ChangeAnimation("Walk");
+		PlayerWalkRenderer_->GetTransform().SetLocalRotation({ 90,180,0 });
+		PlayerWalkRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
+
+	// 잘 안됨
+		//PlayerWashRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();
+		//PlayerWashRenderer_->SetFBXMesh("AlienGreen_Wash.FBX", "TextureAnimation");
+		//PlayerWashRenderer_->CreateFBXAnimation("Wash", "AlienGreen_Wash.FBX"); // Idle 호환 x
+		//PlayerWashRenderer_->ChangeAnimation("Wash");
+		//PlayerWashRenderer_->GetTransform().SetLocalRotation({ 90,180,0 });
+		//PlayerWashRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
+		//PlayerWashRenderer_->Off();
+
+		PlayerChopRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();
+		PlayerChopRenderer_->SetFBXMesh("AlienGreen_Chop.FBX", "TextureAnimation");
+		PlayerChopRenderer_->CreateFBXAnimation("Chop", "AlienGreen_Chop.FBX"); // Idle 호환 x
+		PlayerChopRenderer_->ChangeAnimation("Chop");
+		PlayerChopRenderer_->GetTransform().SetLocalRotation({ 90,180,0 });
+		PlayerChopRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
+
+		PlayerIdleRenderer_->Off();
+		PlayerWalkRenderer_->Off();
+		PlayerChopRenderer_->Off();
+
 	}
 
 	{
@@ -180,12 +217,40 @@ void Player::Start()
 
 
 }
+void Player::IdleRendererON()
+{
+	PlayerIdleRenderer_->On();
+	PlayerWalkRenderer_->Off();
+	PlayerChopRenderer_->Off();
+	//PlayerWashRenderer_->Off();
+}
+void Player::WalkRendererON()
+{
+	PlayerIdleRenderer_->Off();
+	PlayerWalkRenderer_->On();
+	PlayerChopRenderer_->Off();
+	//PlayerWashRenderer_->Off();
+}
+void Player::ChopRendererON()
+{
+	PlayerIdleRenderer_->Off();
+	PlayerWalkRenderer_->Off();
+	PlayerChopRenderer_->On();
+	//PlayerWashRenderer_->Off();
+}
+void Player::WashRendererON()
+{
+	PlayerIdleRenderer_->Off();
+	PlayerWalkRenderer_->Off();
+	PlayerChopRenderer_->Off();
+	//PlayerWashRenderer_->Off();
+}
 
 void  Player::LevelStartEvent()
 {
-	if (PlayerRenderer_ != nullptr)
+	if (PlayerIdleRenderer_ != nullptr)
 	{
-		PlayerRenderer_->ChangeLoadMaterial();
+		PlayerIdleRenderer_->ChangeLoadMaterial();
 
 	}
 }
@@ -542,11 +607,19 @@ void Player::Collision_AroundObject()
 	if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Moveable, CollisionType::CT_OBB,
 		std::bind(&Player::GetCrashGroundObject, this, std::placeholders::_1, std::placeholders::_2)) == false)
 	{
+		if (Interact_GroundObject_ != nullptr)
+		{
+			Interact_GroundObject_->SetBloomEffectOff();
+		}
 		Interact_GroundObject_ = nullptr;
 	}
 	if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 		std::bind(&Player::GetCrashTableObject, this, std::placeholders::_1, std::placeholders::_2)) == false)
 	{
+		if (Interact_TableObject_ != nullptr)
+		{
+			Interact_TableObject_->SetBloomEffectOff();
+		}
 		Interact_TableObject_ = nullptr;
 	}
 ;
@@ -740,7 +813,7 @@ CollisionReturn Player::GetCrashGroundObject(std::shared_ptr<GameEngineCollision
 	}
 
 	Interact_GroundObject_ = _Other->GetActor<GamePlayMoveable>();
-	if (Interact_TableObject_ == nullptr) // 임시코드
+	if (Interact_GroundObject_ == nullptr) // 임시코드
 	{
 		return CollisionReturn::Break;
 	}
