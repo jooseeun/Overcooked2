@@ -23,6 +23,8 @@
 #include "TrafficLight.h"
 #include "Candle.h"
 
+#include "LoadingData.h"
+
 namespace
 {
 	//static mesh 간 간격 상수화
@@ -50,7 +52,7 @@ MapEditorWindow::~MapEditorWindow()
 
 void MapEditorWindow::Initialize(GameEngineLevel* _Level)
 {
-
+	
 }
 
 void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
@@ -287,6 +289,7 @@ void MapEditorWindow::ShowLevelSelectTable()
 				}
 
 				LevelActor_ = CurLevel_->CreateActor<LevelActor>();
+				LoadingData::GetFunc("1-" + std::to_string(LevelIndex_ + 1))();
 
 				switch (LevelIndex_)
 				{
