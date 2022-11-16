@@ -81,9 +81,9 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (MoveAngle() == true)
 	{
 		// 플레이어 벽 출돌 체크
-		if (PlayerForwardCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Map_Object, CollisionType::CT_AABB,
+		if (PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB,
 			std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false &&
-			PlayerForwardCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Object_StaticObject, CollisionType::CT_AABB,
+			PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 				std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
 		{
 			GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * _DeltaTime);
@@ -97,9 +97,9 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	else
 	{
-		if (PlayerForwardCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Map_Object, CollisionType::CT_AABB,
+		if (PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB,
 			std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false &&
-			PlayerForwardCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Object_StaticObject, CollisionType::CT_AABB,
+			PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 				std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
 		{
 			GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * 0.5f * _DeltaTime);
@@ -138,11 +138,11 @@ void Player::HoldStart(const StateInfo& _Info)
 	{
 		if (Interact_GroundObject_ != nullptr)
 		{
-			if (Interact_GroundObject_->Input_PickUp(std::dynamic_pointer_cast<Player>(shared_from_this())) == Input_PickUpOption::PickUp) //상호작용가능한 땅의 오브젝트가 집을 수 있는것일때
-			{
-				CurrentHoldingObject_->DetachObject();
+			if (Input_PickUp(Interact_GroundObject_) == Input_PickUpOption::PickUp) //상호작용가능한 땅의 오브젝트가 집을 수 있는것일때
+			//if (Interact_GroundObject_->Input_PickUp(std::dynamic_pointer_cast<Player>(shared_from_this())) == Input_PickUpOption::PickUp) //상호작용가능한 땅의 오브젝트가 집을 수 있는것일때
+			{ // 바닥에 있는 오브젝트는 부모가 없으므로 SetParent만 해도됨
 				CurrentHoldingObject_->SetParent(shared_from_this());
-				CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,50,-80 });
+				CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,50,-60 });
 				return;
 			}
 
@@ -158,7 +158,7 @@ void Player::HoldStart(const StateInfo& _Info)
 				}
 				CurrentHoldingObject_->DetachObject();
 				CurrentHoldingObject_->SetParent(shared_from_this());
-				CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,50,-80 });
+				CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,50,-60 });
 				return;
 			}
 			else
@@ -208,8 +208,14 @@ void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 		{
 			FireOff_ = false;
 		}
-		Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
-			std::bind(&Player::PutUpObjectTable, this, std::placeholders::_1, std::placeholders::_2));
+		if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
+			std::bind(&Player::PutUpObjectTable, this, std::placeholders::_1, std::placeholders::_2)) == false)
+		{
+			CurrentHoldingObject_->GetCollisionObject()->On();
+			CurrentHoldingObject_->DetachObject();
+			CurrentHoldingObject_ = nullptr;
+		}
+
 		StateManager.ChangeState("Idle");
 		return;
 	}
@@ -266,16 +272,18 @@ void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 void Player::SliceStart(const StateInfo& _Info) // 자르는 도중 이동하면 취소됨
 {
 	ChopRendererON();
+	
 }
 void Player::SliceUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	if (false == GameEngineInput::GetInst()->IsPressKey("PlayerLeft") &&
-		false == GameEngineInput::GetInst()->IsPressKey("PlayerRight") &&
-		false == GameEngineInput::GetInst()->IsPressKey("PlayerFront") &&
-		false == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
+
+	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft") ||
+		true == GameEngineInput::GetInst()->IsPressKey("PlayerRight") ||
+		true == GameEngineInput::GetInst()->IsPressKey("PlayerFront") ||
+		true == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
 	{
 
-		StateManager.ChangeState("Idle");
+		StateManager.ChangeState("Move");
 		return;
 	}
 }
