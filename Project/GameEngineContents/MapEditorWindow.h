@@ -70,7 +70,6 @@ private:
 	float4 CollisionScale_;
 
 	std::string ObjectName_;
-	int Index_;
 
 	std::vector<std::string> AllUnSortActorName_;
 

@@ -86,6 +86,11 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				TmpData.Scale_ = UnSortActorList_[i].lock()->GetCollisionObject()->GetTransform().GetWorldScale();
 				TmpData.Rot_ = UnSortActorList_[i].lock()->GetTransform().GetWorldRotation();
 				TmpData.MapObjType_ = UnSortActorList_[i].lock()->GetMapObjType();
+				if (UnSortActorList_[i].lock()->GetMapObjType() == MapObjType::Candle)
+				{
+					std::weak_ptr<Candle> Object = std::dynamic_pointer_cast<Candle>(UnSortActorList_[i].lock());
+					TmpData.Index_.x = (float)Object.lock()->GetCandleTypeIndex();
+				}
 				
 				GlobalIOManager::AddMapData(TmpData);
 			}
@@ -318,7 +323,7 @@ void MapEditorWindow::UnSortToolTab()
 	static int SelectIndex = 0;
 	static int CandleTypeIndex = 0;
 	auto CandleMoveType = magic_enum::enum_names<CandleType>();
-	const int CandleSize = CandleMoveType.size();
+	const size_t CandleSize = CandleMoveType.size();
 	static bool IsCheckCandle[CandleSize] = { false };
 
 	if (true == ImGui::Button("Clear")
@@ -359,7 +364,7 @@ void MapEditorWindow::UnSortToolTab()
 
 
 	auto RendererType = magic_enum::enum_names<MapObjType>();
-	const int Size = RendererType.size();
+	const size_t Size = RendererType.size();
 	static bool IsCheckType[Size] = { false };
 	static MapObjType ObjectTypeIndex = MapObjType::Max;
 
@@ -392,6 +397,15 @@ void MapEditorWindow::UnSortToolTab()
 		{
 			// 체크 상황 계속 확인중
 			ImGui::Checkbox(RendererType[i].data(), &IsCheckType[i]);
+
+			if (Type == MapObjType::Candle && true == IsCheckType[i])
+			{
+				IsCandleCheckBox_ = true;
+			}
+			else if(Type != MapObjType::Candle && true == IsCheckType[i])
+			{
+				IsCandleCheckBox_ = false;
+			}
 		}
 	}
 
@@ -413,21 +427,37 @@ void MapEditorWindow::UnSortToolTab()
 	}
 
 	ImGui::EndChild();
-	ImGui::SameLine();
-	ImGui::BeginChild("CandleType", ImVec2(250, 250), true);
 
 
 
-	for (size_t i = 0; i < CandleMoveType.size(); ++i)
+	if (true == IsCandleCheckBox_)
 	{
-		CandleType Type = static_cast<CandleType>(i);
+		ImGui::SameLine();
+		ImGui::BeginChild("CandleType", ImVec2(250, 250), true);
 
-		if (CandleType::Max != Type)
+		for (size_t i = 0; i < CandleMoveType.size(); ++i)
 		{
-			// 체크 상황 계속 확인중
-			ImGui::Checkbox(CandleMoveType[i].data(), &IsCheckCandle[i]);
+			CandleType Type = static_cast<CandleType>(i);
+
+			if (CandleType::Max != Type)
+			{
+				// 체크 상황 계속 확인중
+				ImGui::Checkbox(CandleMoveType[i].data(), &IsCheckCandle[i]);
+			}
+			if (false != IsCheckCandle[i])
+			{
+				CandleTypeIndex = (int)i;
+			}
 		}
+
+		//for (size_t i = 0; i < CandleMoveType.size(); i++)
+		//{
+		//
+		//}
+
+		ImGui::EndChild();
 	}
+
 
 	// 오브젝트 생성 
 	if (true == ImGui::Button("Create"))
@@ -600,7 +630,7 @@ void MapEditorWindow::SortToolTab()
 
 	auto ToolNames = magic_enum::enum_names<ToolInfo>();
 
-	const int Size = ToolNames.size();
+	const size_t Size = ToolNames.size();
 	static bool IsChecks_[Size] = { false };
 
 	for (int i = 0; i < Origins_.size(); ++i)

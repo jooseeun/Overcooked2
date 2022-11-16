@@ -84,7 +84,7 @@ std::vector<std::weak_ptr<GamePlayMapObject>>& MapDataParser::UnSortMapDataParsi
 			Object.lock()->SetMapObjectMesh(_Data[i].ObjName_, _Data[i].MapObjType_);
 			Object.lock()->SetMapObjType(_Data[i].MapObjType_);
 			Object.lock()->SetName(_Data[i].ObjName_);
-			Object.lock()->SetCandleTypeIndex(_Data[i].Index_.x);
+			Object.lock()->SetCandleTypeIndex((int)_Data[i].Index_.x);
 			
 			UnSortActorList_.push_back(Object);
 		}

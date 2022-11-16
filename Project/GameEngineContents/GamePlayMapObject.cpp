@@ -2,6 +2,7 @@
 #include "GamePlayMapObject.h"
 
 GamePlayMapObject::GamePlayMapObject()
+	: ObjType_(MapObjType::Max)
 {
 }
 

@@ -2,6 +2,8 @@
 #include "Candle.h"
 
 Candle::Candle() 
+	: CandleType_(CandleType::Max)
+	, CandleTypeIndex_(0)
 {
 }
 
@@ -38,18 +40,18 @@ void Candle::Update(float _DeltaTime)
 	}
 }
 
-void Candle::SetCandleTypeIndex(float4 TypeIndex)
+void Candle::SetCandleTypeIndex(int _TypeIndex)
 {
-	CandleTypeIndex_ = TypeIndex.x;
-	if (TypeIndex.x == 0)
+	CandleTypeIndex_ = _TypeIndex;
+	if (CandleTypeIndex_ == 0)
 	{
 		CandleType_ = CandleType::Middle;
 	}
-	else if (TypeIndex.x == 1)
+	else if (CandleTypeIndex_ == 1)
 	{
 		CandleType_ = CandleType::Left;
 	}
-	else if (TypeIndex.x == 2)
+	else if (CandleTypeIndex_ == 2)
 	{
 		CandleType_ = CandleType::Right;
 	}

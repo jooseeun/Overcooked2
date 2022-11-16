@@ -35,7 +35,7 @@ public:
 		return CandleType_;
 	}
 
-	void SetCandleTypeIndex(float4 TypeIndex);
+	void SetCandleTypeIndex(int _TypeIndex);
 
 protected:
 	void Start() override;
