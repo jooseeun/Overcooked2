@@ -27,7 +27,11 @@ std::vector<std::weak_ptr<GameEngineFBXMesh>> GameEngineFBXMesh::LoadLevel(const
 	std::vector<GameEngineFile> AllFiles = Dir.GetAllFileRecursion(".FBX");
 	for (size_t i = 0; i < AllFiles.size(); i++)
 	{
+
 		Result.push_back(Load(AllFiles[i].GetFullPath()));
+		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(AllFiles[i].GetFullPath());
+		//std::vector<FbxExMeshInfo> Info = Result.back().lock()->GetMeshInfos();
+
 	}
 
 	return Result;

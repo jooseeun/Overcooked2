@@ -14,6 +14,13 @@ GameEngineFBXAnimation::~GameEngineFBXAnimation()
 
 std::shared_ptr<GameEngineFBXAnimation> GameEngineFBXAnimation::Load(const std::string& _Path, const std::string& _Name)
 {
+	std::shared_ptr<GameEngineFBXAnimation> FindRes = Find(_Name);
+	if (nullptr != FindRes)
+	{
+		FindRes->SetPath(_Path);
+		return FindRes;
+	}
+
 	std::shared_ptr<GameEngineFBXAnimation> NewRes = CreateResName(_Name);
 	NewRes->SetPath(_Path);
 	NewRes->LoadMesh(_Path, _Name);

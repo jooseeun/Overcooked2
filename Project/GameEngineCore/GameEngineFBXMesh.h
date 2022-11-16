@@ -7,6 +7,7 @@
 #include "GameEngineTexture.h"
 #include "GameEngineMesh.h"
 #include "GameEngineStructuredBuffer.h"
+#include "GameEngineFBXAnimation.h"
 #include <map>
 	
 class FbxExIW
@@ -584,6 +585,8 @@ public:
 
 			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath(_Paths[i].data()));
 			std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+
+
 
 			ResultVec.push_back(Mesh);
 		}

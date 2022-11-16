@@ -986,7 +986,7 @@ void Overcooked::LoadCommonResource()
 		GameEngineDirectory MeshDir = Dir;
 		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("NPC_WizBoy_Blue_01.FBX"));
 		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("NPC_WizBoy_Blue_01.FBX"));
-	}
+	}*/
 	{
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExitsChildDirectory("ContentsResources");
