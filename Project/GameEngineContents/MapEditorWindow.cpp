@@ -10,6 +10,7 @@
 #include "Cooker.h"
 #include "Sink.h"
 #include "PlateReturn.h"
+#include "FoodBox.h"
 
 #include "Equipment_Plate.h"
 #include "Equipment_FireExtinguisher.h"
@@ -233,6 +234,7 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				Prefabs_.push_back("Cooker");
 				Prefabs_.push_back("Sink");
 				Prefabs_.push_back("CounterTop_Wizard");
+				Prefabs_.push_back("FoodBox");
 				//Prefabs_.push_back("Wizard_Sink");
 			}
 		}
@@ -860,6 +862,10 @@ void MapEditorWindow::SortToolTab()
 			Object.lock()->SetStaticObjectType(MapObjType::CounterTop_WiZard);
 		}
 		break;
+		case 9:
+			CurStaticMesh_ = CurLevel_->CreateActor<FoodBox>();
+			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::FoodBox);
+			break;
 		}
 
 		//기준 엑터의 자식으로 둔다.

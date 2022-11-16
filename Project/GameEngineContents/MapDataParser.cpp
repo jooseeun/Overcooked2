@@ -9,6 +9,7 @@
 #include "PlateReturn.h"
 #include "Cooker.h"
 #include "Sink.h"
+#include "FoodBox.h"
 
 #include "Equipment_Plate.h"
 #include "Equipment_FireExtinguisher.h"
@@ -244,6 +245,8 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 		}
 		break;
 		case MapObjType::FoodBox:
+			CurActor_ = _Level->CreateActor<FoodBox>();
+			CurActor_.lock()->SetStaticObjectType(MapObjType::FoodBox);
 			break;
 		default:
 			break;
