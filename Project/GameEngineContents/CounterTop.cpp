@@ -14,8 +14,11 @@ void CounterTop::Start()
 {
 	GamePlayStaticObject::Start();
 
+
 	GetCollisionObject()->GetTransform().SetWorldScale({ 120, 50, 120 });
 	GetCollisionObject()->GetTransform().SetWorldMove({ 0, 25, 0 });
+
+
 }
 
 void CounterTop::SetConterTopMesh(CounterTopType _Type)
@@ -42,5 +45,7 @@ void CounterTop::SetConterTopMesh(CounterTopType _Type)
 
 	GetFBXMesh()->SetFBXMesh(Name, "Texture");
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
+
+	std::vector<std::vector<GameEngineRenderUnit>>& Unit = GetFBXMesh()->GetAllRenderUnit();
 
 }

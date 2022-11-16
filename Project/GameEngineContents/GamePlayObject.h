@@ -95,10 +95,14 @@ private:
 public:
 	inline virtual void SetBloomEffectOff()
 	{
+		GetFBXMesh()->RenderOptionInst.IsHighlight = 0;
+
 		BloomEffect_ = false;
 	}
 	virtual inline void SetBloomEffectOn()
 	{
+		GetFBXMesh()->RenderOptionInst.IsHighlight = 1;
+
 		BloomEffect_ = true;
 	}
 	inline bool GetBloomEffect()
