@@ -103,14 +103,14 @@ void Player::Start()
 		PlayerWalkRenderer_->GetTransform().SetLocalRotation({ 90,180,0 });
 		PlayerWalkRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
 
-	// 잘 안됨
-		//PlayerWashRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();
-		//PlayerWashRenderer_->SetFBXMesh("AlienGreen_Wash.FBX", "TextureAnimation");
-		//PlayerWashRenderer_->CreateFBXAnimation("Wash", "AlienGreen_Wash.FBX"); // Idle 호환 x
-		//PlayerWashRenderer_->ChangeAnimation("Wash");
-		//PlayerWashRenderer_->GetTransform().SetLocalRotation({ 90,180,0 });
-		//PlayerWashRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
-		//PlayerWashRenderer_->Off();
+
+		PlayerWashRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();
+		PlayerWashRenderer_->SetFBXMesh("AlienGreen_Wash.FBX", "TextureAnimation");
+		PlayerWashRenderer_->CreateFBXAnimation("Wash", "AlienGreen_Wash.FBX"); // Idle 호환 x
+		PlayerWashRenderer_->ChangeAnimation("Wash");
+		PlayerWashRenderer_->GetTransform().SetLocalRotation({ 90,180,0 });
+		PlayerWashRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
+		PlayerWashRenderer_->Off();
 
 		PlayerChopRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();
 		PlayerChopRenderer_->SetFBXMesh("AlienGreen_Chop.FBX", "TextureAnimation");
@@ -121,6 +121,7 @@ void Player::Start()
 
 		PlayerIdleRenderer_->Off();
 		PlayerWalkRenderer_->Off();
+		PlayerWashRenderer_->Off();
 		PlayerChopRenderer_->Off();
 
 	}
@@ -222,28 +223,28 @@ void Player::IdleRendererON()
 	PlayerIdleRenderer_->On();
 	PlayerWalkRenderer_->Off();
 	PlayerChopRenderer_->Off();
-	//PlayerWashRenderer_->Off();
+	PlayerWashRenderer_->Off();
 }
 void Player::WalkRendererON()
 {
 	PlayerIdleRenderer_->Off();
 	PlayerWalkRenderer_->On();
 	PlayerChopRenderer_->Off();
-	//PlayerWashRenderer_->Off();
+	PlayerWashRenderer_->Off();
 }
 void Player::ChopRendererON()
 {
 	PlayerIdleRenderer_->Off();
 	PlayerWalkRenderer_->Off();
 	PlayerChopRenderer_->On();
-	//PlayerWashRenderer_->Off();
+	PlayerWashRenderer_->Off();
 }
 void Player::WashRendererON()
 {
 	PlayerIdleRenderer_->Off();
 	PlayerWalkRenderer_->Off();
 	PlayerChopRenderer_->Off();
-	//PlayerWashRenderer_->Off();
+	PlayerWashRenderer_->On();
 }
 
 void  Player::LevelStartEvent()
