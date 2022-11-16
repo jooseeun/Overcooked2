@@ -8,12 +8,6 @@ enum class AutoOption
 	Auto,
 	Manual
 };
-enum class Input_UsingOption
-{
-	NoResponse,          
-	Using,        // 사용
-	Throwing,     // 던지기
-};
 enum class ObjectToolType
 {
 	None,
@@ -60,9 +54,24 @@ protected:
 	Input_PickUpOption Input_PickUp(std::shared_ptr<Player> _Player) override;			  // 이 이상으로 특별한 이유 없이 오버라이드 금지
 	virtual Input_PickUpOption CheckMoveable(std::shared_ptr<GamePlayMoveable> _Object);
 
-	virtual Input_UsingOption Input_ActionToManual(std::shared_ptr<Player> _Player, float _DeltaTime) { return Input_UsingOption::NoResponse; };         // 이 툴(도마 등)을 사용하는 Player의 정보를 인자로 받는다
-	virtual void Input_Action_End(std::shared_ptr<GamePlayMoveable> _Moveable) = 0;
-	virtual void Input_ActionToAuto_Update(std::shared_ptr<GamePlayMoveable> _Moveable, float _DeltaTime);
+
+	inline virtual Input_UsingOption Input_Action(std::weak_ptr<Player> _Player, float _DeltaTime)  // 이 툴(도마 등)을 사용하는 Player의 정보를 인자로 받는다
+	{
+		if (InteractOption_Current_ == AutoOption::Auto)
+		{
+			return Input_UsingOption::NoResponse;
+		}
+		else
+		{
+			MsgBoxAssert("가상함수가 설정 되지 않았습니다");
+			return Input_UsingOption::NoResponse;
+		}
+	}
+
+
+
+	//virtual void Input_Action_End(std::shared_ptr<GamePlayMoveable> _Moveable) = 0;
+	virtual void Input_ActionToAuto_Update(std::weak_ptr<GamePlayMoveable> _Moveable, float _DeltaTime);
 	//virtual void Input_ActionToAuto_Start(GamePlayMoveable* _Moveable, float _DeltaTime) {};
 
 

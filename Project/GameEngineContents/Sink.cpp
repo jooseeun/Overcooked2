@@ -77,35 +77,35 @@ Input_PickUpOption Tool_Sink::CheckMoveable(std::shared_ptr<GamePlayMoveable> _O
 	return Input_PickUpOption::NoResponse;
 }
 
-Input_UsingOption Tool_Sink::Input_ActionToManual(std::shared_ptr<Player> _Player, float _DeltaTime)
-{
-	if (GetCurrentMoveable() == nullptr)
-	{
-		return Input_UsingOption::NoResponse;
-	}
-	else
-	{
-		GetCurrentMoveable()->PlusCookingTime(_DeltaTime);
-	}
-	return Input_UsingOption::Using;
-}
+//Input_UsingOption Tool_Sink::Input_ActionToManual(std::shared_ptr<Player> _Player, float _DeltaTime)
+//{
+//	if (GetCurrentMoveable() == nullptr)
+//	{
+//		return Input_UsingOption::NoResponse;
+//	}
+//	else
+//	{
+//		GetCurrentMoveable()->PlusCookingTime(_DeltaTime);
+//	}
+//	return Input_UsingOption::Using;
+//}
 
-void Tool_Sink::Input_Action_End(std::shared_ptr<GamePlayMoveable> _Moveable)
-{
-	std::shared_ptr<Equipment_Plate> Plate = std::dynamic_pointer_cast<Equipment_Plate>(_Moveable);
-	if (ReturnCleanPlate_ == nullptr)
-	{
-		ReturnCleanPlate_ = Plate;
-	}
-
-
-	if (Plate->Pile_Plate_ != nullptr)
-	{
-		SetCurrentMoveable(Plate->Pile_Plate_);
-	}
-	else
-	{
-		
-	}
-	// 糠俊 立矫 积己
-}
+//void Tool_Sink::Input_Action_End(std::shared_ptr<GamePlayMoveable> _Moveable)
+//{
+//	std::shared_ptr<Equipment_Plate> Plate = std::dynamic_pointer_cast<Equipment_Plate>(_Moveable);
+//	if (ReturnCleanPlate_ == nullptr)
+//	{
+//		ReturnCleanPlate_ = Plate;
+//	}
+//
+//
+//	if (Plate->Pile_Plate_ != nullptr)
+//	{
+//		SetCurrentMoveable(Plate->Pile_Plate_);
+//	}
+//	else
+//	{
+//		
+//	}
+//	// 糠俊 立矫 积己
+//}

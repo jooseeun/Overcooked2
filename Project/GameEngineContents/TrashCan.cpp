@@ -39,18 +39,18 @@ void Tool_TrashCan::Start()
 	SetCookingEndTime(1.f);
 	//GamePlayTool::SetToolInfoType(ToolInfo::TrashCan);
 }
-
-void Tool_TrashCan::Input_ActionToAuto_Update(std::shared_ptr<GamePlayMoveable> _Moveable, float _DeltaTime)
-{
-	_Moveable->PlusCookingTime(_DeltaTime);
-	// 돌면서 작아지는 기능
-}
-
-void Tool_TrashCan::Input_Action_End(std::shared_ptr<GamePlayMoveable> _Moveable)
-{
-	_Moveable->Death();// 삭제한다
-	ReSetCurrentMoveable();
-}
+//
+//void Tool_TrashCan::Input_ActionToAuto_Update(std::shared_ptr<GamePlayMoveable> _Moveable, float _DeltaTime)
+//{
+//	_Moveable->PlusCookingTime(_DeltaTime);
+//	// 돌면서 작아지는 기능
+//}
+//
+//void Tool_TrashCan::Input_Action_End(std::shared_ptr<GamePlayMoveable> _Moveable)
+//{
+//	_Moveable->Death();// 삭제한다
+//	ReSetCurrentMoveable();
+//}
 
 
 Input_PickUpOption Tool_TrashCan::CheckMoveable(std::shared_ptr<GamePlayMoveable> _Object)

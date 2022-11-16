@@ -8,6 +8,12 @@ enum class ObjectStuffType
 	Tool,
 	Moveable,
 };
+enum class Input_UsingOption
+{
+	NoResponse,
+	Using,
+	Throwing,
+};
 class GamePlayStuff : public GamePlayObject
 {
 protected:
@@ -49,7 +55,7 @@ public:
 protected:
 
 	void Start() override;
-	void Update(float _DeltaTime) override {};
+	void Update(float _DeltaTime) override {}
 	void End() override {};
 
 	void OnEvent() override {};
@@ -61,10 +67,15 @@ protected:
 
 
 protected:
-
 	inline void SetObjectStuffType(ObjectStuffType _Type)
 	{
 		Enum_ObjectStuffType_ = _Type;
+	}
+
+private:
+	inline virtual Input_UsingOption Input_Action(std::weak_ptr<Player> _Player, float _DeltaTime)
+	{
+		return Input_UsingOption::NoResponse;
 	}
 
 	// Enum
