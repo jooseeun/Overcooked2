@@ -179,7 +179,7 @@ public:
 	static std::shared_ptr<GameEngineFBXAnimation> Load(const std::string& _Path, const std::string& _Name);
 
 
-	void AnimationMatrixLoad(std::shared_ptr <GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimationRenderer> _Renderer, int _AnimationIndex);
+	void AnimationMatrixLoad(std::shared_ptr<GameEngineFBXMesh> _Mesh, const std::string_view& _Name, int _AnimationIndex);
 
 	FbxExAniData* GetAnimationData(int _Index)
 	{

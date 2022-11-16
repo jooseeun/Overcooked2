@@ -297,11 +297,14 @@ void GameEngineFBXAnimation::ProcessAnimationLoad(std::shared_ptr <GameEngineFBX
 
 
 
-void GameEngineFBXAnimation::AnimationMatrixLoad(std::shared_ptr <GameEngineFBXMesh> _Mesh, std::shared_ptr<GameEngineFBXAnimationRenderer> _Renderer, int _AnimationIndex)
+void GameEngineFBXAnimation::AnimationMatrixLoad(std::shared_ptr<GameEngineFBXMesh> _Mesh, const std::string_view& _Name, int _AnimationIndex)
 {
-	GameEngineFile SaveFile = GameEngineFile(GetPath().c_str());
-	SaveFile.ChangeExtension(".AnimationFBX");
-	SaveFile.GetExtension();
+	GameEngineFile DirFile = GetPath().c_str();
+	GameEngineDirectory Dir = DirFile.GetDirectory();
+	std::string FileName = _Name.data();
+	FileName += "\";
+
+	GameEngineFile SaveFile = GameEngineFile(Dir.PlusFilePath(FileName));
 	if (SaveFile.IsExits())
 	{
 		UserLoad(SaveFile.GetFullPath());

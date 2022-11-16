@@ -653,13 +653,16 @@ public:
 
 	void UserLoad(const std::string_view& _Path);
 	void UserSave(const std::string_view& _Path);
+	void UserSave(const std::string_view& _Path, size_t Index);
+	void UserSave(const std::string_view& _Path, std::vector<size_t> _Indexs);
 
 protected:
+	std::string FBXMeshName;
 	std::vector<FbxExMeshInfo> MeshInfos;
 	std::vector<FbxRenderUnitInfo> RenderUnitInfos;
 
 	std::vector<std::vector<Bone>> AllBones; // 본정보체
-	std::vector<std::shared_ptr<GameEngineStructuredBuffer>> AllBoneStructuredBuffers; // 본정보체
+	std::vector<std::shared_ptr<GameEngineStructuredBuffer>> AllBoneStructuredBuffers;
 
 	std::vector<std::map<std::string, Bone*>> AllFindMap;
 	std::vector<std::vector<FbxClusterData>> ClusterData;

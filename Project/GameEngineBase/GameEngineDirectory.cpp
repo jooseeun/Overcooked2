@@ -51,6 +51,12 @@ bool GameEngineDirectory::IsRoot()
 	return Path_ == Path_.root_path();
 }
 
+bool GameEngineDirectory::IsFileExist(const std::string_view& _FileName)
+{
+	GameEngineFile File = PlusFilePath(_FileName.data()).c_str();
+	return File.IsExits();
+}
+
 void GameEngineDirectory::MoveParent(const std::string& _Name)
 {
 	while (false == IsRoot())
