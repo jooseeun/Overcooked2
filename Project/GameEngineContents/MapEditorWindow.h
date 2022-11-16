@@ -78,5 +78,6 @@ private:
 	bool IsSort_;
 
 	bool IsUnSortLoad_;
+	bool IsCandle_;
 };
 

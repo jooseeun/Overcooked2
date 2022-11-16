@@ -38,6 +38,7 @@ MapEditorWindow::MapEditorWindow()
 	, IsSort_(false)
 	, LevelIndex_(0)
 	, IsUnSortLoad_(false)
+	, IsCandle_(false)
 {
 
 }
@@ -315,6 +316,10 @@ void MapEditorWindow::UnSortToolTab()
 {
 	static int SelectIndex = 0;
 	static int CandleTypeIndex = 0;
+	auto CandleMoveType = magic_enum::enum_names<CandleType>();
+	const int CandleSize = CandleMoveType.size();
+	static bool IsCheckCandle[CandleSize] = { false };
+	static CandleType CandleTypes = CandleType::Max;
 
 	if (true == ImGui::Button("Clear")
 		&& false == UnSortActorList_.empty())
@@ -378,6 +383,7 @@ void MapEditorWindow::UnSortToolTab()
 		{
 			continue;
 		}
+
 		MapObjType Type = static_cast<MapObjType>(i);
 
 		if (MapObjType::Max != Type)
@@ -404,6 +410,17 @@ void MapEditorWindow::UnSortToolTab()
 		}
 	}
 
+
+	for (size_t i = 0; i < CandleMoveType.size(); ++i)
+	{
+		CandleType Type = static_cast<CandleType>(i);
+
+		if (CandleType::Max != CandleTypes)
+		{
+			// 체크 상황 계속 확인중
+			ImGui::Checkbox(CandleMoveType[i].data(), &IsCheckCandle[i]);
+		}
+	}
 
 	// 오브젝트 생성 
 	if (true == ImGui::Button("Create"))
@@ -446,7 +463,7 @@ void MapEditorWindow::UnSortToolTab()
 			Object.lock()->SetMapObjectMesh(AllUnSortActorName_[SelectNameIndex], ObjectTypeIndex);
 			Object.lock()->SetName(AllUnSortActorName_[SelectNameIndex]);
 			Object.lock()->SetMapObjType(ObjectTypeIndex);
-		//	Object.lock()->SetCandleTypeIndex(C);
+			Object.lock()->SetCandleTypeIndex(CandleTypeIndex);
 			UnSortActorList_.push_back(Object);
 		}
 		break;
