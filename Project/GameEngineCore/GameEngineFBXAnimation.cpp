@@ -302,7 +302,7 @@ void GameEngineFBXAnimation::AnimationMatrixLoad(std::shared_ptr<GameEngineFBXMe
 	GameEngineFile DirFile = GetPath().c_str();
 	GameEngineDirectory Dir = DirFile.GetDirectory();
 	std::string FileName = _Name.data();
-	FileName += "\";
+	FileName += ".AnimationFBX";
 
 	GameEngineFile SaveFile = GameEngineFile(Dir.PlusFilePath(FileName));
 	if (SaveFile.IsExits())
