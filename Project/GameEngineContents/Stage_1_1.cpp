@@ -51,7 +51,7 @@ void Stage_1_1::PlayLevelStartEvent()
 		return;
 	}
 
-	IsLevelFirst_ = true;
+	IsLevelFirst_ = false;
 	CreateActor<LevelActor>()->SetLevelMesh("1_1.FBX");
 
 	GlobalIOManager::Load(IOType::SortMap, 0);

@@ -34,6 +34,8 @@ void Overcooked::Start()
 	//1-1 1-3
 	LoadingData::AddFunc("1-1", std::bind(&Overcooked::LoadStage, this, "1-1"));
 	LoadingData::AddFunc("1-2", std::bind(&Overcooked::LoadStage, this, "1-2"));
+	LoadingData::AddFunc("1-3", std::bind(&Overcooked::LoadStage, this, "1-3"));
+	LoadingData::AddFunc("1-4", std::bind(&Overcooked::LoadStage, this, "1-4"));
 
 	//LoadingData::AddFunc("1-2", std::bind(&Overcooked::dfsdf, this, ));
 
@@ -54,8 +56,8 @@ void Overcooked::Start()
 
 	CreateLevel<Stage_1_1>("1-1");
 	CreateLevel<Stage_1_2>("1-2");
-	//CreateLevel<Stage_1_3>("Stage_1_3");
-	//CreateLevel<Stage_1_4>("Stage_1_4");
+	CreateLevel<Stage_1_3>("1-3");
+	CreateLevel<Stage_1_4>("1-4");
 	CreateLevel<MapToolLevel>("MapToolLevel");
 	CreateLevel<MeshToolLevel>("MeshToolLevel");
 	CreateLevel<TitleLevel>("TitleLevel");
