@@ -1,6 +1,7 @@
 #pragma once
 #include "GameEngineFBXRenderer.h"
 #include "GameEngineFBXAnimation.h"
+#include "GameEngineRenderingEvent.h"
 #include <map>
 
 class FbxExAniData;
@@ -17,35 +18,36 @@ public:
 	std::shared_ptr<GameEngineFBXAnimation> Aniamtion;
 	FbxExAniData* FBXAnimationData;
 
-	// 이 애니메이션이 현재까지 얼마나 지났나.
-	float CurFrameTime;
-	float FrameTime; // 0.1
-	UINT CurFrame;
 	UINT Start;
 	UINT End;
 
+	GameEngineRenderingEvent Info;
+
+	bool Pause;
+	bool bOnceStart;
+	bool bOnceEnd;
+	std::function<void(const GameEngineRenderingEvent&)> FrameEvent;
+	std::function<void(const GameEngineRenderingEvent&)> EndEvent;
+	std::function<void(const GameEngineRenderingEvent&)> StartEvent;
+	std::function<void(const GameEngineRenderingEvent&, float)> TimeEvent;
+
+	void PauseSwtich();
 	void Init(const std::string_view& _Name, int _Index);
 	void Reset();
 	void Update(float _DeltaTime);
 
 public:
 	FBXRendererAnimation() 
-		: ParentRenderer(nullptr)
-		, Mesh(nullptr)
-		, Aniamtion(nullptr)
-		, FBXAnimationData(nullptr)
-		, CurFrameTime(0.0f)
-		, FrameTime(0.1f)
-		, CurFrame(0)
-		, Start(0)
+		: Start(0)
 		, End(0)
+		, Pause(false)
+		, bOnceStart(false)
+		, bOnceEnd(false)
 	{
-		int a = 0;
 	}
 
 	~FBXRendererAnimation()
 	{
-		int a = 0;
 	}
 };
 
@@ -79,10 +81,63 @@ public:
 	void SetFBXMesh(const std::string& _Name, const std::string& _Material) override;
 	GameEngineRenderUnit* SetFBXMesh(const std::string& _Name, std::string _Material, size_t _MeshIndex, size_t _SubSetIndex = 0) override;
 
-	void CreateFBXAnimation(const std::string& _AnimationName, const std::string& _AnimationFBX, int _Index = 0);
+	void CreateFBXAnimation(const std::string& _AnimationName, const GameEngineRenderingEvent& _Desc, int _Index = 0);
 	void ChangeAnimation(const std::string& _AnimationName);
 
 	void Update(float _DeltaTime) override;
+
+	void AnimationBindStart(const std::string& _AnimationName, std::function<void(const GameEngineRenderingEvent&)> _Function)
+	{
+		std::string Name = GameEngineString::ToUpperReturn(_AnimationName);
+
+		if (Animations.end() == Animations.find(Name))
+		{
+			MsgBoxAssert("존재하지 않는 애니메이션으로 체인지 하려고 했습니다.");
+			return;
+		}
+
+		Animations[Name]->StartEvent = _Function;
+	}
+
+	void AnimationBindEnd(const std::string& _AnimationName, std::function<void(const GameEngineRenderingEvent&)> _Function)
+	{
+		std::string Name = GameEngineString::ToUpperReturn(_AnimationName);
+
+		if (Animations.end() == Animations.find(Name))
+		{
+			MsgBoxAssert("존재하지 않는 애니메이션으로 체인지 하려고 했습니다.");
+			return;
+		}
+
+		Animations[Name]->EndEvent = _Function;
+	}
+
+	void AnimationBindFrame(const std::string& _AnimationName, std::function<void(const GameEngineRenderingEvent&)> _Function)
+	{
+		std::string Name = GameEngineString::ToUpperReturn(_AnimationName);
+
+		if (Animations.end() == Animations.find(Name))
+		{
+			MsgBoxAssert("존재하지 않는 애니메이션으로 체인지 하려고 했습니다.");
+			return;
+		}
+
+		Animations[Name]->FrameEvent = _Function;
+	}
+
+	void AnimationBindTime(const std::string& _AnimationName, std::function<void(const GameEngineRenderingEvent&, float)> _Function)
+	{
+		std::string Name = GameEngineString::ToUpperReturn(_AnimationName);
+
+		if (Animations.end() == Animations.find(Name))
+		{
+			MsgBoxAssert("존재하지 않는 애니메이션으로 체인지 하려고 했습니다.");
+			return;
+		}
+
+		Animations[Name]->TimeEvent = _Function;
+	}
+
 protected:
 
 private:

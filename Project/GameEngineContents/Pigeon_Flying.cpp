@@ -14,7 +14,7 @@ void Pigeon_Flying::Start()
 	GamePlayMapObject::Start();
 	GetAnimationFBXMesh()->GetTransform().SetWorldScale({ 140.f, 140.f, 140.f });
 	GetAnimationFBXMesh()->SetFBXMesh("m_city_pigeon_01.fbx", "TextureAnimation", 0);	// Flying
-	GetAnimationFBXMesh()->CreateFBXAnimation("Fly", "m_city_pigeon_01.fbx");
+	GetAnimationFBXMesh()->CreateFBXAnimation("Fly", {});
 	GetAnimationFBXMesh()->ChangeAnimation("Fly");
 	GetCollisionObject()->Off();
 }
