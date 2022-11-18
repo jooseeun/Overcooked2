@@ -699,8 +699,8 @@ void MapEditorWindow::SortToolTab()
 
 		Origin.lock()->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
 
-		Origin.lock()->GetRenderer().lock()->GetTransform().SetWorldScale({ 100, 100, 100 });
 		Origin.lock()->GetRenderer().lock()->SetFBXMesh("m_sk_countertop_01.fbx", "Texture");
+		Origin.lock()->GetRenderer().lock()->GetTransform().SetWorldScale({ 100, 100, 100 });
 
 		Origins_.push_back(Origin);
 	}

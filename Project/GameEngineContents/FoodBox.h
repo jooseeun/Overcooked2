@@ -16,8 +16,17 @@ public:
 
 protected:
 	void Start() override;
+	void Update(float _DeltaTime) override;
 
 private:
 	ObjectFoodClass Enum_Ingredients_;
+
+	bool IsInteraction_;
+	bool IsOpen_;
+
+	std::shared_ptr<GameEngineActor> Lid_;
+	
+	float Value_;
+	bool IsReverse_;
 };
 
