@@ -18,6 +18,7 @@ enum class MapObjType
 	Cooker,			//가스레인지
 	TrashCan,			//쓰레기통
 	Sink,				//싱크대
+	Sink_Wizard,		//마법사 싱크대
 	Servicehatch,		//요리 내는 창구
 	PlateReturn,		//그릇 되돌아 나오는 타일
 	FoodBox,			//음식 스폰 박스

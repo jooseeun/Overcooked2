@@ -422,11 +422,26 @@ public:
 	std::string ToDataString()
 	{
 		std::string Value;
-		Value += std::to_string(x);
+		{
+			std::string TmpS = std::to_string(x);
+			TmpS = TmpS.substr(0, TmpS.find('.') + 3);
+			Value += TmpS;
+		}
+
 		Value += ",";
-		Value += std::to_string(y);
+		{
+			std::string TmpS = std::to_string(y);
+			TmpS = TmpS.substr(0, TmpS.find('.') + 3);
+			Value += TmpS;
+		}
+
 		Value += ",";
-		Value += std::to_string(z);
+		{
+			std::string TmpS = std::to_string(z);
+			TmpS = TmpS.substr(0, TmpS.find('.') + 3);
+			Value += TmpS;
+		}
+
 		return Value;
 	}
 
