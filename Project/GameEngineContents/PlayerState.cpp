@@ -209,13 +209,22 @@ void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 			FireOff_ = false;
 		}
 		if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
-			std::bind(&Player::PutUpObjectTable, this, std::placeholders::_1, std::placeholders::_2)) == false)
+			std::bind(&Player::PutUpObjectTable, this, std::placeholders::_1, std::placeholders::_2)) == false) //
 		{
+
 			CurrentHoldingObject_->GetCollisionObject()->On();
 			CurrentHoldingObject_->DetachObject();
+			CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,0,0});
 			CurrentHoldingObject_ = nullptr;
 		}
+		else
+		{
+			if (Interact_TableObject_->GetStuff()->GetToolInfoType() == ToolInfo::CuttingBoard) // 도마일때
+			{
+				return;
+			}
 
+		}
 		StateManager.ChangeState("Idle");
 		return;
 	}

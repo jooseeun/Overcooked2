@@ -862,6 +862,7 @@ CollisionReturn Player::PutUpObjectTable(std::shared_ptr<GameEngineCollision> _T
 
     if (Interact_TableObject_->GetStuff() == nullptr) // 테이블 있고 테이블에 올려진 물건이 없을때
 	{                  	
+		CurrentHoldingObject_->GetCollisionObject()->On();
 		CurrentHoldingObject_->DetachObject();
 		Interact_TableObject_->SetStuff(CurrentHoldingObject_);
 		float4 ToolPos = Interact_TableObject_->GetToolPos();
