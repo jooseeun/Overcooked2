@@ -41,8 +41,8 @@ void GamePlayMapObject::SetMapObjectMesh(const std::string& _Name, MapObjType _O
 	{
 		GetAnimationFBXMesh()->GetTransform().SetWorldScale({ 150.f, 150.f, 150.f });
 		GetAnimationFBXMesh()->SetFBXMesh(_Name + ".fbx", "TextureAnimation", 1);	// Grounded
-		GetAnimationFBXMesh()->CreateFBXAnimation("Test", {}/*_Name + ".fbx"*/);
-		GetAnimationFBXMesh()->ChangeAnimation("Test");
+		GetAnimationFBXMesh()->CreateFBXAnimation("Idle", GameEngineRenderingEvent(_Name + ".fbx", 0.1f, true));
+		GetAnimationFBXMesh()->ChangeAnimation("Idle");
 		GetCollisionObject()->Off();
 	}
 		break;
@@ -50,16 +50,16 @@ void GamePlayMapObject::SetMapObjectMesh(const std::string& _Name, MapObjType _O
 	{
 		GetAnimationFBXMesh()->GetTransform().SetWorldScale({ 100.f, 100.f, 100.f });
 		GetAnimationFBXMesh()->SetFBXMesh(_Name + ".fbx", "TextureAnimation", 0, 0);
-		GetAnimationFBXMesh()->CreateFBXAnimation("Test", {}/*_Name + ".fbx"*/);
-		GetAnimationFBXMesh()->ChangeAnimation("Test");
+		GetAnimationFBXMesh()->CreateFBXAnimation("Idle", GameEngineRenderingEvent(_Name + ".fbx", 0.1f, true));
+		GetAnimationFBXMesh()->ChangeAnimation("Idle");
 	}
 		break;
 	case MapObjType::Npc:
 	{
 		GetAnimationFBXMesh()->GetTransform().SetWorldScale({ 100.f, 100.f, 100.f });
 		GetAnimationFBXMesh()->SetFBXMesh(_Name + ".fbx", "TextureAnimation");
-		GetAnimationFBXMesh()->CreateFBXAnimation("Test", {}/*_Name + ".fbx"*/);
-		GetAnimationFBXMesh()->ChangeAnimation("Test");
+		GetAnimationFBXMesh()->CreateFBXAnimation("Idle", GameEngineRenderingEvent(_Name + ".fbx", 0.1f, true));
+		GetAnimationFBXMesh()->ChangeAnimation("Idle");
 	}
 		break;
 	case MapObjType::Car:
@@ -77,6 +77,7 @@ void GamePlayMapObject::SetMapObjectMesh(const std::string& _Name, MapObjType _O
 	{
 		GetFBXMesh()->GetTransform().SetWorldScale({ 100.f, 100.f, 100.f });
 		GetFBXMesh()->SetFBXMesh(_Name + ".fbx", "Texture");
+		GetCollisionObject()->Off();
 	}
 		break;
 	default:
