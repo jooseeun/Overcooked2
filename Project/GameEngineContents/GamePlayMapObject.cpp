@@ -41,7 +41,7 @@ void GamePlayMapObject::SetMapObjectMesh(const std::string& _Name, MapObjType _O
 	{
 		GetAnimationFBXMesh()->GetTransform().SetWorldScale({ 150.f, 150.f, 150.f });
 		GetAnimationFBXMesh()->SetFBXMesh(_Name + ".fbx", "TextureAnimation", 1);	// Grounded
-		GetAnimationFBXMesh()->CreateFBXAnimation("Idle", GameEngineRenderingEvent(_Name + ".fbx", 0.1f, true));
+		GetAnimationFBXMesh()->CreateFBXAnimation("Idle", GameEngineRenderingEvent(_Name + ".fbx", 0.04f, true));
 		GetAnimationFBXMesh()->ChangeAnimation("Idle");
 		GetCollisionObject()->Off();
 	}
@@ -50,7 +50,7 @@ void GamePlayMapObject::SetMapObjectMesh(const std::string& _Name, MapObjType _O
 	{
 		GetAnimationFBXMesh()->GetTransform().SetWorldScale({ 100.f, 100.f, 100.f });
 		GetAnimationFBXMesh()->SetFBXMesh(_Name + ".fbx", "TextureAnimation", 0, 0);
-		GetAnimationFBXMesh()->CreateFBXAnimation("Idle", GameEngineRenderingEvent(_Name + ".fbx", 0.1f, true));
+		GetAnimationFBXMesh()->CreateFBXAnimation("Idle", GameEngineRenderingEvent(_Name + ".fbx", 0.04f, true));
 		GetAnimationFBXMesh()->ChangeAnimation("Idle");
 	}
 		break;
@@ -58,7 +58,7 @@ void GamePlayMapObject::SetMapObjectMesh(const std::string& _Name, MapObjType _O
 	{
 		GetAnimationFBXMesh()->GetTransform().SetWorldScale({ 100.f, 100.f, 100.f });
 		GetAnimationFBXMesh()->SetFBXMesh(_Name + ".fbx", "TextureAnimation");
-		GetAnimationFBXMesh()->CreateFBXAnimation("Idle", GameEngineRenderingEvent(_Name + ".fbx", 0.1f, true));
+		GetAnimationFBXMesh()->CreateFBXAnimation("Idle", GameEngineRenderingEvent(_Name + ".fbx", 0.04f, true));
 		GetAnimationFBXMesh()->ChangeAnimation("Idle");
 	}
 		break;
