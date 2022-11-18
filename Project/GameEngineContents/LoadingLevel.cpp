@@ -39,7 +39,8 @@ void LoadingLevel::LevelStartEvent()
 {
 	UIDebugGUI::Main_->On();
 	UIActor_->StartFadeIn();
-	UIActor_->StartLoad();
+	UIActor_->Reset();
+	//UIActor_->StartLoad();
 
 	//LoadingData::GetFunc("1-1")();
 }

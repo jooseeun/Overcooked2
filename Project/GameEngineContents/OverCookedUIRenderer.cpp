@@ -36,6 +36,11 @@ void OverCookedUIRenderer::SetTextureRendererSetting()
 	GetShaderResources().SetConstantBufferLink("UIData", UIDataInst);
 }
 
+void OverCookedUIRenderer::UpdateLeftToRight(float _Percentage)
+{
+	PixelDataInst.Slice = { _Percentage,0.0f };
+}
+
 void OverCookedUIRenderer::Start()
 {
 	GameEngineDefaultRenderer::Start();
@@ -225,10 +230,8 @@ void OverCookedUIRenderer::UpdateTransition(float _Delta)
 	{
 		return;
 	}
-	if (IsFadeOut_ == true)
+	if (IsFadeOut_ == true) //페이드아웃
 	{
-		//Transition
-
 		AccTime_ -= _Delta * 23.f;
 		if (AccTime_ < 0.25f)
 		{
@@ -240,10 +243,11 @@ void OverCookedUIRenderer::UpdateTransition(float _Delta)
 		GetTransform().SetLocalScale(CurScale);
 		if (TransitionRatio_ < 0.01f)
 		{
-			Off();
+			IsFinishFadeOut_ = true;
+			//Off();
 		}
 	}
-	else
+	else // 페이드 인
 	{
 		AccTime_ += _Delta;
 

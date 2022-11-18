@@ -23,10 +23,14 @@ public:
 	LoadingUIActor& operator=(const LoadingUIActor&& _Other) noexcept = delete;
 
 	void StartLoad();
+
+	void Reset();
 protected:
 	void UIStart() override;
 	void InitRenderer();
 	void UIUpdate(float _DeltaTime) override;
+	void UpdateInfo(StageData& CurData, float _DeltaTime);
+	void RenderInfo(StageData& CurData);
 	void UIEnd() override;
 private:
 	std::shared_ptr<OverCookedUIRenderer> EndBackground_;
@@ -56,7 +60,10 @@ private:
 
 	//Time
 	float AccTime_ = 0.f;
+	float MaxAccTime_ = 4.0f;
 
 	//bool
 	bool IsLoadFirst_ = true;//최초의 로딩
+
+	bool IsLoad_ = false;//필요한 리소스를 로드했냐?
 };

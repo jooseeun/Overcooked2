@@ -2,6 +2,7 @@
 #include "GamePlayLevel.h"
 
 #include "GlobalGameData.h"
+#include "InGameUIActor.h"
 
 GamePlayLevel::GamePlayLevel()
 {
@@ -13,10 +14,13 @@ GamePlayLevel::~GamePlayLevel()
 
 void GamePlayLevel::Start()
 {
+	UIActor_ = CreateActor<InGameUIActor>();
+	PlayLevelStart();
 }
 
 void GamePlayLevel::Update(float _DeltaTime)
 {
+	PlayLevelUpdate(_DeltaTime);
 }
 
 void GamePlayLevel::End()
@@ -27,6 +31,8 @@ void GamePlayLevel::LevelStartEvent()
 {
 	if (IsLevelStartFirst_ == false)
 	{
+		//FadeInÀÌº¥Æ®
+		UIActor_->StartFadeIn();
 		PlayLevelStartEvent();
 		return;
 	}

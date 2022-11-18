@@ -13,8 +13,8 @@ public:
 	Stage_1_3& operator=(Stage_1_3&& _Other) noexcept = delete;
 
 protected:
-	void Start() override;
-	void Update(float _DeltaTime) override;
+	void PlayLevelStart() override;
+	void PlayLevelUpdate(float _DeltaTime) override;
 	void End() override;
 	void PlayLevelStartEvent() override;
 

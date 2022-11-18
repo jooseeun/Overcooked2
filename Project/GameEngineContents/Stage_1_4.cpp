@@ -10,7 +10,7 @@ Stage_1_4::~Stage_1_4()
 {
 }
 
-void Stage_1_4::Start()
+void Stage_1_4::PlayLevelStart()
 {
 	//CreateActor<LevelActor>()->SetLevelMesh("1_4.FBX");
 
@@ -26,7 +26,7 @@ void Stage_1_4::Start()
 	//MainPlayer->GetTransform().SetLocalPosition({ -1000, 1000, 1000 });
 }
 
-void Stage_1_4::Update(float _DeltaTime)
+void Stage_1_4::PlayLevelUpdate(float _DeltaTime)
 {
 }
 
