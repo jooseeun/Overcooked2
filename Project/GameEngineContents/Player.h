@@ -80,7 +80,15 @@ public:
 	{
 		CurHoldType_ = _CurHoldType;
 	}
-
+	inline float GetCurKineticEnergy()
+	{
+		return CurKineticEnergy_;
+	}
+	inline void SetCurKineticEnergy(float _CurEnergy)
+	{
+		CurKineticEnergy_ = _CurEnergy;
+	}
+	void CalculateKineticEnergy(); // 플레이어 운동에너지 구하는 함수 -> Update에서 일단 갱신중
 
 public:
 	inline void SetBloomEffectOff() override
@@ -93,10 +101,13 @@ public:
 	}
 private:
 	float Speed_;
+	float CurKineticEnergy_;
 	float CurAngle_;
 	PlayerDir CurDir_;
 	PlayerHoldType CurHoldType_;
 	bool FireOff_;
+
+	std::string PlayerName_;
 
 	std::shared_ptr<GameEngineCollision> Collision_Interact_; // 상호작용 콜리전
 	std::shared_ptr<GamePlayMoveable> Interact_GroundObject_;

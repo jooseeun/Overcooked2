@@ -322,6 +322,91 @@ void Overcooked::LoadCommonResource()
 			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("AlienGreen_Wash.FBX"));
 		}
 	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		Dir.Move("ContentsResources");
+		Dir.Move("Mesh");
+		Dir.Move("Object");
+		Dir.Move("Player");
+		Dir.Move("Buck");
+
+
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Buck_CarDeath.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Buck_CarDeath.FBX"));
+		}
+
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Buck_Chop.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Buck_Chop.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Buck_Death.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Buck_Death.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Buck_Drowning.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Buck_Drowning.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Buck_Fall.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Buck_Fall.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Buck_Idle.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Buck_Idle.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Buck_Idle2.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Buck_Idle2.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Buck_IdleHolding.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Buck_IdleHolding.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Buck_Slip.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Buck_Slip.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Buck_Stand.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Buck_Stand.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Buck_Throw.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Buck_Throw.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Buck_Walk.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Buck_Walk.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Buck_WalkHolding.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Buck_WalkHolding.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Buck_Wash.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Buck_Wash.FBX"));
+		}
+	}
+
+
 	//{
 	//	GameEngineDirectory Dir;
 	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");

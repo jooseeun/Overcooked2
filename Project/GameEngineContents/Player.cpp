@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "GamePlayFood.h"
 #include "GamePlayStaticObject.h"
+#include <math.h>
 
 Player::Player()
 	:Speed_(400.0f)
@@ -22,7 +23,9 @@ Player::Player()
 	, Collision_Interact_(nullptr)
 	, Interact_GroundObject_(nullptr)
 	, Interact_TableObject_(nullptr)
+	, CurKineticEnergy_(0)
 	, FireOff_(false)
+	, PlayerName_("AlienGreen")
 {
 
 }
@@ -74,63 +77,62 @@ void Player::Start()
 	//}
 
 
-
+	//AlienGreen
 	{
 		PlayerIdleRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();
 		PlayerIdleRenderer_->SetFBXMesh("AlienGreen_Idle.FBX", "TextureAnimation");
 
+		PlayerIdleRenderer_->CreateFBXAnimation("AlienGreenIdle", 
+			GameEngineRenderingEvent("AlienGreen_Idle.FBX", 0.035f, true));
+		PlayerIdleRenderer_->CreateFBXAnimation("AlienGreenIdle2", 
+			GameEngineRenderingEvent("AlienGreen_Idle2.FBX", 0.035f, true));
+		PlayerIdleRenderer_->CreateFBXAnimation("AlienGreenWalkHolding", 
+			GameEngineRenderingEvent("AlienGreen_WalkHolding.FBX", 0.035f, true));
+		PlayerIdleRenderer_->CreateFBXAnimation("AlienGreenCarDeath", 
+			GameEngineRenderingEvent("AlienGreen_CarDeath.FBX", 0.035f, true));
+		PlayerIdleRenderer_->CreateFBXAnimation("AlienGreenDeath", 
+			GameEngineRenderingEvent("AlienGreen_Death.FBX", 0.035f, true));
+		PlayerIdleRenderer_->CreateFBXAnimation("AlienGreenDrowning", 
+			GameEngineRenderingEvent("AlienGreen_Drowning.FBX", 0.035f, true));
+		PlayerIdleRenderer_->CreateFBXAnimation("AlienGreenFall", 
+			GameEngineRenderingEvent("AlienGreen_Fall.FBX", 0.035f, true));
+		PlayerIdleRenderer_->CreateFBXAnimation("AlienGreenIdleHolding", 
+			GameEngineRenderingEvent("AlienGreen_IdleHolding.FBX", 0.035f, true));
+		PlayerIdleRenderer_->CreateFBXAnimation("AlienGreenSlip", 
+			GameEngineRenderingEvent("AlienGreen_Slip.FBX", 0.035f, true));
+		PlayerIdleRenderer_->CreateFBXAnimation("AlienGreenStand", 
+			GameEngineRenderingEvent("AlienGreen_Stand.FBX", 0.035f, true));
+		PlayerIdleRenderer_->CreateFBXAnimation("AlienGreenThrow", 
+			GameEngineRenderingEvent("AlienGreen_Throw.FBX", 0.035f, true));
 
-		PlayerIdleRenderer_->CreateFBXAnimation("Idle", 
-			GameEngineRenderingEvent("AlienGreen_Idle.FBX", 0.1f, true));
-		PlayerIdleRenderer_->CreateFBXAnimation("Idle2", 
-			GameEngineRenderingEvent("AlienGreen_Idle2.FBX", 0.1f, true));
-		PlayerIdleRenderer_->CreateFBXAnimation("WalkHolding", 
-			GameEngineRenderingEvent("AlienGreen_WalkHolding.FBX", 0.1f, true));
-		PlayerIdleRenderer_->CreateFBXAnimation("CarDeath", 
-			GameEngineRenderingEvent("AlienGreen_CarDeath.FBX", 0.1f, true));
-		PlayerIdleRenderer_->CreateFBXAnimation("Death", 
-			GameEngineRenderingEvent("AlienGreen_Death.FBX", 0.1f, true));
-		PlayerIdleRenderer_->CreateFBXAnimation("Drowning", 
-			GameEngineRenderingEvent("AlienGreen_Drowning.FBX",  0.1f, true));
-		PlayerIdleRenderer_->CreateFBXAnimation("Fall", 
-			GameEngineRenderingEvent("AlienGreen_Fall.FBX", 0.1f, true));
-		PlayerIdleRenderer_->CreateFBXAnimation("IdleHolding", 
-			GameEngineRenderingEvent("AlienGreen_IdleHolding.FBX", 0.1f, true));
-		PlayerIdleRenderer_->CreateFBXAnimation("Slip", 
-			GameEngineRenderingEvent("AlienGreen_Slip.FBX",  0.1f, true));
-		PlayerIdleRenderer_->CreateFBXAnimation("Stand", 
-			GameEngineRenderingEvent("AlienGreen_Stand.FBX", 0.1f, true));
-		PlayerIdleRenderer_->CreateFBXAnimation("Throw", 
-			GameEngineRenderingEvent("AlienGreen_Throw.FBX",  0.1f, true));
 
-
-		PlayerIdleRenderer_->ChangeAnimation("Idle");
+		PlayerIdleRenderer_->ChangeAnimation("AlienGreenIdle");
 		PlayerIdleRenderer_->GetTransform().SetLocalRotation({ 0,180,0 });
 		PlayerIdleRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
 
 		PlayerWalkRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();
 		PlayerWalkRenderer_->SetFBXMesh("AlienGreen_Walk.FBX", "TextureAnimation");
-		PlayerWalkRenderer_->CreateFBXAnimation("Walk", 
-			GameEngineRenderingEvent("AlienGreen_Walk.FBX",  0.1f, true)); // Idle 호환 x
-		PlayerWalkRenderer_->ChangeAnimation("Walk");
+		PlayerWalkRenderer_->CreateFBXAnimation("AlienGreenWalk", 
+			GameEngineRenderingEvent("AlienGreen_Walk.FBX", 0.035f, true)); // Idle 호환 x
+		PlayerWalkRenderer_->ChangeAnimation("AlienGreenWalk");
 		PlayerWalkRenderer_->GetTransform().SetLocalRotation({ 90,180,0 });
 		PlayerWalkRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
 
 
 		PlayerWashRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();
 		PlayerWashRenderer_->SetFBXMesh("AlienGreen_Wash.FBX", "TextureAnimation");
-		PlayerWashRenderer_->CreateFBXAnimation("Wash", 
-			GameEngineRenderingEvent("AlienGreen_Wash.FBX", 0.1f, true)); // Idle 호환 x
-		PlayerWashRenderer_->ChangeAnimation("Wash");
+		PlayerWashRenderer_->CreateFBXAnimation("AlienGreenWash", 
+			GameEngineRenderingEvent("AlienGreen_Wash.FBX", 0.035f, true)); // Idle 호환 x
+		PlayerWashRenderer_->ChangeAnimation("AlienGreenWash");
 		PlayerWashRenderer_->GetTransform().SetLocalRotation({ 90,180,0 });
 		PlayerWashRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
 		PlayerWashRenderer_->Off();
 
 		PlayerChopRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();
 		PlayerChopRenderer_->SetFBXMesh("AlienGreen_Chop.FBX", "TextureAnimation");
-		PlayerChopRenderer_->CreateFBXAnimation("Chop", 
-			GameEngineRenderingEvent("AlienGreen_Chop.FBX",  0.1f, true)); // Idle 호환 x
-		PlayerChopRenderer_->ChangeAnimation("Chop");
+		PlayerChopRenderer_->CreateFBXAnimation("AlienGreenChop", 
+			GameEngineRenderingEvent("AlienGreen_Chop.FBX",  0.04f, true)); // Idle 호환 x
+		PlayerChopRenderer_->ChangeAnimation("AlienGreenChop");
 		PlayerChopRenderer_->GetTransform().SetLocalRotation({ 90,180,0 });
 		PlayerChopRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
 
@@ -277,6 +279,7 @@ void Player::Update(float _DeltaTime)
 	Gravity();
 	DashCheck();
 	Collision_AroundObject();
+	CalculateKineticEnergy();
 }
 
 ///////////////////////////// 그외 함수들
@@ -290,6 +293,11 @@ void Player::Gravity()
 		GetTransform().SetWorldDownMove(300.0f, GameEngineTime::GetDeltaTime());
 	}
 
+}
+
+void Player::CalculateKineticEnergy()
+{
+	CurKineticEnergy_ = 0.5 * Speed_ * sqrt(pow(GetTransform().GetLocalScale().x, 2) + pow(GetTransform().GetLocalScale().y, 2)+ pow(GetTransform().GetLocalScale().z, 2));
 }
 
 bool Player::MoveAngle()

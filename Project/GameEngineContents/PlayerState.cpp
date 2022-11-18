@@ -7,7 +7,7 @@
 void Player::IdleStart(const StateInfo& _Info)
 {
 	IdleRendererON();		
-	PlayerIdleRenderer_->ChangeAnimation("Idle");
+	PlayerIdleRenderer_->ChangeAnimation(PlayerName_+"Idle");
 	PlayerIdleRenderer_->GetTransform().SetLocalRotation({ 0,180,0 });
 	PlayerIdleRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
 
@@ -33,30 +33,30 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerInteract")) //컨트롤키
 	{
-		if (CurrentHoldingObject_ != nullptr)
-			//손에 무언가 있을때
+		
+		if (Interact_TableObject_ == nullptr)
 		{
-			if (CurHoldType_ == PlayerHoldType::CanThrow)
-			{
-				StateManager.ChangeState("Throw");
-			}
-			else if (CurHoldType_ == PlayerHoldType::FireExtinguisher)
-			{
-				StateManager.ChangeState("FireOff");
-			}
+			return;
 		}
-
 		else
-			//손에 아무것도 없을때
 		{
-			//앞의 타일 검사
-			//Interact_TableObject_->Input_PickUp(this) == Input_PickUpOption::PickUp;
-			//다지기, 설거지둘중 하나
+			if (Interact_TableObject_->GetStuff() == nullptr)
+			{
+				return;
+			}
+			else
+			{
+				if (Interact_TableObject_->GetStuff()->GetToolInfoType() == ToolInfo::CuttingBoard) // 도마일때
+				{
+					StateManager.ChangeState("Slice");
+					return;
+				}
+			}
 
-
-			StateManager.ChangeState("Slice");
-			//StateManager.ChangeState("DishWash");
 		}
+
+		//StateManager.ChangeState("DishWash");
+		
 	}
 }
 
@@ -115,7 +115,7 @@ void Player::ThrowStart(const StateInfo& _Info)
 }
 void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	PlayerIdleRenderer_->ChangeAnimation("Throw");
+	PlayerIdleRenderer_->ChangeAnimation(PlayerName_+"Throw");
 	PlayerIdleRenderer_->GetTransform().SetLocalRotation({ 0,180,0 });
 	PlayerIdleRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
 
@@ -181,7 +181,7 @@ void Player::HoldStart(const StateInfo& _Info)
 		return;
 	}
 	IdleRendererON();
-	PlayerIdleRenderer_->ChangeAnimation("IdleHolding");
+	PlayerIdleRenderer_->ChangeAnimation(PlayerName_+"IdleHolding");
 	PlayerIdleRenderer_->GetTransform().SetLocalRotation({ 0,180,0 });
 	PlayerIdleRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
 }
@@ -189,19 +189,16 @@ void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerInteract")) //컨트롤키
 	{
-		if (CurrentHoldingObject_ != nullptr)
-			//손에 무언가 있을때
+		if (CurHoldType_ == PlayerHoldType::CanThrow)
 		{
-			if (CurHoldType_ == PlayerHoldType::CanThrow)
-			{
-				StateManager.ChangeState("Throw");
-			}
-			else if (CurHoldType_ == PlayerHoldType::FireExtinguisher)
-			{
-				StateManager.ChangeState("FireOff");
-			}
+			StateManager.ChangeState("Throw");
+		}
+		else if (CurHoldType_ == PlayerHoldType::FireExtinguisher)
+		{
+			StateManager.ChangeState("FireOff");
 		}
 	}
+
 	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerHold")) // 놓기
 	{ 
 		if (FireOff_ == true)
@@ -240,7 +237,7 @@ void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 		true == GameEngineInput::GetInst()->IsPressKey("PlayerFront") ||
 		true == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
 	{
-		PlayerIdleRenderer_->ChangeAnimation("WalkHolding");
+		PlayerIdleRenderer_->ChangeAnimation(PlayerName_+"WalkHolding");
 		PlayerIdleRenderer_->GetTransform().SetLocalRotation({ 0,180,0 });
 		PlayerIdleRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
 		PlayerDirCheck();
@@ -275,7 +272,7 @@ void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 	else
 	{
-		PlayerIdleRenderer_->ChangeAnimation("IdleHolding");
+		PlayerIdleRenderer_->ChangeAnimation(PlayerName_+"IdleHolding");
 		PlayerIdleRenderer_->GetTransform().SetLocalRotation({ 0,180,0 });
 		PlayerIdleRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
 	}
