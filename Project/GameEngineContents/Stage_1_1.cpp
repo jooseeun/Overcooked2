@@ -4,6 +4,8 @@
 
 #include "LoadingData.h"
 #include "GlobalGameData.h"
+#include <GameEngineCore/GameEngineBlur.h>
+
 Stage_1_1::Stage_1_1()
 {
 }
@@ -14,6 +16,8 @@ Stage_1_1::~Stage_1_1()
 
 void Stage_1_1::PlayLevelStart()
 {
+	//GetMainCamera()->GetCameraRenderTarget()->AddEffect<GameEngineBlur>();
+
 	//CreateActor<LevelActor>()->SetLevelMesh("1_1.FBX");
 
 	//GlobalIOManager::Load(IOType::SortMap, 0);

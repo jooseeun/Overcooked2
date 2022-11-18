@@ -5,8 +5,7 @@
 #include <GameEngineBase/GameEngineDebugObject.h>
 
 
-class GameEngineUpdateObject : public GameEngineDebugObject
-	, public std::enable_shared_from_this<GameEngineUpdateObject>
+class GameEngineUpdateObject : public GameEngineDebugObject, public std::enable_shared_from_this<GameEngineUpdateObject>
 {
 public:
 	// constrcuter destructer

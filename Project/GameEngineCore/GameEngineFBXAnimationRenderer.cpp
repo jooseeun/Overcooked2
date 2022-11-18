@@ -4,12 +4,12 @@
 #include "GameEngineVertexShader.h"
 #include "GameEngineFBXMesh.h"
 
-GameEngineFBXAnimationRenderer::GameEngineFBXAnimationRenderer() 
+GameEngineFBXAnimationRenderer::GameEngineFBXAnimationRenderer()
 {
-	
+
 }
 
-GameEngineFBXAnimationRenderer::~GameEngineFBXAnimationRenderer() 
+GameEngineFBXAnimationRenderer::~GameEngineFBXAnimationRenderer()
 {
 	Animations.clear();
 }
@@ -108,6 +108,12 @@ void FBXRendererAnimation::Update(float _DeltaTime)
 		NextFrame = 0;
 	}
 
+	if (ParentRenderer->IsChangeTimer_ > 0.0f)
+	{
+		ParentRenderer->IsChangeTimer_ -= _DeltaTime;
+	}
+
+	float CurChangeTimer = 1 - ParentRenderer->IsChangeTimer_ * 5.0f;
 
 	std::vector<std::vector<GameEngineRenderUnit>>& Units = ParentRenderer->GetAllRenderUnit();
 
@@ -117,7 +123,6 @@ void FBXRendererAnimation::Update(float _DeltaTime)
 		{
 			GameEngineRenderUnit& Render = Units[UnitSetIndex][RenderUnitIndex];
 
-			// 위험!!!! 위험!!!! 뭔가 기분이 멜랑꽇ㄹㅁㄴ어ㅏ림ㄴㅇ엉라ㅣㅁㄴ
 			std::map<size_t, std::vector<float4x4>>::iterator MatrixIter = ParentRenderer->AnimationBoneMatrixs.find(UnitSetIndex);
 
 			if (MatrixIter == ParentRenderer->AnimationBoneMatrixs.end())
@@ -125,12 +130,10 @@ void FBXRendererAnimation::Update(float _DeltaTime)
 				continue;
 			}
 
-			// 68개 
 			std::vector<float4x4>& AnimationBoneMatrix = MatrixIter->second;
 
 			std::map<size_t, std::vector<AnimationBoneData>>::iterator AnimationDataIter = ParentRenderer->AnimationBoneDatas.find(UnitSetIndex);
-			// 68개 
-			std::vector<AnimationBoneData>& AnimationBoneData = AnimationDataIter->second;
+			std::vector<AnimationBoneData>& AnimationBoneDatas = AnimationDataIter->second;
 
 			size_t MeshIndex = MatrixIter->first;
 
@@ -140,52 +143,30 @@ void FBXRendererAnimation::Update(float _DeltaTime)
 
 				if (true == FBXAnimationData->AniFrameData[MeshIndex][i].BoneMatData.empty())
 				{
-					// 본의 프레임데이터가 없을때가 있습니다.
-					// 보통 항등행렬이 들어가 있는 경우가 많습니다.
-					// 기본행렬로 세팅해주는것.
-					// GameEngineDebug::MsgBoxError("아핀행렬 만들어라!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 					AnimationBoneMatrix[i] = float4x4::Affine(BoneData->BonePos.GlobalScale, BoneData->BonePos.GlobalRotation, BoneData->BonePos.GlobalTranslation);
 					return;
 				}
 
-				// 현재프레임과 
 				FbxExBoneFrameData& CurData = FBXAnimationData->AniFrameData[MeshIndex][i].BoneMatData[Info.CurFrame];
-				// 다음프레임의 정보가 필요한데
 				FbxExBoneFrameData& NextData = FBXAnimationData->AniFrameData[MeshIndex][i].BoneMatData[NextFrame];
 
-				// 애니메이션이 바뀌는 순간 한번은 저장해야 한다.
-				AnimationBoneData[i].Scale = float4::Lerp(CurData.S, NextData.S, Info.CurFrameTime);
-				// 로컬 쿼터니온
-				AnimationBoneData[i].RotQuaternion = float4::SLerpQuaternion(CurData.Q, NextData.Q, Info.CurFrameTime);
-				// 로컬 포지션
-				AnimationBoneData[i].Pos = float4::Lerp(CurData.T, NextData.T, Info.CurFrameTime);
-				// 새롭게 바뀐 애니메이션
+				AnimationBoneDatas[i].Scale = float4::Lerp(CurData.S, NextData.S, Info.CurFrameTime);
+				AnimationBoneDatas[i].RotQuaternion = float4::SLerpQuaternion(CurData.Q, NextData.Q, Info.CurFrameTime);
+				AnimationBoneDatas[i].Pos = float4::Lerp(CurData.T, NextData.T, Info.CurFrameTime);
 
-				// 애니메이션이 바뀌는 순간 한번은 저장해야 한다.
-				//PrevAnimation[i].Scale;
-				//PrevAnimation[i].RotQuaternion;
-				//PrevAnimation[i].Pos;
+				// 애니메이션 블렌딩
+				if (ParentRenderer->IsChangeTimer_ > 0.0f)
+				{
+					std::map<size_t, std::vector<AnimationBoneData>>::iterator BeforeAnimationDataIter = ParentRenderer->BeforeAnimationBoneDatas.find(UnitSetIndex);
+					std::vector<AnimationBoneData>& BeforeAnimationBoneData = BeforeAnimationDataIter->second;
 
-				//AnimationBoneData[i].Scale;
-				//AnimationBoneData[i].RotQuaternion;
-				//AnimationBoneData[i].Pos;
+					AnimationBoneDatas[i].Scale = float4::LerpLimit(BeforeAnimationBoneData[i].Scale, AnimationBoneDatas[i].Scale, CurChangeTimer);
+					AnimationBoneDatas[i].RotQuaternion = float4::SLerpQuaternion(BeforeAnimationBoneData[i].RotQuaternion, AnimationBoneDatas[i].RotQuaternion, CurChangeTimer);
+					AnimationBoneDatas[i].Pos = float4::LerpLimit(BeforeAnimationBoneData[i].Pos, AnimationBoneDatas[i].Pos, CurChangeTimer);
+				}
 
-				// float4::Lerp(PrevAnimation[i].Scale, AnimationBoneData[i].Scale, 0.0);
-
-				size_t Size = sizeof(float4x4);
-				// 자신의 원본행렬과 곱해준다 큰 의미는 없다.
-
-				float4x4 Mat = float4x4::Affine(AnimationBoneData[i].Scale, AnimationBoneData[i].RotQuaternion, AnimationBoneData[i].Pos);
-
-				//AnimationBoneData[i].Index = i;
-				//AnimationBoneData[i].Scale *= ParentRenderer->GetTransform()->GetTransformData().WorldWorld_;
-				//AnimationBoneData[i].RotQ = ParentRenderer->BoneData[i].RotQ.QuaternionMultiplyfloat4x4(ParentRenderer->GetTransform()->GetTransformData().WorldWorld_);
-				//AnimationBoneData[i].Pos *= ParentRenderer->GetTransform()->GetTransformData().WorldWorld_;
-				//AnimationBoneData[i].RotEuler = float4::QuaternionToEulerAngles(ParentRenderer->BoneData[i].RotQ) + ParentRenderer->GetTransform()->GetWorldRotation();
-				//AnimationBoneData[i].RotEuler *= GameEngineMath::RadianToDegree;
-
+				float4x4 Mat = float4x4::Affine(AnimationBoneDatas[i].Scale, AnimationBoneDatas[i].RotQuaternion, AnimationBoneDatas[i].Pos);
 				AnimationBoneMatrix[i] = BoneData->BonePos.Offset * Mat;
-				//AnimationBoneMatrix[i].Transpose();
 			}
 		}
 	}
@@ -329,7 +310,7 @@ void GameEngineFBXAnimationRenderer::CreateFBXAnimation(const std::string& _Anim
 
 	NewAnimation->Init(_AnimationName, _Index);
 
-	for (size_t i = 0; i < NewAnimation->End - NewAnimation->Start; i++)
+	for (unsigned int i = 0; i < NewAnimation->End - NewAnimation->Start; i++)
 	{
 		NewAnimation->Info.Frames.push_back(i);
 	}
@@ -341,7 +322,7 @@ void GameEngineFBXAnimationRenderer::CreateFBXAnimation(const std::string& _Anim
 	Animation;
 }
 
-void GameEngineFBXAnimationRenderer::ChangeAnimation(const std::string& _AnimationName)
+void GameEngineFBXAnimationRenderer::ChangeAnimation(const std::string& _AnimationName, bool _IsBlending)
 {
 	std::string UpperName = GameEngineString::ToUpperReturn(_AnimationName);
 
@@ -351,6 +332,12 @@ void GameEngineFBXAnimationRenderer::ChangeAnimation(const std::string& _Animati
 	{
 		MsgBoxAssert("존재하지 않는 애니메이션으로 체인지 하려고 했습니다.");
 		return;
+	}
+
+	if (true == _IsBlending)
+	{
+		IsChangeTimer_ = 0.2f;
+		BeforeAnimationBoneDatas = AnimationBoneDatas;
 	}
 
 	CurAnimation = FindIter->second;

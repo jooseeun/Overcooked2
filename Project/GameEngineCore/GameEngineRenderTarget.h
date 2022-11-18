@@ -32,8 +32,8 @@
 
 // 디바이스에 있는 백버퍼 랜더타겟
 
-class GameEnginePostEffect
-	: public std::enable_shared_from_this<GameEnginePostEffect>
+class GameEngineRenderTarget;
+class GameEnginePostEffect	: public std::enable_shared_from_this<GameEnginePostEffect>
 {
 private:
 	bool IsUpdate_ = true;
@@ -56,7 +56,7 @@ public:
 
 public:
 	virtual void EffectInit() = 0;
-	virtual void Effect(class GameEngineRenderTarget* _Render) = 0;
+	virtual void Effect(std::shared_ptr<GameEngineRenderTarget> _Render) = 0;
 
 	virtual ~GameEnginePostEffect() 
 	{
@@ -67,7 +67,7 @@ public:
 // 설명 :
 class GameEngineStatusWindow;
 class GameEngineDepthStencilTexture;
-class GameEngineRenderTarget : public GameEngineRes <GameEngineRenderTarget>
+class GameEngineRenderTarget : public GameEngineRes<GameEngineRenderTarget>, public std::enable_shared_from_this<GameEngineRenderTarget>
 {
 	friend GameEngineStatusWindow;
 

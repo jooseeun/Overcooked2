@@ -15,8 +15,8 @@ public:
 	GameEngineBlur& operator=(const GameEngineBlur& _Other) = delete;
 	GameEngineBlur& operator=(GameEngineBlur&& _Other) noexcept = delete;
 
-	virtual void EffectInit();
-	virtual void Effect(std::shared_ptr < GameEngineRenderTarget> _Render);
+	void EffectInit() override;
+	void Effect(std::shared_ptr<GameEngineRenderTarget> _Render) override;
 
 protected:
 	std::shared_ptr<GameEngineRenderTarget> CopyTarget;

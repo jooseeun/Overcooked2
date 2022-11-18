@@ -13,6 +13,6 @@ void GlobalVignette::EffectInit()
 {
 }
 
-void GlobalVignette::Effect(GameEngineRenderTarget* _Target)
+void GlobalVignette::Effect(std::shared_ptr<GameEngineRenderTarget> _Target)
 {
 }

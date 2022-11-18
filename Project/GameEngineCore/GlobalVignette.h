@@ -16,10 +16,10 @@ public:
 	GlobalVignette& operator=(GlobalVignette&& _Other) noexcept = delete;
 
 	void EffectInit() override;
-	void Effect(GameEngineRenderTarget* _Target) override;
+	void Effect(std::shared_ptr<GameEngineRenderTarget> _Target) override;
 
 protected:
-	GameEngineRenderTarget* CopyTarget;
+	std::shared_ptr<GameEngineRenderTarget> CopyTarget;
 	GameEngineRenderUnit EffectSet;
 
 private:

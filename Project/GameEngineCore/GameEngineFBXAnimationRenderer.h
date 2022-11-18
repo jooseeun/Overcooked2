@@ -82,7 +82,7 @@ public:
 	GameEngineRenderUnit* SetFBXMesh(const std::string& _Name, std::string _Material, size_t _MeshIndex, size_t _SubSetIndex = 0) override;
 
 	void CreateFBXAnimation(const std::string& _AnimationName, const GameEngineRenderingEvent& _Desc, int _Index = 0);
-	void ChangeAnimation(const std::string& _AnimationName);
+	void ChangeAnimation(const std::string& _AnimationName, bool _IsBlending = false);
 
 	void Update(float _DeltaTime) override;
 
@@ -145,7 +145,10 @@ private:
 	std::shared_ptr<FBXRendererAnimation> CurAnimation;
 
 	std::map<size_t, std::vector<float4x4>> AnimationBoneMatrixs;
-	// std::map<size_t, std::vector<float4x4>> PrevAnimationBoneMatrixs;
 	std::map<size_t, std::vector<AnimationBoneData>> AnimationBoneDatas;
+
+	float IsChangeTimer_;
+	std::map<size_t, std::vector<AnimationBoneData>> BeforeAnimationBoneDatas;
+
 };
 
