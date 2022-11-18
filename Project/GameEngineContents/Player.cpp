@@ -868,7 +868,8 @@ CollisionReturn Player::PutUpObjectTable(std::shared_ptr<GameEngineCollision> _T
 		float4 ToolPos = Interact_TableObject_->GetToolPos();
 		Interact_TableObject_->GetStuff()->GetTransform().SetWorldPosition(ToolPos);
 		CurrentHoldingObject_ = nullptr;
-		
+
+		StateManager.ChangeState("Idle");
 		return CollisionReturn::Break; 
 	}
 	

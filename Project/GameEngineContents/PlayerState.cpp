@@ -216,6 +216,8 @@ void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 			CurrentHoldingObject_->DetachObject();
 			CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,0,0});
 			CurrentHoldingObject_ = nullptr;
+			StateManager.ChangeState("Idle");
+			return;
 		}
 		else
 		{
@@ -223,9 +225,11 @@ void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 			{
 				return;
 			}
-
+			if (CurrentHoldingObject_ !=nullptr &&Interact_TableObject_->GetStuff()!=nullptr) // 일단 쓰레기통예외처리
+			{
+				return;
+			}
 		}
-		StateManager.ChangeState("Idle");
 		return;
 	}
 
