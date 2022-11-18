@@ -194,6 +194,9 @@
     <ClInclude Include="LoadingData.h">
       <Filter>Data</Filter>
     </ClInclude>
+    <ClInclude Include="InGameUIActor.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -388,6 +391,9 @@
     </ClCompile>
     <ClCompile Include="LoadingData.cpp">
       <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="InGameUIActor.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

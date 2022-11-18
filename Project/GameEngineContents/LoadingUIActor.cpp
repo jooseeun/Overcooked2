@@ -25,6 +25,13 @@ void LoadingUIActor::StartLoad()
 	LoadingData::GetFunc(GlobalGameData::GetCurStage().StageName)();
 }
 
+void LoadingUIActor::Reset()
+{
+	AccTime_ = 0.0f;
+	IsLoad_ = false;
+	TransitionIcon_->IsFinishFadeOut_ = false;
+}
+
 void LoadingUIActor::UIStart()
 {
 	InitRenderer();
@@ -115,30 +122,53 @@ void LoadingUIActor::InitRenderer()
 	LoadingBackRenderer_->GetTransform().SetLocalPosition({ 0,-310.f,0 });
 	LoadingFrontRenderer_ = CreateUIRenderer("UI_LoadingScreen_LoadingBar_01.png");
 	LoadingFrontRenderer_->GetTransform().SetLocalPosition({ 0,-310.f,0 });
+	LoadingFrontRenderer_->SetUIMode(3);
 }
 
 void LoadingUIActor::UIUpdate(float _DeltaTime)
 {
-	//시간이 지나면 다음 레벨로 전이
-	AccTime_ += _DeltaTime;
-	if (AccTime_ > 1.f)
+	if (TransitionIcon_->IsFinishFadeOut_ == true)
 	{
-		AccTime_ = 0.f;
 		GEngine::ChangeLevel(StageName_);
 	}
-	if (TransitionIcon_->IsFinishFadeIn_ == true)
+	////FadeIn & Out이 진행중이면 Info 업데이트를 하지 않는다.
+	//if (TransitionIcon_->IsFinishFadeIn_ == false && TransitionIcon_->IsUpdate() == true)
+	//{
+	//	return;
+	//}
+
+	StageData CurData = GlobalGameData::GetCurStageRef();
+
+	UpdateInfo(CurData, _DeltaTime);
+
+	RenderInfo(CurData);
+}
+
+void LoadingUIActor::UpdateInfo(StageData& CurData, float _DeltaTime)
+{
+	//시간이 지나면 다음 레벨로 전이 & 일정시간 지나면 필요한 리소스 Load
+	AccTime_ += _DeltaTime;
+
+	if (AccTime_ > MaxAccTime_ * 0.5f && IsLoad_ == false)
 	{
-		TransitionIcon_->Off();
-		BlackRenderer_->Off();
-		TransitionIcon_->IsFinishFadeIn_ = false;
+		IsLoad_ = true;
+		StartLoad();
+	}
+	if (AccTime_ > MaxAccTime_ && TransitionIcon_->IsUpdate() == false)
+	{
+		//AccTime_ = 0.f;
+		StartFadeOut();
 	}
 
-	//UpdateInfo
-	StageData CurData = GlobalGameData::GetCurStageRef();
 	StageName_ = CurData.StageName;
 	StageThema_ = CurData.StageThema;
+}
 
-	//RenderInfo
+void LoadingUIActor::RenderInfo(StageData& CurData)
+{
+	//로딩바 퍼센테이지  업데이트
+	LoadingFrontRenderer_->UpdateLeftToRight(AccTime_ / MaxAccTime_);
+
 	HighestScoreRenderer_->SetText("최고점수: " + std::to_string(HigestScore_), "Naughty Squirrel");
 
 	for (int i = 0; i < ScoreRenderer_.size(); i++)

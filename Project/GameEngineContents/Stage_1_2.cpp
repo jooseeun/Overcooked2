@@ -11,7 +11,7 @@ Stage_1_2::~Stage_1_2()
 {
 }
 
-void Stage_1_2::Start()
+void Stage_1_2::PlayLevelStart()
 {
 	//CreateActor<LevelActor>()->SetLevelMesh("1_2.FBX");
 
@@ -28,7 +28,7 @@ void Stage_1_2::Start()
 	//GetMainCameraActorTransform().SetLocalPosition({ -2509, 2500 , 950 });
 }
 
-void Stage_1_2::Update(float _DeltaTime)
+void Stage_1_2::PlayLevelUpdate(float _DeltaTime)
 {
 }
 

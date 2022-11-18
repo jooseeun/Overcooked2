@@ -12,7 +12,7 @@ Stage_1_1::~Stage_1_1()
 {
 }
 
-void Stage_1_1::Start()
+void Stage_1_1::PlayLevelStart()
 {
 	//CreateActor<LevelActor>()->SetLevelMesh("1_1.FBX");
 
@@ -31,7 +31,7 @@ void Stage_1_1::Start()
 	//GetMainCameraActorTransform().SetLocalPosition({ -1400, 2200, 1600 });
 }
 
-void Stage_1_1::Update(float _DeltaTime)
+void Stage_1_1::PlayLevelUpdate(float _DeltaTime)
 {
 	if (true == GameEngineInput::GetInst()->IsDownKey("FreeCameaOnOff"))
 	{

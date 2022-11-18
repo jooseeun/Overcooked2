@@ -53,6 +53,10 @@ public:
 	{
 		return ScaleRatio;
 	}
+	PixelData& GetPixelData()
+	{
+		return PixelDataInst;
+	}
 
 	void ResistDebug();
 
@@ -96,6 +100,13 @@ public:
 
 	void StartFadeIn();
 
+	void SetUIMode(int _Mode) // 3: LeftToRight Gauge
+	{
+		UIDataInst.UIMode = _Mode;
+	}
+
+	void UpdateLeftToRight(float _Percentage); // 0.0 : min , 1.0 : Max
+
 protected:
 	void Start() override;
 
@@ -138,6 +149,8 @@ private:
 	bool IsFadeOut_; //true : FadeOut, false : FadeIn
 public:
 	bool IsFinishFadeIn_ = false;
+	bool IsFinishFadeOut_ = false;
+
 private:
 
 	float TransitionRatio_;

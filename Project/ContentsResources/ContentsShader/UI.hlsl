@@ -153,6 +153,34 @@ float4 UI_PS(Output _Input) : SV_Target0
         }
         return Result;
     }
+    if (UIMode == 3) //Loading ¹Ù (Left To Right)
+    {
+        if (_Input.Tex.x > Slice.x)
+        {
+            clip(-1);
+        }
+    
+        if (_Input.Tex.y < Slice.y)
+        {
+            clip(-1);
+        }
+    
+        float4 TexColor = Tex.Sample(LINEARWRAP, _Input.Tex.xy);
+        if (TexColor.a == 0)
+        {
+            clip(-1);
+        }
+    
+        float4 Result = (Tex.Sample(LINEARWRAP, _Input.Tex.xy) * MulColor) + PlusColor;
+    
+        if (1 <= Result.a)
+        {
+            Result.a = 1.0f;
+
+        }
+    
+        return Result;
+    }
     return (Tex.Sample(LINEARWRAP, _Input.Tex.xy) * MulColor) + PlusColor;
     
     

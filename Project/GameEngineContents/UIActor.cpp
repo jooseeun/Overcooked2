@@ -22,6 +22,13 @@ void UIActor::Start()
 
 void UIActor::Update(float _DeltaTime)
 {
+	//FadeIn
+	if (TransitionIcon_->IsFinishFadeIn_ == true)
+	{
+		TransitionIcon_->Off();
+		BlackRenderer_->Off();
+		TransitionIcon_->IsFinishFadeIn_ = false;
+	}
 	UIUpdate(_DeltaTime);
 }
 
