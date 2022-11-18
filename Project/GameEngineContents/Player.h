@@ -61,7 +61,6 @@ protected:
 	CollisionReturn GetCrashTableObject(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 	CollisionReturn GravityColCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 	CollisionReturn MoveColCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
-	CollisionReturn PutUpObjectTable(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 	
 public:
 	inline Input_PickUpOption Input_PickUp(std::shared_ptr<Player> _Player) override { return Input_PickUpOption::NoResponse; }

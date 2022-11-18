@@ -205,24 +205,40 @@ void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 		{
 			FireOff_ = false;
 		}
-		if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
-			std::bind(&Player::PutUpObjectTable, this, std::placeholders::_1, std::placeholders::_2)) == false) //
-		{
 
+
+
+		if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB) == false) //
+		{
+			// 없을때-> 바닥에 놓기
 			CurrentHoldingObject_->GetCollisionObject()->On();
-			CurrentHoldingObject_->DetachObject();
 			CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,0,0});
+			CurrentHoldingObject_->DetachObject();
 			CurrentHoldingObject_ = nullptr;
 			StateManager.ChangeState("Idle");
 			return;
 		}
-		else
+		else // 앞에 테이블이 있을때
 		{
-			if (Interact_TableObject_->GetStuff()->GetToolInfoType() == ToolInfo::CuttingBoard) // 도마일때
+			if (Interact_TableObject_->GetStuff() == nullptr) // 테이블 있고 테이블에 올려진 물건이 없을때
+			{
+				CurrentHoldingObject_->GetCollisionObject()->On();
+				CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,0,0 });
+				CurrentHoldingObject_->DetachObject();
+				Interact_TableObject_->SetStuff(CurrentHoldingObject_);
+				float4 ToolPos = Interact_TableObject_->GetToolPos();
+				Interact_TableObject_->GetStuff()->GetTransform().SetWorldPosition(ToolPos);
+				CurrentHoldingObject_ = nullptr;
+
+				StateManager.ChangeState("Idle");
+				return;
+			}
+
+			else if (Interact_TableObject_->GetStuff()->GetToolInfoType() == ToolInfo::CuttingBoard) // 도마일때
 			{
 				return;
 			}
-			if (CurrentHoldingObject_ !=nullptr &&Interact_TableObject_->GetStuff()!=nullptr) // 일단 쓰레기통예외처리
+			else if (CurrentHoldingObject_ != nullptr && Interact_TableObject_->GetStuff() != nullptr) // 일단 쓰레기통예외처리
 			{
 				return;
 			}
