@@ -4,6 +4,8 @@
 #include "GlobalGameData.h"
 #include "InGameUIActor.h"
 
+#include "UIDebugGUI.h"
+
 GamePlayLevel::GamePlayLevel()
 {
 }
@@ -32,7 +34,9 @@ void GamePlayLevel::LevelStartEvent()
 	if (IsLevelStartFirst_ == false)
 	{
 		//FadeInÀÌº¥Æ®
+		UIDebugGUI::Main_->On();
 		UIActor_->StartFadeIn();
+
 		PlayLevelStartEvent();
 		return;
 	}
@@ -43,4 +47,9 @@ void GamePlayLevel::LevelStartEvent()
 	GlobalGameData::SetCurStage(GetName());
 	GEngine::ChangeLevel("LoadingLevel");
 	return;
+}
+
+void GamePlayLevel::LevelEndEvent()
+{
+	UIDebugGUI::Main_->Off();
 }

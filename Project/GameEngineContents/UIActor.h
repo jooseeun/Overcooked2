@@ -25,6 +25,7 @@ protected:
 
 	void ResistDebug(std::string_view _Name, GameEngineTransform& Trans);
 	std::shared_ptr<OverCookedUIRenderer> CreateUIRenderer(std::string_view _TextrueName);
+	std::shared_ptr<OverCookedUIRenderer> CreateUIRenderer(std::string_view _TextrueName, float _ScaleRatio);
 
 	//Transition
 	std::shared_ptr<OverCookedUIRenderer> BlackRenderer_ = nullptr;

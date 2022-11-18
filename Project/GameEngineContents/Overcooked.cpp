@@ -173,7 +173,7 @@ void Overcooked::TextureLoad()
 	}
 
 	{
-		//InGame UI
+		//Select UI
 		{
 			GameEngineDirectory Dir;
 			Dir.MoveParentToExitsChildDirectory("ContentsResources");
@@ -181,6 +181,23 @@ void Overcooked::TextureLoad()
 			Dir.Move("Texture");
 			Dir.Move("UI");
 			Dir.Move("SelectStage");
+
+			std::vector<GameEngineFile> Textures = Dir.GetAllFile();
+
+			for (size_t i = 0; i < Textures.size(); i++)
+			{
+				GameEngineTexture::Load(Textures[i].GetFullPath());
+			}
+		}
+
+		//InGame UI
+		{
+			GameEngineDirectory Dir;
+			Dir.MoveParentToExitsChildDirectory("ContentsResources");
+			Dir.Move("ContentsResources");
+			Dir.Move("Texture");
+			Dir.Move("UI");
+			Dir.Move("InGame");
 
 			std::vector<GameEngineFile> Textures = Dir.GetAllFile();
 
@@ -237,8 +254,8 @@ void Overcooked::LoadCommonResource()
 	//	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("uuu.FBX"));
 	//	std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("uuu.FBX"));
 	//}
-	// 
-	// 
+	//
+	//
 	//Player Resource Animation ·Îµå
 	{
 		GameEngineDirectory Dir;
@@ -248,7 +265,6 @@ void Overcooked::LoadCommonResource()
 		Dir.Move("Object");
 		Dir.Move("Player");
 		Dir.Move("AlienGreen");
-
 
 		{
 			GameEngineDirectory MeshDir = Dir;

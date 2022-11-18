@@ -50,4 +50,6 @@ private:
 	static std::string CurStage_;
 
 	static std::map<std::string, StageData> AllStageData_;
+
+	static float LeftTime_;
 };
