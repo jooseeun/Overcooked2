@@ -79,17 +79,29 @@ void Player::Start()
 		PlayerIdleRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();
 		PlayerIdleRenderer_->SetFBXMesh("AlienGreen_Idle.FBX", "TextureAnimation");
 
-		PlayerIdleRenderer_->CreateFBXAnimation("Idle", {}/*"AlienGreen_Idle.FBX"*/); //o
-		PlayerIdleRenderer_->CreateFBXAnimation("Idle2", {}/*"AlienGreen_Idle2.FBX"*/); //o
-		PlayerIdleRenderer_->CreateFBXAnimation("WalkHolding", {}/*"AlienGreen_WalkHolding.FBX"*/); //o
-		PlayerIdleRenderer_->CreateFBXAnimation("CarDeath", {}/*"AlienGreen_CarDeath.FBX"*/);//o
-		PlayerIdleRenderer_->CreateFBXAnimation("Death", {}/*"AlienGreen_Death.FBX"*/); //o
-		PlayerIdleRenderer_->CreateFBXAnimation("Drowning", {}/*"AlienGreen_Drowning.FBX"*/); //o
-		PlayerIdleRenderer_->CreateFBXAnimation("Fall", {}/*"AlienGreen_Fall.FBX"*/); //o
-		PlayerIdleRenderer_->CreateFBXAnimation("IdleHolding", {}/*"AlienGreen_IdleHolding.FBX"*/); //o
-		PlayerIdleRenderer_->CreateFBXAnimation("Slip", {}/*"AlienGreen_Slip.FBX"*/);//o
-		PlayerIdleRenderer_->CreateFBXAnimation("Stand", {}/*"AlienGreen_Stand.FBX"*/);//o
-		PlayerIdleRenderer_->CreateFBXAnimation("Throw", {}/*"AlienGreen_Throw.FBX"*/);//o
+
+		PlayerIdleRenderer_->CreateFBXAnimation("Idle", 
+			GameEngineRenderingEvent("AlienGreen_Idle.FBX", 0.1f, true));
+		PlayerIdleRenderer_->CreateFBXAnimation("Idle2", 
+			GameEngineRenderingEvent("AlienGreen_Idle2.FBX", 0.1f, true));
+		PlayerIdleRenderer_->CreateFBXAnimation("WalkHolding", 
+			GameEngineRenderingEvent("AlienGreen_WalkHolding.FBX", 0.1f, true));
+		PlayerIdleRenderer_->CreateFBXAnimation("CarDeath", 
+			GameEngineRenderingEvent("AlienGreen_CarDeath.FBX", 0.1f, true));
+		PlayerIdleRenderer_->CreateFBXAnimation("Death", 
+			GameEngineRenderingEvent("AlienGreen_Death.FBX", 0.1f, true));
+		PlayerIdleRenderer_->CreateFBXAnimation("Drowning", 
+			GameEngineRenderingEvent("AlienGreen_Drowning.FBX",  0.1f, true));
+		PlayerIdleRenderer_->CreateFBXAnimation("Fall", 
+			GameEngineRenderingEvent("AlienGreen_Fall.FBX", 0.1f, true));
+		PlayerIdleRenderer_->CreateFBXAnimation("IdleHolding", 
+			GameEngineRenderingEvent("AlienGreen_IdleHolding.FBX", 0.1f, true));
+		PlayerIdleRenderer_->CreateFBXAnimation("Slip", 
+			GameEngineRenderingEvent("AlienGreen_Slip.FBX",  0.1f, true));
+		PlayerIdleRenderer_->CreateFBXAnimation("Stand", 
+			GameEngineRenderingEvent("AlienGreen_Stand.FBX", 0.1f, true));
+		PlayerIdleRenderer_->CreateFBXAnimation("Throw", 
+			GameEngineRenderingEvent("AlienGreen_Throw.FBX",  0.1f, true));
 
 
 		PlayerIdleRenderer_->ChangeAnimation("Idle");
@@ -98,7 +110,8 @@ void Player::Start()
 
 		PlayerWalkRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();
 		PlayerWalkRenderer_->SetFBXMesh("AlienGreen_Walk.FBX", "TextureAnimation");
-		PlayerWalkRenderer_->CreateFBXAnimation("Walk", {}/*"AlienGreen_Walk.FBX"*/); // Idle ȣȯ x
+		PlayerWalkRenderer_->CreateFBXAnimation("Walk", 
+			GameEngineRenderingEvent("AlienGreen_Walk.FBX",  0.1f, true)); // Idle ȣȯ x
 		PlayerWalkRenderer_->ChangeAnimation("Walk");
 		PlayerWalkRenderer_->GetTransform().SetLocalRotation({ 90,180,0 });
 		PlayerWalkRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
@@ -106,7 +119,8 @@ void Player::Start()
 
 		PlayerWashRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();
 		PlayerWashRenderer_->SetFBXMesh("AlienGreen_Wash.FBX", "TextureAnimation");
-		PlayerWashRenderer_->CreateFBXAnimation("Wash", {}/*"AlienGreen_Wash.FBX"*/); // Idle ȣȯ x
+		PlayerWashRenderer_->CreateFBXAnimation("Wash", 
+			GameEngineRenderingEvent("AlienGreen_Wash.FBX", 0.1f, true)); // Idle ȣȯ x
 		PlayerWashRenderer_->ChangeAnimation("Wash");
 		PlayerWashRenderer_->GetTransform().SetLocalRotation({ 90,180,0 });
 		PlayerWashRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
@@ -114,7 +128,8 @@ void Player::Start()
 
 		PlayerChopRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();
 		PlayerChopRenderer_->SetFBXMesh("AlienGreen_Chop.FBX", "TextureAnimation");
-		PlayerChopRenderer_->CreateFBXAnimation("Chop", {}/*"AlienGreen_Chop.FBX"*/); // Idle ȣȯ x
+		PlayerChopRenderer_->CreateFBXAnimation("Chop", 
+			GameEngineRenderingEvent("AlienGreen_Chop.FBX",  0.1f, true)); // Idle ȣȯ x
 		PlayerChopRenderer_->ChangeAnimation("Chop");
 		PlayerChopRenderer_->GetTransform().SetLocalRotation({ 90,180,0 });
 		PlayerChopRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
