@@ -56,8 +56,10 @@ void Stage_1_2::PlayLevelStartEvent()
 	MainPlayer->GetTransform().SetLocalPosition({ -1500, 500, 0 });
 
 	std::shared_ptr<Pigeon_Flying> Pigeon_ = CreateActor<Pigeon_Flying>();
-	Pigeon_->GetTransform().SetLocalPosition({ -1100, 800, 0 });
+	Pigeon_->GetTransform().SetLocalPosition({ -700, 800, -500 });
+	Pigeon_->GetTransform().SetLocalRotation({0, 10, 0});
 	Pigeon_->GetTransform().PixLocalNegativeX();
+	Pigeon_->SetStartPosition(Pigeon_->GetTransform().GetLocalPosition());
 
 	GetMainCameraActorTransform().SetLocalRotation({ 60, 180, 0 });
 	GetMainCameraActorTransform().SetLocalPosition({ -2509, 2500 , 950 });
