@@ -297,7 +297,8 @@ void Player::Gravity()
 
 void Player::CalculateKineticEnergy()
 {
-	CurKineticEnergy_ = 0.5 * Speed_ * sqrt(pow(GetTransform().GetLocalScale().x, 2) + pow(GetTransform().GetLocalScale().y, 2)+ pow(GetTransform().GetLocalScale().z, 2));
+	CurKineticEnergy_ = 0.5 * Speed_ * sqrt(pow((double)GetTransform().GetLocalScale().x, 2) + 
+		pow((double)GetTransform().GetLocalScale().y, 2)+ pow((double)GetTransform().GetLocalScale().z, 2));
 }
 
 bool Player::MoveAngle()
@@ -862,28 +863,6 @@ CollisionReturn Player::GetCrashTableObject(std::shared_ptr<GameEngineCollision>
 	return CollisionReturn::Break;
 }
 
-CollisionReturn Player::PutUpObjectTable(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
-{
-	 
- 	Interact_TableObject_ = _Other->GetActor<GamePlayStaticObject>();
-
-
-    if (Interact_TableObject_->GetStuff() == nullptr) // 테이블 있고 테이블에 올려진 물건이 없을때
-	{                  	
-		CurrentHoldingObject_->GetCollisionObject()->On();
-		CurrentHoldingObject_->DetachObject();
-		Interact_TableObject_->SetStuff(CurrentHoldingObject_);
-		float4 ToolPos = Interact_TableObject_->GetToolPos();
-		Interact_TableObject_->GetStuff()->GetTransform().SetWorldPosition(ToolPos);
-		CurrentHoldingObject_ = nullptr;
-
-		StateManager.ChangeState("Idle");
-		return CollisionReturn::Break; 
-	}
-	
-	Interact_TableObject_->SetBloomEffectOn();
-	return CollisionReturn::Break;
-}
 
 CollisionReturn Player::GravityColCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 {
