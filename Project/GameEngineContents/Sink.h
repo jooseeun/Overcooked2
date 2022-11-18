@@ -20,11 +20,12 @@ public:
 	Sink& operator=(const Sink& _Other) = delete;
 	Sink& operator=(Sink&& _Other) noexcept = delete;
 
+	void SetSinkMesh(SinkType _Type);
+
 protected:
 	void Start() override;
 
 private:
-
 };
 
 // Ό³Έν :
@@ -52,10 +53,6 @@ protected:
 	Input_PickUpOption CheckMoveable(std::shared_ptr<GamePlayMoveable> _Object) override;
 	//void Input_Action_End(std::shared_ptr<GamePlayMoveable> _Moveable) override;
 private:
-
-
-
 	std::shared_ptr<Equipment_Plate> ReturnCleanPlate_;
 };
-
 

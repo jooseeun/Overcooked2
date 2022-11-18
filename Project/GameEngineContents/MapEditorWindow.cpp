@@ -52,7 +52,16 @@ MapEditorWindow::~MapEditorWindow()
 
 void MapEditorWindow::Initialize(GameEngineLevel* _Level)
 {
-	
+	GameEngineDirectory Dir;
+	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	Dir.Move("ContentsResources");
+	Dir.Move("Mesh");
+	Dir.Move("Level");
+	Dir.Move("1_1");
+	Dir.Move("SortObject");
+	Dir.Move("CounterTop");
+
+	std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_sk_countertop_01.FBX"));
 }
 
 void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
@@ -93,7 +102,7 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 					std::weak_ptr<Candle> Object = std::dynamic_pointer_cast<Candle>(UnSortActorList_[i].lock());
 					TmpData.Index_.x = (float)Object.lock()->GetCandleTypeIndex();
 				}
-				
+
 				GlobalIOManager::AddMapData(TmpData);
 			}
 
@@ -241,7 +250,7 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				Prefabs_.push_back("Sink");
 				Prefabs_.push_back("CounterTop_Wizard");
 				Prefabs_.push_back("FoodBox");
-				//Prefabs_.push_back("Wizard_Sink");
+				Prefabs_.push_back("Sink_Wizard");
 			}
 		}
 
@@ -405,7 +414,7 @@ void MapEditorWindow::UnSortToolTab()
 			{
 				IsCandleCheckBox_ = true;
 			}
-			else if(Type != MapObjType::Candle && true == IsCheckType[i])
+			else if (Type != MapObjType::Candle && true == IsCheckType[i])
 			{
 				IsCandleCheckBox_ = false;
 			}
@@ -416,15 +425,15 @@ void MapEditorWindow::UnSortToolTab()
 	{
 		if (false != IsCheckType[i])
 		{
- 		//	for (size_t j = 0; j < RendererType.size(); j++)
-			//{
-			//	if (false != IsCheckType[j] && i != j)
-			//	{
-			//		IsCheckType[j] = false;
-			//		break;
-			//	}
-			//}
-			// 체크박스 중 true인 애가 있다 -> 타입 지정
+			//	for (size_t j = 0; j < RendererType.size(); j++)
+				//{
+				//	if (false != IsCheckType[j] && i != j)
+				//	{
+				//		IsCheckType[j] = false;
+				//		break;
+				//	}
+				//}
+				// 체크박스 중 true인 애가 있다 -> 타입 지정
 			ObjectTypeIndex = static_cast<MapObjType>(i);
 		}
 	}
@@ -476,16 +485,16 @@ void MapEditorWindow::UnSortToolTab()
 			Object.lock()->SetMapObjType(ObjectTypeIndex);
 			UnSortActorList_.push_back(Object);
 		}
-			break;
+		break;
 		case MapObjType::Car:
 		{
 			std::weak_ptr<Car> Object = CurLevel_->CreateActor<Car>();
-			Object.lock()->GetTransform().SetWorldPosition({0.f, 0.f, 0.f});
+			Object.lock()->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
 			Object.lock()->SetMapObjectMesh(AllUnSortActorName_[SelectNameIndex], ObjectTypeIndex);
 			Object.lock()->SetName(AllUnSortActorName_[SelectNameIndex]);
 			UnSortActorList_.push_back(Object);
 		}
-			break;
+		break;
 		case MapObjType::TrafficLight:
 		{
 			std::weak_ptr<TrafficLight> Object = CurLevel_->CreateActor<TrafficLight>();
@@ -495,7 +504,7 @@ void MapEditorWindow::UnSortToolTab()
 			Object.lock()->SetMapObjType(ObjectTypeIndex);
 			UnSortActorList_.push_back(Object);
 		}
-			break;
+		break;
 		case MapObjType::Candle:
 		{
 			std::weak_ptr<Candle> Object = CurLevel_->CreateActor<Candle>();
@@ -534,7 +543,7 @@ void MapEditorWindow::UnSortToolTab()
 			Object.lock()->SetMapObjType(ObjectTypeIndex);
 			UnSortActorList_.push_back(Object);
 		}
-			break;
+		break;
 		}
 	}
 
@@ -752,7 +761,7 @@ void MapEditorWindow::SortToolTab()
 
 			for (size_t i = 0; i < ToolNames.size(); ++i)
 			{
-				if (ToolNames[i] == CurType) 
+				if (ToolNames[i] == CurType)
 				{
 					if (false == IsChecks_[i])
 					{
@@ -886,9 +895,14 @@ void MapEditorWindow::SortToolTab()
 			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::Cooker);
 			break;
 		case 7:
+		{
 			CurStaticMesh_ = CurLevel_->CreateActor<Sink>();
 			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::Sink);
-			break;
+
+			std::weak_ptr<Sink> Object = std::dynamic_pointer_cast<Sink>(CurStaticMesh_.lock());
+			Object.lock()->SetSinkMesh(SinkType::Normal);
+		}
+		break;
 		case 8:
 		{
 			CurStaticMesh_ = CurLevel_->CreateActor<CounterTop>();
@@ -904,6 +918,15 @@ void MapEditorWindow::SortToolTab()
 			CurStaticMesh_ = CurLevel_->CreateActor<FoodBox>();
 			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::FoodBox);
 			break;
+		case 10:
+		{
+			CurStaticMesh_ = CurLevel_->CreateActor<Sink>();
+			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::Sink_Wizard);
+
+			std::weak_ptr<Sink> Object = std::dynamic_pointer_cast<Sink>(CurStaticMesh_.lock());
+			Object.lock()->SetSinkMesh(SinkType::Wizard);
+		}
+		break;
 		}
 
 		//기준 엑터의 자식으로 둔다.
@@ -961,7 +984,7 @@ void MapEditorWindow::SortToolTab()
 		&& 0 < SortActorList_.size()
 		&& ActorIndex < SortActorList_.size())
 	{
-		SortActorList_[ActorIndex].lock()->GetTransform().SetAddWorldRotation({0.f, 90.f, 0.f});
+		SortActorList_[ActorIndex].lock()->GetTransform().SetAddWorldRotation({ 0.f, 90.f, 0.f });
 	}
 
 	ImGui::EndTabItem();
