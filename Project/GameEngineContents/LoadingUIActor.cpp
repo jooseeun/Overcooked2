@@ -108,7 +108,6 @@ void LoadingUIActor::InitRenderer()
 	HighestScoreRenderer_->SetSize(30.f);
 	HighestScoreRenderer_->SetAffectTransform(true);
 	HighestScoreRenderer_->GetTransform().SetLocalPosition({ 340,345 });
-	//ResistDebug("HigestScore", HighestScoreRenderer_->GetTransform());
 
 	//별
 	{
@@ -203,7 +202,6 @@ void LoadingUIActor::CreateStarNScoreRenderer(const float4& _Pos, int _Score)
 	//빈 별 추가
 	std::shared_ptr<OverCookedUIRenderer> NewRenderer = CreateUIRenderer("UI_LoadingScreen_EmptyStar_01.png");
 	NewRenderer->GetTransform().SetLocalPosition(_Pos);
-	NewRenderer->ResistDebug();
 	StarRenderer_.push_back(NewRenderer);
 
 	//스코어 폰트 추가
@@ -217,6 +215,5 @@ void LoadingUIActor::CreateStarNScoreRenderer(const float4& _Pos, int _Score)
 	NewFont->GetTransform().SetLocalPosition(_Pos);
 	NewFont->GetTransform().SetLocalMove({ 0,-45.f,-1 });
 	//NewFont->GetTransform().SetParentTransform(NewRenderer->GetTransform());
-	ResistDebug(std::to_string(_Score), NewFont->GetTransform());
 	ScoreRenderer_.push_back(NewFont);
 }

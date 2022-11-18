@@ -27,6 +27,9 @@ protected:
 	void LevelStartEvent() final;
 	virtual void PlayLevelStartEvent() {}; //LevelStartEvent 말고 이 함수 구현해주세요!!
 
+	void LevelEndEvent() final;
+	virtual void PlayLevelEndEvent() {};
+
 	MapDataParser DataParser_;
 private:
 	bool IsLevelStartFirst_ = true; //레벨 이동을 맨 처음 할 경우 리소스 로드로 갑니다
