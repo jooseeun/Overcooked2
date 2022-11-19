@@ -88,6 +88,12 @@ private:
 	ObjectType Enum_ObjectType_;
 
 
+	// Physics
+	CollisionReturn CheckCollisionObjectByPhysics(GameEngineCollision* _This, GameEngineCollision* _Other);
+	static void CalculatorPhysic(std::weak_ptr<GamePlayObject> _ObjectA, std::weak_ptr<GamePlayObject> _ObjectB);
+
+	float4 Vector_;
+	float4 External_Vector_;
 
 	// Effect
 private:

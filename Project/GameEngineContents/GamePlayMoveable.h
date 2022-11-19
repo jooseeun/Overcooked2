@@ -62,7 +62,7 @@ public:
 
 protected:
 	void Start() override;
-	void Update(float _DeltaTime) override {};
+	void Update(float _DeltaTime) final;
 	void End() override {};
 
 	void OnEvent() override {};
@@ -78,8 +78,6 @@ protected:
 	{
 		Enum_ObjectMoveableType_ = _Type;
 	}
-
-
 
 
 
@@ -115,6 +113,8 @@ private:
 	ObjectMoveableType Enum_ObjectMoveableType_;
 
 	float CookingGage_;
+	
+
 	//CookedStat CookedStat_Current_;
 
 
