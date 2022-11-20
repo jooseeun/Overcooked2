@@ -62,7 +62,7 @@ public:
 
 protected:
 	void Start() override;
-	void Update(float _DeltaTime) final;
+	//void Update(float _DeltaTime) final;
 	void End() override {};
 
 	void OnEvent() override {};

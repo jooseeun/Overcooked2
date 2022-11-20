@@ -18,6 +18,12 @@ enum class Input_PickUpOption
 	PickUp,
 };
 
+
+struct PhysicCollision
+{
+
+};
+
 class GamePlayMoveable;
 class Player;
 class GamePlayObject : public GameEngineActor
@@ -55,7 +61,7 @@ public:
 
 protected:
 	void Start() override;
-	void Update(float _DeltaTime) override {};
+	void Update(float _DeltaTime) override;
 	void End() override {};
 
 	void OnEvent() override {};
@@ -89,11 +95,14 @@ private:
 
 
 	// Physics
-	CollisionReturn CheckCollisionObjectByPhysics(GameEngineCollision* _This, GameEngineCollision* _Other);
+	CollisionReturn CheckCollisionObjectByPhysics_Enter(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
+	CollisionReturn CheckCollisionMapObjectByPhysics_Enter(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 	static void CalculatorPhysic(std::weak_ptr<GamePlayObject> _ObjectA, std::weak_ptr<GamePlayObject> _ObjectB);
-
+	static void CalculatorPhysicByMapobject(std::weak_ptr<GamePlayObject> _Object, std::weak_ptr<GamePlayObject> _MapObject);
 	float4 Vector_;
 	float4 External_Vector_;
+
+	//PhysicCollision PhysicCollision_;
 
 	// Effect
 private:
@@ -118,4 +127,3 @@ public:
 	//
 
 };
-

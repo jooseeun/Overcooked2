@@ -25,19 +25,61 @@ void GamePlayObject::Start()
 	AnimationMesh_Obejct_ = CreateComponent<GameEngineFBXAnimationRenderer>("AnimationMesh_Obejct");
 }
 
+void GamePlayObject::Update(float _DeltaTime)
+{
+	if (GetParent() == nullptr)
+	{
+		if (GetCollisionObject()->IsCollision(CollisionType::CT_AABB, CollisionOrder::Floor, CollisionType::CT_AABB) == false)
+		{
+			GetTransform().SetWorldDownMove(300.0f, GameEngineTime::GetDeltaTime());
+		}
 
 
-CollisionReturn GamePlayObject::CheckCollisionObjectByPhysics(GameEngineCollision* _This, GameEngineCollision* _Other)
+		GetCollisionObject()->SetCollisionMode(CollisionMode::Ex);
+		if (GetCollisionObject()->IsCollisionEnterBase(CollisionType::CT_OBB, static_cast<int>(CollisionOrder::Map_Object), CollisionType::CT_OBB,
+			std::bind(&GamePlayObject::CheckCollisionObjectByPhysics_Enter, this, std::placeholders::_1, std::placeholders::_2)) == false)
+		{
+
+		}
+
+		GetCollisionObject()->SetCollisionMode(CollisionMode::Normal);
+
+
+	}
+
+	if (true)
+	{
+
+	}
+	
+}
+
+
+CollisionReturn GamePlayObject::CheckCollisionObjectByPhysics_Enter(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 {
 	CalculatorPhysic(std::dynamic_pointer_cast<GamePlayObject>(shared_from_this()), _Other->GetActor<GamePlayObject>());
 
 	return CollisionReturn::ContinueCheck;
 }
 
+CollisionReturn GamePlayObject::CheckCollisionMapObjectByPhysics_Enter(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
+{
+	CalculatorPhysicByMapobject(std::dynamic_pointer_cast<GamePlayObject>(shared_from_this()), _Other->GetActor<GamePlayObject>());
+
+	return CollisionReturn::ContinueCheck;
+}
+
 // Static
 void GamePlayObject::CalculatorPhysic(std::weak_ptr<GamePlayObject> _ObjectA, std::weak_ptr<GamePlayObject> _ObjectB)
-{
+{   
 	_ObjectA.lock()->External_Vector_ += (_ObjectA.lock()->Vector_ - _ObjectB.lock()->Vector_);
 	_ObjectB.lock()->External_Vector_ += (_ObjectB.lock()->Vector_ - _ObjectA.lock()->Vector_);
+}
 
+void GamePlayObject::CalculatorPhysicByMapobject(std::weak_ptr<GamePlayObject> _Object, std::weak_ptr<GamePlayObject> _MapObject)
+{
+	_Object.lock()->GetCollisionObject();
+
+
+	_Object.lock()->External_Vector_ += (_MapObject.lock()->Vector_ - _Object.lock()->Vector_);
 }

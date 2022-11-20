@@ -78,9 +78,9 @@ public:
 
 	bool IsCollisionExitBase(CollisionType _ThisType, int _GroupOrder
 		, CollisionType _OtherType
-		, std::function<CollisionReturn(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)> _Enter = nullptr
-		, std::function<CollisionReturn(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)> _Update = nullptr
 		, std::function<CollisionReturn(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)> _Exit = nullptr
+		, std::function<CollisionReturn(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)> _Update = nullptr
+		, std::function<CollisionReturn(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)> _Enter = nullptr
 	) 
 	{
 		return IsCollision(_ThisType, _GroupOrder, _OtherType, _Update, _Enter, _Exit);
