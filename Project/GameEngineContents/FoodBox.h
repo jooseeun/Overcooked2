@@ -14,6 +14,10 @@ public:
 	FoodBox& operator=(const FoodBox& _Other) = delete;
 	FoodBox& operator=(FoodBox&& _Other) noexcept = delete;
 
+	inline void SwitchIsInteraction()
+	{
+		IsInteraction_ = !IsInteraction_;
+	}
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;

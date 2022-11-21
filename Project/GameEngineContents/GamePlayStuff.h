@@ -34,6 +34,7 @@ public:
 	}
 	virtual inline Input_UsingOption Input_Throwing(const float4& _Vector)
 	{
+		SetVector(_Vector);
 		return Input_UsingOption::NoResponse;
 	}
 

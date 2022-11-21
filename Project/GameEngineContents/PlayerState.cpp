@@ -2,6 +2,9 @@
 #include "Player.h"
 #include "GamePlayFood.h"
 #include "GamePlayStaticObject.h"
+#include "FoodBox.h"
+#include "TrashCan.h"
+#include "Equipment_Plate.h"
 #include <math.h>
 
 void Player::IdleStart(const StateInfo& _Info)
@@ -134,13 +137,13 @@ void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 		{
 			// CurrentHoldingObject - 부모자식관계 삭제, 피봇 원래대로 돌리기
 			// CurrentHoldingObject -> 여기서 Throw 함수 해주면 된다. 
-
 			CurrentHoldingObject_->GetCollisionObject()->On();
 			CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,0,0 });
 			CurrentHoldingObject_->DetachObject();
+			CurrentHoldingObject_->Input_Throwing(float4{ GetTransform().GetLocalPosition().x-100,0,0 });
 			CurrentHoldingObject_ = nullptr;
 
-			CurHoldType_ = PlayerHoldType::Max;
+			//CurHoldType_ = PlayerHoldType::Max;
 			StateManager.ChangeState("Idle");
 		});
 }
@@ -151,10 +154,11 @@ void Player::HoldStart(const StateInfo& _Info)
 	{
 		return;
 	}
+
 	if (CurrentHoldingObject_ == nullptr)
-		// 플레이어가 들고있는때
+		// 플레이어 손에 아무것도 없을때
 	{
-		if (Interact_GroundObject_ != nullptr)
+		if (Interact_GroundObject_ != nullptr) // 땅에 상호작용하는 오브젝트가 있을때
 		{
 			if (Input_PickUp(Interact_GroundObject_) == Input_PickUpOption::PickUp) //상호작용가능한 땅의 오브젝트가 집을 수 있는것일때
 			//if (Interact_GroundObject_->Input_PickUp(std::dynamic_pointer_cast<Player>(shared_from_this())) == Input_PickUpOption::PickUp) //상호작용가능한 땅의 오브젝트가 집을 수 있는것일때
@@ -165,7 +169,8 @@ void Player::HoldStart(const StateInfo& _Info)
 			}
 
 		}
-		else if (Interact_TableObject_ != nullptr)
+
+		else if (Interact_TableObject_ != nullptr) // 앞에 테이블이 있을때
 		{
 			if (Interact_TableObject_->Input_PickUp(std::dynamic_pointer_cast<Player>(shared_from_this())) == Input_PickUpOption::PickUp)
 			{
@@ -181,12 +186,21 @@ void Player::HoldStart(const StateInfo& _Info)
 			}
 			else
 			{
+				if (Interact_TableObject_->GetStaticObjectType() == MapObjType::FoodBox) // 음식 얻어오기
+				{
+					Interact_TableObject_->CastThis<FoodBox>()->SwitchIsInteraction();
+					StateManager.ChangeState("Idle"); // 지워야됨
+					return;
+				}
+
 				StateManager.ChangeState("Idle");
 				return;  
 			}
 		}
 		else
-		{
+		{				
+
+
 			StateManager.ChangeState("Idle");
 			return;
 		}
@@ -224,6 +238,12 @@ void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 			FireOff_ = false;
 		}
 
+		if (Interact_TableObject_->GetStaticObjectType() == MapObjType::TrashCan) // 음식 얻어오기
+		{
+			//Interact_TableObject_->CastThis<TrashCan>()->버리는 기능();
+			StateManager.ChangeState("Idle");
+			return;
+		}
 
 
 		if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB) == false) //

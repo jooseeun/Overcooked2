@@ -49,6 +49,8 @@ enum class ToolInfo
 	FryingPan, //프라이팬
 	Pot, //냄비
 	CuttingBoard, //도마랑 칼
+	FoodBox, // 음식상자
+	TrashCan, // 쓰레기통
 	Max
 };
 
