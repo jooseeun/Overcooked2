@@ -97,6 +97,12 @@ void Overcooked::LoadMaterial()
 		NewPipe->SetVertexShader("ObjectHighlight.hlsl");
 		NewPipe->SetPixelShader("ObjectHighlight.hlsl");
 	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("Vignette");
+		NewPipe->SetVertexShader("Vignette.hlsl");
+		NewPipe->SetPixelShader("Vignette.hlsl");
+	}
 }
 
 void Overcooked::Update(float _DeltaTime)

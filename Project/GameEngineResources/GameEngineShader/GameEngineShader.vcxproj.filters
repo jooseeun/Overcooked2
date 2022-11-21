@@ -30,6 +30,9 @@
     <FxCompile Include="ObjectHighlight.hlsl">
       <Filter>Object</Filter>
     </FxCompile>
+    <FxCompile Include="Vignette.hlsl">
+      <Filter>TargetEffect</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Debug">

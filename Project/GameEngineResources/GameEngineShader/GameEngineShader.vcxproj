@@ -139,6 +139,7 @@
     <FxCompile Include="TextureAtlas.hlsl" />
     <FxCompile Include="DebugTexture.hlsl" />
     <FxCompile Include="TransformHeader.fx" />
+    <FxCompile Include="Vignette.hlsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

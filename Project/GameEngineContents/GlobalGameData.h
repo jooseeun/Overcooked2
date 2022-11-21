@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "ContentsUtility.h"
 
 enum Thema
 {
@@ -46,10 +47,14 @@ public:
 		return AllStageData_[CurStage_];
 	}
 
+	static ContentsUtility::Timer& GetLeftTimeRef()
+	{
+		return LeftTime_;
+	}
 private:
 	static std::string CurStage_;
 
 	static std::map<std::string, StageData> AllStageData_;
 
-	static float LeftTime_;
+	static ContentsUtility::Timer LeftTime_;
 };

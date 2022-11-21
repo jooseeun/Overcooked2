@@ -111,20 +111,38 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 void Player::ThrowStart(const StateInfo& _Info)
 {
 
-	IdleRendererON();
+
 }
 void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	PlayerIdleRenderer_->ChangeAnimation(PlayerName_+"Throw");
-	PlayerIdleRenderer_->GetTransform().SetLocalRotation({ 0,180,0 });
-	PlayerIdleRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
-
-	if (false == GameEngineInput::GetInst()->IsPressKey("PlayerThrow"))
-	{
-		//던지고 다음과 같이 실행
-		CurHoldType_ = PlayerHoldType::Max;
-		StateManager.ChangeState("Idle");
+	{ //컨트롤 키를 때기 전까지 안던져짐, 방향이동 가능
+		PlayerDirCheck();
+		MoveAngle();
 	}
+
+	if (true == GameEngineInput::GetInst()->IsUpKey("PlayerInteract"))
+	{
+		//던지는 행동
+		// Throw 애니메이션
+		IdleRendererON();
+		PlayerIdleRenderer_->ChangeAnimation(PlayerName_ + "Throw");
+		PlayerIdleRenderer_->GetTransform().SetLocalRotation({ 0,180,0 });
+		PlayerIdleRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
+
+	}
+	PlayerIdleRenderer_->AnimationBindEnd(PlayerName_+"Throw", [=](const GameEngineRenderingEvent& _Info)
+		{
+			// CurrentHoldingObject - 부모자식관계 삭제, 피봇 원래대로 돌리기
+			// CurrentHoldingObject -> 여기서 Throw 함수 해주면 된다. 
+
+			CurrentHoldingObject_->GetCollisionObject()->On();
+			CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,0,0 });
+			CurrentHoldingObject_->DetachObject();
+			CurrentHoldingObject_ = nullptr;
+
+			CurHoldType_ = PlayerHoldType::Max;
+			StateManager.ChangeState("Idle");
+		});
 }
 
 void Player::HoldStart(const StateInfo& _Info)
@@ -334,6 +352,9 @@ void Player::DishWashUpdate(float _DeltaTime, const StateInfo& _Info)
 void Player::FireOffStart(const StateInfo& _Info)
 {
 	FireOff_ = true;
+	PlayerIdleRenderer_->ChangeAnimation(PlayerName_ + "IdleHolding");
+	PlayerIdleRenderer_->GetTransform().SetLocalRotation({ 0,180,0 });
+	PlayerIdleRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
 }
 void Player::FireOffUpdate(float _DeltaTime, const StateInfo& _Info)
 {

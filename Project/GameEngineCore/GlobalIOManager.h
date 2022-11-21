@@ -22,6 +22,7 @@ enum class MapObjType
 	Servicehatch,		//요리 내는 창구
 	PlateReturn,		//그릇 되돌아 나오는 타일
 	FoodBox,			//음식 스폰 박스
+	Rail,				//컨베이어 벨트
 
 	StaticNoCollision,		// 애니메이션 X, 콜리전 X		ex) Grass, Bamboo
 	Pigeon_Grounded,		// 애니메이션 O, 콜리전 x		ex) Pigeon_Idle

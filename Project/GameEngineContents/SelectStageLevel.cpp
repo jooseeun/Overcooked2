@@ -2,6 +2,7 @@
 #include "SelectStageLevel.h"
 #include "SelectStageUIActor.h"
 #include "UIDebugGUI.h"
+#include <GameEngineCore/GlobalVignette.h>
 
 SelectStageLevel::SelectStageLevel()
 {
@@ -19,6 +20,8 @@ SelectStageLevel::~SelectStageLevel()
 
 void SelectStageLevel::Start()
 {
+	GetUICamera()->GetCameraRenderTarget()->AddEffect<GlobalVignette>();
+
 	std::shared_ptr<SelectStageUIActor> NewActor = CreateActor<SelectStageUIActor>();
 	UIDebugGUI::Main_ = GameEngineGUI::CreateGUIWindow<UIDebugGUI>("UIDebugGUI", nullptr);
 	UIDebugGUI::Main_->Off();
