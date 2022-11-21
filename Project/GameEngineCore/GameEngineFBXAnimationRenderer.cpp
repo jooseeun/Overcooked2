@@ -32,6 +32,8 @@ void FBXRendererAnimation::Update(float _DeltaTime)
 	if (false == Pause)
 	{
 		Info.CurFrameTime += _DeltaTime;
+		Info.PlayTime += _DeltaTime;
+
 		while (Info.CurFrameTime >= Info.Inter)
 		{
 			Info.CurFrameTime -= Info.Inter;
@@ -41,32 +43,18 @@ void FBXRendererAnimation::Update(float _DeltaTime)
 			{
 				Info.CurFrame = Start;
 			}
-		}
 
-		///////////////////////////////////////////////////////////////////////////////////
-
-		//Info.CurFrameTime += _DeltaTime;
-
-		if (nullptr != TimeEvent)
-		{
-			TimeEvent(Info, _DeltaTime);
-		}
-
-		if (false == bOnceStart
-			&& Info.CurFrame == 0)
-		{
-			if (nullptr != StartEvent)
+			if (false == bOnceStart && Info.CurFrame == 0)
 			{
-				StartEvent(Info);
+				if (nullptr != StartEvent)
+				{
+					StartEvent(Info);
+				}
+				bOnceStart = true;
+				bOnceEnd = false;
 			}
-			bOnceStart = true;
-			bOnceEnd = false;
-		}
 
-		if (Info.Inter <= Info.CurFrameTime)
-		{
-			if (Info.CurFrame == (Info.Frames.size() - 1)
-				&& false == bOnceEnd)
+			if (Info.CurFrame == (Info.Frames.size() - 1) && false == bOnceEnd)
 			{
 				if (nullptr != EndEvent)
 				{
@@ -74,13 +62,17 @@ void FBXRendererAnimation::Update(float _DeltaTime)
 				}
 				bOnceEnd = true;
 				bOnceStart = false;
-				return;
+				break;
 			}
 
-			++Info.CurFrame;
 			if (nullptr != FrameEvent)
 			{
 				FrameEvent(Info);
+			}
+
+			if (nullptr != TimeEvent)
+			{
+				TimeEvent(Info, _DeltaTime);
 			}
 
 			if (Info.CurFrame >= Info.Frames.size())
@@ -94,8 +86,6 @@ void FBXRendererAnimation::Update(float _DeltaTime)
 					Info.CurFrame = static_cast<unsigned int>(Info.Frames.size()) - 1;
 				}
 			}
-
-			Info.CurFrameTime -= Info.Inter;
 		}
 	}
 
@@ -176,6 +166,7 @@ void FBXRendererAnimation::Reset()
 {
 	Info.CurFrameTime = 0.0f;
 	Info.CurFrame = 0;
+	Info.PlayTime = 0.0f;
 }
 
 void GameEngineFBXAnimationRenderer::SetFBXMesh(const std::string& _Name)

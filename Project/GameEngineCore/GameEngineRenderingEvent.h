@@ -12,6 +12,8 @@ public:
 
 	std::vector<unsigned int> Frames;
 
+	float PlayTime;
+
 	float CurFrameTime;
 
 	float Inter;
@@ -26,6 +28,8 @@ public:
 		, Inter(0.1f)
 		, CurFrame(-1)
 		, CurFrameTime(0.0f)
+		, PlayTime(0.0f)
+		, Renderer(nullptr)
 	{
 
 	}
@@ -36,6 +40,8 @@ public:
 		, Inter(_Inter)
 		, CurFrame(0)
 		, CurFrameTime(0.0f)
+		, PlayTime(0.0f)
+		, Renderer(nullptr)
 	{
 		for (unsigned int i = _Start; i <= _End; i++)
 		{
@@ -50,6 +56,8 @@ public:
 		, Frames(_Frames)
 		, CurFrameTime(0.0f)
 		, CurFrame(0)
+		, PlayTime(0.0f)
+		, Renderer(nullptr)
 	{
 
 	}
@@ -61,6 +69,8 @@ public:
 		, Inter(_Inter)
 		, CurFrame(0)
 		, CurFrameTime(0.0f)
+		, PlayTime(0.0f)
+		, Renderer(nullptr)
 	{
 
 	}

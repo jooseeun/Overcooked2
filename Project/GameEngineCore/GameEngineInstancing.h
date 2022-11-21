@@ -21,11 +21,11 @@ public:
 	GameEngineInstancing& operator=(GameEngineInstancing&& _Other) noexcept = delete;
 
 
-public:
+private:
 	int DataInsert;
 	std::vector<char> DataBuffer;
 	GameEngineShaderResourcesHelper ShaderResources;
-	GameEngineMaterial* InstancingPipeLine;
+	std::shared_ptr<GameEngineRenderUnit> RenderUnit;
 	int Size;
 	unsigned int Count;
 	int MaxDataCount;
