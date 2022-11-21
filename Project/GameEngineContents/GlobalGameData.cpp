@@ -5,7 +5,7 @@ std::string GlobalGameData::CurStage_ = "";
 
 std::map<std::string, StageData> GlobalGameData::AllStageData_;
 
-float GlobalGameData::LeftTime_ = 0.f;
+ContentsUtility::Timer GlobalGameData::LeftTime_;;
 
 GlobalGameData::GlobalGameData()
 {
