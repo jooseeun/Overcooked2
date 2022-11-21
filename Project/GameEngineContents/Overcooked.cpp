@@ -429,8 +429,334 @@ void Overcooked::LoadCommonResource()
 			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Buck_Wash.FBX"));
 		}
 	}
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		Dir.Move("ContentsResources");
+		Dir.Move("Mesh");
+		Dir.Move("Object");
+		Dir.Move("Player");
+		Dir.Move("Crocodile");
 
 
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Crocodile_CarDeath.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Crocodile_CarDeath.FBX"));
+		}
+
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Crocodile_Chop.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Crocodile_Chop.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Crocodile_Death.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Crocodile_Death.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Crocodile_Drowning.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Crocodile_Drowning.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Crocodile_Fall.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Crocodile_Fall.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Crocodile_Idle.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Crocodile_Idle.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Crocodile_Idle2.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Crocodile_Idle2.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Crocodile_IdleHolding.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Crocodile_IdleHolding.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Crocodile_Slip.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Crocodile_Slip.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Crocodile_Stand.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Crocodile_Stand.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Crocodile_Throw.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Crocodile_Throw.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Crocodile_Walk.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Crocodile_Walk.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Crocodile_WalkHolding.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Crocodile_WalkHolding.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Crocodile_Wash.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Crocodile_Wash.FBX"));
+		}
+	}
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		Dir.Move("ContentsResources");
+		Dir.Move("Mesh");
+		Dir.Move("Object");
+		Dir.Move("Player");
+		Dir.Move("Dora");
+
+
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Dora_CarDeath.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Dora_CarDeath.FBX"));
+		}
+
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Dora_Chop.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Dora_Chop.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Dora_Death.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Dora_Death.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Dora_Drowning.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Dora_Drowning.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Dora_Fall.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Dora_Fall.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Dora_Idle.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Dora_Idle.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Dora_Idle2.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Dora_Idle2.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Dora_IdleHolding.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Dora_IdleHolding.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Dora_Slip.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Dora_Slip.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Dora_Stand.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Dora_Stand.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Dora_Throw.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Dora_Throw.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Dora_Walk.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Dora_Walk.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Dora_WalkHolding.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Dora_WalkHolding.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Dora_Wash.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Dora_Wash.FBX"));
+		}
+	}
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		Dir.Move("ContentsResources");
+		Dir.Move("Mesh");
+		Dir.Move("Object");
+		Dir.Move("Player");
+		Dir.Move("Eagle");
+
+
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Eagle_CarDeath.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Eagle_CarDeath.FBX"));
+		}
+
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Eagle_Chop.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Eagle_Chop.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Eagle_Death.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Eagle_Death.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Eagle_Drowning.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Eagle_Drowning.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Eagle_Fall.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Eagle_Fall.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Eagle_Idle.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Eagle_Idle.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Eagle_Idle2.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Eagle_Idle2.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Eagle_IdleHolding.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Eagle_IdleHolding.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Eagle_Slip.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Eagle_Slip.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Eagle_Stand.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Eagle_Stand.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Eagle_Throw.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Eagle_Throw.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Eagle_Walk.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Eagle_Walk.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Eagle_WalkHolding.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Eagle_WalkHolding.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Eagle_Wash.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Eagle_Wash.FBX"));
+		}
+	}
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		Dir.Move("ContentsResources");
+		Dir.Move("Mesh");
+		Dir.Move("Object");
+		Dir.Move("Player");
+		Dir.Move("Panda");
+
+
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Panda_CarDeath.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Panda_CarDeath.FBX"));
+		}
+
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Panda_Chop.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Panda_Chop.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Panda_Death.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Panda_Death.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Panda_Drowning.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Panda_Drowning.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Panda_Fall.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Panda_Fall.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Panda_Idle.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Panda_Idle.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Panda_Idle2.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Panda_Idle2.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Panda_IdleHolding.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Panda_IdleHolding.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Panda_Slip.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Panda_Slip.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Panda_Stand.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Panda_Stand.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Panda_Throw.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Panda_Throw.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Panda_Walk.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Panda_Walk.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Panda_WalkHolding.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Panda_WalkHolding.FBX"));
+		}
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Panda_Wash.FBX"));
+			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Panda_Wash.FBX"));
+		}
+	}
 	//{
 	//	GameEngineDirectory Dir;
 	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");

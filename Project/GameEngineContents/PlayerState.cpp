@@ -10,9 +10,9 @@
 void Player::IdleStart(const StateInfo& _Info)
 {
 	IdleRendererON();		
-	PlayerIdleRenderer_->ChangeAnimation(PlayerName_+"Idle");
-	PlayerIdleRenderer_->GetTransform().SetLocalRotation({ 0,180,0 });
-	PlayerIdleRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
+	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] +"Idle");
+	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
+	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 
 	Speed_ = 400.0f;
 }
@@ -128,12 +128,12 @@ void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 		//던지는 행동
 		// Throw 애니메이션
 		IdleRendererON();
-		PlayerIdleRenderer_->ChangeAnimation(PlayerName_ + "Throw");
-		PlayerIdleRenderer_->GetTransform().SetLocalRotation({ 0,180,0 });
-		PlayerIdleRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
+		PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "Throw");
+		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
+		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 
 	}
-	PlayerIdleRenderer_->AnimationBindEnd(PlayerName_+"Throw", [=](const GameEngineRenderingEvent& _Info)
+	PlayerIdleRenderer_[PlayerCustomNum]->AnimationBindEnd(PlayerName_[PlayerCustomNum] +"Throw", [=](const GameEngineRenderingEvent& _Info)
 		{
 			// CurrentHoldingObject - 부모자식관계 삭제, 피봇 원래대로 돌리기
 			// CurrentHoldingObject -> 여기서 Throw 함수 해주면 된다. 
@@ -213,9 +213,9 @@ void Player::HoldStart(const StateInfo& _Info)
 		return;
 	}
 	IdleRendererON();
-	PlayerIdleRenderer_->ChangeAnimation(PlayerName_+"IdleHolding");
-	PlayerIdleRenderer_->GetTransform().SetLocalRotation({ 0,180,0 });
-	PlayerIdleRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
+	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] +"IdleHolding");
+	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
+	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 }
 void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 {
@@ -243,6 +243,7 @@ void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 			// 없을때-> 바닥에 놓기
 			CurrentHoldingObject_->GetCollisionObject()->On();
 			CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,0,0});
+			CurrentHoldingObject_->GetTransform().SetWorldPosition(GetTransform().GetLocalPosition() + GetTransform().GetBackVector()*60.0f + float4{0,50,0});
 			CurrentHoldingObject_->DetachObject();
 			CurrentHoldingObject_ = nullptr;
 			StateManager.ChangeState("Idle");
@@ -290,9 +291,9 @@ void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 		true == GameEngineInput::GetInst()->IsPressKey("PlayerFront") ||
 		true == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
 	{
-		PlayerIdleRenderer_->ChangeAnimation(PlayerName_+"WalkHolding");
-		PlayerIdleRenderer_->GetTransform().SetLocalRotation({ 0,180,0 });
-		PlayerIdleRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
+		PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] +"WalkHolding");
+		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
+		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 		PlayerDirCheck();
 
 		if (MoveAngle() == true)
@@ -325,9 +326,9 @@ void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 	else
 	{
-		PlayerIdleRenderer_->ChangeAnimation(PlayerName_+"IdleHolding");
-		PlayerIdleRenderer_->GetTransform().SetLocalRotation({ 0,180,0 });
-		PlayerIdleRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
+		PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] +"IdleHolding");
+		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
+		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 	}
 
 }
@@ -371,9 +372,9 @@ void Player::DishWashUpdate(float _DeltaTime, const StateInfo& _Info)
 void Player::FireOffStart(const StateInfo& _Info)
 {
 	FireOff_ = true;
-	PlayerIdleRenderer_->ChangeAnimation(PlayerName_ + "IdleHolding");
-	PlayerIdleRenderer_->GetTransform().SetLocalRotation({ 0,180,0 });
-	PlayerIdleRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
+	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "IdleHolding");
+	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
+	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 }
 void Player::FireOffUpdate(float _DeltaTime, const StateInfo& _Info)
 {
