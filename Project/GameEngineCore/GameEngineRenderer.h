@@ -11,8 +11,24 @@ struct RenderOption
     float DeltaTime = 0.0f;
     float SumDeltaTime = 0.0f;
 	int IsAnimation = 0;
-	int IsHighlight = 0;
+	int dummy = 0;
 };
+
+struct PixelData
+{
+	float4 MulColor;
+	float4 PlusColor;
+	float4 Slice;
+
+	PixelData()
+		: MulColor(float4::WHITE)
+		, PlusColor(float4::ZERO)
+		, Slice(float4::ZERO)
+	{
+
+	}
+};
+
 
 // 랜더타겟이 세팅되어 있다면 이녀석으로 그릴수가 있다.
 
@@ -106,6 +122,11 @@ public:
 	void PushRendererToMainCamera();
 
 	void PushRendererToUICamera();
+
+	PixelData& GetPixelData()
+	{
+		return PixelDataInst;
+	}
 	
 protected:
 	virtual void Start();
@@ -114,6 +135,7 @@ protected:
 
     std::weak_ptr<class GameEngineCamera> Camera;
 
+	PixelData PixelDataInst;
 
 
 private:

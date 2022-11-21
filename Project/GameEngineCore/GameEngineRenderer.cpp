@@ -60,7 +60,6 @@ void GameEngineRenderUnit::EngineShaderResourcesSetting(std::shared_ptr<GameEngi
 	{
 		ShaderResources.SetConstantBufferLink("RENDEROPTION", &ParentRenderer.lock()->RenderOptionInst, sizeof(RenderOption));
 	}
-
 }
 
 void GameEngineRenderUnit::SetMesh(const std::string& _Name)
