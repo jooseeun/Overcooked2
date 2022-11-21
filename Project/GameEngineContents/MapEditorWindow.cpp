@@ -11,6 +11,7 @@
 #include "Sink.h"
 #include "PlateReturn.h"
 #include "FoodBox.h"
+#include "Rail.h"
 
 #include "Equipment_Plate.h"
 #include "Equipment_FireExtinguisher.h"
@@ -251,6 +252,7 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				Prefabs_.push_back("CounterTop_Wizard");
 				Prefabs_.push_back("FoodBox");
 				Prefabs_.push_back("Sink_Wizard");
+				Prefabs_.push_back("Rail");
 			}
 		}
 
@@ -925,6 +927,11 @@ void MapEditorWindow::SortToolTab()
 
 			std::weak_ptr<Sink> Object = std::dynamic_pointer_cast<Sink>(CurStaticMesh_.lock());
 			Object.lock()->SetSinkMesh(SinkType::Wizard);
+		}
+		case 11:
+		{
+			CurStaticMesh_ = CurLevel_->CreateActor<Rail>();
+			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::Rail);
 		}
 		break;
 		}

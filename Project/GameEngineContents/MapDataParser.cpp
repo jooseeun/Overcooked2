@@ -10,6 +10,7 @@
 #include "Cooker.h"
 #include "Sink.h"
 #include "FoodBox.h"
+#include "Rail.h"
 
 #include "Equipment_Plate.h"
 #include "Equipment_FireExtinguisher.h"
@@ -163,7 +164,7 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 			Origin.lock()->GetTransform().SetWorldRotation(_Data[i].Rot_);
 			Origin.lock()->GetTransform().SetWorldScale(_Data[i].Scale_);
 
-			Origins_.push_back(Origin);
+			Origins_.push_back(Origin); 
 		}
 	}
 
@@ -262,6 +263,12 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 			Object.lock()->SetSinkMesh(SinkType::Wizard);
 		}
 			break;
+		case MapObjType::Rail:
+		{
+			CurActor_ = _Level->CreateActor<Rail>();
+			CurActor_.lock()->SetStaticObjectType(MapObjType::Rail);
+		}
+		break;
 		default:
 			break;
 		}
