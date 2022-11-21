@@ -238,14 +238,6 @@ void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 			FireOff_ = false;
 		}
 
-		if (Interact_TableObject_->GetStaticObjectType() == MapObjType::TrashCan) // 음식 얻어오기
-		{
-			//Interact_TableObject_->CastThis<TrashCan>()->버리는 기능();
-			StateManager.ChangeState("Idle");
-			return;
-		}
-
-
 		if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB) == false) //
 		{
 			// 없을때-> 바닥에 놓기
@@ -258,6 +250,13 @@ void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 		}
 		else // 앞에 테이블이 있을때
 		{
+			if (Interact_TableObject_->GetStaticObjectType() == MapObjType::TrashCan) // 음식 버리기
+			{
+				//Interact_TableObject_->CastThis<TrashCan>()->버리는 기능();
+				StateManager.ChangeState("Idle");
+				return;
+			}
+
 			if (Interact_TableObject_->GetStuff() == nullptr) // 테이블 있고 테이블에 올려진 물건이 없을때
 			{
 				CurrentHoldingObject_->GetCollisionObject()->On();
