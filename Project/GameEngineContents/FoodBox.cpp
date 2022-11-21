@@ -4,7 +4,7 @@
 FoodBox::FoodBox() 
 	: Enum_Ingredients_(ObjectFoodClass::None)
 	, IsOpen_(false)
-    , IsInteraction_(true)
+    , IsInteraction_(false)
 	, Angle_(0.f)
 	, Renderer_(nullptr)
 {
@@ -156,7 +156,7 @@ void FoodBox::Update(float _DeltaTime)
 			{
 				Angle_ = 0.f;
 				IsInteraction_ = false;
-				IsInteraction_ = true;
+				IsInteraction_ = false;
 				IsOpen_ = false;
 			}
 		}
