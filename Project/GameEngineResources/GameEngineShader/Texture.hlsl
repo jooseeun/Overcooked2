@@ -28,9 +28,13 @@ Output Texture_VS(Input _Input)
 
 cbuffer PixelData : register(b0)
 {
+
     float4 MulColor;
     float4 PlusColor;
     float4 Slice;
+
+    int AlphaFlag;
+    float4 AlphaColor;
 }
 
 Texture2D DiffuseTexture : register(t0);

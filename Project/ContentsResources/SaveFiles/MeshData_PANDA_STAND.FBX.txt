@@ -1,0 +1,15 @@
+{ 
+MeshName:PANDA_STAND.FBX;
+MeshInfoCount:5;
+Path:;
+Mat:;
+Path:\PANDAHAND.PNG;
+Mat:PANDAHAND.PNG;
+Path:;
+Mat:PANDAHAND.PNG;
+Path:;
+Mat:;
+Path:;
+Mat:;
+}
+

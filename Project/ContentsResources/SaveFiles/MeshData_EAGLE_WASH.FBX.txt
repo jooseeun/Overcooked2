@@ -1,0 +1,15 @@
+{ 
+MeshName:EAGLE_WASH.FBX;
+MeshInfoCount:5;
+Path:;
+Mat:T_CHEF_BODY_D.PNG;
+Path:;
+Mat:;
+Path:\EAGLEHAND.PNG;
+Mat:EAGLEHAND.PNG;
+Path:;
+Mat:EAGLEHAND.PNG;
+Path:;
+Mat:T_CHEF_HAT_FANCY_D.PNG;
+}
+

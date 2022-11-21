@@ -1,0 +1,15 @@
+{ 
+MeshName:PANDA_IDLE.FBX;
+MeshInfoCount:5;
+Path:\T_CHEF_BODY_D.PNG;
+Mat:T_CHEF_BODY_D.PNG;
+Path:\PANDAHAND.PNG;
+Mat:PANDAHAND.PNG;
+Path:;
+Mat:PANDAHAND.PNG;
+Path:;
+Mat:T_CHEF_HEAD_PANDA_D.PNG;
+Path:;
+Mat:T_CHEF_HAT_FANCY_D.PNG;
+}
+

@@ -215,6 +215,18 @@ void Overcooked::TextureLoad()
 			}
 		}
 
+		//Coin FolderTexutre
+		{
+			GameEngineDirectory Dir;
+			Dir.MoveParentToExitsChildDirectory("ContentsResources");
+			Dir.Move("ContentsResources");
+			Dir.Move("Texture");
+			Dir.Move("UI");
+			Dir.Move("Coin");
+
+			GameEngineFolderTexture::Load(Dir.GetFullPath());
+		}
+
 		GameEngineFont::Load("Naughty Squirrel");
 	}
 }
@@ -231,6 +243,7 @@ void Overcooked::InputMake()
 
 	if (false == GameEngineInput::GetInst()->IsKey("PlayerLeft"))
 	{
+		GameEngineInput::GetInst()->CreateKey("ChangePlayerCustom", 'M');
 		GameEngineInput::GetInst()->CreateKey("PlayerLeft", VK_LEFT);
 		GameEngineInput::GetInst()->CreateKey("PlayerRight", VK_RIGHT);
 		GameEngineInput::GetInst()->CreateKey("PlayerFront", VK_UP);
@@ -355,7 +368,6 @@ void Overcooked::LoadCommonResource()
 		Dir.Move("Object");
 		Dir.Move("Player");
 		Dir.Move("Buck");
-
 
 		{
 			GameEngineDirectory MeshDir = Dir;

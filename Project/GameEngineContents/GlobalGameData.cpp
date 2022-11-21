@@ -7,6 +7,8 @@ std::map<std::string, StageData> GlobalGameData::AllStageData_;
 
 ContentsUtility::Timer GlobalGameData::LeftTime_;;
 
+int GlobalGameData::Score_ = 0;
+
 GlobalGameData::GlobalGameData()
 {
 }

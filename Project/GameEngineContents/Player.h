@@ -87,6 +87,26 @@ public:
 	{
 		CurKineticEnergy_ = _CurEnergy;
 	}
+	inline void ChangePlayer()
+	{
+		PlayerIdleRenderer_[PlayerCustomNum]->Off();
+		PlayerWalkRenderer_[PlayerCustomNum]->Off();
+		PlayerChopRenderer_[PlayerCustomNum]->Off();
+		PlayerWashRenderer_[PlayerCustomNum]->Off();
+
+		PlayerCustomNum += 1;
+		if (PlayerCustomNum == 6)
+		{
+			PlayerCustomNum = 0;
+		}
+
+		PlayerIdleRenderer_[PlayerCustomNum]->On();
+		PlayerWalkRenderer_[PlayerCustomNum]->Off();
+		PlayerChopRenderer_[PlayerCustomNum]->Off();
+		PlayerWashRenderer_[PlayerCustomNum]->Off();
+
+	}
+
 	void CalculateKineticEnergy(); // 플레이어 운동에너지 구하는 함수 -> Update에서 일단 갱신중
 
 public:

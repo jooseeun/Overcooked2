@@ -21,10 +21,15 @@ struct PixelData
 	float4 PlusColor;
 	float4 Slice;
 
+	int AlphaFlag;
+	float4 AlphaColor;
+
 	PixelData()
 		: MulColor(float4::WHITE)
 		, PlusColor(float4::ZERO)
 		, Slice(float4::ZERO)
+		, AlphaFlag(0)
+		, AlphaColor(float4::ZERO)
 	{
 
 	}

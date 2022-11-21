@@ -1,0 +1,15 @@
+{ 
+MeshName:CROCODILE_CARDEATH.FBX;
+MeshInfoCount:5;
+Path:;
+Mat:;
+Path:\CROCODILEHAND.PNG;
+Mat:CROCODILEHAND.PNG;
+Path:;
+Mat:CROCODILEHAND.PNG;
+Path:;
+Mat:;
+Path:;
+Mat:;
+}
+
