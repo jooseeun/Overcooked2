@@ -24,6 +24,10 @@ cbuffer PixelData : register(b0)
     float4 MulColor;
     float4 PlusColor;
     float4 Slice;
+
+    int AlphaFlag;
+    float4 AlphaColor;
+
 }
 
 
@@ -63,10 +67,29 @@ float4 TextureAnimation_PS(Output _Input) : SV_Target0
 {    
     float4 Result = (DiffuseTexture.Sample(LINEARWRAP, _Input.TEXCOORD.xy) * MulColor) + PlusColor;
         
-    if (Result.a <= 0.0f)
+    
+    if (AlphaFlag == 1)
     {
-        clip(-1);
+        
+        if (Result.a <= 0.0f)
+        {
+            Result.r = AlphaColor.r;
+            Result.g = AlphaColor.g;
+            Result.b = AlphaColor.b;
+            Result.a = AlphaColor.a;
+        }
+    
+
+
+    }
+    else
+    {
+        if (Result.a <= 0.0f)
+        {
+            clip(-1);
+        }
+    
     }
     
-    return Result;
+       return Result;
 }

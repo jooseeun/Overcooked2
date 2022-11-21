@@ -118,6 +118,16 @@ void Player::Start()
 		PlayerWalkRenderer_[i]->Off();
 		PlayerWashRenderer_[i]->Off();
 		PlayerChopRenderer_[i]->Off();
+
+
+		PixelData&  Test = PlayerIdleRenderer_[i]->GetPixelDataList(0);
+		Test.AlphaFlag = 1;
+
+		Test.AlphaColor.r = 1.0f;
+
+		Test.AlphaColor.g = 0.0f;
+		Test.AlphaColor.b = 0.0f;
+		Test.AlphaColor.a = 1.0f;
 	}
 	//AlienGreen
 	{
