@@ -106,7 +106,6 @@ private:
 	PlayerHoldType CurHoldType_;
 	bool FireOff_;
 
-	std::string PlayerName_;
 
 	std::shared_ptr<GameEngineCollision> Collision_Interact_; // 상호작용 콜리전
 	std::shared_ptr<GamePlayMoveable> Interact_GroundObject_;
@@ -121,10 +120,14 @@ private:
 	void ChopRendererON();
 	void WashRendererON();
 
-	std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerIdleRenderer_;
-	std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerWalkRenderer_;
-	std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerChopRenderer_;
-	std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerWashRenderer_;
+	std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerIdleRenderer_[6];
+	std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerWalkRenderer_[6];
+	std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerChopRenderer_[6];
+	std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerWashRenderer_[6];
+
+	int PlayerCustomNum;
+	std::string PlayerName_[6];
+
 	std::shared_ptr<GameEngineCollision> PlayerFloorCollision_;
 	std::shared_ptr<GameEngineCollision> PlayerForwardCollision_;
 	std::shared_ptr<GameEngineCollision> PlayerForwardLeftCollision_;

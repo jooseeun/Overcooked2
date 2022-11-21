@@ -917,8 +917,13 @@ void MapEditorWindow::SortToolTab()
 		}
 		break;
 		case 9:
+		{
 			CurStaticMesh_ = CurLevel_->CreateActor<FoodBox>();
 			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::FoodBox);
+
+			std::weak_ptr<FoodBox> Object = std::dynamic_pointer_cast<FoodBox>(CurStaticMesh_.lock());
+			Object.lock()->SetFoodType(FoodType::Tomato);
+		}
 			break;
 		case 10:
 		{

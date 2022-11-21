@@ -187,7 +187,7 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 		break;
 		case MapObjType::CounterTop_Corner:
 		{
-			CurActor_= _Level->CreateActor<CounterTop>();
+			CurActor_ = _Level->CreateActor<CounterTop>();
 			std::weak_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurActor_.lock());
 
 			Object.lock()->SetCounterTopType(CounterTopType::Corner);
@@ -217,13 +217,13 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 
 			Object.lock()->SetStaticObjectType(MapObjType::CounterTop_WiZard);
 		}
-			break;
+		break;
 		case MapObjType::Cooker:
 		{
 			CurActor_ = _Level->CreateActor<Cooker>();
 			CurActor_.lock()->SetStaticObjectType(MapObjType::Cooker);
-		}	
-			break;
+		}
+		break;
 		case MapObjType::TrashCan:
 		{
 			CurActor_ = _Level->CreateActor<TrashCan>();
@@ -237,7 +237,7 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 			std::weak_ptr<Sink> Object = std::dynamic_pointer_cast<Sink>(CurActor_.lock());
 			Object.lock()->SetSinkMesh(SinkType::Normal);
 		}
-			break;
+		break;
 		case MapObjType::Servicehatch:
 		{
 			CurActor_ = _Level->CreateActor<Servicehatch>();
@@ -251,8 +251,13 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 		}
 		break;
 		case MapObjType::FoodBox:
+		{
 			CurActor_ = _Level->CreateActor<FoodBox>();
 			CurActor_.lock()->SetStaticObjectType(MapObjType::FoodBox);
+
+			std::weak_ptr<FoodBox> Object = std::dynamic_pointer_cast<FoodBox>(CurActor_.lock());
+			Object.lock()->SetFoodType(FoodType::Tomato);
+		}
 			break;
 		case MapObjType::Sink_Wizard: 
 		{

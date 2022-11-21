@@ -19,6 +19,14 @@ struct AniMat
     float4x4 Mat;
 };
 
+cbuffer PixelData : register(b0)
+{
+    float4 MulColor;
+    float4 PlusColor;
+    float4 Slice;
+}
+
+
 StructuredBuffer<AniMat> ArrAniMationMatrix : register(t11);
 
 void Skinning(inout float4 _Pos, inout float4 _Weight, inout int4 _Index, StructuredBuffer<AniMat> _ArrMatrix)
@@ -52,13 +60,13 @@ Texture2D DiffuseTexture : register(t0);
 SamplerState LINEARWRAP : register(s0);
 
 float4 TextureAnimation_PS(Output _Input) : SV_Target0
-{
-    float4 Color = DiffuseTexture.Sample(LINEARWRAP, _Input.TEXCOORD.xy);
-
-    if (Color.a <= 0.0f)
+{    
+    float4 Result = (DiffuseTexture.Sample(LINEARWRAP, _Input.TEXCOORD.xy) * MulColor) + PlusColor;
+        
+    if (Result.a <= 0.0f)
     {
         clip(-1);
     }
-
-    return Color;
+    
+    return Result;
 }

@@ -22,20 +22,6 @@ enum class SCALEMODE
 	CUSTOM,
 };
 
-struct PixelData
-{
-	float4 MulColor;
-	float4 PlusColor;
-	float4 Slice;
-
-	PixelData()
-		: MulColor(float4::WHITE)
-		, PlusColor(float4::ZERO)
-		, Slice(float4::ZERO)
-	{
-
-	}
-};
 
 struct AtlasData 
 {
@@ -165,10 +151,7 @@ public:
 
 	void CurAnimationSetStartPivotFrame(int SetFrame);
 
-	PixelData& GetPixelData()
-	{
-		return PixelDataInst;
-	}
+
 
 	void AnimationBindStart(const std::string& _AnimationName, std::function<void(const GameEngineRenderingEvent&)> _Function)
 	{
@@ -237,7 +220,6 @@ private:
 
 	std::shared_ptr<GameEngineTexture> CurTex;
 
-	PixelData PixelDataInst;
 	AtlasData AtlasDataInst;
 
 	std::map<std::string, FrameAnimation> FrameAni;

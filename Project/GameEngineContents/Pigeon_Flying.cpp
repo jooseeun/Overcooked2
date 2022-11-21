@@ -1,6 +1,5 @@
 #include "PreCompile.h"
 #include "Pigeon_Flying.h"
-#include <GameEngineBase/GameEngineRandom.h>
 
 Pigeon_Flying::Pigeon_Flying() 
 	: MoveDir_(0.f)

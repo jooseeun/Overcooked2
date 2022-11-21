@@ -14,10 +14,11 @@ Player::Player()
 	, PlayerRightCollision_(nullptr)
 	, PlayerForwardCollision_(nullptr)
 	, PlayerBackCollision_(nullptr)
-	, PlayerIdleRenderer_(nullptr)
-	, PlayerWalkRenderer_(nullptr)
-	, PlayerChopRenderer_(nullptr)
-	, PlayerWashRenderer_(nullptr)
+	, PlayerCustomNum(1)
+	, PlayerIdleRenderer_()
+	, PlayerWalkRenderer_()
+	, PlayerChopRenderer_()
+	, PlayerWashRenderer_()
 	, StateManager()
 	, CurrentHoldingObject_(nullptr)
 	, Collision_Interact_(nullptr)
@@ -25,7 +26,7 @@ Player::Player()
 	, Interact_TableObject_(nullptr)
 	, CurKineticEnergy_(0)
 	, FireOff_(false)
-	, PlayerName_("AlienGreen")
+	, PlayerName_()
 {
 
 }
@@ -55,91 +56,83 @@ void Player::Start()
 
 		//GameEngineInput::GetInst()->CreateKey("PlayerSlice", VK_CONTROL);
 	}
+	{
+		PlayerName_[0] = "AlienGreen";
+		PlayerName_[1] = "Buck";
+		PlayerName_[2] = "Crocodile";
+		PlayerName_[3] = "Dora";
+		PlayerName_[4] = "Eagle";
+		PlayerName_[5] = "Panda";
+
+	}
+
+	for (int i = 0; i < 6; i++)
+	{
+		PlayerIdleRenderer_[i] = CreateComponent<GameEngineFBXAnimationRenderer>();
+		PlayerIdleRenderer_[i]->SetFBXMesh(PlayerName_[i] + "_Idle.FBX", "TextureAnimation");
+
+		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Idle",
+			GameEngineRenderingEvent(PlayerName_[i] + "_Idle.FBX", 0.035f, true));
+		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Idle2",
+			GameEngineRenderingEvent(PlayerName_[i] + "_Idle2.FBX", 0.035f, true));
+		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "WalkHolding",
+			GameEngineRenderingEvent(PlayerName_[i] + "_WalkHolding.FBX", 0.035f, true));
+		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "CarDeath",
+			GameEngineRenderingEvent(PlayerName_[i] + "_CarDeath.FBX", 0.035f, true));
+		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Death",
+			GameEngineRenderingEvent(PlayerName_[i] + "_Death.FBX", 0.035f, true));
+		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Drowning",
+			GameEngineRenderingEvent(PlayerName_[i] + "_Drowning.FBX", 0.035f, true));
+		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Fall",
+			GameEngineRenderingEvent(PlayerName_[i] + "_Fall.FBX", 0.035f, true));
+		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "IdleHolding",
+			GameEngineRenderingEvent(PlayerName_[i] + "_IdleHolding.FBX", 0.035f, true));
+		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Slip",
+			GameEngineRenderingEvent(PlayerName_[i] + "_Slip.FBX", 0.035f, true));
+		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Stand",
+			GameEngineRenderingEvent(PlayerName_[i] + "_Stand.FBX", 0.035f, true));
+		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Throw",
+			GameEngineRenderingEvent(PlayerName_[i] + "_Throw.FBX", 0.035f, true));
 
 
-	//GameEngineFBXMesh* TestMesh = GameEngineFBXMesh::Find("Chef.FBX");
+		PlayerIdleRenderer_[i]->ChangeAnimation(PlayerName_[i] + "Idle");
+		PlayerIdleRenderer_[i]->GetTransform().SetLocalRotation({ 90,180,0 });
+		PlayerIdleRenderer_[i]->GetTransform().SetLocalScale({ 100,100,100 });
 
-	//std::string NewPath = "C:Users\\MOA\\Overcooked2\\Project\\ContentsResources\\Mesh\\Chef1\\t_chef_head_alien_green_d.png";
-	//size_t idx = NewPath.rfind("\\");
-
-	//std::string TestStr = NewPath.substr(0, idx);
-
-	//TestMesh->GetFbxRenderUnit()[0].MaterialData[0].DifTexturePath = NewPath;
-	//TestMesh->GetFbxRenderUnit()[0].MaterialData[0].DifTextureName = "t_chef_head_alien_green_d.png";
-
-
-
-	//임시 Player StaticRenderer
-	//{
-	//	PlayerRenderer_ = CreateComponent<GameEngineFBXStaticRenderer>();
-	//	PlayerRenderer_->SetFBXMesh("Chef1.FBX", "Texture");
-	//	
-	//}
+		PlayerWalkRenderer_[i] = CreateComponent<GameEngineFBXAnimationRenderer>();
+		PlayerWalkRenderer_[i]->SetFBXMesh(PlayerName_[i] + "_Walk.FBX", "TextureAnimation");
+		PlayerWalkRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Walk",
+			GameEngineRenderingEvent(PlayerName_[i] + "_Walk.FBX", 0.03f, true)); // Idle 호환 x
+		PlayerWalkRenderer_[i]->ChangeAnimation(PlayerName_[i] + "Walk");
+		PlayerWalkRenderer_[i]->GetTransform().SetLocalRotation({ 90,180,0 });
+		PlayerWalkRenderer_[i]->GetTransform().SetLocalScale({ 100,100,100 });
 
 
+		PlayerWashRenderer_[i] = CreateComponent<GameEngineFBXAnimationRenderer>();
+		PlayerWashRenderer_[i]->SetFBXMesh(PlayerName_[i] + "_Wash.FBX", "TextureAnimation");
+		PlayerWashRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Wash",
+			GameEngineRenderingEvent(PlayerName_[i] + "_Wash.FBX", 0.035f, true)); // Idle 호환 x
+		PlayerWashRenderer_[i]->ChangeAnimation(PlayerName_[i] + "Wash");
+		PlayerWashRenderer_[i]->GetTransform().SetLocalRotation({ 90,180,0 });
+		PlayerWashRenderer_[i]->GetTransform().SetLocalScale({ 100,100,100 });
+		PlayerWashRenderer_[i]->Off();
+
+		PlayerChopRenderer_[i] = CreateComponent<GameEngineFBXAnimationRenderer>();
+		PlayerChopRenderer_[i]->SetFBXMesh(PlayerName_[i] + "_Chop.FBX", "TextureAnimation");
+		PlayerChopRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Chop",
+			GameEngineRenderingEvent(PlayerName_[i] + "_Chop.FBX", 0.02f, true)); // Idle 호환 x
+		PlayerChopRenderer_[i]->ChangeAnimation(PlayerName_[i] + "Chop");
+		PlayerChopRenderer_[i]->GetTransform().SetLocalRotation({ 90,180,0 });
+		PlayerChopRenderer_[i]->GetTransform().SetLocalScale({ 100,100,100 });
+
+		PlayerIdleRenderer_[i]->Off();
+		PlayerWalkRenderer_[i]->Off();
+		PlayerWashRenderer_[i]->Off();
+		PlayerChopRenderer_[i]->Off();
+	}
 	//AlienGreen
 	{
-		PlayerIdleRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();
-		PlayerIdleRenderer_->SetFBXMesh("AlienGreen_Idle.FBX", "TextureAnimation");
-
-		PlayerIdleRenderer_->CreateFBXAnimation("AlienGreenIdle", 
-			GameEngineRenderingEvent("AlienGreen_Idle.FBX", 0.035f, true));
-		PlayerIdleRenderer_->CreateFBXAnimation("AlienGreenIdle2", 
-			GameEngineRenderingEvent("AlienGreen_Idle2.FBX", 0.035f, true));
-		PlayerIdleRenderer_->CreateFBXAnimation("AlienGreenWalkHolding", 
-			GameEngineRenderingEvent("AlienGreen_WalkHolding.FBX", 0.035f, true));
-		PlayerIdleRenderer_->CreateFBXAnimation("AlienGreenCarDeath", 
-			GameEngineRenderingEvent("AlienGreen_CarDeath.FBX", 0.035f, true));
-		PlayerIdleRenderer_->CreateFBXAnimation("AlienGreenDeath", 
-			GameEngineRenderingEvent("AlienGreen_Death.FBX", 0.035f, true));
-		PlayerIdleRenderer_->CreateFBXAnimation("AlienGreenDrowning", 
-			GameEngineRenderingEvent("AlienGreen_Drowning.FBX", 0.035f, true));
-		PlayerIdleRenderer_->CreateFBXAnimation("AlienGreenFall", 
-			GameEngineRenderingEvent("AlienGreen_Fall.FBX", 0.035f, true));
-		PlayerIdleRenderer_->CreateFBXAnimation("AlienGreenIdleHolding", 
-			GameEngineRenderingEvent("AlienGreen_IdleHolding.FBX", 0.035f, true));
-		PlayerIdleRenderer_->CreateFBXAnimation("AlienGreenSlip", 
-			GameEngineRenderingEvent("AlienGreen_Slip.FBX", 0.035f, true));
-		PlayerIdleRenderer_->CreateFBXAnimation("AlienGreenStand", 
-			GameEngineRenderingEvent("AlienGreen_Stand.FBX", 0.035f, true));
-		PlayerIdleRenderer_->CreateFBXAnimation("AlienGreenThrow", 
-			GameEngineRenderingEvent("AlienGreen_Throw.FBX", 0.035f, true));
-
-
-		PlayerIdleRenderer_->ChangeAnimation("AlienGreenIdle");
-		PlayerIdleRenderer_->GetTransform().SetLocalRotation({ 0,180,0 });
-		PlayerIdleRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
-
-		PlayerWalkRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();
-		PlayerWalkRenderer_->SetFBXMesh("AlienGreen_Walk.FBX", "TextureAnimation");
-		PlayerWalkRenderer_->CreateFBXAnimation("AlienGreenWalk", 
-			GameEngineRenderingEvent("AlienGreen_Walk.FBX", 0.035f, true)); // Idle 호환 x
-		PlayerWalkRenderer_->ChangeAnimation("AlienGreenWalk");
-		PlayerWalkRenderer_->GetTransform().SetLocalRotation({ 90,180,0 });
-		PlayerWalkRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
-
-
-		PlayerWashRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();
-		PlayerWashRenderer_->SetFBXMesh("AlienGreen_Wash.FBX", "TextureAnimation");
-		PlayerWashRenderer_->CreateFBXAnimation("AlienGreenWash", 
-			GameEngineRenderingEvent("AlienGreen_Wash.FBX", 0.035f, true)); // Idle 호환 x
-		PlayerWashRenderer_->ChangeAnimation("AlienGreenWash");
-		PlayerWashRenderer_->GetTransform().SetLocalRotation({ 90,180,0 });
-		PlayerWashRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
-		PlayerWashRenderer_->Off();
-
-		PlayerChopRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();
-		PlayerChopRenderer_->SetFBXMesh("AlienGreen_Chop.FBX", "TextureAnimation");
-		PlayerChopRenderer_->CreateFBXAnimation("AlienGreenChop", 
-			GameEngineRenderingEvent("AlienGreen_Chop.FBX",  0.04f, true)); // Idle 호환 x
-		PlayerChopRenderer_->ChangeAnimation("AlienGreenChop");
-		PlayerChopRenderer_->GetTransform().SetLocalRotation({ 90,180,0 });
-		PlayerChopRenderer_->GetTransform().SetLocalScale({ 100,100,100 });
-
-		PlayerIdleRenderer_->Off();
-		PlayerWalkRenderer_->Off();
-		PlayerWashRenderer_->Off();
-		PlayerChopRenderer_->Off();
+		
 
 	}
 
@@ -237,41 +230,45 @@ void Player::Start()
 }
 void Player::IdleRendererON()
 {
-	PlayerIdleRenderer_->On();
-	PlayerWalkRenderer_->Off();
-	PlayerChopRenderer_->Off();
-	PlayerWashRenderer_->Off();
+	PlayerIdleRenderer_[PlayerCustomNum]->On();
+	PlayerWalkRenderer_[PlayerCustomNum]->Off();
+	PlayerChopRenderer_[PlayerCustomNum]->Off();
+	PlayerWashRenderer_[PlayerCustomNum]->Off();
 }
 void Player::WalkRendererON()
 {
-	PlayerIdleRenderer_->Off();
-	PlayerWalkRenderer_->On();
-	PlayerChopRenderer_->Off();
-	PlayerWashRenderer_->Off();
+	PlayerIdleRenderer_[PlayerCustomNum]->Off();
+	PlayerWalkRenderer_[PlayerCustomNum]->On();
+	PlayerChopRenderer_[PlayerCustomNum]->Off();
+	PlayerWashRenderer_[PlayerCustomNum]->Off();
 }
 void Player::ChopRendererON()
 {
-	PlayerIdleRenderer_->Off();
-	PlayerWalkRenderer_->Off();
-	PlayerChopRenderer_->On();
-	PlayerWashRenderer_->Off();
+	PlayerIdleRenderer_[PlayerCustomNum]->Off();
+	PlayerWalkRenderer_[PlayerCustomNum]->Off();
+	PlayerChopRenderer_[PlayerCustomNum]->On();
+	PlayerWashRenderer_[PlayerCustomNum]->Off();
 }
 void Player::WashRendererON()
 {
-	PlayerIdleRenderer_->Off();
-	PlayerWalkRenderer_->Off();
-	PlayerChopRenderer_->Off();
-	PlayerWashRenderer_->On();
+	PlayerIdleRenderer_[PlayerCustomNum]->Off();
+	PlayerWalkRenderer_[PlayerCustomNum]->Off();
+	PlayerChopRenderer_[PlayerCustomNum]->Off();
+	PlayerWashRenderer_[PlayerCustomNum]->On();
 }
 
 void  Player::LevelStartEvent()
 {
-	if (PlayerIdleRenderer_ != nullptr)
+	for (int i = 0; i < 6; i++)
 	{
-		PlayerIdleRenderer_->ChangeLoadMaterial();
+		if (PlayerIdleRenderer_[i] != nullptr)
+		{
+			PlayerIdleRenderer_[i]->ChangeLoadMaterial();
 
+		}
 	}
-}
+	}
+
 
 void Player::Update(float _DeltaTime)
 {
