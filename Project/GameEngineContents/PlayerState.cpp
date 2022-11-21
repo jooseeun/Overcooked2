@@ -136,16 +136,16 @@ void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 		PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "Throw");
 		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
-
+		CurrentHoldingObject_->GetCollisionObject()->On();
+		CurrentHoldingObject_->DetachObject();
+		CurrentHoldingObject_->Input_Throwing(GetTransform().GetBackVector()*3000.0f);
+		CurrentHoldingObject_ = nullptr;
 	}
 	PlayerIdleRenderer_[PlayerCustomNum]->AnimationBindEnd(PlayerName_[PlayerCustomNum] +"Throw", [=](const GameEngineRenderingEvent& _Info)
 		{
 			// CurrentHoldingObject - 부모자식관계 삭제, 피봇 원래대로 돌리기
 			// CurrentHoldingObject -> 여기서 Throw 함수 해주면 된다. 
-			CurrentHoldingObject_->GetCollisionObject()->On();
-			CurrentHoldingObject_->DetachObject();
-			CurrentHoldingObject_->Input_Throwing(float4{ GetTransform().GetLocalPosition().x-100,0,0 });
-			CurrentHoldingObject_ = nullptr;
+
 
 			//CurHoldType_ = PlayerHoldType::Max;
 			StateManager.ChangeState("Idle");
