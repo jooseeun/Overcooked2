@@ -42,6 +42,8 @@ protected:
 private:
 	std::shared_ptr<GameEngineFBXMesh> FBXMesh;
 	std::vector<std::vector<GameEngineRenderUnit>> Unit;
+	std::vector<PixelData> PixelDatas;
+
 
 };
 

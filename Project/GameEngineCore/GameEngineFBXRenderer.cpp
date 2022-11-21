@@ -84,6 +84,8 @@ GameEngineRenderUnit* GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name
 		{
 			Unit[i].resize(FBXMesh->GetSubSetCount(i));
 		}
+
+		PixelDatas.resize(FBXMesh->GetRenderUnitCount());
 	}
 	
 	GameEngineRenderUnit& RenderUnit = Unit[Index][_SubSetIndex];
@@ -103,10 +105,9 @@ GameEngineRenderUnit* GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name
 		}
 	}
 
-
 	RenderUnit.SetRenderer(std::dynamic_pointer_cast<GameEngineRenderer>(shared_from_this()));
-	RenderUnit.ShaderResources.SetConstantBufferLink("PixelData", &GetPixelData(), sizeof(PixelData));
-
+	RenderUnit.ShaderResources.SetConstantBufferLink("PixelData", &(PixelDatas[Index]), sizeof(PixelData));
+	
 	return &RenderUnit;
 }
 
