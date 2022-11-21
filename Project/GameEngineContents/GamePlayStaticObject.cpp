@@ -58,10 +58,15 @@ Input_PickUpOption GamePlayStaticObject::Input_PickUp(std::shared_ptr<Player> _P
 {
 	if (Stuff_Current_ != nullptr)
 	{
-		if (Stuff_Current_->Input_PickUp(_Player) == Input_PickUpOption::PickUp)
+		Input_PickUpOption Option = Stuff_Current_->Input_PickUp(_Player);
+		if (Option == Input_PickUpOption::PickUp)
 		{
 			_Player->Input_PickUp(std::dynamic_pointer_cast<GamePlayMoveable>(Stuff_Current_));
 			Stuff_Current_.reset();
+			return Input_PickUpOption::PickUp;
+		}
+		else if (Option == Input_PickUpOption::Exception)
+		{
 			return Input_PickUpOption::PickUp;
 		}
 		else

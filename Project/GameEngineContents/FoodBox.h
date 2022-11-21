@@ -1,6 +1,7 @@
 #pragma once
 #include "GamePlayStaticObject.h"
 #include "GamePlayFood.h"
+#include "GamePlayTool.h"
 
 enum class FoodType
 {
@@ -26,11 +27,43 @@ enum class FoodType
 	Chocolate,
 	Honey,
 	PastaNoodles, //파스타 면
-	Shrimp,
+	Prawn,
 	Cucumber //오이
 };
 
 //음식 스폰 박스
+class Tool_FoodBox : public GamePlayTool
+{
+	friend class FoodBox;
+public:
+	// constrcuter destructer
+	Tool_FoodBox();
+	~Tool_FoodBox();
+
+	// delete Function
+	Tool_FoodBox(const Tool_FoodBox& _Other) = delete;
+	Tool_FoodBox(Tool_FoodBox&& _Other) noexcept = delete;
+	Tool_FoodBox& operator=(const Tool_FoodBox& _Other) = delete;
+	Tool_FoodBox& operator=(Tool_FoodBox&& _Other) noexcept = delete;
+
+protected:
+	void Start() override;
+
+	//void Input_ActionToAuto_Update(std::shared_ptr<GamePlayMoveable> _Moveable, float _DeltaTime) override;
+	Input_PickUpOption CheckMoveable(std::shared_ptr<GamePlayMoveable> _Object) override;
+	Input_PickUpOption Input_PickUp(std::shared_ptr<Player> _Player) override;
+	//Input_UsingOption Input_ActionToManual(Player* _Player) override
+	//{
+	//	return Input_UsingOption::NoResponse; // 수정요
+	//}
+
+	//void Input_Action_End(std::shared_ptr<GamePlayMoveable> _Moveable) override;
+private:
+	FoodType Type_;
+};
+
+
+
 class FoodBox : public GamePlayStaticObject
 {
 public:
@@ -50,7 +83,7 @@ public:
 
 	FoodType GetFoodType()
 	{
-		return Type_;
+		return std::dynamic_pointer_cast<Tool_FoodBox>(GetStuff())->Type_;
 	}
 
 protected:
@@ -58,7 +91,7 @@ protected:
 	void Update(float _DeltaTime) override;
 
 private:
-	ObjectFoodClass Enum_Ingredients_;
+
 
 	std::shared_ptr<GameEngineTextureRenderer> Renderer_;
 
@@ -68,6 +101,6 @@ private:
 
 	std::shared_ptr<GameEngineActor> Lid_;
 	
-	FoodType Type_;
+
 };
 

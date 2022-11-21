@@ -169,6 +169,7 @@
     <ClInclude Include="Equipment_Plate.h" />
     <ClInclude Include="Equipment_Pot.h" />
     <ClInclude Include="FoodBox.h" />
+    <ClInclude Include="FoodHeader.h" />
     <ClInclude Include="Food_Ingredients_Fish.h" />
     <ClInclude Include="Food_Ingredients_Prawn.h">
       <SubType>

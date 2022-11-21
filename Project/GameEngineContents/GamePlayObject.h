@@ -16,6 +16,7 @@ enum class Input_PickUpOption
 {
 	NoResponse,
 	PickUp,
+	Exception
 };
 
 

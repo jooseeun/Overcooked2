@@ -197,6 +197,9 @@
     <ClInclude Include="InGameUIActor.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="FoodHeader.h">
+      <Filter>Contents\Object\Food</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />

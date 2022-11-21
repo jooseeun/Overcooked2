@@ -16,25 +16,25 @@ void Food_Ingredients_Prawn::Start()
 	GamePlayFood::Start();
 	GamePlayFood::SetObjectFoodClass(ObjectFoodClass::Prawn);
 
-	/*if (Mesh_Prawn == nullptr)
-	{
-		{
-			GameEngineDirectory Dir;
-			Dir.MoveParentToExitsChildDirectory("ContentsResources");
-			Dir.Move("ContentsResources");
-			Dir.Move("Mesh");
-			Dir.Move("Object");
-			Dir.Move("Stuff");
-			Dir.Move("Food");
-			Dir.Move("Ingredient");
-			Dir.Move("Prawn");
+	//if (Mesh_Prawn == nullptr)
+	//{
+	//	{
+	//		GameEngineDirectory Dir;
+	//		Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	//		Dir.Move("ContentsResources");
+	//		Dir.Move("Mesh");
+	//		Dir.Move("Object");
+	//		Dir.Move("Stuff");
+	//		Dir.Move("Food");
+	//		Dir.Move("Ingredient");
+	//		Dir.Move("Prawn");
 
-			Mesh_Prawn = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_ingredients_prawn_01.FBX"));
-			std::vector<FBXNodeInfo> Nodes = Mesh_Prawn->CheckAllNode();
-		}
-	}
+	//		Mesh_Prawn = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_ingredients_prawn_01.FBX"));
+	//		std::vector<FBXNodeInfo> Nodes = Mesh_Prawn->CheckAllNode();
+	//	}
+	//}
 	GetFBXMesh()->SetFBXMesh("m_ingredients_prawn_01.FBX", "Texture");
-	GetFBXMesh()->GetTransform().SetLocalScale({ 100, 100, 100 });*/
+	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 
 
 }
