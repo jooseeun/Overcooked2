@@ -109,12 +109,8 @@ void GameEngineRenderUnit::SetPipeLine(const std::string& _Name)
 		return;
 	}
 
-
 	if (nullptr == InputLayOut && nullptr != Mesh)
 	{
-		// 파이프라인의 버텍스 쉐이더와
-		// 매쉬의 버텍스 정보가 다 모여있으므로
-		// 인풋 레이아웃을 만들수가 있다.
 		InputLayOut = GameEngineInputLayOut::Create(Mesh->GetLayOutDesc(), PipeLine->GetVertexShader());
 	}
 
@@ -177,33 +173,22 @@ void GameEngineRenderUnit::Render(float _DeltaTime)
 
 	//if (false == IsInstancing(GetPipeLine()))
 	//{
-		// 준비된 모든 리소스들을 다 세팅해준다.
 
-	// 이 매쉬를 
 	Mesh->Setting();
 
 	InputLayOut->Setting();
 
-	// 이 그리는 방식으로
 	GameEngineDevice::GetContext()->IASetPrimitiveTopology(Topology);
-	// 이 쉐이더와 색깔로 
 	PipeLine->Setting();
-	// 이 데이터를 기반으로
 	ShaderResources.AllResourcesSetting();
-	// 그려라
 	Mesh->Render();
-
-	// 그려라
 
 	ShaderResources.AllResourcesReset();
 	//}
 	//else
 	//{
-	//	InstancingDataSetting(GetPipeLine());
-	//	// 여러분들이 새로운 랜더러를 만들고 인스턴싱을 하면
-	//	// 이 부분이 달라져야 합니다.
-	//	// 유저가 몇바이트짜리 인스턴
-	//	// Camera->PushInstancingIndex(PipeLine);
+	//	 InstancingDataSetting(GetPipeLine());
+	//	 Camera->PushInstancingIndex(PipeLine);
 	//}
 }
 
