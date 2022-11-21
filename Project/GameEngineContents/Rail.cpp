@@ -20,3 +20,7 @@ void Rail::Start()
 	GetCollisionObject()->GetTransform().SetWorldMove({ 0, 25, 0 });
 }
 
+void Rail::Update(float _Delta)
+{
+	GetFBXMesh()->RenderOptionInst.UV.x += _Delta;
+}

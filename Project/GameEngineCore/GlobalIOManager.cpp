@@ -136,7 +136,13 @@ bool GlobalIOManager::Load(IOType _Type, std::string _AddName)
 	{
 		MapDataVector_.clear();
 		int DataValues = 6;
-		for (int i = 0; i < TmpVector.size() / DataValues; i++)
+		int MaxCount = TmpVector.size() / DataValues;
+		if (TmpVector.size() % DataValues != 0)
+		{
+			MaxCount -= 1;
+		}
+
+		for (int i = 0; i < MaxCount; i++)
 		{
 			MapData TmpData = {};
 

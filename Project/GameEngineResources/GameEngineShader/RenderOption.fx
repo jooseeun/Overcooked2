@@ -4,5 +4,6 @@ cbuffer RenderOption : register(b10)
     float SumDeltaTime;
     int IsAnimation;
     int dummy;
+    float4 UV;
 };
 
