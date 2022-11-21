@@ -334,6 +334,20 @@ void GameEngineFBXAnimationRenderer::ChangeAnimation(const std::string& _Animati
 	CurAnimation = FindIter->second;
 }
 
+
+void GameEngineFBXAnimationRenderer::ChangeAnimationFrame( int _StartIndex)
+{
+	int ChangeFrame = _StartIndex;
+	int MaxSize = GetAnimationFrameCount();
+	if (MaxSize <= _StartIndex)
+	{
+		ChangeFrame = MaxSize;
+	}
+
+	CurAnimation->GetRendereringEvent().CurFrame = ChangeFrame;
+}
+
+
 void GameEngineFBXAnimationRenderer::Update(float _DeltaTime)
 {
 	if (nullptr == CurAnimation)

@@ -36,6 +36,11 @@ public:
 	void Reset();
 	void Update(float _DeltaTime);
 
+	GameEngineRenderingEvent& GetRendereringEvent()
+	{
+		return Info;
+	}
+
 public:
 	FBXRendererAnimation() 
 		: Start(0)
@@ -83,6 +88,7 @@ public:
 
 	void CreateFBXAnimation(const std::string& _AnimationName, const GameEngineRenderingEvent& _Desc, int _Index = 0);
 	void ChangeAnimation(const std::string& _AnimationName, bool _IsBlending = false);
+	void ChangeAnimationFrame(int _StartIndex);
 
 	void Update(float _DeltaTime) override;
 
@@ -136,6 +142,15 @@ public:
 		}
 
 		Animations[Name]->TimeEvent = _Function;
+	}
+
+	int GetAnimationFrameCount()
+	{
+		if (CurAnimation == nullptr)
+		{
+			MsgBoxAssert("애니메이션을 세팅하지 않았습니다.");
+		}
+		return CurAnimation->GetRendereringEvent().Frames.size();
 	}
 
 protected:
