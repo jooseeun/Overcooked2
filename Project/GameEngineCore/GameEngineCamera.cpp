@@ -131,7 +131,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 			Instancing.InstancingBufferChangeData();
 			Instancing.ShaderResources.AllResourcesSetting();
-			Instancing.InstancingPipeLine->RenderingInstancing(Instancing.DataInsert, Instancing.Buffer);
+			Instancing.RenderUnit->GetPipeLine()->RenderingInstancing(Instancing.DataInsert, Instancing.Buffer);
 		}
 	}
 }

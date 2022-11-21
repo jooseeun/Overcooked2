@@ -21,7 +21,7 @@ public:
 	GameEngineInstancing& operator=(GameEngineInstancing&& _Other) noexcept = delete;
 
 
-private:
+public:
 	int DataInsert;
 	std::vector<char> DataBuffer;
 	GameEngineShaderResourcesHelper ShaderResources;

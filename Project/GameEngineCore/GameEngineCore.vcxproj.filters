@@ -523,11 +523,23 @@
     <CopyFileToFolders Include="ThirdParty\bin\Release\libfbxsdk.lib">
       <Filter>ThirdParty\Lib\Release</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="ThirdParty\bin\Release\libfbxsdk-md.lib" />
-    <CopyFileToFolders Include="ThirdParty\bin\Release\libfbxsdk-mt.lib" />
-    <CopyFileToFolders Include="ThirdParty\bin\Release\libxml2-md.lib" />
-    <CopyFileToFolders Include="ThirdParty\bin\Release\libxml2-mt.lib" />
-    <CopyFileToFolders Include="ThirdParty\bin\Release\zlib-md.lib" />
-    <CopyFileToFolders Include="ThirdParty\bin\Release\zlib-mt.lib" />
+    <CopyFileToFolders Include="ThirdParty\bin\Release\libfbxsdk-md.lib">
+      <Filter>ThirdParty\Lib\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\bin\Release\libfbxsdk-mt.lib">
+      <Filter>ThirdParty\Lib\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\bin\Release\libxml2-md.lib">
+      <Filter>ThirdParty\Lib\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\bin\Release\libxml2-mt.lib">
+      <Filter>ThirdParty\Lib\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\bin\Release\zlib-md.lib">
+      <Filter>ThirdParty\Lib\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="ThirdParty\bin\Release\zlib-mt.lib">
+      <Filter>ThirdParty\Lib\Release</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>
