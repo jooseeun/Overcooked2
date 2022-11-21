@@ -113,7 +113,8 @@ private:
 	ObjectMoveableType Enum_ObjectMoveableType_;
 
 	float CookingGage_;
-	
+
+
 
 	//CookedStat CookedStat_Current_;
 

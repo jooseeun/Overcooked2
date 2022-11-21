@@ -28,6 +28,16 @@ public:
 	GamePlayStuff& operator=(const GamePlayStuff& _Other) = delete;
 	GamePlayStuff& operator=(GamePlayStuff&& _Other) noexcept = delete;
 
+	virtual inline Input_UsingOption Input_Using(std::shared_ptr<Player> _Player)
+	{
+		return Input_UsingOption::NoResponse;
+	}
+	virtual inline Input_UsingOption Input_Throwing(const float4& _Vector)
+	{
+		return Input_UsingOption::NoResponse;
+	}
+
+
 	inline ObjectStuffType GetObjectStuffType() const
 	{
 		if (Enum_ObjectStuffType_ == ObjectStuffType::None)

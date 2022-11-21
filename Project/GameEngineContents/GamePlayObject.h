@@ -86,6 +86,21 @@ protected:
 		return Enum_ObjectType_;
 	}
 
+	inline void SetVector(const float4& _Vector)
+	{
+		Vector_ = _Vector;
+	}
+
+	inline void PlusVector(const float4& _Vector)
+	{
+		Vector_ += _Vector;
+	}
+
+	inline float4 GetVector() const
+	{
+		return Vector_;
+	}
+
 private:
 	std::shared_ptr<GameEngineFBXStaticRenderer> Mesh_Object_;
 	std::shared_ptr<GameEngineFBXAnimationRenderer> AnimationMesh_Obejct_;
@@ -97,10 +112,9 @@ private:
 	// Physics
 	CollisionReturn CheckCollisionObjectByPhysics_Enter(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 	CollisionReturn CheckCollisionMapObjectByPhysics_Enter(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
-	static void CalculatorPhysic(std::weak_ptr<GamePlayObject> _ObjectA, std::weak_ptr<GamePlayObject> _ObjectB);
-	static void CalculatorPhysicByMapobject(std::weak_ptr<GamePlayObject> _Object, std::weak_ptr<GamePlayObject> _MapObject);
+	//static void CalculatorPhysic(std::weak_ptr<GamePlayObject> _ObjectA, std::weak_ptr<GamePlayObject> _ObjectB);
+	//static void CalculatorPhysicByMapobject(std::weak_ptr<GamePlayObject> _Object, std::weak_ptr<GamePlayObject> _MapObject);
 	float4 Vector_;
-	float4 External_Vector_;
 
 	//PhysicCollision PhysicCollision_;
 
