@@ -31,15 +31,16 @@ void GamePlayLevel::End()
 
 void GamePlayLevel::LevelStartEvent()
 {
+	//남은시간 초기화
+	GlobalGameData::GetLeftTimeRef().StartTimer(GlobalGameData::GetMaxTime());
+	//남은 스코어 초기화
+	GlobalGameData::SetScore(0);
+
 	if (IsLevelStartFirst_ == false)
 	{
 		//FadeIn이벤트
 		UIDebugGUI::Main_->On();
 		UIActor_->StartFadeIn();
-
-		//남은시간 초기화
-		GlobalGameData::GetLeftTimeRef().StartTimer(300.0f);
-
 		PlayLevelStartEvent();
 		return;
 	}

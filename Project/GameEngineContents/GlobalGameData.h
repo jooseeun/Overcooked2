@@ -51,10 +51,36 @@ public:
 	{
 		return LeftTime_;
 	}
+
+	static float GetMaxTime()
+	{
+		return 40.f;
+	}
+
+	static int GetScore()
+	{
+		return Score_;
+	}
+
+	static void AddScore(int _Value)
+	{
+		Score_ += _Value;
+		if (Score_ <= 0)
+		{
+			Score_ = 0;
+		}
+	}
+
+	static void SetScore(int _Value)
+	{
+		Score_ = _Value;
+	}
 private:
 	static std::string CurStage_;
 
 	static std::map<std::string, StageData> AllStageData_;
 
 	static ContentsUtility::Timer LeftTime_;
+
+	static int Score_;
 };

@@ -105,7 +105,11 @@ public:
 		UIDataInst.UIMode = _Mode;
 	}
 
-	void UpdateLeftToRight(float _Percentage); // 0.0 : min , 1.0 : Max
+	void UpdateLeftToRight(float _Percentage); // 0.0 : min , 1.0
+
+	void UpdateLeftTime(float _Percentage);
+
+	void UpdateColor(const float4& _Color);
 
 protected:
 	void Start() override;

@@ -38,7 +38,15 @@ void OverCookedUIRenderer::SetTextureRendererSetting()
 
 void OverCookedUIRenderer::UpdateLeftToRight(float _Percentage)
 {
+	UIDataInst.UIMode = 3;
 	PixelDataInst.Slice = { _Percentage,0.0f };
+}
+
+void OverCookedUIRenderer::UpdateLeftTime(float _Percentage)
+{
+	float Acc = 1.f;
+	PixelDataInst.PlusColor = float4(Acc * (1 - _Percentage), Acc * _Percentage, 0, 0);
+	PixelDataInst.MulColor = float4(1.0f, 1.0f, 1.0f, 0.5f);
 }
 
 void OverCookedUIRenderer::Start()

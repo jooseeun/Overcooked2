@@ -215,6 +215,18 @@ void Overcooked::TextureLoad()
 			}
 		}
 
+		//Coin FolderTexutre
+		{
+			GameEngineDirectory Dir;
+			Dir.MoveParentToExitsChildDirectory("ContentsResources");
+			Dir.Move("ContentsResources");
+			Dir.Move("Texture");
+			Dir.Move("UI");
+			Dir.Move("Coin");
+
+			GameEngineFolderTexture::Load(Dir.GetFullPath());
+		}
+
 		GameEngineFont::Load("Naughty Squirrel");
 	}
 }
@@ -355,7 +367,6 @@ void Overcooked::LoadCommonResource()
 		Dir.Move("Object");
 		Dir.Move("Player");
 		Dir.Move("Buck");
-
 
 		{
 			GameEngineDirectory MeshDir = Dir;
