@@ -176,6 +176,8 @@ void Overcooked::TextureLoad()
 		{
 			GameEngineTexture::Load(Textures[i].GetFullPath());
 		}
+
+		GameEngineTexture::Cut("t_sk_crate_lid_images.png", 5, 5);
 	}
 
 	{
