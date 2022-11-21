@@ -18,6 +18,11 @@ void Player::IdleStart(const StateInfo& _Info)
 }
 void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	if (true == GameEngineInput::GetInst()->IsDownKey("ChangePlayerCustom"))
+	{
+		ChangePlayer();
+	}
+
 	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft") ||
 		true == GameEngineInput::GetInst()->IsPressKey("PlayerRight") ||
 		true == GameEngineInput::GetInst()->IsPressKey("PlayerFront") ||
@@ -138,7 +143,6 @@ void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 			// CurrentHoldingObject - 부모자식관계 삭제, 피봇 원래대로 돌리기
 			// CurrentHoldingObject -> 여기서 Throw 함수 해주면 된다. 
 			CurrentHoldingObject_->GetCollisionObject()->On();
-			CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,0,0 });
 			CurrentHoldingObject_->DetachObject();
 			CurrentHoldingObject_->Input_Throwing(float4{ GetTransform().GetLocalPosition().x-100,0,0 });
 			CurrentHoldingObject_ = nullptr;
@@ -189,6 +193,14 @@ void Player::HoldStart(const StateInfo& _Info)
 				if (Interact_TableObject_->GetStaticObjectType() == MapObjType::FoodBox) // 음식 얻어오기
 				{
 					Interact_TableObject_->CastThis<FoodBox>()->SwitchIsInteraction();
+					FoodType test;
+					test = Interact_TableObject_->CastThis<FoodBox>()->GetFoodType();
+
+					if (test == FoodType::Tomato)
+					{
+						int a = 0;
+					}
+
 					StateManager.ChangeState("Idle"); // 지워야됨
 					return;
 				}
@@ -242,7 +254,6 @@ void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 		{
 			// 없을때-> 바닥에 놓기
 			CurrentHoldingObject_->GetCollisionObject()->On();
-			CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,0,0});
 			CurrentHoldingObject_->GetTransform().SetWorldPosition(GetTransform().GetLocalPosition() + GetTransform().GetBackVector()*60.0f + float4{0,50,0});
 			CurrentHoldingObject_->DetachObject();
 			CurrentHoldingObject_ = nullptr;
@@ -261,7 +272,6 @@ void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 			if (Interact_TableObject_->GetStuff() == nullptr) // 테이블 있고 테이블에 올려진 물건이 없을때
 			{
 				CurrentHoldingObject_->GetCollisionObject()->On();
-				CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,0,0 });
 				CurrentHoldingObject_->DetachObject();
 				Interact_TableObject_->SetStuff(CurrentHoldingObject_);
 				float4 ToolPos = Interact_TableObject_->GetToolPos();

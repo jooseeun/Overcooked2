@@ -14,7 +14,7 @@ Player::Player()
 	, PlayerRightCollision_(nullptr)
 	, PlayerForwardCollision_(nullptr)
 	, PlayerBackCollision_(nullptr)
-	, PlayerCustomNum(1)
+	, PlayerCustomNum(5)
 	, PlayerIdleRenderer_()
 	, PlayerWalkRenderer_()
 	, PlayerChopRenderer_()
@@ -44,18 +44,7 @@ void Player::Start()
 	//잡기/놓기 - SPACEBAR
 	//대쉬 - 왼쪽 ALT
 	//감정표현 - E
-	if (false == GameEngineInput::GetInst()->IsKey("PlayerLeft"))
-	{
-		GameEngineInput::GetInst()->CreateKey("PlayerLeft", VK_LEFT);
-		GameEngineInput::GetInst()->CreateKey("PlayerRight", VK_RIGHT);
-		GameEngineInput::GetInst()->CreateKey("PlayerFront", VK_UP);
-		GameEngineInput::GetInst()->CreateKey("PlayerBack", VK_DOWN);
-		GameEngineInput::GetInst()->CreateKey("PlayerDash", 'X');
-		GameEngineInput::GetInst()->CreateKey("PlayerHold", VK_SPACE);
-		GameEngineInput::GetInst()->CreateKey("PlayerInteract", VK_CONTROL);
 
-		//GameEngineInput::GetInst()->CreateKey("PlayerSlice", VK_CONTROL);
-	}
 	{
 		PlayerName_[0] = "AlienGreen";
 		PlayerName_[1] = "Buck";
@@ -272,6 +261,7 @@ void  Player::LevelStartEvent()
 
 void Player::Update(float _DeltaTime)
 {
+
 	StateManager.Update(_DeltaTime);
 	Gravity();
 	DashCheck();

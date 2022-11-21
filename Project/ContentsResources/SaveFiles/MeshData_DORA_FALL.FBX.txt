@@ -1,0 +1,15 @@
+{ 
+MeshName:DORA_FALL.FBX;
+MeshInfoCount:5;
+Path:;
+Mat:;
+Path:;
+Mat:DORAHAND.PNG;
+Path:\DORAHAND.PNG;
+Mat:DORAHAND.PNG;
+Path:;
+Mat:;
+Path:;
+Mat:;
+}
+

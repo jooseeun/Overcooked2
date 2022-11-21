@@ -1,0 +1,15 @@
+{ 
+MeshName:PANDA_DROWNING.FBX;
+MeshInfoCount:5;
+Path:;
+Mat:;
+Path:;
+Mat:PANDAHAND.PNG;
+Path:\PANDAHAND.PNG;
+Mat:PANDAHAND.PNG;
+Path:;
+Mat:;
+Path:;
+Mat:;
+}
+

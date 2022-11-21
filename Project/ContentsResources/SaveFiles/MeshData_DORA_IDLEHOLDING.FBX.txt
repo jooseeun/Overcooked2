@@ -1,0 +1,15 @@
+{ 
+MeshName:DORA_IDLEHOLDING.FBX;
+MeshInfoCount:5;
+Path:;
+Mat:;
+Path:\DORAHAND.PNG;
+Mat:DORAHAND.PNG;
+Path:;
+Mat:DORAHAND.PNG;
+Path:;
+Mat:;
+Path:;
+Mat:;
+}
+

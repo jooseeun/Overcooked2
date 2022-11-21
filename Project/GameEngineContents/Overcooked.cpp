@@ -243,6 +243,7 @@ void Overcooked::InputMake()
 
 	if (false == GameEngineInput::GetInst()->IsKey("PlayerLeft"))
 	{
+		GameEngineInput::GetInst()->CreateKey("ChangePlayerCustom", 'M');
 		GameEngineInput::GetInst()->CreateKey("PlayerLeft", VK_LEFT);
 		GameEngineInput::GetInst()->CreateKey("PlayerRight", VK_RIGHT);
 		GameEngineInput::GetInst()->CreateKey("PlayerFront", VK_UP);

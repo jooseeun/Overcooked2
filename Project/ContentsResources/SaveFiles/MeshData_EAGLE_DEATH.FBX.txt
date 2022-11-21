@@ -1,0 +1,15 @@
+{ 
+MeshName:EAGLE_DEATH.FBX;
+MeshInfoCount:5;
+Path:;
+Mat:;
+Path:\EAGLEHAND.PNG;
+Mat:EAGLEHAND.PNG;
+Path:;
+Mat:EAGLEHAND.PNG;
+Path:;
+Mat:;
+Path:;
+Mat:;
+}
+
