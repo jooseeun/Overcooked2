@@ -37,6 +37,11 @@ public:
 		return FBXMesh;
 	}
 
+	PixelData& GetPixelDataList(int _Index)
+	{
+		return PixelDatas[_Index];
+	}
+
 protected:
 
 private:

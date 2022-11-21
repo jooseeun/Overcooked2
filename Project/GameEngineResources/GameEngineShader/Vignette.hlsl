@@ -26,6 +26,9 @@ cbuffer PixelData : register(b0)
     float4 MulColor;
     float4 PlusColor;
     float4 Slice;
+
+    int AlphaFlag;
+    float4 AlphaColor;
 }
 
 Texture2D Tex : register(t0);
