@@ -13,4 +13,6 @@ void Food_Ingredients_Fish::Start()
 {
 	GamePlayFood::Start();
 	GamePlayFood::SetObjectFoodClass(ObjectFoodClass::Fish);
+
+	
 }

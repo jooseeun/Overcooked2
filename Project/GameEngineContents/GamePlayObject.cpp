@@ -37,29 +37,25 @@ void GamePlayObject::Update(float _DeltaTime)
 		case ObjectType::Stuff:
 		case ObjectType::Character:
 		{
+			const float4& Pos = GetTransform().GetWorldPosition();
 			if (GetCollisionObject()->IsCollision(CollisionType::CT_AABB, CollisionOrder::Floor, CollisionType::CT_AABB) == false)
 			{
-				if (Vector_.y < 799.f)
-				{
-					Vector_.y += 200.f;
+				GetTransform().SetWorldDownMove(100.0f, GameEngineTime::GetDeltaTime());
+				if (Vector_.CompareInt3D(float4::ZERO) == false) 
+				{ 
+					Vector_ *= 0.95f;
 				}
-			}
-			else
-			{
-				Vector_.y = 0;
-			}
 
+				GetTransform().SetWorldMove(Vector_ * _DeltaTime);
 
-
-			if (Vector_.CompareInt3D(float4::ZERO) == false)
-			{
-				Vector_ *= 0.95f;
+				Pos;
+				int a = 0;
+				a + 1;
 			}
 
 
-			GetTransform().SetLocalMove(Vector_ * _DeltaTime);
 
-
+		
 
 			//GetCollisionObject()->SetCollisionMode(CollisionMode::Ex);
 			//if (GetCollisionObject()->IsCollisionEnterBase(CollisionType::CT_OBB, static_cast<int>(CollisionOrder::Map_Object), CollisionType::CT_OBB,
