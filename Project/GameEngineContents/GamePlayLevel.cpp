@@ -37,6 +37,9 @@ void GamePlayLevel::LevelStartEvent()
 		UIDebugGUI::Main_->On();
 		UIActor_->StartFadeIn();
 
+		//남은시간 초기화
+		GlobalGameData::GetLeftTimeRef().StartTimer(300.0f);
+
 		PlayLevelStartEvent();
 		return;
 	}
