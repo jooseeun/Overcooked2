@@ -23,10 +23,9 @@ private:
 
 	bool IsInteraction_;
 	bool IsOpen_;
+	float Angle_;
 
 	std::shared_ptr<GameEngineActor> Lid_;
 	
-	float Value_;
-	bool IsReverse_;
 };
 
