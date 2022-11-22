@@ -29,18 +29,15 @@ public:
 
 	virtual void Render(float _DeltaTime);
 
-
 	void SetMesh(const std::string& _Name);
-	void SetPipeLine(const std::string& _Name);
-
-	virtual void InstancingOn();
+	void SetMaterial(const std::string& _Name);
 
 	inline GameEngineShaderResourcesHelper& GetShaderResources()
 	{
-		return Unit.ShaderResources;
+		return Unit->ShaderResources;
 	}
 
-	inline GameEngineRenderUnit& GetRenderUnit()
+	inline std::shared_ptr<GameEngineRenderUnit> GetRenderUnit()
 	{
 		return Unit;
 	}
@@ -52,11 +49,7 @@ protected:
 	virtual void End() {}
 
 private:
-	GameEngineRenderUnit Unit;
-
-	// 공통적인 메모리 공유하는 메로리들을 들고 있고
-	// GameEngineMaterial* PipeLine;
-
+	std::shared_ptr<GameEngineRenderUnit> Unit;
 
 };
 

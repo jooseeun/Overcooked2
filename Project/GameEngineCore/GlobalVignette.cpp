@@ -14,7 +14,7 @@ void GlobalVignette::EffectInit()
 	CopyTarget = std::make_shared<GameEngineRenderTarget>();
 	CopyTarget->CreateRenderTargetTexture(GameEngineWindow::GetScale(), DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, float4::ZERO);
 
-	EffectSet.SetPipeLine("Vignette");
+	EffectSet.SetMaterial("Vignette");
 	EffectSet.SetMesh("FullRect");
 }
 

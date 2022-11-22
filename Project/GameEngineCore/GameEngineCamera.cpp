@@ -10,12 +10,9 @@
 #include "GameEngineStructuredBuffer.h"
 #include <GameEngineBase/GameEngineWindow.h>
 
-
-
 GameEngineCamera::GameEngineCamera() 
 	: CameraRenderTarget(nullptr)
 {
-	// 윈도우가 여러분들 생각하기 가장 쉬운 비율이라서 여기서 하는거고.
 	Size = GameEngineWindow::GetInst()->GetScale();
 	Mode = CAMERAPROJECTIONMODE::PersPective;
 	Near = 0.1f;
@@ -39,10 +36,9 @@ bool ZSort(std::shared_ptr<GameEngineRenderer> _Left, std::shared_ptr<GameEngine
 	return _Left->GetTransform().GetWorldPosition().z > _Right->GetTransform().GetWorldPosition().z;
 }
 
-GameEngineInstancing* GameEngineCamera::GetInstancing(const std::string& _Name)
+GameEngineInstancing& GameEngineCamera::GetInstancing(const std::string& _Name)
 {
-	std::shared_ptr<GameEngineMaterial> Instancing = GameEngineMaterial::Find(_Name);
-	return GetInstancing(Instancing);
+	return InstancingMap[_Name];
 }
 
 void GameEngineCamera::Render(float _DeltaTime)
@@ -73,20 +69,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 	float4 WindowSize = GameEngineWindow::GetInst()->GetScale();
 
-	// 인스턴싱정보를 초기화해요.
 	{
-		std::unordered_map<GameEngineMaterial*, GameEngineInstancing>::iterator StartIter = InstancingMap.begin();
-		std::unordered_map<GameEngineMaterial*, GameEngineInstancing>::iterator EndIter = InstancingMap.end();
-		for (; StartIter != EndIter; ++StartIter)
-		{
-			StartIter->second.DataInsert = 0;
-		}
-	}
-
-	{
-		// 랜더링 하면서 인스턴싱 데이터를 수집하고
-		// 수집하면서 ++DataInsert
-		// 랜더링 하기 전에
 		for (std::pair<const int, std::list<std::shared_ptr<GameEngineRenderer>>>& Group : AllRenderer_)
 		{
 			float ScaleTime = GameEngineTime::GetInst()->GetDeltaTime(Group.first);
@@ -116,22 +99,12 @@ void GameEngineCamera::Render(float _DeltaTime)
 	// 다끝나면 인스턴싱을 랜더링
 	{
 		// 쉐이더 리소스 세팅이 다른애들이 있으면
-		std::unordered_map<GameEngineMaterial*, GameEngineInstancing>::iterator StartIter = InstancingMap.begin();
-		std::unordered_map<GameEngineMaterial*, GameEngineInstancing>::iterator EndIter = InstancingMap.end();
+		std::unordered_map<std::string, GameEngineInstancing>::iterator StartIter = InstancingMap.begin();
+		std::unordered_map<std::string, GameEngineInstancing>::iterator EndIter = InstancingMap.end();
 
 		for (; StartIter != EndIter; ++StartIter)
 		{
-			if (GameEngineInstancing::MinInstancingCount > StartIter->second.Count)
-			{
-				continue;
-			}
-
-			GameEngineMaterial* Pipe = StartIter->first;
-			GameEngineInstancing& Instancing = StartIter->second;
-
-			Instancing.InstancingBufferChangeData();
-			Instancing.ShaderResources.AllResourcesSetting();
-			Instancing.RenderUnit->GetPipeLine()->RenderingInstancing(Instancing.DataInsert, Instancing.Buffer);
+			//
 		}
 	}
 }
@@ -148,7 +121,6 @@ void GameEngineCamera::Start()
 	CameraRenderTarget->CreateRenderTargetTexture(GameEngineWindow::GetScale(), DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, float4::ZERO);
 
 	CameraRenderTarget->SettingDepthTexture(GameEngineDevice::GetBackBuffer()->GetDepthTexture());
-	// CameraRenderTarget->CreateDepthTexture()
 }
 
 void GameEngineCamera::PushRenderer(std::shared_ptr<GameEngineRenderer> _Renderer)
@@ -168,64 +140,6 @@ float4 GameEngineCamera::GetWorldPositionToScreenPosition(const float4& _Pos)
 	Pos = Pos * ViewPort;
 	return Pos;
 }
-
-
-GameEngineInstancing* GameEngineCamera::GetInstancing(std::shared_ptr < GameEngineMaterial> _Pipe)
-{
-	if (nullptr == _Pipe)
-	{
-		MsgBoxAssert("존재하지 않는 파이프라인의 인스턴싱 데이터를 가져올수 없습니다.");
-	}
-
-	std::unordered_map<GameEngineMaterial*, GameEngineInstancing>::iterator FindIter
-		= InstancingMap.find(_Pipe.get());
-
-
-	return &FindIter->second;
-}
-
-
-void GameEngineCamera::PushInstancing(std::shared_ptr<GameEngineMaterial> _Pipe, int Count)
-{
-	if (false == _Pipe->GetVertexShader()->IsInstancing())
-	{
-		MsgBoxAssert("인스턴싱이 불가능한 랜더러 입니다.")
-	}
-
-	// Camera->gameenginepipeline
-
-	GameEngineInstancing& Instancing = InstancingMap[_Pipe.get()];
-
-	Instancing.Count += Count;
-
-}
-
-int GameEngineCamera::PushInstancingIndex(std::shared_ptr<GameEngineMaterial> _Pipe)
-{
-	int InsertCount = InstancingMap[_Pipe.get()].DataInsert;
-	return PushInstancingData(_Pipe, &InsertCount, sizeof(int));
-}
-
-
-int GameEngineCamera::PushInstancingData(std::shared_ptr<GameEngineMaterial> _Pipe, void* _DataPtr, int _Size)
-{
-	int DataOffset = InstancingMap[_Pipe.get()].DataInsert * _Size;
-
-	// 넣어주다가 사이즈가 오버되면 어떻하지?
-	// 아니다.
-	// PushInstancing에서 이미 버퍼는 충분한 사이즈만큼 늘어나 있어야 한다.
-
-	char* DataPtr = &InstancingMap[_Pipe.get()].DataBuffer[DataOffset];
-	memcpy_s(DataPtr, InstancingMap[_Pipe.get()].DataBuffer.size() - DataOffset, _DataPtr, _Size);
-	DataOffset += _Size;
-
-	int ResultIndex = InstancingMap[_Pipe.get()].DataInsert;
-
-	++InstancingMap[_Pipe.get()].DataInsert;
-
-	return ResultIndex;
-}
-
 
 void GameEngineCamera::Release(float _DelataTime)
 {

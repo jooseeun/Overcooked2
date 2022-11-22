@@ -3,12 +3,9 @@
 #include "GameEngineInstancingBuffer.h"
 
 // Ό³Έν :
+class GameEngineRenderUnit;
 class GameEngineInstancing
 {
-public:
-	static unsigned int MinInstancingCount;
-	static unsigned int StartInstancingCount;
-
 public:
 	// constrcuter destructer
 	GameEngineInstancing();
@@ -20,22 +17,21 @@ public:
 	GameEngineInstancing& operator=(const GameEngineInstancing& _Other) = delete;
 	GameEngineInstancing& operator=(GameEngineInstancing&& _Other) noexcept = delete;
 
+	void PushUnit(std::shared_ptr<GameEngineRenderUnit> _Unit);
 
-public:
-	int DataInsert;
+private:
 	std::vector<char> DataBuffer;
-	GameEngineShaderResourcesHelper ShaderResources;
-	std::shared_ptr<GameEngineRenderUnit> RenderUnit;
 	int Size;
 	unsigned int Count;
 	int MaxDataCount;
 	std::shared_ptr<GameEngineInstancingBuffer> Buffer;
 
+
+	GameEngineShaderResourcesHelper ShaderResources;
+	std::shared_ptr<GameEngineRenderUnit> InitUnit;
+
+	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>> Units;
+
 	void InstancingBufferChangeData();
 
-protected:
-
-private:
-
 };
-

@@ -33,25 +33,10 @@ public:
 	GameEngineMaterial& operator=(const GameEngineMaterial& _Other) = delete;
 	GameEngineMaterial& operator=(GameEngineMaterial&& _Other) noexcept = delete;
 
-	// void SetInputAssembler1InputLayOutSetting(const std::string& _Name);
-
-	// 범위를 지정하려면 면이 필요하지?
-	// 면을 이루려면 점이 필요하죠?
-	// 리소스는 점을 n개를 버퍼라는 개념으로 그래픽카드한테 쏴주는거다.
-
-	// 이 점은 모니터 공간으로 가야 랜더링
-	// WinApi때 그 좌표계로 가야 한다.
-
-
-	// 버텍스 쉐이더
-	// 그렇게 넣어준 점을 이동시켜야 내가 원하는 곳에 범위를 잡을수 있다.
-	// 점 하나하나를 원하는 위치에 옮긴다.
-	// 즉 점을 내마음대로 수치를 변경할수 있는 단계
 	void SetVertexShader(const std::string& _Name);
 
 	void SetVertexShader(std::shared_ptr<GameEngineVertexShader> _Shader);
 
-	// 그리고 나서 이 점들을 진짜 모니터 위치로 옮겨주는 역할을 
 	void SetRasterizer(const std::string& _Name);
 
 	void SetPixelShader(const std::string& _Name);
@@ -60,29 +45,21 @@ public:
 
 	void SetOutputMergerDepthStencil(const std::string& _Name);
 
-	// 랜더러 자체가 들어올 가능성이 높네요.
 	void Setting();
 
 	void RenderingInstancing(int _RenderingCount, std::shared_ptr < GameEngineInstancingBuffer> _Buffer);
 
-	//inline GameEngineVertexBuffer* GetVertexBuffer()
-	//{
-	//	return VertexBuffer;
-	//}
-
-	inline std::shared_ptr < GameEngineVertexShader> GetVertexShader()
+	inline std::shared_ptr<GameEngineVertexShader> GetVertexShader()
 	{
 		return VertexShader;
 	}
 
-	inline std::shared_ptr < GameEnginePixelShader> GetPixelShader()
+	inline std::shared_ptr<GameEnginePixelShader> GetPixelShader()
 	{
 		return PixelShader;
 	}
 
 	void Copy(std::shared_ptr<GameEngineMaterial> _Original);
-
-
 
 	void SetWireFrame();
 

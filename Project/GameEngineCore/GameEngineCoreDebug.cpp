@@ -159,16 +159,16 @@ namespace GameEngineDebug
 		DebugRenderUnit = std::make_shared<GameEngineRenderUnit>();
 
 		DebugRenderUnit->SetMesh("Box");
-		DebugRenderUnit->SetPipeLine("3DDebug");
+		DebugRenderUnit->SetMaterial("3DDebug");
 
 		//DebugRenderingPipeLine = GameEngineMaterial::Find("3DDebug");
 		//DebugShaderResources.ResourcesCheck(DebugRenderingPipeLine);
 
 		DebugTextureRenderUnit = std::make_shared<GameEngineRenderUnit>();
 
-		DebugTextureRenderUnit->SetPipeLine("3DDebug");
+		DebugTextureRenderUnit->SetMaterial("3DDebug");
 
-		DebugRenderUnit->GetPipeLine()->SetWireFrame();
+		DebugRenderUnit->GetMaterial()->SetWireFrame();
 
 		//TextureRenderingPipeLine = GameEngineMaterial::Find("DebugTexture");
 		//TextureShaderResources.ResourcesCheck(TextureRenderingPipeLine);
@@ -202,13 +202,13 @@ namespace GameEngineDebug
 
 	void SetWireFrame()
 	{
-		DebugRenderUnit->GetPipeLine()->SetWireFrame();
+		DebugRenderUnit->GetMaterial()->SetWireFrame();
 
 	}
 
 	void SetFillSolid()
 	{
-		DebugRenderUnit->GetPipeLine()->SetFillSolid();
+		DebugRenderUnit->GetMaterial()->SetFillSolid();
 
 	}
 

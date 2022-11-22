@@ -21,7 +21,7 @@ OverCookedUIRenderer::~OverCookedUIRenderer()
 
 void OverCookedUIRenderer::SetTextureRendererSetting()
 {
-	SetPipeLine("UI");
+	SetMaterial("UI");
 
 	AtlasDataInst.FrameData.PosX = 0.0f;
 	AtlasDataInst.FrameData.PosY = 0.0f;

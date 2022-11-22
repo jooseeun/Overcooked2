@@ -14,50 +14,22 @@ GameEngineDefaultRenderer::~GameEngineDefaultRenderer()
 void GameEngineDefaultRenderer::Start()
 {
 	GameEngineRenderer::Start();
-
-	// 뭔가 또 할일이 있다면 여기서 해라.
+	Unit = std::make_shared<GameEngineRenderUnit>();
 }
 
 void GameEngineDefaultRenderer::SetMesh(const std::string& _Name)
 {
-	Unit.SetMesh(_Name);
+	Unit->SetMesh(_Name);
 }
 
-void GameEngineDefaultRenderer::SetPipeLine(const std::string& _Name)
+void GameEngineDefaultRenderer::SetMaterial(const std::string& _Name)
 {
-	Unit.SetPipeLine(_Name);
-	Unit.SetRenderer(std::dynamic_pointer_cast<GameEngineRenderer>(shared_from_this()));
+	Unit->SetMaterial(_Name);
+	Unit->SetRenderer(std::dynamic_pointer_cast<GameEngineRenderer>(shared_from_this()));
 }
 
 void GameEngineDefaultRenderer::Render(float _DeltaTime) 
 {
-	Unit.Render(_DeltaTime);
-
-	//if (nullptr == PipeLine)
-	//{
-	//	MsgBoxAssert("랜더링 파이프라인이 세팅되지 않으면 랜더링을 할수 없습니다.");
-	//}
-
-	//if (false == IsInstancing(GetPipeLine()))
-	//{
-	//	// 준비된 모든 리소스들을 다 세팅해준다.
-	//	ShaderResources.AllResourcesSetting();
-	//	PipeLine->Rendering();
-	//	ShaderResources.AllResourcesReset();
-	//}
-	//else 
-	//{
-	//	InstancingDataSetting(GetPipeLine());
-	//	// 여러분들이 새로운 랜더러를 만들고 인스턴싱을 하면
-	//	// 이 부분이 달라져야 합니다.
-	//	// 유저가 몇바이트짜리 인스턴
-	//	// Camera->PushInstancingIndex(PipeLine);
-	//}
+	Unit->Render(_DeltaTime);
 }
 
-void GameEngineDefaultRenderer::InstancingOn()
-{
-	GameEngineRenderer::InstancingOn();
-
-	// Camera->PushInstancing(PipeLine, 1);
-}

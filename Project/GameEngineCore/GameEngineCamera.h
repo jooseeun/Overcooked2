@@ -83,7 +83,6 @@ public:
 	inline void SetProjectionSize(const float4& _Value) 
 	{
 		Size = _Value;
-		// return float4();
 	}
 
 	inline float4 GetProjectionSize()
@@ -91,14 +90,7 @@ public:
 		return Size;
 	}
 
-	//                  개수
-
-	GameEngineInstancing* GetInstancing(const std::string& _Name);
-	GameEngineInstancing* GetInstancing(std::shared_ptr < GameEngineMaterial> _Pipe);
-	void PushInstancing(std::shared_ptr < GameEngineMaterial> _Pipe, int Count);
-	int PushInstancingData(std::shared_ptr < GameEngineMaterial> _Pipe, void* _DataPtr, int _Size);
-	int PushInstancingIndex(std::shared_ptr < GameEngineMaterial> _Pipe);
-
+	GameEngineInstancing& GetInstancing(const std::string& _Name);
 	float4 GetWorldPositionToScreenPosition(const float4& _Pos);
 
 protected:
@@ -121,7 +113,7 @@ private:
 
 	std::map<int, std::list<std::shared_ptr<class GameEngineRenderer>>> AllRenderer_;
 
-	std::unordered_map<GameEngineMaterial*, GameEngineInstancing> InstancingMap;
+	std::unordered_map<std::string, GameEngineInstancing> InstancingMap;
 
 	float4x4 View; // 바라보는것
 	float4x4 Projection;

@@ -129,8 +129,7 @@ GameEngineTextureRenderer::~GameEngineTextureRenderer()
 
 void GameEngineTextureRenderer::SetTextureRendererSetting()
 {
-
-	SetPipeLine("TextureAtlas");
+	SetMaterial("TextureAtlas");
 
 	AtlasDataInst.FrameData.PosX = 0.0f;
 	AtlasDataInst.FrameData.PosY = 0.0f;
@@ -140,7 +139,7 @@ void GameEngineTextureRenderer::SetTextureRendererSetting()
 
 	GetShaderResources().SetConstantBufferLink("AtlasData", AtlasDataInst);
 	GetShaderResources().SetConstantBufferLink("PixelData", PixelDataInst);
-	
+	SetTexture("NSet.png");
 }
 
 void GameEngineTextureRenderer::CurAnimationPauseSwitch()

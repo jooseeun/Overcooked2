@@ -335,10 +335,10 @@ void GameEngineFBXAnimationRenderer::ChangeAnimation(const std::string& _Animati
 }
 
 
-void GameEngineFBXAnimationRenderer::ChangeAnimationFrame( int _StartIndex)
+void GameEngineFBXAnimationRenderer::ChangeAnimationFrame(size_t _StartIndex)
 {
-	int ChangeFrame = _StartIndex;
-	int MaxSize = GetAnimationFrameCount();
+	size_t ChangeFrame = _StartIndex;
+	size_t MaxSize = GetAnimationFrameCount();
 	if (MaxSize <= _StartIndex)
 	{
 		ChangeFrame = MaxSize;

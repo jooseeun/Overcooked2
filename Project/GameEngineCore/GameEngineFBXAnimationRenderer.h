@@ -88,7 +88,7 @@ public:
 
 	void CreateFBXAnimation(const std::string& _AnimationName, const GameEngineRenderingEvent& _Desc, int _Index = 0);
 	void ChangeAnimation(const std::string& _AnimationName, bool _IsBlending = false);
-	void ChangeAnimationFrame(int _StartIndex);
+	void ChangeAnimationFrame(size_t _StartIndex);
 
 	void Update(float _DeltaTime) override;
 
@@ -144,7 +144,7 @@ public:
 		Animations[Name]->TimeEvent = _Function;
 	}
 
-	int GetAnimationFrameCount()
+	size_t GetAnimationFrameCount()
 	{
 		if (CurAnimation == nullptr)
 		{
