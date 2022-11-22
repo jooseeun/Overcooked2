@@ -32,7 +32,7 @@ bool GlobalIOManager::Save(IOType _Type, std::string _AddName)
 
 	auto IOTypeName = magic_enum::enum_name(_Type);
 	GameEngineFile SaveFile = (Dir.GetFullPath() + "\\" + static_cast<std::string>(IOTypeName) + "Data" + _AddName + ".txt").c_str();
-	SaveFile.Open(OpenMode::Write);
+	//SaveFile.Open(OpenMode::Write);
 
 	std::string SaveString = "";
 
@@ -108,7 +108,7 @@ bool GlobalIOManager::Load(IOType _Type, std::string _AddName)
 	}
 
 	GameEngineFile LoadFile = (Dir.GetFullPath() + "\\" + static_cast<std::string>(IOTypeName) + "Data" + _AddName + ".txt").c_str();
-	LoadFile.Open(OpenMode::Read);
+	//LoadFile.Open(OpenMode::Read);
 
 	std::string LoadS = "";
 	LoadS = LoadFile.GetStringFstream();
