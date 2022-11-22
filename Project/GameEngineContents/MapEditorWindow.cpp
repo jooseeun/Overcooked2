@@ -42,6 +42,7 @@ MapEditorWindow::MapEditorWindow()
 	, IsSort_(false)
 	, LevelIndex_(0)
 	, IsCandleCheckBox_(false)
+	, IsFoodBox_(false)
 {
 
 }
@@ -145,6 +146,13 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 					if (nullptr != DataActors[j].lock()->GetStuff())
 					{
 						Data.Index_.y = static_cast<float>(DataActors[j].lock()->GetStuff()->GetToolInfoType());
+					}
+
+					std::weak_ptr<FoodBox> Food = std::dynamic_pointer_cast<FoodBox>(DataActors[j].lock());
+
+					if (nullptr != Food.lock())
+					{
+						Data.Index_.x = static_cast<float>(Food.lock()->GetFoodType());
 					}
 
 					InputVector.push_back(Data);
@@ -375,7 +383,6 @@ void MapEditorWindow::UnSortToolTab()
 	ImGui::BeginChild("ActorGroup", ImVec2(250, 250), true);
 	ImGui::Text("Created ActorList");
 	ImGui::BeginChild("UnSortActorList", ImVec2(230, 230), true);
-
 
 	auto RendererType = magic_enum::enum_names<MapObjType>();
 	const size_t Size = RendererType.size();
@@ -647,6 +654,11 @@ void MapEditorWindow::SortToolTab()
 	const size_t Size = ToolNames.size();
 	static bool IsChecks_[Size] = { false };
 
+	auto FoodNames = magic_enum::enum_names<FoodType>();
+
+	const size_t FoodSize = FoodNames.size();
+	static bool IsFoods_[FoodSize] = { false };
+
 	for (int i = 0; i < Origins_.size(); ++i)
 	{
 		char Label[1024] = { '\0' };
@@ -663,6 +675,7 @@ void MapEditorWindow::SortToolTab()
 
 			for (size_t j = 0; j < ToolNames.size(); ++j)
 			{
+				IsFoodBox_ = false;
 				IsChecks_[j] = false;
 
 				if (0 == SortActorList_.size())
@@ -737,6 +750,7 @@ void MapEditorWindow::SortToolTab()
 
 			for (size_t j = 0; j < ToolNames.size(); ++j)
 			{
+				IsFoodBox_ = false;
 				IsChecks_[j] = false;
 
 				if (nullptr != SortActorList_[ActorIndex].lock()->GetStuff())
@@ -746,6 +760,13 @@ void MapEditorWindow::SortToolTab()
 					if (ToolNames[j] == CurType.data())
 					{
 						IsChecks_[j] = true;
+					}
+
+					std::weak_ptr<FoodBox> Food = std::dynamic_pointer_cast<FoodBox>(SortActorList_[ActorIndex].lock());
+
+					if (nullptr != Food.lock())
+					{
+						IsFoodBox_ = true;
 					}
 				}
 			}
@@ -839,6 +860,22 @@ void MapEditorWindow::SortToolTab()
 	}
 
 	ImGui::Text("");
+	
+	if (true == IsFoodBox_)
+	{
+		for (size_t i = 0; i < FoodNames.size(); ++i)
+		{
+			ImGui::Checkbox(FoodNames[i].data(), &IsFoods_[i]);
+
+			if (true == IsFoods_[i])
+			{
+				std::weak_ptr<FoodBox> Food = std::dynamic_pointer_cast<FoodBox>(SortActorList_[ActorIndex].lock());
+				Food.lock()->SetFoodType(static_cast<FoodType>(i));
+			}
+		}
+	}
+
+	ImGui::Text("");
 
 	static int Index[2] = { 0, 0 };
 	ImGui::DragInt2("Index", Index);
@@ -923,6 +960,8 @@ void MapEditorWindow::SortToolTab()
 
 			std::weak_ptr<FoodBox> Object = std::dynamic_pointer_cast<FoodBox>(CurStaticMesh_.lock());
 			Object.lock()->SetFoodType(FoodType::Tomato);
+
+			IsFoodBox_ = true;
 		}
 			break;
 		case 10:
@@ -988,6 +1027,8 @@ void MapEditorWindow::SortToolTab()
 				ActorIndex = 0;
 			}
 		}
+
+		IsFoodBox_ = false;
 	}
 
 	ImGui::Text("");

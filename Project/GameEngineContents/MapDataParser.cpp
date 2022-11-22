@@ -256,7 +256,7 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 			CurActor_.lock()->SetStaticObjectType(MapObjType::FoodBox);
 
 			std::weak_ptr<FoodBox> Object = std::dynamic_pointer_cast<FoodBox>(CurActor_.lock());
-			Object.lock()->SetFoodType(FoodType::Tomato);
+			Object.lock()->SetFoodType(static_cast<FoodType>(_Data[i].Index_.x));
 		}
 			break;
 		case MapObjType::Sink_Wizard: 

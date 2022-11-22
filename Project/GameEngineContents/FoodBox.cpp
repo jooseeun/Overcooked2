@@ -129,7 +129,8 @@ void FoodBox::Start()
 	Renderer_ = Lid_->CreateComponent<GameEngineTextureRenderer>();
 	Renderer_->GetTransform().SetLocalMove({ 0.f, 43.f, -55.f });
 	Renderer_->GetTransform().SetLocalRotation({ 90.f, 0.f });
-	Renderer_->GetTransform().SetWorldScale({ 50, 50 });
+	Renderer_->GetTransform().SetWorldScale({ 60, 60 });
+	Renderer_->GetTransform().PixLocalNegativeX();
 
 	SetStuff(GetLevel()->CreateActor<Tool_FoodBox>());
 }
