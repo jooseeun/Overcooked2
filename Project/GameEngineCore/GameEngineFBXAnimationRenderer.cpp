@@ -148,11 +148,14 @@ void FBXRendererAnimation::Update(float _DeltaTime)
 				if (ParentRenderer->IsChangeTimer_ > 0.0f)
 				{
 					std::map<size_t, std::vector<AnimationBoneData>>::iterator BeforeAnimationDataIter = ParentRenderer->BeforeAnimationBoneDatas.find(UnitSetIndex);
-					std::vector<AnimationBoneData>& BeforeAnimationBoneData = BeforeAnimationDataIter->second;
+					if (BeforeAnimationDataIter != ParentRenderer->BeforeAnimationBoneDatas.end())
+					{
+						std::vector<AnimationBoneData>& BeforeAnimationBoneData = BeforeAnimationDataIter->second;
 
-					AnimationBoneDatas[i].Scale = float4::LerpLimit(BeforeAnimationBoneData[i].Scale, AnimationBoneDatas[i].Scale, CurChangeTimer);
-					AnimationBoneDatas[i].RotQuaternion = float4::SLerpQuaternion(BeforeAnimationBoneData[i].RotQuaternion, AnimationBoneDatas[i].RotQuaternion, CurChangeTimer);
-					AnimationBoneDatas[i].Pos = float4::LerpLimit(BeforeAnimationBoneData[i].Pos, AnimationBoneDatas[i].Pos, CurChangeTimer);
+						AnimationBoneDatas[i].Scale = float4::LerpLimit(BeforeAnimationBoneData[i].Scale, AnimationBoneDatas[i].Scale, CurChangeTimer);
+						AnimationBoneDatas[i].RotQuaternion = float4::SLerpQuaternion(BeforeAnimationBoneData[i].RotQuaternion, AnimationBoneDatas[i].RotQuaternion, CurChangeTimer);
+						AnimationBoneDatas[i].Pos = float4::LerpLimit(BeforeAnimationBoneData[i].Pos, AnimationBoneDatas[i].Pos, CurChangeTimer);
+					}
 				}
 
 				float4x4 Mat = float4x4::Affine(AnimationBoneDatas[i].Scale, AnimationBoneDatas[i].RotQuaternion, AnimationBoneDatas[i].Pos);
