@@ -3,6 +3,7 @@
 #include "GameEngineDebug.h"
 #include "GameEngineDirectory.h"
 #include "GameEngineString.h"
+#include <fstream>
 
 GameEngineFile::GameEngineFile()
 	: FilePtr(nullptr)
@@ -81,6 +82,17 @@ void GameEngineFile::Open(OpenMode _OpenMode, FileMode _FileMode)
 	{
 		MsgBoxAssert("파일이 정상적으로 열리지 않았습니다.");
 	}
+}
+
+void GameEngineFile::WriteFstream(const std::string& _Data)
+{
+	std::ofstream ofs(Path_.string().c_str());
+	if (ofs.fail())
+	{
+		return;
+	}
+
+	ofs << _Data;
 }
 
 void GameEngineFile::Write(const void* _WriteData, size_t _DataSize)
@@ -182,6 +194,25 @@ std::string GameEngineFile::GetString()
 	AllString.resize(Size);
 
 	Read(&AllString[0], Size, Size);
+
+	return AllString;
+}
+
+std::string GameEngineFile::GetStringFstream()
+{
+	std::string AllString;
+
+	std::ifstream ifs(Path_.string().c_str());
+	if (ifs.fail())
+	{
+		return "";
+	}
+
+	char c;
+	while (ifs.get(c)) 
+	{
+		AllString += c;
+	}
 
 	return AllString;
 }

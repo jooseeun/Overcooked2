@@ -52,6 +52,8 @@ public:
 		Close();
 	}
 
+	void WriteFstream(const std::string& _Data);
+
 	void Write(const void* _WriteData, size_t _WriteSize);
 
 	void Write(const std::string& _Data);
@@ -222,6 +224,8 @@ public:
 	}
 
 	std::string GetString();
+
+	std::string GetStringFstream();
 
 	uintmax_t GetFileSize() const;
 

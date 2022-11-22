@@ -78,7 +78,7 @@ bool GlobalIOManager::Save(IOType _Type, std::string _AddName)
 		SaveString += "}\n\n";
 	}
 
-	SaveFile.WriteString(SaveString);
+	SaveFile.WriteFstream(SaveString);
 	return true;
 }
 
@@ -111,7 +111,7 @@ bool GlobalIOManager::Load(IOType _Type, std::string _AddName)
 	LoadFile.Open(OpenMode::Read);
 
 	std::string LoadS = "";
-	LoadS = LoadFile.GetString();
+	LoadS = LoadFile.GetStringFstream();
 
 	// \n, Áß°ýÈ£ Á¦°Å
 	for (size_t i = 0; i < LoadS.size(); i++)
