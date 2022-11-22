@@ -124,7 +124,9 @@ private:
 	float CurAngle_;
 	PlayerDir CurDir_;
 	PlayerHoldType CurHoldType_;
+	int PlayerP;
 	bool FireOff_;
+
 
 
 	std::shared_ptr<GameEngineCollision> Collision_Interact_; // 상호작용 콜리전

@@ -8,7 +8,7 @@ Player::Player()
 	:Speed_(400.0f)
 	, CurAngle_(0)
 	, CurDir_(PlayerDir::Front)
-	, CurHoldType_(PlayerHoldType::CanThrow)
+	, CurHoldType_(PlayerHoldType::Max)
 	, PlayerFloorCollision_(nullptr)
 	, PlayerLeftCollision_(nullptr)
 	, PlayerRightCollision_(nullptr)
@@ -27,6 +27,7 @@ Player::Player()
 	, CurKineticEnergy_(0)
 	, FireOff_(false)
 	, PlayerName_()
+	, PlayerP(1)
 {
 
 }
@@ -120,6 +121,7 @@ void Player::Start()
 		PlayerChopRenderer_[i]->Off();
 
 
+
 		PixelData&  Test = PlayerIdleRenderer_[i]->GetPixelDataList(0);
 		Test.AlphaFlag = 1;
 
@@ -128,6 +130,8 @@ void Player::Start()
 		Test.AlphaColor.g = 0.0f;
 		Test.AlphaColor.b = 0.0f;
 		Test.AlphaColor.a = 1.0f;
+
+
 	}
 	//AlienGreen
 	{

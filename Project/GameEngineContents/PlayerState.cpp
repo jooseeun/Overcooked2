@@ -147,7 +147,7 @@ void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 			// CurrentHoldingObject -> 여기서 Throw 함수 해주면 된다. 
 
 
-			//CurHoldType_ = PlayerHoldType::Max;
+			CurHoldType_ = PlayerHoldType::Max;
 			StateManager.ChangeState("Idle");
 		});
 }
@@ -178,10 +178,10 @@ void Player::HoldStart(const StateInfo& _Info)
 		{
 			if (Interact_TableObject_->Input_PickUp(std::dynamic_pointer_cast<Player>(shared_from_this())) == Input_PickUpOption::PickUp)
 			{
-				if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
-					std::bind(&Player::GetCrashTableObject, this, std::placeholders::_1, std::placeholders::_2)) == true)
+				if (Interact_TableObject_->GetStaticObjectType() == MapObjType::FoodBox) // 음식 얻어오기
 				{
-				 	Interact_TableObject_->SetStuff(nullptr);
+					Interact_TableObject_->CastThis<FoodBox>()->SwitchIsInteraction();
+
 				}
 				CurrentHoldingObject_->DetachObject();
 				CurrentHoldingObject_->SetParent(shared_from_this());
@@ -190,20 +190,6 @@ void Player::HoldStart(const StateInfo& _Info)
 			}
 			else
 			{
-				if (Interact_TableObject_->GetStaticObjectType() == MapObjType::FoodBox) // 음식 얻어오기
-				{
-					Interact_TableObject_->CastThis<FoodBox>()->SwitchIsInteraction();
-					FoodType test;
-					test = Interact_TableObject_->CastThis<FoodBox>()->GetFoodType();
-
-					if (test == FoodType::Tomato)
-					{
-						int a = 0;
-					}
-
-					StateManager.ChangeState("Idle"); // 지워야됨
-					return;
-				}
 
 				StateManager.ChangeState("Idle");
 				return;  
