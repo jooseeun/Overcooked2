@@ -2,34 +2,7 @@
 #include "GamePlayStaticObject.h"
 #include "GamePlayFood.h"
 #include "GamePlayTool.h"
-
-enum class FoodType
-{
-	Tomato,
-	Onion,
-	Potato,
-	Dough, //피자 반죽
-	Seaweed, //미역
-	Mushroom,
-	Meat, 
-	Lettuce, //양상추
-	Rice,
-	Flour, //밀가루
-	Bread,
-	Fish,
-	Sausage,
-	DumplingSkin, //만두피
-	Egg,
-	Chicken,
-	Burrito, //부리또
-	Cheese,
-	Carrot,
-	Chocolate,
-	Honey,
-	PastaNoodles, //파스타 면
-	Prawn,
-	Cucumber //오이
-};
+#include "Enums.h"
 
 //음식 스폰 박스
 class Tool_FoodBox : public GamePlayTool
