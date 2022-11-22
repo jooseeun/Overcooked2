@@ -77,5 +77,6 @@ private:
 	bool IsSort_;
 
 	bool IsCandleCheckBox_;
+	bool IsFoodBox_;
 };
 
