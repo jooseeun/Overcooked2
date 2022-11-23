@@ -25,6 +25,13 @@ GameEngineLevel::GameEngineLevel()
 		std::shared_ptr<GameEngineCameraActor> CameraActor = CreateActor<GameEngineCameraActor>();
 		CameraActor->GetTransform().SetLocalPosition({ 0.0f, 0.0f, -100.0f });
 		CameraActor->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
+		CameraActor->GetCameraComponent()->SetCameraOrder(CAMERAORDER::USER7);
+	}
+
+	{
+		std::shared_ptr<GameEngineCameraActor> CameraActor = CreateActor<GameEngineCameraActor>();
+		CameraActor->GetTransform().SetLocalPosition({ 0.0f, 0.0f, -100.0f });
+		CameraActor->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
 		CameraActor->GetCameraComponent()->SetCameraOrder(CAMERAORDER::UICAMERA);
 	}
 
@@ -146,6 +153,11 @@ std::shared_ptr<GameEngineCameraActor> GameEngineLevel::GetMainCameraActor()
 GameEngineTransform& GameEngineLevel::GetUICameraActorTransform()
 {
 	return Cameras[static_cast<int>(CAMERAORDER::UICAMERA)]->GetActor()->GetTransform();
+}
+
+std::shared_ptr<GameEngineCameraActor> GameEngineLevel::GetCameraActor(CAMERAORDER _Order)
+{
+	return Cameras[static_cast<int>(_Order)]->GetActor<GameEngineCameraActor>();
 }
 
 std::shared_ptr<GameEngineCameraActor> GameEngineLevel::GetUICameraActor()

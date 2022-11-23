@@ -200,6 +200,9 @@
     <ClInclude Include="FoodHeader.h">
       <Filter>Contents\Object\Food</Filter>
     </ClInclude>
+    <ClInclude Include="FoodThumbnail.h">
+      <Filter>UI</Filter>
+    </ClInclude>
     <ClInclude Include="Lift.h">
       <Filter>Contents\Object\MapObject</Filter>
     </ClInclude>
@@ -399,6 +402,9 @@
       <Filter>Data</Filter>
     </ClCompile>
     <ClCompile Include="InGameUIActor.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="FoodThumbnail.cpp">
       <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="Lift.cpp">

@@ -214,6 +214,23 @@ void Overcooked::TextureLoad()
 			}
 		}
 
+		//Thumbnail UI
+		{
+			GameEngineDirectory Dir;
+			Dir.MoveParentToExitsChildDirectory("ContentsResources");
+			Dir.Move("ContentsResources");
+			Dir.Move("Texture");
+			Dir.Move("UI");
+			Dir.Move("Thumbnail");
+
+			std::vector<GameEngineFile> Textures = Dir.GetAllFile();
+
+			for (size_t i = 0; i < Textures.size(); i++)
+			{
+				GameEngineTexture::Load(Textures[i].GetFullPath());
+			}
+		}
+
 		//Coin FolderTexutre
 		{
 			GameEngineDirectory Dir;
@@ -449,7 +466,6 @@ void Overcooked::LoadCommonResource()
 		Dir.Move("Player");
 		Dir.Move("Crocodile");
 
-
 		{
 			GameEngineDirectory MeshDir = Dir;
 			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Crocodile_CarDeath.FBX"));
@@ -530,7 +546,6 @@ void Overcooked::LoadCommonResource()
 		Dir.Move("Object");
 		Dir.Move("Player");
 		Dir.Move("Dora");
-
 
 		{
 			GameEngineDirectory MeshDir = Dir;
@@ -613,7 +628,6 @@ void Overcooked::LoadCommonResource()
 		Dir.Move("Player");
 		Dir.Move("Eagle");
 
-
 		{
 			GameEngineDirectory MeshDir = Dir;
 			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Eagle_CarDeath.FBX"));
@@ -694,7 +708,6 @@ void Overcooked::LoadCommonResource()
 		Dir.Move("Object");
 		Dir.Move("Player");
 		Dir.Move("Panda");
-
 
 		{
 			GameEngineDirectory MeshDir = Dir;
