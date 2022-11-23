@@ -125,19 +125,14 @@ private:
 public:
 	inline virtual void SetBloomEffectOff()
 	{
-
-		GetFBXMesh()->GetPixelData().PlusColor.r = 0.f;
-		GetFBXMesh()->GetPixelData().PlusColor.g = 0.f;
-		GetFBXMesh()->GetPixelData().PlusColor.b = 0.f;
-		//GetFBXMesh()->RenderOptionInst.IsHighlight = 0;
+		GetFBXMesh()->SetAllPixelDataPlusColor(float4(0,0,0,0));
 
 		BloomEffect_ = false;
 	}
 	virtual inline void SetBloomEffectOn()
 	{
-		GetFBXMesh()->GetPixelData().PlusColor.r = 0.2f;
-		GetFBXMesh()->GetPixelData().PlusColor.g = 0.2f;
-		GetFBXMesh()->GetPixelData().PlusColor.b = 0.2f;
+
+		GetFBXMesh()->SetAllPixelDataPlusColor(float4(0.2f, 0.2f, 0.2f, 0.0f));
 
 
 
