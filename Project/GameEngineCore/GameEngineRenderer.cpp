@@ -120,6 +120,10 @@ void GameEngineRenderUnit::SetRenderer(std::shared_ptr<GameEngineRenderer> _Rend
 	EngineShaderResourcesSetting(ParentRenderer.lock());
 }
 
+std::shared_ptr<GameEngineMesh> GameEngineRenderUnit::GetMesh()
+{
+	return Mesh;
+}
 
 std::shared_ptr<GameEngineMaterial> GameEngineRenderUnit::GetMaterial()
 {
@@ -133,12 +137,12 @@ std::shared_ptr < GameEngineMaterial> GameEngineRenderUnit::GetCloneMaterial()
 		return Material;
 	}
 
-	Material = ClonePipeLine(Material);
+	Material = CloneMaterial(Material);
 	return Material;
 }
 
 
-std::shared_ptr < GameEngineMaterial> GameEngineRenderUnit::ClonePipeLine(std::shared_ptr<GameEngineMaterial> _Rendering)
+std::shared_ptr < GameEngineMaterial> GameEngineRenderUnit::CloneMaterial(std::shared_ptr<GameEngineMaterial> _Rendering)
 {
 	// 이름없는 녀석으로 만든다.
 	std::shared_ptr < GameEngineMaterial> Clone = GameEngineMaterial::Create();

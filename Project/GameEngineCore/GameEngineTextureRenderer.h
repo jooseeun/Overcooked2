@@ -151,7 +151,10 @@ public:
 
 	void CurAnimationSetStartPivotFrame(int SetFrame);
 
-
+	AtlasData& GetAtlasData()
+	{
+		return AtlasDataInst;
+	}
 
 	void AnimationBindStart(const std::string& _AnimationName, std::function<void(const GameEngineRenderingEvent&)> _Function)
 	{
