@@ -3,6 +3,7 @@
 #include "GameEngineDevice.h"
 
 GameEngineInstancingBuffer::GameEngineInstancingBuffer() 
+	: Buffer(nullptr)
 {
 }
 
@@ -21,23 +22,23 @@ void GameEngineInstancingBuffer::BufferRelease()
 }
 
 
-std::shared_ptr < GameEngineInstancingBuffer> GameEngineInstancingBuffer::Create(unsigned int _Count, unsigned int _Size)
+std::shared_ptr<GameEngineInstancingBuffer> GameEngineInstancingBuffer::Create(size_t _Count, size_t _Size)
 {
-	std::shared_ptr < GameEngineInstancingBuffer> Buffer = CreateResUnName();
+	std::shared_ptr<GameEngineInstancingBuffer> Buffer = CreateResUnName();
 
 	Buffer->BufferCreate(_Count, _Size);
 
 	return Buffer;
 }
 
-void GameEngineInstancingBuffer::BufferCreate(unsigned int _Count, unsigned int _Size)
+void GameEngineInstancingBuffer::BufferCreate(size_t _Count, size_t _Size)
 {
 	BufferRelease();
 
-	BufferCount = _Count;
-	Size = _Size;
+	BufferCount = static_cast<unsigned int>(_Count);
+	Size = static_cast<unsigned int>(_Size);
 	BufferDesc = {};
-	BufferDesc.ByteWidth = _Count * Size;
+	BufferDesc.ByteWidth = BufferCount * Size;
 	BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	BufferDesc.Usage = D3D11_USAGE_DYNAMIC;
 	BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;

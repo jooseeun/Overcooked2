@@ -3,6 +3,8 @@
 #include "GameEngineDebug.h"
 #include "GameEngineTime.h"
 #include "GameEngineString.h"
+#include "GameEngineWindow.h"
+#include <WinUser.h>
 
 #pragma comment(lib, "xinput.lib")
 
@@ -123,6 +125,11 @@ bool GameEngineInput::IsKey(const std::string& _Name)
 
 bool GameEngineInput::IsDownButton(const std::string& _Name)
 {
+	if (GameEngineWindow::GetHWND() != GetActiveWindow())
+	{
+		return false;
+	}
+
 	std::string UpperKey = GameEngineString::ToUpperReturn(_Name);
 
 	if (AllInputButton_.end() == AllInputButton_.find(UpperKey))
@@ -135,6 +142,11 @@ bool GameEngineInput::IsDownButton(const std::string& _Name)
 
 bool GameEngineInput::IsUpButton(const std::string& _Name)
 {
+	if (GameEngineWindow::GetHWND() != GetActiveWindow())
+	{
+		return false;
+	}
+
 	std::string UpperKey = GameEngineString::ToUpperReturn(_Name);
 
 	if (AllInputButton_.end() == AllInputButton_.find(UpperKey))
@@ -147,6 +159,11 @@ bool GameEngineInput::IsUpButton(const std::string& _Name)
 
 bool GameEngineInput::IsPressButton(const std::string& _Name)
 {
+	if (GameEngineWindow::GetHWND() != GetActiveWindow())
+	{
+		return false;
+	}
+
 	std::string UpperKey = GameEngineString::ToUpperReturn(_Name);
 
 	if (AllInputButton_.end() == AllInputButton_.find(UpperKey))
@@ -159,6 +176,11 @@ bool GameEngineInput::IsPressButton(const std::string& _Name)
 
 bool GameEngineInput::IsFreeButton(const std::string& _Name)
 {
+	if (GameEngineWindow::GetHWND() != GetActiveWindow())
+	{
+		return false;
+	}
+
 	std::string UpperKey = GameEngineString::ToUpperReturn(_Name);
 
 	if (AllInputButton_.end() == AllInputButton_.find(UpperKey))
@@ -323,6 +345,11 @@ float GameEngineInput::GetKeyTime(const std::string& _Name)
 
 bool GameEngineInput::IsDownKey(const std::string& _Name)
 {
+	if (GameEngineWindow::GetHWND() != GetActiveWindow())
+	{
+		return false;
+	}
+
 	std::string UpperKey = GameEngineString::ToUpperReturn(_Name);
 
 	if (AllInputKey_.end() == AllInputKey_.find(UpperKey))
@@ -336,6 +363,11 @@ bool GameEngineInput::IsDownKey(const std::string& _Name)
 
 bool GameEngineInput::IsUpKey(const std::string& _Name)
 {
+	if (GameEngineWindow::GetHWND() != GetActiveWindow())
+	{
+		return false;
+	}
+
 	std::string UpperKey = GameEngineString::ToUpperReturn(_Name);
 
 	if (AllInputKey_.end() == AllInputKey_.find(UpperKey))
@@ -348,6 +380,11 @@ bool GameEngineInput::IsUpKey(const std::string& _Name)
 
 bool GameEngineInput::IsPressKey(const std::string& _Name)
 {
+	if (GameEngineWindow::GetHWND() != GetActiveWindow())
+	{
+		return false;
+	}
+
 	std::string UpperKey = GameEngineString::ToUpperReturn(_Name);
 
 	if (AllInputKey_.end() == AllInputKey_.find(UpperKey))
@@ -360,6 +397,11 @@ bool GameEngineInput::IsPressKey(const std::string& _Name)
 
 bool GameEngineInput::IsFreeKey(const std::string& _Name)
 {
+	if (GameEngineWindow::GetHWND() != GetActiveWindow())
+	{
+		return false;
+	}
+
 	std::string UpperKey = GameEngineString::ToUpperReturn(_Name);
 
 	if (AllInputKey_.end() == AllInputKey_.find(UpperKey))

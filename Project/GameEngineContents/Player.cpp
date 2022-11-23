@@ -122,7 +122,7 @@ void Player::Start()
 
 
 
-		PixelData&  Test = PlayerIdleRenderer_[i]->GetPixelDataList(0);
+		PixelData&  Test = PlayerIdleRenderer_[i]->GetPixelDatas(0);
 		Test.AlphaFlag = 1;
 
 		Test.AlphaColor.r = 1.0f;

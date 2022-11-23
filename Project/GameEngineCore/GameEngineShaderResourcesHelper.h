@@ -15,10 +15,10 @@ public:
 	~GameEngineShaderResourcesHelper();
 
 	// delete Function
-	GameEngineShaderResourcesHelper(const GameEngineShaderResourcesHelper& _Other) = delete;
-	GameEngineShaderResourcesHelper(GameEngineShaderResourcesHelper&& _Other) noexcept = delete;
-	GameEngineShaderResourcesHelper& operator=(const GameEngineShaderResourcesHelper& _Other) = delete;
-	GameEngineShaderResourcesHelper& operator=(GameEngineShaderResourcesHelper&& _Other) noexcept = delete;
+	//GameEngineShaderResourcesHelper(const GameEngineShaderResourcesHelper& _Other) = delete;
+	//GameEngineShaderResourcesHelper(GameEngineShaderResourcesHelper&& _Other) noexcept = delete;
+	//GameEngineShaderResourcesHelper& operator=(const GameEngineShaderResourcesHelper& _Other) = delete;
+	//GameEngineShaderResourcesHelper& operator=(GameEngineShaderResourcesHelper&& _Other) noexcept = delete;
 
 	void AllResourcesSetting();
 
@@ -82,7 +82,6 @@ public:
 
 	std::shared_ptr < GameEngineSampler> SetSampler(const std::string& _Name, std::shared_ptr < GameEngineSampler> _SamplerName);
 
-	// 인스턴싱을 하려고 하는데 그 쉐이더에서 상수버퍼를 사용했을때.
 	void AllConstantBufferNew();
 
 	bool IsTexture(const std::string& _Name);
@@ -95,16 +94,16 @@ public:
 
 	GameEngineStructuredBufferSetter* GetStructuredBuffer(const std::string& _Name);
 
+	std::multimap<std::string, GameEngineStructuredBufferSetter>& GetStructuredBufferSettingMap()
+	{
+		return StructuredBufferSettingMap;
+	}
 
-protected:
 	void ShaderCheck(std::shared_ptr < GameEngineShader> _Shader);
 
+protected:
+
 private:
-	// 컬러가 
-	// 픽셀 쉐이더에서는 같은 Color(바이트 덩어리)인데 레드를 세팅해주고 싶고
-	// 버텍스 쉐이더에서는 같은 Color(바이트 덩어리)인데 블루를 세팅해주고 싶고
-	// 그건 아직 구분하지 않겠습니다.
-	// 픽셀쉐이더와 버텍스 쉐이더에서 똑같이 transformdata를 사용할 가능성이 있게 만들어놨으니까.
 	std::multimap<std::string, GameEngineConstantBufferSetter> ConstantBufferSettingMap;
 	std::multimap<std::string, GameEngineTextureSetter> TextureSettingMap;
 	std::multimap<std::string, GameEngineSamplerSetter> SamplerSettingMap;
