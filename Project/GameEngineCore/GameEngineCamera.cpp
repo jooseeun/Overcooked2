@@ -15,8 +15,8 @@ GameEngineCamera::GameEngineCamera()
 {
 	Size = GameEngineWindow::GetInst()->GetScale();
 	Mode = CAMERAPROJECTIONMODE::PersPective;
-	Near = 0.1f;
-	Far = 1000000.0f;
+	Near = 100.0f;
+	Far = 5000.0f;
 	Fov = 60.0f;
 
 	ViewPortDesc.TopLeftX = 0;

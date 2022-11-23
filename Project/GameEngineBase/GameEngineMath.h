@@ -944,48 +944,41 @@ public:
 	// Fov to Degree
 	void PerspectiveFovLH(float _FovDegree, float _Width, float _Height, float _Near, float _Far)
 	{
-
 		DirectMatrix = DirectX::XMMatrixPerspectiveFovLH(_FovDegree * GameEngineMath::DegreeToRadian * 0.5f, _Width / _Height, _Near, _Far);
 
-		////assert(NearZ > 0.f && FarZ > 0.f);
-		////assert(!XMScalarNearEqual(FovAngleY, 0.0f, 0.00001f * 2.0f));
-		////assert(!XMScalarNearEqual(AspectRatio, 0.0f, 0.00001f));
-		////assert(!XMScalarNearEqual(FarZ, NearZ, 0.00001f));
+		//assert(NearZ > 0.f && FarZ > 0.f);
+		//assert(!XMScalarNearEqual(FovAngleY, 0.0f, 0.00001f * 2.0f));
+		//assert(!XMScalarNearEqual(AspectRatio, 0.0f, 0.00001f));
+		//assert(!XMScalarNearEqual(FarZ, NearZ, 0.00001f));
 
-		////float    SinFov;
-		////float    CosFov;
-		//// XMScalarSinCos(&SinFov, &CosFov, 0.5f * FovAngleY);
+		//float    SinFov;
+		//float    CosFov;
+		// XMScalarSinCos(&SinFov, &CosFov, 0.5f * FovAngleY);
 
-		////               45                                 
+		//               45                                 
 		//float Tan = tanf(_FovDegree * GameEngineMath::DegreeToRadian * 0.5f);
 		//float fRange = _Far / (_Far - _Near);
-
-		//// z가 무슨 z죠?
-
+		//
 		//Arr2D[0][0] = 1.0f / (Tan * (_Width / _Height)); // / z
 		//Arr2D[0][1] = 0.0f;
 		//Arr2D[0][2] = 0.0f;
 		//Arr2D[0][3] = 0.0f;
-
+		//
 		//Arr2D[1][0] = 0.0f;
 		//Arr2D[1][1] = 1.0f / Tan;
 		//Arr2D[1][2] = 0.0f;
 		//Arr2D[1][3] = 0.0f;
-
+		//
+		// 
+		// 기존의 n = 0, f = 1 값이 아니라 반대로 되도록 되어있음
 		//Arr2D[2][0] = 0.0f;
 		//Arr2D[2][1] = 0.0f;
-		//Arr2D[2][2] = fRange;
+		//Arr2D[2][2] = -1 / (_Far - _Near);
 		//Arr2D[2][3] = 1.0f;
-
-		////    150
-		////[x][y][150][1] * [1][0][0][0] = [][][][150]
-		////                 [0][1][0][0]
-		////                 [0][0][1][1]
-		////                 [0][0][0][0]
-
+		//
 		//Arr2D[3][0] = 0.0f;
 		//Arr2D[3][1] = 0.0f;
-		//Arr2D[3][2] = -fRange * _Near;
+		//Arr2D[3][2] = fRange;
 		//Arr2D[3][3] = 0.0f;
 	}
 
