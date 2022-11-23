@@ -1,0 +1,7 @@
+{ 
+MeshName:M_CITY_LIFTPLATFORM_01.FBX;
+MeshInfoCount:1;
+Path:C:\Users\YS\OneDrive\Documents\DX_TeamPortfolio\MapResource\Matarial\t_dlc07_lift_d_01.png;
+Mat:T_CITY_LIFT_D_01.PNG;
+}
+

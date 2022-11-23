@@ -23,6 +23,7 @@
 #include "Car.h"
 #include "TrafficLight.h"
 #include "Candle.h"
+#include "Lift.h"
 
 #include "LoadingData.h"
 
@@ -407,7 +408,7 @@ void MapEditorWindow::UnSortToolTab()
 
 	for (size_t i = 0; i < RendererType.size(); ++i)
 	{
-		if (i <= 10)
+		if (i <= 12)
 		{
 			continue;
 		}
@@ -471,11 +472,6 @@ void MapEditorWindow::UnSortToolTab()
 			}
 		}
 
-		//for (size_t i = 0; i < CandleMoveType.size(); i++)
-		//{
-		//
-		//}
-
 		ImGui::EndChild();
 	}
 
@@ -522,6 +518,16 @@ void MapEditorWindow::UnSortToolTab()
 			Object.lock()->SetName(AllUnSortActorName_[SelectNameIndex]);
 			Object.lock()->SetMapObjType(ObjectTypeIndex);
 			Object.lock()->SetCandleTypeIndex(CandleTypeIndex);
+			UnSortActorList_.push_back(Object);
+		}
+		break;
+		case MapObjType::Lift:
+		{
+			std::weak_ptr<Lift> Object = CurLevel_->CreateActor<Lift>();
+			Object.lock()->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
+			Object.lock()->SetMapObjectMesh(AllUnSortActorName_[SelectNameIndex], ObjectTypeIndex);
+			Object.lock()->SetName(AllUnSortActorName_[SelectNameIndex]);
+			Object.lock()->SetMapObjType(ObjectTypeIndex);
 			UnSortActorList_.push_back(Object);
 		}
 		break;

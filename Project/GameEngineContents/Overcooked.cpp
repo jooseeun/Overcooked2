@@ -157,7 +157,6 @@ void Overcooked::MeshLoad()
 		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Chef1.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
-
 	//여기까지
 }
 
@@ -167,7 +166,7 @@ void Overcooked::TextureLoad()
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExitsChildDirectory("ContentsResources");
 		Dir.Move("ContentsResources");
-		Dir.Move("Texture");
+		Dir.Move("Texture"); 
 		Dir.Move("UI");
 
 		std::vector<GameEngineFile> Textures = Dir.GetAllFile();

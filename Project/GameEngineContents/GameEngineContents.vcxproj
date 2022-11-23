@@ -208,6 +208,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="LevelActor.h" />
+    <ClInclude Include="Lift.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="LoadingData.h">
       <SubType>
       </SubType>
@@ -347,6 +351,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="LevelActor.cpp" />
+    <ClCompile Include="Lift.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="LoadingData.cpp">
       <SubType>
       </SubType>

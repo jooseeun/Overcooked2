@@ -70,6 +70,7 @@ void MapToolLevel::Start()
 	Window_->GetAllUnSortActorName().push_back("Car_Green");
 	Window_->GetAllUnSortActorName().push_back("Car_Yellow");
 	Window_->GetAllUnSortActorName().push_back("Car_Blue2");
+	Window_->GetAllUnSortActorName().push_back("m_city_liftplatform_01");
 }
 
 void MapToolLevel::Update(float _DeltaTime)
