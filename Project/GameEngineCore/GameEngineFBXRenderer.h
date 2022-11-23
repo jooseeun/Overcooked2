@@ -37,9 +37,33 @@ public:
 		return FBXMesh;
 	}
 
-	PixelData& GetPixelDataList(int _Index)
+	PixelData& GetPixelDatas(int _Index)
 	{
 		return PixelDatas[_Index];
+	}
+
+	void SetAllPixelDataAlphaColor(float4 _Data)
+	{
+		for (int i = 0; i < PixelDatas.size(); ++i)
+		{
+			PixelDatas[i].AlphaColor = _Data;
+		}
+	}
+
+	void SetAllPixelDataAlphaFlag(bool _Data)
+	{
+		for (int i = 0; i < PixelDatas.size(); ++i)
+		{
+			PixelDatas[i].AlphaFlag = _Data;
+		}
+	}
+
+	void SetAllPixelDataPlusColor(float4 _Data)
+	{
+		for (int i = 0; i < PixelDatas.size(); ++i)
+		{
+			PixelDatas[i].PlusColor = _Data;
+		}
 	}
 
 protected:
@@ -48,7 +72,5 @@ private:
 	std::shared_ptr<GameEngineFBXMesh> FBXMesh;
 	std::vector<std::vector<GameEngineRenderUnit>> Unit;
 	std::vector<PixelData> PixelDatas;
-
-
 };
 
