@@ -1,7 +1,7 @@
 #pragma once
-#include "GamePlayObject.h"
+#include "GamePlayEquipment.h"
 // Ό³Έν :
-class Equipment_FireExtinguisher : public GamePlayObject
+class Equipment_FireExtinguisher : public GamePlayEquipment
 {
 public:
 	// constrcuter destructer
@@ -14,10 +14,11 @@ public:
 	Equipment_FireExtinguisher& operator=(const Equipment_FireExtinguisher& _Other) = delete;
 	Equipment_FireExtinguisher& operator=(Equipment_FireExtinguisher&& _Other) noexcept = delete;
 
-
+	// PlayerHoldType
 protected:
 	void Start() override;
 private:
+
 
 };
 

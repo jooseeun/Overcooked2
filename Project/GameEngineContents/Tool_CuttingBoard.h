@@ -1,7 +1,7 @@
 #pragma once
-#include "GamePlayObject.h"
-
-class Tool_CuttingBoard : public GamePlayObject
+#include "GamePlayTool.h"
+// Ό³Έν :
+class Tool_CuttingBoard final : public GamePlayTool
 {
 public:
 	// constrcuter destructer
@@ -14,7 +14,9 @@ public:
 	Tool_CuttingBoard& operator=(const Tool_CuttingBoard& _Other) = delete;
 	Tool_CuttingBoard& operator=(Tool_CuttingBoard&& _Other) noexcept = delete;
 
+	//Input_PickUpOption CheckMoveable(GamePlayMoveable* _Object) override;
 
+	//void Input_Action_End(std::shared_ptr<GamePlayMoveable> _Moveable) override {};
 protected:
 	void Start() override;
 private:

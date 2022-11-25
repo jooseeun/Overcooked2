@@ -12,18 +12,13 @@ enum class ObjectType
 	Character,    // 플레이어
 };
 
-enum class Input_PickUpOption
+enum class SetPlayerState_Return
 {
-	NoResponse,
-	PickUp,
-	Exception
+	Nothing,
+	Using
 };
 
 
-struct PhysicCollision
-{
-
-};
 
 class GamePlayMoveable;
 class Player;
@@ -41,6 +36,14 @@ public:
 	GamePlayObject(GamePlayObject&& _Other) noexcept = delete;
 	GamePlayObject& operator=(const GamePlayObject& _Other) = delete;
 	GamePlayObject& operator=(GamePlayObject&& _Other) noexcept = delete;
+
+
+
+
+
+	//virtual Input_PutDownOption Input_PutDown(std::shared_ptr<GamePlayMoveable> _Object) { return Input_PutDownOption::NoResponse; }
+	//virtual Input_PickUpOption Input_PickUp(std::shared_ptr<Player> _Player) { return Input_PickUpOption::NoResponse; }
+	//virtual bool Input_Action() { return false; }
 
 	inline std::shared_ptr<GameEngineFBXStaticRenderer> GetFBXMesh() const
 	{
@@ -106,12 +109,7 @@ private:
 
 	ObjectType Enum_ObjectType_;
 
-
 	// Physics
-	CollisionReturn CheckCollisionObjectByPhysics_Enter(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
-	CollisionReturn CheckCollisionMapObjectByPhysics_Enter(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
-	//static void CalculatorPhysic(std::weak_ptr<GamePlayObject> _ObjectA, std::weak_ptr<GamePlayObject> _ObjectB);
-	//static void CalculatorPhysicByMapobject(std::weak_ptr<GamePlayObject> _Object, std::weak_ptr<GamePlayObject> _MapObject);
 	float4 Vector_;
 
 	//PhysicCollision PhysicCollision_;
@@ -128,10 +126,7 @@ public:
 	}
 	virtual inline void SetBloomEffectOn()
 	{
-
 		GetFBXMesh()->SetAllPixelDataPlusColor(float4(0.2f, 0.2f, 0.2f, 0.0f));
-
-
 
 		BloomEffect_ = true;
 	}

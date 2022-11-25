@@ -1,7 +1,8 @@
 #pragma once
-#include "GamePlayObject.h"
+#include "GamePlayBowl.h"
+// Ό³Έν :
 
-class Equipment_Plate : public GamePlayObject
+class Equipment_Plate final : public GamePlayBowl
 {
 	friend class Tool_Sink;
 public:
@@ -15,9 +16,27 @@ public:
 	Equipment_Plate& operator=(const Equipment_Plate& _Other) = delete;
 	Equipment_Plate& operator=(Equipment_Plate&& _Other) noexcept = delete;
 
+	//Input_PickUpOption CheckMoveable(GamePlayMoveable* _Object) override;
+	//Input_InteractOption Input_Interact() override;
+
+	inline bool IsDirty()
+	{
+		return Dirty_;
+	}
+
+	inline void SetWashing()
+	{
+		Washing_ = true;
+	}
+
+	void SetDirty();
+	void SetClean();
 protected:
 	void Start() override;
 private:
+	bool Dirty_;
+	bool Washing_;
 
+	std::shared_ptr<Equipment_Plate> Pile_Plate_;
 };
 

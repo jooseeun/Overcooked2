@@ -1,5 +1,6 @@
 #pragma once
 #include "GamePlayStaticObject.h"
+#include "GamePlayTool.h"
 
 //쓰레기통
 class TrashCan : public GamePlayStaticObject
@@ -19,3 +20,32 @@ protected:
 private:
 
 };
+
+
+// 설명 :
+class Tool_TrashCan : public GamePlayTool
+{
+public:
+	// constrcuter destructer
+	Tool_TrashCan();
+	~Tool_TrashCan();
+
+	// delete Function
+	Tool_TrashCan(const Tool_TrashCan& _Other) = delete;
+	Tool_TrashCan(Tool_TrashCan&& _Other) noexcept = delete;
+	Tool_TrashCan& operator=(const Tool_TrashCan& _Other) = delete;
+	Tool_TrashCan& operator=(Tool_TrashCan&& _Other) noexcept = delete;
+
+protected:
+	void Start() override;
+
+	//Input_UsingOption Input_ActionToManual(Player* _Player) override
+	//{
+	//	return Input_UsingOption::NoResponse; // 수정요
+	//}
+
+	//void Input_Action_End(std::shared_ptr<GamePlayMoveable> _Moveable) override;
+private:
+	
+};
+

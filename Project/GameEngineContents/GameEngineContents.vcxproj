@@ -175,18 +175,25 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Food_Recipe.h" />
+    <ClInclude Include="GamePlayBowl.h" />
+    <ClInclude Include="GamePlayEquipment.h" />
     <ClInclude Include="GamePlayFloor.h">
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GamePlayFood.h" />
     <ClInclude Include="GamePlayLevel.h" />
     <ClInclude Include="GamePlayMapObject.h" />
+    <ClInclude Include="GamePlayMoveable.h" />
     <ClInclude Include="GamePlayObject.h" />
     <ClInclude Include="GamePlayOriginObject.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="GamePlayStaticObject.h" />
+    <ClInclude Include="GamePlayStuff.h" />
+    <ClInclude Include="GamePlayTool.h" />
     <ClInclude Include="GlobalGameData.h">
       <SubType>
       </SubType>
@@ -307,18 +314,25 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Food_Recipe.cpp" />
+    <ClCompile Include="GamePlayBowl.cpp" />
+    <ClCompile Include="GamePlayEquipment.cpp" />
     <ClCompile Include="GamePlayFloor.cpp">
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GamePlayFood.cpp" />
     <ClCompile Include="GamePlayLevel.cpp" />
     <ClCompile Include="GamePlayMapObject.cpp" />
+    <ClCompile Include="GamePlayMoveable.cpp" />
     <ClCompile Include="GamePlayObject.cpp" />
     <ClCompile Include="GamePlayOriginObject.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="GamePlayStaticObject.cpp" />
+    <ClCompile Include="GamePlayStuff.cpp" />
+    <ClCompile Include="GamePlayTool.cpp" />
     <ClCompile Include="GlobalGameData.cpp">
       <SubType>
       </SubType>
