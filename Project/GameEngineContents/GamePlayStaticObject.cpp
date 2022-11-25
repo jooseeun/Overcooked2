@@ -82,8 +82,19 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 	case PlayerCurStateType::HoldUp:
 		if (GetMoveable() != nullptr)
 		{
-			_Player->SetPlayerHolding(GetMoveable());
-
+			std::weak_ptr<GamePlayMoveable> Moveable = GetMoveable_TakeOut();
+			switch (Moveable.lock()->GetObjectMoveableType())
+			{
+			case ObjectMoveableType::Food:
+				_Player->SetCurHoldType(PlayerHoldType::CanThrow);
+				break;
+			case ObjectMoveableType::Equipment:
+				_Player->SetCurHoldType(PlayerHoldType::NotThrow);
+				break;
+			default:
+				break;
+			}
+			_Player->SetPlayerHolding(Moveable.lock());
 			return SetPlayerState_Return::Using;
 		}
 		else
@@ -120,4 +131,24 @@ std::shared_ptr<GamePlayMoveable> GamePlayStaticObject::GetMoveable() const
 	{
 		return std::dynamic_pointer_cast<GamePlayTool>(Stuff_Current_)->GetCurrentMoveable();
 	}
+}
+
+std::shared_ptr<GamePlayMoveable> GamePlayStaticObject::GetMoveable_TakeOut()
+{
+	std::weak_ptr<GamePlayMoveable> Moveable;
+	if (Stuff_Current_ != nullptr)
+	{
+		if (Stuff_Current_->GetObjectStuffType() == ObjectStuffType::Moveable)
+		{
+			Moveable = Stuff_Current_;
+			Stuff_Current_ = nullptr;
+		}
+		else
+		{	
+			std::weak_ptr<GamePlayTool> Tool_Cast = std::dynamic_pointer_cast<GamePlayTool>(Stuff_Current_);
+			Moveable = Tool_Cast.lock()->GetCurrentMoveable();
+			Tool_Cast.lock()->ReSetCurrentMoveable();
+		}
+	}
+	return Moveable.lock();
 }
