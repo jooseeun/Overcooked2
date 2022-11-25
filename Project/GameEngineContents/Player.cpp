@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "GamePlayStaticObject.h"
 #include "CounterTop.h"
+#include  "GamePlayStaticObject.h"
 #include <math.h>
 
 Player::Player()
@@ -944,7 +945,11 @@ CollisionReturn Player::TableHoldUpCheck(std::shared_ptr<GameEngineCollision> _T
 {
 	//테이블에게 알려주기
 	IdleRendererON();
-	//_Other->CastThis<std::shared_ptr<CounterTop>>()->(shared from this(), PlayerCurStateType :: HoldUp)
+	if (SetPlayerState_Return::Nothing ==
+		_Other->CastThis<GamePlayStaticObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_))
+	{
+		StateManager.ChangeState("Idle");
+	}
 
 }
 CollisionReturn Player::GroundHoldUpCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
@@ -955,15 +960,21 @@ CollisionReturn Player::GroundHoldUpCheck(std::shared_ptr<GameEngineCollision> _
 
 CollisionReturn Player::TableHoldDownCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 { // 테이블에게 내려놓는다고 알려주기
-
-	//_Other->CastThis<std::shared_ptr<CounterTop>>()-> 
+	if (SetPlayerState_Return::Nothing ==
+		_Other->CastThis<GamePlayStaticObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_))
+	{  //테이블에 물체가 있어 못내려놓으면 그냥 아무일도 일어나지 않게 하기
+		StateManager.ChangeState("HoldUp");
+	}
 }
 
 
 CollisionReturn Player::TableSliceCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 {
 	//테이블에게 자를거라고 알려주기
-	// 
-	//_Other->CastThis<std::shared_ptr<CounterTop>>() -> 
-	StateManager.ChangeState("Slice");
+
+	if (SetPlayerState_Return::Using ==
+		_Other->CastThis<GamePlayStaticObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_))
+	{  //자를수 있으면 자르는 상태로 변경
+		StateManager.ChangeState("Slice");
+	}
 }
