@@ -33,7 +33,18 @@ enum class PlayerDir
 	FrontLeft,
 	Max
 };
-enum class PlayerHoldType
+enum class PlayerCurStateType // 플레이어가 무슨상태인지
+{
+	Idle,
+	HoldUp,
+	HoldDown,
+	Slice,
+	FireOff,
+	Throw,
+	Max
+};
+
+enum class PlayerHoldType // 손에있는게 무슨타입인지
 	//컨트롤 키를 눌렀을때 어떤 상호작용을 할지 정하려고 만든 enum
 {
 	CanThrow, // 던질수 있는것

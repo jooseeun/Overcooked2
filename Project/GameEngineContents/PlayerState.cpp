@@ -1,7 +1,5 @@
 #include "PreCompile.h"
 #include "Player.h"
-#include "GamePlayFood.h"
-#include "GamePlayStaticObject.h"
 #include "FoodBox.h"
 #include "TrashCan.h"
 #include "Equipment_Plate.h"
@@ -42,28 +40,6 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerInteract")) //컨트롤키
 	{
 		
-		if (Interact_TableObject_ == nullptr)
-		{
-			return;
-		}
-		else
-		{
-			if (Interact_TableObject_->GetStuff() == nullptr)
-			{
-				return;
-			}
-			else
-			{
-				if (Interact_TableObject_->GetStuff()->GetToolInfoType() == ToolInfo::CuttingBoard) // 도마일때
-				{
-					StateManager.ChangeState("Slice");
-					return;
-				}
-			}
-
-		}
-
-		//StateManager.ChangeState("DishWash");
 		
 	}
 }
@@ -130,92 +106,29 @@ void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (true == GameEngineInput::GetInst()->IsUpKey("PlayerInteract"))
 	{
-		//던지는 행동
-		// Throw 애니메이션
-		IdleRendererON();
-		PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "Throw");
-		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
-		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
-		CurrentHoldingObject_->GetCollisionObject()->On();
-		CurrentHoldingObject_->DetachObject();
-		CurrentHoldingObject_->Input_Throwing(GetTransform().GetBackVector()*3000.0f);
-		CurrentHoldingObject_ = nullptr;
+
+
 	}
 	PlayerIdleRenderer_[PlayerCustomNum]->AnimationBindEnd(PlayerName_[PlayerCustomNum] +"Throw", [=](const GameEngineRenderingEvent& _Info)
 		{
-			// CurrentHoldingObject - 부모자식관계 삭제, 피봇 원래대로 돌리기
-			// CurrentHoldingObject -> 여기서 Throw 함수 해주면 된다. 
-
 
 			CurHoldType_ = PlayerHoldType::Max;
 			StateManager.ChangeState("Idle");
 		});
 }
 
-void Player::HoldStart(const StateInfo& _Info)
+void Player::HoldUpStart(const StateInfo& _Info)
 {
-	if (FireOff_ == true)
+
+	if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Moveable, CollisionType::CT_OBB,
+		std::bind(&Player::GroundHoldUpCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)//바닥에 뭐 없을때
 	{
-		return;
+		Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
+			std::bind(&Player::TableHoldUpCheck, this, std::placeholders::_1, std::placeholders::_2));
 	}
 
-	if (CurrentHoldingObject_ == nullptr)
-		// 플레이어 손에 아무것도 없을때
-	{
-		if (Interact_GroundObject_ != nullptr) // 땅에 상호작용하는 오브젝트가 있을때
-		{
-			if (Input_PickUp(Interact_GroundObject_) == Input_PickUpOption::PickUp) //상호작용가능한 땅의 오브젝트가 집을 수 있는것일때
-			//if (Interact_GroundObject_->Input_PickUp(std::dynamic_pointer_cast<Player>(shared_from_this())) == Input_PickUpOption::PickUp) //상호작용가능한 땅의 오브젝트가 집을 수 있는것일때
-			{ // 바닥에 있는 오브젝트는 부모가 없으므로 SetParent만 해도됨
-				CurrentHoldingObject_->SetParent(shared_from_this());
-				CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,50,-60 });
-				return;
-			}
-
-		}
-
-		else if (Interact_TableObject_ != nullptr) // 앞에 테이블이 있을때
-		{
-			if (Interact_TableObject_->Input_PickUp(std::dynamic_pointer_cast<Player>(shared_from_this())) == Input_PickUpOption::PickUp)
-			{
-				if (Interact_TableObject_->GetStaticObjectType() == MapObjType::FoodBox) // 음식 얻어오기
-				{
-					Interact_TableObject_->CastThis<FoodBox>()->SwitchIsInteraction();
-
-				}
-				CurrentHoldingObject_->DetachObject();
-				CurrentHoldingObject_->SetParent(shared_from_this());
-				CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,50,-60 });
-				return;
-			}
-			else
-			{
-
-				StateManager.ChangeState("Idle");
-				return;  
-			}
-		}
-		else
-		{				
-
-
-			StateManager.ChangeState("Idle");
-			return;
-		}
-
-
-	}
-	else
-	{
-		StateManager.ChangeState("Idle");
-		return;
-	}
-	IdleRendererON();
-	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] +"IdleHolding");
-	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
-	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 }
-void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
+void Player::HoldUpUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerInteract")) //컨트롤키
 	{
@@ -231,53 +144,7 @@ void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerHold")) // 놓기
 	{ 
-		if (FireOff_ == true)
-		{
-			FireOff_ = false;
-		}
-
-		if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB) == false) //
-		{
-			// 없을때-> 바닥에 놓기
-			CurrentHoldingObject_->GetCollisionObject()->On();
-			CurrentHoldingObject_->GetTransform().SetWorldPosition(GetTransform().GetLocalPosition() + GetTransform().GetBackVector()*60.0f + float4{0,50,0});
-			CurrentHoldingObject_->DetachObject();
-			CurrentHoldingObject_ = nullptr;
-			StateManager.ChangeState("Idle");
-			return;
-		}
-		else // 앞에 테이블이 있을때
-		{
-			if (Interact_TableObject_->GetStaticObjectType() == MapObjType::TrashCan) // 음식 버리기
-			{
-				//Interact_TableObject_->CastThis<TrashCan>()->버리는 기능();
-				StateManager.ChangeState("Idle");
-				return;
-			}
-
-			if (Interact_TableObject_->GetStuff() == nullptr) // 테이블 있고 테이블에 올려진 물건이 없을때
-			{
-				CurrentHoldingObject_->GetCollisionObject()->On();
-				CurrentHoldingObject_->DetachObject();
-				Interact_TableObject_->SetStuff(CurrentHoldingObject_);
-				float4 ToolPos = Interact_TableObject_->GetToolPos();
-				Interact_TableObject_->GetStuff()->GetTransform().SetWorldPosition(ToolPos);
-				CurrentHoldingObject_ = nullptr;
-
-				StateManager.ChangeState("Idle");
-				return;
-			}
-
-			else if (Interact_TableObject_->GetStuff()->GetToolInfoType() == ToolInfo::CuttingBoard) // 도마일때
-			{
-				return;
-			}
-			else if (CurrentHoldingObject_ != nullptr && Interact_TableObject_->GetStuff() != nullptr) // 일단 쓰레기통예외처리
-			{
-				return;
-			}
-		}
-		return;
+		StateManager.ChangeState("HoldDown");
 	}
 
 
@@ -328,7 +195,23 @@ void Player::HoldUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 
 }
-
+void Player::HoldDownStart(const StateInfo& _Info)
+{
+	if (Collision_Interact_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Object_StaticObject, CollisionType::CT_AABB,
+		std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
+	{
+		CurrentHoldingObject_->GetTransform().SetWorldPosition(GetTransform().GetLocalPosition() + GetTransform().GetBackVector() * 60.0f + float4{ 0,50,0 });
+		CurrentHoldingObject_->DetachObject();
+		CurrentHoldingObject_ = nullptr;
+	}
+}
+void Player::HoldDownUpdate(float _DeltaTime, const StateInfo& _Info)
+{
+	if (CurrentHoldingObject_ == nullptr)
+	{
+		StateManager.ChangeState("Idle");
+	}
+}
 void Player::SliceStart(const StateInfo& _Info) // 자르는 도중 이동하면 취소됨
 {
 	ChopRendererON();
