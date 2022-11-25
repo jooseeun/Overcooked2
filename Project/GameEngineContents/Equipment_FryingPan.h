@@ -1,7 +1,7 @@
 #pragma once
-#include "GamePlayBowl.h"
+#include "GamePlayObject.h"
 // Ό³Έν :
-class Equipment_FryingPan : public GamePlayBowl
+class Equipment_FryingPan : public GamePlayObject
 {
 public:
 	// constrcuter destructer

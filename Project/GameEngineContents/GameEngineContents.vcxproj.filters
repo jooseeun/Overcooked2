@@ -44,9 +44,6 @@
     <ClInclude Include="Food_Ingredients_Fish.h">
       <Filter>Contents\Object\Food</Filter>
     </ClInclude>
-    <ClInclude Include="Food_Recipe.h">
-      <Filter>Contents\Object\Food</Filter>
-    </ClInclude>
     <ClInclude Include="Tool_CuttingBoard.h">
       <Filter>Contents\Object\Tool</Filter>
     </ClInclude>
@@ -80,18 +77,6 @@
     <ClInclude Include="GamePlayMapObject.h">
       <Filter>Map</Filter>
     </ClInclude>
-    <ClInclude Include="GamePlayMoveable.h">
-      <Filter>Contents\Template\Stuff\Moveable</Filter>
-    </ClInclude>
-    <ClInclude Include="GamePlayFood.h">
-      <Filter>Contents\Template\Stuff\Moveable</Filter>
-    </ClInclude>
-    <ClInclude Include="GamePlayEquipment.h">
-      <Filter>Contents\Template\Stuff\Moveable</Filter>
-    </ClInclude>
-    <ClInclude Include="GamePlayTool.h">
-      <Filter>Contents\Template\Stuff\Tool</Filter>
-    </ClInclude>
     <ClInclude Include="GamePlayStaticObject.h">
       <Filter>Contents\Template</Filter>
     </ClInclude>
@@ -100,9 +85,6 @@
     </ClInclude>
     <ClInclude Include="GamePlayObject.h">
       <Filter>Contents\Template</Filter>
-    </ClInclude>
-    <ClInclude Include="GamePlayStuff.h">
-      <Filter>Contents\Template\Stuff</Filter>
     </ClInclude>
     <ClInclude Include="IOManagerWindow.h">
       <Filter>GUI</Filter>
@@ -148,9 +130,6 @@
     </ClInclude>
     <ClInclude Include="Cooker.h">
       <Filter>Contents\Object\StaticMesh</Filter>
-    </ClInclude>
-    <ClInclude Include="GamePlayBowl.h">
-      <Filter>Contents\Template\Stuff\Moveable</Filter>
     </ClInclude>
     <ClInclude Include="PlateReturn.h">
       <Filter>Contents\Object\StaticMesh</Filter>
@@ -242,9 +221,6 @@
     <ClCompile Include="Food_Ingredients_Fish.cpp">
       <Filter>Contents\Object\Food</Filter>
     </ClCompile>
-    <ClCompile Include="Food_Recipe.cpp">
-      <Filter>Contents\Object\Food</Filter>
-    </ClCompile>
     <ClCompile Include="Tool_CuttingBoard.cpp">
       <Filter>Contents\Object\Tool</Filter>
     </ClCompile>
@@ -278,18 +254,6 @@
     <ClCompile Include="GamePlayMapObject.cpp">
       <Filter>Map</Filter>
     </ClCompile>
-    <ClCompile Include="GamePlayMoveable.cpp">
-      <Filter>Contents\Template\Stuff\Moveable</Filter>
-    </ClCompile>
-    <ClCompile Include="GamePlayEquipment.cpp">
-      <Filter>Contents\Template\Stuff\Moveable</Filter>
-    </ClCompile>
-    <ClCompile Include="GamePlayFood.cpp">
-      <Filter>Contents\Template\Stuff\Moveable</Filter>
-    </ClCompile>
-    <ClCompile Include="GamePlayTool.cpp">
-      <Filter>Contents\Template\Stuff\Tool</Filter>
-    </ClCompile>
     <ClCompile Include="GamePlayStaticObject.cpp">
       <Filter>Contents\Template</Filter>
     </ClCompile>
@@ -298,9 +262,6 @@
     </ClCompile>
     <ClCompile Include="GamePlayObject.cpp">
       <Filter>Contents\Template</Filter>
-    </ClCompile>
-    <ClCompile Include="GamePlayStuff.cpp">
-      <Filter>Contents\Template\Stuff</Filter>
     </ClCompile>
     <ClCompile Include="IOManagerWindow.cpp">
       <Filter>GUI</Filter>
@@ -349,9 +310,6 @@
     </ClCompile>
     <ClCompile Include="Cooker.cpp">
       <Filter>Contents\Object\StaticMesh</Filter>
-    </ClCompile>
-    <ClCompile Include="GamePlayBowl.cpp">
-      <Filter>Contents\Template\Stuff\Moveable</Filter>
     </ClCompile>
     <ClCompile Include="ContentsUtility.cpp">
       <Filter>UI</Filter>
@@ -441,15 +399,6 @@
     </Filter>
     <Filter Include="Contents\Object\Tool">
       <UniqueIdentifier>{49727864-ec15-4a21-bde5-0d09d170f79d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Contents\Template\Stuff">
-      <UniqueIdentifier>{1d2432fe-d488-404e-8383-4ec5be63a85b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Contents\Template\Stuff\Moveable">
-      <UniqueIdentifier>{e96e2fc7-d0ee-47b1-afd5-a21bd3380bcb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Contents\Template\Stuff\Tool">
-      <UniqueIdentifier>{3c1752fb-2cba-4605-b834-1ad7c8b5de3e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Level\Stage">
       <UniqueIdentifier>{343bb1cb-71af-4dce-8651-067f7a089ae3}</UniqueIdentifier>

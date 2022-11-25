@@ -1,7 +1,7 @@
 #pragma once
-#include "GamePlayEquipment.h"
+#include "GamePlayObject.h"
 // Ό³Έν :
-class Equipment_FireExtinguisher : public GamePlayEquipment
+class Equipment_FireExtinguisher : public GamePlayObject
 {
 public:
 	// constrcuter destructer
@@ -14,11 +14,10 @@ public:
 	Equipment_FireExtinguisher& operator=(const Equipment_FireExtinguisher& _Other) = delete;
 	Equipment_FireExtinguisher& operator=(Equipment_FireExtinguisher&& _Other) noexcept = delete;
 
-	// PlayerHoldType
+
 protected:
 	void Start() override;
 private:
-	Input_PickUpOption Input_PickUp(std::shared_ptr<Player> _Player) override;
 
 };
 

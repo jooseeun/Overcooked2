@@ -1,8 +1,8 @@
 #pragma once
-#include "GamePlayFood.h"
+#include "GamePlayObject.h"
 
 // Ό³Έν :
-class Food_Ingredients_Fish : public GamePlayFood
+class Food_Ingredients_Fish : public GamePlayObject
 {
 public:
 	// constrcuter destructer
