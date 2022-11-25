@@ -40,6 +40,7 @@ enum class PlayerCurStateType // 플레이어가 무슨상태인지
 	HoldDown,
 	Slice,
 	FireOff,
+	DishWash,
 	Throw,
 	Max
 };

@@ -7,6 +7,7 @@
 
 void Player::IdleStart(const StateInfo& _Info)
 {
+	CurStateType_ = PlayerCurStateType::Idle;
 	IdleRendererON();		
 	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] +"Idle");
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
@@ -99,6 +100,7 @@ void Player::ThrowStart(const StateInfo& _Info)
 }
 void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	CurStateType_ = PlayerCurStateType::Throw;
 	{ //컨트롤 키를 때기 전까지 안던져짐, 방향이동 가능
 		PlayerDirCheck();
 		MoveAngle();
@@ -119,13 +121,17 @@ void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::HoldUpStart(const StateInfo& _Info)
 {
-
-	if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Moveable, CollisionType::CT_OBB,
-		std::bind(&Player::GroundHoldUpCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)//바닥에 뭐 없을때
+	if (CurrentHoldingObject_ == nullptr)
 	{
-		Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
-			std::bind(&Player::TableHoldUpCheck, this, std::placeholders::_1, std::placeholders::_2));
+		CurStateType_ = PlayerCurStateType::HoldUp;
+		if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Moveable, CollisionType::CT_OBB,
+			std::bind(&Player::GroundHoldUpCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)//바닥에 뭐 없을때
+		{
+			Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
+				std::bind(&Player::TableHoldUpCheck, this, std::placeholders::_1, std::placeholders::_2));
+		}
 	}
+
 
 }
 void Player::HoldUpUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -197,7 +203,8 @@ void Player::HoldUpUpdate(float _DeltaTime, const StateInfo& _Info)
 }
 void Player::HoldDownStart(const StateInfo& _Info)
 {
-	if (Collision_Interact_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Object_StaticObject, CollisionType::CT_AABB,
+	CurStateType_ = PlayerCurStateType::HoldDown;
+	if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 		std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
 	{
 		CurrentHoldingObject_->GetTransform().SetWorldPosition(GetTransform().GetLocalPosition() + GetTransform().GetBackVector() * 60.0f + float4{ 0,50,0 });
@@ -214,6 +221,7 @@ void Player::HoldDownUpdate(float _DeltaTime, const StateInfo& _Info)
 }
 void Player::SliceStart(const StateInfo& _Info) // 자르는 도중 이동하면 취소됨
 {
+	CurStateType_ = PlayerCurStateType::Slice;
 	ChopRendererON();
 }
 void Player::SliceUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -232,6 +240,7 @@ void Player::SliceUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::DishWashStart(const StateInfo& _Info) // 설거지하는 도중 이동하면 취소됨
 {
+	CurStateType_ = PlayerCurStateType::DishWash;
 
 }
 void Player::DishWashUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -249,6 +258,7 @@ void Player::DishWashUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::FireOffStart(const StateInfo& _Info)
 {
+	CurStateType_ = PlayerCurStateType::FireOff;
 	FireOff_ = true;
 	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "IdleHolding");
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
