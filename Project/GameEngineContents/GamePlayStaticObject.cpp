@@ -140,7 +140,7 @@ std::shared_ptr<GamePlayMoveable> GamePlayStaticObject::GetMoveable_TakeOut()
 	{
 		if (Stuff_Current_->GetObjectStuffType() == ObjectStuffType::Moveable)
 		{
-			Moveable = Stuff_Current_;
+			Moveable = std::dynamic_pointer_cast<GamePlayMoveable>(Stuff_Current_);
 			Stuff_Current_ = nullptr;
 		}
 		else

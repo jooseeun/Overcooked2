@@ -19,7 +19,7 @@ void TrashCan::Start()
 	GetFBXMesh()->SetFBXMesh("m_sk_bin_01.fbx", "Texture");
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 
-	//SetStuff(GetLevel()->CreateActor<Tool_TrashCan>());
+	SetStuff(GetLevel()->CreateActor<Tool_TrashCan>());
 }
 
 // ----------------------Tool---------------------------
