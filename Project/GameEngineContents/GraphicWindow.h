@@ -25,13 +25,13 @@ protected:
 	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
 
 private:
-	
 	static std::shared_ptr<GlobalOverlay> GlobalOverlay_;
 	static std::shared_ptr<GlobalVignette> GlobalVignette_;
 
 
 	static ImVec4 OverlayColor_;
 	static bool OverlayOnOff_;
+	static bool VignetteOnOff_;
 
 
 public:

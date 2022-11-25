@@ -3,6 +3,7 @@
 #include "GamePlayLevel.h"
 
 #include<GameEngineCore/GlobalOverlay.h>
+#include<GameEngineCore/GlobalVignette.h>
 
 std::shared_ptr<GraphicWindow> GraphicWindow::Main_ = nullptr;
 
@@ -13,6 +14,7 @@ std::shared_ptr<GlobalVignette> GraphicWindow::GlobalVignette_ = nullptr;
 ImVec4 GraphicWindow::OverlayColor_ = { 0.586f, 0.617f, 0.672f, 1.0f };
 
 bool GraphicWindow::OverlayOnOff_ = true;
+bool GraphicWindow::VignetteOnOff_ = true;
 
 
 GraphicWindow::GraphicWindow() 
@@ -42,6 +44,7 @@ void GraphicWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	ConvertToFloat4(GlobalOverlay_->GetOverlayColorData().OverlayColor, OverlayColor_);
 
 	ImGui::Checkbox("OverlayFlag", &OverlayOnOff_);
+	ImGui::Checkbox("VignetteFlag", &VignetteOnOff_);
 
 	if (OverlayOnOff_ == true)
 	{
@@ -51,6 +54,16 @@ void GraphicWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	else
 	{
 		GlobalOverlay_->Off();
+	}
+
+	if (VignetteOnOff_ == true)
+	{
+		GlobalVignette_->On();
+	}
+
+	else
+	{
+		GlobalVignette_->Off();
 	}
 
 }

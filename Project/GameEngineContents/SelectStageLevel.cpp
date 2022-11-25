@@ -23,11 +23,13 @@ SelectStageLevel::~SelectStageLevel()
 
 void SelectStageLevel::Start()
 {
-	GetUICamera()->GetCameraRenderTarget()->AddEffect<GlobalVignette>();
+	std::shared_ptr<GlobalVignette> GlobalVignette_ = GetUICamera()->GetCameraRenderTarget()->AddEffect<GlobalVignette>();
 	std::shared_ptr<GlobalOverlay> GlobalOverlay_= GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalOverlay>();
 	
 	GraphicWindow::Main_ = GameEngineGUI::CreateGUIWindow<GraphicWindow>("GraphicGUI", nullptr);
 	GraphicWindow::Main_->SetOverlay(GlobalOverlay_);
+	GraphicWindow::Main_->SetVignette(GlobalVignette_);
+
 	GraphicWindow::Main_->Off();
 	
 
