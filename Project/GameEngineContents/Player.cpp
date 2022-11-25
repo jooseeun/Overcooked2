@@ -24,7 +24,7 @@ Player::Player()
 	, CurKineticEnergy_(0)
 	, FireOff_(false)
 	, PlayerName_()
-	, PlayerPNum(1)
+	, PlayerPNum(4)
 {
 
 }
@@ -119,14 +119,7 @@ void Player::Start()
 
 
 
-		PixelData&  Test = PlayerIdleRenderer_[i]->GetPixelDatas(0);
-		Test.AlphaFlag = 1;
 
-		Test.AlphaColor.r = 1.0f;
-
-		Test.AlphaColor.g = 0.0f;
-		Test.AlphaColor.b = 0.0f;
-		Test.AlphaColor.a = 1.0f;
 
 
 	}
@@ -266,7 +259,126 @@ void Player::ChangePlayer()
 	PlayerChopRenderer_[PlayerCustomNum]->Off();
 	PlayerWashRenderer_[PlayerCustomNum]->Off();
 
+	ChangePlayerColor();
 
+}
+void Player::ChangePlayerColor()
+{
+	PixelData& IdleRender = PlayerIdleRenderer_[PlayerCustomNum]->GetPixelDatas(0);
+	IdleRender.AlphaFlag = 1;
+	IdleRender.AlphaColor.a = 1.0f;
+
+	PixelData& WalkRender = PlayerWalkRenderer_[PlayerCustomNum]->GetPixelDatas(0);
+	WalkRender.AlphaFlag = 1;
+	WalkRender.AlphaColor.a = 1.0f;
+
+	PixelData& ChopRender = PlayerChopRenderer_[PlayerCustomNum]->GetPixelDatas(0);
+	ChopRender.AlphaFlag = 1;
+	ChopRender.AlphaColor.a = 1.0f;
+
+	PixelData& WashRender = PlayerWashRenderer_[PlayerCustomNum]->GetPixelDatas(0);
+	WashRender.AlphaFlag = 1;
+	WashRender.AlphaColor.a = 1.0f;
+
+	if (PlayerPNum == 1)
+	{
+		IdleRender.AlphaColor.r = 1.0f;
+		IdleRender.AlphaColor.g = 0.0f;
+		IdleRender.AlphaColor.b = 0.0f;
+
+		WalkRender.AlphaColor.r = 1.0f;
+		WalkRender.AlphaColor.g = 0.0f;
+		WalkRender.AlphaColor.b = 0.0f;
+
+		WalkRender.AlphaColor.r = 1.0f;
+		WalkRender.AlphaColor.g = 0.0f;
+		WalkRender.AlphaColor.b = 0.0f;
+
+		WalkRender.AlphaColor.r = 1.0f;
+		WalkRender.AlphaColor.g = 0.0f;
+		WalkRender.AlphaColor.b = 0.0f;
+
+	}
+
+	else if (PlayerPNum == 2)
+	{
+		IdleRender.AlphaColor.r = 1.0f;
+		IdleRender.AlphaColor.g = 0.0f;
+		IdleRender.AlphaColor.b = 0.0f;
+
+		WalkRender.AlphaColor.r = 1.0f;
+		WalkRender.AlphaColor.g = 0.0f;
+		WalkRender.AlphaColor.b = 0.0f;
+
+		WalkRender.AlphaColor.r = 1.0f;
+		WalkRender.AlphaColor.g = 0.0f;
+		WalkRender.AlphaColor.b = 0.0f;
+
+		WalkRender.AlphaColor.r = 1.0f;
+		WalkRender.AlphaColor.g = 0.0f;
+		WalkRender.AlphaColor.b = 0.0f;
+
+	}
+
+	else if (PlayerPNum == 2)
+	{
+		IdleRender.AlphaColor.r = 0.0f;
+		IdleRender.AlphaColor.g = 0.0f;
+		IdleRender.AlphaColor.b = 1.0f;
+
+		WalkRender.AlphaColor.r = 0.0f;
+		WalkRender.AlphaColor.g = 0.0f;
+		WalkRender.AlphaColor.b = 1.0f;
+
+		WalkRender.AlphaColor.r = 0.0f;
+		WalkRender.AlphaColor.g = 0.0f;
+		WalkRender.AlphaColor.b = 1.0f;
+
+		WalkRender.AlphaColor.r = 0.0f;
+		WalkRender.AlphaColor.g = 0.0f;
+		WalkRender.AlphaColor.b = 1.0f;
+
+	}
+
+	else if (PlayerPNum == 3)
+	{
+		IdleRender.AlphaColor.r = 0.0f;
+		IdleRender.AlphaColor.g = 1.0f;
+		IdleRender.AlphaColor.b = 0.0f;
+
+		WalkRender.AlphaColor.r = 0.0f;
+		WalkRender.AlphaColor.g = 1.0f;
+		WalkRender.AlphaColor.b = 0.0f;
+
+		WalkRender.AlphaColor.r = 0.0f;
+		WalkRender.AlphaColor.g = 1.0f;
+		WalkRender.AlphaColor.b = 0.0f;
+
+		WalkRender.AlphaColor.r = 0.0f;
+		WalkRender.AlphaColor.g = 1.0f;
+		WalkRender.AlphaColor.b = 0.0f;
+
+	}
+
+	else if (PlayerPNum == 4)
+	{
+		IdleRender.AlphaColor.r = 1.0f;
+		IdleRender.AlphaColor.g = 1.0f;
+		IdleRender.AlphaColor.b = 0.0f;
+
+		WalkRender.AlphaColor.r = 1.0f;
+		WalkRender.AlphaColor.g = 1.0f;
+		WalkRender.AlphaColor.b = 0.0f;
+
+		WalkRender.AlphaColor.r = 1.0f;
+		WalkRender.AlphaColor.g = 1.0f;
+		WalkRender.AlphaColor.b = 0.0f;
+
+		WalkRender.AlphaColor.r = 1.0f;
+		WalkRender.AlphaColor.g = 1.0f;
+		WalkRender.AlphaColor.b = 0.0f;
+
+	}
 }
 void  Player::LevelStartEvent()
 {

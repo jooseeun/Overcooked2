@@ -77,7 +77,7 @@ public:
 	}
 
 	void ChangePlayer(); // 플레이어 커스텀 바꾸는 함수
-	//void ChangePlayerColor();
+	void ChangePlayerColor();
 	
 
 public:
