@@ -33,16 +33,15 @@ public:
 	}
 	std::shared_ptr<GamePlayMoveable> GetMoveable() const;
 	std::shared_ptr<GamePlayMoveable> GetMoveable_TakeOut();
-	//inline void SetStuff(std::shared_ptr<GamePlayStuff> _Stuff)
-	//{
-	//	Stuff_Current_ = _Stuff;
+	inline void SetStuff(std::shared_ptr<GamePlayStuff> _Stuff)
+	{
+		Stuff_Current_ = _Stuff;
 
-	//	if (nullptr != _Stuff)
-	//	{
-	//		_Stuff->SetParentObject(std::dynamic_pointer_cast<GamePlayObject>(shared_from_this()));
-	//		Stuff_Current_->GetCollisionObject()->Off();
-	//	}
-	//}
+		if (nullptr != _Stuff)
+		{
+			_Stuff->SetParent(std::dynamic_pointer_cast<GamePlayObject>(shared_from_this()));
+		}
+	}
 	inline void ReSetStuff()
 	{
 		Stuff_Current_.reset();
