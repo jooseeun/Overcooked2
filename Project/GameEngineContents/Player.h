@@ -70,10 +70,6 @@ public:
 		return Collision_Interact_;
 	}
 
-	inline void SetCurHoldType(PlayerHoldType _CurHoldType)
-	{
-		CurHoldType_ = _CurHoldType;
-	}
 
 	inline float GetCurKineticEnergy()
 	{
@@ -117,9 +113,11 @@ public:
 		CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,50,-60 });
 	}
 
+	inline void SetCurHoldType(PlayerHoldType _CurHoldType) // 손에 쥐어줄때 무슨 플레이어가 타입인지 알려주는 함수
+	{
+		CurHoldType_ = _CurHoldType;
+	}
 	
-
-
 	template <typename HoldingType>
 	std::shared_ptr<HoldingType> GetPlayerHolding() // 현재 플레이어 손에있는 오브젝트 얻는 함수
 	{

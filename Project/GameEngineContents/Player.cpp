@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "Player.h"
 #include "GamePlayStaticObject.h"
+#include "CounterTop.h"
 #include <math.h>
 
 Player::Player()
@@ -817,6 +818,7 @@ CollisionReturn Player::TableHoldUpCheck(std::shared_ptr<GameEngineCollision> _T
 {
 	//테이블에게 알려주기
 	IdleRendererON();
+	//_Other->CastThis<std::shared_ptr<CounterTop>>() -> 
 
 }
 CollisionReturn Player::GroundHoldUpCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
@@ -828,4 +830,5 @@ CollisionReturn Player::GroundHoldUpCheck(std::shared_ptr<GameEngineCollision> _
 CollisionReturn Player::TableHoldDownCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 { // 테이블에게 내려놓는다고 알려주기
 
+	//_Other->CastThis<std::shared_ptr<CounterTop>>() -> 
 }
