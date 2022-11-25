@@ -1,6 +1,7 @@
 #pragma once
 #include <string.h>
 #include "GameEngineRes.h"
+#include "GameEngineInstancingBuffer.h"
 
 // Ό³Έν :
 class GameEngineInputLayOut;
@@ -37,8 +38,10 @@ public:
 	void InputAssembler2IndexBufferSetting();
 
 	void Setting();
+	void SettingInstancing(std::shared_ptr<GameEngineInstancingBuffer> _Buffer);
 
 	void Render();
+	void RenderInstancing(size_t _InstancingCount);
 
 	const class GameEngineLayOutDesc& GetLayOutDesc();
 

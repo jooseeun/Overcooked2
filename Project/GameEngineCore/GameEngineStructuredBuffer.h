@@ -64,6 +64,14 @@ public:
 		return NewBuffer;
 	}
 
+	static std::shared_ptr < GameEngineStructuredBuffer> Create(D3D11_SHADER_BUFFER_DESC _Desc,	int Count)
+	{
+		std::shared_ptr < GameEngineStructuredBuffer> Res = CreateResUnName();
+
+		Res->CreateResize(_Desc, Count);
+
+		return Res;
+	}
 
 	static void ResourcesDestroy()
 	{
@@ -132,6 +140,11 @@ public:
 	inline int GetDataSize() 
 	{
 		return DataSize;
+	}
+
+	inline D3D11_SHADER_BUFFER_DESC& GetShaderDesc()
+	{
+		return ShaderDesc;
 	}
 
 protected:

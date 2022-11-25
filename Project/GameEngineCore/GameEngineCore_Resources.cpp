@@ -266,7 +266,6 @@ void EngineRenderingPipeLine()
 		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("TextureAtlas");
 		NewPipe->SetVertexShader("TextureAtlas.hlsl");
 		NewPipe->SetPixelShader("TextureAtlas.hlsl");
-		// NewPipe->InstancingSetting();
 	}
 
 	{
@@ -278,8 +277,6 @@ void EngineRenderingPipeLine()
 
 	{
 		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("3DDebug");
-		//NewPipe->SetInputAssembler1VertexBuffer("Box");
-		//NewPipe->SetInputAssembler2IndexBuffer("Box");
 		NewPipe->SetVertexShader("Debug3D.hlsl");
 		NewPipe->SetPixelShader("Debug3D.hlsl");
 		NewPipe->SetOutputMergerDepthStencil("AlwaysDepth");
@@ -287,8 +284,6 @@ void EngineRenderingPipeLine()
 
 	{
 		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("TargetMerge");
-		//NewPipe->SetInputAssembler1VertexBuffer("FullRect");
-		//NewPipe->SetInputAssembler2IndexBuffer("FullRect");
 		NewPipe->SetVertexShader("TargetMerge.hlsl");
 		NewPipe->SetPixelShader("TargetMerge.hlsl");
 		NewPipe->SetOutputMergerDepthStencil("AlwaysDepth");
@@ -300,11 +295,8 @@ void EngineRenderingPipeLine()
 		NewPipe->SetPixelShader("DebugTexture.hlsl");
 	}
 
-	// PostEffect
 	{
 		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("Blur");
-		//NewPipe->SetInputAssembler1VertexBuffer("FullRect");
-		//NewPipe->SetInputAssembler2IndexBuffer("FullRect");
 		NewPipe->SetVertexShader("Blur.hlsl");
 		NewPipe->SetPixelShader("Blur.hlsl");
 	}

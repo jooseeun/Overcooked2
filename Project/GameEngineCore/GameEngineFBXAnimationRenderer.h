@@ -23,7 +23,6 @@ public:
 
 	GameEngineRenderingEvent Info;
 
-	bool Pause;
 	bool bOnceStart;
 	bool bOnceEnd;
 	std::function<void(const GameEngineRenderingEvent&)> FrameEvent;
@@ -45,7 +44,6 @@ public:
 	FBXRendererAnimation() 
 		: Start(0)
 		, End(0)
-		, Pause(false)
 		, bOnceStart(false)
 		, bOnceEnd(false)
 	{
@@ -91,6 +89,7 @@ public:
 	void ChangeAnimationFrame(size_t _StartIndex);
 
 	void Update(float _DeltaTime) override;
+	void PauseSwtich();
 
 	void AnimationBindStart(const std::string& _AnimationName, std::function<void(const GameEngineRenderingEvent&)> _Function)
 	{
@@ -156,6 +155,7 @@ public:
 protected:
 
 private:
+	bool Pause;
 	std::map<std::string, std::shared_ptr<FBXRendererAnimation>> Animations;
 	std::shared_ptr<FBXRendererAnimation> CurAnimation;
 

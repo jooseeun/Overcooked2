@@ -185,6 +185,34 @@ void GameEngineRenderUnit::Render(float _DeltaTime)
 	ShaderResources.AllResourcesReset();
 }
 
+void GameEngineRenderUnit::RenderInstancing(float _DeltaTime, size_t _RanderingCount, std::shared_ptr<GameEngineInstancingBuffer> _Buffer)
+{
+	if (nullptr == Material)
+	{
+		MsgBoxAssert("랜더링 파이프라인이 세팅되지 않으면 랜더링을 할수 없습니다.");
+	}
+
+	if (nullptr == Mesh)
+	{
+		MsgBoxAssert("매쉬가 없으므로 랜더링을 할수 없습니다.");
+	}
+
+	if (nullptr == InputLayOut)
+	{
+		MsgBoxAssert("인풋 레이아웃이 없으므로 랜더링을 할수 없습니다.");
+	}
+
+
+	Mesh->SettingInstancing(_Buffer);
+	InputLayOut->Setting();
+	GameEngineDevice::GetContext()->IASetPrimitiveTopology(Topology);
+	Material->SettingInstancing();
+	ShaderResources.AllResourcesSetting();
+
+	Mesh->RenderInstancing(_RanderingCount);
+	ShaderResources.AllResourcesReset();
+}
+
 //////////////////////////////////////////////////////// GameEngineRenderer
 
 GameEngineRenderer::GameEngineRenderer()

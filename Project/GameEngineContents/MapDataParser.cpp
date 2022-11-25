@@ -22,6 +22,7 @@
 #include "Car.h"
 #include "TrafficLight.h"
 #include "Candle.h"
+#include "Lift.h"
 
 MapDataParser::MapDataParser()
 	: CurActor_()
@@ -95,6 +96,18 @@ std::vector<std::weak_ptr<GamePlayMapObject>>& MapDataParser::UnSortMapDataParsi
 			std::weak_ptr<GamePlayMapObject> Object = _Level->CreateActor<GamePlayMapObject>();
 			Object.lock()->GetTransform().SetWorldPosition(_Data[i].Pos_);
 			Object.lock()->GetAnimationFBXMesh()->GetTransform().SetLocalScale({ 150.f, 150.f, 150.f });
+			Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(_Data[i].Scale_);
+			Object.lock()->GetTransform().SetWorldRotation(_Data[i].Rot_);
+			Object.lock()->SetMapObjectMesh(_Data[i].ObjName_, _Data[i].MapObjType_);
+			Object.lock()->SetMapObjType(_Data[i].MapObjType_);
+			Object.lock()->SetName(_Data[i].ObjName_);
+			UnSortActorList_.push_back(Object);
+		}
+		break;
+		case MapObjType::Lift:
+		{
+			std::weak_ptr<Lift> Object = _Level->CreateActor<Lift>();
+			Object.lock()->GetTransform().SetWorldPosition(_Data[i].Pos_);
 			Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(_Data[i].Scale_);
 			Object.lock()->GetTransform().SetWorldRotation(_Data[i].Rot_);
 			Object.lock()->SetMapObjectMesh(_Data[i].ObjName_, _Data[i].MapObjType_);

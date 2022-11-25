@@ -47,11 +47,9 @@ void InGameUIActor::UIStart()
 	{
 		ScoreUIInst_.Banner = CreateUIRenderer("timer_banner_bg.png");
 		ScoreUIInst_.Banner->GetTransform().SetLocalPosition({ -480.f,-300.f });
-		ScoreUIInst_.Banner->ResistDebug();
 
 		ScoreUIInst_.BarBackground = CreateUIRenderer("coin_banner_bar_00.png", 0.78f);
 		ScoreUIInst_.BarBackground->GetTransform().SetLocalPosition({ -479.f,-316.f });
-		ScoreUIInst_.BarBackground->ResistDebug();
 
 		ScoreUIInst_.Coin = CreateComponent<GameEngineUIRenderer>();
 		ScoreUIInst_.Coin->SetScaleRatio(1 / 1.5f);

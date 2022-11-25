@@ -29,8 +29,9 @@ enum class MapObjType
 	Animation,				// 애니메이션 O				ex) Kevin
 	Npc,					// 애니메이션 O, 콜리전 O
 	Car,					// 애니메이션 X
-	TrafficLight,			// 애니메이션 X, 콜리전 O
+	TrafficLight,			// 애니메이션 X
 	Candle,					// 애니메이션 X
+	Lift,					// 애니메이션 X, 콜리전 O
 	Collision_Wall,			// 벽, 바닥용 콜리전
 	Collision_Floor,
 

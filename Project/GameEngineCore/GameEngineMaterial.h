@@ -1,9 +1,6 @@
 #pragma once
 #include "GameEngineRes.h"
 
-
-
-// 설명 :
 class GameEngineInputLayOut;
 class GameEngineVertexBuffer;
 class GameEngineVertexShader;
@@ -18,9 +15,9 @@ class GameEngineMaterial : public GameEngineRes<GameEngineMaterial>
 public:
 	static void AllShaderReset();
 
-	static std::shared_ptr < GameEngineMaterial> Create();
+	static std::shared_ptr<GameEngineMaterial> Create();
 
-	static std::shared_ptr < GameEngineMaterial> Create(const std::string& _Name);
+	static std::shared_ptr<GameEngineMaterial> Create(const std::string& _Name);
 
 public:
 	// constrcuter destructer
@@ -46,8 +43,9 @@ public:
 	void SetOutputMergerDepthStencil(const std::string& _Name);
 
 	void Setting();
+	void SettingInstancing();
 
-	void RenderingInstancing(int _RenderingCount, std::shared_ptr < GameEngineInstancingBuffer> _Buffer);
+	//void RenderingInstancing(int _RenderingCount, std::shared_ptr<GameEngineInstancingBuffer> _Buffer);
 
 	inline std::shared_ptr<GameEngineVertexShader> GetVertexShader()
 	{
@@ -65,26 +63,25 @@ public:
 
 	void SetFillSolid();
 
-
 protected:
 
-	
 private:
-	std::shared_ptr < GameEngineVertexShader> VertexShader; // 버텍스쉐이더 세팅
+	std::shared_ptr<GameEngineVertexShader> VertexShader; // 버텍스쉐이더 세팅
 
 	std::shared_ptr<GameEngineRasterizer> Rasterizer; // 레스터라이저 세팅
 
-	std::shared_ptr < GameEnginePixelShader> PixelShader; // 픽셀쉐이더 세팅
+	std::shared_ptr<GameEnginePixelShader> PixelShader; // 픽셀쉐이더 세팅
 
-	std::shared_ptr < GameEngineDepthStencil> DepthStencil; // 아웃풋머저 누가 앞인지 세팅 
+	std::shared_ptr<GameEngineDepthStencil> DepthStencil; // 아웃풋머저 누가 앞인지 세팅 
 
-	std::shared_ptr < GameEngineBlend> Blend; // 아웃풋머저 색상통합 세팅 
+	std::shared_ptr<GameEngineBlend> Blend; // 아웃풋머저 색상통합 세팅 
 
 
-
-	void InputAssembler1InstancingVertexBufferSetting(std::shared_ptr < GameEngineInstancingBuffer> _Buffer);
+	void InputAssembler1InstancingVertexBufferSetting(std::shared_ptr<GameEngineInstancingBuffer> _Buffer);
 
 	void VertexShaderSetting();
+
+	void InstancingVertexShaderSetting();
 
 	void RasterizerSetting();
 

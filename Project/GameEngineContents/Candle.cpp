@@ -44,8 +44,9 @@ void Candle::Start()
 void Candle::Update(float _DeltaTime)
 {
 	StateManager.Update(_DeltaTime);
-	//UpDownMove(_DeltaTime);
+	GetFBXMesh()->GetTransform().SetLocalMove(MoveDir_ * Speed_ * _DeltaTime);
 
+	//UpDownMove(_DeltaTime);
 	//MoveTime_ += _DeltaTime;
 }
 
@@ -58,11 +59,11 @@ void Candle::LeftMoveUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	if (_Info.StateTime > ChangeTime_)
 	{
+		MoveDir_ = float4::ZERO;
 		switch (CandleType_)
 		{
 		case CandleType::Middle:
 		{
-			MoveDir_ = float4::ZERO;
 			StateName_ = "RightMove";
 		}
 			break;
@@ -85,7 +86,6 @@ void Candle::LeftMoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		StateManager.ChangeState(StateName_);
 	}
-	GetFBXMesh()->GetTransform().SetLocalMove(MoveDir_ * Speed_ * _DeltaTime);
 }
 
 void Candle::RightMoveStart(const StateInfo& _Info)
@@ -97,11 +97,11 @@ void Candle::RightMoveUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	if (_Info.StateTime > ChangeTime_)
 	{
+		MoveDir_ = float4::ZERO;
 		switch (CandleType_)
 		{
 		case CandleType::Middle:
 		{
-			MoveDir_ = float4::ZERO;
 			StateName_ = "LeftMove";
 		}
 		break;
@@ -123,7 +123,6 @@ void Candle::RightMoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		StateManager.ChangeState(StateName_);
 	}
-	GetFBXMesh()->GetTransform().SetLocalMove(MoveDir_ * Speed_ * _DeltaTime);
 }
 
 void Candle::UpMoveStart(const StateInfo& _Info)
@@ -135,6 +134,7 @@ void Candle::UpMoveUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	if (_Info.StateTime > ChangeTime_)
 	{
+		MoveDir_ = float4::ZERO;
 		switch (CandleType_)
 		{
 		case CandleType::Left:
@@ -155,7 +155,6 @@ void Candle::UpMoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		StateManager.ChangeState(StateName_);
 	}
-	GetFBXMesh()->GetTransform().SetLocalMove(MoveDir_ * Speed_ * _DeltaTime);
 }
 
 void Candle::DownMoveStart(const StateInfo& _Info)
@@ -167,6 +166,7 @@ void Candle::DownMoveUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	if (_Info.StateTime > ChangeTime_)
 	{
+		MoveDir_ = float4::ZERO;
 		switch (CandleType_)
 		{
 		case CandleType::Left:
@@ -187,26 +187,25 @@ void Candle::DownMoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		StateManager.ChangeState(StateName_);
 	}
-	GetFBXMesh()->GetTransform().SetLocalMove(MoveDir_ * Speed_ * _DeltaTime);
 }
 
 void Candle::UpDownMove(float _DeltaTime)
 {
-	/*MoveDir_.y = 10.f;
+	//MoveDir_.y = 10.f;
 
-	if (0.8f < MoveTime_)
-	{
-		if (6.f == MoveDir_.y)
-		{
-			MoveDir_.y = -6.f;
-		}
-		else if (-6.f == MoveDir_.y)
-		{
-			MoveDir_.y = 6.f;
-		}
+	//if (0.8f < MoveTime_)
+	//{
+	//	if (6.f == MoveDir_.y)
+	//	{
+	//		MoveDir_.y = -6.f;
+	//	}
+	//	else if (-6.f == MoveDir_.y)
+	//	{
+	//		MoveDir_.y = 6.f;
+	//	}
 
-		MoveTime_ = 0.f;
-	}*/
+	//	MoveTime_ = 0.f;
+	//}
 
 }
 

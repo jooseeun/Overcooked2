@@ -82,6 +82,11 @@ void GamePlayMapObject::SetMapObjectMesh(const std::string& _Name, MapObjType _O
 		GetCollisionObject()->Off();
 	}
 		break;
+	case MapObjType::Lift:
+	{
+		GetFBXMesh()->SetFBXMesh(_Name + ".fbx", "Texture");
+	}
+	break;
 	default:
 		break;
 	}

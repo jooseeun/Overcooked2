@@ -4,34 +4,6 @@
 #include "GameEngineShaderResourcesHelper.h"
 #include "GameEngineRenderer.h"
 
-// Setting 이제부터 여기그려라.
-
-// Copy(수정본) 이 함수를 호출한 랜더타겟의 내용을 모두 지우고 수정본의 내용을 복사해라.
-
-// Merge(수정본, 블랜드) 이 함수를 호출한 랜더타겟 위에 수정보느이 내용을 덮어 씌워라.
-
-// Effect() 이 랜더타겟에 무언가 효과를 줘.
-
-// Cameras;
-// 플레이 카메라
-// UI 카메라
-
-// 랜더링 구조
-// 플레이 카메라 => 플레이 랜더타겟 세팅
-//    주인공 배경맵
-
-// 포스트 이펙트라고 합니다.
-
-// UI 카메라 => UI 랜더타겟 세팅
-//    인벤토리 버튼 뭐시기 
-
-// 흐려져라. 포스트 이펙트라고 합니다.
-
-// 백버퍼 랜더타겟->Merge(플레이 랜더타겟)
-// 백버퍼 랜더타겟->Merge(UI 랜더타겟)
-
-// 디바이스에 있는 백버퍼 랜더타겟
-
 class GameEngineRenderTarget;
 class GameEnginePostEffect	: public std::enable_shared_from_this<GameEnginePostEffect>
 {

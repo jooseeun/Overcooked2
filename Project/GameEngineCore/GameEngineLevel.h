@@ -28,7 +28,7 @@ class GameEngineTransform;
 class GameEngineCollision;
 class GameEngineCameraActor;
 class GameEngineLevel :
-	public GameEngineNameObject ,
+	public GameEngineNameObject,
 	public GameEngineUpdateObject
 {
 	friend GameEngineCore;
@@ -49,7 +49,7 @@ public:
 	GameEngineLevel& operator=(const GameEngineLevel& _Other) = delete;
 	GameEngineLevel& operator=(GameEngineLevel&& _Other) noexcept = delete;
 
-	std::shared_ptr<GameEngineCamera> GetMainCamera() 
+	std::shared_ptr<GameEngineCamera> GetMainCamera()
 	{
 		return Cameras[static_cast<int>(CAMERAORDER::MAINCAMERA)];
 	}
@@ -66,6 +66,8 @@ public:
 	std::shared_ptr<GameEngineCameraActor> GetUICameraActor();
 
 	GameEngineTransform& GetUICameraActorTransform();
+
+	std::shared_ptr<GameEngineCameraActor> GetCameraActor(CAMERAORDER _Order);
 
 	//template<typename ReturnType, typename ActorType, typename GroupIndexType>
 	//ReturnType* CreateActor(GroupIndexType _ObjectGroupIndex)
@@ -102,7 +104,6 @@ public:
 		return std::dynamic_pointer_cast<ActorType>(NewActor);
 	}
 
-
 	template<typename GroupIndexType>
 	std::list<std::shared_ptr< GameEngineActor>> GetGroup(GroupIndexType _ObjectGroupIndex)
 	{
@@ -119,7 +120,6 @@ public:
 	{
 		return GetConvertToGroup<ObjectType>(static_cast<int>(_ObjectGroupIndex));
 	}
-
 
 	template<typename ObjectType>
 	std::list<std::shared_ptr< ObjectType>> GetConvertToGroup(int _ObjectGroupIndex)
@@ -141,9 +141,6 @@ public:
 	}
 
 protected:
-	
-
-
 
 private:
 	void PushActor(std::shared_ptr < GameEngineActor> _Actor, int _ObjectGroupIndex);
@@ -199,4 +196,3 @@ private:
 
 	std::map<int, std::list<std::shared_ptr<GameEngineCollision>>> AllCollisions;
 };
-

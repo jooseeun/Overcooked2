@@ -103,6 +103,12 @@ void Overcooked::LoadMaterial()
 		NewPipe->SetVertexShader("Vignette.hlsl");
 		NewPipe->SetPixelShader("Vignette.hlsl");
 	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("JBMWater");
+		NewPipe->SetVertexShader("JBMWater.hlsl");
+		NewPipe->SetPixelShader("JBMWater.hlsl");
+	}
 }
 
 void Overcooked::Update(float _DeltaTime)
@@ -157,7 +163,6 @@ void Overcooked::MeshLoad()
 		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("Chef1.FBX"));
 		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
 	}
-
 	//여기까지
 }
 
@@ -167,7 +172,7 @@ void Overcooked::TextureLoad()
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExitsChildDirectory("ContentsResources");
 		Dir.Move("ContentsResources");
-		Dir.Move("Texture");
+		Dir.Move("Texture"); 
 		Dir.Move("UI");
 
 		std::vector<GameEngineFile> Textures = Dir.GetAllFile();
@@ -206,6 +211,23 @@ void Overcooked::TextureLoad()
 			Dir.Move("Texture");
 			Dir.Move("UI");
 			Dir.Move("InGame");
+
+			std::vector<GameEngineFile> Textures = Dir.GetAllFile();
+
+			for (size_t i = 0; i < Textures.size(); i++)
+			{
+				GameEngineTexture::Load(Textures[i].GetFullPath());
+			}
+		}
+
+		//Thumbnail UI
+		{
+			GameEngineDirectory Dir;
+			Dir.MoveParentToExitsChildDirectory("ContentsResources");
+			Dir.Move("ContentsResources");
+			Dir.Move("Texture");
+			Dir.Move("UI");
+			Dir.Move("Thumbnail");
 
 			std::vector<GameEngineFile> Textures = Dir.GetAllFile();
 
@@ -450,7 +472,6 @@ void Overcooked::LoadCommonResource()
 		Dir.Move("Player");
 		Dir.Move("Crocodile");
 
-
 		{
 			GameEngineDirectory MeshDir = Dir;
 			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Crocodile_CarDeath.FBX"));
@@ -531,7 +552,6 @@ void Overcooked::LoadCommonResource()
 		Dir.Move("Object");
 		Dir.Move("Player");
 		Dir.Move("Dora");
-
 
 		{
 			GameEngineDirectory MeshDir = Dir;
@@ -614,7 +634,6 @@ void Overcooked::LoadCommonResource()
 		Dir.Move("Player");
 		Dir.Move("Eagle");
 
-
 		{
 			GameEngineDirectory MeshDir = Dir;
 			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Eagle_CarDeath.FBX"));
@@ -695,7 +714,6 @@ void Overcooked::LoadCommonResource()
 		Dir.Move("Object");
 		Dir.Move("Player");
 		Dir.Move("Panda");
-
 
 		{
 			GameEngineDirectory MeshDir = Dir;
