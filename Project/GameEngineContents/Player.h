@@ -116,6 +116,10 @@ public:
 		CurrentHoldingObject_->SetParent(shared_from_this());
 		CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,50,-60 });
 	}
+
+	
+
+
 	template <typename HoldingType>
 	std::shared_ptr<HoldingType> GetPlayerHolding() // 현재 플레이어 손에있는 오브젝트 얻는 함수
 	{
