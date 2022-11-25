@@ -26,4 +26,6 @@ private:
 
 	float4 Pivot_ = { 0,0,0 };
 	float4 Offset_ = { 0,0,0 };
+
+	float DebugValue_ = 0.02f;
 };

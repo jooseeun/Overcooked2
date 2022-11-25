@@ -18,12 +18,12 @@ void FoodThumbnail::Start()
 	std::string _FileName = "prawn_Icon.png";
 	SingleThumbnail_ = CreateComponent<OverCookedUIRenderer>();
 	SingleThumbnail_->SetTexture(_FileName);
-	SingleThumbnail_->SetScaleRatio(0.6f);
+	SingleThumbnail_->SetScaleRatio(0.34f);
 	SingleThumbnail_->ScaleToTexture();
 	SingleThumbnail_->ChangeCamera(CAMERAORDER::USER7);
 	//SingleThumbnail_->Off();
 
-	UIDebugGUI::Main_->AddTransform("Thumbnail", &GetTransform());
+	UIDebugGUI::Main_->AddMutableValue("DebugValue", &DebugValue_);
 }
 
 void FoodThumbnail::Update(float _DeltaTime)
@@ -39,10 +39,21 @@ void FoodThumbnail::Update(float _DeltaTime)
 	}
 
 	//Update Position
-	float4 Pos = ChaseActor_->GetTransform().GetWorldPosition() + Offset_;
-	//SingleThumbnail_->GetTransform().SetWorldRotation(GetLevel()->GetCameraActor(CAMERAORDER::USER7)->GetTransform().GetWorldRotation());
-	float4 WantPos = GetLevel()->GetCameraActor(CAMERAORDER::USER7)->GetCameraComponent()->GetWorldPositionToScreenPosition(Pos);
-	GetTransform().SetWorldPosition(WantPos);
+	float4 Pos = ChaseActor_->GetTransform().GetWorldPosition();
+	float4 WantPos = GetLevel()->GetCameraActor(CAMERAORDER::MAINCAMERA)->GetCameraComponent()->GetWorldPositionToScreenPosition(Pos);
+	float4 ScreenScale = GameEngineWindow::GetScale().Half();
+	ScreenScale.y = -ScreenScale.y;
+	WantPos = float4(WantPos.x, -WantPos.y, WantPos.z) - ScreenScale;
+	WantPos.x = WantPos.x - WantPos.x * DebugValue_;
+	WantPos.y = WantPos.y - WantPos.y * DebugValue_;
+	WantPos += Offset_;
+	GetTransform().SetLocalPosition(WantPos);
+
+	//float4 Pos = ChaseActor_->GetTransform().GetWorldPosition() + Offset_;
+	//float4 CameraPos = GetLevel()->GetCameraActor(CAMERAORDER::MAINCAMERA)->GetTransform().GetWorldPosition();
+
+	//float4 Move = Pos - CameraPos;
+	//GetTransform().SetLocalPosition(Move);
 }
 
 void FoodThumbnail::End()

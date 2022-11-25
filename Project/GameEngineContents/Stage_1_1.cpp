@@ -97,9 +97,9 @@ void Stage_1_1::PlayLevelStartEvent()
 
 	//테스트용 - 동원
 	std::shared_ptr NewFoodThumbNail = CreateActor<FoodThumbnail>();
-	NewFoodThumbNail->GetTransform().SetLocalRotation({ -60,-180,0 });
+	//NewFoodThumbNail->GetTransform().SetLocalRotation({ -60,-180,0 });
 	//	NewFoodThumbNail->SetPivot({ -1400, 500, 200 });
-	NewFoodThumbNail->LinkObject(MainPlayer, { 0,280, 0 });
+	NewFoodThumbNail->LinkObject(MainPlayer, { 0,100, 0 });
 
 	return;
 }
