@@ -103,6 +103,12 @@ void Overcooked::LoadMaterial()
 		NewPipe->SetVertexShader("Vignette.hlsl");
 		NewPipe->SetPixelShader("Vignette.hlsl");
 	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("JBMWater");
+		NewPipe->SetVertexShader("JBMWater.hlsl");
+		NewPipe->SetPixelShader("JBMWater.hlsl");
+	}
 }
 
 void Overcooked::Update(float _DeltaTime)

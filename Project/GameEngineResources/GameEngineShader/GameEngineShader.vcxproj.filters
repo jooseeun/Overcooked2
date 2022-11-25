@@ -33,6 +33,9 @@
     <FxCompile Include="Vignette.hlsl">
       <Filter>TargetEffect</Filter>
     </FxCompile>
+    <FxCompile Include="JBMWater.hlsl">
+      <Filter>Object</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Debug">
