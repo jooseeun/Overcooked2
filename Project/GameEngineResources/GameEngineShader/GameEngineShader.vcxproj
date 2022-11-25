@@ -133,6 +133,7 @@
     <FxCompile Include="Debug3D.hlsl" />
     <FxCompile Include="JBMWater.hlsl" />
     <FxCompile Include="ObjectHighlight.hlsl" />
+    <FxCompile Include="Overlay.hlsl" />
     <FxCompile Include="RenderOption.fx" />
     <FxCompile Include="TargetMerge.hlsl" />
     <FxCompile Include="Texture.hlsl" />

@@ -5,6 +5,7 @@
 #include "InGameUIActor.h"
 
 #include "UIDebugGUI.h"
+#include "GraphicWindow.h"
 
 GamePlayLevel::GamePlayLevel()
 {
@@ -40,6 +41,8 @@ void GamePlayLevel::LevelStartEvent()
 	{
 		//FadeInÀÌº¥Æ®
 		UIDebugGUI::Main_->On();
+		GraphicWindow::Main_->On();
+
 		UIActor_->StartFadeIn();
 		PlayLevelStartEvent();
 		return;
@@ -55,5 +58,7 @@ void GamePlayLevel::LevelStartEvent()
 
 void GamePlayLevel::LevelEndEvent()
 {
+	GraphicWindow::Main_->Off();
+
 	UIDebugGUI::Main_->Off();
 }

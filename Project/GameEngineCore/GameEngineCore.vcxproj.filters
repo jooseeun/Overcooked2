@@ -195,6 +195,9 @@
     <ClInclude Include="GameEngineRenderingEvent.h">
       <Filter>Object\Component\Rendering\Content</Filter>
     </ClInclude>
+    <ClInclude Include="GlobalOverlay.h">
+      <Filter>Object\Component\Rendering\PostEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineActor.cpp">
@@ -380,6 +383,9 @@
     </ClCompile>
     <ClCompile Include="GameEngineRenderingEvent.cpp">
       <Filter>Object\Component\Rendering\Content</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalOverlay.cpp">
+      <Filter>Object\Component\Rendering\PostEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

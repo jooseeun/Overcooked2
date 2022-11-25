@@ -36,6 +36,9 @@
     <FxCompile Include="JBMWater.hlsl">
       <Filter>Object</Filter>
     </FxCompile>
+    <FxCompile Include="Overlay.hlsl">
+      <Filter>Object</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Debug">

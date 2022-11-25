@@ -206,6 +206,12 @@
     <ClInclude Include="Lift.h">
       <Filter>Contents\Object\MapObject</Filter>
     </ClInclude>
+    <ClInclude Include="GraphicGUI.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicWindow.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -409,6 +415,12 @@
     </ClCompile>
     <ClCompile Include="Lift.cpp">
       <Filter>Contents\Object\MapObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicGUI.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicWindow.cpp">
+      <Filter>GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

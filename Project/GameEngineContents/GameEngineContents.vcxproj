@@ -203,6 +203,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GlobalMouseInput.h" />
+    <ClInclude Include="GraphicGUI.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GraphicWindow.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="InGameUIActor.h">
       <SubType>
       </SubType>
@@ -350,6 +358,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GlobalMouseInput.cpp" />
+    <ClCompile Include="GraphicGUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GraphicWindow.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="InGameUIActor.cpp">
       <SubType>
       </SubType>

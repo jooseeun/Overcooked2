@@ -2,7 +2,10 @@
 #include "SelectStageLevel.h"
 #include "SelectStageUIActor.h"
 #include "UIDebugGUI.h"
+#include "GraphicWindow.h"
+
 #include <GameEngineCore/GlobalVignette.h>
+#include <GameEngineCore/GlobalOverlay.h>
 
 SelectStageLevel::SelectStageLevel()
 {
@@ -21,6 +24,13 @@ SelectStageLevel::~SelectStageLevel()
 void SelectStageLevel::Start()
 {
 	GetUICamera()->GetCameraRenderTarget()->AddEffect<GlobalVignette>();
+	std::shared_ptr<GlobalOverlay> GlobalOverlay_= GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalOverlay>();
+	
+	GraphicWindow::Main_ = GameEngineGUI::CreateGUIWindow<GraphicWindow>("GraphicGUI", nullptr);
+	GraphicWindow::Main_->SetOverlay(GlobalOverlay_);
+	GraphicWindow::Main_->Off();
+	
+
 
 	std::shared_ptr<SelectStageUIActor> NewActor = CreateActor<SelectStageUIActor>();
 	UIDebugGUI::Main_ = GameEngineGUI::CreateGUIWindow<UIDebugGUI>("UIDebugGUI", nullptr);
@@ -46,9 +56,12 @@ void SelectStageLevel::End()
 void SelectStageLevel::LevelStartEvent()
 {
 	UIDebugGUI::Main_->On();
+	GraphicWindow::Main_->On();
 }
 
 void SelectStageLevel::LevelEndEvent()
 {
 	UIDebugGUI::Main_->Off();
+	GraphicWindow::Main_->Off();
+
 }

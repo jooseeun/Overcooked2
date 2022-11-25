@@ -105,6 +105,12 @@ void Overcooked::LoadMaterial()
 	}
 
 	{
+		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("Overlay");
+		NewPipe->SetVertexShader("Overlay.hlsl");
+		NewPipe->SetPixelShader("Overlay.hlsl");
+	}
+
+	{
 		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("JBMWater");
 		NewPipe->SetVertexShader("JBMWater.hlsl");
 		NewPipe->SetPixelShader("JBMWater.hlsl");

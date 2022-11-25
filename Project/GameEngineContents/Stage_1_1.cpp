@@ -10,6 +10,12 @@
 
 #include "FoodThumbnail.h"
 
+#include "GraphicWindow.h"
+
+#include <GameEngineCore/GlobalVignette.h>
+#include <GameEngineCore/GlobalOverlay.h>
+
+
 Stage_1_1::Stage_1_1()
 {
 }
@@ -75,6 +81,9 @@ void Stage_1_1::PlayLevelStartEvent()
 
 	GetMainCameraActorTransform().SetLocalRotation({ 60, 180, 0 });
 	GetMainCameraActorTransform().SetLocalPosition({ -1400, 2200, 1600 });
+
+	std::shared_ptr<GlobalOverlay> GlobalOverlay_ = GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalOverlay>();
+	GraphicWindow::Main_->SetOverlay(GlobalOverlay_);
 
 	//음식 아이콘이 보이는 카메라 입니다.- 동원
 	//GetCameraActor(CAMERAORDER::USER7)->GetTransform().SetLocalRotation({ 60, 180, 0 });
