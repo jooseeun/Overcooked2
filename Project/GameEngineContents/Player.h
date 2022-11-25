@@ -70,46 +70,22 @@ public:
 		return Collision_Interact_;
 	}
 
-	inline void SetCurHoldType(PlayerHoldType _CurHoldType)
-	{
-		CurHoldType_ = _CurHoldType;
-	}
 
 	inline float GetCurKineticEnergy()
 	{
 		return CurKineticEnergy_;
 	}
 
-	inline void ChangePlayer()
-	{
-		PlayerIdleRenderer_[PlayerCustomNum]->Off();
-		PlayerWalkRenderer_[PlayerCustomNum]->Off();
-		PlayerChopRenderer_[PlayerCustomNum]->Off();
-		PlayerWashRenderer_[PlayerCustomNum]->Off();
-
-		PlayerCustomNum += 1;
-		if (PlayerCustomNum == 6)
-		{
-			PlayerCustomNum = 0;
-		}
-
-		PlayerIdleRenderer_[PlayerCustomNum]->On();
-		PlayerWalkRenderer_[PlayerCustomNum]->Off();
-		PlayerChopRenderer_[PlayerCustomNum]->Off();
-		PlayerWashRenderer_[PlayerCustomNum]->Off();
-			
-
-	}
-
+	void ChangePlayer(); // 플레이어 커스텀 바꾸는 함수
+	//void ChangePlayerColor();
 	
 
 public:
 	
-	template <typename HoldingType>
-	void SetPlayerHolding(HoldingType _CurrentHoldingObject_) // 플레이어 손에 올리는 함수
+	inline void SetPlayerHolding(std::shared_ptr<GameEngineActor> _CurrentHoldingObject_) // 플레이어 손에 올리는 함수
 	{
 		CurrentHoldingObject_ = _CurrentHoldingObject_;
-		if (CurrentHoldingObject_->SetParent == nullptr)
+		if (CurrentHoldingObject_->GetParent() == nullptr)
 		{
 			CurrentHoldingObject_->DetachObject();
 		}
@@ -117,9 +93,11 @@ public:
 		CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,50,-60 });
 	}
 
+	inline void SetCurHoldType(PlayerHoldType _CurHoldType) // 손에 쥐어줄때 무슨 플레이어가 타입인지 알려주는 함수
+	{
+		CurHoldType_ = _CurHoldType;
+	}
 	
-
-
 	template <typename HoldingType>
 	std::shared_ptr<HoldingType> GetPlayerHolding() // 현재 플레이어 손에있는 오브젝트 얻는 함수
 	{
@@ -146,7 +124,7 @@ private:
 	PlayerDir CurDir_;
 	PlayerHoldType CurHoldType_;
 	PlayerCurStateType CurStateType_;
-	int PlayerP;
+	int PlayerPNum;
 	bool FireOff_;
 
 	//충돌함수
@@ -156,6 +134,8 @@ private:
 	CollisionReturn TableHoldUpCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 	CollisionReturn GroundHoldUpCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 	CollisionReturn TableHoldDownCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
+
+	CollisionReturn TableSliceCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 
 	std::shared_ptr<GameEngineActor> CurrentHoldingObject_;
 	std::shared_ptr<GameEngineCollision> Collision_Interact_; // 상호작용 콜리전

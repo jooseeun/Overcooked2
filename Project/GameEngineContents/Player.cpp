@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "Player.h"
 #include "GamePlayStaticObject.h"
+#include "CounterTop.h"
 #include <math.h>
 
 Player::Player()
@@ -23,7 +24,7 @@ Player::Player()
 	, CurKineticEnergy_(0)
 	, FireOff_(false)
 	, PlayerName_()
-	, PlayerP(1)
+	, PlayerPNum(1)
 {
 
 }
@@ -127,11 +128,6 @@ void Player::Start()
 		Test.AlphaColor.b = 0.0f;
 		Test.AlphaColor.a = 1.0f;
 
-
-	}
-	//AlienGreen
-	{
-		
 
 	}
 
@@ -252,7 +248,26 @@ void Player::WashRendererON()
 	PlayerChopRenderer_[PlayerCustomNum]->Off();
 	PlayerWashRenderer_[PlayerCustomNum]->On();
 }
+void Player::ChangePlayer()
+{
+	PlayerIdleRenderer_[PlayerCustomNum]->Off();
+	PlayerWalkRenderer_[PlayerCustomNum]->Off();
+	PlayerChopRenderer_[PlayerCustomNum]->Off();
+	PlayerWashRenderer_[PlayerCustomNum]->Off();
 
+	PlayerCustomNum += 1;
+	if (PlayerCustomNum == 6)
+	{
+		PlayerCustomNum = 0;
+	}
+
+	PlayerIdleRenderer_[PlayerCustomNum]->On();
+	PlayerWalkRenderer_[PlayerCustomNum]->Off();
+	PlayerChopRenderer_[PlayerCustomNum]->Off();
+	PlayerWashRenderer_[PlayerCustomNum]->Off();
+
+
+}
 void  Player::LevelStartEvent()
 {
 	for (int i = 0; i < 6; i++)
@@ -817,6 +832,7 @@ CollisionReturn Player::TableHoldUpCheck(std::shared_ptr<GameEngineCollision> _T
 {
 	//테이블에게 알려주기
 	IdleRendererON();
+	//_Other->CastThis<std::shared_ptr<CounterTop>>()->(shared from this(), PlayerCurStateType :: HoldUp)
 
 }
 CollisionReturn Player::GroundHoldUpCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
@@ -828,4 +844,14 @@ CollisionReturn Player::GroundHoldUpCheck(std::shared_ptr<GameEngineCollision> _
 CollisionReturn Player::TableHoldDownCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 { // 테이블에게 내려놓는다고 알려주기
 
+	//_Other->CastThis<std::shared_ptr<CounterTop>>()-> 
+}
+
+
+CollisionReturn Player::TableSliceCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
+{
+	//테이블에게 자를거라고 알려주기
+	// 
+	//_Other->CastThis<std::shared_ptr<CounterTop>>() -> 
+	StateManager.ChangeState("Slice");
 }
