@@ -28,7 +28,6 @@ void GamePlayStaticObject::SetBloomEffectOff()
 	{
 		Stuff_Current_->SetBloomEffectOff();
 	}
-
 }
 
 void GamePlayStaticObject::SetBloomEffectOn()
@@ -40,45 +39,71 @@ void GamePlayStaticObject::SetBloomEffectOn()
 	}
 }
 
-Input_PickUpOption GamePlayStaticObject::Input_PickUp(std::shared_ptr<GamePlayMoveable> _Object)
-{
-	if (Stuff_Current_ != nullptr)
-	{
-		return Stuff_Current_->Input_PickUp(_Object);
-	}
-	else
-	{
-		Stuff_Current_ = _Object;
-		return Input_PickUpOption::PickUp;
-	}
+//Input_PutDownOption GamePlayStaticObject::Input_PutDown(std::shared_ptr<GamePlayMoveable> _Object)
+//{
+//	if (Stuff_Current_ != nullptr)
+//	{
+//		return Stuff_Current_->Input_PutDown(_Object);
+//	}
+//	else
+//	{
+//		Stuff_Current_ = _Object;
+//		return Input_PutDownOption::PutDown;
+//	}
+//}
+//
+//Input_PickUpOption GamePlayStaticObject::Input_PickUp(std::shared_ptr<Player> _Player)
+//{
+//	if (Stuff_Current_ != nullptr)
+//	{
+//		Input_PickUpOption Option = Stuff_Current_->Input_PickUp(_Player);
+//		if (Option == Input_PickUpOption::PickUp)
+//		{
+//			_Player->Input_PickUp(std::dynamic_pointer_cast<GamePlayMoveable>(Stuff_Current_));
+//			Stuff_Current_.reset();
+//			return Input_PickUpOption::PickUp;
+//		}
+//		else
+//		{
+//			return Input_PickUpOption::NoResponse;
+//		}
+//	}
+//	else
+//	{
+//		return Input_PickUpOption::NoResponse;
+//	}
+//
+//}
 
-}
-
-Input_PickUpOption GamePlayStaticObject::Input_PickUp(std::shared_ptr<Player> _Player)
+SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type)
 {
-	if (Stuff_Current_ != nullptr)
+	switch (_Type)
 	{
-		Input_PickUpOption Option = Stuff_Current_->Input_PickUp(_Player);
-		if (Option == Input_PickUpOption::PickUp)
+	case PlayerCurStateType::HoldUp:
+		if (GetMoveable() != nullptr)
 		{
-			_Player->Input_PickUp(std::dynamic_pointer_cast<GamePlayMoveable>(Stuff_Current_));
-			Stuff_Current_.reset();
-			return Input_PickUpOption::PickUp;
-		}
-		else if (Option == Input_PickUpOption::Exception)
-		{
-			return Input_PickUpOption::PickUp;
+			_Player->SetPlayerHolding(GetMoveable());
+
+			return SetPlayerState_Return::Using;
 		}
 		else
 		{
-			return Input_PickUpOption::NoResponse;
+			return SetPlayerState_Return::Nothing;
 		}
-	}
-	else
-	{
-		return Input_PickUpOption::NoResponse;
-	}
+		break;
+	case PlayerCurStateType::HoldDown:
 
+		break;
+	case PlayerCurStateType::Slice:
+		break;
+	case PlayerCurStateType::FireOff:
+		break;
+	case PlayerCurStateType::Throw:
+		break;
+	default:
+		break;
+	}
+	return SetPlayerState_Return::Nothing;
 }
 
 std::shared_ptr<GamePlayMoveable> GamePlayStaticObject::GetMoveable() const

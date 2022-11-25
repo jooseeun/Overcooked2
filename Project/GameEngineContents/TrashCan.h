@@ -39,9 +39,6 @@ public:
 protected:
 	void Start() override;
 
-	//void Input_ActionToAuto_Update(std::shared_ptr<GamePlayMoveable> _Moveable, float _DeltaTime) override;
-	Input_PickUpOption CheckMoveable(std::shared_ptr<GamePlayMoveable> _Object) override;
-	Input_PickUpOption Input_PickUp(std::shared_ptr<Player> _Player) override;
 	//Input_UsingOption Input_ActionToManual(Player* _Player) override
 	//{
 	//	return Input_UsingOption::NoResponse; // ¼öÁ¤¿ä

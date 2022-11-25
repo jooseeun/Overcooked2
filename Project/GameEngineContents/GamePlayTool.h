@@ -50,67 +50,22 @@ protected:
 	void LevelEndEvent() override {};
 
 protected:
-	Input_PickUpOption Input_PickUp(std::shared_ptr<GamePlayMoveable> _Object) override; // 이 이상으로 특별한 이유 없이 오버라이드 금지
-	Input_PickUpOption Input_PickUp(std::shared_ptr<Player> _Player) override;			  // 이 이상으로 특별한 이유 없이 오버라이드 금지
-	virtual Input_PickUpOption CheckMoveable(std::shared_ptr<GamePlayMoveable> _Object);
-
-
-	inline virtual Input_UsingOption Input_Action(std::weak_ptr<Player> _Player, float _DeltaTime)  // 이 툴(도마 등)을 사용하는 Player의 정보를 인자로 받는다
-	{
-		if (InteractOption_Current_ == AutoOption::Auto)
-		{
-			return Input_UsingOption::NoResponse;
-		}
-		else
-		{
-			MsgBoxAssert("가상함수가 설정 되지 않았습니다");
-			return Input_UsingOption::NoResponse;
-		}
-	}
-
-
-
-	//virtual void Input_Action_End(std::shared_ptr<GamePlayMoveable> _Moveable) = 0;
-	virtual void Input_ActionToAuto_Update(std::weak_ptr<GamePlayMoveable> _Moveable, float _DeltaTime);
-	//virtual void Input_ActionToAuto_Start(GamePlayMoveable* _Moveable, float _DeltaTime) {};
-
 
 	inline void SetInteractOption(AutoOption _Option)
 	{
 		InteractOption_Current_ = _Option;
 	}
 
-	inline void SetCookingEndTime(float _Time)
-	{
-		EndCookingTime_ = _Time;
-	}
-	inline float GetCookingEndTime()
-	{
-		return EndCookingTime_;
-	}
-
-
 
 private:
 	std::shared_ptr<GamePlayMoveable> Moveable_Current_;
+
+
 protected:
-	inline void SetCurrentMoveable(std::shared_ptr<GamePlayMoveable> _Moveable)
-	{
-		if (_Moveable == nullptr)
-		{
-			ReSetCurrentMoveable();
-		}
-		else
-		{
-			Moveable_Current_ = _Moveable;
-		}
-		
-	}
 
 
 
 private:
-	float EndCookingTime_;
 
 
 	AutoOption InteractOption_Current_;

@@ -16,7 +16,6 @@ void Tool_CuttingBoard::Start()
 	GamePlayTool::Start();
 	GamePlayTool::SetInteractOption(AutoOption::Manual);
 	GamePlayTool::SetToolInfoType(ToolInfo::CuttingBoard);
-	SetCookingEndTime(7.f);	
 
 	GetFBXMesh()->SetFBXMesh("CuttingBoard.fbx", "Texture");
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });

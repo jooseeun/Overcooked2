@@ -51,7 +51,6 @@ protected:
 		Enum_ObjectEquipmentType_ = _Type;
 	}
 private:
-	Input_PickUpOption Input_PickUp(std::shared_ptr<Player> _Player);
 	ObjectEquipmentType Enum_ObjectEquipmentType_;
 };
 
