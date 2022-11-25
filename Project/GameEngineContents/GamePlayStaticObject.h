@@ -32,6 +32,7 @@ public:
 		return Stuff_Current_;
 	}
 	std::shared_ptr<GamePlayMoveable> GetMoveable() const;
+	std::shared_ptr<GamePlayMoveable> GetMoveable_TakeOut();
 	//inline void SetStuff(std::shared_ptr<GamePlayStuff> _Stuff)
 	//{
 	//	Stuff_Current_ = _Stuff;
@@ -47,25 +48,6 @@ public:
 		Stuff_Current_.reset();
 	}
 
-
-
-	//inline int GetX() const
-	//{
-	//	return X_;
-	//}
-	//inline int GetY() const
-	//{
-	//	return Y_;
-	//}
-
-	//inline void SetX(int _X)
-	//{
-	//	X_ = _X;
-	//}
-	//inline void SetY(int _Y)
-	//{
-	//	Y_ = _Y;
-	//}
 
 	inline void SetStaticObjectType(MapObjType _Type)
 	{
