@@ -1,6 +1,5 @@
 #include "PreCompile.h"
 #include "Player.h"
-#include "GamePlayFood.h"
 #include "GamePlayStaticObject.h"
 #include <math.h>
 
@@ -21,9 +20,6 @@ Player::Player()
 	, PlayerWashRenderer_()
 	, StateManager()
 	, CurrentHoldingObject_(nullptr)
-	, Collision_Interact_(nullptr)
-	, Interact_GroundObject_(nullptr)
-	, Interact_TableObject_(nullptr)
 	, CurKineticEnergy_(0)
 	, FireOff_(false)
 	, PlayerName_()
@@ -187,12 +183,9 @@ void Player::Start()
 	}*/
 
 
-	GamePlayObject::Start();
-	GamePlayObject::SetObjectType(ObjectType::Character);
 	Collision_Interact_ = CreateComponent<GameEngineCollision>("PlayerCollision");
 	Collision_Interact_->GetTransform().SetLocalScale({ 50,100,200});
 	Collision_Interact_->GetTransform().SetLocalPosition({ 0,0,-60 });
-	GetCollisionObject()->ChangeOrder(CollisionOrder::Object_Character);
 
 
 	StateManager.CreateStateMember("Idle"
@@ -207,9 +200,9 @@ void Player::Start()
 		, std::bind(&Player::ThrowUpdate, this, std::placeholders::_1, std::placeholders::_2)
 		, std::bind(&Player::ThrowStart, this, std::placeholders::_1)
 	);
-	StateManager.CreateStateMember("Hold"
-		, std::bind(&Player::HoldUpdate, this, std::placeholders::_1, std::placeholders::_2)
-		, std::bind(&Player::HoldStart, this, std::placeholders::_1)
+	StateManager.CreateStateMember("HoldUp"
+		, std::bind(&Player::HoldUpUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::HoldUpStart, this, std::placeholders::_1)
 	);
 	StateManager.CreateStateMember("Slice"
 		, std::bind(&Player::SliceUpdate, this, std::placeholders::_1, std::placeholders::_2)
@@ -279,7 +272,6 @@ void Player::Update(float _DeltaTime)
 	StateManager.Update(_DeltaTime);
 	Gravity();
 	DashCheck();
-	Collision_AroundObject();
 	CalculateKineticEnergy();
 }
 
@@ -628,28 +620,6 @@ void Player::PlayerDirCheck() // 플레이어 방향 체크하고 회전시키는 함수
 	GetTransform().SetLocalRotation({ 0,CurAngle_, 0 });
 }
 
-void Player::Collision_AroundObject()
-{
-	if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Moveable, CollisionType::CT_OBB,
-		std::bind(&Player::GetCrashGroundObject, this, std::placeholders::_1, std::placeholders::_2)) == false)
-	{
-		if (Interact_GroundObject_ != nullptr)
-		{
-			Interact_GroundObject_->SetBloomEffectOff();
-		}
-		Interact_GroundObject_ = nullptr;
-	}
-	if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
-		std::bind(&Player::GetCrashTableObject, this, std::placeholders::_1, std::placeholders::_2)) == false)
-	{
-		if (Interact_TableObject_ != nullptr)
-		{
-			Interact_TableObject_->SetBloomEffectOff();
-		}
-		Interact_TableObject_ = nullptr;
-	}
-;
-}
 
 void Player::MoveCollisionSideCheck(float _DeltaTime)
 {
@@ -830,40 +800,6 @@ void Player::MoveCollisionSideCheck(float _DeltaTime)
 //////////////////////충돌 함수
 
 
-CollisionReturn Player::GetCrashGroundObject(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
-{
-	if (Interact_GroundObject_ != nullptr)
-	{
-		Interact_GroundObject_->SetBloomEffectOff();
-		//Interact_Possible_StaticObject_ = nullptr;
-	}
-
-	Interact_GroundObject_ = _Other->GetActor<GamePlayMoveable>();
-	if (Interact_GroundObject_ == nullptr) // 임시코드
-	{
-		return CollisionReturn::Break;
-	}
-	Interact_GroundObject_->SetBloomEffectOn();
-	return CollisionReturn::Break;
-}
-
-CollisionReturn Player::GetCrashTableObject(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
-{
-	if (Interact_TableObject_ != nullptr)
-	{
-		Interact_TableObject_->SetBloomEffectOff();
-		//Interact_Possible_StaticObject_ = nullptr;
-	}
-
-	Interact_TableObject_ = _Other->GetActor<GamePlayStaticObject>();
-	if (Interact_TableObject_ == nullptr) // 임시코드
-	{
-		return CollisionReturn::Break;
-	}
-	Interact_TableObject_->SetBloomEffectOn();
-	return CollisionReturn::Break;
-}
-
 
 CollisionReturn Player::GravityColCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 {
@@ -874,5 +810,22 @@ CollisionReturn Player::MoveColCheck(std::shared_ptr<GameEngineCollision> _This,
 {
 	return CollisionReturn::ContinueCheck;
 }
-// 집는거 안해도되고 앞에 상호작용테이블 검사
 
+
+
+CollisionReturn Player::TableHoldUpCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
+{
+	//테이블에게 알려주기
+	IdleRendererON();
+
+}
+CollisionReturn Player::GroundHoldUpCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
+{ //바닥에 있는 오브젝트 집기
+	SetPlayerHolding(_Other->GetActor());
+	IdleRendererON();
+}
+
+CollisionReturn Player::TableHoldDownCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
+{ // 테이블에게 내려놓는다고 알려주기
+
+}

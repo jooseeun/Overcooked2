@@ -1,6 +1,8 @@
 #pragma once
 #include "GamePlayObject.h"
 #include "Enums.h"
+#include <GameEngineCore/GameEngineFBXAnimationRenderer.h>
+#include <GameEngineCore/GameEngineStateManager.h>
 
 // 설명 :
 class GameEngineFBXAnimationRenderer;
@@ -8,7 +10,7 @@ class GameEngineFBXStaticRenderer;
 class GameEngineCollision;
 class GamePlayMoveable;
 class GamePlayStaticObject;
-class Player : public GamePlayObject
+class Player : public GameEngineActor
 {
 public:
 	// constrcuter destructer
@@ -36,8 +38,11 @@ protected:
 	void ThrowStart(const StateInfo& _Info);
 	void ThrowUpdate(float _DeltaTime, const StateInfo& _Info);
 
-	void HoldStart(const StateInfo& _Info);
-	void HoldUpdate(float _DeltaTime, const StateInfo& _Info);
+	void HoldUpStart(const StateInfo& _Info);
+	void HoldUpUpdate(float _DeltaTime, const StateInfo& _Info);
+
+	void HoldDownStart(const StateInfo& _Info);
+	void HoldDownUpdate(float _DeltaTime, const StateInfo& _Info);
 
 	void SliceStart(const StateInfo& _Info);
 	void SliceUpdate(float _DeltaTime, const StateInfo& _Info);
@@ -56,20 +61,10 @@ protected:
 	void MoveCollisionSideCheck(float _DeltaTime);
 
 
-	//충돌함수
-	CollisionReturn GetCrashGroundObject(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
-	CollisionReturn GetCrashTableObject(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
-	CollisionReturn GravityColCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
-	CollisionReturn MoveColCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
+
 	
+
 public:
-	inline Input_PickUpOption Input_PickUp(std::shared_ptr<Player> _Player) override { return Input_PickUpOption::NoResponse; }
-	inline Input_PickUpOption Input_PickUp(std::shared_ptr<GamePlayMoveable> _Object) override
-	{
-		CurrentHoldingObject_ = _Object;
-		//	Moveable_Current_->SetBloomEffectOff();
-		return Input_PickUpOption::PickUp;
-	}
 	inline std::shared_ptr<GameEngineCollision> GetInteractCollision() const
 	{
 		return Collision_Interact_;
@@ -79,14 +74,12 @@ public:
 	{
 		CurHoldType_ = _CurHoldType;
 	}
+
 	inline float GetCurKineticEnergy()
 	{
 		return CurKineticEnergy_;
 	}
-	inline void SetCurKineticEnergy(float _CurEnergy)
-	{
-		CurKineticEnergy_ = _CurEnergy;
-	}
+
 	inline void ChangePlayer()
 	{
 		PlayerIdleRenderer_[PlayerCustomNum]->Off();
@@ -104,38 +97,67 @@ public:
 		PlayerWalkRenderer_[PlayerCustomNum]->Off();
 		PlayerChopRenderer_[PlayerCustomNum]->Off();
 		PlayerWashRenderer_[PlayerCustomNum]->Off();
+			
 
 	}
 
-	void CalculateKineticEnergy(); // 플레이어 운동에너지 구하는 함수 -> Update에서 일단 갱신중
+	
 
 public:
-	inline void SetBloomEffectOff() override
+	
+	template <typename HoldingType>
+	void SetPlayerHolding(HoldingType _CurrentHoldingObject_) // 플레이어 손에 올리는 함수
 	{
-		MsgBoxAssert("예방코드 / 캐릭터 블룸 미적용")
+		CurrentHoldingObject_ = _CurrentHoldingObject_;
+		if (CurrentHoldingObject_->SetParent == nullptr)
+		{
+			CurrentHoldingObject_->DetachObject();
+		}
+		CurrentHoldingObject_->SetParent(shared_from_this());
+		CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,50,-60 });
 	}
-	inline void SetBloomEffectOn() override
+	template <typename HoldingType>
+	std::shared_ptr<HoldingType> GetPlayerHolding() // 현재 플레이어 손에있는 오브젝트 얻는 함수
 	{
-		MsgBoxAssert("예방코드 / 캐릭터 블룸 미적용")
+		return CurrentHoldingObject_;
 	}
+
+	inline void DetachPlayerHolding() // 플레이어 손에든 함수 부모자식 관계 해제하는 함수 , 콜리젼은 알아서 on해줘야함
+	{
+		if (CurrentHoldingObject_ != nullptr)
+		{
+			CurrentHoldingObject_->GetTransform().SetWorldPosition(GetTransform().GetLocalPosition() + GetTransform().GetBackVector() * 60.0f + float4{ 0,50,0 });
+			CurrentHoldingObject_->DetachObject();
+			CurrentHoldingObject_ = nullptr;
+		}
+
+	}
+	
+
 private:
+
 	float Speed_;
 	float CurKineticEnergy_;
 	float CurAngle_;
 	PlayerDir CurDir_;
 	PlayerHoldType CurHoldType_;
+	PlayerCurStateType CurStateType_;
 	int PlayerP;
 	bool FireOff_;
 
+	//충돌함수
+	CollisionReturn GravityColCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
+	CollisionReturn MoveColCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 
+	CollisionReturn TableHoldUpCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
+	CollisionReturn GroundHoldUpCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
+	CollisionReturn TableHoldDownCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 
+	std::shared_ptr<GameEngineActor> CurrentHoldingObject_;
 	std::shared_ptr<GameEngineCollision> Collision_Interact_; // 상호작용 콜리전
-	std::shared_ptr<GamePlayMoveable> Interact_GroundObject_;
-	std::shared_ptr<GamePlayStaticObject> Interact_TableObject_;
 
-	std::shared_ptr<GamePlayMoveable> CurrentHoldingObject_;
 
-	void Collision_AroundObject();
+	void CalculateKineticEnergy();
 
 	void IdleRendererON();
 	void WalkRendererON();
