@@ -63,6 +63,16 @@ void GameEngineMesh::Setting()
 	InputAssembler2IndexBufferSetting();
 }
 
+void GameEngineMesh::SettingInstancing(std::shared_ptr<GameEngineInstancingBuffer> _Buffer)
+{
+	ID3D11Buffer* ArrBuffer[2] = { VertexBuffer->GetBuffer(), _Buffer->GetBuffer() };
+	UINT ArrVertexSize[2] = { VertexBuffer->GetVertexSize(), _Buffer->GetDataSize() };
+	UINT ArrOffset[2] = { 0, 0 };
+
+	GameEngineDevice::GetContext()->IASetVertexBuffers(0, 2, ArrBuffer, ArrVertexSize, ArrOffset);
+	InputAssembler2IndexBufferSetting();
+}
+
 void GameEngineMesh::SetInputAssembler1VertexBuffer(const std::string& _Name)
 {
 	VertexBuffer = GameEngineVertexBuffer::Find(_Name);
@@ -117,4 +127,9 @@ void GameEngineMesh::SetInputAssembler2IndexBuffer(std::shared_ptr < GameEngineI
 void GameEngineMesh::Render()
 {
 	GameEngineDevice::GetContext()->DrawIndexed(IndexBuffer->GetIndexCount(), 0, 0);
+}
+
+void GameEngineMesh::RenderInstancing(size_t _InstancingCount)
+{
+	GameEngineDevice::GetContext()->DrawIndexedInstanced(IndexBuffer->GetIndexCount(), static_cast<unsigned int>(_InstancingCount), 0, 0, 0);
 }

@@ -43,8 +43,9 @@ public:
 	void SetOutputMergerDepthStencil(const std::string& _Name);
 
 	void Setting();
+	void SettingInstancing();
 
-	void RenderingInstancing(int _RenderingCount, std::shared_ptr<GameEngineInstancingBuffer> _Buffer);
+	//void RenderingInstancing(int _RenderingCount, std::shared_ptr<GameEngineInstancingBuffer> _Buffer);
 
 	inline std::shared_ptr<GameEngineVertexShader> GetVertexShader()
 	{
@@ -79,6 +80,8 @@ private:
 	void InputAssembler1InstancingVertexBufferSetting(std::shared_ptr<GameEngineInstancingBuffer> _Buffer);
 
 	void VertexShaderSetting();
+
+	void InstancingVertexShaderSetting();
 
 	void RasterizerSetting();
 

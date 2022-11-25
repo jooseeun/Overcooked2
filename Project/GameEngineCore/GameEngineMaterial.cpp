@@ -147,11 +147,7 @@ void GameEngineMaterial::SetOutputMergerBlend(const std::string& _Name)
 
 void GameEngineMaterial::Setting()
 {
-	// InputAssembler1VertexBufferSetting();
-
 	VertexShaderSetting();
-
-	// InputAssembler2IndexBufferSetting();
 
 	RasterizerSetting();
 
@@ -160,18 +156,11 @@ void GameEngineMaterial::Setting()
 	OutputMergerBlendSetting();
 
 	OutputMergerDepthStencilSetting();
-
-	// Draw();
-
 }
 
-void GameEngineMaterial::RenderingInstancing(int _RenderingCount, std::shared_ptr < GameEngineInstancingBuffer> _Buffer)
+void GameEngineMaterial::SettingInstancing()
 {
-	InputAssembler1InstancingVertexBufferSetting(_Buffer);
-
-	VertexShaderSetting();
-
-	// InputAssembler2IndexBufferSetting();
+	InstancingVertexShaderSetting();
 
 	RasterizerSetting();
 
@@ -180,9 +169,6 @@ void GameEngineMaterial::RenderingInstancing(int _RenderingCount, std::shared_pt
 	OutputMergerBlendSetting();
 
 	OutputMergerDepthStencilSetting();
-
-	InstancingDraw(_RenderingCount);
-
 }
 
 void GameEngineMaterial::InstancingDataCollect()
@@ -200,10 +186,12 @@ void GameEngineMaterial::InputAssembler1InstancingVertexBufferSetting(std::share
 void GameEngineMaterial::VertexShaderSetting() 
 {
 	VertexShader->Setting();
-	// À§Ä¡ 
-	// D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 }
 
+void GameEngineMaterial::InstancingVertexShaderSetting()
+{
+	VertexShader->GetInstancingShader()->Setting();
+}
 
 void GameEngineMaterial::RasterizerSetting() 
 {

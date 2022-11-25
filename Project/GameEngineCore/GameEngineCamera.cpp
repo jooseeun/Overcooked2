@@ -104,7 +104,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 		for (; StartIter != EndIter; ++StartIter)
 		{
-			StartIter->second.RenderInstancing();
+			StartIter->second.RenderInstancing(_DeltaTime);
 		}
 	}
 }
