@@ -42,6 +42,9 @@ public:
 	GamePlayObject& operator=(const GamePlayObject& _Other) = delete;
 	GamePlayObject& operator=(GamePlayObject&& _Other) noexcept = delete;
 
+	virtual Input_PickUpOption Input_PickUp(std::shared_ptr<GamePlayMoveable> _Object) { return Input_PickUpOption::NoResponse; }
+	virtual Input_PickUpOption Input_PickUp(std::shared_ptr<Player> _Player) { return Input_PickUpOption::NoResponse; }
+
 	inline std::shared_ptr<GameEngineFBXStaticRenderer> GetFBXMesh() const
 	{
 		return Mesh_Object_;

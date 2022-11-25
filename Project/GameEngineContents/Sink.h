@@ -1,5 +1,6 @@
 #pragma once
 #include "GamePlayStaticObject.h"
+#include "GamePlayTool.h"
 
 enum class SinkType
 {
@@ -26,3 +27,32 @@ protected:
 
 private:
 };
+
+// Ό³Έν :
+class Equipment_Plate;
+class Tool_Sink : public GamePlayTool
+{
+
+public:
+	// constrcuter destructer
+	Tool_Sink();
+	~Tool_Sink();
+
+	// delete Function
+	Tool_Sink(const Tool_Sink& _Other) = delete;
+	Tool_Sink(Tool_Sink&& _Other) noexcept = delete;
+	Tool_Sink& operator=(const Tool_Sink& _Other) = delete;
+	Tool_Sink& operator=(Tool_Sink&& _Other) noexcept = delete;
+
+
+
+protected:
+	void Start() override;
+
+	Input_PickUpOption Input_PickUp(std::shared_ptr<GamePlayMoveable> _Object) override;
+	Input_PickUpOption CheckMoveable(std::shared_ptr<GamePlayMoveable> _Object) override;
+	//void Input_Action_End(std::shared_ptr<GamePlayMoveable> _Moveable) override;
+private:
+	std::shared_ptr<Equipment_Plate> ReturnCleanPlate_;
+};
+

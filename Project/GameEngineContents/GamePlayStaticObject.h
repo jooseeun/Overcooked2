@@ -1,6 +1,7 @@
 #pragma once
 #include "GamePlayObject.h"
 #include "Enums.h"
+#include "GamePlayStuff.h"
 
 // Ό³Έν :
 class GamePlayStaticObject : public GamePlayObject
@@ -18,6 +19,49 @@ public:
 	GamePlayStaticObject& operator=(GamePlayStaticObject&& _Other) noexcept = delete;
 
 public:
+	Input_PickUpOption Input_PickUp(std::shared_ptr<GamePlayMoveable> _Object) override;
+	Input_PickUpOption Input_PickUp(std::shared_ptr<Player> _Player) override;
+
+
+	inline std::shared_ptr<GamePlayStuff> GetStuff() const
+	{
+		return Stuff_Current_;
+	}
+	inline void SetStuff(std::shared_ptr<GamePlayStuff> _Stuff)
+	{
+		Stuff_Current_ = _Stuff;
+
+		if (nullptr != _Stuff)
+		{
+			_Stuff->SetParentObject(std::dynamic_pointer_cast<GamePlayObject>(shared_from_this()));
+			Stuff_Current_->GetCollisionObject()->Off();
+		}
+	}
+	inline void ReSetStuff()
+	{
+		Stuff_Current_.reset();
+	}
+
+	std::shared_ptr<GamePlayMoveable> GetMoveable() const;
+
+
+	//inline int GetX() const
+	//{
+	//	return X_;
+	//}
+	//inline int GetY() const
+	//{
+	//	return Y_;
+	//}
+
+	//inline void SetX(int _X)
+	//{
+	//	X_ = _X;
+	//}
+	//inline void SetY(int _Y)
+	//{
+	//	Y_ = _Y;
+	//}
 
 	inline void SetStaticObjectType(MapObjType _Type)
 	{
@@ -29,10 +73,17 @@ public:
 		return MyType_;
 	}
 
-	//inline ToolInfo GetToolInfo() const
-	//{
-
-	//}
+	inline ToolInfo GetToolInfo() const
+	{
+		if (Stuff_Current_ == nullptr)
+		{
+			return ToolInfo::None;
+		}
+		else
+		{
+			return Stuff_Current_->GetToolInfoType();
+		}
+	}
 
 	inline void SetToolPos(float4& _Pos)
 	{
@@ -60,8 +111,13 @@ protected:
 	float4 ToolPos_;
 
 private:
+	std::shared_ptr<GamePlayStuff> Stuff_Current_;
 
 	MapObjType MyType_;
+
+
+	//int X_;
+	//int Y_;
 
 
 

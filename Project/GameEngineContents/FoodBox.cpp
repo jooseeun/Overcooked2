@@ -17,6 +17,7 @@ FoodBox::~FoodBox()
 
 void FoodBox::SetFoodType(FoodType _Type)
 {
+	std::dynamic_pointer_cast<Tool_FoodBox>(GetStuff())->Type_ = _Type;
 
 	switch (_Type)
 	{
@@ -130,6 +131,8 @@ void FoodBox::Start()
 	Renderer_->GetTransform().SetLocalRotation({ 90.f, 0.f });
 	Renderer_->GetTransform().SetWorldScale({ 60, 60 });
 	Renderer_->GetTransform().PixLocalNegativeX();
+
+	SetStuff(GetLevel()->CreateActor<Tool_FoodBox>());
 }
 
 void FoodBox::Update(float _DeltaTime)
@@ -163,3 +166,101 @@ void FoodBox::Update(float _DeltaTime)
 		}
 	}
 }
+
+Tool_FoodBox::Tool_FoodBox()
+{
+}
+
+Tool_FoodBox::~Tool_FoodBox()
+{
+}
+
+void Tool_FoodBox::Start()
+{
+	GamePlayTool::Start();
+	GamePlayTool::SetInteractOption(AutoOption::NoResponse);
+	//SetCookingEndTime(1.f);
+	//GamePlayTool::SetToolInfoType(ToolInfo::TrashCan);
+}
+//
+//void Tool_TrashCan::Input_ActionToAuto_Update(std::shared_ptr<GamePlayMoveable> _Moveable, float _DeltaTime)
+//{
+//	_Moveable->PlusCookingTime(_DeltaTime);
+//	// 돌면서 작아지는 기능
+//}
+//
+//void Tool_TrashCan::Input_Action_End(std::shared_ptr<GamePlayMoveable> _Moveable)
+//{
+//	_Moveable->Death();// 삭제한다
+//	ReSetCurrentMoveable();
+//}
+
+
+Input_PickUpOption Tool_FoodBox::CheckMoveable(std::shared_ptr<GamePlayMoveable> _Object)
+{
+	return Input_PickUpOption::PickUp;
+}
+
+Input_PickUpOption Tool_FoodBox::Input_PickUp(std::shared_ptr<Player> _Player)
+{
+	switch (Type_)
+	{
+	case FoodType::Onion:
+		break;
+	case FoodType::Potato:
+		break;
+	case FoodType::Dough:
+		break;
+	case FoodType::Seaweed:
+		break;
+	case FoodType::Mushroom:
+		break;
+	case FoodType::Meat:
+		break;
+	case FoodType::Lettuce:
+		break;
+	case FoodType::Rice:
+		break;
+	case FoodType::Flour:
+		break;
+	case FoodType::Bread:
+		break;
+	case FoodType::Fish:
+		break;
+	case FoodType::Sausage:
+		break;
+	case FoodType::DumplingSkin:
+		break;
+	case FoodType::Egg:
+		break;
+	case FoodType::Chicken:
+		break;
+	case FoodType::Burrito:
+		break;
+	case FoodType::Cheese:
+		break;
+	case FoodType::Carrot:
+		break;
+	case FoodType::Chocolate:
+		break;
+	case FoodType::Honey:
+		break;
+	case FoodType::PastaNoodles:
+		break;
+	case FoodType::Tomato:
+		//break;
+	case FoodType::Prawn:
+		_Player->Input_PickUp(GetLevel()->CreateActor<Food_Ingredients_Prawn>());
+		break;
+	case FoodType::Cucumber:
+		break;
+	default:
+		break;
+	}
+	return Input_PickUpOption::Exception;
+}
+//
+//Input_AutoOption Tool_TrashCan::Input_Action()
+//{
+//	return Input_AutoOption::NoResponse;
+//}
