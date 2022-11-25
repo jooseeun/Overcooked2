@@ -39,8 +39,8 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerInteract")) //컨트롤키
 	{
-		
-		
+		Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
+			std::bind(&Player::TableSliceCheck, this, std::placeholders::_1, std::placeholders::_2));
 	}
 }
 
@@ -215,7 +215,6 @@ void Player::HoldDownUpdate(float _DeltaTime, const StateInfo& _Info)
 void Player::SliceStart(const StateInfo& _Info) // 자르는 도중 이동하면 취소됨
 {
 	ChopRendererON();
-	
 }
 void Player::SliceUpdate(float _DeltaTime, const StateInfo& _Info)
 {

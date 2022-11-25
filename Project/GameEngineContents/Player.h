@@ -76,36 +76,16 @@ public:
 		return CurKineticEnergy_;
 	}
 
-	inline void ChangePlayer()
-	{
-		PlayerIdleRenderer_[PlayerCustomNum]->Off();
-		PlayerWalkRenderer_[PlayerCustomNum]->Off();
-		PlayerChopRenderer_[PlayerCustomNum]->Off();
-		PlayerWashRenderer_[PlayerCustomNum]->Off();
-
-		PlayerCustomNum += 1;
-		if (PlayerCustomNum == 6)
-		{
-			PlayerCustomNum = 0;
-		}
-
-		PlayerIdleRenderer_[PlayerCustomNum]->On();
-		PlayerWalkRenderer_[PlayerCustomNum]->Off();
-		PlayerChopRenderer_[PlayerCustomNum]->Off();
-		PlayerWashRenderer_[PlayerCustomNum]->Off();
-			
-
-	}
-
+	void ChangePlayer(); // 플레이어 커스텀 바꾸는 함수
+	//void ChangePlayerColor();
 	
 
 public:
 	
-	template <typename HoldingType>
-	void SetPlayerHolding(HoldingType _CurrentHoldingObject_) // 플레이어 손에 올리는 함수
+	inline void SetPlayerHolding(std::shared_ptr<GameEngineActor> _CurrentHoldingObject_) // 플레이어 손에 올리는 함수
 	{
 		CurrentHoldingObject_ = _CurrentHoldingObject_;
-		if (CurrentHoldingObject_->SetParent == nullptr)
+		if (CurrentHoldingObject_->GetParent() == nullptr)
 		{
 			CurrentHoldingObject_->DetachObject();
 		}
@@ -144,7 +124,7 @@ private:
 	PlayerDir CurDir_;
 	PlayerHoldType CurHoldType_;
 	PlayerCurStateType CurStateType_;
-	int PlayerP;
+	int PlayerPNum;
 	bool FireOff_;
 
 	//충돌함수
@@ -154,6 +134,8 @@ private:
 	CollisionReturn TableHoldUpCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 	CollisionReturn GroundHoldUpCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 	CollisionReturn TableHoldDownCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
+
+	CollisionReturn TableSliceCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 
 	std::shared_ptr<GameEngineActor> CurrentHoldingObject_;
 	std::shared_ptr<GameEngineCollision> Collision_Interact_; // 상호작용 콜리전
