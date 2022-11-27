@@ -268,10 +268,11 @@ void Overcooked::InputMake()
 		GameEngineInput::GetInst()->CreateKey("FreeCameaOnOff", 'O');
 		GameEngineInput::GetInst()->CreateKey("Test0", VK_NUMPAD0);
 	}
-
+	//플레이어부분 Key
 	if (false == GameEngineInput::GetInst()->IsKey("PlayerLeft"))
 	{
 		GameEngineInput::GetInst()->CreateKey("ChangePlayerCustom", 'M');
+		GameEngineInput::GetInst()->CreateKey("ChangePlayerNum", 'N');
 		GameEngineInput::GetInst()->CreateKey("PlayerLeft", VK_LEFT);
 		GameEngineInput::GetInst()->CreateKey("PlayerRight", VK_RIGHT);
 		GameEngineInput::GetInst()->CreateKey("PlayerFront", VK_UP);

@@ -25,7 +25,7 @@ Player::Player()
 	, CurKineticEnergy_(0)
 	, FireOff_(false)
 	, PlayerName_()
-	, PlayerPNum(4)
+	, PlayerPNum(3)
 {
 
 }
@@ -213,7 +213,7 @@ void Player::Start()
 
 
 	StateManager.ChangeState("Idle");
-
+	ChangePlayerColor();
 
 
 

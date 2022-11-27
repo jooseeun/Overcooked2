@@ -98,8 +98,8 @@ public:
 		CurHoldType_ = _CurHoldType;
 	}
 	
-	template <typename HoldingType>
-	std::shared_ptr<HoldingType> GetPlayerHolding() // 현재 플레이어 손에있는 오브젝트 얻는 함수
+
+	std::shared_ptr<GameEngineActor> GetPlayerHolding() // 현재 플레이어 손에있는 오브젝트 얻는 함수
 	{
 		return CurrentHoldingObject_;
 	}
