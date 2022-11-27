@@ -29,7 +29,6 @@ public:
 
 	inline std::shared_ptr<GamePlayStuff> GetStuff() const
 	{
-		GetCollisionObject()->Off();
 		return Stuff_Current_;
 	}
 	std::shared_ptr<GamePlayMoveable> GetMoveable() const;
@@ -37,7 +36,7 @@ public:
 	inline void SetStuff(std::shared_ptr<GamePlayStuff> _Stuff)
 	{
 		Stuff_Current_ = _Stuff;
-
+		Stuff_Current_->GetCollisionObject()->Off();
 		if (nullptr != _Stuff)
 		{
 			_Stuff->SetParent(std::dynamic_pointer_cast<GamePlayObject>(shared_from_this()));
