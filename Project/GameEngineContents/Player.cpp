@@ -194,6 +194,10 @@ void Player::Start()
 		, std::bind(&Player::HoldUpUpdate, this, std::placeholders::_1, std::placeholders::_2)
 		, std::bind(&Player::HoldUpStart, this, std::placeholders::_1)
 	);
+	StateManager.CreateStateMember("HoldDown"
+		, std::bind(&Player::HoldDownUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::HoldDownStart, this, std::placeholders::_1)
+	);
 	StateManager.CreateStateMember("Slice"
 		, std::bind(&Player::SliceUpdate, this, std::placeholders::_1, std::placeholders::_2)
 		, std::bind(&Player::SliceStart, this, std::placeholders::_1)
@@ -936,6 +940,7 @@ CollisionReturn Player::TableHoldUpCheck(std::shared_ptr<GameEngineCollision> _T
 }
 CollisionReturn Player::GroundHoldUpCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 { //바닥에 있는 오브젝트 집기
+
 	SetPlayerHolding(_Other->GetActor());
 	IdleRendererON();
 
@@ -947,6 +952,7 @@ CollisionReturn Player::TableHoldDownCheck(std::shared_ptr<GameEngineCollision> 
 	if (SetPlayerState_Return::Nothing ==
 		_Other->CastThis<GamePlayStaticObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_))
 	{  //테이블에 물체가 있어 못내려놓으면 그냥 아무일도 일어나지 않게 하기
+
 		StateManager.ChangeState("HoldUp");
 	}
 	return CollisionReturn::ContinueCheck;
@@ -960,6 +966,7 @@ CollisionReturn Player::TableSliceCheck(std::shared_ptr<GameEngineCollision> _Th
 	if (SetPlayerState_Return::Using ==
 		_Other->CastThis<GamePlayStaticObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_))
 	{  //자를수 있으면 자르는 상태로 변경
+
 		StateManager.ChangeState("Slice");
 	}
 	return CollisionReturn::ContinueCheck;

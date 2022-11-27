@@ -53,6 +53,7 @@ enum class PlayerHoldType // 손에있는게 무슨타입인지
 	FireExtinguisher, // 소화기
 	Max // 손에 아무것도 없을때
 };
+
 enum class ToolInfo
 {
 	None = 0,
@@ -61,8 +62,6 @@ enum class ToolInfo
 	FryingPan, //프라이팬
 	Pot, //냄비
 	CuttingBoard, //도마랑 칼
-	FoodBox, // 음식상자
-	TrashCan, // 쓰레기통
 	Max
 };
 
