@@ -83,7 +83,7 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 		if (GetMoveable() != nullptr)
 		{
 			std::weak_ptr<GamePlayMoveable> Moveable = GetMoveable_TakeOut();
-
+			Moveable.lock()->GetCollisionObject()->Off();
 			switch (Moveable.lock()->GetObjectMoveableType())
 			{
 			case ObjectMoveableType::Food:
@@ -107,12 +107,14 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 	{
 		//std::weak_ptr<GamePlayMoveable> Moveable = _Player->GetPlayerHolding();
 		//_Player->DetachPlayerHolding();
-
 	}
 		break;
 	case PlayerCurStateType::Slice:
 	{
+		//if (Stuff_Current_->GetType)
+		//{
 
+		//}
 	}
 		break;
 	default:

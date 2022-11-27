@@ -29,6 +29,7 @@ public:
 
 	inline std::shared_ptr<GamePlayStuff> GetStuff() const
 	{
+		GetCollisionObject()->Off();
 		return Stuff_Current_;
 	}
 	std::shared_ptr<GamePlayMoveable> GetMoveable() const;
@@ -101,15 +102,12 @@ private:
 	MapObjType MyType_;
 
 
-	//int X_;
-	//int Y_;
-
-
 
 	// Bloom
 public:
 	void SetHighlightEffectOff() override;
 	void SetHighlightEffectOn() override;
+
 
 	//
 };
