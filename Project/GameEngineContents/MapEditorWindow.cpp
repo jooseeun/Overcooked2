@@ -848,15 +848,15 @@ void MapEditorWindow::SortToolTab()
 						SortActorList_[ActorIndex].lock()->SetStuff(CuttingBoard);
 					}
 					break;
-					case ToolInfo::Bowl:
-					{
+					//case ToolInfo::Bowl:
+					//{
 
-					}
-					break;
-					case ToolInfo::Steamer:
-					{
+					//}
+					//break;
+					//case ToolInfo::Steamer:
+					//{
 
-					}
+					//}
 					break;
 					}
 

@@ -104,8 +104,8 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 		break;
 	case PlayerCurStateType::HoldDown:
 	{
-		std::weak_ptr<GamePlayMoveable> Moveable = _Player->GetPlayerHolding<GamePlayMoveable>();
-		_Player->DetachPlayerHolding();
+		//std::weak_ptr<GamePlayMoveable> Moveable = _Player->GetPlayerHolding<GamePlayMoveable>();
+		//_Player->DetachPlayerHolding();
 
 	}
 		break;
