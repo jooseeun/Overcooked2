@@ -11,12 +11,15 @@
 #include "Sink.h"
 #include "FoodBox.h"
 #include "Rail.h"
+#include "Dispenser.h"
 
 #include "Equipment_Plate.h"
 #include "Equipment_FireExtinguisher.h"
 #include "Equipment_FryingPan.h"
 #include "Equipment_Pot.h"
 #include "Tool_CuttingBoard.h"
+#include "Equipment_Bowl.h"
+#include "Equipment_Steamer.h"
 
 #include "Npc.h"
 #include "Car.h"
@@ -231,6 +234,17 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 			Object.lock()->SetStaticObjectType(MapObjType::CounterTop_WiZard);
 		}
 		break;
+		case MapObjType::CounterTop_Mixer:
+		{
+			CurActor_ = _Level->CreateActor<CounterTop>();
+			std::weak_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurActor_.lock());
+
+			Object.lock()->SetCounterTopType(CounterTopType::Mixer);
+			Object.lock()->SetConterTopMesh(CounterTopType::Mixer);
+
+			Object.lock()->SetStaticObjectType(MapObjType::CounterTop_Mixer);
+		}
+		break;
 		case MapObjType::Cooker:
 		{
 			CurActor_ = _Level->CreateActor<Cooker>();
@@ -287,6 +301,12 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 			CurActor_.lock()->SetStaticObjectType(MapObjType::Rail);
 		}
 		break;
+		case MapObjType::Dispenser:
+		{
+			CurActor_ = _Level->CreateActor<Dispenser>();
+			CurActor_.lock()->SetStaticObjectType(MapObjType::Dispenser);
+		}
+		break;
 		default:
 			break;
 		}
@@ -326,6 +346,18 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 			{
 				std::weak_ptr<Tool_CuttingBoard> CuttingBoard = _Level->CreateActor<Tool_CuttingBoard>();
 				CurActor_.lock()->SetStuff(CuttingBoard.lock());
+			}
+			break;
+			case ToolInfo::Bowl:
+			{
+				std::weak_ptr<Equipment_Bowl> Bowl = _Level->CreateActor<Equipment_Bowl>();
+				CurActor_.lock()->SetStuff(Bowl.lock());
+			}
+			break;
+			case ToolInfo::Steamer:
+			{
+				std::weak_ptr<Equipment_Steamer> Steamer = _Level->CreateActor<Equipment_Steamer>();
+				CurActor_.lock()->SetStuff(Steamer.lock());
 			}
 			break;
 			}
