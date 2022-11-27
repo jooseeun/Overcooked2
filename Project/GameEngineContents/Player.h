@@ -1,5 +1,5 @@
 #pragma once
-#include "GamePlayObject.h"
+
 #include "Enums.h"
 #include <GameEngineCore/GameEngineFBXAnimationRenderer.h>
 #include <GameEngineCore/GameEngineStateManager.h>
@@ -82,10 +82,10 @@ public:
 
 public:
 	
-	inline void SetPlayerHolding(std::shared_ptr<GameEngineActor> _CurrentHoldingObject_) // 플레이어 손에 올리는 함수
+	inline void SetPlayerHolding(std::shared_ptr<GameEngineActor> _CurrentHoldingObject_) // 플레이어 손에 올리는 함수 엑터를 손에올려줍니다
 	{
 		CurrentHoldingObject_ = _CurrentHoldingObject_;
-		if (CurrentHoldingObject_->GetParent() == nullptr)
+		if (CurrentHoldingObject_->GetParent() != nullptr)
 		{
 			CurrentHoldingObject_->DetachObject();
 		}
