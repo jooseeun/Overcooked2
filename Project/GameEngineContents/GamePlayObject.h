@@ -118,13 +118,13 @@ private:
 private:
 	bool BloomEffect_;
 public:
-	inline virtual void SetBloomEffectOff()
+	inline virtual void SetHighlightEffectOff()
 	{
 		GetFBXMesh()->SetAllPixelDataPlusColor(float4(0,0,0,0));
 
 		BloomEffect_ = false;
 	}
-	virtual inline void SetBloomEffectOn()
+	virtual inline void SetHighlightEffectOn()
 	{
 		GetFBXMesh()->SetAllPixelDataPlusColor(float4(0.2f, 0.2f, 0.2f, 0.0f));
 

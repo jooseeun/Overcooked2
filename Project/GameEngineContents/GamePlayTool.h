@@ -74,20 +74,20 @@ private:
 
 	// Bloom
 public:
-	inline void SetBloomEffectOff() override
+	inline void SetHighlightEffectOff() override
 	{
-		GamePlayObject::SetBloomEffectOff();
+		GamePlayObject::SetHighlightEffectOff();
 		if (Moveable_Current_ != nullptr)
 		{
-			Moveable_Current_->SetBloomEffectOff();
+			Moveable_Current_->SetHighlightEffectOff();
 		}
 	}
-	inline void SetBloomEffectOn() override
+	inline void SetHighlightEffectOn() override
 	{
-		GamePlayObject::SetBloomEffectOn();
+		GamePlayObject::SetHighlightEffectOn();
 		if (Moveable_Current_ != nullptr)
 		{
-			Moveable_Current_->SetBloomEffectOn();
+			Moveable_Current_->SetHighlightEffectOn();
 		}
 	}
 };

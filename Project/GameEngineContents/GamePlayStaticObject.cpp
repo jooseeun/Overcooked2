@@ -21,21 +21,21 @@ void GamePlayStaticObject::Start()
 	GetCollisionObject()->ChangeOrder(CollisionOrder::Object_StaticObject);
 } 
 
-void GamePlayStaticObject::SetBloomEffectOff()
+void GamePlayStaticObject::SetHighlightEffectOff()
 {
-	GamePlayObject::SetBloomEffectOff();
+	GamePlayObject::SetHighlightEffectOff();
 	if (Stuff_Current_ != nullptr)
 	{
-		Stuff_Current_->SetBloomEffectOff();
+		Stuff_Current_->SetHighlightEffectOff();
 	}
 }
 
-void GamePlayStaticObject::SetBloomEffectOn()
+void GamePlayStaticObject::SetHighlightEffectOn()
 {
-	GamePlayObject::SetBloomEffectOn();
+	GamePlayObject::SetHighlightEffectOn();
 	if (Stuff_Current_ != nullptr)
 	{
-		Stuff_Current_->SetBloomEffectOn();
+		Stuff_Current_->SetHighlightEffectOn();
 	}
 }
 
@@ -83,6 +83,7 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 		if (GetMoveable() != nullptr)
 		{
 			std::weak_ptr<GamePlayMoveable> Moveable = GetMoveable_TakeOut();
+
 			switch (Moveable.lock()->GetObjectMoveableType())
 			{
 			case ObjectMoveableType::Food:
@@ -102,18 +103,17 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 			return SetPlayerState_Return::Nothing;
 		}
 		break;
-	case PlayerCurStateType::HoldDown:
+	case PlayerCurStateType::HoldDown:	
 	{
-		//std::weak_ptr<GamePlayMoveable> Moveable = _Player->GetPlayerHolding<GamePlayMoveable>();
+		//std::weak_ptr<GamePlayMoveable> Moveable = _Player->GetPlayerHolding();
 		//_Player->DetachPlayerHolding();
 
 	}
 		break;
 	case PlayerCurStateType::Slice:
-		break;
-	case PlayerCurStateType::FireOff:
-		break;
-	case PlayerCurStateType::Throw:
+	{
+
+	}
 		break;
 	default:
 		break;
@@ -145,7 +145,7 @@ std::shared_ptr<GamePlayMoveable> GamePlayStaticObject::GetMoveable_TakeOut()
 		if (Stuff_Current_->GetObjectStuffType() == ObjectStuffType::Moveable)
 		{
 			Moveable = std::dynamic_pointer_cast<GamePlayMoveable>(Stuff_Current_);
-			Stuff_Current_ = nullptr;
+			Stuff_Current_.reset();
 		}
 		else
 		{	

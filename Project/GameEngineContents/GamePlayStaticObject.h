@@ -108,8 +108,8 @@ private:
 
 	// Bloom
 public:
-	void SetBloomEffectOff() override;
-	void SetBloomEffectOn() override;
+	void SetHighlightEffectOff() override;
+	void SetHighlightEffectOn() override;
 
 	//
 };
