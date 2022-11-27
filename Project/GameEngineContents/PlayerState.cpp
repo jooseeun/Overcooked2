@@ -34,7 +34,7 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerHold"))
 	{
-		StateManager.ChangeState("Hold");
+		StateManager.ChangeState("HoldUp");
 	}
 
 
