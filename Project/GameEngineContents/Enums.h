@@ -51,6 +51,8 @@ enum class ToolInfo
 	CuttingBoard, //도마랑 칼
 	FoodBox, // 음식상자
 	TrashCan, // 쓰레기통
+	Bowl,	// 믹서에 있는 보울
+	Steamer, // 찜기
 	Max
 };
 

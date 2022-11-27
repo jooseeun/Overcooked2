@@ -163,11 +163,23 @@
     </ClInclude>
     <ClInclude Include="Cooker.h" />
     <ClInclude Include="CounterTop.h" />
+    <ClInclude Include="Dispenser.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Enums.h" />
+    <ClInclude Include="Equipment_Bowl.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Equipment_FireExtinguisher.h" />
     <ClInclude Include="Equipment_FryingPan.h" />
     <ClInclude Include="Equipment_Plate.h" />
     <ClInclude Include="Equipment_Pot.h" />
+    <ClInclude Include="Equipment_Steamer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="FoodBox.h" />
     <ClInclude Include="FoodHeader.h" />
     <ClInclude Include="FoodThumbnail.h">
@@ -324,10 +336,22 @@
     </ClCompile>
     <ClCompile Include="Cooker.cpp" />
     <ClCompile Include="CounterTop.cpp" />
+    <ClCompile Include="Dispenser.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Equipment_Bowl.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Equipment_FireExtinguisher.cpp" />
     <ClCompile Include="Equipment_FryingPan.cpp" />
     <ClCompile Include="Equipment_Plate.cpp" />
     <ClCompile Include="Equipment_Pot.cpp" />
+    <ClCompile Include="Equipment_Steamer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="FoodBox.cpp" />
     <ClCompile Include="FoodThumbnail.cpp">
       <SubType>

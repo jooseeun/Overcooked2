@@ -1,0 +1,7 @@
+{ 
+MeshName:M_CITY_DISPENSER_01.FBX;
+MeshInfoCount:1;
+Path:C:\Users\YS\OneDrive\Documents\DX_TeamPortfolio\MapResource\Mesh\Tool\Dispenser\m_sk_dispenser_01\t_sk_dispenser_01.png;
+Mat:T_SK_DISPENSER_01.PNG;
+}
+

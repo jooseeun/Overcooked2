@@ -215,6 +215,15 @@
     <ClInclude Include="GraphicWindow.h">
       <Filter>GUI</Filter>
     </ClInclude>
+    <ClInclude Include="Equipment_Bowl.h">
+      <Filter>Contents\Object\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Equipment_Steamer.h">
+      <Filter>Contents\Object\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Dispenser.h">
+      <Filter>Contents\Object\StaticMesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -427,6 +436,15 @@
     </ClCompile>
     <ClCompile Include="GraphicWindow.cpp">
       <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Equipment_Bowl.cpp">
+      <Filter>Contents\Object\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="Equipment_Steamer.cpp">
+      <Filter>Contents\Object\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="Dispenser.cpp">
+      <Filter>Contents\Object\StaticMesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
