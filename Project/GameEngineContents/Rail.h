@@ -1,5 +1,6 @@
 #pragma once
 #include "GamePlayStaticObject.h"
+#include "GamePlayTool.h"
 
 class Rail : public GamePlayStaticObject
 {
@@ -18,5 +19,27 @@ protected:
 
 private:
 
+};
+
+
+class Tool_Rail : public GamePlayTool
+{
+
+public:
+	// constrcuter destructer
+	Tool_Rail();
+	~Tool_Rail();
+
+	// delete Function
+	Tool_Rail(const Tool_Rail& _Other) = delete;
+	Tool_Rail(Tool_Rail&& _Other) noexcept = delete;
+	Tool_Rail& operator=(const Tool_Rail& _Other) = delete;
+	Tool_Rail& operator=(Tool_Rail&& _Other) noexcept = delete;
+
+
+protected:
+	void Start() override;
+
+private:
 };
 

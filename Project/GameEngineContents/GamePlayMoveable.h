@@ -61,6 +61,6 @@ protected:
 
 private:
 	ObjectMoveableType Enum_ObjectMoveableType_;
-
+	SetPlayerState_Return SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type) override;
 };
 

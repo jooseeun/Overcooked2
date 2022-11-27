@@ -39,28 +39,13 @@ void Tool_Cooker::Start()
 	GamePlayTool::Start();
 	GamePlayTool::SetInteractOption(AutoOption::Auto);
 	//SetCookingEndTime(12.f);
-	//GamePlayTool::SetToolInfoType(ToolInfo::Cooker);
+	GamePlayTool::SetObjectToolType(ObjectToolType::Cooker);
 }
-//
-//Input_PickUpOption Tool_Cooker::CheckMoveable(std::shared_ptr<GamePlayMoveable> _Object)
+
+//HoldDownEnum Tool_Cooker::HoldDown(std::shared_ptr<GamePlayStuff> _Stuff)
 //{
-//	std::shared_ptr<GamePlayBowl> Bowl = std::dynamic_pointer_cast<GamePlayBowl>(_Object);
-//	if (Bowl != nullptr)
-//	{
-//		switch (Bowl->GetToolInfoType())
-//		{
-//		case ToolInfo::FryingPan:
-//		case ToolInfo::Pot:
-//			return Input_PickUpOption::PickUp;
-//			break;
-//		default:
-//			return Input_PickUpOption::NoResponse;
-//			break;
-//		}
+//	//if (std::dynamic_pointer_cast<>)
+//	//{
 //
-//	}
-//	else
-//	{
-//		return Input_PickUpOption::NoResponse;
-//	}
+//	//}
 //}

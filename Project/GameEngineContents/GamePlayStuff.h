@@ -8,6 +8,12 @@ enum class ObjectStuffType
 	Tool,
 	Moveable,
 };
+enum class HoldDownEnum
+{
+	Nothing,
+	HoldDown
+};
+
 class GamePlayStuff : public GamePlayObject
 {
 protected:
@@ -22,6 +28,11 @@ public:
 	GamePlayStuff& operator=(const GamePlayStuff& _Other) = delete;
 	GamePlayStuff& operator=(GamePlayStuff&& _Other) noexcept = delete;
 
+
+	inline virtual HoldDownEnum HoldDown(std::shared_ptr<GamePlayStuff> _Stuff)
+	{
+		return HoldDownEnum::Nothing;
+	};
 
 	inline ObjectStuffType GetObjectStuffType() const
 	{

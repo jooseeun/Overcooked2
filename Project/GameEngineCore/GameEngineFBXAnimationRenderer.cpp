@@ -35,6 +35,11 @@ void FBXRendererAnimation::Update(float _DeltaTime)
 			Info.CurFrameTime -= Info.Inter;
 			++Info.CurFrame;
 
+			if (163 == Info.CurFrame)
+			{
+				int a = 0;
+			}
+
 			if (false == bOnceStart && Info.CurFrame == 0)
 			{
 				if (nullptr != StartEvent)
@@ -84,9 +89,13 @@ void FBXRendererAnimation::Update(float _DeltaTime)
 
 	++NextFrame;
 
-	if (NextFrame >= End)
+	if (true == Info.Loop)
 	{
-		NextFrame = 0;
+		NextFrame = Start;
+	}
+	else
+	{
+		NextFrame = static_cast<unsigned int>(Info.Frames.size()) - 1;
 	}
 
 	if (ParentRenderer->IsChangeTimer_ > 0.0f)
@@ -335,7 +344,7 @@ void GameEngineFBXAnimationRenderer::ChangeAnimation(const std::string& _Animati
 void GameEngineFBXAnimationRenderer::ChangeAnimationFrame(size_t _StartIndex)
 {
 	size_t ChangeFrame = _StartIndex;
-	size_t MaxSize = GetAnimationFrameCount();
+	size_t MaxSize = GetAnimationFrameCount() - 1;
 	if (MaxSize <= _StartIndex)
 	{
 		ChangeFrame = MaxSize;

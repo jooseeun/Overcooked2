@@ -35,8 +35,8 @@ Tool_TrashCan::~Tool_TrashCan()
 void Tool_TrashCan::Start()
 {
 	GamePlayTool::Start();
-	GamePlayTool::SetInteractOption(AutoOption::Auto);
-	//GamePlayTool::SetToolInfoType(ToolInfo::TrashCan);
+	GamePlayTool::SetInteractOption(AutoOption::NoResponse);
+	GamePlayTool::SetObjectToolType(ObjectToolType::TrashCan);
 }
 //
 //void Tool_TrashCan::Input_ActionToAuto_Update(std::shared_ptr<GamePlayMoveable> _Moveable, float _DeltaTime)

@@ -54,7 +54,7 @@ void Tool_Sink::Start()
 {
 	GamePlayTool::Start();
 	GamePlayTool::SetInteractOption(AutoOption::Manual);
-	//GamePlayTool::SetToolInfoType(ToolInfo::Cooker);
+	GamePlayTool::SetObjectToolType(ObjectToolType::Sink);
 
 }
 

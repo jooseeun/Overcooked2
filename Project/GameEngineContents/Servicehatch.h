@@ -1,5 +1,6 @@
 #pragma once
 #include "GamePlayStaticObject.h"
+#include "GamePlayTool.h"
 
 //요리 내는 창구
 class Servicehatch : public GamePlayStaticObject
@@ -15,8 +16,31 @@ public:
 
 protected:
 	void Start() override;
+	void Update(float _DeltaTime) override;
 
 private:
 
+};
+
+
+class Tool_Servicehatch : public GamePlayTool
+{
+
+public:
+	// constrcuter destructer
+	Tool_Servicehatch();
+	~Tool_Servicehatch();
+
+	// delete Function
+	Tool_Servicehatch(const Tool_Servicehatch& _Other) = delete;
+	Tool_Servicehatch(Tool_Servicehatch&& _Other) noexcept = delete;
+	Tool_Servicehatch& operator=(const Tool_Servicehatch& _Other) = delete;
+	Tool_Servicehatch& operator=(Tool_Servicehatch&& _Other) noexcept = delete;
+
+
+protected:
+	void Start() override;
+
+private:
 };
 

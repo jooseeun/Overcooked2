@@ -37,7 +37,10 @@ public:
 	GamePlayObject& operator=(const GamePlayObject& _Other) = delete;
 	GamePlayObject& operator=(GamePlayObject&& _Other) noexcept = delete;
 
-
+	virtual SetPlayerState_Return SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type) {
+		MsgBoxAssert("아직 설정되지 않았습니다");
+		return SetPlayerState_Return::Nothing;
+	};
 
 
 
@@ -118,13 +121,13 @@ private:
 private:
 	bool BloomEffect_;
 public:
-	inline virtual void SetBloomEffectOff()
+	inline virtual void SetHighlightEffectOff()
 	{
 		GetFBXMesh()->SetAllPixelDataPlusColor(float4(0,0,0,0));
 
 		BloomEffect_ = false;
 	}
-	virtual inline void SetBloomEffectOn()
+	virtual inline void SetHighlightEffectOn()
 	{
 		GetFBXMesh()->SetAllPixelDataPlusColor(float4(0.2f, 0.2f, 0.2f, 0.0f));
 

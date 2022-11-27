@@ -23,8 +23,8 @@ public:
 	//Input_PickUpOption Input_PickUp(std::shared_ptr<Player> _Player) override;
 	//PlayerHoldType Input_Action() { return PlayerHoldType::Max; } override;
 
-	SetPlayerState_Return SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type);
-
+	SetPlayerState_Return SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type) override;
+	
 
 
 	inline std::shared_ptr<GamePlayStuff> GetStuff() const
@@ -36,7 +36,7 @@ public:
 	inline void SetStuff(std::shared_ptr<GamePlayStuff> _Stuff)
 	{
 		Stuff_Current_ = _Stuff;
-
+		Stuff_Current_->GetCollisionObject()->Off();
 		if (nullptr != _Stuff)
 		{
 			_Stuff->SetParent(std::dynamic_pointer_cast<GamePlayObject>(shared_from_this()));
@@ -101,15 +101,12 @@ private:
 	MapObjType MyType_;
 
 
-	//int X_;
-	//int Y_;
-
-
 
 	// Bloom
 public:
-	void SetBloomEffectOff() override;
-	void SetBloomEffectOn() override;
+	void SetHighlightEffectOff() override;
+	void SetHighlightEffectOn() override;
+
 
 	//
 };

@@ -414,7 +414,7 @@ void MapEditorWindow::UnSortToolTab()
 
 	for (size_t i = 0; i < RendererType.size(); ++i)
 	{
-		if (i <= 12)
+		if (i <= 14)
 		{
 			continue;
 		}
@@ -854,12 +854,14 @@ void MapEditorWindow::SortToolTab()
 					break;
 					case ToolInfo::Bowl:
 					{
-
+						std::shared_ptr<Equipment_Bowl> Bowl = CurLevel_->CreateActor<Equipment_Bowl>();
+						SortActorList_[ActorIndex].lock()->SetStuff(Bowl);
 					}
 					break;
 					case ToolInfo::Steamer:
 					{
-
+						std::shared_ptr<Equipment_Steamer> Steamer = CurLevel_->CreateActor<Equipment_Steamer>();
+						SortActorList_[ActorIndex].lock()->SetStuff(Steamer);
 					}
 					break;
 					}
@@ -1014,7 +1016,7 @@ void MapEditorWindow::SortToolTab()
 			Object.lock()->SetCounterTopType(CounterTopType::Mixer);
 			Object.lock()->SetConterTopMesh(CounterTopType::Mixer);
 
-		//	Object.lock()->SetStaticObjectType(MapObjType::);
+			Object.lock()->SetStaticObjectType(MapObjType::CounterTop_Mixer);
 		}
 		break;
 		}
@@ -1072,11 +1074,18 @@ void MapEditorWindow::SortToolTab()
 
 	ImGui::Text("");
 
-	if (true == ImGui::Button("Rotate")
+	if (true == ImGui::Button("RotateY")
 		&& 0 < SortActorList_.size()
 		&& ActorIndex < SortActorList_.size())
 	{
 		SortActorList_[ActorIndex].lock()->GetTransform().SetAddWorldRotation({ 0.f, 90.f, 0.f });
+	}
+
+	if (true == ImGui::Button("RotateX")
+		&& 0 < SortActorList_.size()
+		&& ActorIndex < SortActorList_.size())
+	{
+		SortActorList_[ActorIndex].lock()->GetTransform().SetAddWorldRotation({ 90.f, 0.f, 0.f });
 	}
 
 	ImGui::EndTabItem();

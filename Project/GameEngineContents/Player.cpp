@@ -25,7 +25,7 @@ Player::Player()
 	, CurKineticEnergy_(0)
 	, FireOff_(false)
 	, PlayerName_()
-	, PlayerPNum(4)
+	, PlayerPNum(3)
 {
 
 }
@@ -213,7 +213,7 @@ void Player::Start()
 
 
 	StateManager.ChangeState("Idle");
-
+	ChangePlayerColor();
 
 
 
@@ -920,7 +920,7 @@ CollisionReturn Player::GravityColCheck(std::shared_ptr<GameEngineCollision> _Th
 
 CollisionReturn Player::MoveColCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 {
-	//_Other->CastThis<GamePlayStaticObject>()->SetBloomEffectOn();
+	//_Other->CastThis<GamePlayStaticObject>()->SetHighlightEffectOn();
 	return CollisionReturn::ContinueCheck;
 }
 

@@ -21,7 +21,15 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		ChangePlayer();
 	}
-
+	if (true == GameEngineInput::GetInst()->IsDownKey("ChangePlayerNum"))
+	{
+		PlayerPNum += 1;
+		if (PlayerPNum == 5)
+		{
+			PlayerPNum = 1;
+		}
+		ChangePlayerColor();
+	}
 	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft") ||
 		true == GameEngineInput::GetInst()->IsPressKey("PlayerRight") ||
 		true == GameEngineInput::GetInst()->IsPressKey("PlayerFront") ||
@@ -123,10 +131,10 @@ void Player::HoldUpStart(const StateInfo& _Info)
 	{
 		CurStateType_ = PlayerCurStateType::HoldUp;
 		if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Moveable, CollisionType::CT_OBB,
-			std::bind(&Player::GroundHoldUpCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)//바닥에 뭐 없을때
+			std::bind(&Player::GroundHoldUpCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)//바닥에 들수있는  물건이 없을때
 		{
 			Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
-				std::bind(&Player::TableHoldUpCheck, this, std::placeholders::_1, std::placeholders::_2));
+				std::bind(&Player::TableHoldUpCheck, this, std::placeholders::_1, std::placeholders::_2)); // 테이블 검사
 		}
 	}
 

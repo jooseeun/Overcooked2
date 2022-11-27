@@ -21,3 +21,18 @@ void PlateReturn::Start()
 	GetFBXMesh()->GetTransform().SetWorldMove({ 0, 0, 0 });
 }
 
+Tool_PlateReturn::Tool_PlateReturn()
+{
+}
+
+Tool_PlateReturn::~Tool_PlateReturn()
+{
+}
+void Tool_PlateReturn::Start()
+{
+	GamePlayTool::Start();
+	GamePlayTool::SetInteractOption(AutoOption::NoResponse);
+	GamePlayTool::SetObjectToolType(ObjectToolType::PlateReturn);
+}
+
+
