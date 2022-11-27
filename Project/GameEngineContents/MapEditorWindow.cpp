@@ -261,6 +261,9 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				Prefabs_.push_back("FoodBox");
 				Prefabs_.push_back("Sink_Wizard");
 				Prefabs_.push_back("Rail");
+				Prefabs_.push_back("Dispenser");
+				Prefabs_.push_back("Steamer");
+				Prefabs_.push_back("Portal");
 			}
 		}
 
@@ -845,6 +848,16 @@ void MapEditorWindow::SortToolTab()
 						SortActorList_[ActorIndex].lock()->SetStuff(CuttingBoard);
 					}
 					break;
+					case ToolInfo::Bowl:
+					{
+
+					}
+					break;
+					case ToolInfo::Steamer:
+					{
+
+					}
+					break;
 					}
 
 					float4 ToolPos = SortActorList_[ActorIndex].lock()->GetToolPos();
@@ -978,6 +991,24 @@ void MapEditorWindow::SortToolTab()
 			Object.lock()->SetSinkMesh(SinkType::Wizard);
 		}
 		case 11:
+		{
+			CurStaticMesh_ = CurLevel_->CreateActor<Rail>();
+			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::Rail);
+		}
+		break;
+		case 12:
+		{
+			CurStaticMesh_ = CurLevel_->CreateActor<Rail>();
+			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::Rail);
+		}
+		break;
+		case 13:
+		{
+			CurStaticMesh_ = CurLevel_->CreateActor<Rail>();
+			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::Rail);
+		}
+		break;
+		case 14:
 		{
 			CurStaticMesh_ = CurLevel_->CreateActor<Rail>();
 			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::Rail);
