@@ -21,7 +21,15 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		ChangePlayer();
 	}
-
+	if (true == GameEngineInput::GetInst()->IsDownKey("ChangePlayerNum"))
+	{
+		PlayerPNum += 1;
+		if (PlayerPNum == 5)
+		{
+			PlayerPNum = 1;
+		}
+		ChangePlayerColor();
+	}
 	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft") ||
 		true == GameEngineInput::GetInst()->IsPressKey("PlayerRight") ||
 		true == GameEngineInput::GetInst()->IsPressKey("PlayerFront") ||
