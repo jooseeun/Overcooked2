@@ -20,3 +20,8 @@ void Servicehatch::Start()
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 	GetFBXMesh()->GetTransform().SetWorldMove({ -60, 0, 0 });
 }
+
+void Servicehatch::Update(float _DeltaTime)
+{
+	GetFBXMesh()->RenderOptionInst.UV.x -= _DeltaTime * 0.5f;
+}
