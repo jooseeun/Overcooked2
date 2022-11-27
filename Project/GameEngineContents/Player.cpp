@@ -932,11 +932,14 @@ CollisionReturn Player::TableHoldUpCheck(std::shared_ptr<GameEngineCollision> _T
 		StateManager.ChangeState("Idle");
 	}
 
+	return CollisionReturn::ContinueCheck;
 }
 CollisionReturn Player::GroundHoldUpCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 { //바닥에 있는 오브젝트 집기
 	SetPlayerHolding(_Other->GetActor());
 	IdleRendererON();
+
+	return CollisionReturn::ContinueCheck;
 }
 
 CollisionReturn Player::TableHoldDownCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
@@ -946,6 +949,7 @@ CollisionReturn Player::TableHoldDownCheck(std::shared_ptr<GameEngineCollision> 
 	{  //테이블에 물체가 있어 못내려놓으면 그냥 아무일도 일어나지 않게 하기
 		StateManager.ChangeState("HoldUp");
 	}
+	return CollisionReturn::ContinueCheck;
 }
 
 
@@ -958,4 +962,5 @@ CollisionReturn Player::TableSliceCheck(std::shared_ptr<GameEngineCollision> _Th
 	{  //자를수 있으면 자르는 상태로 변경
 		StateManager.ChangeState("Slice");
 	}
+	return CollisionReturn::ContinueCheck;
 }
