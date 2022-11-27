@@ -206,6 +206,9 @@
     <ClInclude Include="Lift.h">
       <Filter>Contents\Object\MapObject</Filter>
     </ClInclude>
+    <ClInclude Include="WaterTest.h">
+      <Filter>Global</Filter>
+    </ClInclude>
     <ClInclude Include="GraphicGUI.h">
       <Filter>GUI</Filter>
     </ClInclude>
@@ -415,6 +418,9 @@
     </ClCompile>
     <ClCompile Include="Lift.cpp">
       <Filter>Contents\Object\MapObject</Filter>
+    </ClCompile>
+    <ClCompile Include="WaterTest.cpp">
+      <Filter>Global</Filter>
     </ClCompile>
     <ClCompile Include="GraphicGUI.cpp">
       <Filter>GUI</Filter>
