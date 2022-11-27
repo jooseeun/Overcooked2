@@ -21,5 +21,7 @@ protected:
 
 private:
 	std::shared_ptr<GameEngineTextureRenderer> Renderer_;
+	std::shared_ptr<GameEngineTextureRenderer> Renderer2_;
+	std::shared_ptr<GameEngineTextureRenderer> Renderer3_;
 
 };

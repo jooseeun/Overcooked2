@@ -1,0 +1,11 @@
+{ 
+MeshName:MIXER_COUNTERTOP.FBX;
+MeshInfoCount:3;
+Path:\T_CAKEMIXER_01_C.PNG;
+Mat:T_CAKEMIXER_01_C.PNG;
+Path:;
+Mat:T_CAKEMIXER_01_C.PNG;
+Path:C:\Users\YS\OneDrive\Documents\DX_TeamPortfolio\Overcooked2\Project\ContentsResources\Mesh\Level\1_3\SortObject\CounterTop_NoEdge\t_sk_countertop_no_edge_01_d.png;
+Mat:t_sk_countertop_no_edge_01_d.png;
+}
+

@@ -278,6 +278,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Portal.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PreCompile.h" />
     <ClInclude Include="Rail.h" />
     <ClInclude Include="SelectStageLevel.h" />
@@ -450,6 +454,10 @@
     </ClCompile>
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerState.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Portal.cpp">
       <SubType>
       </SubType>
     </ClCompile>

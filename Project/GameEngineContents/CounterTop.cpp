@@ -42,6 +42,7 @@ void CounterTop::SetConterTopMesh(CounterTopType _Type)
 	case CounterTopType::Mixer:
 	{
 		Name = "Mixer_Countertop.fbx";
+		GetFBXMesh()->GetTransform().SetWorldMove({ 0.f, 0.f, -50.f });
 	}	
 	break;
 	default:

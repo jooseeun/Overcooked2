@@ -12,7 +12,8 @@ struct RenderOption
     float SumDeltaTime = 0.0f;
 	int IsAnimation = 0;
 	int dummy = 0;
-	float4 UV;
+	float4 UV = {0, 0, 0};
+	float Random = 0.0f;
 };
 
 struct PixelData

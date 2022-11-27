@@ -5,5 +5,6 @@ cbuffer RenderOption : register(b10)
     int IsAnimation;
     int dummy;
     float4 UV;
+    float Random;
 };
 

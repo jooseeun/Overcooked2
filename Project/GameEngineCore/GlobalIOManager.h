@@ -15,6 +15,7 @@ enum class MapObjType
 	CounterTop_Corner,
 	CounterTop_NoEdge,
 	CounterTop_WiZard,  //마법사 스테이지 전용 조리대
+	CounterTop_Mixer,
 	Cooker,			//가스레인지
 	TrashCan,			//쓰레기통
 	Sink,				//싱크대
@@ -23,6 +24,7 @@ enum class MapObjType
 	PlateReturn,		//그릇 되돌아 나오는 타일
 	FoodBox,			//음식 스폰 박스
 	Rail,				//컨베이어 벨트
+	Dispenser,
 
 	StaticNoCollision,		// 애니메이션 X, 콜리전 X		ex) Grass, Bamboo
 	Pigeon_Grounded,		// 애니메이션 O, 콜리전 x		ex) Pigeon_Idle
