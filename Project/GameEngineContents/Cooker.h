@@ -43,6 +43,8 @@ public:
 	Tool_Cooker& operator=(const Tool_Cooker& _Other) = delete;
 	Tool_Cooker& operator=(Tool_Cooker&& _Other) noexcept = delete;
 
+	//HoldDownEnum HoldDown(std::shared_ptr<GamePlayStuff> _Stuff) override;
+
 
 protected:
 	void Start() override;

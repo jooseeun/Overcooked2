@@ -179,8 +179,7 @@ void Tool_FoodBox::Start()
 {
 	GamePlayTool::Start();
 	GamePlayTool::SetInteractOption(AutoOption::NoResponse);
-	//SetCookingEndTime(1.f);
-	//GamePlayTool::SetToolInfoType(ToolInfo::TrashCan);
+	GamePlayTool::SetObjectToolType(ObjectToolType::FoodBox);
 }
 
 

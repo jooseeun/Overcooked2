@@ -18,7 +18,6 @@ enum class ObjectFoodClass
 	Prawn_Cutting,
 
 
-
 	Recipe_Default = 100,
 };
 

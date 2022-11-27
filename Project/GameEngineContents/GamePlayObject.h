@@ -37,7 +37,10 @@ public:
 	GamePlayObject& operator=(const GamePlayObject& _Other) = delete;
 	GamePlayObject& operator=(GamePlayObject&& _Other) noexcept = delete;
 
-
+	virtual SetPlayerState_Return SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type) {
+		MsgBoxAssert("아직 설정되지 않았습니다");
+		return SetPlayerState_Return::Nothing;
+	};
 
 
 

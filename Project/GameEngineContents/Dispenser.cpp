@@ -23,3 +23,19 @@ void Dispenser::Start()
 void Dispenser::Update(float _DeltaTime)
 {
 }
+
+
+Tool_Dispenser::Tool_Dispenser()
+{
+}
+
+Tool_Dispenser::~Tool_Dispenser()
+{
+}
+void Tool_Dispenser::Start()
+{
+	GamePlayTool::Start();
+	GamePlayTool::SetInteractOption(AutoOption::NoResponse);
+	GamePlayTool::SetObjectToolType(ObjectToolType::Dispenser);
+}
+

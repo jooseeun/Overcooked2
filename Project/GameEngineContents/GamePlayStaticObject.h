@@ -23,8 +23,8 @@ public:
 	//Input_PickUpOption Input_PickUp(std::shared_ptr<Player> _Player) override;
 	//PlayerHoldType Input_Action() { return PlayerHoldType::Max; } override;
 
-	SetPlayerState_Return SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type);
-
+	SetPlayerState_Return SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type) override;
+	
 
 
 	inline std::shared_ptr<GamePlayStuff> GetStuff() const

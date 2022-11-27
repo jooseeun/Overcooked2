@@ -10,13 +10,22 @@ enum class AutoOption
 };
 enum class ObjectToolType
 {
-	None,
-	CuttingBoard,
+	  None
+	, CuttingBoard // 도마
+	, Cooker       // 가스레인지
+	, TrashCan     // 쓰레기통
+	, Mixer        // 믹서기
+	, PlateReturn  // 접시반납
+	, Sink         // 싱크대
+	, FoodBox      // 
+	, Servicehatch //
+	, Rail		   //
+	, Dispenser	   //
 
 };
+
 class GamePlayTool : public GamePlayStuff
 {
-	//friend class Tool_TrashCan; // 비워야하니 예외
 public:
 	// constrcuter destructer
 	GamePlayTool();
@@ -28,6 +37,10 @@ public:
 	GamePlayTool& operator=(const GamePlayTool& _Other) = delete;
 	GamePlayTool& operator=(GamePlayTool&& _Other) noexcept = delete;
 
+	inline HoldDownEnum HoldDown(std::shared_ptr<GamePlayStuff> _Stuff) override
+	{
+		return HoldDownEnum::HoldDown;
+	};
 
 	inline std::shared_ptr<GamePlayMoveable> GetCurrentMoveable() const
 	{
@@ -36,6 +49,11 @@ public:
 	inline void ReSetCurrentMoveable()
 	{
 		Moveable_Current_.reset();
+	}
+
+	inline ObjectToolType GetObjectToolType()
+	{
+		return Enum_ObjectToolType_;
 	}
 
 protected:
@@ -61,12 +79,14 @@ private:
 
 
 protected:
-
+	inline void SetObjectToolType(ObjectToolType _Type)
+	{
+		Enum_ObjectToolType_ = _Type;
+	}
 
 
 private:
-
-
+	ObjectToolType Enum_ObjectToolType_;
 	AutoOption InteractOption_Current_;
 
 	float4 FoodPos_;

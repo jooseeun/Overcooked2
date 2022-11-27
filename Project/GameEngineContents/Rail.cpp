@@ -24,3 +24,20 @@ void Rail::Update(float _Delta)
 {
 	GetFBXMesh()->RenderOptionInst.UV.x += _Delta;
 }
+
+
+Tool_Rail::Tool_Rail()
+{
+}
+
+Tool_Rail::~Tool_Rail()
+{
+}
+void Tool_Rail::Start()
+{
+	GamePlayTool::Start();
+	GamePlayTool::SetInteractOption(AutoOption::NoResponse);
+	GamePlayTool::SetObjectToolType(ObjectToolType::Rail);
+}
+
+
