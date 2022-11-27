@@ -11,11 +11,14 @@
 #include "PlateReturn.h"
 #include "FoodBox.h"
 #include "Rail.h"
+#include "Dispenser.h"
 
 #include "Equipment_Plate.h"
 #include "Equipment_FireExtinguisher.h"
 #include "Equipment_FryingPan.h"
 #include "Equipment_Pot.h"
+#include "Equipment_Bowl.h"
+#include "Equipment_Steamer.h"
 #include "Tool_CuttingBoard.h"
 
 #include "Npc.h"
@@ -23,6 +26,7 @@
 #include "TrafficLight.h"
 #include "Candle.h"
 #include "Lift.h"
+#include "Portal.h"
 
 #include "LoadingData.h"
 
@@ -262,8 +266,8 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				Prefabs_.push_back("Sink_Wizard");
 				Prefabs_.push_back("Rail");
 				Prefabs_.push_back("Dispenser");
-				Prefabs_.push_back("Steamer");
-				Prefabs_.push_back("Portal");
+				Prefabs_.push_back("CounterTop_Mixer");
+
 			}
 		}
 
@@ -848,15 +852,15 @@ void MapEditorWindow::SortToolTab()
 						SortActorList_[ActorIndex].lock()->SetStuff(CuttingBoard);
 					}
 					break;
-					//case ToolInfo::Bowl:
-					//{
+					case ToolInfo::Bowl:
+					{
 
-					//}
-					//break;
-					//case ToolInfo::Steamer:
-					//{
+					}
+					break;
+					case ToolInfo::Steamer:
+					{
 
-					//}
+					}
 					break;
 					}
 
@@ -998,20 +1002,19 @@ void MapEditorWindow::SortToolTab()
 		break;
 		case 12:
 		{
-			CurStaticMesh_ = CurLevel_->CreateActor<Rail>();
-			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::Rail);
+			CurStaticMesh_ = CurLevel_->CreateActor<Dispenser>();
+			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::Dispenser);
 		}
 		break;
 		case 13:
 		{
-			CurStaticMesh_ = CurLevel_->CreateActor<Rail>();
-			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::Rail);
-		}
-		break;
-		case 14:
-		{
-			CurStaticMesh_ = CurLevel_->CreateActor<Rail>();
-			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::Rail);
+			CurStaticMesh_ = CurLevel_->CreateActor<CounterTop>();
+			std::weak_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurStaticMesh_.lock());
+
+			Object.lock()->SetCounterTopType(CounterTopType::Mixer);
+			Object.lock()->SetConterTopMesh(CounterTopType::Mixer);
+
+		//	Object.lock()->SetStaticObjectType(MapObjType::);
 		}
 		break;
 		}

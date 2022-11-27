@@ -62,6 +62,8 @@ enum class ToolInfo
 	FryingPan, //ÇÁ¶óÀÌÆÒ
 	Pot, //³¿ºñ
 	CuttingBoard, //µµ¸¶¶û Ä®
+	Bowl,
+	Steamer,
 	Max
 };
 

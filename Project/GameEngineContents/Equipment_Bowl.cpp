@@ -9,3 +9,10 @@ Equipment_Bowl::~Equipment_Bowl()
 {
 }
 
+void Equipment_Bowl::Start()
+{
+}
+
+void Equipment_Bowl::Update(float _DeltaTime)
+{
+}

@@ -149,7 +149,7 @@ public:
 		{
 			MsgBoxAssert("애니메이션을 세팅하지 않았습니다.");
 		}
-		return CurAnimation->GetRendereringEvent().Frames.size();
+		return CurAnimation->GetRendereringEvent().Frames.size() - 1;
 	}
 
 protected:

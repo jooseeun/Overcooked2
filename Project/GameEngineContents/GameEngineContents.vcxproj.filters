@@ -224,6 +224,9 @@
     <ClInclude Include="Dispenser.h">
       <Filter>Contents\Object\StaticMesh</Filter>
     </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>Contents\Object\MapObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -445,6 +448,9 @@
     </ClCompile>
     <ClCompile Include="Dispenser.cpp">
       <Filter>Contents\Object\StaticMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>Contents\Object\MapObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

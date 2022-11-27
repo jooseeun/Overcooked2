@@ -9,3 +9,10 @@ Dispenser::~Dispenser()
 {
 }
 
+void Dispenser::Start()
+{
+}
+
+void Dispenser::Update(float _DeltaTime)
+{
+}
