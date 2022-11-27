@@ -58,10 +58,6 @@ public:
 		return Enum_ObjectFoodClass_;
 	}
 
-	inline Input_PickUpOption Input_PickUp(std::shared_ptr<GamePlayMoveable> _Object) override
-	{
-		return Input_PickUpOption::NoResponse;
-	}
 
 
 protected:
@@ -101,17 +97,6 @@ protected:
 		}
 	}
 private:
-	inline Input_UsingOption Input_Using(std::shared_ptr<Player> _Player) override
-	{
-		MsgBoxAssert("사용 할 수 없는 Stuff (Food)");
-		return Input_UsingOption::Throwing;
-	}
-	inline Input_UsingOption Input_Throwing(const float4& _Vector) override
-	{
-		SetVector(_Vector);
-		return Input_UsingOption::Throwing;
-	}
-
 
 
 	ObjectFoodType Enum_ObjectFoodType_;

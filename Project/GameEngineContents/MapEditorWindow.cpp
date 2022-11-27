@@ -2,7 +2,6 @@
 #include "MapEditorWindow.h"
 #include "GamePlayLevel.h"
 #include "GamePlayOriginObject.h"
-#include "GamePlayStuff.h"
 
 #include "CounterTop.h"
 #include "TrashCan.h"

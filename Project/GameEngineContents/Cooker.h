@@ -43,8 +43,6 @@ public:
 	Tool_Cooker& operator=(const Tool_Cooker& _Other) = delete;
 	Tool_Cooker& operator=(Tool_Cooker&& _Other) noexcept = delete;
 
-	Input_PickUpOption CheckMoveable(std::shared_ptr<GamePlayMoveable> _Object) override;
-
 
 protected:
 	void Start() override;

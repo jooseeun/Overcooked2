@@ -33,7 +33,19 @@ enum class PlayerDir
 	FrontLeft,
 	Max
 };
-enum class PlayerHoldType
+enum class PlayerCurStateType // 플레이어가 무슨상태인지
+{
+	Idle,
+	HoldUp,
+	HoldDown,
+	Slice,
+	FireOff,
+	DishWash,
+	Throw,
+	Max
+};
+
+enum class PlayerHoldType // 손에있는게 무슨타입인지
 	//컨트롤 키를 눌렀을때 어떤 상호작용을 할지 정하려고 만든 enum
 {
 	CanThrow, // 던질수 있는것
@@ -41,6 +53,7 @@ enum class PlayerHoldType
 	FireExtinguisher, // 소화기
 	Max // 손에 아무것도 없을때
 };
+
 enum class ToolInfo
 {
 	None = 0,
@@ -49,8 +62,6 @@ enum class ToolInfo
 	FryingPan, //프라이팬
 	Pot, //냄비
 	CuttingBoard, //도마랑 칼
-	FoodBox, // 음식상자
-	TrashCan, // 쓰레기통
 	Max
 };
 

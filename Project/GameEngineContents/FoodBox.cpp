@@ -182,83 +182,72 @@ void Tool_FoodBox::Start()
 	//SetCookingEndTime(1.f);
 	//GamePlayTool::SetToolInfoType(ToolInfo::TrashCan);
 }
-//
-//void Tool_TrashCan::Input_ActionToAuto_Update(std::shared_ptr<GamePlayMoveable> _Moveable, float _DeltaTime)
+
+
+
+//Input_PickUpOption Tool_FoodBox::CheckMoveable(std::shared_ptr<GamePlayMoveable> _Object)
 //{
-//	_Moveable->PlusCookingTime(_DeltaTime);
-//	// 돌면서 작아지는 기능
+//	return Input_PickUpOption::PickUp;
 //}
 //
-//void Tool_TrashCan::Input_Action_End(std::shared_ptr<GamePlayMoveable> _Moveable)
+//Input_PickUpOption Tool_FoodBox::Input_PickUp(std::shared_ptr<Player> _Player)
 //{
-//	_Moveable->Death();// 삭제한다
-//	ReSetCurrentMoveable();
+//	switch (Type_)
+//	{
+//	case FoodType::Onion:
+//		break;
+//	case FoodType::Potato:
+//		break;
+//	case FoodType::Dough:
+//		break;
+//	case FoodType::Seaweed:
+//		break;
+//	case FoodType::Mushroom:
+//		break;
+//	case FoodType::Meat:
+//		break;
+//	case FoodType::Lettuce:
+//		break;
+//	case FoodType::Rice:
+//		break;
+//	case FoodType::Flour:
+//		break;
+//	case FoodType::Bread:
+//		break;
+//	case FoodType::Fish:
+//		break;
+//	case FoodType::Sausage:
+//		break;
+//	case FoodType::DumplingSkin:
+//		break;
+//	case FoodType::Egg:
+//		break;
+//	case FoodType::Chicken:
+//		break;
+//	case FoodType::Burrito:
+//		break;
+//	case FoodType::Cheese:
+//		break;
+//	case FoodType::Carrot:
+//		break;
+//	case FoodType::Chocolate:
+//		break;
+//	case FoodType::Honey:
+//		break;
+//	case FoodType::PastaNoodles:
+//		break;
+//	case FoodType::Tomato:
+//		//break;
+//	case FoodType::Prawn:
+//		_Player->Input_PickUp(GetLevel()->CreateActor<Food_Ingredients_Prawn>());
+//		break;
+//	case FoodType::Cucumber:
+//		break;
+//	default:
+//		break;
+//	}
+//	return Input_PickUpOption::Exception;
 //}
-
-
-Input_PickUpOption Tool_FoodBox::CheckMoveable(std::shared_ptr<GamePlayMoveable> _Object)
-{
-	return Input_PickUpOption::PickUp;
-}
-
-Input_PickUpOption Tool_FoodBox::Input_PickUp(std::shared_ptr<Player> _Player)
-{
-	switch (Type_)
-	{
-	case FoodType::Onion:
-		break;
-	case FoodType::Potato:
-		break;
-	case FoodType::Dough:
-		break;
-	case FoodType::Seaweed:
-		break;
-	case FoodType::Mushroom:
-		break;
-	case FoodType::Meat:
-		break;
-	case FoodType::Lettuce:
-		break;
-	case FoodType::Rice:
-		break;
-	case FoodType::Flour:
-		break;
-	case FoodType::Bread:
-		break;
-	case FoodType::Fish:
-		break;
-	case FoodType::Sausage:
-		break;
-	case FoodType::DumplingSkin:
-		break;
-	case FoodType::Egg:
-		break;
-	case FoodType::Chicken:
-		break;
-	case FoodType::Burrito:
-		break;
-	case FoodType::Cheese:
-		break;
-	case FoodType::Carrot:
-		break;
-	case FoodType::Chocolate:
-		break;
-	case FoodType::Honey:
-		break;
-	case FoodType::PastaNoodles:
-		break;
-	case FoodType::Tomato:
-		//break;
-	case FoodType::Prawn:
-		_Player->Input_PickUp(GetLevel()->CreateActor<Food_Ingredients_Prawn>());
-		break;
-	case FoodType::Cucumber:
-		break;
-	default:
-		break;
-	}
-	return Input_PickUpOption::Exception;
-}
 //
 //Input_AutoOption Tool_TrashCan::Input_Action()
 //{

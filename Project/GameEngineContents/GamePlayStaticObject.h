@@ -19,22 +19,27 @@ public:
 	GamePlayStaticObject& operator=(GamePlayStaticObject&& _Other) noexcept = delete;
 
 public:
-	Input_PickUpOption Input_PickUp(std::shared_ptr<GamePlayMoveable> _Object) override;
-	Input_PickUpOption Input_PickUp(std::shared_ptr<Player> _Player) override;
+	//Input_PutDownOption Input_PutDown(std::shared_ptr<GamePlayMoveable> _Object) override;
+	//Input_PickUpOption Input_PickUp(std::shared_ptr<Player> _Player) override;
+	//PlayerHoldType Input_Action() { return PlayerHoldType::Max; } override;
+
+	SetPlayerState_Return SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type);
+
 
 
 	inline std::shared_ptr<GamePlayStuff> GetStuff() const
 	{
 		return Stuff_Current_;
 	}
+	std::shared_ptr<GamePlayMoveable> GetMoveable() const;
+	std::shared_ptr<GamePlayMoveable> GetMoveable_TakeOut();
 	inline void SetStuff(std::shared_ptr<GamePlayStuff> _Stuff)
 	{
 		Stuff_Current_ = _Stuff;
 
 		if (nullptr != _Stuff)
 		{
-			_Stuff->SetParentObject(std::dynamic_pointer_cast<GamePlayObject>(shared_from_this()));
-			Stuff_Current_->GetCollisionObject()->Off();
+			_Stuff->SetParent(std::dynamic_pointer_cast<GamePlayObject>(shared_from_this()));
 		}
 	}
 	inline void ReSetStuff()
@@ -42,26 +47,6 @@ public:
 		Stuff_Current_.reset();
 	}
 
-	std::shared_ptr<GamePlayMoveable> GetMoveable() const;
-
-
-	//inline int GetX() const
-	//{
-	//	return X_;
-	//}
-	//inline int GetY() const
-	//{
-	//	return Y_;
-	//}
-
-	//inline void SetX(int _X)
-	//{
-	//	X_ = _X;
-	//}
-	//inline void SetY(int _Y)
-	//{
-	//	Y_ = _Y;
-	//}
 
 	inline void SetStaticObjectType(MapObjType _Type)
 	{

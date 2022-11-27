@@ -1,7 +1,8 @@
 #include "PreCompile.h"
 #include "Player.h"
-#include "GamePlayFood.h"
 #include "GamePlayStaticObject.h"
+#include "CounterTop.h"
+#include  "GamePlayStaticObject.h"
 #include <math.h>
 
 Player::Player()
@@ -21,13 +22,10 @@ Player::Player()
 	, PlayerWashRenderer_()
 	, StateManager()
 	, CurrentHoldingObject_(nullptr)
-	, Collision_Interact_(nullptr)
-	, Interact_GroundObject_(nullptr)
-	, Interact_TableObject_(nullptr)
 	, CurKineticEnergy_(0)
 	, FireOff_(false)
 	, PlayerName_()
-	, PlayerP(1)
+	, PlayerPNum(4)
 {
 
 }
@@ -122,20 +120,8 @@ void Player::Start()
 
 
 
-		PixelData&  Test = PlayerIdleRenderer_[i]->GetPixelDatas(0);
-		Test.AlphaFlag = 1;
-
-		Test.AlphaColor.r = 1.0f;
-
-		Test.AlphaColor.g = 0.0f;
-		Test.AlphaColor.b = 0.0f;
-		Test.AlphaColor.a = 1.0f;
 
 
-	}
-	//AlienGreen
-	{
-		
 
 	}
 
@@ -187,12 +173,9 @@ void Player::Start()
 	}*/
 
 
-	GamePlayObject::Start();
-	GamePlayObject::SetObjectType(ObjectType::Character);
 	Collision_Interact_ = CreateComponent<GameEngineCollision>("PlayerCollision");
 	Collision_Interact_->GetTransform().SetLocalScale({ 50,100,200});
 	Collision_Interact_->GetTransform().SetLocalPosition({ 0,0,-60 });
-	GetCollisionObject()->ChangeOrder(CollisionOrder::Object_Character);
 
 
 	StateManager.CreateStateMember("Idle"
@@ -207,9 +190,13 @@ void Player::Start()
 		, std::bind(&Player::ThrowUpdate, this, std::placeholders::_1, std::placeholders::_2)
 		, std::bind(&Player::ThrowStart, this, std::placeholders::_1)
 	);
-	StateManager.CreateStateMember("Hold"
-		, std::bind(&Player::HoldUpdate, this, std::placeholders::_1, std::placeholders::_2)
-		, std::bind(&Player::HoldStart, this, std::placeholders::_1)
+	StateManager.CreateStateMember("HoldUp"
+		, std::bind(&Player::HoldUpUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::HoldUpStart, this, std::placeholders::_1)
+	);
+	StateManager.CreateStateMember("HoldDown"
+		, std::bind(&Player::HoldDownUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::HoldDownStart, this, std::placeholders::_1)
 	);
 	StateManager.CreateStateMember("Slice"
 		, std::bind(&Player::SliceUpdate, this, std::placeholders::_1, std::placeholders::_2)
@@ -259,7 +246,145 @@ void Player::WashRendererON()
 	PlayerChopRenderer_[PlayerCustomNum]->Off();
 	PlayerWashRenderer_[PlayerCustomNum]->On();
 }
+void Player::ChangePlayer()
+{
+	PlayerIdleRenderer_[PlayerCustomNum]->Off();
+	PlayerWalkRenderer_[PlayerCustomNum]->Off();
+	PlayerChopRenderer_[PlayerCustomNum]->Off();
+	PlayerWashRenderer_[PlayerCustomNum]->Off();
 
+	PlayerCustomNum += 1;
+	if (PlayerCustomNum == 6)
+	{
+		PlayerCustomNum = 0;
+	}
+
+	PlayerIdleRenderer_[PlayerCustomNum]->On();
+	PlayerWalkRenderer_[PlayerCustomNum]->Off();
+	PlayerChopRenderer_[PlayerCustomNum]->Off();
+	PlayerWashRenderer_[PlayerCustomNum]->Off();
+
+	ChangePlayerColor();
+
+}
+void Player::ChangePlayerColor()
+{
+	PixelData& IdleRender = PlayerIdleRenderer_[PlayerCustomNum]->GetPixelDatas(0);
+	IdleRender.AlphaFlag = 1;
+	IdleRender.AlphaColor.a = 1.0f;
+
+	PixelData& WalkRender = PlayerWalkRenderer_[PlayerCustomNum]->GetPixelDatas(0);
+	WalkRender.AlphaFlag = 1;
+	WalkRender.AlphaColor.a = 1.0f;
+
+	PixelData& ChopRender = PlayerChopRenderer_[PlayerCustomNum]->GetPixelDatas(0);
+	ChopRender.AlphaFlag = 1;
+	ChopRender.AlphaColor.a = 1.0f;
+
+	PixelData& WashRender = PlayerWashRenderer_[PlayerCustomNum]->GetPixelDatas(0);
+	WashRender.AlphaFlag = 1;
+	WashRender.AlphaColor.a = 1.0f;
+
+	if (PlayerPNum == 1)
+	{
+		IdleRender.AlphaColor.r = 1.0f;
+		IdleRender.AlphaColor.g = 0.0f;
+		IdleRender.AlphaColor.b = 0.0f;
+
+		WalkRender.AlphaColor.r = 1.0f;
+		WalkRender.AlphaColor.g = 0.0f;
+		WalkRender.AlphaColor.b = 0.0f;
+
+		WalkRender.AlphaColor.r = 1.0f;
+		WalkRender.AlphaColor.g = 0.0f;
+		WalkRender.AlphaColor.b = 0.0f;
+
+		WalkRender.AlphaColor.r = 1.0f;
+		WalkRender.AlphaColor.g = 0.0f;
+		WalkRender.AlphaColor.b = 0.0f;
+
+	}
+
+	else if (PlayerPNum == 2)
+	{
+		IdleRender.AlphaColor.r = 1.0f;
+		IdleRender.AlphaColor.g = 0.0f;
+		IdleRender.AlphaColor.b = 0.0f;
+
+		WalkRender.AlphaColor.r = 1.0f;
+		WalkRender.AlphaColor.g = 0.0f;
+		WalkRender.AlphaColor.b = 0.0f;
+
+		WalkRender.AlphaColor.r = 1.0f;
+		WalkRender.AlphaColor.g = 0.0f;
+		WalkRender.AlphaColor.b = 0.0f;
+
+		WalkRender.AlphaColor.r = 1.0f;
+		WalkRender.AlphaColor.g = 0.0f;
+		WalkRender.AlphaColor.b = 0.0f;
+
+	}
+
+	else if (PlayerPNum == 2)
+	{
+		IdleRender.AlphaColor.r = 0.0f;
+		IdleRender.AlphaColor.g = 0.0f;
+		IdleRender.AlphaColor.b = 1.0f;
+
+		WalkRender.AlphaColor.r = 0.0f;
+		WalkRender.AlphaColor.g = 0.0f;
+		WalkRender.AlphaColor.b = 1.0f;
+
+		WalkRender.AlphaColor.r = 0.0f;
+		WalkRender.AlphaColor.g = 0.0f;
+		WalkRender.AlphaColor.b = 1.0f;
+
+		WalkRender.AlphaColor.r = 0.0f;
+		WalkRender.AlphaColor.g = 0.0f;
+		WalkRender.AlphaColor.b = 1.0f;
+
+	}
+
+	else if (PlayerPNum == 3)
+	{
+		IdleRender.AlphaColor.r = 0.0f;
+		IdleRender.AlphaColor.g = 1.0f;
+		IdleRender.AlphaColor.b = 0.0f;
+
+		WalkRender.AlphaColor.r = 0.0f;
+		WalkRender.AlphaColor.g = 1.0f;
+		WalkRender.AlphaColor.b = 0.0f;
+
+		WalkRender.AlphaColor.r = 0.0f;
+		WalkRender.AlphaColor.g = 1.0f;
+		WalkRender.AlphaColor.b = 0.0f;
+
+		WalkRender.AlphaColor.r = 0.0f;
+		WalkRender.AlphaColor.g = 1.0f;
+		WalkRender.AlphaColor.b = 0.0f;
+
+	}
+
+	else if (PlayerPNum == 4)
+	{
+		IdleRender.AlphaColor.r = 1.0f;
+		IdleRender.AlphaColor.g = 1.0f;
+		IdleRender.AlphaColor.b = 0.0f;
+
+		WalkRender.AlphaColor.r = 1.0f;
+		WalkRender.AlphaColor.g = 1.0f;
+		WalkRender.AlphaColor.b = 0.0f;
+
+		WalkRender.AlphaColor.r = 1.0f;
+		WalkRender.AlphaColor.g = 1.0f;
+		WalkRender.AlphaColor.b = 0.0f;
+
+		WalkRender.AlphaColor.r = 1.0f;
+		WalkRender.AlphaColor.g = 1.0f;
+		WalkRender.AlphaColor.b = 0.0f;
+
+	}
+}
 void  Player::LevelStartEvent()
 {
 	for (int i = 0; i < 6; i++)
@@ -279,7 +404,6 @@ void Player::Update(float _DeltaTime)
 	StateManager.Update(_DeltaTime);
 	Gravity();
 	DashCheck();
-	Collision_AroundObject();
 	CalculateKineticEnergy();
 }
 
@@ -628,46 +752,21 @@ void Player::PlayerDirCheck() // 플레이어 방향 체크하고 회전시키는 함수
 	GetTransform().SetLocalRotation({ 0,CurAngle_, 0 });
 }
 
-void Player::Collision_AroundObject()
-{
-	if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Moveable, CollisionType::CT_OBB,
-		std::bind(&Player::GetCrashGroundObject, this, std::placeholders::_1, std::placeholders::_2)) == false)
-	{
-		if (Interact_GroundObject_ != nullptr)
-		{
-			Interact_GroundObject_->SetBloomEffectOff();
-		}
-		Interact_GroundObject_ = nullptr;
-	}
-	if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
-		std::bind(&Player::GetCrashTableObject, this, std::placeholders::_1, std::placeholders::_2)) == false)
-	{
-		if (Interact_TableObject_ != nullptr)
-		{
-			Interact_TableObject_->SetBloomEffectOff();
-		}
-		Interact_TableObject_ = nullptr;
-	}
-;
-}
 
 void Player::MoveCollisionSideCheck(float _DeltaTime)
 {
 	if (CurDir_ == PlayerDir::FrontRight)
 	{
-		if (PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB,
-			std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true ||
+		if (PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
 			PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 				std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true)
 		{
 
-			if (PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB,
-				std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true ||
+			if (PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
 				PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 					std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true)
 			{
-				if (PlayerForwardRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB,
-					std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true ||
+				if (PlayerForwardRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
 					PlayerForwardRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 						std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true)
 				{
@@ -675,13 +774,11 @@ void Player::MoveCollisionSideCheck(float _DeltaTime)
 				}
 				GetTransform().SetLocalMove({ -Speed_ * 0.8f * _DeltaTime ,0,0 });
 			}
-			else if (PlayerForwardRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB,
-				std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true ||
+			else if (PlayerForwardRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
 				PlayerForwardRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 					std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true)
 			{
-				if (PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB,
-					std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true ||
+				if (PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
 					PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 						std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true)
 				{
@@ -700,18 +797,15 @@ void Player::MoveCollisionSideCheck(float _DeltaTime)
 
 	else if (CurDir_ == PlayerDir::FrontLeft)
 	{
-		if (PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB,
-			std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true ||
+		if (PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
 			PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 				std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true)
 		{
-			if (PlayerForwardRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB,
-				std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true ||
+			if (PlayerForwardRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
 				PlayerForwardRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 					std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true)
 			{
-				if (PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB,
-					std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true ||
+				if (PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
 					PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 						std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true)
 				{
@@ -719,13 +813,11 @@ void Player::MoveCollisionSideCheck(float _DeltaTime)
 				}
 				GetTransform().SetLocalMove({ Speed_ * 0.8f * _DeltaTime ,0,0 });
 			}
-			else if (PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB,
-				std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true ||
+			else if (PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
 				PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 					std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true)
 			{
-				if (PlayerForwardRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB,
-					std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true ||
+				if (PlayerForwardRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
 					PlayerForwardRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 						std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true)
 				{
@@ -743,19 +835,16 @@ void Player::MoveCollisionSideCheck(float _DeltaTime)
 
 	else if (CurDir_ == PlayerDir::BackLeft)
 	{
-		if (PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB,
-			std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true ||
+		if (PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
 			PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 				std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true)
 		{
 
-			if (PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB,
-				std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true ||
+			if (PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
 				PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 					std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true)
 			{
-				if (PlayerForwardRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB,
-					std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true ||
+				if (PlayerForwardRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
 					PlayerForwardRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 						std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true)
 				{
@@ -763,13 +852,11 @@ void Player::MoveCollisionSideCheck(float _DeltaTime)
 				}
 				GetTransform().SetLocalMove({ Speed_ * 0.8f * _DeltaTime ,0,0 });
 			}
-			else if (PlayerForwardRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB,
-				std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true ||
+			else if (PlayerForwardRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
 				PlayerForwardRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 					std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true)
 			{
-				if (PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB,
-					std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true ||
+				if (PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
 					PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 						std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true)
 				{
@@ -786,18 +873,15 @@ void Player::MoveCollisionSideCheck(float _DeltaTime)
 
 	else if (CurDir_ == PlayerDir::BackRight)
 	{
-		if (PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB,
-			std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true ||
+		if (PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
 			PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 				std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true)
 		{
-			if (PlayerForwardRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB,
-				std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true ||
+			if (PlayerForwardRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
 				PlayerForwardRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 					std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true)
 			{
-				if (PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB,
-					std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true ||
+				if (PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
 					PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 						std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true)
 				{
@@ -806,13 +890,11 @@ void Player::MoveCollisionSideCheck(float _DeltaTime)
 				GetTransform().SetLocalMove({ -Speed_ * 0.8f * _DeltaTime ,0,0 });
 			}
 
-			else if (PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB,
-				std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true ||
+			else if (PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
 				PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 					std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true)
 			{
-				if (PlayerForwardRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB,
-					std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true ||
+				if (PlayerForwardRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
 					PlayerForwardRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 						std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == true)
 				{
@@ -830,40 +912,6 @@ void Player::MoveCollisionSideCheck(float _DeltaTime)
 //////////////////////충돌 함수
 
 
-CollisionReturn Player::GetCrashGroundObject(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
-{
-	if (Interact_GroundObject_ != nullptr)
-	{
-		Interact_GroundObject_->SetBloomEffectOff();
-		//Interact_Possible_StaticObject_ = nullptr;
-	}
-
-	Interact_GroundObject_ = _Other->GetActor<GamePlayMoveable>();
-	if (Interact_GroundObject_ == nullptr) // 임시코드
-	{
-		return CollisionReturn::Break;
-	}
-	Interact_GroundObject_->SetBloomEffectOn();
-	return CollisionReturn::Break;
-}
-
-CollisionReturn Player::GetCrashTableObject(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
-{
-	if (Interact_TableObject_ != nullptr)
-	{
-		Interact_TableObject_->SetBloomEffectOff();
-		//Interact_Possible_StaticObject_ = nullptr;
-	}
-
-	Interact_TableObject_ = _Other->GetActor<GamePlayStaticObject>();
-	if (Interact_TableObject_ == nullptr) // 임시코드
-	{
-		return CollisionReturn::Break;
-	}
-	Interact_TableObject_->SetBloomEffectOn();
-	return CollisionReturn::Break;
-}
-
 
 CollisionReturn Player::GravityColCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 {
@@ -872,7 +920,54 @@ CollisionReturn Player::GravityColCheck(std::shared_ptr<GameEngineCollision> _Th
 
 CollisionReturn Player::MoveColCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 {
+	//_Other->CastThis<GamePlayStaticObject>()->SetBloomEffectOn();
 	return CollisionReturn::ContinueCheck;
 }
-// 집는거 안해도되고 앞에 상호작용테이블 검사
 
+
+
+CollisionReturn Player::TableHoldUpCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
+{
+	//테이블에게 알려주기
+	IdleRendererON();
+	if (SetPlayerState_Return::Nothing ==
+		_Other->CastThis<GamePlayStaticObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_))
+	{
+		StateManager.ChangeState("Idle");
+	}
+
+	return CollisionReturn::ContinueCheck;
+}
+CollisionReturn Player::GroundHoldUpCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
+{ //바닥에 있는 오브젝트 집기
+
+	SetPlayerHolding(_Other->GetActor());
+	IdleRendererON();
+
+	return CollisionReturn::ContinueCheck;
+}
+
+CollisionReturn Player::TableHoldDownCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
+{ // 테이블에게 내려놓는다고 알려주기
+	if (SetPlayerState_Return::Nothing ==
+		_Other->CastThis<GamePlayStaticObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_))
+	{  //테이블에 물체가 있어 못내려놓으면 그냥 아무일도 일어나지 않게 하기
+
+		StateManager.ChangeState("HoldUp");
+	}
+	return CollisionReturn::ContinueCheck;
+}
+
+
+CollisionReturn Player::TableSliceCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
+{
+	//테이블에게 자를거라고 알려주기
+
+	if (SetPlayerState_Return::Using ==
+		_Other->CastThis<GamePlayStaticObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_))
+	{  //자를수 있으면 자르는 상태로 변경
+
+		StateManager.ChangeState("Slice");
+	}
+	return CollisionReturn::ContinueCheck;
+}

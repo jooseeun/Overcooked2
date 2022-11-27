@@ -49,8 +49,6 @@ public:
 protected:
 	void Start() override;
 
-	Input_PickUpOption Input_PickUp(std::shared_ptr<GamePlayMoveable> _Object) override;
-	Input_PickUpOption CheckMoveable(std::shared_ptr<GamePlayMoveable> _Object) override;
 	//void Input_Action_End(std::shared_ptr<GamePlayMoveable> _Moveable) override;
 private:
 	std::shared_ptr<Equipment_Plate> ReturnCleanPlate_;

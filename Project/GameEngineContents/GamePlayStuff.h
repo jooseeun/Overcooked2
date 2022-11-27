@@ -8,12 +8,6 @@ enum class ObjectStuffType
 	Tool,
 	Moveable,
 };
-enum class Input_UsingOption
-{
-	NoResponse,
-	Using,
-	Throwing,
-};
 class GamePlayStuff : public GamePlayObject
 {
 protected:
@@ -27,16 +21,6 @@ public:
 	GamePlayStuff(GamePlayStuff&& _Other) noexcept = delete;
 	GamePlayStuff& operator=(const GamePlayStuff& _Other) = delete;
 	GamePlayStuff& operator=(GamePlayStuff&& _Other) noexcept = delete;
-
-	virtual inline Input_UsingOption Input_Using(std::shared_ptr<Player> _Player)
-	{
-		return Input_UsingOption::NoResponse;
-	}
-	virtual inline Input_UsingOption Input_Throwing(const float4& _Vector)
-	{
-		SetVector(_Vector);
-		return Input_UsingOption::NoResponse;
-	}
 
 
 	inline ObjectStuffType GetObjectStuffType() const
@@ -58,15 +42,9 @@ public:
 		Enum_ToolInfo_ = _Info;
 	}
 
-
-public: 
-	void SetParentObject(std::shared_ptr<GamePlayObject> _Object);      // Nullptr 검사 필요
-
-
 protected:
 
 	void Start() override;
-	//void Update(float _DeltaTime) override {}
 	void End() override {};
 
 	void OnEvent() override {};
@@ -84,10 +62,6 @@ protected:
 	}
 
 private:
-	inline virtual Input_UsingOption Input_Action(std::weak_ptr<Player> _Player, float _DeltaTime)
-	{
-		return Input_UsingOption::NoResponse;
-	}
 
 	// Enum
 private:

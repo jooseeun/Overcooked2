@@ -18,7 +18,7 @@ public:
 protected:
 	void Start() override;
 private:
-	Input_PickUpOption Input_PickUp(std::shared_ptr<Player> _Player) override;
+
 
 };
 

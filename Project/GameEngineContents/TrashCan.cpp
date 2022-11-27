@@ -36,7 +36,6 @@ void Tool_TrashCan::Start()
 {
 	GamePlayTool::Start();
 	GamePlayTool::SetInteractOption(AutoOption::Auto);
-	SetCookingEndTime(1.f);
 	//GamePlayTool::SetToolInfoType(ToolInfo::TrashCan);
 }
 //
@@ -53,15 +52,7 @@ void Tool_TrashCan::Start()
 //}
 
 
-Input_PickUpOption Tool_TrashCan::CheckMoveable(std::shared_ptr<GamePlayMoveable> _Object)
-{
-	return Input_PickUpOption::PickUp;
-}
 
-Input_PickUpOption Tool_TrashCan::Input_PickUp(std::shared_ptr<Player> _Player)
-{
-	return Input_PickUpOption::NoResponse;
-}
 //
 //Input_AutoOption Tool_TrashCan::Input_Action()
 //{

@@ -16,12 +16,10 @@ void GamePlayStuff::Start()
 {
 	GamePlayObject::Start();
 	GamePlayObject::SetObjectType(ObjectType::Stuff);
-
-
 }
 
 
-void GamePlayStuff::SetParentObject(std::shared_ptr<GamePlayObject> _Object)
-{
-	SetParent(_Object);
-}
+//void GamePlayStuff::SetParentObject(std::shared_ptr<GamePlayObject> _Object)
+//{
+//	SetParent(_Object);
+//}
