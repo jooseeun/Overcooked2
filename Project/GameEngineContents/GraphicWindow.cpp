@@ -4,18 +4,20 @@
 
 #include<GameEngineCore/GlobalOverlay.h>
 #include<GameEngineCore/GlobalVignette.h>
+#include<GameEngineCore/GlobalBloom.h>
 
 std::shared_ptr<GraphicWindow> GraphicWindow::Main_ = nullptr;
 
 std::shared_ptr<GlobalOverlay>  GraphicWindow::GlobalOverlay_ = nullptr;
 std::shared_ptr<GlobalVignette> GraphicWindow::GlobalVignette_ = nullptr;
+std::shared_ptr<GlobalBloom>	GraphicWindow::GlobalBloom_ = nullptr;
 
 
 ImVec4 GraphicWindow::OverlayColor_ = { 0.586f, 0.617f, 0.672f, 1.0f };
 
 bool GraphicWindow::OverlayOnOff_ = true;
 bool GraphicWindow::VignetteOnOff_ = true;
-
+bool GraphicWindow::BloomOnOff_ = true;
 
 GraphicWindow::GraphicWindow() 
 {
@@ -45,6 +47,7 @@ void GraphicWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 	ImGui::Checkbox("OverlayFlag", &OverlayOnOff_);
 	ImGui::Checkbox("VignetteFlag", &VignetteOnOff_);
+	ImGui::Checkbox("BloomFlag", &BloomOnOff_);
 
 	if (OverlayOnOff_ == true)
 	{
@@ -66,5 +69,13 @@ void GraphicWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		GlobalVignette_->Off();
 	}
 
+	if (BloomOnOff_ == true)
+	{
+		GlobalBloom_->On();
+	}
+	else
+	{
+		GlobalBloom_->Off();
+	}
 }
 

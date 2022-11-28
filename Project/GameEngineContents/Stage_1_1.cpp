@@ -14,6 +14,7 @@
 
 #include <GameEngineCore/GlobalVignette.h>
 #include <GameEngineCore/GlobalOverlay.h>
+#include <GameEngineCore/GlobalBloom.h>
 #include "WaterTest.h"
 
 Stage_1_1::Stage_1_1()
@@ -88,6 +89,9 @@ void Stage_1_1::PlayLevelStartEvent()
 
 	std::shared_ptr<GlobalOverlay> GlobalOverlay_ = GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalOverlay>();
 	GraphicWindow::Main_->SetOverlay(GlobalOverlay_);
+
+	std::shared_ptr<GlobalBloom> GlobalBloom_ = GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalBloom>();
+	GraphicWindow::Main_->SetBloom(GlobalBloom_);
 
 	std::shared_ptr<GlobalVignette> GlobalVignette_ = GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalVignette>();
 	GraphicWindow::Main_->SetVignette(GlobalVignette_);

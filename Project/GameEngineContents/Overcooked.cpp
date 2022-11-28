@@ -144,6 +144,12 @@ void Overcooked::LoadMaterial()
 		NewPipe->SetVertexShader("JBMWater.hlsl");
 		NewPipe->SetPixelShader("JBMWater.hlsl");
 	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("Bloom");
+		NewPipe->SetVertexShader("Bloom.hlsl");
+		NewPipe->SetPixelShader("Bloom.hlsl");
+	}
 }
 
 void Overcooked::Update(float _DeltaTime)
