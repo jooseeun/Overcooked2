@@ -43,7 +43,7 @@ void CounterTop::SetConterTopMesh(CounterTopType _Type)
 	{
 		Name = "Mixer_Countertop2.fbx";
 		GetCollisionObject()->GetTransform().SetLocalRotate({ 90, 0, 0 });
-		GetCollisionObject()->GetTransform().SetLocalMove({0, 25, -20});
+		GetCollisionObject()->GetTransform().SetLocalMove({0, -20, -20});
 	}	
 	break;
 	default:
