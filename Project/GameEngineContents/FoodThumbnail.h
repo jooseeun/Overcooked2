@@ -20,7 +20,7 @@ public:
 		Offset_ = _Offset;
 	}
 
-	void SetThumbnail(FoodType _Type); //+이미지를 띄우고 싶다면 FoodType::None
+	void SetThumbnail(IngredientType _Type); //+이미지를 띄우고 싶다면 FoodType::None
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;

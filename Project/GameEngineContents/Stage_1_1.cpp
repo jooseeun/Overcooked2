@@ -95,7 +95,7 @@ void Stage_1_1::PlayLevelStartEvent()
 	//테스트용 - 동원
 	std::shared_ptr NewFoodThumbNail = CreateActor<FoodThumbnail>();
 	NewFoodThumbNail->LinkObject(MainPlayer, { 0,100, 0 });
-	NewFoodThumbNail->SetThumbnail(FoodType::None);
+	NewFoodThumbNail->SetThumbnail(IngredientType::None);
 
 	return;
 }

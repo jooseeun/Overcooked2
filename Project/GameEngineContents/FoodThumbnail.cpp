@@ -12,62 +12,62 @@ FoodThumbnail::~FoodThumbnail()
 {
 }
 
-void FoodThumbnail::SetThumbnail(FoodType _Type)
+void FoodThumbnail::SetThumbnail(IngredientType _Type)
 {
 	std::string _FileName = "Plus.png";
 	switch (_Type)
 	{
-	case FoodType::None:
+	case IngredientType::None:
 		_FileName = "Plus.png";
 		break;
-	case FoodType::Tomato:
+	case IngredientType::Tomato:
 		break;
-	case FoodType::Onion:
+	case IngredientType::Onion:
 		break;
-	case FoodType::Potato:
+	case IngredientType::Potato:
 		break;
-	case FoodType::Dough:
+	case IngredientType::Dough:
 		break;
-	case FoodType::Seaweed:
+	case IngredientType::Seaweed:
 		break;
-	case FoodType::Mushroom:
+	case IngredientType::Mushroom:
 		break;
-	case FoodType::Meat:
+	case IngredientType::Meat:
 		break;
-	case FoodType::Lettuce:
+	case IngredientType::Lettuce:
 		break;
-	case FoodType::Rice:
+	case IngredientType::Rice:
 		break;
-	case FoodType::Flour:
+	case IngredientType::Flour:
 		break;
-	case FoodType::Bread:
+	case IngredientType::Bread:
 		break;
-	case FoodType::Fish:
+	case IngredientType::Fish:
 		break;
-	case FoodType::Sausage:
+	case IngredientType::Sausage:
 		break;
-	case FoodType::DumplingSkin:
+	case IngredientType::DumplingSkin:
 		break;
-	case FoodType::Egg:
+	case IngredientType::Egg:
 		break;
-	case FoodType::Chicken:
+	case IngredientType::Chicken:
 		break;
-	case FoodType::Burrito:
+	case IngredientType::Burrito:
 		break;
-	case FoodType::Cheese:
+	case IngredientType::Cheese:
 		break;
-	case FoodType::Carrot:
+	case IngredientType::Carrot:
 		break;
-	case FoodType::Chocolate:
+	case IngredientType::Chocolate:
 		break;
-	case FoodType::Honey:
+	case IngredientType::Honey:
 		break;
-	case FoodType::PastaNoodles:
+	case IngredientType::PastaNoodles:
 		break;
-	case FoodType::Prawn:
+	case IngredientType::Prawn:
 		_FileName = "prawn_Icon.png";
 		break;
-	case FoodType::Cucumber:
+	case IngredientType::Cucumber:
 		break;
 	default:
 		MsgBoxAssert("선택한 이미지 리소스가 아직 추가되지 않았습니다. UI담당에게 문의하세요");
