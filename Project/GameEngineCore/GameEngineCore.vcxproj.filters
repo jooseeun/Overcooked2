@@ -195,6 +195,9 @@
     <ClInclude Include="GlobalOverlay.h">
       <Filter>Object\Component\Rendering\PostEffect</Filter>
     </ClInclude>
+    <ClInclude Include="GlobalBloom.h">
+      <Filter>Object\Component\Rendering\PostEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineActor.cpp">
@@ -379,6 +382,9 @@
       <Filter>Object\Component\Rendering\Content</Filter>
     </ClCompile>
     <ClCompile Include="GlobalOverlay.cpp">
+      <Filter>Object\Component\Rendering\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalBloom.cpp">
       <Filter>Object\Component\Rendering\PostEffect</Filter>
     </ClCompile>
   </ItemGroup>

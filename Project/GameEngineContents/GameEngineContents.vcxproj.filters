@@ -236,6 +236,9 @@
     <ClInclude Include="GameEngineStatusWindow.h">
       <Filter>GUI</Filter>
     </ClInclude>
+    <ClInclude Include="Stage_2_1.h">
+      <Filter>Level\Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -469,6 +472,9 @@
     </ClCompile>
     <ClCompile Include="GameEngineStatusWindow.cpp">
       <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage_2_1.cpp">
+      <Filter>Level\Stage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -5,6 +5,7 @@ class GameEngineGUIWindow;
 class GamePlayLevel;
 class GlobalOverlay;
 class GlobalVignette;
+class GlobalBloom;
 
 // Ό³Έν :
 class GraphicWindow : public GameEngineGUIWindow
@@ -27,11 +28,13 @@ protected:
 private:
 	static std::shared_ptr<GlobalOverlay> GlobalOverlay_;
 	static std::shared_ptr<GlobalVignette> GlobalVignette_;
+	static std::shared_ptr<GlobalBloom> GlobalBloom_;
 
 
 	static ImVec4 OverlayColor_;
 	static bool OverlayOnOff_;
 	static bool VignetteOnOff_;
+	static bool BloomOnOff_;
 
 
 public:
@@ -43,6 +46,11 @@ public:
 	static void SetVignette(std::shared_ptr<GlobalVignette> _PostEffect)
 	{
 		GlobalVignette_ = _PostEffect;
+	}
+
+	static void SetBloom(std::shared_ptr<GlobalBloom> _PostEffect)
+	{
+		GlobalBloom_ = _PostEffect;
 	}
 
 private:

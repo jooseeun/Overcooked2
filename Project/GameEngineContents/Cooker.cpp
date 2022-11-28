@@ -14,8 +14,8 @@ void Cooker::Start()
 {
 	GamePlayStaticObject::Start();
 
-	GetCollisionObject()->GetTransform().SetWorldScale({ 230, 50, 150 });
-	GetCollisionObject()->GetTransform().SetWorldMove({ -60, 25, -10 });
+	GetCollisionObject()->GetTransform().SetWorldScale({ 130, 50, 130 });
+	GetCollisionObject()->GetTransform().SetWorldMove({ 0, 25, 0 });
 
 	GetFBXMesh()->SetFBXMesh("m_sk_cooker_01.fbx", "Texture");
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });

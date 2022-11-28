@@ -6,6 +6,7 @@
 
 #include <GameEngineCore/GlobalVignette.h>
 #include <GameEngineCore/GlobalOverlay.h>
+#include <GameEngineCore/GlobalBloom.h>
 
 SelectStageLevel::SelectStageLevel()
 {
@@ -23,11 +24,13 @@ SelectStageLevel::~SelectStageLevel()
 
 void SelectStageLevel::Start()
 {
-	std::shared_ptr<GlobalVignette> GlobalVignette_ = GetUICamera()->GetCameraRenderTarget()->AddEffect<GlobalVignette>();
 	std::shared_ptr<GlobalOverlay> GlobalOverlay_= GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalOverlay>();
+	std::shared_ptr<GlobalBloom> GlobalBloom_ = GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalBloom>();
+	std::shared_ptr<GlobalVignette> GlobalVignette_ = GetUICamera()->GetCameraRenderTarget()->AddEffect<GlobalVignette>();
 	
 	GraphicWindow::Main_ = GameEngineGUI::CreateGUIWindow<GraphicWindow>("GraphicGUI", nullptr);
 	GraphicWindow::Main_->SetOverlay(GlobalOverlay_);
+	GraphicWindow::Main_->SetBloom(GlobalBloom_);
 	GraphicWindow::Main_->SetVignette(GlobalVignette_);
 
 	GraphicWindow::Main_->Off();

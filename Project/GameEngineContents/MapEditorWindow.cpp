@@ -792,7 +792,7 @@ void MapEditorWindow::SortToolTab()
 					if (false == IsChecks_[i])
 					{
 						SortActorList_[ActorIndex].lock()->GetStuff()->Death();
-						SortActorList_[ActorIndex].lock()->SetStuff(nullptr);
+						SortActorList_[ActorIndex].lock()->ReSetStuff();
 					}
 
 					continue;

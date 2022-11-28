@@ -28,6 +28,8 @@ InitGlobalGameData::InitGlobalGameData()
 		CreateStageData("1-3", Thema::SushiCity)));
 	GlobalGameData::AllStageData_.insert(std::make_pair("1-4",
 		CreateStageData("1-4", Thema::WizardKitchen)));
+	GlobalGameData::AllStageData_.insert(std::make_pair("2-1",
+		CreateStageData("2-1", Thema::WizardKitchen)));
 }
 
 StageData InitGlobalGameData::CreateStageData(std::string_view _StageName, Thema _StageThema)
