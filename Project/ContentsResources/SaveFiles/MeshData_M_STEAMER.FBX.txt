@@ -1,0 +1,9 @@
+{ 
+MeshName:M_STEAMER.FBX;
+MeshInfoCount:2;
+Path:\T_STEAMER_01.PNG;
+Mat:T_STEAMER_01.PNG;
+Path:;
+Mat:T_STEAMER_01.PNG;
+}
+

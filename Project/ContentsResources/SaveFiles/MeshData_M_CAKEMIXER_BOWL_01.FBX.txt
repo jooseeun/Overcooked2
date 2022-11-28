@@ -1,0 +1,11 @@
+{ 
+MeshName:M_CAKEMIXER_BOWL_01.FBX;
+MeshInfoCount:3;
+Path:\T_CAKEMIXER_01_C.PNG;
+Mat:T_CAKEMIXER_01_C.PNG;
+Path:;
+Mat:T_BLANK_D.PNG;
+Path:\T_BLANK_D.PNG;
+Mat:T_BLANK_D.PNG;
+}
+
