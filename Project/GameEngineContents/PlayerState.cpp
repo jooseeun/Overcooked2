@@ -215,10 +215,10 @@ void Player::HoldDownStart(const StateInfo& _Info)
 	if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 		std::bind(&Player::TableHoldDownCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
 	{
-		
 		CurrentHoldingObject_->DetachObject();
 		CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,0,0 });
-		CurrentHoldingObject_->GetTransform().SetWorldPosition(GetTransform().GetLocalPosition() + GetTransform().GetBackVector() * 60.0f + float4{ 0,50,0 });
+		CurrentHoldingObject_->GetTransform().SetWorldPosition(GetTransform().GetLocalPosition() + GetTransform().GetBackVector() * 60.0f );
+		//이때 콜리젼 On이 안됨
 		CurrentHoldingObject_ = nullptr;
 	}
 }
