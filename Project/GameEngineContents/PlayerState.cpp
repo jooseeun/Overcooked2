@@ -136,7 +136,6 @@ void Player::HoldUpStart(const StateInfo& _Info)
 			if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 				std::bind(&Player::TableHoldUpCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
 			{
-
 				StateManager.ChangeState("Idle");
 			}// 테이블 검사
 		}

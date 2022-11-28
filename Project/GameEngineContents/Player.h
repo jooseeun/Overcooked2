@@ -71,7 +71,7 @@ public:
 	}
 
 
-	inline float GetCurKineticEnergy()
+	inline float GetCurKineticEnergy() const
 	{
 		return CurKineticEnergy_;
 	}
@@ -99,7 +99,7 @@ public:
 	}
 	
 
-	std::shared_ptr<GameEngineActor> GetPlayerHolding() // 현재 플레이어 손에있는 오브젝트 얻는 함수
+	std::shared_ptr<GameEngineActor> GetPlayerHolding() const // 현재 플레이어 손에있는 오브젝트 얻는 함수
 	{
 		return CurrentHoldingObject_;
 	}

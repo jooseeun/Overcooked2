@@ -239,6 +239,9 @@
     <ClInclude Include="Stage_2_1.h">
       <Filter>Level\Stage</Filter>
     </ClInclude>
+    <ClInclude Include="GamePlayPhysics.h">
+      <Filter>Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -478,6 +481,9 @@
     </ClCompile>
     <ClCompile Include="Recipe.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePlayPhysics.cpp">
+      <Filter>Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
