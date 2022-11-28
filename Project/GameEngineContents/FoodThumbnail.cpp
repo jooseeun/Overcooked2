@@ -12,18 +12,80 @@ FoodThumbnail::~FoodThumbnail()
 {
 }
 
+void FoodThumbnail::SetThumbnail(IngredientType _Type)
+{
+	std::string _FileName = "Plus.png";
+	switch (_Type)
+	{
+	case IngredientType::None:
+		_FileName = "Plus.png";
+		break;
+	case IngredientType::Tomato:
+		break;
+	case IngredientType::Onion:
+		break;
+	case IngredientType::Potato:
+		break;
+	case IngredientType::Dough:
+		break;
+	case IngredientType::Seaweed:
+		break;
+	case IngredientType::Mushroom:
+		break;
+	case IngredientType::Meat:
+		break;
+	case IngredientType::Lettuce:
+		break;
+	case IngredientType::Rice:
+		break;
+	case IngredientType::Flour:
+		break;
+	case IngredientType::Bread:
+		break;
+	case IngredientType::Fish:
+		break;
+	case IngredientType::Sausage:
+		break;
+	case IngredientType::DumplingSkin:
+		break;
+	case IngredientType::Egg:
+		break;
+	case IngredientType::Chicken:
+		break;
+	case IngredientType::Burrito:
+		break;
+	case IngredientType::Cheese:
+		break;
+	case IngredientType::Carrot:
+		break;
+	case IngredientType::Chocolate:
+		break;
+	case IngredientType::Honey:
+		break;
+	case IngredientType::PastaNoodles:
+		break;
+	case IngredientType::Prawn:
+		_FileName = "prawn_Icon.png";
+		break;
+	case IngredientType::Cucumber:
+		break;
+	default:
+		MsgBoxAssert("선택한 이미지 리소스가 아직 추가되지 않았습니다. UI담당에게 문의하세요");
+		break;
+	}
+	SingleThumbnail_->SetTexture(_FileName);
+}
+
 void FoodThumbnail::Start()
 {
 	//추후에 Main카메라 옮기면서 User7카메라도 이동시켜달라고하기
-	std::string _FileName = "prawn_Icon.png";
+	std::string _FileName = "Plus.png";
 	SingleThumbnail_ = CreateComponent<OverCookedUIRenderer>();
 	SingleThumbnail_->SetTexture(_FileName);
-	SingleThumbnail_->SetScaleRatio(0.34f);
+	SingleThumbnail_->SetScaleRatio(0.30f);
 	SingleThumbnail_->ScaleToTexture();
 	SingleThumbnail_->ChangeCamera(CAMERAORDER::USER7);
 	//SingleThumbnail_->Off();
-
-	UIDebugGUI::Main_->AddMutableValue("DebugValue", &DebugValue_);
 }
 
 void FoodThumbnail::Update(float _DeltaTime)
@@ -44,16 +106,10 @@ void FoodThumbnail::Update(float _DeltaTime)
 	float4 ScreenScale = GameEngineWindow::GetScale().Half();
 	ScreenScale.y = -ScreenScale.y;
 	WantPos = float4(WantPos.x, -WantPos.y, WantPos.z) - ScreenScale;
-	WantPos.x = WantPos.x - WantPos.x * DebugValue_;
-	WantPos.y = WantPos.y - WantPos.y * DebugValue_;
+	WantPos.x = WantPos.x - WantPos.x * -0.02f;
+	WantPos.y = WantPos.y - WantPos.y * -0.02f;
 	WantPos += Offset_;
 	GetTransform().SetLocalPosition(WantPos);
-
-	//float4 Pos = ChaseActor_->GetTransform().GetWorldPosition() + Offset_;
-	//float4 CameraPos = GetLevel()->GetCameraActor(CAMERAORDER::MAINCAMERA)->GetTransform().GetWorldPosition();
-
-	//float4 Move = Pos - CameraPos;
-	//GetTransform().SetLocalPosition(Move);
 }
 
 void FoodThumbnail::End()

@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "Overcooked.h"
+#include "GameEngineStatusWindow.h"
 
 #include "LoadingData.h"
 
@@ -15,6 +16,9 @@
 #include "Stage_1_4.h"
 
 #include "MeshToolLevel.h"
+#include "ServerTestLevel.h"
+
+#include <GameEngineCore/GameEngineBlend.h>
 
 Overcooked::Overcooked()
 {
@@ -37,6 +41,27 @@ void Overcooked::Start()
 	LoadingData::AddFunc("1-2", std::bind(&Overcooked::LoadStage, this, "1_2"));
 	LoadingData::AddFunc("1-3", std::bind(&Overcooked::LoadStage, this, "1_3"));
 	LoadingData::AddFunc("1-4", std::bind(&Overcooked::LoadStage, this, "1_4"));
+
+
+	//{
+	//	D3D11_BLEND_DESC Desc = { 0 };
+
+	//	Desc.AlphaToCoverageEnable = FALSE;
+	//	Desc.IndependentBlendEnable = FALSE;
+	//	Desc.RenderTarget[0].BlendEnable = TRUE;
+	//	Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+	//	Desc.RenderTarget[0].SrcBlend = D3D11_BLEND::D3D11_BLEND_SRC_ALPHA;
+	//	Desc.RenderTarget[0].DestBlend = D3D11_BLEND::D3D11_BLEND_ONE;
+	//	Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
+
+	//	Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND::D3D11_BLEND_ONE;
+	//	Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND::D3D11_BLEND_ONE;
+	//	Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
+
+	//	GameEngineBlend::Create("AddBlend", Desc);
+	//}
+
 
 	//LoadingData::AddFunc("1-2", std::bind(&Overcooked::dfsdf, this, ));
 
@@ -62,6 +87,7 @@ void Overcooked::Start()
 	CreateLevel<MapToolLevel>("MapToolLevel");
 	CreateLevel<MeshToolLevel>("MeshToolLevel");
 	CreateLevel<TitleLevel>("TitleLevel");
+	CreateLevel<ServerTestLevel>("ServerTestLevel");
 
 	ChangeLevel("SelectStage");
 

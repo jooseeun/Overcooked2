@@ -36,7 +36,6 @@ namespace
 	constexpr float INTERVAL = 122.f;
 }
 
-
 MapEditorWindow::MapEditorWindow()
 	: CurLevel_(nullptr)
 	, LevelActor_()
@@ -48,12 +47,10 @@ MapEditorWindow::MapEditorWindow()
 	, IsCandleCheckBox_(false)
 	, IsFoodBox_(false)
 {
-
 }
 
 MapEditorWindow::~MapEditorWindow()
 {
-
 }
 
 void MapEditorWindow::Initialize(GameEngineLevel* _Level)
@@ -114,7 +111,6 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 			GlobalIOManager::Save(IOType::UnsortMap);
 			GlobalIOManager::Clear();
-
 		}
 
 		else if (true == IsSort_)
@@ -267,7 +263,6 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				Prefabs_.push_back("Rail");
 				Prefabs_.push_back("Dispenser");
 				Prefabs_.push_back("CounterTop_Mixer");
-
 			}
 		}
 
@@ -456,8 +451,6 @@ void MapEditorWindow::UnSortToolTab()
 
 	ImGui::EndChild();
 
-
-
 	if (true == IsCandleCheckBox_)
 	{
 		ImGui::SameLine();
@@ -481,8 +474,7 @@ void MapEditorWindow::UnSortToolTab()
 		ImGui::EndChild();
 	}
 
-
-	// 오브젝트 생성 
+	// 오브젝트 생성
 	if (true == ImGui::Button("Create"))
 	{
 		switch (ObjectTypeIndex)
@@ -650,7 +642,6 @@ void MapEditorWindow::UnSortToolTab()
 		UnSortActorList_[SelectIndex].lock()->GetCollisionObject()->GetTransform().SetWorldScale(CollisionScale_);
 		UnSortActorList_[SelectIndex].lock()->GetTransform().SetWorldScale(Scale);
 	}
-
 }
 
 void MapEditorWindow::SortToolTab()
@@ -666,7 +657,7 @@ void MapEditorWindow::SortToolTab()
 	const size_t Size = ToolNames.size();
 	static bool IsChecks_[Size] = { false };
 
-	auto FoodNames = magic_enum::enum_names<FoodType>();
+	auto FoodNames = magic_enum::enum_names<IngredientType>();
 
 	const size_t FoodSize = FoodNames.size();
 	static bool IsFoods_[FoodSize] = { false };
@@ -884,7 +875,7 @@ void MapEditorWindow::SortToolTab()
 	}
 
 	ImGui::Text("");
-	
+
 	if (true == IsFoodBox_)
 	{
 		for (size_t i = 0; i < FoodNames.size(); ++i)
@@ -894,7 +885,7 @@ void MapEditorWindow::SortToolTab()
 			if (true == IsFoods_[i])
 			{
 				std::weak_ptr<FoodBox> Food = std::dynamic_pointer_cast<FoodBox>(SortActorList_[ActorIndex].lock());
-				Food.lock()->SetFoodType(static_cast<FoodType>(i));
+				Food.lock()->SetFoodType(static_cast<IngredientType>(i));
 			}
 		}
 	}
@@ -983,11 +974,11 @@ void MapEditorWindow::SortToolTab()
 			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::FoodBox);
 
 			std::weak_ptr<FoodBox> Object = std::dynamic_pointer_cast<FoodBox>(CurStaticMesh_.lock());
-			Object.lock()->SetFoodType(FoodType::Tomato);
+			Object.lock()->SetFoodType(IngredientType::Tomato);
 
 			IsFoodBox_ = true;
 		}
-			break;
+		break;
 		case 10:
 		{
 			CurStaticMesh_ = CurLevel_->CreateActor<Sink>();

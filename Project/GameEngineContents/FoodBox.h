@@ -31,10 +31,8 @@ protected:
 
 	//void Input_Action_End(std::shared_ptr<GamePlayMoveable> _Moveable) override;
 private:
-	FoodType Type_;
+	IngredientType Type_;
 };
-
-
 
 class FoodBox : public GamePlayStaticObject
 {
@@ -51,9 +49,9 @@ public:
 	{
 		IsInteraction_ = !IsInteraction_;
 	}
-	void SetFoodType(FoodType _Type);
+	void SetFoodType(IngredientType _Type);
 
-	FoodType GetFoodType()
+	IngredientType GetFoodType()
 	{
 		return std::dynamic_pointer_cast<Tool_FoodBox>(GetStuff())->Type_;
 	}
@@ -64,7 +62,6 @@ protected:
 
 private:
 
-
 	std::shared_ptr<GameEngineTextureRenderer> Renderer_;
 
 	bool IsInteraction_;
@@ -72,7 +69,4 @@ private:
 	float Angle_;
 
 	std::shared_ptr<GameEngineActor> Lid_;
-	
-
 };
-

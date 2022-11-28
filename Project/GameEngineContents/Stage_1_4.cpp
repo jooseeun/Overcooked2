@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "Stage_1_4.h"
 #include "Player.h"
+#include "TestPortal.h"
 
 Stage_1_4::Stage_1_4()
 {
@@ -44,6 +45,8 @@ void Stage_1_4::PlayLevelStartEvent()
 	IsLevelFirst_ = false;
 
 	CreateActor<LevelActor>()->SetLevelMesh("1_4.FBX");
+
+	CreateActor<TestPortal>();
 
 	GlobalIOManager::Load(IOType::SortMap, 3);
 	DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);

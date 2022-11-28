@@ -34,6 +34,9 @@
     <Filter Include="Enum">
       <UniqueIdentifier>{40c2ed13-cf85-4feb-8fb6-47dd2686b9be}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Server">
+      <UniqueIdentifier>{2cb864a4-8aa6-4047-b0b4-905d18dc1bba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineDebug.cpp">
@@ -86,6 +89,15 @@
     </ClCompile>
     <ClCompile Include="GameEngineThread.cpp" />
     <ClCompile Include="GameEngineThreadPool.cpp" />
+    <ClCompile Include="GameEngineNet.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineNetClient.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineNetServer.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngineDebug.h">
@@ -144,6 +156,15 @@
     </ClInclude>
     <ClInclude Include="GameEngineThread.h" />
     <ClInclude Include="GameEngineThreadPool.h" />
+    <ClInclude Include="GameEngineNet.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineNetClient.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineNetServer.h">
+      <Filter>Server</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="ThirdParty\bin\fmod.dll">

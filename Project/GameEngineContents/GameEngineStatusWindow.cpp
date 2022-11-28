@@ -1,9 +1,10 @@
 #include "PreCompile.h"
 #include "GameEngineStatusWindow.h"
-#include "GameEngineRenderTarget.h"
-#include "GameEngineCameraActor.h"
-#include "GEngine.h"
+#include <GameEngineCore/GameEngineRenderTarget.h>
+#include <GameEngineCore/GameEngineCameraActor.h>
+#include <GameEngineCore/GEngine.h>
 
+bool GameEngineStatusWindow::IsHost = true;
 std::map<std::string, GameEngineRenderTarget*> GameEngineStatusWindow::DebugRenderTarget;
 
 void GameEngineImageShotWindow::RenderTextureSetting(ImTextureID _RenderTexture, ImVec2 _Size) 
@@ -110,8 +111,13 @@ void GameEngineStatusWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		}
 	}
 
-	DebugRenderTarget.clear();
+	{
+		ImGui::Text("Server Status");
+		ImGui::SameLine();
+		ImGui::Checkbox(GameEngineString::AnsiToUTF8Return("È£½ºÆ®").c_str(), &IsHost);
+	}
 
+	DebugRenderTarget.clear();
 }
 
 void GameEngineStatusWindow::CameraGUI(GameEngineLevel* _Level, float _DeltaTime)

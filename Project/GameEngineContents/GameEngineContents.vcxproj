@@ -192,6 +192,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Food_Recipe.h" />
+    <ClInclude Include="GameEngineStatusWindow.h" />
     <ClInclude Include="GamePlayBowl.h" />
     <ClInclude Include="GamePlayEquipment.h" />
     <ClInclude Include="GamePlayFloor.h">
@@ -289,6 +290,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ServerTestLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TestPortal.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="UIActor.h">
       <SubType>
       </SubType>
@@ -367,6 +376,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Food_Recipe.cpp" />
+    <ClCompile Include="GameEngineStatusWindow.cpp" />
     <ClCompile Include="GamePlayBowl.cpp" />
     <ClCompile Include="GamePlayEquipment.cpp" />
     <ClCompile Include="GamePlayFloor.cpp">
@@ -468,6 +478,14 @@
     <ClCompile Include="Rail.cpp" />
     <ClCompile Include="SelectStageLevel.cpp" />
     <ClCompile Include="SelectStageUIActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ServerTestLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TestPortal.cpp">
       <SubType>
       </SubType>
     </ClCompile>

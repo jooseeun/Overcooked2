@@ -227,6 +227,15 @@
     <ClInclude Include="Portal.h">
       <Filter>Contents\Object\MapObject</Filter>
     </ClInclude>
+    <ClInclude Include="TestPortal.h">
+      <Filter>Contents\Object\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerTestLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineStatusWindow.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -452,6 +461,15 @@
     <ClCompile Include="Portal.cpp">
       <Filter>Contents\Object\MapObject</Filter>
     </ClCompile>
+    <ClCompile Include="TestPortal.cpp">
+      <Filter>Contents\Object\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerTestLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineStatusWindow.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Contents">
@@ -513,6 +531,9 @@
     </Filter>
     <Filter Include="Contents\Object\MapObject">
       <UniqueIdentifier>{3a14b751-f284-40a0-b66e-6a73a0273fd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Object\Test">
+      <UniqueIdentifier>{c69c7bd6-feaa-49b4-a6bd-6e656c1c2658}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

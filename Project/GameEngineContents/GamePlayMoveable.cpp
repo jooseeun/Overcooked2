@@ -2,7 +2,7 @@
 #include "GamePlayMoveable.h"
 
 GamePlayMoveable::GamePlayMoveable()
-	//, CookedStat_Current_(CookedStat::Nomal)
+//, CookedStat_Current_(CookedStat::Nomal)
 {
 }
 
@@ -15,9 +15,7 @@ void GamePlayMoveable::Start()
 	GamePlayStuff::Start();
 	GamePlayStuff::SetObjectStuffType(ObjectStuffType::Moveable);
 	GetCollisionObject()->ChangeOrder(CollisionOrder::Object_Moveable);
-
 }
-
 
 SetPlayerState_Return GamePlayMoveable::SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type)
 {
@@ -38,7 +36,7 @@ SetPlayerState_Return GamePlayMoveable::SetPlayerState(std::shared_ptr<Player> _
 		}
 		_Player->SetPlayerHolding(std::dynamic_pointer_cast<GameEngineActor>(shared_from_this()));
 	}
-		break;
+	break;
 	case PlayerCurStateType::Throw:
 	{
 		if (Enum_ObjectMoveableType_ == ObjectMoveableType::Food)
@@ -46,9 +44,11 @@ SetPlayerState_Return GamePlayMoveable::SetPlayerState(std::shared_ptr<Player> _
 			// 던지다
 		}
 	}
-		break;
+	break;
 	default:
 		MsgBoxAssert("아직 설정되지 않은 분기")
-		break;
+			break;
 	}
+
+	return SetPlayerState_Return::Using;
 }
