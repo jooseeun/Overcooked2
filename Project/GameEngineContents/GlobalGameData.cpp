@@ -1,9 +1,11 @@
 #include "PreCompile.h"
 #include "GlobalGameData.h"
+#include "InGameUIActor.h"
 
 std::string GlobalGameData::CurStage_ = "";
 
 std::map<std::string, StageData> GlobalGameData::AllStageData_;
+std::map<FoodType, FoodData> GlobalGameData::AllFoodData_;
 
 ContentsUtility::Timer GlobalGameData::LeftTime_;;
 
@@ -19,17 +21,38 @@ GlobalGameData::~GlobalGameData()
 
 InitGlobalGameData::InitGlobalGameData()
 {
-	GlobalGameData::AllStageData_.insert(std::make_pair("1-1",
-		CreateStageData("1-1", Thema::SushiCity)));
+	//스테이지 데이터 Init
+	{
+		GlobalGameData::AllStageData_.insert(std::make_pair("1-1",
+			CreateStageData("1-1", Thema::SushiCity)));
+		GlobalGameData::AllStageData_.insert(std::make_pair("1-2",
+			CreateStageData("1-2", Thema::SushiCity)));
+		GlobalGameData::AllStageData_.insert(std::make_pair("1-3",
+			CreateStageData("1-3", Thema::SushiCity)));
+		GlobalGameData::AllStageData_.insert(std::make_pair("1-4",
+			CreateStageData("1-4", Thema::WizardKitchen)));
+		GlobalGameData::AllStageData_.insert(std::make_pair("2-1",
+			CreateStageData("2-1", Thema::WizardKitchen)));
+	}
 
-	GlobalGameData::AllStageData_.insert(std::make_pair("1-2",
-		CreateStageData("1-2", Thema::SushiCity)));
-	GlobalGameData::AllStageData_.insert(std::make_pair("1-3",
-		CreateStageData("1-3", Thema::SushiCity)));
-	GlobalGameData::AllStageData_.insert(std::make_pair("1-4",
-		CreateStageData("1-4", Thema::WizardKitchen)));
-	GlobalGameData::AllStageData_.insert(std::make_pair("2-1",
-		CreateStageData("2-1", Thema::WizardKitchen)));
+	//음식 데이터 Init
+	{
+		FoodType _Type;
+		std::vector<IngredientType> _Ingredient;
+		std::vector<ToolInfo> _Cookery;
+
+		_Type = FoodType::CheeseBurger;
+		_Ingredient.push_back(IngredientType::Bread);
+		_Ingredient.push_back(IngredientType::Meat);
+		_Ingredient.push_back(IngredientType::Cheese);
+
+		_Cookery.push_back(ToolInfo::None);
+		_Cookery.push_back(ToolInfo::FryingPan);
+		_Cookery.push_back(ToolInfo::None);
+
+		GlobalGameData::AllFoodData_.insert(std::make_pair(FoodType::CheeseBurger,
+			CreateFoodData(FoodType::CheeseBurger, _Ingredient, _Cookery)));
+	}
 }
 
 StageData InitGlobalGameData::CreateStageData(std::string_view _StageName, Thema _StageThema)
@@ -38,6 +61,19 @@ StageData InitGlobalGameData::CreateStageData(std::string_view _StageName, Thema
 	NewData.StageName = _StageName;
 	NewData.StageThema = _StageThema;
 	return NewData;
+}
+
+FoodData InitGlobalGameData::CreateFoodData(FoodType _Type, std::vector<IngredientType>& _Ingredient, std::vector<ToolInfo>& _Cookery)
+{
+	FoodData NewFoodData;
+	NewFoodData.Type = _Type;
+	NewFoodData.Ingredient = _Ingredient;
+	NewFoodData.Cookery = _Cookery;
+	if (_Ingredient.size() != _Cookery.size())
+	{
+		MsgBoxAssert("Ingredient의 Size와 Cookery의 Size가 다릅니다.");
+	}
+	return NewFoodData;
 }
 
 InitGlobalGameData CreatGlobalGameDataInst = InitGlobalGameData();

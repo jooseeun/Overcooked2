@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "ContentsUtility.h"
+#include "InGameUIActor.h"
 
 enum Thema
 {
@@ -19,8 +20,10 @@ public:
 	InitGlobalGameData();
 private:
 	StageData CreateStageData(std::string_view _StageName, Thema _StageThema);
+	FoodData CreateFoodData(FoodType _Type, std::vector<IngredientType>& _Ingredient, std::vector<ToolInfo>& _Cookery);
 };
 
+struct FoodData;
 class GlobalGameData
 {
 	friend InitGlobalGameData;
@@ -75,10 +78,17 @@ public:
 	{
 		Score_ = _Value;
 	}
+
+	static FoodData GetFoodData(FoodType _Type)
+	{
+		return AllFoodData_[_Type];
+	}
 private:
 	static std::string CurStage_;
 
 	static std::map<std::string, StageData> AllStageData_;
+
+	static std::map<FoodType, FoodData> AllFoodData_;
 
 	static ContentsUtility::Timer LeftTime_;
 

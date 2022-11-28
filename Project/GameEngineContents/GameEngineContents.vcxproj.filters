@@ -476,6 +476,9 @@
     <ClCompile Include="Stage_2_1.cpp">
       <Filter>Level\Stage</Filter>
     </ClCompile>
+    <ClCompile Include="Recipe.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Contents">
