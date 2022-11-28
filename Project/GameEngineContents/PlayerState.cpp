@@ -133,8 +133,12 @@ void Player::HoldUpStart(const StateInfo& _Info)
 		if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Moveable, CollisionType::CT_OBB,
 			std::bind(&Player::GroundHoldUpCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)//바닥에 들수있는  물건이 없을때
 		{
-			Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
-				std::bind(&Player::TableHoldUpCheck, this, std::placeholders::_1, std::placeholders::_2)); // 테이블 검사
+			if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
+				std::bind(&Player::TableHoldUpCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
+			{
+
+				StateManager.ChangeState("Idle");
+			}// 테이블 검사
 		}
 	}
 
@@ -211,8 +215,10 @@ void Player::HoldDownStart(const StateInfo& _Info)
 	if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 		std::bind(&Player::TableHoldDownCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
 	{
-		CurrentHoldingObject_->GetTransform().SetWorldPosition(GetTransform().GetLocalPosition() + GetTransform().GetBackVector() * 60.0f + float4{ 0,50,0 });
+		
 		CurrentHoldingObject_->DetachObject();
+		CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,0,0 });
+		CurrentHoldingObject_->GetTransform().SetWorldPosition(GetTransform().GetLocalPosition() + GetTransform().GetBackVector() * 60.0f + float4{ 0,50,0 });
 		CurrentHoldingObject_ = nullptr;
 	}
 }
