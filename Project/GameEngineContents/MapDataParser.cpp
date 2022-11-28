@@ -90,7 +90,7 @@ std::vector<std::weak_ptr<GamePlayMapObject>>& MapDataParser::UnSortMapDataParsi
 			Object.lock()->SetMapObjType(_Data[i].MapObjType_);
 			Object.lock()->SetName(_Data[i].ObjName_);
 			Object.lock()->SetCandleTypeIndex((int)_Data[i].Index_.x);
-			
+
 			UnSortActorList_.push_back(Object);
 		}
 		break;
@@ -154,7 +154,7 @@ std::vector<std::weak_ptr<GamePlayMapObject>>& MapDataParser::UnSortMapDataParsi
 			Object.lock()->SetName(_Data[i].ObjName_);
 			if (_Data[i].ObjName_ == "m_kevin_01")
 			{
-				Object.lock()->GetAnimationFBXMesh()->GetTransform().SetLocalScale({65.f, 65.f, 65.f});
+				Object.lock()->GetAnimationFBXMesh()->GetTransform().SetLocalScale({ 65.f, 65.f, 65.f });
 			}
 			UnSortActorList_.push_back(Object);
 		}
@@ -180,7 +180,7 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 			Origin.lock()->GetTransform().SetWorldRotation(_Data[i].Rot_);
 			Origin.lock()->GetTransform().SetWorldScale(_Data[i].Scale_);
 
-			Origins_.push_back(Origin); 
+			Origins_.push_back(Origin);
 		}
 	}
 
@@ -283,10 +283,10 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 			CurActor_.lock()->SetStaticObjectType(MapObjType::FoodBox);
 
 			std::weak_ptr<FoodBox> Object = std::dynamic_pointer_cast<FoodBox>(CurActor_.lock());
-			Object.lock()->SetFoodType(static_cast<FoodType>(_Data[i].Index_.x));
+			Object.lock()->SetFoodType(static_cast<IngredientType>(_Data[i].Index_.x));
 		}
-			break;
-		case MapObjType::Sink_Wizard: 
+		break;
+		case MapObjType::Sink_Wizard:
 		{
 			CurActor_ = _Level->CreateActor<Sink>();
 			CurActor_.lock()->SetStaticObjectType(MapObjType::Sink_Wizard);
@@ -294,7 +294,7 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 			std::weak_ptr<Sink> Object = std::dynamic_pointer_cast<Sink>(CurActor_.lock());
 			Object.lock()->SetSinkMesh(SinkType::Wizard);
 		}
-			break;
+		break;
 		case MapObjType::Rail:
 		{
 			CurActor_ = _Level->CreateActor<Rail>();
@@ -310,7 +310,7 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 		default:
 			break;
 		}
-		
+
 		if (nullptr != CurActor_.lock())
 		{
 			ToolInfo ToolType = static_cast<ToolInfo>(_Data[i].Index_.y);
@@ -382,4 +382,3 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 
 	return SortActorList_;
 }
-

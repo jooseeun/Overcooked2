@@ -14,6 +14,13 @@ public:
 	FoodThumbnail& operator=(const FoodThumbnail& _Ohter) = delete;
 	FoodThumbnail& operator=(const FoodThumbnail&& _Other) noexcept = delete;
 	void LinkObject(std::shared_ptr<GameEngineActor> _Actor, const float4& _Offset);
+
+	inline void SetOffset(const float4& _Offset)
+	{
+		Offset_ = _Offset;
+	}
+
+	void SetThumbnail(FoodType _Type); //+이미지를 띄우고 싶다면 FoodType::None
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -26,6 +33,4 @@ private:
 
 	float4 Pivot_ = { 0,0,0 };
 	float4 Offset_ = { 0,0,0 };
-
-	float DebugValue_ = 0.02f;
 };

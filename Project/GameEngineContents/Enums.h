@@ -6,8 +6,6 @@ enum class CollisionOrder
 	Mouse,
 	Max,
 
-
-
 	// Object
 	Object_None,
 	Object_StaticObject,
@@ -18,7 +16,6 @@ enum class CollisionOrder
 	// Collision 물리 충돌용
 	Floor,			// 바닥 콜리전
 	Map_Object,
-
 };
 
 enum class PlayerDir
@@ -67,9 +64,14 @@ enum class ToolInfo
 	Max
 };
 
-
 enum class FoodType
 {
+	None,
+};
+
+enum class IngredientType
+{
+	None, //아무것도 아닌 상태 (+)
 	Tomato,
 	Onion,
 	Potato,

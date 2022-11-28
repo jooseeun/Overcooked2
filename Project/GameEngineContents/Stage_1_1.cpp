@@ -92,18 +92,10 @@ void Stage_1_1::PlayLevelStartEvent()
 	std::shared_ptr<GlobalVignette> GlobalVignette_ = GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalVignette>();
 	GraphicWindow::Main_->SetVignette(GlobalVignette_);
 
-
-
-	//음식 아이콘이 보이는 카메라 입니다.- 동원
-	//GetCameraActor(CAMERAORDER::USER7)->GetTransform().SetLocalRotation({ 60, 180, 0 });
-	//GetCameraActor(CAMERAORDER::USER7)->GetTransform().SetLocalPosition({ -1400, 2200, 1600 });
-	UIDebugGUI::Main_->AddTransform("User7", &GetCameraActor(CAMERAORDER::USER7)->GetTransform());
-
 	//테스트용 - 동원
 	std::shared_ptr NewFoodThumbNail = CreateActor<FoodThumbnail>();
-	//NewFoodThumbNail->GetTransform().SetLocalRotation({ -60,-180,0 });
-	//	NewFoodThumbNail->SetPivot({ -1400, 500, 200 });
 	NewFoodThumbNail->LinkObject(MainPlayer, { 0,100, 0 });
+	NewFoodThumbNail->SetThumbnail(FoodType::None);
 
 	return;
 }

@@ -2,106 +2,104 @@
 #include "FoodBox.h"
 #include "FoodHeader.h"
 
-
-FoodBox::FoodBox() 
+FoodBox::FoodBox()
 	: IsOpen_(false)
-    , IsInteraction_(false)
+	, IsInteraction_(false)
 	, Angle_(0.f)
 	, Renderer_(nullptr)
 {
 }
 
-FoodBox::~FoodBox() 
+FoodBox::~FoodBox()
 {
 }
 
-void FoodBox::SetFoodType(FoodType _Type)
+void FoodBox::SetFoodType(IngredientType _Type)
 {
 	std::dynamic_pointer_cast<Tool_FoodBox>(GetStuff())->Type_ = _Type;
 
 	switch (_Type)
 	{
-	case FoodType::Tomato:
+	case IngredientType::Tomato:
 		Renderer_->SetTexture("t_sk_crate_lid_images.png", 0);
 		break;
-	case FoodType::Onion:
+	case IngredientType::Onion:
 		Renderer_->SetTexture("t_sk_crate_lid_images.png", 1);
 		break;
-	case FoodType::Potato:
+	case IngredientType::Potato:
 		Renderer_->SetTexture("t_sk_crate_lid_images.png", 2);
 		break;
-	case FoodType::Dough:
+	case IngredientType::Dough:
 		Renderer_->SetTexture("t_sk_crate_lid_images.png", 3);
 		break;
-	case FoodType::Seaweed:
+	case IngredientType::Seaweed:
 		Renderer_->SetTexture("t_sk_crate_lid_images.png", 4);
 		break;
-	case FoodType::Mushroom:
+	case IngredientType::Mushroom:
 		Renderer_->SetTexture("t_sk_crate_lid_images.png", 5);
 		break;
-	case FoodType::Meat:
+	case IngredientType::Meat:
 		Renderer_->SetTexture("t_sk_crate_lid_images.png", 6);
 		break;
-	case FoodType::Lettuce:
+	case IngredientType::Lettuce:
 		Renderer_->SetTexture("t_sk_crate_lid_images.png", 7);
 		break;
-	case FoodType::Rice:
+	case IngredientType::Rice:
 		Renderer_->SetTexture("t_sk_crate_lid_images.png", 8);
 		break;
-	case FoodType::Flour:
+	case IngredientType::Flour:
 		Renderer_->SetTexture("t_sk_crate_lid_images.png", 9);
 
 		break;
-	case FoodType::Bread:
+	case IngredientType::Bread:
 		Renderer_->SetTexture("t_sk_crate_lid_images.png", 10);
 
 		break;
-	case FoodType::Fish:
+	case IngredientType::Fish:
 		Renderer_->SetTexture("t_sk_crate_lid_images.png", 11);
 
 		break;
-	case FoodType::Sausage:
+	case IngredientType::Sausage:
 		Renderer_->SetTexture("t_sk_crate_lid_images.png", 12);
 
 		break;
-	case FoodType::DumplingSkin:
+	case IngredientType::DumplingSkin:
 		Renderer_->SetTexture("t_sk_crate_lid_images.png", 13);
 		break;
-	case FoodType::Egg:
+	case IngredientType::Egg:
 		Renderer_->SetTexture("t_sk_crate_lid_images.png", 14);
 		break;
-	case FoodType::Chicken:
+	case IngredientType::Chicken:
 		Renderer_->SetTexture("t_sk_crate_lid_images.png", 15);
 		break;
-	case FoodType::Burrito:
+	case IngredientType::Burrito:
 		Renderer_->SetTexture("t_sk_crate_lid_images.png", 16);
 		break;
-	case FoodType::Cheese:
+	case IngredientType::Cheese:
 		Renderer_->SetTexture("t_sk_crate_lid_images.png", 17);
 		break;
-	case FoodType::Carrot:
+	case IngredientType::Carrot:
 		Renderer_->SetTexture("t_sk_crate_lid_images.png", 18);
 		break;
-	case FoodType::Chocolate:
+	case IngredientType::Chocolate:
 		Renderer_->SetTexture("t_sk_crate_lid_images.png", 19);
 		break;
-	case FoodType::Honey:
+	case IngredientType::Honey:
 		Renderer_->SetTexture("t_sk_crate_lid_images.png", 20);
 		break;
-	case FoodType::PastaNoodles:
+	case IngredientType::PastaNoodles:
 		Renderer_->SetTexture("t_sk_crate_lid_images.png", 21);
 		break;
-	case FoodType::Prawn:
+	case IngredientType::Prawn:
 		Renderer_->SetTexture("t_sk_crate_lid_images.png", 22);
 		break;
-	case FoodType::Cucumber:
+	case IngredientType::Cucumber:
 		Renderer_->SetTexture("t_sk_crate_lid_images.png", 23);
 		break;
 	default:
 		break;
 	}
 }
-
 
 void FoodBox::Start()
 {
@@ -114,7 +112,7 @@ void FoodBox::Start()
 	std::shared_ptr<GameEngineFBXStaticRenderer> LidRenderer = Lid_->CreateComponent<GameEngineFBXStaticRenderer>();
 	LidRenderer->SetFBXMesh("CreateBox.fbx", "Texture", 1);
 	LidRenderer->GetTransform().SetWorldScale({ 120, 100, 120 });
-	LidRenderer->GetTransform().SetWorldMove({0, 0.f, -55.f});
+	LidRenderer->GetTransform().SetWorldMove({ 0, 0.f, -55.f });
 
 	std::shared_ptr<GameEngineCollision> Collision_Object_ = Lid_->CreateComponent<GameEngineCollision>("Collision_Object");
 	Collision_Object_->SetDebugSetting(CollisionType::CT_AABB, { 0, 0.8f, 0, 0.5f });
@@ -136,7 +134,7 @@ void FoodBox::Start()
 }
 
 void FoodBox::Update(float _DeltaTime)
-{ 
+{
 	if (true == IsInteraction_)
 	{
 		if (false == IsOpen_)
@@ -181,8 +179,6 @@ void Tool_FoodBox::Start()
 	GamePlayTool::SetInteractOption(AutoOption::NoResponse);
 	GamePlayTool::SetObjectToolType(ObjectToolType::FoodBox);
 }
-
-
 
 //Input_PickUpOption Tool_FoodBox::CheckMoveable(std::shared_ptr<GamePlayMoveable> _Object)
 //{
