@@ -930,8 +930,12 @@ CollisionReturn Player::TableHoldUpCheck(std::shared_ptr<GameEngineCollision> _T
 {
 	//테이블에게 알려주기
 	IdleRendererON();
+	if (_Other->GetActor() == nullptr)
+	{
+		int a = 0;
+	}
 	if (SetPlayerState_Return::Nothing ==
-		_Other->CastThis<GamePlayStaticObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_))
+		_Other->GetActor()->CastThis<GamePlayStaticObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_))
 	{
 		StateManager.ChangeState("Idle");
 	}
@@ -950,7 +954,7 @@ CollisionReturn Player::GroundHoldUpCheck(std::shared_ptr<GameEngineCollision> _
 CollisionReturn Player::TableHoldDownCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 { // 테이블에게 내려놓는다고 알려주기
 	if (SetPlayerState_Return::Nothing ==
-		_Other->CastThis<GamePlayStaticObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_))
+		_Other->GetActor()->CastThis<GamePlayStaticObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_))
 	{  //테이블에 물체가 있어 못내려놓으면 그냥 아무일도 일어나지 않게 하기
 
 		StateManager.ChangeState("HoldUp");
