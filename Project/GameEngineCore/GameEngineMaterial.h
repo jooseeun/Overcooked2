@@ -76,7 +76,7 @@ private:
 
 	std::shared_ptr<GameEngineBlend> Blend; // 아웃풋머저 색상통합 세팅 
 
-
+public:
 	void InputAssembler1InstancingVertexBufferSetting(std::shared_ptr<GameEngineInstancingBuffer> _Buffer);
 
 	void VertexShaderSetting();
