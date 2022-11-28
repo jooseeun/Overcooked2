@@ -74,6 +74,9 @@ void InGameUIActor::UIStart()
 
 		//ResistDebug("Score", ScoreUIInst_.Score->GetTransform());
 	}
+
+	//레시피 매니저
+	RecipeManager_.CreateRecipe(FoodType::CheeseBurger);
 }
 
 void InGameUIActor::UIUpdate(float _DeltaTime)

@@ -67,6 +67,9 @@ enum class ToolInfo
 enum class FoodType
 {
 	None,
+	FishSushimi,
+	PrawnSushimi,
+	CheeseBurger
 };
 
 enum class IngredientType

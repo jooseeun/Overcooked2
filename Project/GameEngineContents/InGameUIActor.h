@@ -1,5 +1,43 @@
 #pragma once
 #include "UIActor.h"
+
+struct FoodData
+{
+	FoodType Type = FoodType::None;
+	std::vector<IngredientType> Ingredient;
+	std::vector<ToolInfo> Cookery;
+};
+
+class Recipe
+{
+public:
+	Recipe(FoodType _Type);
+	~Recipe();
+
+private:
+	FoodData Data_;
+	std::shared_ptr<OverCookedUIRenderer> ParentRenderer_;
+
+	std::shared_ptr<OverCookedUIRenderer> TopBackgroundRenderer_;
+	std::vector< std::shared_ptr<OverCookedUIRenderer>> BottomBackgroundRenderer_;
+
+	std::vector< std::shared_ptr<OverCookedUIRenderer>> BarRenderer_;
+
+	std::vector< std::shared_ptr<OverCookedUIRenderer>> IngredientRenderer_;
+	std::shared_ptr<OverCookedUIRenderer> FoodRenderer_;
+};
+
+class RecipeManager
+{
+public:
+	RecipeManager();
+	~RecipeManager();
+
+	void CreateRecipe(FoodType _Type);
+private:
+	std::vector<Recipe> Recipes_;
+};
+
 class InGameUIActor : public UIActor
 {
 public:
@@ -46,4 +84,6 @@ private:
 
 	float GetScoreIter_ = 0.f;
 	bool IsGetScore_ = false;
+
+	RecipeManager RecipeManager_;
 };
