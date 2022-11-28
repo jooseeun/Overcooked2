@@ -230,6 +230,12 @@
     <ClInclude Include="TestPortal.h">
       <Filter>Contents\Object\Test</Filter>
     </ClInclude>
+    <ClInclude Include="ServerTestLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineStatusWindow.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -457,6 +463,12 @@
     </ClCompile>
     <ClCompile Include="TestPortal.cpp">
       <Filter>Contents\Object\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerTestLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineStatusWindow.cpp">
+      <Filter>GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

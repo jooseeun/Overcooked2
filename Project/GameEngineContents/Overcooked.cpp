@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "Overcooked.h"
+#include "GameEngineStatusWindow.h"
 
 #include "LoadingData.h"
 
@@ -15,6 +16,7 @@
 #include "Stage_1_4.h"
 
 #include "MeshToolLevel.h"
+#include "ServerTestLevel.h"
 
 Overcooked::Overcooked()
 {
@@ -62,6 +64,7 @@ void Overcooked::Start()
 	CreateLevel<MapToolLevel>("MapToolLevel");
 	CreateLevel<MeshToolLevel>("MeshToolLevel");
 	CreateLevel<TitleLevel>("TitleLevel");
+	CreateLevel<ServerTestLevel>("ServerTestLevel");
 
 	ChangeLevel("SelectStage");
 

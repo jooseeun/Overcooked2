@@ -49,14 +49,19 @@ public:
 	GameEngineLevel& operator=(const GameEngineLevel& _Other) = delete;
 	GameEngineLevel& operator=(GameEngineLevel&& _Other) noexcept = delete;
 
-	std::shared_ptr<GameEngineCamera> GetMainCamera()
+	inline std::shared_ptr<GameEngineCamera> GetMainCamera()
 	{
 		return Cameras[static_cast<int>(CAMERAORDER::MAINCAMERA)];
 	}
 
-	std::shared_ptr<GameEngineCamera> GetUICamera()
+	inline std::shared_ptr<GameEngineCamera> GetUICamera()
 	{
 		return Cameras[static_cast<int>(CAMERAORDER::UICAMERA)];
+	}
+
+	inline std::shared_ptr<GameEngineCamera> GetCamera(CAMERAORDER _Order)
+	{
+		return Cameras[static_cast<int>(_Order)];
 	}
 
 	std::shared_ptr<GameEngineCameraActor> GetMainCameraActor();

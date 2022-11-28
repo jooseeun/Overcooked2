@@ -1,6 +1,11 @@
 #pragma once
 
-// std and direct
+#include <WS2tcpip.h> // inet_pton 함수를 사용하기 위한 헤더
+#include <WinSock2.h>
+#include <stdint.h>
+#include <sstream>
+#include <Windows.h>
+
 #include <string>
 
 #include <map>
@@ -8,8 +13,6 @@
 #include <set>
 #include <vector>
 #include <chrono>
-
-#include <Windows.h>
 
 #include <d3d11_4.h>
 #include <d3dcompiler.h>
@@ -26,6 +29,9 @@
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngineBase/magic_enum.hpp>
 #include <GameEngineBase/GameEngineRandom.h>
+#include <GameEngineBase/GameEngineNet.h>
+#include <GameEngineBase/GameEngineNetServer.h>
+#include <GameEngineBase/GameEngineNetClient.h>
 
 // core
 #include <GameEngineCore/CoreMinimal.h>
