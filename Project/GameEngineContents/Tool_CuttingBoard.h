@@ -20,6 +20,7 @@ public:
 protected:
 	void Start() override;
 private:
-
+	UsingDownEnum UsingDown(std::shared_ptr<Player> _Player) final;
+	bool CanHoldThis(std::shared_ptr<GamePlayMoveable> _Moveable) final;
 };
 

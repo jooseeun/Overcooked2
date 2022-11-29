@@ -59,7 +59,7 @@ public:
 		Enum_ToolInfo_ = _Info;
 	}
 
-	void SetParentObject(std::shared_ptr<GameEngineUpdateObject> _Object);
+	virtual void SetParentObject(std::shared_ptr<GameEngineUpdateObject> _Object);
 
 protected:
 
@@ -89,7 +89,7 @@ protected:
 	}
 
 private:
-
+	float4 Pos;
 	SetPlayerState_Return SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type) final;
 
 	// Enum
