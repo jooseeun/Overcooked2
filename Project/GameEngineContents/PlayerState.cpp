@@ -48,8 +48,11 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerInteract")) //컨트롤키
 	{
-		Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
-			std::bind(&Player::TableSliceCheck, this, std::placeholders::_1, std::placeholders::_2));
+		if (CurrentHoldingObject_ == nullptr) // 손에 아무것도 없을때
+		{
+			Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
+				std::bind(&Player::TableSliceCheck, this, std::placeholders::_1, std::placeholders::_2)); // 도마 검사
+		}
 	}
 }
 

@@ -130,6 +130,7 @@ void Player::Start()
 		PlayerFloorCollision_->GetTransform().SetLocalScale({ 100,15,100 });
 		PlayerFloorCollision_->GetTransform().SetLocalPosition({ 0,-20,0 });
 		PlayerFloorCollision_->ChangeOrder(CollisionOrder::Object_Character);
+		SetCollision(PlayerFloorCollision_);
 	}
 	{
 		PlayerForwardCollision_ = CreateComponent<GameEngineCollision>();
@@ -410,15 +411,7 @@ void Player::Update(float _DeltaTime)
 ///////////////////////////// 그외 함수들
 
 
-void Player::Gravity()
-{
-	if(PlayerFloorCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Floor, CollisionType::CT_OBB,
-		std::bind(&Player::GravityColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
-	{
-		GetTransform().SetWorldDownMove(300.0f, GameEngineTime::GetDeltaTime());
-	}
 
-}
 
 void Player::CalculateKineticEnergy()
 {
@@ -968,10 +961,10 @@ CollisionReturn Player::TableSliceCheck(std::shared_ptr<GameEngineCollision> _Th
 {
 	//테이블에게 자를거라고 알려주기
 
+	CurStateType_ = PlayerCurStateType::Slice;
 	if (SetPlayerState_Return::Using ==
 		_Other->GetParent()->CastThis<GamePlayStaticObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_))
 	{  //자를수 있으면 자르는 상태로 변경
-
 		StateManager.ChangeState("Slice");
 	}
 	return CollisionReturn::ContinueCheck;

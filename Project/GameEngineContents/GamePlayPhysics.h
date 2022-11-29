@@ -18,16 +18,22 @@ public:
 
 	inline std::shared_ptr<GameEngineCollision> GetCollision() const
 	{
-		return PhysicsCollision;
+		return PhysicsCollision_;
 	}
-
+	inline void SetCollision(std::shared_ptr<GameEngineCollision> _Col)
+	{
+		PhysicsCollision_ = _Col;
+	}
 protected:
-	void Update(float _DeltaTime);
 
 	void Gravity(); // 중력함수 -> Update에서 일단 하는중
+	void Throw(float4 _Vector);
+	void ThrowUpdate();
 	bool StaticObjectCollisionCheck(); // 맵 오브젝트, 테이블 등등이랑 충돌하면 true 반환함수
 
 private:
-	std::shared_ptr<GameEngineCollision> PhysicsCollision;
+	float UpTime_;
+	bool IsThrow_;
+	std::shared_ptr<GameEngineCollision> PhysicsCollision_;
 };
 

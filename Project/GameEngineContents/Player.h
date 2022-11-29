@@ -3,6 +3,7 @@
 #include "Enums.h"
 #include <GameEngineCore/GameEngineFBXAnimationRenderer.h>
 #include <GameEngineCore/GameEngineStateManager.h>
+#include "GamePlayPhysics.h"
 
 // 설명 :
 class GameEngineFBXAnimationRenderer;
@@ -10,7 +11,7 @@ class GameEngineFBXStaticRenderer;
 class GameEngineCollision;
 class GamePlayMoveable;
 class GamePlayStaticObject;
-class Player : public GameEngineActor
+class Player : public GamePlayPhysics
 {
 public:
 	// constrcuter destructer
@@ -57,7 +58,6 @@ protected:
 	void PlayerDirCheck();
 	bool MoveAngle();
 
-	void Gravity();
 	void MoveCollisionSideCheck(float _DeltaTime);
 
 
@@ -101,7 +101,7 @@ public:
 			CurrentHoldingObject_->DetachObject();
 		}
 		CurrentHoldingObject_->SetParent(shared_from_this());
-		CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,50,-60 });
+		CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,60,-60 });
 	}
 
 	inline void SetCurHoldType(PlayerHoldType _CurHoldType) // 손에 쥐어줄때 무슨 플레이어가 타입인지 알려주는 함수
