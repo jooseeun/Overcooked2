@@ -97,14 +97,29 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 		{
 			if (GetMoveable() == nullptr)
 			{
-				_Player->DetachPlayerHolding();
 				if (Stuff_Current_ == nullptr)
 				{
+					_Player->DetachPlayerHolding();
 					SetStuff(Moveable.lock());
 				}
 				else
 				{
-					Stuff_Current_->SetParentObject(Moveable.lock());
+					switch (Stuff_Current_->HoldDown(_Player))
+					{
+					case HoldDownEnum::Nothing:
+						break;
+					case HoldDownEnum::HoldDown:
+						Moveable.lock()->SetParentObject(Stuff_Current_);
+					case HoldDownEnum::HoldDown_Already:
+						break;
+					case HoldDownEnum::HoldUp:
+						break;
+					case HoldDownEnum::HoldUp_Already:
+						break;
+					default:
+						break;
+					}
+					
 				}
 				return SetPlayerState_Return::Using;
 			}
@@ -145,10 +160,29 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 		break;
 	case PlayerCurStateType::Slice:
 	{
-		//if (std::dynamic_pointer_cast<GamePlayTool>(Stuff_Current_)->GetObjectToolType())
-		//{
-
-		//}
+		if (Stuff_Current_ == nullptr)
+		{
+			if (_Player->GetPlayerHolding() == nullptr)
+			{
+				return SetPlayerState_Return::Nothing;
+			}
+			else
+			{
+				//_Player->GetPlayerHolding()->CastThis<GamePlayMoveable>()->UsingDown(_Player);
+			}
+		}
+		else
+		{
+			switch (Stuff_Current_->UsingDown(_Player))
+			{
+			case UsingDownEnum::Nothing:
+				break;
+			case UsingDownEnum::Using:
+				break;
+			default:
+				break;
+			}
+		}
 	}
 		break;
 	default:

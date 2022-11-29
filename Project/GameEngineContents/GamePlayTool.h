@@ -65,6 +65,8 @@ protected:
 	void LevelStartEvent() override {};
 	void LevelEndEvent() override {};
 
+	virtual bool CanHoldThis(std::shared_ptr<GamePlayMoveable> _Moveable) { return true; };
+
 protected:
 
 	inline void SetInteractOption(AutoOption _Option)
@@ -90,7 +92,8 @@ private:
 	ObjectToolType Enum_ObjectToolType_;
 	AutoOption InteractOption_Current_;
 
-	float4 FoodPos_;
+	float4 MoveablePos_;
+	void SetParentObject(std::shared_ptr<GameEngineUpdateObject> _Object) override;
 
 	//void SetMoveableObject(std::shared_ptr<GamePlayMoveable> _Object);
 

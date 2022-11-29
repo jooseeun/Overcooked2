@@ -112,5 +112,7 @@ private:
 	ObjectFoodType Enum_ObjectFoodType_;
 	IngredientType Enum_IngredientType_;
 	bool Trimming_;
+
+	HoldDownEnum HoldDown(std::shared_ptr<Player> _Player) override;
 };
 

@@ -35,13 +35,15 @@ HoldDownEnum GamePlayTool::HoldDown(std::shared_ptr<Player> _Player)
 		else
 		{
 			_Player->SetPlayerHolding(Moveable_Current_);
+			Moveable_Current_.reset();
 			return HoldDownEnum::HoldUp_Already;
 		}
 	}
 	else
 	{
-		if (Moveable_Current_ == nullptr)
+		if (Moveable_Current_ == nullptr && CanHoldThis(Moveable.lock()))
 		{
+			Moveable_Current_ = Moveable.lock();
 			Moveable.lock()->SetParentObject(shared_from_this());
 			_Player->DetachPlayerHolding();
 			return HoldDownEnum::HoldDown_Already;
@@ -71,3 +73,11 @@ HoldDownEnum GamePlayTool::HoldDown(std::shared_ptr<Player> _Player)
 	return HoldDownEnum::Nothing;
 }
 
+void GamePlayTool::SetParentObject(std::shared_ptr<GameEngineUpdateObject> _Object)
+{
+	std::weak_ptr<GamePlayObject> Object = _Object->CastThis<GamePlayObject>();
+	GetTransform().SetLocalPosition(MoveablePos_);
+	
+	GetCollisionObject()->Off();
+	SetParent(_Object);
+}

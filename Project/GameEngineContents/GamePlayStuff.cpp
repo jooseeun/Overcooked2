@@ -80,5 +80,9 @@ SetPlayerState_Return GamePlayStuff::SetPlayerState(std::shared_ptr<Player> _Pla
 void GamePlayStuff::SetParentObject(std::shared_ptr<GameEngineUpdateObject> _Object)
 {
 	std::weak_ptr<GamePlayObject> Object = _Object->CastThis<GamePlayObject>();
+	const float4& Pos = Object.lock()->GetTransform().GetWorldPosition();
+	GetTransform().SetWorldPosition({ Pos.x, Pos.y, Pos.z + 80.f });
+
+	GetCollisionObject()->Off();
 	SetParent(_Object);
 }
