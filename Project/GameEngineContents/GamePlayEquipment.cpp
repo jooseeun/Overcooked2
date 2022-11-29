@@ -15,3 +15,5 @@ void GamePlayEquipment::Start()
 	GamePlayMoveable::Start();
 	GamePlayMoveable::SetObjectMoveableType(ObjectMoveableType::Equipment);
 }
+
+

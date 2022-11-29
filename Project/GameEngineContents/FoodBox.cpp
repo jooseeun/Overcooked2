@@ -180,6 +180,75 @@ void Tool_FoodBox::Start()
 	GamePlayTool::SetObjectToolType(ObjectToolType::FoodBox);
 }
 
+HoldDownEnum Tool_FoodBox::HoldDown(std::shared_ptr<Player> _Player)
+{
+	if (_Player->GetPlayerHolding() == nullptr)
+	{
+		switch (Type_)
+		{
+		case IngredientType::Onion:
+			break;
+		case IngredientType::Potato:
+			break;
+		case IngredientType::Dough:
+			break;
+		case IngredientType::Seaweed:
+			break;
+		case IngredientType::Mushroom:
+			break;
+		case IngredientType::Meat:
+			break;
+		case IngredientType::Lettuce:
+			break;
+		case IngredientType::Rice:
+			break;
+		case IngredientType::Flour:
+			break;
+		case IngredientType::Bread:
+			break;
+		case IngredientType::Fish:
+			_Player->SetPlayerHolding(GetLevel()->CreateActor<Food_Ingredients_Fish>());
+			break;
+		case IngredientType::Sausage:
+			break;
+		case IngredientType::DumplingSkin:
+			break;
+		case IngredientType::Egg:
+			break;
+		case IngredientType::Chicken:
+			break;
+		case IngredientType::Burrito:
+			break;
+		case IngredientType::Cheese:
+			break;
+		case IngredientType::Carrot:
+			break;
+		case IngredientType::Chocolate:
+			break;
+		case IngredientType::Honey:
+			break;
+		case IngredientType::PastaNoodles:
+			break;
+		case IngredientType::Tomato:
+			break;
+		case IngredientType::Prawn:
+			_Player->SetPlayerHolding(GetLevel()->CreateActor<Food_Ingredients_Prawn>());
+			break;
+		case IngredientType::Cucumber:
+			break;
+		default:
+			break;
+		}
+
+		return HoldDownEnum::HoldUp_Already;
+	}
+	else
+	{
+		return HoldDownEnum::Nothing;
+		//MsgBoxAssert("만들어지지 않은 예외")
+	}
+}
+
 //Input_PickUpOption Tool_FoodBox::CheckMoveable(std::shared_ptr<GamePlayMoveable> _Object)
 //{
 //	return Input_PickUpOption::PickUp;
@@ -187,60 +256,7 @@ void Tool_FoodBox::Start()
 //
 //Input_PickUpOption Tool_FoodBox::Input_PickUp(std::shared_ptr<Player> _Player)
 //{
-//	switch (Type_)
-//	{
-//	case FoodType::Onion:
-//		break;
-//	case FoodType::Potato:
-//		break;
-//	case FoodType::Dough:
-//		break;
-//	case FoodType::Seaweed:
-//		break;
-//	case FoodType::Mushroom:
-//		break;
-//	case FoodType::Meat:
-//		break;
-//	case FoodType::Lettuce:
-//		break;
-//	case FoodType::Rice:
-//		break;
-//	case FoodType::Flour:
-//		break;
-//	case FoodType::Bread:
-//		break;
-//	case FoodType::Fish:
-//		break;
-//	case FoodType::Sausage:
-//		break;
-//	case FoodType::DumplingSkin:
-//		break;
-//	case FoodType::Egg:
-//		break;
-//	case FoodType::Chicken:
-//		break;
-//	case FoodType::Burrito:
-//		break;
-//	case FoodType::Cheese:
-//		break;
-//	case FoodType::Carrot:
-//		break;
-//	case FoodType::Chocolate:
-//		break;
-//	case FoodType::Honey:
-//		break;
-//	case FoodType::PastaNoodles:
-//		break;
-//	case FoodType::Tomato:
-//		//break;
-//	case FoodType::Prawn:
-//		_Player->Input_PickUp(GetLevel()->CreateActor<Food_Ingredients_Prawn>());
-//		break;
-//	case FoodType::Cucumber:
-//		break;
-//	default:
-//		break;
-//	}
+
 //	return Input_PickUpOption::Exception;
 //}
 //

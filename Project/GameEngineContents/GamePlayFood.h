@@ -9,17 +9,25 @@ enum class ObjectFoodType
 	Recipe,			  // 접시 및 제출 O     , 200 ~ 299
 
 };
-enum class ObjectFoodClass
-{
-	None = 0,
-	Fish = 1,
-	Fish_Cutting,
-	Prawn,
-	Prawn_Cutting,
-
-
-	Recipe_Default = 100,
-};
+//enum class ObjectFoodClass
+//{
+//	  None = 0
+//	, Fish = 1
+//	, Fish_Cutting
+//	, Fish_Steam
+//	, Prawn
+//	, Prawn_Cutting
+//	, Prawn_Steam
+//	, Rice
+//	, Rice_Steam
+//	, Cucumber
+//	, Cucumber_Cutting
+//	, Seaweed
+//	, Carrot
+//	, Carrot_Cutting
+//
+//
+//};
 
 
 class GamePlayFood : public GamePlayMoveable
@@ -48,16 +56,19 @@ public:
 		return Enum_ObjectFoodType_;
 	}
 
-	inline ObjectFoodClass GetObjectFoodClass() const
+	inline IngredientType GetObjectFoodClass() const
 	{
-		if (Enum_ObjectFoodClass_ == ObjectFoodClass::None)
+		if (Enum_IngredientType_ == IngredientType::None)
 		{
 			MsgBoxAssert("Object의 ObjectType이 설정되지 않았습니다. (GamePlayStuff::Enum_ObjectFoodClass_ 설정)");
 		}
-		return Enum_ObjectFoodClass_;
+		return Enum_IngredientType_;
 	}
 
-
+	inline void SetTrimming()
+	{
+		Trimming_ = true;
+	}
 
 protected:
 	void Start() override;
@@ -73,10 +84,10 @@ protected:
 
 protected:
 
-	inline void SetObjectFoodClass(ObjectFoodClass _Class)
+	inline void SetObjectFoodClass(IngredientType _Class)
 	{
-		Enum_ObjectFoodClass_ = _Class;
-		if (Enum_ObjectFoodClass_ == ObjectFoodClass::None)
+		Enum_IngredientType_ = _Class;
+		if (Enum_IngredientType_ == IngredientType::None)
 		{
 			MsgBoxAssert("None이 입력 되었습니다");
 		}
@@ -99,8 +110,7 @@ private:
 
 
 	ObjectFoodType Enum_ObjectFoodType_;
-	ObjectFoodClass Enum_ObjectFoodClass_;
-
-	float CookingGage;
+	IngredientType Enum_IngredientType_;
+	bool Trimming_;
 };
 

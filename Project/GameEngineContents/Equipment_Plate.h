@@ -38,5 +38,6 @@ private:
 	bool Washing_;
 
 	std::shared_ptr<Equipment_Plate> Pile_Plate_;
+
 };
 
