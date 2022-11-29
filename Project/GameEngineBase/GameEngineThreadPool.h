@@ -41,10 +41,10 @@ public:
 	~GameEngineThreadPool();
 
 	// delete Function
-	GameEngineThreadPool(const GameEngineThreadPool& _Other) = delete;
-	GameEngineThreadPool(GameEngineThreadPool&& _Other) noexcept = delete;
-	GameEngineThreadPool& operator=(const GameEngineThreadPool& _Other) = delete;
-	GameEngineThreadPool& operator=(GameEngineThreadPool&& _Other) noexcept = delete;
+	//GameEngineThreadPool(const GameEngineThreadPool& _Other) = delete;
+	//GameEngineThreadPool(GameEngineThreadPool&& _Other) noexcept = delete;
+	//GameEngineThreadPool& operator=(const GameEngineThreadPool& _Other) = delete;
+	//GameEngineThreadPool& operator=(GameEngineThreadPool&& _Other) noexcept = delete;
 
 	void Work(std::function<void()> _CallBack);
 	void Initialize(const std::string& _ThreadName, int _ThreadCount = 0);

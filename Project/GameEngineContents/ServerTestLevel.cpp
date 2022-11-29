@@ -7,6 +7,10 @@
 #include "GameEngineStatusWindow.h"
 
 
+GameEngineNet* ServerTestLevel::Net;
+GameEngineNetServer ServerTestLevel::Server;
+GameEngineNetClient ServerTestLevel::Client;
+
 ServerTestLevel::ServerTestLevel()
 {
 }
@@ -41,12 +45,13 @@ void ServerTestLevel::LevelStartEvent()
 {
 	if (true == GameEngineStatusWindow::IsHost)
 	{
-		Server.Accept(30222);
+		Server.Accept(30001);
+		Net = &Server;
 	}
 	else
 	{
-		// Client.Connect("127.0.0.1", 30222);
-		Client.Connect("localHost", 30222);
+		Client.Connect("127.0.0.1", 30001);
+		Net = &Client;
 	}
 }
 

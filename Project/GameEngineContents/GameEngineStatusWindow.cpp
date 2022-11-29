@@ -3,6 +3,7 @@
 #include <GameEngineCore/GameEngineRenderTarget.h>
 #include <GameEngineCore/GameEngineCameraActor.h>
 #include <GameEngineCore/GEngine.h>
+#include "ServerTestLevel.h"
 
 bool GameEngineStatusWindow::IsHost = true;
 std::map<std::string, GameEngineRenderTarget*> GameEngineStatusWindow::DebugRenderTarget;
@@ -111,10 +112,17 @@ void GameEngineStatusWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		}
 	}
 
+	// 서버 테스트용
 	{
 		ImGui::Text("Server Status");
 		ImGui::SameLine();
 		ImGui::Checkbox(GameEngineString::AnsiToUTF8Return("호스트").c_str(), &IsHost);
+		ImGui::SameLine();
+		if (true == ImGui::Button("CheckSend"))
+		{
+			std::string Value = "abcde";
+			ServerTestLevel::Net->Send(Value.c_str(), Value.size());
+		}
 	}
 
 	DebugRenderTarget.clear();

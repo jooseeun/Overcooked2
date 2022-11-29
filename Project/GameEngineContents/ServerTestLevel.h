@@ -17,6 +17,8 @@ public:
 	ServerTestLevel& operator=(const ServerTestLevel& _Other) = delete;
 	ServerTestLevel& operator=(ServerTestLevel&& _Other) noexcept = delete;
 
+	static GameEngineNet* Net;
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -25,8 +27,8 @@ protected:
 	void LevelEndEvent() override;
 
 private:
-	GameEngineNetServer Server;
-	GameEngineNetClient Client;
+	static GameEngineNetServer Server;
+	static GameEngineNetClient Client;
 
 };
 

@@ -12,7 +12,6 @@ std::shared_ptr<GlobalOverlay>  GraphicWindow::GlobalOverlay_ = nullptr;
 std::shared_ptr<GlobalVignette> GraphicWindow::GlobalVignette_ = nullptr;
 std::shared_ptr<GlobalBloom>	GraphicWindow::GlobalBloom_ = nullptr;
 
-
 ImVec4 GraphicWindow::OverlayColor_ = { 0.586f, 0.617f, 0.672f, 1.0f };
 
 bool GraphicWindow::OverlayOnOff_ = true;
