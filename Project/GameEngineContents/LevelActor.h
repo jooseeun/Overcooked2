@@ -20,6 +20,11 @@ public:
 		Renderer_->GetTransform().SetWorldScale({ 40, 40, 40 });
 	};
 
+	std::shared_ptr<GameEngineFBXStaticRenderer> GetRenderer()
+	{
+		return Renderer_;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _Update) override;

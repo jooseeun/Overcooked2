@@ -67,7 +67,25 @@ void Stage_1_1::PlayLevelStartEvent()
 	}
 
 	IsLevelFirst_ = false;
-	CreateActor<LevelActor>()->SetLevelMesh("1_1.FBX");
+	std::shared_ptr<LevelActor> Tmp = CreateActor<LevelActor>();
+	Tmp->SetLevelMesh("1_1.FBX");
+
+	//std::vector<std::vector<GameEngineRenderUnit>>& TmpUnits2 = Tmp->GetRenderer()->GetAllRenderUnit();
+	//for (size_t i = 0; i < TmpUnits2.size(); i++)
+	//{
+	//	for (size_t j = 0; j < TmpUnits2[i].size(); j++)
+	//	{
+	//		//std::shared_ptr<GameEngineMaterial> TmpMat = TmpUnits2[i][j].GetCloneMaterial();
+	//		//TmpMat->SetWireFrame();
+	//		TmpUnits2[i][j].GetCloneMaterial()->SetWireFrame();
+	//	}
+	//}
+
+	//std::vector<GameEngineRenderUnit> TmpUnits = Tmp->GetRenderer()->GetAllRenderUnit()[7];
+	//for (size_t i = 0; i < TmpUnits.size(); i++)
+	//{
+	//	TmpUnits[i].GetCloneMaterial()->SetOutputMergerBlend("AddBlend");
+	//}
 
 	GlobalIOManager::Load(IOType::SortMap, 0);
 	DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
