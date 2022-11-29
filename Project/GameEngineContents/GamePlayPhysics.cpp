@@ -32,6 +32,8 @@ void GamePlayPhysics::ColCheckPlayer()//플레이어한테 차이거나 하면은 밀리는 함수
 CollisionReturn GamePlayPhysics::MoveFromPlayer(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 {
 	GetTransform().SetWorldMove(_Other->GetActor()->CastThis<Player>()->GetTransform().GetBackVector()*100.0f);
+
+	return CollisionReturn::ContinueCheck;
 } 
 
 
