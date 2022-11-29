@@ -69,7 +69,9 @@ enum class FoodType
 	None,
 	FishSushimi,
 	PrawnSushimi,
-	CheeseBurger
+	PlainBurger,
+	CheeseBurger,
+	CheeseBurgerLettuceTomato
 };
 
 enum class IngredientType

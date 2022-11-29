@@ -64,6 +64,14 @@ std::shared_ptr<OverCookedUIRenderer> UIActor::CreateUIRenderer(std::string_view
 	return NewRenderer;
 }
 
+std::shared_ptr<OverCookedUIRenderer> UIActor::CreateUIRenderer(std::string_view _TextrueName, std::string_view _RendererName)
+{
+	std::shared_ptr<OverCookedUIRenderer> NewRenderer = CreateComponent<OverCookedUIRenderer>(_RendererName.data());
+	NewRenderer->SetTexture(_TextrueName.data());
+	NewRenderer->ScaleToTexture();
+	return NewRenderer;
+}
+
 std::shared_ptr<OverCookedUIRenderer> UIActor::CreateUIRenderer(std::string_view _TextrueName, float _ScaleRatio)
 {
 	std::shared_ptr<OverCookedUIRenderer> NewRenderer = CreateComponent<OverCookedUIRenderer>(_TextrueName.data());

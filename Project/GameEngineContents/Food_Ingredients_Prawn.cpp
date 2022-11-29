@@ -14,7 +14,7 @@ Food_Ingredients_Prawn::~Food_Ingredients_Prawn()
 void Food_Ingredients_Prawn::Start()
 {
 	GamePlayFood::Start();
-	GamePlayFood::SetObjectFoodClass(ObjectFoodClass::Prawn);
+	GamePlayFood::SetObjectFoodClass(IngredientType::Prawn);
 
 	//if (Mesh_Prawn == nullptr)
 	//{

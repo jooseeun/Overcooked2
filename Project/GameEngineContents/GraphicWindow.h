@@ -72,7 +72,17 @@ private:
 		_float4Value.w = _ImVec4Value.w;
 	}
 
+	static float BloomFilter1_[3];
+	static float BloomFilter2_[3];
+	static float BloomFilter3_[3];
+	static float BloomFilter4_[3];
+	static float BloomFilter5_[3];
+	static float BloomValue_;
+	static float BrightMin_;
+	static float BrightMax_;
+	static void BloomSetting();
+
 public:
 	static std::shared_ptr<GraphicWindow> Main_;
-};
 
+};

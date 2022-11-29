@@ -88,3 +88,4 @@ void Equipment_Plate::SetClean()
 //	}
 //	return Input_PickUpOption::PickUp;
 //}
+

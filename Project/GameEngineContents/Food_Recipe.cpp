@@ -13,5 +13,5 @@ Food_Recipe::~Food_Recipe()
 void Food_Recipe::Start()
 {
 	GamePlayFood::Start();
-	GamePlayFood::SetObjectFoodClass(ObjectFoodClass::Recipe_Default);
+//	GamePlayFood::SetObjectFoodClass(IngredientType::Prawn);
 }

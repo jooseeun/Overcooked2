@@ -49,8 +49,10 @@ public:
 protected:
 	void Start() override;
 
-	//void Input_Action_End(std::shared_ptr<GamePlayMoveable> _Moveable) override;
+	
 private:
 	std::shared_ptr<Equipment_Plate> ReturnCleanPlate_;
+
+	//UsingDownEnum UsingDown(std::shared_ptr<GamePlayStuff> _Stuff) override;
 };
 

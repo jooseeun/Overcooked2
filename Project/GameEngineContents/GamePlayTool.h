@@ -37,11 +37,6 @@ public:
 	GamePlayTool& operator=(const GamePlayTool& _Other) = delete;
 	GamePlayTool& operator=(GamePlayTool&& _Other) noexcept = delete;
 
-	inline HoldDownEnum HoldDown(std::shared_ptr<GamePlayStuff> _Stuff) override
-	{
-		return HoldDownEnum::HoldDown;
-	};
-
 	inline std::shared_ptr<GamePlayMoveable> GetCurrentMoveable() const
 	{
 		return Moveable_Current_;
@@ -49,6 +44,10 @@ public:
 	inline void ReSetCurrentMoveable()
 	{
 		Moveable_Current_.reset();
+	}
+	inline void SetCurrentMoveable(std::shared_ptr<GamePlayMoveable> _Moveable)
+	{
+		Moveable_Current_ = _Moveable;
 	}
 
 	inline ObjectToolType GetObjectToolType()
@@ -77,6 +76,8 @@ protected:
 private:
 	std::shared_ptr<GamePlayMoveable> Moveable_Current_;
 
+	HoldDownEnum HoldDown(std::shared_ptr<Player> _Player) override;
+
 
 protected:
 	inline void SetObjectToolType(ObjectToolType _Type)
@@ -91,6 +92,7 @@ private:
 
 	float4 FoodPos_;
 
+	//void SetMoveableObject(std::shared_ptr<GamePlayMoveable> _Object);
 
 	// Bloom
 public:

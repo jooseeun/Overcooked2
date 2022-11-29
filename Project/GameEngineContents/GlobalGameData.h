@@ -20,7 +20,7 @@ public:
 	InitGlobalGameData();
 private:
 	StageData CreateStageData(std::string_view _StageName, Thema _StageThema);
-	FoodData CreateFoodData(FoodType _Type, std::vector<IngredientType>& _Ingredient, std::vector<ToolInfo>& _Cookery);
+	FoodData CreateFoodData(FoodType _Type, std::vector<IngredientType>& _Ingredient, std::vector<ToolInfo>& _Cookery, float _WaitingTime);
 };
 
 struct FoodData;
@@ -94,3 +94,8 @@ private:
 
 	static int Score_;
 };
+
+namespace UI_Utility
+{
+	std::string EnumToString(FoodType _Type);
+}

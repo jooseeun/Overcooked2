@@ -39,84 +39,113 @@ void GamePlayStaticObject::SetHighlightEffectOn()
 	}
 }
 
-//Input_PutDownOption GamePlayStaticObject::Input_PutDown(std::shared_ptr<GamePlayMoveable> _Object)
-//{
-//	if (Stuff_Current_ != nullptr)
-//	{
-//		return Stuff_Current_->Input_PutDown(_Object);
-//	}
-//	else
-//	{
-//		Stuff_Current_ = _Object;
-//		return Input_PutDownOption::PutDown;
-//	}
-//}
-//
-//Input_PickUpOption GamePlayStaticObject::Input_PickUp(std::shared_ptr<Player> _Player)
-//{
-//	if (Stuff_Current_ != nullptr)
-//	{
-//		Input_PickUpOption Option = Stuff_Current_->Input_PickUp(_Player);
-//		if (Option == Input_PickUpOption::PickUp)
-//		{
-//			_Player->Input_PickUp(std::dynamic_pointer_cast<GamePlayMoveable>(Stuff_Current_));
-//			Stuff_Current_.reset();
-//			return Input_PickUpOption::PickUp;
-//		}
-//		else
-//		{
-//			return Input_PickUpOption::NoResponse;
-//		}
-//	}
-//	else
-//	{
-//		return Input_PickUpOption::NoResponse;
-//	}
-//
-//}
-
 SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type)
 {
 	switch (_Type)
 	{
 	case PlayerCurStateType::HoldUp:
-		if (GetMoveable() != nullptr)
-		{
-			std::weak_ptr<GamePlayMoveable> Moveable = GetMoveable_TakeOut();
-			Moveable.lock()->GetCollisionObject()->Off();
-			switch (Moveable.lock()->GetObjectMoveableType())
-			{
-			case ObjectMoveableType::Food:
-				_Player->SetCurHoldType(PlayerHoldType::CanThrow);
-				break;
-			case ObjectMoveableType::Equipment:
-				_Player->SetCurHoldType(PlayerHoldType::NotThrow);
-				break;
-			default:
-				break;
-			}
-			_Player->SetPlayerHolding(Moveable.lock());
-			return SetPlayerState_Return::Using;
-		}
-		else
+		if (Stuff_Current_ == nullptr)
 		{
 			return SetPlayerState_Return::Nothing;
 		}
+		else
+		{
+			switch (Stuff_Current_->HoldDown(_Player))
+			{
+			case HoldDownEnum::Nothing:
+				return SetPlayerState_Return::Nothing;
+				break;
+			case HoldDownEnum::HoldUp:
+				_Player->SetPlayerHolding(Stuff_Current_);
+				ReSetStuff();
+			case HoldDownEnum::HoldUp_Already:
+				return SetPlayerState_Return::Using;
+				break;
+			default:
+				MsgBoxAssert("아직 처리하지 않은 예외")
+				break;
+			}
+		}
+
+		//if (GetMoveable() != nullptr)
+		//{
+		//	std::weak_ptr<GamePlayMoveable> Moveable = GetMoveable_TakeOut();
+		//	Moveable.lock()->GetCollisionObject()->Off();
+		//	switch (Moveable.lock()->GetObjectMoveableType())
+		//	{
+		//	case ObjectMoveableType::Food:
+		//		_Player->SetCurHoldType(PlayerHoldType::CanThrow);
+		//		break;
+		//	case ObjectMoveableType::Equipment:
+		//		_Player->SetCurHoldType(PlayerHoldType::NotThrow);
+		//		break;
+		//	default:
+		//		break;
+		//	}
+		//	_Player->SetPlayerHolding(Moveable.lock());
+		//	return SetPlayerState_Return::Using;
+		//}
+		//else
+		//{
+		//	return SetPlayerState_Return::Nothing;
+		//}
 		break;
 	case PlayerCurStateType::HoldDown:	
 	{
-		if (true)
-		{
-
-		}
 		std::weak_ptr<GamePlayMoveable> Moveable = std::dynamic_pointer_cast<GamePlayMoveable>(_Player->GetPlayerHolding());
-		_Player->DetachPlayerHolding();
+		if (Moveable.lock() != nullptr)
+		{
+			if (GetMoveable() == nullptr)
+			{
+				_Player->DetachPlayerHolding();
+				if (Stuff_Current_ == nullptr)
+				{
+					SetStuff(Moveable.lock());
+				}
+				else
+				{
+					Stuff_Current_->SetParentObject(Moveable.lock());
+				}
+				return SetPlayerState_Return::Using;
+			}
+			else
+			{
+				if (Stuff_Current_->GetObjectStuffType() == ObjectStuffType::Moveable)
+				{
+					switch (Stuff_Current_->HoldDown(_Player))
+					{
+					case HoldDownEnum::HoldUp:
+						MsgBoxAssert("예외")
+					case HoldDownEnum::Nothing:
+					case HoldDownEnum::HoldUp_Already:
+						return SetPlayerState_Return::Nothing;
+						break;
+					case HoldDownEnum::HoldDown:
+						MsgBoxAssert("예외")
+					case HoldDownEnum::HoldDown_Already:
+						return SetPlayerState_Return::Using;
+						break;
+					default:
+						break;
+					}
+				}
+				else
+				{
+
+				}
+			}
+		}
+		else
+		{
+			MsgBoxAssert("처리안된 예외")
+		}
+		
 
 	}
 		break;
 	case PlayerCurStateType::Slice:
 	{
-		//if (Stuff_Current_->GetType)
+		//if (std::dynamic_pointer_cast<GamePlayTool>(Stuff_Current_)->GetObjectToolType())
 		//{
 
 		//}

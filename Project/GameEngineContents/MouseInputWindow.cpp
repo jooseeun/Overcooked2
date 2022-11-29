@@ -64,13 +64,13 @@ void MouseInputWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	if (true == IsChanging_)
 	{
 		{
-			ImGui::InputFloat3("Position", Pos_);
+			ImGui::DragFloat3("Position", Pos_);
 		}
 		{
-			ImGui::InputFloat3("Rotation", Rot_);
+			ImGui::DragFloat3("Rotation", Rot_);
 		}
 		{
-			ImGui::InputFloat3("Scale", Scale_);
+			ImGui::DragFloat3("Scale", Scale_);
 		}
 
 		InputTransform_->SetWorldPosition({ Pos_[0], Pos_[1] ,Pos_[2] });

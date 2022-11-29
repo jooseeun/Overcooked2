@@ -40,6 +40,8 @@ public:
 		return Enum_ObjectMoveableType_;
 	}
 
+//	HoldDownEnum CalculateMoveable(std::shared_ptr<GamePlayMoveable> _Other);
+
 protected:
 	void Start() override;
 	//void Update(float _DeltaTime) final;
@@ -61,6 +63,5 @@ protected:
 
 private:
 	ObjectMoveableType Enum_ObjectMoveableType_;
-	SetPlayerState_Return SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type) override;
 };
 

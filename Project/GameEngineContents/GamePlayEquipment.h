@@ -52,5 +52,6 @@ protected:
 	}
 private:
 	ObjectEquipmentType Enum_ObjectEquipmentType_;
+
 };
 

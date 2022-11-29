@@ -16,6 +16,7 @@ void GlobalBloom::EffectInit()
 
 	EffectSet.SetMaterial("Bloom");
 	EffectSet.SetMesh("FullRect");
+	EffectSet.ShaderResources.SetConstantBufferLink("BloomOption", Option_);
 }
 
 void GlobalBloom::Effect(std::shared_ptr<GameEngineRenderTarget> _Target)

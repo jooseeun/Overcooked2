@@ -76,7 +76,10 @@ void InGameUIActor::UIStart()
 	}
 
 	//레시피 매니저
+	RecipeManager_.Init(std::dynamic_pointer_cast<InGameUIActor>(shared_from_this()));
+	RecipeManager_.CreateRecipe(FoodType::FishSushimi);
 	RecipeManager_.CreateRecipe(FoodType::CheeseBurger);
+	RecipeManager_.CreateRecipe(FoodType::CheeseBurgerLettuceTomato);
 }
 
 void InGameUIActor::UIUpdate(float _DeltaTime)
@@ -115,6 +118,8 @@ void InGameUIActor::UIUpdate(float _DeltaTime)
 			IsGetScore_ = false;
 		}
 	}
+
+	RecipeManager_.Update(_DeltaTime);
 
 	//UpdateScore
 	UpdateTime(_DeltaTime);
