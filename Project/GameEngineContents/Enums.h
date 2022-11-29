@@ -74,7 +74,7 @@ enum class FoodType
 
 enum class IngredientType
 {
-	None, //아무것도 아닌 상태 (+)
+	None = -1, //아무것도 아닌 상태 (+)
 	Tomato,
 	Onion,
 	Potato,
