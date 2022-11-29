@@ -18,14 +18,15 @@ public:
 	void StartFadeOut();
 	void StartFadeIn();
 
+	std::shared_ptr<OverCookedUIRenderer> CreateUIRenderer(std::string_view _TextrueName);
+	std::shared_ptr<OverCookedUIRenderer> CreateUIRenderer(std::string_view _TextrueName, std::string_view _RendererName);
+	std::shared_ptr<OverCookedUIRenderer> CreateUIRenderer(std::string_view _TextrueName, float _ScaleRatio);
 protected:
 	virtual void UIStart() = 0;
 	virtual void UIUpdate(float _DeltaTime) = 0;
 	virtual void UIEnd() { };
 
 	void ResistDebug(std::string_view _Name, GameEngineTransform& Trans);
-	std::shared_ptr<OverCookedUIRenderer> CreateUIRenderer(std::string_view _TextrueName);
-	std::shared_ptr<OverCookedUIRenderer> CreateUIRenderer(std::string_view _TextrueName, float _ScaleRatio);
 
 	//Transition
 	std::shared_ptr<OverCookedUIRenderer> BlackRenderer_ = nullptr;

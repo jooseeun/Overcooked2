@@ -1,6 +1,6 @@
 #pragma once
 #include "UIActor.h"
-
+#include "OverCookedUIRenderer.h"
 struct FoodData
 {
 	FoodType Type = FoodType::None;
@@ -8,34 +8,56 @@ struct FoodData
 	std::vector<ToolInfo> Cookery;
 };
 
+struct RecipeSetData
+{
+	std::string TopBackgroundString = "0";
+	float4 BarParentPosNScale = {};// x,y,z : pos w: Scale
+};
+
+class RecipeManager;
 class Recipe
 {
+	friend RecipeManager;
 public:
 	Recipe(FoodType _Type);
 	~Recipe();
+
+	RecipeSetData GetRecipeSetData();
+
+	GameEngineTransform& GetParentRenderer_Transform()
+	{
+		return ParentRenderer_->GetTransform();
+	}
 
 private:
 	FoodData Data_;
 	std::shared_ptr<OverCookedUIRenderer> ParentRenderer_;
 
+	std::shared_ptr<OverCookedUIRenderer> FoodRenderer_;
 	std::shared_ptr<OverCookedUIRenderer> TopBackgroundRenderer_;
-	std::vector< std::shared_ptr<OverCookedUIRenderer>> BottomBackgroundRenderer_;
 
+	std::shared_ptr<OverCookedUIRenderer> BarParentRenderer_;
 	std::vector< std::shared_ptr<OverCookedUIRenderer>> BarRenderer_;
 
+	std::shared_ptr<OverCookedUIRenderer> BottomParentRenderer_;
+	std::vector< std::shared_ptr<OverCookedUIRenderer>> BottomBackgroundRenderer_;
 	std::vector< std::shared_ptr<OverCookedUIRenderer>> IngredientRenderer_;
-	std::shared_ptr<OverCookedUIRenderer> FoodRenderer_;
 };
 
+class InGameUIActor;
 class RecipeManager
 {
 public:
 	RecipeManager();
 	~RecipeManager();
 
+	void Init(std::shared_ptr<InGameUIActor> _ParentActor_);
 	void CreateRecipe(FoodType _Type);
+
 private:
+
 	std::vector<Recipe> Recipes_;
+	std::shared_ptr<InGameUIActor> ParentActor_;
 };
 
 class InGameUIActor : public UIActor

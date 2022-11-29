@@ -37,21 +37,77 @@ InitGlobalGameData::InitGlobalGameData()
 
 	//음식 데이터 Init
 	{
-		FoodType _Type;
-		std::vector<IngredientType> _Ingredient;
-		std::vector<ToolInfo> _Cookery;
+		//플레인버거
+		{
+			FoodType _Type;
+			std::vector<IngredientType> _Ingredient;
+			std::vector<ToolInfo> _Cookery;
 
-		_Type = FoodType::CheeseBurger;
-		_Ingredient.push_back(IngredientType::Bread);
-		_Ingredient.push_back(IngredientType::Meat);
-		_Ingredient.push_back(IngredientType::Cheese);
+			_Type = FoodType::PlainBurger;
+			_Ingredient.push_back(IngredientType::Bread);
+			_Ingredient.push_back(IngredientType::Meat);
 
-		_Cookery.push_back(ToolInfo::None);
-		_Cookery.push_back(ToolInfo::FryingPan);
-		_Cookery.push_back(ToolInfo::None);
+			_Cookery.push_back(ToolInfo::None);
+			_Cookery.push_back(ToolInfo::FryingPan);
 
-		GlobalGameData::AllFoodData_.insert(std::make_pair(FoodType::CheeseBurger,
-			CreateFoodData(FoodType::CheeseBurger, _Ingredient, _Cookery)));
+			GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
+				CreateFoodData(_Type, _Ingredient, _Cookery)));
+		}
+
+		//치즈버거
+		{
+			FoodType _Type;
+			std::vector<IngredientType> _Ingredient;
+			std::vector<ToolInfo> _Cookery;
+
+			_Type = FoodType::CheeseBurger;
+			_Ingredient.push_back(IngredientType::Bread);
+			_Ingredient.push_back(IngredientType::Meat);
+			_Ingredient.push_back(IngredientType::Cheese);
+
+			_Cookery.push_back(ToolInfo::None);
+			_Cookery.push_back(ToolInfo::FryingPan);
+			_Cookery.push_back(ToolInfo::None);
+
+			GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
+				CreateFoodData(_Type, _Ingredient, _Cookery)));
+		}
+
+		//치즈버거양배추토마토
+		{
+			FoodType _Type;
+			std::vector<IngredientType> _Ingredient;
+			std::vector<ToolInfo> _Cookery;
+
+			_Type = FoodType::CheeseBurgerLettuceTomato;
+			_Ingredient.push_back(IngredientType::Bread);
+			_Ingredient.push_back(IngredientType::Lettuce);
+			_Ingredient.push_back(IngredientType::Tomato);
+			_Ingredient.push_back(IngredientType::Meat);
+
+			_Cookery.push_back(ToolInfo::None);
+			_Cookery.push_back(ToolInfo::None);
+			_Cookery.push_back(ToolInfo::None);
+			_Cookery.push_back(ToolInfo::FryingPan);
+
+			GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
+				CreateFoodData(_Type, _Ingredient, _Cookery)));
+		}
+
+		//생선사시미
+		{
+			FoodType _Type;
+			std::vector<IngredientType> _Ingredient;
+			std::vector<ToolInfo> _Cookery;
+
+			_Type = FoodType::FishSushimi;
+			_Ingredient.push_back(IngredientType::Fish);
+
+			_Cookery.push_back(ToolInfo::None);
+
+			GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
+				CreateFoodData(_Type, _Ingredient, _Cookery)));
+		}
 	}
 }
 
