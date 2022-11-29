@@ -1,11 +1,13 @@
 #include "PreCompile.h"
 #include "GamePlayPhysics.h"
+#include "Player.h"
 #include <GameEngineCore/GameEngineCollision.h>
 
 GamePlayPhysics::GamePlayPhysics() 
 	:PhysicsCollision_(nullptr)
 	, UpTime_(1.0f)
 	, IsThrow_(false)
+	, ThrowTime_(2.0f)
 {
 }
 
@@ -13,13 +15,27 @@ GamePlayPhysics::~GamePlayPhysics()
 {
 }
 
-void GamePlayPhysics::Gravity()
+void GamePlayPhysics::Gravity()// 중력함수 -> Update 해주면 됨
 {
 	if (PhysicsCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Floor, CollisionType::CT_OBB) == false)
 	{
 		GetTransform().SetWorldDownMove(300.0f, GameEngineTime::GetDeltaTime());
 	}
 }
+
+void GamePlayPhysics::ColCheckPlayer()//플레이어한테 차이거나 하면은 밀리는 함수 임시생성한것
+{
+	PhysicsCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Character, CollisionType::CT_OBB,
+		std::bind(&GamePlayPhysics::MoveFromPlayer, this, std::placeholders::_1, std::placeholders::_2));
+}
+
+CollisionReturn GamePlayPhysics::MoveFromPlayer(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
+{
+	GetTransform().SetWorldMove(_Other->GetActor()->CastThis<Player>()->GetTransform().GetBackVector()*100.0f);
+} 
+
+
+
 
 void GamePlayPhysics::Throw(float4 _Vector) 
 {
@@ -40,10 +56,10 @@ void GamePlayPhysics::Throw(float4 _Vector)
 		if (UpTime_ > 0.0f)
 		{
 			UpTime_ -= 1.0f * GameEngineTime::GetDeltaTime();
-			GetTransform().SetWorldUpMove(100.0f, GameEngineTime::GetDeltaTime());
+			GetTransform().SetWorldUpMove(500.0f, GameEngineTime::GetDeltaTime());
 		}
 		
-		GetTransform().SetWorldMove(_Vector * GameEngineTime::GetDeltaTime() * 100.0f);
+		GetTransform().SetWorldMove(_Vector * GameEngineTime::GetDeltaTime() * 1000.0f);
 	}
 	
 }

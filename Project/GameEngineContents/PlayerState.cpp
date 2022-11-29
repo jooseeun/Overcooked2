@@ -122,14 +122,14 @@ void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 		Throw(GetTransform().GetBackVector());
 	}
-	if (GetIsThrow() == true)
-	{
-		Throw(GetTransform().GetBackVector());
-	}
-	else
-	{
-		StateManager.ChangeState("Idle");
-	}
+	//if (CurrentHoldingObject_->GetIsThrow() == true) // 일단 Throw 주석처리
+	//{
+	//	CurrentHoldingObject_->Throw(GetTransform().GetBackVector());
+	//}
+	//else
+	//{
+	//	StateManager.ChangeState("Idle");
+	//}
 	PlayerIdleRenderer_[PlayerCustomNum]->AnimationBindEnd(PlayerName_[PlayerCustomNum] +"Throw", [=](const GameEngineRenderingEvent& _Info)
 		{
 
@@ -229,7 +229,7 @@ void Player::HoldDownStart(const StateInfo& _Info)
 		CurrentHoldingObject_->CastThis<GamePlayObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_);
 		CurrentHoldingObject_->DetachObject();
 		CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,0,0 });
-		CurrentHoldingObject_->GetTransform().SetWorldPosition(GetTransform().GetLocalPosition() + GetTransform().GetBackVector() * 60.0f );
+		CurrentHoldingObject_->GetTransform().SetWorldPosition(GetTransform().GetLocalPosition() + GetTransform().GetBackVector() * 60.0f + float4{0,50,0});
 		//이때 콜리젼 On이 안됨
 		CurrentHoldingObject_ = nullptr;
 	}
@@ -280,11 +280,13 @@ void Player::DishWashUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::FireOffStart(const StateInfo& _Info)
 {
+
 	CurStateType_ = PlayerCurStateType::FireOff;
 	FireOff_ = true;
 	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "IdleHolding");
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
+
 }
 void Player::FireOffUpdate(float _DeltaTime, const StateInfo& _Info)
 {
@@ -299,6 +301,5 @@ void Player::FireOffUpdate(float _DeltaTime, const StateInfo& _Info)
 		PlayerDirCheck();
 		MoveAngle();
 	}
-
 
 }

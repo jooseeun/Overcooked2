@@ -20,10 +20,12 @@ public:
 	{
 		return PhysicsCollision_;
 	}
-	inline void SetCollision(std::shared_ptr<GameEngineCollision> _Col)
+
+	inline void SetCollision(std::shared_ptr<GameEngineCollision> _Col) // 원래 사용하던 collision 넣어주면됨, 아님 새로 만들어 주어서 넣어주면 됩니다
 	{
 		PhysicsCollision_ = _Col;
 	}
+
 	inline bool GetIsThrow()
 	{
 		return IsThrow_;
@@ -32,8 +34,13 @@ public:
 protected:
 
 	void Gravity(); // 중력함수 -> Update에서 일단 하는중
+
+	void ColCheckPlayer(); //플레이어한테 차이거나 하면은 밀리는 함수
+	CollisionReturn MoveFromPlayer(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
+
+
 	void Throw(float4 _Vector);
-	void ThrowUpdate();
+
 	bool StaticObjectCollisionCheck(); // 맵 오브젝트, 테이블 등등이랑 충돌하면 true 반환함수
 
 private:
