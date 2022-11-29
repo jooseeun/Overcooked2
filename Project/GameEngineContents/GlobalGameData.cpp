@@ -51,7 +51,7 @@ InitGlobalGameData::InitGlobalGameData()
 			_Cookery.push_back(ToolInfo::FryingPan);
 
 			GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-				CreateFoodData(_Type, _Ingredient, _Cookery)));
+				CreateFoodData(_Type, _Ingredient, _Cookery, 30.f)));
 		}
 
 		//치즈버거
@@ -70,7 +70,7 @@ InitGlobalGameData::InitGlobalGameData()
 			_Cookery.push_back(ToolInfo::None);
 
 			GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-				CreateFoodData(_Type, _Ingredient, _Cookery)));
+				CreateFoodData(_Type, _Ingredient, _Cookery, 50.f)));
 		}
 
 		//치즈버거양배추토마토
@@ -91,7 +91,7 @@ InitGlobalGameData::InitGlobalGameData()
 			_Cookery.push_back(ToolInfo::FryingPan);
 
 			GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-				CreateFoodData(_Type, _Ingredient, _Cookery)));
+				CreateFoodData(_Type, _Ingredient, _Cookery, 80.f)));
 		}
 
 		//생선사시미
@@ -106,7 +106,7 @@ InitGlobalGameData::InitGlobalGameData()
 			_Cookery.push_back(ToolInfo::None);
 
 			GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-				CreateFoodData(_Type, _Ingredient, _Cookery)));
+				CreateFoodData(_Type, _Ingredient, _Cookery, 40.f)));
 		}
 	}
 }
@@ -119,12 +119,13 @@ StageData InitGlobalGameData::CreateStageData(std::string_view _StageName, Thema
 	return NewData;
 }
 
-FoodData InitGlobalGameData::CreateFoodData(FoodType _Type, std::vector<IngredientType>& _Ingredient, std::vector<ToolInfo>& _Cookery)
+FoodData InitGlobalGameData::CreateFoodData(FoodType _Type, std::vector<IngredientType>& _Ingredient, std::vector<ToolInfo>& _Cookery, float _WaitingTime)
 {
 	FoodData NewFoodData;
 	NewFoodData.Type = _Type;
 	NewFoodData.Ingredient = _Ingredient;
 	NewFoodData.Cookery = _Cookery;
+	NewFoodData.WaitingTime = _WaitingTime;
 	if (_Ingredient.size() != _Cookery.size())
 	{
 		MsgBoxAssert("Ingredient의 Size와 Cookery의 Size가 다릅니다.");
@@ -133,3 +134,32 @@ FoodData InitGlobalGameData::CreateFoodData(FoodType _Type, std::vector<Ingredie
 }
 
 InitGlobalGameData CreatGlobalGameDataInst = InitGlobalGameData();
+
+std::string UI_Utility::EnumToString(FoodType _Type)
+{
+	std::string FileName;
+	switch (_Type)
+	{
+	case FoodType::None:
+		break;
+	case FoodType::FishSushimi:
+		FileName = "ui_FishSushimi.png";
+		break;
+	case FoodType::PrawnSushimi:
+		FileName = "ui_PrawnSushimi.png";
+		break;
+	case FoodType::PlainBurger:
+		FileName = "ui_plainburger.png";
+		break;
+	case FoodType::CheeseBurger:
+		FileName = "ui_cheeseburger.png";
+		break;
+	case FoodType::CheeseBurgerLettuceTomato:
+		FileName = "ui_cheeseburgerlettucetomato.png";
+		break;
+	default:
+		break;
+	}
+
+	return FileName;
+}

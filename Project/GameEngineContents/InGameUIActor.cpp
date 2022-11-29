@@ -119,6 +119,8 @@ void InGameUIActor::UIUpdate(float _DeltaTime)
 		}
 	}
 
+	RecipeManager_.Update(_DeltaTime);
+
 	//UpdateScore
 	UpdateTime(_DeltaTime);
 }
