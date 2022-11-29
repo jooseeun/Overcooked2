@@ -956,6 +956,10 @@ CollisionReturn Player::TableHoldDownCheck(std::shared_ptr<GameEngineCollision> 
 
 		StateManager.ChangeState("HoldUp");
 	}
+	else
+	{
+		CurrentHoldingObject_->CastThis<GamePlayObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_);
+	}
 	return CollisionReturn::ContinueCheck;
 }
 
@@ -965,7 +969,7 @@ CollisionReturn Player::TableSliceCheck(std::shared_ptr<GameEngineCollision> _Th
 	//테이블에게 자를거라고 알려주기
 
 	if (SetPlayerState_Return::Using ==
-		_Other->CastThis<GamePlayStaticObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_))
+		_Other->GetParent()->CastThis<GamePlayStaticObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_))
 	{  //자를수 있으면 자르는 상태로 변경
 
 		StateManager.ChangeState("Slice");

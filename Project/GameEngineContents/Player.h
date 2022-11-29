@@ -82,9 +82,20 @@ public:
 
 public:
 	
-	inline void SetPlayerHolding(std::shared_ptr<GameEngineActor> _CurrentHoldingObject_) // 플레이어 손에 올리는 함수 엑터를 손에올려줍니다
+	//inline void SetPlayerHolding(std::shared_ptr<GameEngineActor> _CurrentHoldingObject_) // 플레이어 손에 올리는 함수 엑터를 손에올려줍니다
+	//{
+	//	CurrentHoldingObject_ = _CurrentHoldingObject_;
+	//	if (CurrentHoldingObject_->GetParent() != nullptr)
+	//	{
+	//		CurrentHoldingObject_->DetachObject();
+	//	}
+	//	CurrentHoldingObject_->SetParent(shared_from_this());
+	//	CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,50,-60 });
+	//}
+
+	inline void SetPlayerHolding(std::shared_ptr<GameEngineUpdateObject> _CurrentHoldingObject_) // 플레이어 손에 올리는 함수 엑터를 손에올려줍니다
 	{
-		CurrentHoldingObject_ = _CurrentHoldingObject_;
+		CurrentHoldingObject_ = _CurrentHoldingObject_->CastThis<GameEngineActor>();
 		if (CurrentHoldingObject_->GetParent() != nullptr)
 		{
 			CurrentHoldingObject_->DetachObject();
