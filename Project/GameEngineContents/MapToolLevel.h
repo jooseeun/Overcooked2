@@ -1,7 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
 
-class IOManagerWindow;
 class MapToolLevel : public GameEngineLevel
 {
 public:
@@ -23,6 +22,5 @@ protected:
 
 private:
 	std::shared_ptr<MapEditorWindow> Window_;
-	std::shared_ptr<IOManagerWindow> IOWindow_;
 };
 
