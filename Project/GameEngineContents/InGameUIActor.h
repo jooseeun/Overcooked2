@@ -117,5 +117,5 @@ private:
 	float GetScoreIter_ = 0.f;
 	bool IsGetScore_ = false;
 
-	RecipeManager RecipeManager_;
+	//RecipeManager RecipeManager_;
 };
