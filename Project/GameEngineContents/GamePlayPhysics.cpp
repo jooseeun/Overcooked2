@@ -20,25 +20,29 @@ void GamePlayPhysics::Gravity()
 		GetTransform().SetWorldDownMove(300.0f, GameEngineTime::GetDeltaTime());
 	}
 }
-void GamePlayPhysics::ThrowUpdate()
-{
-	
-}
-void GamePlayPhysics::Throw(float4 _Vector)
+
+void GamePlayPhysics::Throw(float4 _Vector) 
 {
 	if (IsThrow_ == false)
 	{
 		IsThrow_ = true;
 		UpTime_ = 1.0f;
+		ThrowTime_ = 2.0f;
 	}
 	else
 	{
+		ThrowTime_ -= 1.0f * GameEngineTime::GetDeltaTime();
+		if (ThrowTime_ < 0.0f)
+		{
+			IsThrow_ = false;
+		}
+
 		if (UpTime_ > 0.0f)
 		{
 			UpTime_ -= 1.0f * GameEngineTime::GetDeltaTime();
 			GetTransform().SetWorldUpMove(100.0f, GameEngineTime::GetDeltaTime());
 		}
-
+		
 		GetTransform().SetWorldMove(_Vector * GameEngineTime::GetDeltaTime() * 100.0f);
 	}
 	

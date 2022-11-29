@@ -24,6 +24,11 @@ public:
 	{
 		PhysicsCollision_ = _Col;
 	}
+	inline bool GetIsThrow()
+	{
+		return IsThrow_;
+	}
+
 protected:
 
 	void Gravity(); // 중력함수 -> Update에서 일단 하는중
@@ -32,8 +37,10 @@ protected:
 	bool StaticObjectCollisionCheck(); // 맵 오브젝트, 테이블 등등이랑 충돌하면 true 반환함수
 
 private:
+	float ThrowTime_;
 	float UpTime_;
 	bool IsThrow_;
+
 	std::shared_ptr<GameEngineCollision> PhysicsCollision_;
 };
 

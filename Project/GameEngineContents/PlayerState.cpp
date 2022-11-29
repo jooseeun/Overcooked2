@@ -117,14 +117,23 @@ void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (true == GameEngineInput::GetInst()->IsUpKey("PlayerInteract"))
 	{
-
-
+		PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "Throw");
+		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
+		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
+		Throw(GetTransform().GetBackVector());
+	}
+	if (GetIsThrow() == true)
+	{
+		Throw(GetTransform().GetBackVector());
+	}
+	else
+	{
+		StateManager.ChangeState("Idle");
 	}
 	PlayerIdleRenderer_[PlayerCustomNum]->AnimationBindEnd(PlayerName_[PlayerCustomNum] +"Throw", [=](const GameEngineRenderingEvent& _Info)
 		{
 
 			CurHoldType_ = PlayerHoldType::Max;
-			StateManager.ChangeState("Idle");
 		});
 }
 
