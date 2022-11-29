@@ -218,6 +218,7 @@ void GameEngineRenderUnit::RenderInstancing(float _DeltaTime, size_t _RanderingC
 GameEngineRenderer::GameEngineRenderer()
 	: CameraOrder(CAMERAORDER::MAINCAMERA)
 	, RenderingOrder(0)
+	, IsInstancing_(false)
 {
 }
 

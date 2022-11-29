@@ -27,13 +27,27 @@ void Equipment_Steamer::Start()
 	GetFBXMesh()->GetTransform().SetWorldRotation({90, 0, 0});
 	GetCollisionObject()->GetTransform().SetLocalScale({ 100 , 100, 100 });
 
+	StateManager.CreateStateMember("Idle"
+		, std::bind(&Equipment_Steamer::IdleUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Equipment_Steamer::IdleStart, this, std::placeholders::_1)
+	);
 
-	//StateManager.CreateStateMember("Idle"
-	//	, std::bind(&Equipment_Steamer::IdleUpdate, this, std::placeholders::_1, std::placeholders::_2)
-	//	, std::bind(&Equipment_Steamer::IdleStart, this, std::placeholders::_1)
-	//);
+	StateManager.ChangeState("Idle");
 
-	//StateManager.ChangeState("Idle");
+
+	//GetAnimationFBXMesh()->SetFBXMesh("BlenderOpenning.FBX", "TextureAnimation");
+	//GetAnimationFBXMesh()->GetTransform().SetWorldScale({ 1.5, 1.5, 1.5 });
+	//GetAnimationFBXMesh()->GetTransform().SetWorldRotation({ 90, 0, 0 });
+
+	//GameEngineRenderingEvent Event;
+	//Event.ResourcesName = "BlenderOpenning.FBX";
+	//Event.Loop = true;
+	//Event.Inter = 0.1f;
+	//GetAnimationFBXMesh()->CreateFBXAnimation("Idle", Event);
+
+	//GetAnimationFBXMesh()->ChangeAnimation("Idle");
+
+
 }
 
 void Equipment_Steamer::Update(float _DeltaTime)

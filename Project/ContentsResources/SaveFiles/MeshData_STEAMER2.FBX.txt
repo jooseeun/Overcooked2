@@ -1,0 +1,9 @@
+{ 
+MeshName:STEAMER2.FBX;
+MeshInfoCount:2;
+Path:C:\Users\YS\OneDrive\Documents\DX_TeamPortfolio\MapResource\Mesh\Tool\Steamer\m_steamer_Lid\t_steamer_01.png;
+Mat:t_steamer_01.png;
+Path:C:\Users\YS\OneDrive\Documents\DX_TeamPortfolio\MapResource\Mesh\Tool\Steamer\m_steamer_Body\t_steamer_01.png;
+Mat:T_STEAMER_01.PNG;
+}
+

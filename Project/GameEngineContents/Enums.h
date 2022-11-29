@@ -61,6 +61,7 @@ enum class ToolInfo
 	CuttingBoard, //µµ¸¶¶û Ä®
 	Bowl,
 	Steamer,
+	Mixer,
 	Max
 };
 

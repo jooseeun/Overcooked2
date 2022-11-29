@@ -13,7 +13,7 @@ Type:CounterTop_NoEdge;
 Pos:-1708.00,-226.00,-616.00;
 Rot:0.00,90.00,0.00;
 Scale:1.00,1.00,1.00;
-Index:0.00,2.00,0.00;
+Index:0.00,0.00,0.00;
 }
 
 { 
@@ -144,20 +144,20 @@ Index:11.00,0.00,0.00;
 
 { 
 Name:;
-Type:CounterTop_Mixer;
+Type:CounterTop_NoEdge;
 Pos:-2074.00,-226.00,360.00;
-Rot:90.00,180.00,0.00;
+Rot:0.00,0.00,0.00;
 Scale:1.00,1.00,1.00;
-Index:0.00,0.00,0.00;
+Index:0.00,8.00,0.00;
 }
 
 { 
 Name:;
-Type:CounterTop_Mixer;
+Type:CounterTop_NoEdge;
 Pos:-2440.00,-226.00,360.00;
-Rot:90.00,180.00,0.00;
+Rot:0.00,0.00,0.00;
 Scale:1.00,1.00,1.00;
-Index:0.00,0.00,0.00;
+Index:0.00,8.00,0.00;
 }
 
 { 

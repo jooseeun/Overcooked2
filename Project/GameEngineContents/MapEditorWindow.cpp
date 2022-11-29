@@ -20,6 +20,7 @@
 #include "Equipment_Bowl.h"
 #include "Equipment_Steamer.h"
 #include "Tool_CuttingBoard.h"
+#include "Tool_Mixer.h"
 
 #include "Npc.h"
 #include "Car.h"
@@ -855,6 +856,12 @@ void MapEditorWindow::SortToolTab()
 						SortActorList_[ActorIndex].lock()->SetStuff(Steamer);
 					}
 					break;
+					case ToolInfo::Mixer:
+					{
+						std::shared_ptr<Tool_Mixer> Mixer = CurLevel_->CreateActor<Tool_Mixer>();
+						SortActorList_[ActorIndex].lock()->SetStuff(Mixer);
+					}
+					break;
 					}
 
 					float4 ToolPos = SortActorList_[ActorIndex].lock()->GetToolPos();
@@ -999,17 +1006,17 @@ void MapEditorWindow::SortToolTab()
 			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::Dispenser);
 		}
 		break;
-		case 13:
-		{
-			CurStaticMesh_ = CurLevel_->CreateActor<CounterTop>();
-			std::weak_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurStaticMesh_.lock());
+		//case 13:
+		//{
+		//	CurStaticMesh_ = CurLevel_->CreateActor<CounterTop>();
+		//	std::weak_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurStaticMesh_.lock());
 
-			Object.lock()->SetCounterTopType(CounterTopType::Mixer);
-			Object.lock()->SetConterTopMesh(CounterTopType::Mixer);
+		//	Object.lock()->SetCounterTopType(CounterTopType::Mixer);
+		//	Object.lock()->SetConterTopMesh(CounterTopType::Mixer);
 
-			Object.lock()->SetStaticObjectType(MapObjType::CounterTop_Mixer);
-		}
-		break;
+		//	Object.lock()->SetStaticObjectType(MapObjType::CounterTop_Mixer);
+		//}
+		//break;
 		}
 
 		//기준 엑터의 자식으로 둔다.

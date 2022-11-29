@@ -239,6 +239,9 @@
     <ClInclude Include="GamePlayPhysics.h">
       <Filter>Player</Filter>
     </ClInclude>
+    <ClInclude Include="Tool_Mixer.h">
+      <Filter>Contents\Object\Tool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -478,6 +481,9 @@
     </ClCompile>
     <ClCompile Include="GamePlayPhysics.cpp">
       <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool_Mixer.cpp">
+      <Filter>Contents\Object\Tool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

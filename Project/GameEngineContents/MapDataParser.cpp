@@ -20,6 +20,7 @@
 #include "Tool_CuttingBoard.h"
 #include "Equipment_Bowl.h"
 #include "Equipment_Steamer.h"
+#include "Tool_Mixer.h"
 
 #include "Npc.h"
 #include "Car.h"
@@ -311,7 +312,7 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 			break;
 		}
 
-		if (nullptr != CurActor_.lock())
+ 		if (nullptr != CurActor_.lock())
 		{
 			ToolInfo ToolType = static_cast<ToolInfo>(_Data[i].Index_.y);
 
@@ -358,6 +359,12 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 			{
 				std::weak_ptr<Equipment_Steamer> Steamer = _Level->CreateActor<Equipment_Steamer>();
 				CurActor_.lock()->SetStuff(Steamer.lock());
+			}
+			break;
+			case ToolInfo::Mixer:
+			{
+				std::weak_ptr<Tool_Mixer> Mixer = _Level->CreateActor<Tool_Mixer>();
+				CurActor_.lock()->SetStuff(Mixer.lock());
 			}
 			break;
 			}

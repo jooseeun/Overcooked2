@@ -1,0 +1,9 @@
+{ 
+MeshName:M_CAKEMIXER_BODY_01.FBX;
+MeshInfoCount:2;
+Path:\T_CAKEMIXER_01_C.PNG;
+Mat:T_CAKEMIXER_01_C.PNG;
+Path:;
+Mat:T_CAKEMIXER_01_C.PNG;
+}
+
