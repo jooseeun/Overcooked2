@@ -1,20 +1,20 @@
 #pragma once
-#include "GameEngineNet.h"
+#include "GameServerNet.h"
 #include "GameEngineThread.h"
 
 // Ό³Έν :
-class GameEngineNetServer : public GameEngineNet
+class GameServerNetServer : public GameServerNet
 {
 public:
 	// constrcuter destructer
-	GameEngineNetServer();
-	~GameEngineNetServer();
+	GameServerNetServer();
+	~GameServerNetServer();
 
 	// delete Function
-	//GameEngineNetServer(const GameEngineNetServer& _Other) = delete;
-	//GameEngineNetServer(GameEngineNetServer&& _Other) noexcept = delete;
-	//GameEngineNetServer& operator=(const GameEngineNetServer& _Other) = delete;
-	//GameEngineNetServer& operator=(GameEngineNetServer&& _Other) noexcept = delete;
+	//GameServerNetServer(const GameServerNetServer& _Other) = delete;
+	//GameServerNetServer(GameServerNetServer&& _Other) noexcept = delete;
+	//GameServerNetServer& operator=(const GameServerNetServer& _Other) = delete;
+	//GameServerNetServer& operator=(GameServerNetServer&& _Other) noexcept = delete;
 
 	void Accept(int Port);
 

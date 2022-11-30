@@ -44,6 +44,7 @@ void Overcooked::Start()
 	LoadingData::AddFunc("1-4", std::bind(&Overcooked::LoadStage, this, "1_4"));
 	LoadingData::AddFunc("2-1", std::bind(&Overcooked::LoadStage, this, "2_1"));
 
+	GameEngineTime::SetLimitFrame(60);
 
 	//{
 	//	D3D11_BLEND_DESC Desc = { 0 };

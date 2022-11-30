@@ -1,7 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
-#include <GameEngineBase/GameEngineNetServer.h>
-#include <GameEngineBase/GameEngineNetClient.h>
+#include <GameEngineBase/GameServerNetServer.h>
+#include <GameEngineBase/GameServerNetClient.h>
 
 // Ό³Έν :
 class ServerTestLevel : public GameEngineLevel
@@ -17,7 +17,7 @@ public:
 	ServerTestLevel& operator=(const ServerTestLevel& _Other) = delete;
 	ServerTestLevel& operator=(ServerTestLevel&& _Other) noexcept = delete;
 
-	static GameEngineNet* Net;
+	static GameServerNet* Net;
 
 protected:
 	void Start() override;
@@ -27,8 +27,10 @@ protected:
 	void LevelEndEvent() override;
 
 private:
-	static GameEngineNetServer Server;
-	static GameEngineNetClient Client;
+	static GameServerNetServer Server;
+	static GameServerNetClient Client;
+
+	std::map<__int64, std::shared_ptr<GameEngineActor>> AllServerActor;
 
 };
 

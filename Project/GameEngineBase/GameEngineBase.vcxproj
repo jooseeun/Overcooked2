@@ -169,15 +169,15 @@
     <ClCompile Include="GameEngineInput.cpp" />
     <ClCompile Include="GameEngineMath.cpp" />
     <ClCompile Include="GameEngineNameObject.cpp" />
-    <ClCompile Include="GameEngineNet.cpp">
+    <ClCompile Include="GameServerNet.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="GameEngineNetClient.cpp">
+    <ClCompile Include="GameServerNetClient.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="GameEngineNetServer.cpp">
+    <ClCompile Include="GameServerNetServer.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -194,6 +194,14 @@
     </ClCompile>
     <ClCompile Include="GameEngineTransform_Collision.cpp" />
     <ClCompile Include="GameEngineWindow.cpp" />
+    <ClCompile Include="GameServerPacket.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameServerSerializer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PreCompile.cpp">
       <SubType>
       </SubType>
@@ -212,15 +220,15 @@
     <ClInclude Include="GameEngineInput.h" />
     <ClInclude Include="GameEngineMath.h" />
     <ClInclude Include="GameEngineNameObject.h" />
-    <ClInclude Include="GameEngineNet.h">
+    <ClInclude Include="GameServerNet.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="GameEngineNetClient.h">
+    <ClInclude Include="GameServerNetClient.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="GameEngineNetServer.h">
+    <ClInclude Include="GameServerNetServer.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -236,6 +244,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameEngineWindow.h" />
+    <ClInclude Include="GameServerPacket.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameServerSerializer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="magic_enum.hpp" />
     <ClInclude Include="magic_enum_format.hpp" />
     <ClInclude Include="magic_enum_fuse.hpp" />

@@ -1,14 +1,14 @@
 #include "PreCompile.h"
-#include "GameEngineNetServer.h"
+#include "GameServerNetServer.h"
 #include "GameEngineString.h"
 #include "GameEngineDebug.h"
 #include "GameEngineThread.h"
 
-GameEngineNetServer::GameEngineNetServer()
+GameServerNetServer::GameServerNetServer()
 {
 }
 
-GameEngineNetServer::~GameEngineNetServer()
+GameServerNetServer::~GameServerNetServer()
 {
 	for (size_t i = 0; i < UserThreads.size(); i++)
 	{
@@ -25,9 +25,9 @@ GameEngineNetServer::~GameEngineNetServer()
 	}
 }
 
-void GameEngineNetServer::Accept(int Port)
+void GameServerNetServer::Accept(int Port)
 {
-	GameEngineNet::WindowNetStartUp();
+	GameServerNet::WindowNetStartUp();
 
 	SOCKADDR_IN Add;
 	Add.sin_family = AF_INET;
@@ -55,11 +55,11 @@ void GameEngineNetServer::Accept(int Port)
 		return;
 	}
 
-	AcceptThread.Start("AcceptThread", std::bind(&GameEngineNetServer::AcceptFunction, this, &AcceptThread));
+	AcceptThread.Start("AcceptThread", std::bind(&GameServerNetServer::AcceptFunction, this, &AcceptThread));
 }
 
 
-void GameEngineNetServer::AcceptFunction(GameEngineThread* Thread)
+void GameServerNetServer::AcceptFunction(GameEngineThread* Thread)
 {
 	while (ServerAccpetSocket)
 	{
@@ -76,13 +76,13 @@ void GameEngineNetServer::AcceptFunction(GameEngineThread* Thread)
 		std::stringstream ThreadName;
 		ThreadName << NewUser;
 		ThreadName << "UserThread";
-		NewThread.Start(ThreadName.str(), std::bind(&GameEngineNetServer::UserFunction, this, &NewThread, NewUser));
+		NewThread.Start(ThreadName.str(), std::bind(&GameServerNetServer::UserFunction, this, &NewThread, NewUser));
 		UserSockets.push_back(NewUser);
 
 	}
 }
 
-void GameEngineNetServer::UserFunction(GameEngineThread* Thread, SOCKET _Socket)
+void GameServerNetServer::UserFunction(GameEngineThread* Thread, SOCKET _Socket)
 {
 	char Packet[1024] = { 0 };
 
