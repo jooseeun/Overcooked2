@@ -42,6 +42,9 @@
     <FxCompile Include="Bloom.hlsl">
       <Filter>TargetEffect</Filter>
     </FxCompile>
+    <FxCompile Include="TextureAlpha.hlsl">
+      <Filter>Object</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Debug">

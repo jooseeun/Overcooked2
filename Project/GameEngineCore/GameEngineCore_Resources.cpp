@@ -307,6 +307,12 @@ void EngineRenderingPipeLine()
 	}
 
 	{
+		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("TextureAlpha");
+		NewPipe->SetVertexShader("TextureAlpha.hlsl");
+		NewPipe->SetPixelShader("TextureAlpha.hlsl");
+	}
+
+	{
 		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("TextureAtlas");
 		NewPipe->SetVertexShader("TextureAtlas.hlsl");
 		NewPipe->SetPixelShader("TextureAtlas.hlsl");

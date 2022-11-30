@@ -27,7 +27,7 @@ public:
 
 	GameEngineTransform& GetParentRenderer_Transform()
 	{
-		return ParentRenderer_->GetTransform();
+		return ParentRenderer_.lock()->GetTransform();
 	}
 private:
 	void Update(float _DeltaTime);
@@ -35,21 +35,21 @@ private:
 private:
 	FoodData Data_;
 
-	std::shared_ptr<OverCookedUIRenderer> ParentRenderer_;
+	std::weak_ptr<OverCookedUIRenderer> ParentRenderer_;
 
-	std::shared_ptr<OverCookedUIRenderer> FoodRenderer_;
-	std::shared_ptr<OverCookedUIRenderer> TopBackgroundRenderer_;
+	std::weak_ptr<OverCookedUIRenderer> FoodRenderer_;
+	std::weak_ptr<OverCookedUIRenderer> TopBackgroundRenderer_;
 
 	//Bar°ü·Ã
-	std::shared_ptr<OverCookedUIRenderer> BarParentRenderer_;
-	std::vector< std::shared_ptr<OverCookedUIRenderer>> BarBackgroundRenderer_;
-	std::vector< std::shared_ptr<OverCookedUIRenderer>> BarRenderer_;
+	std::weak_ptr<OverCookedUIRenderer> BarParentRenderer_;
+	std::vector< std::weak_ptr<OverCookedUIRenderer>> BarBackgroundRenderer_;
+	std::vector< std::weak_ptr<OverCookedUIRenderer>> BarRenderer_;
 	std::vector<Timer> BarTimer_;
 	Timer GlobalTimer_;
 
-	std::shared_ptr<OverCookedUIRenderer> BottomParentRenderer_;
-	std::vector< std::shared_ptr<OverCookedUIRenderer>> BottomBackgroundRenderer_;
-	std::vector< std::shared_ptr<OverCookedUIRenderer>> IngredientRenderer_;
+	std::weak_ptr<OverCookedUIRenderer> BottomParentRenderer_;
+	std::vector< std::weak_ptr<OverCookedUIRenderer>> BottomBackgroundRenderer_;
+	std::vector< std::weak_ptr<OverCookedUIRenderer>> IngredientRenderer_;
 };
 
 class InGameUIActor;
@@ -59,7 +59,7 @@ public:
 	RecipeManager();
 	~RecipeManager();
 
-	void Init(std::shared_ptr<InGameUIActor> _ParentActor_);
+	void Init(std::weak_ptr<InGameUIActor> _ParentActor_);
 	void CreateRecipe(FoodType _Type);
 
 	void Update(float _DeltaTime);
@@ -67,7 +67,7 @@ public:
 private:
 
 	std::vector<Recipe> Recipes_;
-	std::shared_ptr<InGameUIActor> ParentActor_;
+	std::weak_ptr<InGameUIActor> ParentActor_;
 };
 
 class InGameUIActor : public UIActor
@@ -117,5 +117,5 @@ private:
 	float GetScoreIter_ = 0.f;
 	bool IsGetScore_ = false;
 
-	//RecipeManager RecipeManager_;
+	RecipeManager RecipeManager_;
 };
