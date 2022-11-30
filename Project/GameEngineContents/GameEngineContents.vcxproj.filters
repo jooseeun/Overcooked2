@@ -21,7 +21,7 @@
       <Filter>Level\Stage</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Player</Filter>
+      <Filter>Contents\Player</Filter>
     </ClInclude>
     <ClInclude Include="PreCompile.h">
       <Filter>PreCompile</Filter>
@@ -233,11 +233,11 @@
     <ClInclude Include="Stage_2_1.h">
       <Filter>Level\Stage</Filter>
     </ClInclude>
-    <ClInclude Include="GamePlayPhysics.h">
-      <Filter>Player</Filter>
-    </ClInclude>
     <ClInclude Include="Tool_Mixer.h">
       <Filter>Contents\Object\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePlayPhysics.h">
+      <Filter>Contents\Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -258,7 +258,7 @@
       <Filter>Level\Stage</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Player</Filter>
+      <Filter>Contents\Player</Filter>
     </ClCompile>
     <ClCompile Include="PreCompile.cpp">
       <Filter>PreCompile</Filter>
@@ -366,7 +366,7 @@
       <Filter>Map</Filter>
     </ClCompile>
     <ClCompile Include="PlayerState.cpp">
-      <Filter>Player</Filter>
+      <Filter>Contents\Player</Filter>
     </ClCompile>
     <ClCompile Include="Equipment_Plate.cpp">
       <Filter>Contents\Object\Tool</Filter>
@@ -473,11 +473,11 @@
     <ClCompile Include="Recipe.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="GamePlayPhysics.cpp">
-      <Filter>Player</Filter>
-    </ClCompile>
     <ClCompile Include="Tool_Mixer.cpp">
       <Filter>Contents\Object\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePlayPhysics.cpp">
+      <Filter>Contents\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -501,9 +501,6 @@
     </Filter>
     <Filter Include="Map">
       <UniqueIdentifier>{074312e2-da08-4bee-a049-9d9955f93f00}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Player">
-      <UniqueIdentifier>{3019c14b-a86b-4306-bebc-5fc49b67ef60}</UniqueIdentifier>
     </Filter>
     <Filter Include="PreCompile">
       <UniqueIdentifier>{635134a0-7011-41ee-afaa-f17fbdbda820}</UniqueIdentifier>
@@ -543,6 +540,12 @@
     </Filter>
     <Filter Include="Contents\Object\Test">
       <UniqueIdentifier>{c69c7bd6-feaa-49b4-a6bd-6e656c1c2658}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Player">
+      <UniqueIdentifier>{3019c14b-a86b-4306-bebc-5fc49b67ef60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Physics">
+      <UniqueIdentifier>{59141447-38d7-453b-bba0-eba1e810ea63}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
