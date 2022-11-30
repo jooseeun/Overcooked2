@@ -13,23 +13,11 @@ void Player::IdleStart(const StateInfo& _Info)
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 
-	Speed_ = 400.0f;
+	Speed_ = 650.0f;
 }
 void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	if (true == GameEngineInput::GetInst()->IsDownKey("ChangePlayerCustom"))
-	{
-		ChangePlayer();
-	}
-	if (true == GameEngineInput::GetInst()->IsDownKey("ChangePlayerNum"))
-	{
-		PlayerPNum += 1;
-		if (PlayerPNum == 5)
-		{
-			PlayerPNum = 1;
-		}
-		ChangePlayerColor();
-	}
+
 	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft") ||
 		true == GameEngineInput::GetInst()->IsPressKey("PlayerRight") ||
 		true == GameEngineInput::GetInst()->IsPressKey("PlayerFront") ||

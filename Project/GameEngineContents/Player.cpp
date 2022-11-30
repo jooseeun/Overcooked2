@@ -2,11 +2,18 @@
 #include "Player.h"
 #include "GamePlayStaticObject.h"
 #include "CounterTop.h"
-#include  "GamePlayStaticObject.h"
 #include <math.h>
 
+
+//player key
+//이동 - 방향키
+//다지기/던지기 - 왼쪽 CTRL
+//잡기/놓기 - SPACEBAR
+//대쉬 - 왼쪽 ALT
+//감정표현 - E
+
 Player::Player()
-	:Speed_(400.0f)
+	:Speed_(650.0f)
 	, CurAngle_(0)
 	, CurDir_(PlayerDir::Front)
 	, CurHoldType_(PlayerHoldType::Max)
@@ -24,6 +31,7 @@ Player::Player()
 	, PlayerName_()
 	, PlayerPNum(3)
 	, IsSlice_(false)
+	, DashTime_(0.0f)
 {
 
 }
@@ -35,12 +43,7 @@ Player::~Player()
 void Player::Start()
 {
 	GetTransform().SetLocalScale({ 1, 1, 1 });
-	//palyer key
-	//이동 - 방향키
-	//다지기/던지기 - 왼쪽 CTRL
-	//잡기/놓기 - SPACEBAR
-	//대쉬 - 왼쪽 ALT
-	//감정표현 - E
+
 
 	{
 		PlayerName_[0] = "AlienGreen";
@@ -88,7 +91,7 @@ void Player::Start()
 		PlayerWalkRenderer_[i] = CreateComponent<GameEngineFBXAnimationRenderer>();
 		PlayerWalkRenderer_[i]->SetFBXMesh(PlayerName_[i] + "_Walk.FBX", "TextureAnimation");
 		PlayerWalkRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Walk",
-			GameEngineRenderingEvent(PlayerName_[i] + "_Walk.FBX", 0.03f, true)); // Idle 호환 x
+			GameEngineRenderingEvent(PlayerName_[i] + "_Walk.FBX", 0.035f, true)); // Idle 호환 x
 		PlayerWalkRenderer_[i]->ChangeAnimation(PlayerName_[i] + "Walk");
 		PlayerWalkRenderer_[i]->GetTransform().SetLocalRotation({ 90,180,0 });
 		PlayerWalkRenderer_[i]->GetTransform().SetLocalScale({ 100,100,100 });
@@ -284,25 +287,6 @@ void Player::ChangePlayerColor() // 플레이어 팀 색 바꾸는 함수
 
 	}
 
-	else if (PlayerPNum == 2)
-	{
-		IdleRender.AlphaColor.r = 1.0f;
-		IdleRender.AlphaColor.g = 0.0f;
-		IdleRender.AlphaColor.b = 0.0f;
-
-		WalkRender.AlphaColor.r = 1.0f;
-		WalkRender.AlphaColor.g = 0.0f;
-		WalkRender.AlphaColor.b = 0.0f;
-
-		WalkRender.AlphaColor.r = 1.0f;
-		WalkRender.AlphaColor.g = 0.0f;
-		WalkRender.AlphaColor.b = 0.0f;
-
-		WalkRender.AlphaColor.r = 1.0f;
-		WalkRender.AlphaColor.g = 0.0f;
-		WalkRender.AlphaColor.b = 0.0f;
-
-	}
 
 	else if (PlayerPNum == 2)
 	{
@@ -364,6 +348,25 @@ void Player::ChangePlayerColor() // 플레이어 팀 색 바꾸는 함수
 
 	}
 }
+
+
+void Player::CustomKeyCheck()
+{
+	if (true == GameEngineInput::GetInst()->IsDownKey("ChangePlayerCustom"))
+	{
+		ChangePlayer();
+	}
+	if (true == GameEngineInput::GetInst()->IsDownKey("ChangePlayerNum"))
+	{
+		PlayerPNum += 1;
+		if (PlayerPNum == 5)
+		{
+			PlayerPNum = 1;
+		}
+		ChangePlayerColor();
+	}
+}
+
 void  Player::LevelStartEvent()
 {
 	for (int i = 0; i < 6; i++)
@@ -379,14 +382,12 @@ void  Player::LevelStartEvent()
 
 void Player::Update(float _DeltaTime)
 {
-
 	StateManager.Update(_DeltaTime);
+	DashCheck(_DeltaTime);
+	CustomKeyCheck();
 	Gravity();
-	DashCheck();
 	
 }
-
-///////////////////////////// 그외 함수들
 
 
 
@@ -409,7 +410,7 @@ bool Player::MoveAngle()
 	{
 		if (CurAngle_ > 0 && CurAngle_ < 180)
 		{
-			CurAngle_ -= 500.0f * GameEngineTime::GetDeltaTime();
+			CurAngle_ -= 1200.0f * GameEngineTime::GetDeltaTime();
 			if (CurAngle_ < 0)
 			{
 				CurAngle_ = 0;
@@ -419,7 +420,7 @@ bool Player::MoveAngle()
 		}
 		else if (CurAngle_ >= 180)
 		{
-			CurAngle_ += 500.0f * GameEngineTime::GetDeltaTime();
+			CurAngle_ += 1200.0f * GameEngineTime::GetDeltaTime();
 			if (CurAngle_ >= 360)
 			{
 				CurAngle_ = 0;
@@ -439,7 +440,7 @@ bool Player::MoveAngle()
 	{
 		if (CurAngle_ > 90 && CurAngle_ < 270)
 		{
-			CurAngle_ -= 500.0f * GameEngineTime::GetDeltaTime();
+			CurAngle_ -= 1200.0f * GameEngineTime::GetDeltaTime();
 			if (CurAngle_ < 90)
 			{
 				CurAngle_ = 90;
@@ -449,7 +450,7 @@ bool Player::MoveAngle()
 		}
 		else if (CurAngle_ >= 270 || CurAngle_ < 90)
 		{
-			CurAngle_ += 500.0f * GameEngineTime::GetDeltaTime();
+			CurAngle_ += 1200.0f * GameEngineTime::GetDeltaTime();
 			if (CurAngle_ <270 &&CurAngle_ > 90)
 			{
 				CurAngle_ = 90;
@@ -467,7 +468,7 @@ bool Player::MoveAngle()
 	{
 		if (CurAngle_ > 270 || CurAngle_ < 90)
 		{
-			CurAngle_ -= 500.0f * GameEngineTime::GetDeltaTime();
+			CurAngle_ -= 1200.0f * GameEngineTime::GetDeltaTime();
 			if (CurAngle_ > 90 &&CurAngle_ < 270)
 			{
 				CurAngle_ = 270;
@@ -477,7 +478,7 @@ bool Player::MoveAngle()
 		}
 		else if (CurAngle_ >= 90 && CurAngle_ < 270)
 		{
-			CurAngle_ += 500.0f * GameEngineTime::GetDeltaTime();
+			CurAngle_ += 1200.0f * GameEngineTime::GetDeltaTime();
 			if (CurAngle_ > 270)
 			{
 				CurAngle_ = 270;
@@ -495,7 +496,7 @@ bool Player::MoveAngle()
 	{
 		if (CurAngle_ > 180 && CurAngle_ <= 360)
 		{
-			CurAngle_ -= 500.0f * GameEngineTime::GetDeltaTime();
+			CurAngle_ -= 1200.0f * GameEngineTime::GetDeltaTime();
 			if (CurAngle_ < 180)
 			{
 				CurAngle_ = 180;
@@ -505,7 +506,7 @@ bool Player::MoveAngle()
 		}
 		else if (CurAngle_ >= 0 && CurAngle_ < 180)
 		{
-			CurAngle_ = CurAngle_ + 500.0f * GameEngineTime::GetDeltaTime();
+			CurAngle_ += 1200.0f * GameEngineTime::GetDeltaTime();
 			if (CurAngle_ > 180)
 			{
 				CurAngle_ = 180;
@@ -525,7 +526,7 @@ bool Player::MoveAngle()
 	{
 		if (CurAngle_ < 45 || CurAngle_ >= 225)
 		{
-			CurAngle_ += 500.0f * GameEngineTime::GetDeltaTime();
+			CurAngle_ += 1200.0f * GameEngineTime::GetDeltaTime();
 			if (CurAngle_ < 225 && CurAngle_ > 45)
 			{
 				CurAngle_ = 45;
@@ -535,7 +536,7 @@ bool Player::MoveAngle()
 		}
 		else if (CurAngle_ < 225 && CurAngle_ > 45)
 		{
-			CurAngle_ -= 500.0f * GameEngineTime::GetDeltaTime();
+			CurAngle_ -= 1200.0f * GameEngineTime::GetDeltaTime();
 			if (CurAngle_ < 45)
 			{
 				CurAngle_ = 45;
@@ -554,7 +555,7 @@ bool Player::MoveAngle()
 	{
 		if (CurAngle_ < 315 && CurAngle_ >= 135)
 		{
-			CurAngle_ += 500.0f * GameEngineTime::GetDeltaTime();
+			CurAngle_ += 1200.0f * GameEngineTime::GetDeltaTime();
 			if (CurAngle_ > 315)
 			{
 				CurAngle_ = 315;
@@ -564,7 +565,7 @@ bool Player::MoveAngle()
 		}
 		else if (CurAngle_ < 135 || CurAngle_ > 315)
 		{
-			CurAngle_ -= 500.0f * GameEngineTime::GetDeltaTime();
+			CurAngle_ -= 1200.0f * GameEngineTime::GetDeltaTime();
 			if (CurAngle_ > 135 && CurAngle_ < 315)
 			{
 				CurAngle_ = 315;
@@ -582,7 +583,7 @@ bool Player::MoveAngle()
 	{
 		if (CurAngle_ < 135 || CurAngle_ >= 315)
 		{
-			CurAngle_ += 500.0f * GameEngineTime::GetDeltaTime();
+			CurAngle_ += 1200.0f * GameEngineTime::GetDeltaTime();
 			if (CurAngle_ > 0 && CurAngle_ > 135)
 			{
 				CurAngle_ = 135;
@@ -592,7 +593,7 @@ bool Player::MoveAngle()
 		}
 		else if (CurAngle_ < 315 && CurAngle_ > 135)
 		{
-			CurAngle_ -= 500.0f * GameEngineTime::GetDeltaTime();
+			CurAngle_ -= 1200.0f * GameEngineTime::GetDeltaTime();
 			if (CurAngle_ < 135)
 			{
 				CurAngle_ = 135;
@@ -610,7 +611,7 @@ bool Player::MoveAngle()
 	{
 		if (CurAngle_ < 225 && CurAngle_ >= 45)
 		{
-			CurAngle_ += 500.0f * GameEngineTime::GetDeltaTime();
+			CurAngle_ += 1200.0f * GameEngineTime::GetDeltaTime();
 			if (CurAngle_ > 0 && CurAngle_ > 225)
 			{
 				CurAngle_ = 225;
@@ -620,7 +621,7 @@ bool Player::MoveAngle()
 		}
 		else if (CurAngle_ < 45 || CurAngle_ > 225)
 		{
-			CurAngle_ -= 500.0f * GameEngineTime::GetDeltaTime();
+			CurAngle_ -= 1200.0f * GameEngineTime::GetDeltaTime();
 			if (CurAngle_ < 225)
 			{
 				CurAngle_ = 225;
@@ -637,23 +638,47 @@ bool Player::MoveAngle()
 }
 
 
-void Player::DashCheck()
+void Player::DashCheck(float _DeltaTime)
 {
+	DashTime_ -= 1.0f * _DeltaTime;
 	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerDash"))
 	{
-		if (Speed_ < 500.0f)
+		if (DashTime_ < 0.0f)
 		{
-			Speed_ = 1000.0f;
+			DashTime_ = 0.3f;
+			Speed_ = 1200.0;
 		}
 	}
-	if (Speed_ > 400.0f)
+
+	if (DashTime_ > 0.0f)
 	{
-		Speed_ -= 400.0f * GameEngineTime::GetDeltaTime();
+		if (false == GameEngineInput::GetInst()->IsPressKey("PlayerLeft") &&
+			false == GameEngineInput::GetInst()->IsPressKey("PlayerRight") &&
+			false == GameEngineInput::GetInst()->IsPressKey("PlayerFront") &&
+			false == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
+		{
+			if (PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == false &&
+				PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
+					std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
+			{
+				WalkRendererON();
+				GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * _DeltaTime);
+			}
+		}
 	}
 	else
 	{
-		Speed_ = 400.0f;
+		if (StateManager.GetCurStateStateName() == "Idle")
+		{
+			IdleRendererON();
+			PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "Idle");
+			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
+			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
+		}
+
+		Speed_ = 650.0f;
 	}
+
 }
 
 void Player::PlayerDirCheck() // 플레이어 방향 체크하고 회전시키는 함수
@@ -876,6 +901,19 @@ void Player::MoveCollisionSideCheck(float _DeltaTime)
 	}
 }
 
+void Player::DetachPlayerHoldingToGround() // 플레이어 손에든 함수 바닥에 떨어뜨리는 함수
+{
+	if (CurrentHoldingObject_ != nullptr)
+	{
+		CurrentHoldingObject_->CastThis<GamePlayObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_);
+		CurrentHoldingObject_->CastThis<GamePlayObject>()->GetCollisionObject()->On();
+		CurrentHoldingObject_->GetTransform().SetLocalPosition(float4{ 0,0,0 });
+		CurrentHoldingObject_->GetTransform().SetWorldPosition(GetTransform().GetLocalPosition() + GetTransform().GetBackVector() * 60.0f);
+		CurrentHoldingObject_->DetachObject();
+		CurrentHoldingObject_ = nullptr;
+	}
+
+}
 //////////////////////충돌 함수
 
 

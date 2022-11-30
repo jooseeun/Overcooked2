@@ -54,15 +54,12 @@ protected:
 	void FireOffStart(const StateInfo& _Info);
 	void FireOffUpdate(float _DeltaTime, const StateInfo& _Info);
 
-	void DashCheck();
+	void DashCheck(float _DeltaTime);
 	void PlayerDirCheck();
 	bool MoveAngle();
 
 	void MoveCollisionSideCheck(float _DeltaTime);
 
-
-
-	
 
 public:
 	inline std::shared_ptr<GameEngineCollision> GetInteractCollision() const
@@ -70,12 +67,8 @@ public:
 		return Collision_Interact_;
 	}
 
-
-
-
 	void ChangePlayer(); // 플레이어 커스텀 바꾸는 함수
 	void ChangePlayerColor();
-	
 
 public:
 	
@@ -123,19 +116,7 @@ public:
 		}
 
 	}
-	inline void DetachPlayerHoldingToGround() // 플레이어 손에든 함수 바닥에 떨어뜨리는 함수
-	{
-		if (CurrentHoldingObject_ != nullptr)
-		{ 
-			CurrentHoldingObject_->CastThis<GamePlayObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_);
-			CurrentHoldingObject_->CastThis<GamePlayObject>()->GetCollisionObject()->On();
-			CurrentHoldingObject_->GetTransform().SetLocalPosition(float4{ 0,0,0 });
-			CurrentHoldingObject_->GetTransform().SetWorldPosition(GetTransform().GetLocalPosition() + GetTransform().GetBackVector() * 60.0f );
-			CurrentHoldingObject_->DetachObject();
-			CurrentHoldingObject_ = nullptr;
-		}
 
-	}
 	/// 다 잘랐다고 플레이어에게 알려주는 함수 -> 플레이어가 Slice상태에서 idle상태로 변환한다.
 	inline void FinishSlice()
 	{
@@ -144,15 +125,15 @@ public:
 
 private:
 
-	float Speed_;
-	float CurAngle_;
-	PlayerDir CurDir_;
-	PlayerHoldType CurHoldType_;
-	PlayerCurStateType CurStateType_;
-	int PlayerPNum;
-	bool FireOff_;
+	void DetachPlayerHoldingToGround();
+	void CustomKeyCheck();
 
-	bool IsSlice_;
+	void IdleRendererON();
+	void WalkRendererON();
+	void ChopRendererON();
+	void WashRendererON();
+
+
 
 	//충돌함수
 	CollisionReturn GravityColCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
@@ -168,13 +149,18 @@ private:
 	std::shared_ptr<GameEngineCollision> Collision_Interact_; // 상호작용 콜리전
 
 
+private:
 
-	void IdleRendererON();
-	void WalkRendererON();
-	void ChopRendererON();
-	void WashRendererON();
+	float Speed_;
+	float CurAngle_;
+	PlayerDir CurDir_;
+	PlayerHoldType CurHoldType_;
+	PlayerCurStateType CurStateType_;
+	int PlayerPNum;
+	float DashTime_;
+	bool FireOff_;
+	bool IsSlice_;
 
-	// 일단 커스텀 개수 6
 	std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerIdleRenderer_[6];
 	std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerWalkRenderer_[6];
 	std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerChopRenderer_[6];
