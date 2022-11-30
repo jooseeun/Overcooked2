@@ -98,15 +98,45 @@ InitGlobalGameData::InitGlobalGameData()
 		}
 		//만두들
 		{
-			//새우 만두
+			//물고기찜
 			{
 				FoodType _Type;
 				std::vector<IngredientType> _Ingredient;
 				std::vector<ToolInfo> _Cookery;
 
-				_Type = FoodType::PrawnDumpling;
+				_Type = FoodType::SteamedFish;
+				_Ingredient.push_back(IngredientType::Fish);
+
+				_Cookery.push_back(ToolInfo::Steamer);
+
+				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
+					CreateFoodData(_Type, _Ingredient, _Cookery, 45.f)));
+			}
+			//당근 만두
+			{
+				FoodType _Type;
+				std::vector<IngredientType> _Ingredient;
+				std::vector<ToolInfo> _Cookery;
+
+				_Type = FoodType::CarrotDumpling;
 				_Ingredient.push_back(IngredientType::Flour);
-				_Ingredient.push_back(IngredientType::Prawn);
+				_Ingredient.push_back(IngredientType::Carrot);
+
+				_Cookery.push_back(ToolInfo::Mixer);
+				_Cookery.push_back(ToolInfo::Steamer);
+
+				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
+					CreateFoodData(_Type, _Ingredient, _Cookery, 55.f, true)));
+			}
+			//고기 만두
+			{
+				FoodType _Type;
+				std::vector<IngredientType> _Ingredient;
+				std::vector<ToolInfo> _Cookery;
+
+				_Type = FoodType::MeatDumpling;
+				_Ingredient.push_back(IngredientType::Flour);
+				_Ingredient.push_back(IngredientType::Meat);
 
 				_Cookery.push_back(ToolInfo::Mixer);
 				_Cookery.push_back(ToolInfo::Steamer);
@@ -171,6 +201,15 @@ std::string UI_Utility::EnumToString(FoodType _Type)
 	{
 	case FoodType::None:
 		break;
+	case FoodType::CucumberSushi:
+		FileName = "ui_CucumberSushi.png";
+		break;
+	case FoodType::FishSushi:
+		FileName = "ui_FishSushi.png";
+		break;
+	case FoodType::FishandCucumberSushi:
+		FileName = "ui_FishandCucumberSushi.png";
+		break;
 	case FoodType::FishSushimi:
 		FileName = "ui_FishSushimi.png";
 		break;
@@ -188,6 +227,15 @@ std::string UI_Utility::EnumToString(FoodType _Type)
 		break;
 	case FoodType::PrawnDumpling:
 		FileName = "ui_PrawnDumpling.png";
+		break;
+	case FoodType::MeatDumpling:
+		FileName = "ui_MeatDumpling.png";
+		break;
+	case FoodType::CarrotDumpling:
+		FileName = "t_icon_carrot_dumpling.png";
+		break;
+	case FoodType::SteamedFish:
+		FileName = "ui_SteamedFish.png";
 		break;
 	default:
 		break;
