@@ -5,6 +5,7 @@
 GamePlayTool::GamePlayTool()
 	: Moveable_Current_(nullptr)
 	, InteractOption_Current_(AutoOption::NoResponse)
+	, MoveablePos_({0, 0})
 {
 }
 
@@ -17,7 +18,7 @@ void GamePlayTool::Start()
 {
 	GamePlayStuff::Start();
 	GamePlayStuff::SetObjectStuffType(ObjectStuffType::Tool);
-
+	
 }
 
 // ---------------------------------------Update
@@ -43,9 +44,7 @@ HoldDownEnum GamePlayTool::HoldDown(std::shared_ptr<Player> _Player)
 	{
 		if (Moveable_Current_ == nullptr && CanHoldThis(Moveable.lock()))
 		{
-			Moveable_Current_ = Moveable.lock();
-			Moveable.lock()->SetParentObject(shared_from_this());
-			_Player->DetachPlayerHolding();
+			SetMoveable(_Player);
 			return HoldDownEnum::HoldDown_Already;
 		}
 		else
@@ -73,11 +72,17 @@ HoldDownEnum GamePlayTool::HoldDown(std::shared_ptr<Player> _Player)
 	return HoldDownEnum::Nothing;
 }
 
-void GamePlayTool::SetParentObject(std::shared_ptr<GameEngineUpdateObject> _Object)
+void GamePlayTool::SetMoveable(std::shared_ptr<Player> _Player)
 {
-	std::weak_ptr<GamePlayObject> Object = _Object->CastThis<GamePlayObject>();
-	GetTransform().SetLocalPosition(MoveablePos_);
-	
-	GetCollisionObject()->Off();
-	SetParent(_Object);
+	SetMoveable(_Player->GetPlayerHolding());
+	_Player->DetachPlayerHolding();
+}
+
+void GamePlayTool::SetMoveable(std::shared_ptr<GameEngineUpdateObject> _Child)
+{
+	_Child->SetParent(shared_from_this());
+	std::weak_ptr<GamePlayMoveable> Object = _Child->CastThis<GamePlayMoveable>();
+	Moveable_Current_ = Object.lock();
+	Object.lock()->GetTransform().SetLocalPosition(MoveablePos_);
+	Object.lock()->GetCollisionObject()->Off();
 }

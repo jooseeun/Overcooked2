@@ -29,9 +29,8 @@ SetPlayerState_Return GamePlayStuff::SetPlayerState(std::shared_ptr<Player> _Pla
 		switch (HoldDown(_Player))
 		{
 		case HoldDownEnum::HoldDown:
-			_Player->DetachPlayerHolding();
-			GetCollisionObject()->On();
 		case HoldDownEnum::HoldDown_Already:
+			MsgBoxAssert("플레이어가 오브젝트를 떨어트릴려고 했습니다")
 			return SetPlayerState_Return::Using;
 			break;
 		case HoldDownEnum::HoldUp:
@@ -60,7 +59,7 @@ SetPlayerState_Return GamePlayStuff::SetPlayerState(std::shared_ptr<Player> _Pla
 			return SetPlayerState_Return::Using;
 			break;
 		case UsingDownEnum::Throwing:
-			_Player->DetachPlayerHolding();
+			// 던지다
 			return SetPlayerState_Return::Using;
 			break;
 		default:
@@ -77,12 +76,12 @@ SetPlayerState_Return GamePlayStuff::SetPlayerState(std::shared_ptr<Player> _Pla
 	return SetPlayerState_Return::Nothing;
 }
 
-void GamePlayStuff::SetParentObject(std::shared_ptr<GameEngineUpdateObject> _Object)
-{
-	std::weak_ptr<GamePlayObject> Object = _Object->CastThis<GamePlayObject>();
-	const float4& Pos = Object.lock()->GetTransform().GetWorldPosition();
-	GetTransform().SetWorldPosition({ Pos.x, Pos.y, Pos.z + 80.f });
-
-	GetCollisionObject()->Off();
-	SetParent(_Object);
-}
+//void GamePlayStuff::SetParentObject(std::shared_ptr<GameEngineUpdateObject> _Object)
+//{
+//	std::weak_ptr<GamePlayObject> Object = _Object->CastThis<GamePlayObject>();
+//	const float4& Pos = Object.lock()->GetTransform().GetWorldPosition();
+//	GetTransform().SetWorldPosition({ Pos.x, Pos.y + 30.f, Pos.z });
+//
+//	GetCollisionObject()->Off();
+//	SetParent(_Object);
+//}

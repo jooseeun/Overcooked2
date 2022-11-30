@@ -43,12 +43,17 @@ public:
 	}
 	inline void ReSetCurrentMoveable()
 	{
+		Moveable_Current_->GetTransform().SetLocalPosition(float4::ZERO);
 		Moveable_Current_.reset();
 	}
-	inline void SetCurrentMoveable(std::shared_ptr<GamePlayMoveable> _Moveable)
-	{
-		Moveable_Current_ = _Moveable;
-	}
+	//inline void SetCurrentMoveable(std::shared_ptr<GamePlayMoveable> _Moveable)
+	//{
+	//	if (_Moveable == nullptr)
+	//	{
+	//		ReSetCurrentMoveable();
+	//	}
+	//	Moveable_Current_ = _Moveable;
+	//}
 
 	inline ObjectToolType GetObjectToolType()
 	{
@@ -86,14 +91,14 @@ protected:
 	{
 		Enum_ObjectToolType_ = _Type;
 	}
-
+	virtual void SetMoveable(std::shared_ptr<GameEngineUpdateObject> _Child);
+	void SetMoveable(std::shared_ptr<Player> _Player);
 
 private:
 	ObjectToolType Enum_ObjectToolType_;
 	AutoOption InteractOption_Current_;
 
 	float4 MoveablePos_;
-	void SetParentObject(std::shared_ptr<GameEngineUpdateObject> _Object) override;
 
 	//void SetMoveableObject(std::shared_ptr<GamePlayMoveable> _Object);
 

@@ -376,11 +376,11 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 			CurActor_.lock()->GetTransform().SetWorldRotation(_Data[i].Rot_);
 			CurActor_.lock()->GetTransform().SetWorldScale(_Data[i].Scale_);
 
-			if (nullptr != CurActor_.lock()->GetStuff())
-			{
-				float4 ToolPos = CurActor_.lock()->GetToolPos();
-				CurActor_.lock()->GetStuff()->GetTransform().SetWorldPosition(ToolPos);
-			}
+			//if (nullptr != CurActor_.lock()->GetStuff())
+			//{
+			//	float4 ToolPos = CurActor_.lock()->GetToolPos();
+			//	CurActor_.lock()->GetStuff()->GetTransform().SetWorldPosition(ToolPos);
+			//}
 
 			Origins_[Order].lock()->GetStaticMeshInfo().push_back(CurActor_.lock());
 			CurActor_.reset();

@@ -40,6 +40,10 @@ public:
 		return Enum_ObjectMoveableType_;
 	}
 
+	inline float GetCookingGage() const
+	{
+		return CookingGage_;
+	}
 //	HoldDownEnum CalculateMoveable(std::shared_ptr<GamePlayMoveable> _Other);
 
 protected:
@@ -63,5 +67,6 @@ protected:
 
 private:
 	ObjectMoveableType Enum_ObjectMoveableType_;
+	float CookingGage_;
 };
 

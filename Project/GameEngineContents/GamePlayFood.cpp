@@ -3,8 +3,7 @@
 
 GamePlayFood::GamePlayFood() 
 	: Enum_IngredientType_(IngredientType::None),
-	  Enum_ObjectFoodType_(ObjectFoodType::None) , 
-	  Trimming_(false)
+	  Enum_ObjectFoodType_(ObjectFoodType::None)
 
 {
 }
