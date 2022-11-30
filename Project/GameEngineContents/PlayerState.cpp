@@ -3,6 +3,7 @@
 #include "FoodBox.h"
 #include "TrashCan.h"
 #include "Equipment_Plate.h"
+
 #include <math.h>
 
 void Player::IdleStart(const StateInfo& _Info)
@@ -232,6 +233,12 @@ void Player::SliceStart(const StateInfo& _Info) // 자르는 도중 이동하면 취소됨
 }
 void Player::SliceUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
+		std::bind(&Player::TableSliceCheck, this, std::placeholders::_1, std::placeholders::_2));
+
+	Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
+		std::bind(&Player::InteractTableCheck, this, std::placeholders::_1, std::placeholders::_2));
+
 	if (IsSlice_ == false)
 	{
 		StateManager.ChangeState("Idle");
@@ -242,7 +249,6 @@ void Player::SliceUpdate(float _DeltaTime, const StateInfo& _Info)
 		true == GameEngineInput::GetInst()->IsPressKey("PlayerFront") ||
 		true == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
 	{
-
 		StateManager.ChangeState("Move");
 		return;
 	}

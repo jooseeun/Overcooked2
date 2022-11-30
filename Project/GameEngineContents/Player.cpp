@@ -983,7 +983,19 @@ CollisionReturn Player::TableSliceCheck(std::shared_ptr<GameEngineCollision> _Th
 		_Other->GetParent()->CastThis<GamePlayStaticObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_))
 	{  
 		//자를수 있으면 자르는 상태로 변경
+		TableCollision_ = _Other;
 		StateManager.ChangeState("Slice");
 	}
+	return CollisionReturn::ContinueCheck;
+}
+
+CollisionReturn Player::InteractTableCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
+{
+	if (_Other != TableCollision_)
+	{
+		IsSlice_ = false;
+		StateManager.ChangeState("Idle");
+	}
+
 	return CollisionReturn::ContinueCheck;
 }
