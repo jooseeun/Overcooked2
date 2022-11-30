@@ -65,11 +65,6 @@ public:
 		return Enum_IngredientType_;
 	}
 
-	inline void SetTrimming()
-	{
-		Trimming_ = true;
-	}
-
 protected:
 	void Start() override;
 	//void Update(float _DeltaTime) override {};
@@ -111,7 +106,6 @@ private:
 
 	ObjectFoodType Enum_ObjectFoodType_;
 	IngredientType Enum_IngredientType_;
-	bool Trimming_;
 
 	HoldDownEnum HoldDown(std::shared_ptr<Player> _Player) override;
 };

@@ -864,8 +864,8 @@ void MapEditorWindow::SortToolTab()
 					break;
 					}
 
-					float4 ToolPos = SortActorList_[ActorIndex].lock()->GetToolPos();
-					SortActorList_[ActorIndex].lock()->GetStuff()->GetTransform().SetWorldPosition(ToolPos);
+					//float4 ToolPos = SortActorList_[ActorIndex].lock()->GetToolPos();
+					//SortActorList_[ActorIndex].lock()->GetStuff()->GetTransform().SetWorldPosition(ToolPos);
 				}
 			}
 		}

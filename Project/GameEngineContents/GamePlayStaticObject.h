@@ -2,6 +2,7 @@
 #include "GamePlayObject.h"
 #include "Enums.h"
 #include "GamePlayStuff.h"
+#include "Player.h"
 
 // Ό³Έν :
 class GamePlayStaticObject : public GamePlayObject
@@ -33,6 +34,11 @@ public:
 	}
 	std::shared_ptr<GamePlayMoveable> GetMoveable() const;
 	std::shared_ptr<GamePlayMoveable> GetMoveable_TakeOut();
+	inline void SetStuff(std::shared_ptr<Player> _Player)
+	{
+		SetStuff(_Player->GetPlayerHolding()->CastThis<GamePlayStuff>());
+		_Player->DetachPlayerHolding();
+	}
 	inline void SetStuff(std::shared_ptr<GamePlayStuff> _Stuff)
 	{
 		Stuff_Current_ = _Stuff;
@@ -40,6 +46,7 @@ public:
 		if (nullptr != _Stuff)
 		{
 			_Stuff->SetParent(std::dynamic_pointer_cast<GamePlayObject>(shared_from_this()));
+			_Stuff->GetTransform().SetLocalPosition(ToolPos_);
 		}
 	}
 	inline void ReSetStuff()
@@ -77,7 +84,7 @@ public:
 
 	virtual float4 GetToolPos() 
 	{
-		ToolPos_ = GetTransform().GetWorldPosition() + float4{ 0, 50.f };
+		//ToolPos_ = GetTransform().GetWorldPosition() + float4{ 0, 50.f };
 
 		return ToolPos_;
 	}

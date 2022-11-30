@@ -6,7 +6,7 @@
 
 GamePlayStaticObject::GamePlayStaticObject() 
 	: Stuff_Current_(nullptr)
-	, ToolPos_(float4::ZERO)
+	, ToolPos_({0, 50})
 {
 }
 
@@ -109,7 +109,8 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 					case HoldDownEnum::Nothing:
 						break;
 					case HoldDownEnum::HoldDown:
-						Moveable.lock()->SetParentObject(Stuff_Current_);
+						MsgBoxAssert("예외확인용")
+						//Moveable.lock()->SetParentObject(Stuff_Current_);
 					case HoldDownEnum::HoldDown_Already:
 						break;
 					case HoldDownEnum::HoldUp:

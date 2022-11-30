@@ -21,10 +21,17 @@ public:
 	{
 		return Knife_;
 	}
+
+	void SetMoveable(std::shared_ptr<GameEngineUpdateObject> _Child) override
+	{
+		GamePlayTool::SetMoveable(_Child);
+		Knife_->Off();
+	}
 protected:
 	void Start() override;
 private:
 	UsingDownEnum UsingDown(std::shared_ptr<Player> _Player) final;
+	//HoldDownEnum HoldDown(std::shared_ptr<Player> _Player) final;
 	bool CanHoldThis(std::shared_ptr<GamePlayMoveable> _Moveable) final;
 
 	std::shared_ptr<GameEngineActor> Knife_;

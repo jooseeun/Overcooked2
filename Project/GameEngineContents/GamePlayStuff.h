@@ -13,6 +13,7 @@ enum class HoldDownEnum
 	Nothing,
 	HoldDown,
 	HoldDown_Already,
+	ExitMe,
 	HoldUp,
 	HoldUp_Already,
 };
@@ -59,7 +60,19 @@ public:
 		Enum_ToolInfo_ = _Info;
 	}
 
-	virtual void SetParentObject(std::shared_ptr<GameEngineUpdateObject> _Object);
+	//virtual void SetParentObject(std::shared_ptr<GameEngineUpdateObject> _Object);
+
+
+	inline virtual HoldDownEnum HoldDown(std::shared_ptr<Player> _Player)
+	{
+		return HoldDownEnum::Nothing;
+	};
+
+	inline virtual UsingDownEnum UsingDown(std::shared_ptr<Player> _Player)
+	{
+		return UsingDownEnum::Nothing;
+	};
+
 
 protected:
 
@@ -71,16 +84,6 @@ protected:
 
 	void LevelStartEvent() override {};
 	void LevelEndEvent() override {};
-
-	inline virtual HoldDownEnum HoldDown(std::shared_ptr<Player> _Player)
-	{
-		return HoldDownEnum::Nothing;
-	};
-
-	inline virtual UsingDownEnum UsingDown(std::shared_ptr<Player> _Player)
-	{
-		return UsingDownEnum::Nothing;
-	};
 
 protected:
 	inline void SetObjectStuffType(ObjectStuffType _Type)
