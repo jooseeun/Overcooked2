@@ -20,6 +20,9 @@ void Tool_Mixer::Start()
 	GetAnimationFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 
 	GetAnimationFBXMesh()->GetTransform().SetLocalRotation({0, 90, 0});
-	GetAnimationFBXMesh()->GetTransform().SetLocalPosition({0, -50, 0});
+	//GetAnimationFBXMesh()->GetTransform().SetLocalPosition({0, -50, 0});
+
+	GetAnimationFBXMesh()->CreateFBXAnimation("Idle", GameEngineRenderingEvent("m_cakemixer_Body_01.fbx", 0.01f, true));
+	GetAnimationFBXMesh()->ChangeAnimation("Idle");
 }
 

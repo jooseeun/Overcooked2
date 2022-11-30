@@ -28,10 +28,7 @@ public:
 		return PortalType_;
 	}
 
-	inline void SetPortalType(PortalType _PortalType)
-	{
-		PortalType_ = _PortalType;
-	}
+	void SetPortalType(PortalType _PortalType);
 
 protected:
 	void Start() override;

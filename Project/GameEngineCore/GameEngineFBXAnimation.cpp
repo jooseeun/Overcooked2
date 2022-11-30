@@ -173,7 +173,7 @@ bool GameEngineFBXAnimation::AnimationLoad(std::shared_ptr <GameEngineFBXMesh> _
 			{
 				pCurrCluster = pCurrSkin->GetCluster(clusterIndex);
 				currJointName = pCurrCluster->GetLink()->GetName();
-				pBone = _Mesh->FindBone(0, currJointName);
+				pBone = _Mesh->FindBone(MeshIndex, currJointName);
 
 				pCurrCluster->GetTransformMatrix(transformMatrix);
 				pCurrCluster->GetTransformLinkMatrix(transformLinkMatrix);
@@ -232,7 +232,7 @@ void GameEngineFBXAnimation::ProcessAnimationCheckState(std::shared_ptr <GameEng
 			if (0 == aniFrameData.BoneMatData.size())
 			{
 				aniFrameData.BoneMatData.resize(fbxTime);
-				Bone& curBone = _Fbx->AllBones[0][aniFrameDataIndex];
+				Bone& curBone = _Fbx->AllBones[MeshIndex][aniFrameDataIndex];
 				aniFrameData.BoneIndex = curBone.Index;
 				aniFrameData.BoneParentIndex = curBone.ParentIndex;
 				if (-1 != curBone.ParentIndex)
