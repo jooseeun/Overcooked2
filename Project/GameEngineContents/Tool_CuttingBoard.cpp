@@ -18,7 +18,16 @@ void Tool_CuttingBoard::Start()
 	GamePlayTool::SetToolInfoType(ToolInfo::CuttingBoard);
 	GamePlayTool::SetObjectToolType(ObjectToolType::CuttingBoard);
 
-	GetFBXMesh()->SetFBXMesh("CuttingBoard.fbx", "Texture");
+	// Ä®
+	Knife_ = GetLevel()->CreateActor<GameEngineActor>();
+	Knife_->SetParent(shared_from_this());
+
+	std::shared_ptr<GameEngineFBXStaticRenderer> KnifeRenderer = Knife_->CreateComponent<GameEngineFBXStaticRenderer>();
+	KnifeRenderer->SetFBXMesh("CuttingBoard.fbx", "Texture", 0);
+	KnifeRenderer->GetTransform().SetWorldScale({ 100, 100, 100 });
+
+	// µµ¸¶
+	GetFBXMesh()->SetFBXMesh("CuttingBoard.fbx", "Texture", 1);
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 }
 

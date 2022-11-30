@@ -13,6 +13,7 @@ struct RecipeSetData
 {
 	std::string TopBackgroundString = "0";
 	float4 BarParentPosNScale = {};// x,y,z : pos w: Scale
+	std::vector<float4> IngredientPos;
 };
 
 class RecipeManager;

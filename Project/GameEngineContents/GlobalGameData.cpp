@@ -163,3 +163,90 @@ std::string UI_Utility::EnumToString(FoodType _Type)
 
 	return FileName;
 }
+
+std::string UI_Utility::EnumToString(IngredientType _Type)
+{
+	std::string FileName = "Plus.png";
+	switch (_Type)
+	{
+	case IngredientType::None:
+		FileName = "Plus.png";
+		break;
+	case IngredientType::Tomato:
+		FileName = "Tomato_Icon.png";
+		break;
+	case IngredientType::Onion:
+		FileName = "Onion_Icon.png";
+		break;
+	case IngredientType::Potato:
+		FileName = "Potato_Icon.png";
+		break;
+	case IngredientType::Dough:
+		FileName = "Dough_Icon.png";
+		break;
+	case IngredientType::Seaweed:
+		FileName = "Seaweed_Icon.png";
+		break;
+	case IngredientType::Mushroom:
+		FileName = "Mushroom_Icon.png";
+		break;
+	case IngredientType::Meat:
+		FileName = "Meat_Icon.png";
+		break;
+	case IngredientType::Lettuce:
+		FileName = "Lettuce_Icon.png";
+		break;
+	case IngredientType::Rice:
+		FileName = "Rice_Icon.png";
+		break;
+	case IngredientType::Flour:
+		FileName = "Flour_Icon.png";
+		break;
+	case IngredientType::Bread:
+		FileName = "Bun_Icon.png";
+		break;
+	case IngredientType::Fish:
+		FileName = "Fish_Icon.png";
+		break;
+	case IngredientType::Sausage:
+		FileName = "Sausage_Icon.png";
+		break;
+	case IngredientType::DumplingSkin:
+		FileName = "Plus.png";
+		break;
+	case IngredientType::Egg:
+		FileName = "egg_Icon.png";
+		break;
+	case IngredientType::Chicken:
+		FileName = "Chicken_Icon.png";
+		break;
+	case IngredientType::Burrito:
+		FileName = "Tortilla_Icon.png";
+		break;
+	case IngredientType::Cheese:
+		FileName = "Cheese_Icon.png";
+		break;
+	case IngredientType::Carrot:
+		FileName = "Carrot_Icon.png";
+		break;
+	case IngredientType::Chocolate:
+		FileName = "chocolate_Icon.png";
+		break;
+	case IngredientType::Honey:
+		FileName = "honeycomb_Icon.png";
+		break;
+	case IngredientType::PastaNoodles:
+		FileName = "pasta_Icon.png";
+		break;
+	case IngredientType::Prawn:
+		FileName = "prawn_Icon.png";
+		break;
+	case IngredientType::Cucumber:
+		FileName = "Cucumber_Icon.png";
+		break;
+	default:
+		break;
+	}
+
+	return FileName;
+}
