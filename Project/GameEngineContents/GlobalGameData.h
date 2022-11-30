@@ -98,4 +98,5 @@ private:
 namespace UI_Utility
 {
 	std::string EnumToString(FoodType _Type);
+	std::string EnumToString(IngredientType _Type);
 }
