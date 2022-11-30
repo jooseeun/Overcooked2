@@ -85,16 +85,74 @@ void RecipeManager::CreateRecipe(FoodType _Type)
 	NewRecipe.FoodRenderer_.lock()->ResistDebug();
 	NewRecipe.FoodRenderer_.lock()->GetTransform().SetParentTransform(NewRecipe.ParentRenderer_.lock()->GetTransform());
 
-	//BottomBackground
+	//BottomBackground && Cookery
 	{
-		for (int i = 0; i < NewRecipe.Data_.Ingredient.size(); i++)
+		//Tool ÆÄ¾Ç
+		if (NewRecipe.Data_.CommonCookery.empty() == true)
 		{
-			std::weak_ptr<OverCookedUIRenderer> NewRenderer = ParentActor_.lock()->CreateUIRenderer("Recipe_Background0.png");
-			NewRenderer.lock()->GetTransform().SetParentTransform(NewRecipe.BottomParentRenderer_.lock()->GetTransform());
-			float ScaleX = NewRenderer.lock()->GetTransform().GetWorldScale().x;
-			float4 Pos = Data.IngredientPos[i];
-			NewRenderer.lock()->GetTransform().SetLocalPosition(Pos);
-			NewRecipe.BottomBackgroundRenderer_.push_back(NewRenderer);
+			//BottomBackground
+			for (int i = 0; i < NewRecipe.Data_.Ingredient.size(); i++)
+			{
+				std::weak_ptr<OverCookedUIRenderer> NewRenderer;
+				if (NewRecipe.Data_.Cookery[i] == ToolInfo::None)
+				{
+					NewRenderer = ParentActor_.lock()->CreateUIRenderer("Recipe_Background0.png");
+				}
+				else
+				{
+					NewRenderer = ParentActor_.lock()->CreateUIRenderer("Recipe_Background1.png");
+				}
+				NewRenderer.lock()->GetTransform().SetParentTransform(NewRecipe.BottomParentRenderer_.lock()->GetTransform());
+				float ScaleX = NewRenderer.lock()->GetTransform().GetWorldScale().x;
+				float4 Pos = Data.IngredientPos[i];
+				if (NewRecipe.Data_.Cookery[i] != ToolInfo::None)
+				{
+					Pos.y -= 22.5f;
+				}
+				NewRenderer.lock()->GetTransform().SetLocalPosition(Pos);
+				NewRecipe.BottomBackgroundRenderer_.push_back(NewRenderer);
+			}
+
+			//Cookery
+			for (int i = 0; i < NewRecipe.Data_.Ingredient.size(); i++)
+			{
+				if (NewRecipe.Data_.Cookery[i] == ToolInfo::None)
+				{
+					continue;
+				}
+				std::weak_ptr<OverCookedUIRenderer> NewRenderer = ParentActor_.lock()->CreateUIRenderer(EnumToString(NewRecipe.Data_.Cookery[i]), 0.38f);
+				NewRenderer.lock()->GetTransform().SetParentTransform(NewRecipe.BottomParentRenderer_.lock()->GetTransform());
+				float ScaleX = NewRenderer.lock()->GetTransform().GetWorldScale().x;
+				float4 Pos = Data.IngredientPos[i];
+				Pos.y -= 42.f;
+				NewRenderer.lock()->GetTransform().SetLocalPosition(Pos);
+				NewRecipe.CookeryRenderer_.push_back(NewRenderer);
+			}
+		}
+		else //commonCookery
+		{
+			//BottomBackground
+			for (int i = 0; i < NewRecipe.Data_.Ingredient.size(); i++)
+			{
+				std::weak_ptr<OverCookedUIRenderer> NewRenderer;
+				NewRenderer = ParentActor_.lock()->CreateUIRenderer("Recipe_Background2.png");
+				NewRenderer.lock()->GetTransform().SetParentTransform(NewRecipe.BottomParentRenderer_.lock()->GetTransform());
+				float4 Pos = { 0,-22.5f,0 };
+				NewRenderer.lock()->GetTransform().SetLocalPosition(Pos);
+				NewRecipe.BottomBackgroundRenderer_.push_back(NewRenderer);
+			}
+
+			//Cookery
+			for (int i = 0; i < NewRecipe.Data_.CommonCookery.size(); i++)
+			{
+				std::weak_ptr<OverCookedUIRenderer> NewRenderer = ParentActor_.lock()->CreateUIRenderer(EnumToString(NewRecipe.Data_.CommonCookery[i]), 0.38f);
+				NewRenderer.lock()->GetTransform().SetParentTransform(NewRecipe.BottomParentRenderer_.lock()->GetTransform());
+				float ScaleX = NewRenderer.lock()->GetTransform().GetWorldScale().x;
+				float4 Pos = Data.IngredientPos[i];
+				Pos.y -= 42.f;
+				NewRenderer.lock()->GetTransform().SetLocalPosition(Pos);
+				NewRecipe.CookeryRenderer_.push_back(NewRenderer);
+			}
 		}
 	}
 

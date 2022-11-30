@@ -72,7 +72,11 @@ enum class FoodType
 	PrawnSushimi,
 	PlainBurger,
 	CheeseBurger,
-	CheeseBurgerLettuceTomato
+	CheeseBurgerLettuceTomato,
+	PrawnDumpling,
+	SteamedFish,
+	MeatDumpling,
+	CarrotDumpling
 };
 
 enum class IngredientType
