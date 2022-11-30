@@ -191,7 +191,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Food_Recipe.h" />
     <ClInclude Include="GameEngineStatusWindow.h" />
     <ClInclude Include="GamePlayBowl.h" />
     <ClInclude Include="GamePlayEquipment.h" />
@@ -383,7 +382,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Food_Recipe.cpp" />
     <ClCompile Include="GameEngineStatusWindow.cpp" />
     <ClCompile Include="GamePlayBowl.cpp" />
     <ClCompile Include="GamePlayEquipment.cpp" />
