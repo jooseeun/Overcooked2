@@ -10,11 +10,9 @@ Player::Player()
 	, CurAngle_(0)
 	, CurDir_(PlayerDir::Front)
 	, CurHoldType_(PlayerHoldType::Max)
+	, CurStateType_(PlayerCurStateType::Max)
 	, PlayerFloorCollision_(nullptr)
-	, PlayerLeftCollision_(nullptr)
-	, PlayerRightCollision_(nullptr)
 	, PlayerForwardCollision_(nullptr)
-	, PlayerBackCollision_(nullptr)
 	, PlayerCustomNum(5)
 	, PlayerIdleRenderer_()
 	, PlayerWalkRenderer_()
@@ -22,10 +20,10 @@ Player::Player()
 	, PlayerWashRenderer_()
 	, StateManager()
 	, CurrentHoldingObject_(nullptr)
-	, CurKineticEnergy_(0)
 	, FireOff_(false)
 	, PlayerName_()
 	, PlayerPNum(3)
+	, IsSlice_(false)
 {
 
 }
@@ -153,26 +151,6 @@ void Player::Start()
 		PlayerForwardRightCollision_->ChangeOrder(CollisionOrder::Max);
 		PlayerForwardRightCollision_->SetDebugSetting(CollisionType::CT_AABB, { 0,0,0 });
 	}
-	/*{
-		PlayerLeftCollision_ = CreateComponent<GameEngineCollision>();
-		PlayerLeftCollision_->GetTransform().SetLocalScale({ 10,100,90 });
-		PlayerLeftCollision_->GetTransform().SetLocalPosition({ -50,0,0 });
-		PlayerLeftCollision_->ChangeOrder(CollisionOrder::Object_Character);
-	}
-	{
-		PlayerRightCollision_ = CreateComponent<GameEngineCollision>();
-		PlayerRightCollision_->GetTransform().SetLocalScale({ 10,100,90 });
-		PlayerRightCollision_->GetTransform().SetLocalPosition({ 50,0,0 });
-		PlayerRightCollision_->ChangeOrder(CollisionOrder::Object_Character);
-	}
-
-	{
-		PlayerBackCollision_ = CreateComponent<GameEngineCollision>();
-		PlayerBackCollision_->GetTransform().SetLocalScale({ 90,100,10 });
-		PlayerBackCollision_->GetTransform().SetLocalPosition({ 0,0,50 });
-		PlayerBackCollision_->ChangeOrder(CollisionOrder::Object_Character);
-	}*/
-
 
 	Collision_Interact_ = CreateComponent<GameEngineCollision>("PlayerCollision");
 	Collision_Interact_->GetTransform().SetLocalScale({ 50,100,200});
@@ -268,7 +246,7 @@ void Player::ChangePlayer()
 	ChangePlayerColor();
 
 }
-void Player::ChangePlayerColor()
+void Player::ChangePlayerColor() // 플레이어 팀 색 바꾸는 함수
 {
 	PixelData& IdleRender = PlayerIdleRenderer_[PlayerCustomNum]->GetPixelDatas(0);
 	IdleRender.AlphaFlag = 1;
@@ -405,7 +383,7 @@ void Player::Update(float _DeltaTime)
 	StateManager.Update(_DeltaTime);
 	Gravity();
 	DashCheck();
-	CalculateKineticEnergy();
+	
 }
 
 ///////////////////////////// 그외 함수들
@@ -413,11 +391,7 @@ void Player::Update(float _DeltaTime)
 
 
 
-void Player::CalculateKineticEnergy()
-{
-	CurKineticEnergy_ = 0.5 * Speed_ * sqrt(pow((double)GetTransform().GetLocalScale().x, 2) + 
-		pow((double)GetTransform().GetLocalScale().y, 2)+ pow((double)GetTransform().GetLocalScale().z, 2));
-}
+
 
 bool Player::MoveAngle()
 {
@@ -964,12 +938,13 @@ CollisionReturn Player::TableHoldDownCheck(std::shared_ptr<GameEngineCollision> 
 
 CollisionReturn Player::TableSliceCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 {
-	//테이블에게 자를거라고 알려주기
+	//테이블에게 자를거라고 알려주기, 손에 아무것도 없는 Idle상태에서만 진입할 수 있음
 
 	CurStateType_ = PlayerCurStateType::Slice;
 	if (SetPlayerState_Return::Using ==
 		_Other->GetParent()->CastThis<GamePlayStaticObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_))
-	{  //자를수 있으면 자르는 상태로 변경
+	{  
+		//자를수 있으면 자르는 상태로 변경
 		StateManager.ChangeState("Slice");
 	}
 	return CollisionReturn::ContinueCheck;

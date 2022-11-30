@@ -226,12 +226,7 @@ void Player::HoldDownStart(const StateInfo& _Info)
 	if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 		std::bind(&Player::TableHoldDownCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
 	{
-		CurrentHoldingObject_->CastThis<GamePlayObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_);
-		CurrentHoldingObject_->DetachObject();
-		CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,0,0 });
-		CurrentHoldingObject_->GetTransform().SetWorldPosition(GetTransform().GetLocalPosition() + GetTransform().GetBackVector() * 60.0f + float4{0,50,0});
-		//이때 콜리젼 On이 안됨
-		CurrentHoldingObject_ = nullptr;
+		DetachPlayerHoldingToGround();
 	}
 }
 void Player::HoldDownUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -244,10 +239,15 @@ void Player::HoldDownUpdate(float _DeltaTime, const StateInfo& _Info)
 void Player::SliceStart(const StateInfo& _Info) // 자르는 도중 이동하면 취소됨
 {
 	CurStateType_ = PlayerCurStateType::Slice;
+	IsSlice_ = true;
 	ChopRendererON();
 }
 void Player::SliceUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	if (IsSlice_ == false)
+	{
+		StateManager.ChangeState("Idle");
+	}
 
 	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft") ||
 		true == GameEngineInput::GetInst()->IsPressKey("PlayerRight") ||

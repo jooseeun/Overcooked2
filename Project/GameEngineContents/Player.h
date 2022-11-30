@@ -71,10 +71,7 @@ public:
 	}
 
 
-	inline float GetCurKineticEnergy() const
-	{
-		return CurKineticEnergy_;
-	}
+
 
 	void ChangePlayer(); // 플레이어 커스텀 바꾸는 함수
 	void ChangePlayerColor();
@@ -118,25 +115,44 @@ public:
 	inline void DetachPlayerHolding() // 플레이어 손에든 함수 부모자식 관계 해제하는 함수 , 콜리젼은 알아서 on해줘야함
 	{
 		if (CurrentHoldingObject_ != nullptr)
-		{
-			CurrentHoldingObject_->GetTransform().SetWorldPosition(GetTransform().GetLocalPosition() + GetTransform().GetBackVector() * 60.0f + float4{ 0,50,0 });
+		{ //table위에 올릴때는 외부에서 ToolPos로 얻어와서 따로 설정해주어야 한다.
+
+			//CurrentHoldingObject_->GetTransform().SetLocalPosition(float4{ 0,0,0 });
 			CurrentHoldingObject_->DetachObject();
 			CurrentHoldingObject_ = nullptr;
 		}
 
 	}
-	
+	inline void DetachPlayerHoldingToGround() // 플레이어 손에든 함수 바닥에 떨어뜨리는 함수
+	{
+		if (CurrentHoldingObject_ != nullptr)
+		{ 
+			CurrentHoldingObject_->CastThis<GamePlayObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_);
+			CurrentHoldingObject_->CastThis<GamePlayObject>()->GetCollisionObject()->On();
+			CurrentHoldingObject_->GetTransform().SetLocalPosition(float4{ 0,0,0 });
+			CurrentHoldingObject_->GetTransform().SetWorldPosition(GetTransform().GetLocalPosition() + GetTransform().GetBackVector() * 60.0f );
+			CurrentHoldingObject_->DetachObject();
+			CurrentHoldingObject_ = nullptr;
+		}
+
+	}
+	/// 다 잘랐다고 플레이어에게 알려주는 함수 -> 플레이어가 Slice상태에서 idle상태로 변환한다.
+	inline void FinishSlice()
+	{
+		IsSlice_ = true;
+	}
 
 private:
 
 	float Speed_;
-	float CurKineticEnergy_;
 	float CurAngle_;
 	PlayerDir CurDir_;
 	PlayerHoldType CurHoldType_;
 	PlayerCurStateType CurStateType_;
 	int PlayerPNum;
 	bool FireOff_;
+
+	bool IsSlice_;
 
 	//충돌함수
 	CollisionReturn GravityColCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
@@ -152,13 +168,13 @@ private:
 	std::shared_ptr<GameEngineCollision> Collision_Interact_; // 상호작용 콜리전
 
 
-	void CalculateKineticEnergy();
 
 	void IdleRendererON();
 	void WalkRendererON();
 	void ChopRendererON();
 	void WashRendererON();
 
+	// 일단 커스텀 개수 6
 	std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerIdleRenderer_[6];
 	std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerWalkRenderer_[6];
 	std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerChopRenderer_[6];
@@ -171,11 +187,6 @@ private:
 	std::shared_ptr<GameEngineCollision> PlayerForwardCollision_;
 	std::shared_ptr<GameEngineCollision> PlayerForwardLeftCollision_;
 	std::shared_ptr<GameEngineCollision> PlayerForwardRightCollision_;
-
-	//임시 콜리젼
-	std::shared_ptr<GameEngineCollision> PlayerLeftCollision_;
-	std::shared_ptr<GameEngineCollision> PlayerRightCollision_;
-	std::shared_ptr<GameEngineCollision> PlayerBackCollision_;
 
 
 	GameEngineStateManager StateManager;

@@ -8,6 +8,9 @@ GamePlayPhysics::GamePlayPhysics()
 	, UpTime_(1.0f)
 	, IsThrow_(false)
 	, ThrowTime_(2.0f)
+	, CurKineticEnergy_(0.0f)
+	, CurSpeed_(0.0f)
+	, CurMass_(0.0f)
 {
 }
 
@@ -80,3 +83,14 @@ bool GamePlayPhysics::StaticObjectCollisionCheck() // 벽, 맵 오브젝트랑 충돌하면
 
 }
 
+void GamePlayPhysics::CalculateKineticEnergy() //운동에너지 계산 함수 -> 필요하면 Update에서 돌려주면 된다
+{ // 일단 질량을 WorldScale로 계산했는데 특수한 경우가 필요하면 CurMass로 질량설정해주면 된다.
+	CurKineticEnergy_ = 0.5 * CurSpeed_ * (pow((double)GetTransform().GetWorldScale().x, 2) +
+		pow((double)GetTransform().GetWorldScale().y, 2) + pow((double)GetTransform().GetWorldScale().z, 2));
+}
+
+
+void GamePlayPhysics::CalculateKineticEnergyMass() //운동에너지 계산 함수 질량을 따로 두었다면 이 함수 사용하면 된다.
+{
+	CurKineticEnergy_ = 0.5 * CurSpeed_ * pow(CurMass_,2);
+}

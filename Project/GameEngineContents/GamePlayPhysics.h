@@ -26,24 +26,53 @@ public:
 		PhysicsCollision_ = _Col;
 	}
 
-	inline bool GetIsThrow()
+	inline bool GetIsThrow() const
 	{
 		return IsThrow_;
 	}
 
+	inline float GetCurKineticEnergy() const
+	{
+		return CurKineticEnergy_;
+	}
+
+	inline void SetCurSpeed(float _Speed) // 오브젝트가 들고있는 운동에너지를 설정해주기 위해서 속력 넣어주여야 한다.
+	{
+		CurSpeed_ = _Speed;
+	}
+
+	inline float GetCurSpeed() const
+	{
+		return CurSpeed_;
+	}
+
+	inline void SetCurMass(float _Mass) // 오브젝트 질량 설정
+	{
+		CurMass_ = _Mass;
+	}
+
+	inline float GetCurMass() const
+	{
+		return CurMass_;
+	}
 protected:
 
 	void Gravity(); // 중력함수 -> Update에서 일단 하는중
-
-	void ColCheckPlayer(); //플레이어한테 차이거나 하면은 밀리는 함수
-	CollisionReturn MoveFromPlayer(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
-
-
 	void Throw(float4 _Vector);
 
 	bool StaticObjectCollisionCheck(); // 맵 오브젝트, 테이블 등등이랑 충돌하면 true 반환함수
 
+	void ColCheckPlayer(); //플레이어한테 차이거나 하면은 밀리는 함수
+	CollisionReturn MoveFromPlayer(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
+
+	void CalculateKineticEnergy();
+	void CalculateKineticEnergyMass();
+
 private:
+	float CurKineticEnergy_;
+	float CurSpeed_;
+	float CurMass_;
+
 	float ThrowTime_;
 	float UpTime_;
 	bool IsThrow_;
