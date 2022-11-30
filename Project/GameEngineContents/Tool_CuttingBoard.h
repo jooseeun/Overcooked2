@@ -17,10 +17,17 @@ public:
 	//Input_PickUpOption CheckMoveable(GamePlayMoveable* _Object) override;
 
 	//void Input_Action_End(std::shared_ptr<GamePlayMoveable> _Moveable) override {};
+	inline std::shared_ptr<GameEngineActor> GetKnife()
+	{
+		return Knife_;
+	}
 protected:
 	void Start() override;
 private:
 	UsingDownEnum UsingDown(std::shared_ptr<Player> _Player) final;
 	bool CanHoldThis(std::shared_ptr<GamePlayMoveable> _Moveable) final;
+
+	std::shared_ptr<GameEngineActor> Knife_;
+
 };
 

@@ -35,15 +35,15 @@ void Equipment_Steamer::Start()
 	StateManager.ChangeState("Idle");
 
 
-	//GetAnimationFBXMesh()->SetFBXMesh("Steamer.FBX", "TextureAnimation");
+	//GetAnimationFBXMesh()->SetFBXMesh("Steamer3.FBX", "TextureAnimation");
 	//GetAnimationFBXMesh()->GetTransform().SetWorldScale({ 1.5, 1.5, 1.5 });
 	//GetAnimationFBXMesh()->GetTransform().SetWorldRotation({ 90, 0, 0 });
 
 	//GameEngineRenderingEvent Event;
-	//Event.ResourcesName = "Steamer.FBX";
+	//Event.ResourcesName = "Steamer3.FBX";
 	//Event.Loop = true;
 	//Event.Inter = 0.1f;
-	//GetAnimationFBXMesh()->CreateFBXAnimation("Idle", Event, 4);
+	//GetAnimationFBXMesh()->CreateFBXAnimation("Idle", Event);
 
 	//GetAnimationFBXMesh()->ChangeAnimation("Idle");
 
