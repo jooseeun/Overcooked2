@@ -19,9 +19,6 @@ void MapToolLevel::Start()
 	GetMainCameraActorTransform().SetLocalRotation({ 60, 180, 0 });
 	GetMainCameraActorTransform().SetLocalPosition({ -1400, 2300, 1600 });
 	// 생성 가능한 UnSortActor 
-	//Window_->GetAllUnSortActorName().push_back("Chef");
-	// 테스트용
-
 	Window_->GetAllUnSortActorName().push_back("Collision_Wall");
 	Window_->GetAllUnSortActorName().push_back("Collision_Floor");
 	Window_->GetAllUnSortActorName().push_back("MoveNPC_Beard_Orange_01");
@@ -66,16 +63,9 @@ void MapToolLevel::Start()
 	Window_->GetAllUnSortActorName().push_back("Car_Bluegreen");
 	Window_->GetAllUnSortActorName().push_back("Car_Green");
 	Window_->GetAllUnSortActorName().push_back("Car_Yellow");
-	Window_->GetAllUnSortActorName().push_back("Car_Blue2");
 	Window_->GetAllUnSortActorName().push_back("m_city_liftplatform_01");
-	Window_->GetAllUnSortActorName().push_back("Car_Blue");
-	Window_->GetAllUnSortActorName().push_back("Car_Bluegreen");
-	Window_->GetAllUnSortActorName().push_back("Car_Green");
-	Window_->GetAllUnSortActorName().push_back("Car_Yellow");
-	Window_->GetAllUnSortActorName().push_back("Car_Blue2");
-	Window_->GetAllUnSortActorName().push_back("m_city_liftplatform_01");
-	//Window_->GetAllUnSortActorName().push_back("Portal_Blue");
-	//Window_->GetAllUnSortActorName().push_back("Portal_Purple");
+	Window_->GetAllUnSortActorName().push_back("Portal_Blue");
+	Window_->GetAllUnSortActorName().push_back("Portal_Purple");
 }
 
 void MapToolLevel::Update(float _DeltaTime)

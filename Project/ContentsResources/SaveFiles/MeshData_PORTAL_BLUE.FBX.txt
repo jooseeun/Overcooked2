@@ -1,0 +1,11 @@
+{ 
+MeshName:PORTAL_BLUE.FBX;
+MeshInfoCount:3;
+Path:\T_WIZARD_PORTAL_01.PNG;
+Mat:T_WIZARD_PORTAL_01.PNG;
+Path:\T_PFX_TELEPORTER_EFFECT_001.PNG;
+Mat:T_PFX_TELEPORTER_EFFECT_001.PNG;
+Path:C:\Users\YS\OneDrive\Documents\DX_TeamPortfolio\Overcooked2\Project\ContentsResources\Mesh\Level\1_4\SortObject\Portal_Blue\t_pfx_portal_d.png;
+Mat:T_PFX_PORTAL_D.PNG;
+}
+

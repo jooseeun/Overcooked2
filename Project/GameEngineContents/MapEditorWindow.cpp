@@ -548,6 +548,24 @@ void MapEditorWindow::UnSortToolTab()
 			UnSortActorList_.push_back(Object);
 		}
 		break;
+		case MapObjType::Portal_Blue:
+		{
+			std::weak_ptr<Portal> Object = CurLevel_->CreateActor<Portal>();
+			Object.lock()->SetName(AllUnSortActorName_[SelectNameIndex]);
+			Object.lock()->SetPortalMesh(MapObjType::Portal_Blue);
+			Object.lock()->SetMapObjType(ObjectTypeIndex);
+			UnSortActorList_.push_back(Object);
+		}
+		break;
+		case MapObjType::Portal_Purple:
+		{
+			std::weak_ptr<Portal> Object = CurLevel_->CreateActor<Portal>();
+			Object.lock()->SetName(AllUnSortActorName_[SelectNameIndex]);
+			Object.lock()->SetPortalMesh(MapObjType::Portal_Purple);
+			Object.lock()->SetMapObjType(ObjectTypeIndex);
+			UnSortActorList_.push_back(Object);
+		}
+		break;
 		default:
 		{
 			std::weak_ptr<GamePlayMapObject> Object = CurLevel_->CreateActor<GamePlayMapObject>();

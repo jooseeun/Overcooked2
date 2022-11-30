@@ -27,6 +27,7 @@
 #include "TrafficLight.h"
 #include "Candle.h"
 #include "Lift.h"
+#include "Portal.h"
 
 MapDataParser::MapDataParser()
 	: CurActor_()
@@ -140,6 +141,30 @@ std::vector<std::weak_ptr<GamePlayMapObject>>& MapDataParser::UnSortMapDataParsi
 			Object.lock()->GetTransform().SetWorldRotation(_Data[i].Rot_);
 			Object.lock()->SetMapObjectMesh(_Data[i].ObjName_, _Data[i].MapObjType_);
 			Object.lock()->SetMapObjType(_Data[i].MapObjType_);
+			Object.lock()->SetName(_Data[i].ObjName_);
+			UnSortActorList_.push_back(Object);
+		}
+		break;
+		case MapObjType::Portal_Blue:
+		{
+			std::weak_ptr<Portal> Object = _Level->CreateActor<Portal>();
+			Object.lock()->GetTransform().SetWorldPosition(_Data[i].Pos_);
+			Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(_Data[i].Scale_);
+			Object.lock()->GetTransform().SetWorldRotation(_Data[i].Rot_);
+			Object.lock()->SetMapObjType(_Data[i].MapObjType_);
+			Object.lock()->SetPortalMesh(_Data[i].MapObjType_);
+			Object.lock()->SetName(_Data[i].ObjName_);
+			UnSortActorList_.push_back(Object);
+		}
+		break;
+		case MapObjType::Portal_Purple:
+		{
+			std::weak_ptr<Portal> Object = _Level->CreateActor<Portal>();
+			Object.lock()->GetTransform().SetWorldPosition(_Data[i].Pos_);
+			Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(_Data[i].Scale_);
+			Object.lock()->GetTransform().SetWorldRotation(_Data[i].Rot_);
+			Object.lock()->SetMapObjType(_Data[i].MapObjType_);
+			Object.lock()->SetPortalMesh(_Data[i].MapObjType_);
 			Object.lock()->SetName(_Data[i].ObjName_);
 			UnSortActorList_.push_back(Object);
 		}

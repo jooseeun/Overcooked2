@@ -34,7 +34,8 @@ enum class MapObjType
 	TrafficLight,			// 애니메이션 X
 	Candle,					// 애니메이션 X
 	Lift,					// 애니메이션 X, 콜리전 O
-	Portal,
+	Portal_Blue,
+	Portal_Purple,
 	Collision_Wall,			// 벽, 바닥용 콜리전
 	Collision_Floor,
 

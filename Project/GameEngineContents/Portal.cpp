@@ -9,32 +9,42 @@ Portal::~Portal()
 {
 }
 
-void Portal::SetPortalType(PortalType _PortalType)
+void Portal::SetPortalMesh(MapObjType _PortalType)
 {
 	switch (_PortalType)
 	{
-	case PortalType::Blue: 
+	case MapObjType::Portal_Blue:
 	{
-		GetAnimationFBXMesh()->SetFBXMesh("Portal_Blue.fbx");
+		GetFBXMesh()->SetFBXMesh("Portal_Blue2.fbx", "Texture");
+		//BlendRenderer_->SetFBXMesh("Portal_Blue2.fbx", "Texture", 1);
 	}
 		break;
-	case PortalType::Purple:
+	case MapObjType::Portal_Purple:
 	{
-		GetAnimationFBXMesh()->SetFBXMesh("Portal_Purple.fbx");
+		GetFBXMesh()->SetFBXMesh("Portal_Purple2.fbx", "Texture");
+		//BlendRenderer_->SetFBXMesh("Portal_Purple2.fbx", "Texture", 1);
 	}
 		break;
 	default:
 		break;
 	}
+
+	std::vector<std::vector<GameEngineRenderUnit>> Unit_ = GetFBXMesh()->GetAllRenderUnit();
+	Unit_[0][0].GetCloneMaterial()->SetOutputMergerBlend("AddBlend");
 }
 
 void Portal::Start()
 {
 	GamePlayMapObject::Start();
-	GetCollisionObject()->GetTransform().SetLocalPosition({ 100, 100, 100 });
+	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
+	GetCollisionObject()->GetTransform().SetLocalScale({ 100, 100, 100 });
+	GetCollisionObject()->GetTransform().SetLocalMove({ 0, 100, 0 });
+	GetFBXMesh()->GetTransform().SetAddWorldRotation({ 90, 0, 0 });
+
 }
 
 void Portal::Update(float _DeltaTime)
 {
+	GetFBXMesh()->RenderOptionInst.UV.y += _DeltaTime * 1.7f;
 }
 

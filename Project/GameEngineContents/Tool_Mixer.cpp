@@ -18,6 +18,7 @@ void Tool_Mixer::Start()
 
 	GetAnimationFBXMesh()->SetFBXMesh("m_cakemixer_Body_01.fbx", "TextureAnimation");
 	GetAnimationFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
+	GetCollisionObject()->GetTransform().SetLocalScale({ 100, 100, 100 });
 
 	GetAnimationFBXMesh()->GetTransform().SetLocalRotation({0, 90, 0});
 	//GetAnimationFBXMesh()->GetTransform().SetLocalPosition({0, -50, 0});

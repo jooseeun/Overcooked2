@@ -1,0 +1,7 @@
+{ 
+MeshName:MS_PFX_TELEPORT_1.FBX;
+MeshInfoCount:1;
+Path:;
+Mat:T_PFX_TELEPORTER_EFFECT_001.PNG;
+}
+

@@ -2,7 +2,7 @@
 MeshName:PORTAL_PURPLE.FBX;
 MeshInfoCount:3;
 Path:\T_WIZARD_PORTAL_01.PNG;
-Mat:T_WIZARD_PORTAL_01.PNG;
+Mat:T_PFX_PORTAL_2_D.PNG;
 Path:\T_PFX_TELEPORTER_EFFECT_001.PNG;
 Mat:T_PFX_TELEPORTER_EFFECT_001.PNG;
 Path:C:\Users\YS\OneDrive\Documents\DX_TeamPortfolio\Overcooked2\Project\ContentsResources\Mesh\Level\1_4\SortObject\Portal_Purple\T_PFX_PORTAL_2_D.PNG;
