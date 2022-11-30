@@ -6,6 +6,7 @@ struct FoodData
 	FoodType Type = FoodType::None;
 	std::vector<IngredientType> Ingredient;
 	std::vector<ToolInfo> Cookery;
+	std::vector<ToolInfo> CommonCookery;
 	float WaitingTime;
 };
 
@@ -51,6 +52,7 @@ private:
 	std::weak_ptr<OverCookedUIRenderer> BottomParentRenderer_;
 	std::vector< std::weak_ptr<OverCookedUIRenderer>> BottomBackgroundRenderer_;
 	std::vector< std::weak_ptr<OverCookedUIRenderer>> IngredientRenderer_;
+	std::vector< std::weak_ptr<OverCookedUIRenderer>> CookeryRenderer_;
 };
 
 class InGameUIActor;
