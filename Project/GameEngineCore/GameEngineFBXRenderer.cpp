@@ -147,6 +147,34 @@ void GameEngineFBXRenderer::ChangeLoadMaterial()
 	}
 }
 
+void GameEngineFBXRenderer::SetSubMaterial(int _Index, const std::string& _Material)
+{
+	std::vector<GameEngineRenderUnit>& RenderUnit = Unit[_Index];
+
+	for (size_t i = 0; i < RenderUnit.size(); i++)
+	{
+		RenderUnit[i].SetMaterial(_Material);
+
+		std::shared_ptr <GameEngineMesh> FbxMesh = FBXMesh->GetGameEngineMesh(_Index, i);
+		RenderUnit[i].SetMesh(FbxMesh);
+
+		if (RenderUnit[i].ShaderResources.IsTexture("DiffuseTexture"))
+		{
+			const FbxExMaterialSettingData& MatData = FBXMesh->GetMaterialSettingData(_Index, i);
+
+			if (nullptr != GameEngineTexture::Find(MatData.DifTextureName))
+			{
+				RenderUnit[i].ShaderResources.SetTexture("DiffuseTexture", MatData.DifTextureName);
+			}
+		}
+
+		RenderUnit[i].SetRenderer(std::dynamic_pointer_cast<GameEngineRenderer>(shared_from_this()));
+		RenderUnit[i].ShaderResources.SetConstantBufferLink("PixelData", &(PixelDatas[_Index]), sizeof(PixelData));
+	}
+	
+	return;
+}
+
 void GameEngineFBXRenderer::Render(float _DeltaTime) 
 {
 	for (size_t UnitIndex = 0; UnitIndex < Unit.size(); UnitIndex++)

@@ -24,6 +24,8 @@ public:
 	virtual GameEngineRenderUnit* SetFBXMesh(const std::string& _Name, std::string _Material, size_t MeshIndex, size_t _SubSetIndex);
 	virtual void ChangeLoadMaterial();
 
+	virtual void SetSubMaterial(int _Index, const std::string& _Material);
+
 	void Start() override;
 	void Render(float _DeltaTime) override;
 
