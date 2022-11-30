@@ -14,9 +14,10 @@ RecipeManager::RecipeManager()
 
 RecipeManager::~RecipeManager()
 {
+	Recipes_.clear();
 }
 
-void RecipeManager::Init(std::shared_ptr<InGameUIActor> _ParentActor_)
+void RecipeManager::Init(std::weak_ptr<InGameUIActor> _ParentActor_)
 {
 	ParentActor_ = _ParentActor_;
 }
@@ -25,37 +26,37 @@ void RecipeManager::CreateRecipe(FoodType _Type)
 {
 	Recipe NewRecipe(_Type);
 
-	NewRecipe.ParentRenderer_ = ParentActor_->CreateUIRenderer("Top_Recipe_Background.png");
-	NewRecipe.ParentRenderer_->GetTransform().SetLocalScale({ 1.f,1.f,1.f });
+	NewRecipe.ParentRenderer_ = ParentActor_.lock()->CreateUIRenderer("Top_Recipe_Background.png");
+	NewRecipe.ParentRenderer_.lock()->GetTransform().SetLocalScale({ 1.f,1.f,1.f });
 	//NewRecipe.ParentRenderer_->GetTransform().SetLocalPosition({ 0,327,0 });
 
-	NewRecipe.ParentRenderer_->Off();
-	NewRecipe.ParentRenderer_->ResistDebug();
+	NewRecipe.ParentRenderer_.lock()->Off();
+	NewRecipe.ParentRenderer_.lock()->ResistDebug();
 
 	RecipeSetData Data = NewRecipe.GetRecipeSetData();
 
 	//Top Background
-	NewRecipe.TopBackgroundRenderer_ = ParentActor_->CreateUIRenderer("Top_Recipe_Background" + Data.TopBackgroundString + ".png");
-	NewRecipe.TopBackgroundRenderer_->GetTransform().SetParentTransform(NewRecipe.ParentRenderer_->GetTransform());
+	NewRecipe.TopBackgroundRenderer_ = ParentActor_.lock()->CreateUIRenderer("Top_Recipe_Background" + Data.TopBackgroundString + ".png");
+	NewRecipe.TopBackgroundRenderer_.lock()->GetTransform().SetParentTransform(NewRecipe.ParentRenderer_.lock()->GetTransform());
 
 	//Bar Parent
-	NewRecipe.BarParentRenderer_ = ParentActor_->CreateUIRenderer("Top_Recipe_Background.png", "BarParent");
-	NewRecipe.BarParentRenderer_->GetTransform().SetLocalScale({ 1.f,1.f,1.f });
-	NewRecipe.BarParentRenderer_->GetTransform().SetLocalPosition({ Data.BarParentPosNScale.x,Data.BarParentPosNScale.y });
-	NewRecipe.BarParentRenderer_->Off();
-	NewRecipe.BarParentRenderer_->ResistDebug();
-	NewRecipe.BarParentRenderer_->GetTransform().SetParentTransform(NewRecipe.ParentRenderer_->GetTransform());
+	NewRecipe.BarParentRenderer_ = ParentActor_.lock()->CreateUIRenderer("Top_Recipe_Background.png", "BarParent");
+	NewRecipe.BarParentRenderer_.lock()->GetTransform().SetLocalScale({ 1.f,1.f,1.f });
+	NewRecipe.BarParentRenderer_.lock()->GetTransform().SetLocalPosition({ Data.BarParentPosNScale.x,Data.BarParentPosNScale.y });
+	NewRecipe.BarParentRenderer_.lock()->Off();
+	NewRecipe.BarParentRenderer_.lock()->ResistDebug();
+	NewRecipe.BarParentRenderer_.lock()->GetTransform().SetParentTransform(NewRecipe.ParentRenderer_.lock()->GetTransform());
 
 	//BarBackground
 	{
 		float Inter = 2.f;
 		for (int i = 0; i < 3; i++)
 		{
-			std::shared_ptr<OverCookedUIRenderer> NewRenderer = ParentActor_->CreateUIRenderer("RecipeBar.png", "Bar");
-			NewRenderer->GetTransform().SetParentTransform(NewRecipe.BarParentRenderer_->GetTransform());
-			float ScaleX = NewRenderer->GetTransform().GetWorldScale().x;
+			std::weak_ptr<OverCookedUIRenderer> NewRenderer = ParentActor_.lock()->CreateUIRenderer("RecipeBar.png", "Bar");
+			NewRenderer.lock()->GetTransform().SetParentTransform(NewRecipe.BarParentRenderer_.lock()->GetTransform());
+			float ScaleX = NewRenderer.lock()->GetTransform().GetWorldScale().x;
 			float4 Pos = { (ScaleX + Inter) * (i - 1),0,0 };
-			NewRenderer->GetTransform().SetLocalPosition(Pos);
+			NewRenderer.lock()->GetTransform().SetLocalPosition(Pos);
 			NewRecipe.BarBackgroundRenderer_.push_back(NewRenderer);
 			//NewRenderer->GetTransform().SetLocalPosition()
 		}
@@ -65,25 +66,25 @@ void RecipeManager::CreateRecipe(FoodType _Type)
 		float Inter = 2.f;
 		for (int i = 0; i < 3; i++)
 		{
-			std::shared_ptr<OverCookedUIRenderer> NewRenderer = ParentActor_->CreateUIRenderer("RecipeBar.png", "Bar");
-			NewRenderer->GetTransform().SetParentTransform(NewRecipe.BarParentRenderer_->GetTransform());
-			float ScaleX = NewRenderer->GetTransform().GetWorldScale().x;
+			std::weak_ptr<OverCookedUIRenderer> NewRenderer = ParentActor_.lock()->CreateUIRenderer("RecipeBar.png", "Bar");
+			NewRenderer.lock()->GetTransform().SetParentTransform(NewRecipe.BarParentRenderer_.lock()->GetTransform());
+			float ScaleX = NewRenderer.lock()->GetTransform().GetWorldScale().x;
 			float4 Pos = { (ScaleX + Inter) * (i - 1),0,0 };
-			NewRenderer->GetTransform().SetLocalPosition(Pos);
+			NewRenderer.lock()->GetTransform().SetLocalPosition(Pos);
 			NewRecipe.BarRenderer_.push_back(NewRenderer);
 			//NewRenderer->GetTransform().SetLocalPosition()
 		}
 	}
 
 	//FoodIcon
-	NewRecipe.FoodRenderer_ = ParentActor_->CreateUIRenderer(EnumToString(NewRecipe.Data_.Type), 0.50f);
-	NewRecipe.FoodRenderer_->ResistDebug();
-	NewRecipe.FoodRenderer_->GetTransform().SetParentTransform(NewRecipe.ParentRenderer_->GetTransform());
+	NewRecipe.FoodRenderer_ = ParentActor_.lock()->CreateUIRenderer(EnumToString(NewRecipe.Data_.Type), 0.50f);
+	NewRecipe.FoodRenderer_.lock()->ResistDebug();
+	NewRecipe.FoodRenderer_.lock()->GetTransform().SetParentTransform(NewRecipe.ParentRenderer_.lock()->GetTransform());
 
 	//이걸 왜 여기서 다시하냐고? > 처음에 BarParent의 Sclae을 1.f로 하고 나서 Bar을 변환하지 않으면 Bar의 Transform이 무너져
-	NewRecipe.BarParentRenderer_->GetTransform().SetLocalScale({ Data.BarParentPosNScale.w,1.f,1.f });
+	NewRecipe.BarParentRenderer_.lock()->GetTransform().SetLocalScale({ Data.BarParentPosNScale.w,1.f,1.f });
 
-	NewRecipe.ParentRenderer_->GetTransform().SetLocalPosition({ 230.f * (Recipes_.size()),327,0 });
+	NewRecipe.ParentRenderer_.lock()->GetTransform().SetLocalPosition({ 230.f * (Recipes_.size()),327,0 });
 
 	Recipes_.push_back(NewRecipe);
 }
@@ -112,6 +113,10 @@ Recipe::Recipe(FoodType _Type)
 
 Recipe::~Recipe()
 {
+	BarBackgroundRenderer_.clear();
+	BarRenderer_.clear();
+	BottomBackgroundRenderer_.clear();
+	IngredientRenderer_.clear();
 }
 
 RecipeSetData Recipe::GetRecipeSetData()
@@ -179,10 +184,10 @@ void Recipe::Update(float _DeltaTime)
 	for (int i = 2; i >= 0; i--)
 	{
 		float Percentage = BarTimer_[i].GetCurTime() / BarTimer_[i].Default_Time_;
-		BarRenderer_[i]->UpdateLeftToRight(Percentage);
+		BarRenderer_[i].lock()->UpdateLeftToRight(Percentage);
 
 		float GlobalPercentage = GlobalTimer_.GetCurTime() / GlobalTimer_.Default_Time_;
-		BarRenderer_[i]->UpdateLeftTime(GlobalPercentage);
+		BarRenderer_[i].lock()->UpdateLeftTime(GlobalPercentage);
 	}
 	//TimeGauge
 	//float Percentage = LeftTimer.GetCurTime() / GlobalGameData::GetMaxTime();
