@@ -87,6 +87,11 @@ void GamePlayMapObject::SetMapObjectMesh(const std::string& _Name, MapObjType _O
 		GetFBXMesh()->SetFBXMesh(_Name + ".fbx", "Texture");
 	}
 	break;
+	case MapObjType::Portal:
+	{
+
+	}
+	break;
 	default:
 		break;
 	}

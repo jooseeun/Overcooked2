@@ -7,9 +7,9 @@
 #include "GameEngineStatusWindow.h"
 
 
-GameEngineNet* ServerTestLevel::Net;
-GameEngineNetServer ServerTestLevel::Server;
-GameEngineNetClient ServerTestLevel::Client;
+GameServerNet* ServerTestLevel::Net;
+GameServerNetServer ServerTestLevel::Server;
+GameServerNetClient ServerTestLevel::Client;
 
 ServerTestLevel::ServerTestLevel()
 {

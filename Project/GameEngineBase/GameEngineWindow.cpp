@@ -144,23 +144,12 @@ void GameEngineWindow::ShowGameWindow()
 
 void GameEngineWindow::MessageLoop(std::function<void()> _Init, std::function<void()> _Loop, std::function<void()> _End)
 {
-    // 윈도우는 다 준비되었다.
-    // 루프를 돌기전에
-    // 뭔가 준비할게 있다면 준비함수를 실행해달라.
-
     if (nullptr != _Init)
     {
         _Init();
     }
 
     MSG msg;
-
-    // 윈도우 내부에서는 보이지 않지만
-    // std::list<MSG> MessageQueue;
-    // 메세지를 처리했다면 MessageQueue.clear();
-
-    // 이 while이 1초에 60번 돌면 60프레임
-    // 3000프레임이라는건?
 
     while (WindowOn_)
     {
@@ -170,17 +159,12 @@ void GameEngineWindow::MessageLoop(std::function<void()> _Init, std::function<vo
             DispatchMessage(&msg);
         }
 
-            // 윈도우가 일하지 않는 데드 타임.
-            // 여기서 무슨게임을 돌릴까요?
-
         if (nullptr == _Loop)
         {
             continue;
         }
 
         _Loop();
-
-        
     }
 
     if (nullptr != _End)
