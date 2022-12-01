@@ -5,6 +5,7 @@
 #include <GameEngineCore/GameEngineInstancing.h>
 #include <GameEngineBase/GameEngineInput.h>
 #include "GameEngineStatusWindow.h"
+#include "GamePacket.h"
 
 
 GameServerNet* ServerTestLevel::Net;
@@ -17,6 +18,11 @@ ServerTestLevel::ServerTestLevel()
 
 ServerTestLevel::~ServerTestLevel()
 {
+}
+
+void ServerTestLevel::ObjectUpdatePacketProcess(std::shared_ptr<GameServerPacket> _Packet)
+{
+	int a = 0;
 }
 
 void ServerTestLevel::Start()
@@ -53,6 +59,31 @@ void ServerTestLevel::LevelStartEvent()
 		Client.Connect("127.0.0.1", 30001);
 		Net = &Client;
 	}
+
+	Net->Dis.PacketReturnCallBack = [=](int _PacketType, int _PacketSize, GameServerSerializer& Data)
+	{
+		std::shared_ptr<GameServerPacket> NewPacket;
+		ContentsPacketType Type = static_cast<ContentsPacketType>(_PacketType);
+		switch (Type)
+		{
+		case ContentsPacketType::ObjectUpdate:
+			NewPacket = std::make_shared<ObjectUpdatePacket>();
+			break;
+		default:
+			break;
+		}
+
+		NewPacket->DeSerializePacket(Data);
+		return NewPacket;
+	};
+
+	Net->Dis.AddHandler(ContentsPacketType::ObjectUpdate, std::bind(&ServerTestLevel::ObjectUpdatePacketProcess, this, std::placeholders::_1));
+
+	//if (nullptr == Player::GetMainPlayer())
+	//{
+	//	std::shared_ptr<Player> NewPlayer = CreateActor<Player>(OBJECTORDER::Player);
+	//	NewPlayer->SetLevelOverOn();
+	//}
 }
 
 void ServerTestLevel::LevelEndEvent()

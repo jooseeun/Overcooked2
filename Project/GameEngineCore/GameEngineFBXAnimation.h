@@ -2,7 +2,7 @@
 #include "GameEngineRes.h"
 #include <GameEngineCore/GameEngineFBX.h>
 
-class FbxExBoneFrameData : public GameEngineSerializer
+class FbxExBoneFrameData : public GameEngineSerializObject
 {
 public:
 	float4 S; // Å©±â
@@ -41,7 +41,7 @@ public:
 	}
 };
 
-class FbxExBoneFrame : public GameEngineSerializer
+class FbxExBoneFrame : public GameEngineSerializObject
 {
 public:
 	int BoneIndex;
@@ -68,7 +68,7 @@ public:
 	}
 };
 
-class FbxExAniData : public GameEngineSerializer
+class FbxExAniData : public GameEngineSerializObject
 {
 public:
 	std::string				AniName;

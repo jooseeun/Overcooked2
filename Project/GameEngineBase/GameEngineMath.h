@@ -5,6 +5,8 @@
 #include <d3dcompiler.h>
 #include <DirectXPackedVector.h>
 #include <string>
+#include <math.h>
+#include <cmath>
 
 #include <DirectXCollision.h>
 #include "GameEngineDebug.h"
@@ -84,6 +86,27 @@ public:
 	static float4 Cross3D(const float4& _Left, const float4& _Right)
 	{
 		return DirectX::XMVector3Cross(_Left.DirectVector, _Right.DirectVector);
+	}
+
+	static float4 QuaternionToEulerAngles(float4 q)
+	{
+		float4 angles;
+
+		double sinr_cosp = 2 * (q.w * q.x + q.y * q.z);
+		double cosr_cosp = 1 - 2 * (q.x * q.x + q.y * q.y);
+		angles.x = static_cast<float>(std::atan2(sinr_cosp, cosr_cosp));
+
+		double sinp = 2 * (q.w * q.y - q.z * q.x);
+		if (std::abs(sinp) >= 1)
+			angles.y = static_cast<float>(std::copysign(GameEngineMath::PI / 2, sinp));
+		else
+			angles.y = static_cast<float>(std::asin(sinp));
+
+		double siny_cosp = 2 * (q.w * q.z + q.x * q.y);
+		double cosy_cosp = 1 - 2 * (q.y * q.y + q.z * q.z);
+		angles.z = static_cast<float>(std::atan2(siny_cosp, cosy_cosp));
+
+		return angles;
 	}
 
 	static float4 Select(const float4& _Left, const float4& _Right, const float4& _Control)

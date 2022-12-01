@@ -114,6 +114,8 @@ void GameEngineCore::CoreUpdate(GameEngineCore* _UserCore)
 	{
 		_UserCore->Update(DeltaTime);
 		CurrentLevel->LevelUpdate(DeltaTime);
+		CurrentLevel->Release(DeltaTime);
+		CurrentLevel->Render(DeltaTime);
 		return;
 	}
 

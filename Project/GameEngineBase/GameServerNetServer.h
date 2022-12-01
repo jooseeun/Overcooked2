@@ -1,6 +1,7 @@
 #pragma once
 #include "GameServerNet.h"
 #include "GameEngineThread.h"
+#include "GameServerDispatcher.h"
 
 // Ό³Έν :
 class GameServerNetServer : public GameServerNet
@@ -17,6 +18,16 @@ public:
 	//GameServerNetServer& operator=(GameServerNetServer&& _Other) noexcept = delete;
 
 	void Accept(int Port);
+
+	int Send(const char* Data, size_t _Size) 
+	{
+		return 0;
+	}
+
+	int SendPacket(std::shared_ptr<GameServerPacket> _Packet) 
+	{
+		return 0;
+	}
 
 protected:
 

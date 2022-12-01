@@ -4,6 +4,7 @@
 #include <GameEngineCore/GameEngineCameraActor.h>
 #include <GameEngineCore/GEngine.h>
 #include "ServerTestLevel.h"
+#include "GamePacket.h"
 
 bool GameEngineStatusWindow::IsHost = true;
 std::map<std::string, GameEngineRenderTarget*> GameEngineStatusWindow::DebugRenderTarget;
@@ -120,8 +121,15 @@ void GameEngineStatusWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		ImGui::SameLine();
 		if (true == ImGui::Button("CheckSend"))
 		{
-			std::string Value = "abcde";
-			ServerTestLevel::Net->Send(Value.c_str(), Value.size());
+			std::shared_ptr<ObjectUpdatePacket> Packet = std::make_shared<ObjectUpdatePacket>();
+
+			Packet->ObjectID = 10;
+			Packet->Scale = { 1.0f, 122.f, 122.f };
+			Packet->Pos = { 999.0f, 999.f, 999.f };
+			Packet->Rot = { 45.0f, 45.f, 45.f };
+			Packet->Animation = "Idle";
+
+			ServerTestLevel::Net->SendPacket(Packet);
 		}
 	}
 

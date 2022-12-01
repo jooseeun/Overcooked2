@@ -350,7 +350,7 @@ void GameEngineFBXAnimationRenderer::ChangeAnimationFrame(size_t _StartIndex)
 		ChangeFrame = MaxSize;
 	}
 
-	CurAnimation->GetRendereringEvent().CurFrame = ChangeFrame;
+	CurAnimation->GetRendereringEvent().CurFrame = static_cast<unsigned int>(ChangeFrame);
 }
 
 

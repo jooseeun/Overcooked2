@@ -3,6 +3,7 @@
 #include "GameEngineString.h"
 #include "GameEngineDebug.h"
 #include "GameEngineThread.h"
+#include "GameServerSerializer.h"
 
 GameServerNetServer::GameServerNetServer()
 {
@@ -92,7 +93,19 @@ void GameServerNetServer::UserFunction(GameEngineThread* Thread, SOCKET _Socket)
 
 		if (-1 == Result)
 		{
-			int a = 0;
+			//MsgBoxAssert("네트워크 에러");
+			return;
 		}
+
+		GameServerSerializer Ser = GameServerSerializer(Packet, 1024);
+
+		int PacketType;
+		int PacketSize;
+
+		memcpy_s(&PacketType, sizeof(int), Ser.GetDataPtr(), sizeof(int));
+		memcpy_s(&PacketSize, sizeof(int), Ser.GetDataPtr() + 4, sizeof(int));
+
+		std::shared_ptr<GameServerPacket> Packet = Dis.PacketReturnCallBack(PacketType, PacketSize, Ser);
+		Dis.ProcessPacket(Packet);
 	}
 }

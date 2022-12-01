@@ -18,6 +18,7 @@ public:
 	ServerTestLevel& operator=(ServerTestLevel&& _Other) noexcept = delete;
 
 	static GameServerNet* Net;
+	void ObjectUpdatePacketProcess(std::shared_ptr<GameServerPacket> _Packet);
 
 protected:
 	void Start() override;

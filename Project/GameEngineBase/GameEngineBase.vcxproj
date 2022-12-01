@@ -169,6 +169,10 @@
     <ClCompile Include="GameEngineInput.cpp" />
     <ClCompile Include="GameEngineMath.cpp" />
     <ClCompile Include="GameEngineNameObject.cpp" />
+    <ClCompile Include="GameServerDispatcher.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameServerNet.cpp">
       <SubType>
       </SubType>
@@ -220,6 +224,10 @@
     <ClInclude Include="GameEngineInput.h" />
     <ClInclude Include="GameEngineMath.h" />
     <ClInclude Include="GameEngineNameObject.h" />
+    <ClInclude Include="GameServerDispatcher.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameServerNet.h">
       <SubType>
       </SubType>

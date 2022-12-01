@@ -192,6 +192,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameEngineStatusWindow.h" />
+    <ClInclude Include="GamePacket.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GamePlayBowl.h" />
     <ClInclude Include="GamePlayEquipment.h" />
     <ClInclude Include="GamePlayFloor.h">
@@ -383,6 +387,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineStatusWindow.cpp" />
+    <ClCompile Include="GamePacket.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GamePlayBowl.cpp" />
     <ClCompile Include="GamePlayEquipment.cpp" />
     <ClCompile Include="GamePlayFloor.cpp">
