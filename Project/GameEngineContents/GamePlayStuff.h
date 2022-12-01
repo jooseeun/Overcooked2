@@ -12,10 +12,7 @@ enum class HoldDownEnum
 {
 	Nothing,
 	HoldDown,
-	HoldDown_Already,
-	ExitMe,
 	HoldUp,
-	HoldUp_Already,
 };
 enum class UsingDownEnum
 {
@@ -60,13 +57,13 @@ public:
 		Enum_ToolInfo_ = _Info;
 	}
 
-	//virtual void SetParentObject(std::shared_ptr<GameEngineUpdateObject> _Object);
+	virtual void SetParentObject(std::shared_ptr<GameEngineUpdateObject> _Object);
 
 
-	//inline virtual HoldDownEnum HoldDown(std::shared_ptr<Player> _Player)
-	//{
-	//	return HoldDownEnum::Nothing;
-	//};
+	inline virtual HoldDownEnum HoldDown(std::shared_ptr<Player> _Player, std::shared_ptr<GamePlayObject> _Object)
+	{
+		return HoldDownEnum::Nothing;
+	};
 
 	//inline virtual UsingDownEnum UsingDown(std::shared_ptr<Player> _Player)
 	//{

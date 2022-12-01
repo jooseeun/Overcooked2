@@ -46,14 +46,6 @@ public:
 		Moveable_Current_->GetTransform().SetLocalPosition(float4::ZERO);
 		Moveable_Current_.reset();
 	}
-	//inline void SetCurrentMoveable(std::shared_ptr<GamePlayMoveable> _Moveable)
-	//{
-	//	if (_Moveable == nullptr)
-	//	{
-	//		ReSetCurrentMoveable();
-	//	}
-	//	Moveable_Current_ = _Moveable;
-	//}
 
 	inline ObjectToolType GetObjectToolType()
 	{
@@ -83,7 +75,7 @@ protected:
 private:
 	std::shared_ptr<GamePlayMoveable> Moveable_Current_;
 
-
+	HoldDownEnum HoldDown(std::)
 protected:
 	inline void SetObjectToolType(ObjectToolType _Type)
 	{
@@ -98,7 +90,7 @@ private:
 
 	float4 MoveablePos_;
 
-	//void SetMoveableObject(std::shared_ptr<GamePlayMoveable> _Object);
+
 
 	// Bloom
 public:
