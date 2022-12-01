@@ -26,23 +26,23 @@ SetPlayerState_Return GamePlayStuff::SetPlayerState(std::shared_ptr<Player> _Pla
 	case PlayerCurStateType::HoldUp:
 	case PlayerCurStateType::HoldDown:
 	{
-		switch (HoldDown(_Player))
-		{
-		case HoldDownEnum::HoldDown:
-		case HoldDownEnum::HoldDown_Already:
-			MsgBoxAssert("플레이어가 오브젝트를 떨어트릴려고 했습니다")
-			return SetPlayerState_Return::Using;
-			break;
-		case HoldDownEnum::HoldUp:
-			_Player->SetPlayerHolding(std::dynamic_pointer_cast<GameEngineActor>(shared_from_this()));
-			GetCollisionObject()->Off();
-		case HoldDownEnum::HoldUp_Already:
-			return SetPlayerState_Return::Using;
-			break;
-		default:
-			return SetPlayerState_Return::Nothing;
-			break;
-		};
+		//switch (HoldDown(_Player))
+		//{
+		//case HoldDownEnum::HoldDown:
+		//case HoldDownEnum::HoldDown_Already:
+		//	MsgBoxAssert("플레이어가 오브젝트를 떨어트릴려고 했습니다")
+		//	return SetPlayerState_Return::Using;
+		//	break;
+		//case HoldDownEnum::HoldUp:
+		//	_Player->SetPlayerHolding(std::dynamic_pointer_cast<GameEngineActor>(shared_from_this()));
+		//	GetCollisionObject()->Off();
+		//case HoldDownEnum::HoldUp_Already:
+		//	return SetPlayerState_Return::Using;
+		//	break;
+		//default:
+		//	return SetPlayerState_Return::Nothing;
+		//	break;
+		//};
 	}
 		break;
 	case PlayerCurStateType::Slice:
@@ -50,21 +50,21 @@ SetPlayerState_Return GamePlayStuff::SetPlayerState(std::shared_ptr<Player> _Pla
 	case PlayerCurStateType::DishWash:
 	case PlayerCurStateType::Throw:
 	{
-		switch (UsingDown(_Player))
-		{
-		case UsingDownEnum::Nothing:
-			return SetPlayerState_Return::Nothing;
-			break;
-		case UsingDownEnum::Using:
-			return SetPlayerState_Return::Using;
-			break;
-		case UsingDownEnum::Throwing:
-			// 던지다
-			return SetPlayerState_Return::Using;
-			break;
-		default:
-			break;
-		}
+		//switch (UsingDown(_Player))
+		//{
+		//case UsingDownEnum::Nothing:
+		//	return SetPlayerState_Return::Nothing;
+		//	break;
+		//case UsingDownEnum::Using:
+		//	return SetPlayerState_Return::Using;
+		//	break;
+		//case UsingDownEnum::Throwing:
+		//	// 던지다
+		//	return SetPlayerState_Return::Using;
+		//	break;
+		//default:
+		//	break;
+		//}
 	}
 		break;
 	case PlayerCurStateType::Max:

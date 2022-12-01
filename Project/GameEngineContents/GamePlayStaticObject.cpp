@@ -50,7 +50,7 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 		}
 		else
 		{
-			switch (Stuff_Current_->HoldDown(_Player))
+			/*switch (Stuff_Current_->HoldDown(_Player))
 			{
 			case HoldDownEnum::Nothing:
 				return SetPlayerState_Return::Nothing;
@@ -64,7 +64,7 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 			default:
 				MsgBoxAssert("아직 처리하지 않은 예외")
 				break;
-			}
+			}*/
 		}
 
 		//if (GetMoveable() != nullptr)
@@ -104,22 +104,7 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 				}
 				else
 				{
-					switch (Stuff_Current_->HoldDown(_Player))
-					{
-					case HoldDownEnum::Nothing:
-						break;
-					case HoldDownEnum::HoldDown:
-						MsgBoxAssert("예외확인용")
-						//Moveable.lock()->SetParentObject(Stuff_Current_);
-					case HoldDownEnum::HoldDown_Already:
-						break;
-					case HoldDownEnum::HoldUp:
-						break;
-					case HoldDownEnum::HoldUp_Already:
-						break;
-					default:
-						break;
-					}
+
 					
 				}
 				return SetPlayerState_Return::Using;
@@ -128,22 +113,22 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 			{
 				if (Stuff_Current_->GetObjectStuffType() == ObjectStuffType::Moveable)
 				{
-					switch (Stuff_Current_->HoldDown(_Player))
-					{
-					case HoldDownEnum::HoldUp:
-						MsgBoxAssert("예외")
-					case HoldDownEnum::Nothing:
-					case HoldDownEnum::HoldUp_Already:
-						return SetPlayerState_Return::Nothing;
-						break;
-					case HoldDownEnum::HoldDown:
-						MsgBoxAssert("예외")
-					case HoldDownEnum::HoldDown_Already:
-						return SetPlayerState_Return::Using;
-						break;
-					default:
-						break;
-					}
+					//switch (Stuff_Current_->HoldDown(_Player))
+					//{
+					//case HoldDownEnum::HoldUp:
+					//	MsgBoxAssert("예외")
+					//case HoldDownEnum::Nothing:
+					//case HoldDownEnum::HoldUp_Already:
+					//	return SetPlayerState_Return::Nothing;
+					//	break;
+					//case HoldDownEnum::HoldDown:
+					//	MsgBoxAssert("예외")
+					//case HoldDownEnum::HoldDown_Already:
+					//	return SetPlayerState_Return::Using;
+					//	break;
+					//default:
+					//	break;
+					//}
 				}
 				else
 				{
@@ -174,15 +159,15 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 		}
 		else
 		{
-			switch (Stuff_Current_->UsingDown(_Player))
-			{
-			case UsingDownEnum::Nothing:
-				break;
-			case UsingDownEnum::Using:
-				break;
-			default:
-				break;
-			}
+			//switch (Stuff_Current_->UsingDown(_Player))
+			//{
+			//case UsingDownEnum::Nothing:
+			//	break;
+			//case UsingDownEnum::Using:
+			//	break;
+			//default:
+			//	break;
+			//}
 		}
 	}
 		break;

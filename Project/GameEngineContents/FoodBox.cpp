@@ -179,80 +179,80 @@ void Tool_FoodBox::Start()
 	GamePlayTool::SetInteractOption(AutoOption::NoResponse);
 	GamePlayTool::SetObjectToolType(ObjectToolType::FoodBox);
 }
-
-HoldDownEnum Tool_FoodBox::HoldDown(std::shared_ptr<Player> _Player)
-{
-	if (GetCurrentMoveable() == nullptr)
-	{
-		if (_Player->GetPlayerHolding() == nullptr)
-		{
-			switch (Type_)
-			{
-			case IngredientType::Onion:
-				break;
-			case IngredientType::Potato:
-				break;
-			case IngredientType::Dough:
-				break;
-			case IngredientType::Seaweed:
-				break;
-			case IngredientType::Mushroom:
-				break;
-			case IngredientType::Meat:
-				break;
-			case IngredientType::Lettuce:
-				break;
-			case IngredientType::Rice:
-				break;
-			case IngredientType::Flour:
-				break;
-			case IngredientType::Bread:
-				break;
-			case IngredientType::Fish:
-				_Player->SetPlayerHolding(GetLevel()->CreateActor<Food_Ingredients_Fish>());
-				break;
-			case IngredientType::Sausage:
-				break;
-			case IngredientType::DumplingSkin:
-				break;
-			case IngredientType::Egg:
-				break;
-			case IngredientType::Chicken:
-				break;
-			case IngredientType::Burrito:
-				break;
-			case IngredientType::Cheese:
-				break;
-			case IngredientType::Carrot:
-				break;
-			case IngredientType::Chocolate:
-				break;
-			case IngredientType::Honey:
-				break;
-			case IngredientType::PastaNoodles:
-				break;
-			case IngredientType::Tomato:
-				break;
-			case IngredientType::Prawn:
-				_Player->SetPlayerHolding(GetLevel()->CreateActor<Food_Ingredients_Prawn>());
-				break;
-			case IngredientType::Cucumber:
-				break;
-			default:
-				break;
-			}
-
-			return HoldDownEnum::HoldUp_Already;
-		}
-		else
-		{
-			SetMoveable(_Player);
-			return HoldDownEnum::HoldDown_Already;
-			//MsgBoxAssert("만들어지지 않은 예외")
-		}
-	}
-
-}
+//
+//HoldDownEnum Tool_FoodBox::HoldDown(std::shared_ptr<Player> _Player)
+//{
+//	if (GetCurrentMoveable() == nullptr)
+//	{
+//		if (_Player->GetPlayerHolding() == nullptr)
+//		{
+//			switch (Type_)
+//			{
+//			case IngredientType::Onion:
+//				break;
+//			case IngredientType::Potato:
+//				break;
+//			case IngredientType::Dough:
+//				break;
+//			case IngredientType::Seaweed:
+//				break;
+//			case IngredientType::Mushroom:
+//				break;
+//			case IngredientType::Meat:
+//				break;
+//			case IngredientType::Lettuce:
+//				break;
+//			case IngredientType::Rice:
+//				break;
+//			case IngredientType::Flour:
+//				break;
+//			case IngredientType::Bread:
+//				break;
+//			case IngredientType::Fish:
+//				_Player->SetPlayerHolding(GetLevel()->CreateActor<Food_Ingredients_Fish>());
+//				break;
+//			case IngredientType::Sausage:
+//				break;
+//			case IngredientType::DumplingSkin:
+//				break;
+//			case IngredientType::Egg:
+//				break;
+//			case IngredientType::Chicken:
+//				break;
+//			case IngredientType::Burrito:
+//				break;
+//			case IngredientType::Cheese:
+//				break;
+//			case IngredientType::Carrot:
+//				break;
+//			case IngredientType::Chocolate:
+//				break;
+//			case IngredientType::Honey:
+//				break;
+//			case IngredientType::PastaNoodles:
+//				break;
+//			case IngredientType::Tomato:
+//				break;
+//			case IngredientType::Prawn:
+//				_Player->SetPlayerHolding(GetLevel()->CreateActor<Food_Ingredients_Prawn>());
+//				break;
+//			case IngredientType::Cucumber:
+//				break;
+//			default:
+//				break;
+//			}
+//
+//			return HoldDownEnum::HoldUp_Already;
+//		}
+//		else
+//		{
+//			SetMoveable(_Player);
+//			return HoldDownEnum::HoldDown_Already;
+//			//MsgBoxAssert("만들어지지 않은 예외")
+//		}
+//	}
+//
+//}
 
 //Input_PickUpOption Tool_FoodBox::CheckMoveable(std::shared_ptr<GamePlayMoveable> _Object)
 //{

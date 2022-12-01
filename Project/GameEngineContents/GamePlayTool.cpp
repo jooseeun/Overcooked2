@@ -24,53 +24,6 @@ void GamePlayTool::Start()
 // ---------------------------------------Update
 
 
-HoldDownEnum GamePlayTool::HoldDown(std::shared_ptr<Player> _Player)
-{
-	std::weak_ptr<GamePlayMoveable> Moveable = std::dynamic_pointer_cast<GamePlayMoveable>(_Player->GetPlayerHolding());
-	if (Moveable.lock() == nullptr)
-	{
-		if (Moveable_Current_ == nullptr)
-		{
-			return HoldDownEnum::Nothing;
-		}
-		else
-		{
-			_Player->SetPlayerHolding(Moveable_Current_);
-			Moveable_Current_.reset();
-			return HoldDownEnum::HoldUp_Already;
-		}
-	}
-	else
-	{
-		if (Moveable_Current_ == nullptr && CanHoldThis(Moveable.lock()))
-		{
-			SetMoveable(_Player);
-			return HoldDownEnum::HoldDown_Already;
-		}
-		else
-		{
-			switch (Moveable_Current_->HoldDown(_Player))
-			{
-			case HoldDownEnum::Nothing:
-				return HoldDownEnum::Nothing;
-				break;
-			case HoldDownEnum::HoldDown:
-				MsgBoxAssert("예외처리 대기중")
-			case HoldDownEnum::HoldDown_Already:
-				return HoldDownEnum::HoldDown_Already;
-				break;
-			case HoldDownEnum::HoldUp:
-				MsgBoxAssert("예외처리 대기중")
-			case HoldDownEnum::HoldUp_Already:
-				return HoldDownEnum::HoldUp_Already;
-				break;
-			default:
-				break;
-			}
-		}
-	}
-	return HoldDownEnum::Nothing;
-}
 
 void GamePlayTool::SetMoveable(std::shared_ptr<Player> _Player)
 {

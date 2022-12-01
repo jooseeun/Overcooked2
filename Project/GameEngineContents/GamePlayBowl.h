@@ -31,7 +31,6 @@ protected:
 private:
 	std::shared_ptr<CombinFood> CombinFood_;
 
-	HoldDownEnum HoldDown(std::shared_ptr<Player> _Player) final;
 
 	//void RefreshFoodThumbnail();
 };

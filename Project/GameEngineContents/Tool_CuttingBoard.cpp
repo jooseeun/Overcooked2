@@ -31,10 +31,6 @@ void Tool_CuttingBoard::Start()
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 }
 
-UsingDownEnum Tool_CuttingBoard::UsingDown(std::shared_ptr<Player> _Player)
-{
-	return UsingDownEnum::Nothing;
-}
 
 bool Tool_CuttingBoard::CanHoldThis(std::shared_ptr<GamePlayMoveable> _Moveable)
 {

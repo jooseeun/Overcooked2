@@ -83,8 +83,6 @@ protected:
 private:
 	std::shared_ptr<GamePlayMoveable> Moveable_Current_;
 
-	HoldDownEnum HoldDown(std::shared_ptr<Player> _Player) override;
-
 
 protected:
 	inline void SetObjectToolType(ObjectToolType _Type)

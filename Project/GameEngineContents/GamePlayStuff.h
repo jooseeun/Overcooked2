@@ -63,15 +63,15 @@ public:
 	//virtual void SetParentObject(std::shared_ptr<GameEngineUpdateObject> _Object);
 
 
-	inline virtual HoldDownEnum HoldDown(std::shared_ptr<Player> _Player)
-	{
-		return HoldDownEnum::Nothing;
-	};
+	//inline virtual HoldDownEnum HoldDown(std::shared_ptr<Player> _Player)
+	//{
+	//	return HoldDownEnum::Nothing;
+	//};
 
-	inline virtual UsingDownEnum UsingDown(std::shared_ptr<Player> _Player)
-	{
-		return UsingDownEnum::Nothing;
-	};
+	//inline virtual UsingDownEnum UsingDown(std::shared_ptr<Player> _Player)
+	//{
+	//	return UsingDownEnum::Nothing;
+	//};
 
 
 protected:
