@@ -11,6 +11,7 @@ std::map<std::string, float*> UIDebugGUI::MutableValue_float_;
 std::map<std::string, int*> UIDebugGUI::MutableValue_int_;
 std::map<std::string, float4*> UIDebugGUI::MutableValue_float4_;
 std::map<std::string, GameEngineTransform*> UIDebugGUI::Transform_;
+std::map<std::string, std::function<void()>> UIDebugGUI::Function_;
 
 std::shared_ptr<UIDebugGUI> UIDebugGUI::Main_ = nullptr;
 
@@ -161,6 +162,22 @@ void UIDebugGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 					ImGui::InputFloat4("WorldScale", WorldScale.Arr1D);
 					i.second->SetWorldScale(WorldScale);
 					ImGui::TreePop();
+				}
+			}
+			ImGui::TreePop();
+		}
+	}
+
+	//Function
+	if (Function_.empty() == false)
+	{
+		if (ImGui::TreeNodeEx("Function", 0) == true)
+		{
+			for (auto i : Function_)
+			{
+				if (ImGui::Button(i.first.c_str()) == true)
+				{
+					i.second();
 				}
 			}
 			ImGui::TreePop();

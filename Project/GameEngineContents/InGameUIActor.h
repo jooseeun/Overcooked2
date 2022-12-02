@@ -31,11 +31,34 @@ public:
 	{
 		return ParentRenderer_.lock()->GetTransform();
 	}
+
+	float4 GetPos();
+
+	float4 GetScale();
+
+	float4 GetTargetPos()
+	{
+		return LeftTargetPos_;
+	}
+
+	void SetTargetPos(const float4& _Pos) //world
+	{
+		LeftTargetPos_ = _Pos;
+	}
+
+	void SetWorldPosition(const float4& _WorldPos);
+
+	void OpenRecipe();
 private:
 	void Update(float _DeltaTime);
 
 private:
+	float AccTime_ = 0.f;
+	float4 LeftTargetPos_ = {};
 	FoodData Data_;
+
+	bool IsRecipeOn_ = false;
+	float RecipeOnTime_ = 0.f;
 
 	std::weak_ptr<OverCookedUIRenderer> ParentRenderer_;
 
@@ -64,12 +87,16 @@ public:
 
 	void Init(std::weak_ptr<InGameUIActor> _ParentActor_);
 	void CreateRecipe(FoodType _Type);
+	void DeleteRecipe(int _Count);
+	//void DeleteRecipe(std::list<Recipe>::iterator _Iter);
 
 	void Update(float _DeltaTime);
 
+	void DebugFunction();
+
 private:
 
-	std::vector<Recipe> Recipes_;
+	std::list<Recipe> Recipes_;
 	std::weak_ptr<InGameUIActor> ParentActor_;
 };
 
@@ -90,6 +117,7 @@ protected:
 
 	void UpdateTime(float _DeltaTime);
 
+	RecipeManager RecipeManager_;
 private:
 	struct TimerUI
 	{
@@ -119,6 +147,4 @@ private:
 
 	float GetScoreIter_ = 0.f;
 	bool IsGetScore_ = false;
-
-	RecipeManager RecipeManager_;
 };

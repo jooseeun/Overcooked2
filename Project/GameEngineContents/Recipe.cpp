@@ -4,6 +4,7 @@
 
 #include "OverCookedUIRenderer.h"
 #include "ContentsUtility.h"
+#include "UIDebugGUI.h"
 
 using namespace ContentsUtility;
 using namespace UI_Utility;
@@ -29,7 +30,6 @@ void RecipeManager::CreateRecipe(FoodType _Type)
 	NewRecipe.ParentRenderer_ = ParentActor_.lock()->CreateUIRenderer("Top_Recipe_Background.png");
 	NewRecipe.ParentRenderer_.lock()->GetTransform().SetLocalScale({ 1.f,1.f,1.f });
 	NewRecipe.ParentRenderer_.lock()->Off();
-	NewRecipe.ParentRenderer_.lock()->ResistDebug();
 
 	NewRecipe.BottomParentRenderer_ = ParentActor_.lock()->CreateUIRenderer("Top_Recipe_Background.png", "BottomParent");
 	NewRecipe.BottomParentRenderer_.lock()->GetTransform().SetLocalScale({ 1.f,1.f,1.f });
@@ -48,7 +48,6 @@ void RecipeManager::CreateRecipe(FoodType _Type)
 	NewRecipe.BarParentRenderer_.lock()->GetTransform().SetLocalScale({ 1.f,1.f,1.f });
 	NewRecipe.BarParentRenderer_.lock()->GetTransform().SetLocalPosition({ Data.BarParentPosNScale.x,Data.BarParentPosNScale.y });
 	NewRecipe.BarParentRenderer_.lock()->Off();
-	NewRecipe.BarParentRenderer_.lock()->ResistDebug();
 	NewRecipe.BarParentRenderer_.lock()->GetTransform().SetParentTransform(NewRecipe.ParentRenderer_.lock()->GetTransform());
 
 	//BarBackground
@@ -82,7 +81,6 @@ void RecipeManager::CreateRecipe(FoodType _Type)
 
 	//FoodIcon
 	NewRecipe.FoodRenderer_ = ParentActor_.lock()->CreateUIRenderer(EnumToString(NewRecipe.Data_.Type), 0.50f);
-	NewRecipe.FoodRenderer_.lock()->ResistDebug();
 	NewRecipe.FoodRenderer_.lock()->GetTransform().SetParentTransform(NewRecipe.ParentRenderer_.lock()->GetTransform());
 
 	//BottomBackground && Cookery
@@ -172,18 +170,161 @@ void RecipeManager::CreateRecipe(FoodType _Type)
 	//Parent위치이동
 	//이걸 왜 여기서 다시하냐고? > 처음에 BarParent의 Sclae을 1.f로 하고 나서 Bar을 변환하지 않으면 Bar의 Transform이 무너져
 	NewRecipe.BarParentRenderer_.lock()->GetTransform().SetLocalScale({ Data.BarParentPosNScale.w,1.f,1.f });
-	NewRecipe.ParentRenderer_.lock()->GetTransform().SetLocalPosition({ 230.f * (Recipes_.size()),327,0 });
-	NewRecipe.BottomParentRenderer_.lock()->GetTransform().SetLocalPosition({ 0,-52.f,1 });
+	//NewRecipe.ParentRenderer_.lock()->GetTransform().SetLocalPosition({ 230.f * (Recipes_.size()),327,0 });
+	NewRecipe.ParentRenderer_.lock()->GetTransform().SetLocalPosition({ 1000,327,0 });
+	NewRecipe.BottomParentRenderer_.lock()->GetTransform().SetLocalPosition({ 0,36.f,1 });
+
+	//LeftTargetPosSet
+	NewRecipe.LeftTargetPos_ = NewRecipe.GetPos();
 
 	Recipes_.push_back(NewRecipe);
 }
 
+void RecipeManager::DeleteRecipe(int _Count)
+{
+	std::list<Recipe>::iterator _Iter = Recipes_.begin();
+	for (int Count = 0; Count < _Count; Count++)
+	{
+		_Iter++;
+	}
+
+	_Iter->ParentRenderer_.lock()->Death();
+
+	_Iter->FoodRenderer_.lock()->Death();
+	_Iter->TopBackgroundRenderer_.lock()->Death();
+
+	//Bar관련
+	_Iter->BarParentRenderer_.lock()->Death();
+	for (int i = 0; i < _Iter->BarBackgroundRenderer_.size(); i++)
+	{
+		_Iter->BarBackgroundRenderer_[i].lock()->Death();
+	}
+	for (int i = 0; i < _Iter->BarRenderer_.size(); i++)
+	{
+		_Iter->BarRenderer_[i].lock()->Death();
+	}
+
+	_Iter->BottomParentRenderer_.lock()->Death();
+	for (int i = 0; i < _Iter->BottomBackgroundRenderer_.size(); i++)
+	{
+		_Iter->BottomBackgroundRenderer_[i].lock()->Death();
+	}
+	for (int i = 0; i < _Iter->IngredientRenderer_.size(); i++)
+	{
+		_Iter->IngredientRenderer_[i].lock()->Death();
+	}
+	for (int i = 0; i < _Iter->CookeryRenderer_.size(); i++)
+	{
+		_Iter->CookeryRenderer_[i].lock()->Death();
+	}
+	Recipes_.erase(_Iter);
+}
+
+//void RecipeManager::DeleteRecipe(std::list<Recipe>::iterator _Iter)
+//{
+//	_Iter->ParentRenderer_.lock()->Death();
+//
+//	_Iter->FoodRenderer_.lock()->Death();
+//	_Iter->TopBackgroundRenderer_.lock()->Death();
+//
+//	//Bar관련
+//	_Iter->BarParentRenderer_.lock()->Death();
+//	for (int i = 0; i < _Iter->BarBackgroundRenderer_.size(); i++)
+//	{
+//		_Iter->BarBackgroundRenderer_[i].lock()->Death();
+//	}
+//	for (int i = 0; i < _Iter->BarRenderer_.size(); i++)
+//	{
+//		_Iter->BarRenderer_[i].lock()->Death();
+//	}
+//
+//	_Iter->BottomParentRenderer_.lock()->Death();
+//	for (int i = 0; i < _Iter->BottomBackgroundRenderer_.size(); i++)
+//	{
+//		_Iter->BottomBackgroundRenderer_[i].lock()->Death();
+//	}
+//	for (int i = 0; i < _Iter->IngredientRenderer_.size(); i++)
+//	{
+//		_Iter->IngredientRenderer_[i].lock()->Death();
+//	}
+//	for (int i = 0; i < _Iter->CookeryRenderer_.size(); i++)
+//	{
+//		_Iter->CookeryRenderer_[i].lock()->Death();
+//	}
+//	Recipes_.erase(_Iter);
+//}
+
 void RecipeManager::Update(float _DeltaTime)
 {
-	for (int i = 0; i < Recipes_.size(); i++)
+	//이동 할 위치 계산
 	{
-		Recipes_[i].Update(_DeltaTime);
+		float XSize = 8.f;
+		std::list<Recipe>::iterator StartIter = Recipes_.begin();
+		std::list<Recipe>::iterator EndIter = Recipes_.end();
+		for (; StartIter != EndIter; StartIter++)
+		{
+			//시작Iter의 예외처리
+			if (StartIter == Recipes_.begin())
+			{
+				float Left = -640.f;
+				float4 CurPos = StartIter->GetPos();
+				CurPos.x = Left;
+				CurPos.x += StartIter->GetScale().Half().x;
+				StartIter->SetTargetPos(CurPos);
+				continue;
+			}
+
+			//앞 노드의 위치를 기반으로 현재 위치 찾기
+			std::list<Recipe>::iterator FrontNode = StartIter;
+			FrontNode--;
+			float4 FrontNodeRightPivot = FrontNode->GetTargetPos();
+			FrontNodeRightPivot.x += FrontNode->GetScale().Half().x;
+			FrontNodeRightPivot.x += StartIter->GetScale().Half().x;
+			FrontNodeRightPivot.x += XSize;
+			StartIter->SetTargetPos(FrontNodeRightPivot);
+		}
 	}
+
+	//이동
+	{
+		std::list<Recipe>::iterator StartIter = Recipes_.begin();
+		std::list<Recipe>::iterator EndIter = Recipes_.end();
+		for (; StartIter != EndIter; StartIter++)
+		{
+			float4 Des = StartIter->GetTargetPos();
+			float4 CurPos = StartIter->GetPos();
+
+			float4 MovePos = float4::LerpLimit(CurPos, Des, StartIter->AccTime_ * 0.2f);
+			//LeftPivot.x -= StartIter->GetScale().Half().x;
+			StartIter->SetWorldPosition(MovePos);
+
+			//다 도착하면 레시피 내려가게
+			if (MovePos.CompareInt2D(Des) == true)
+			{
+				StartIter->IsRecipeOn_ = true;
+			}
+		}
+	}
+
+	//업데이트
+	{
+		std::list<Recipe>::iterator StartIter = Recipes_.begin();
+		std::list<Recipe>::iterator EndIter = Recipes_.end();
+		for (; StartIter != EndIter; StartIter++)
+		{
+			StartIter->Update(_DeltaTime);
+		}
+	}
+}
+
+void RecipeManager::DebugFunction()
+{
+	//뒤버그
+	UIDebugGUI::Main_->AddFunction("Create_CheeseBurgerLettuceTomato", std::bind(&RecipeManager::CreateRecipe, this, FoodType::CheeseBurgerLettuceTomato));
+	UIDebugGUI::Main_->AddFunction("Create_FishSushimi", std::bind(&RecipeManager::CreateRecipe, this, FoodType::FishSushimi));
+	UIDebugGUI::Main_->AddFunction("Create_MeatDumpling", std::bind(&RecipeManager::CreateRecipe, this, FoodType::MeatDumpling));
+	UIDebugGUI::Main_->AddFunction("DeleteFront", std::bind(&RecipeManager::DeleteRecipe, this, 0));
+	UIDebugGUI::Main_->AddFunction("DeleteSecond", std::bind(&RecipeManager::DeleteRecipe, this, 1));
 }
 
 Recipe::Recipe(FoodType _Type)
@@ -263,8 +404,38 @@ RecipeSetData Recipe::GetRecipeSetData()
 	return NewData;
 }
 
+float4 Recipe::GetPos()
+{
+	float4 CurPos = ParentRenderer_.lock()->GetTransform().GetWorldPosition();
+	return CurPos;
+}
+
+float4 Recipe::GetScale()
+{
+	return TopBackgroundRenderer_.lock()->GetTransform().GetLocalScale();
+}
+
+void Recipe::SetWorldPosition(const float4& _WorldPos)
+{
+	float4 WantMovePos = _WorldPos;
+	//WantMovePos.x += TopBackgroundRenderer_.lock()->GetTransform().GetLocalScale().Half().x;
+	ParentRenderer_.lock()->GetTransform().SetWorldPosition(WantMovePos);
+}
+
+void Recipe::OpenRecipe()
+{
+	BottomParentRenderer_.lock()->GetTransform().SetLocalPosition({ 0,-52.f,1 });
+}
+
 void Recipe::Update(float _DeltaTime)
 {
+	AccTime_ += _DeltaTime;
+	if (IsRecipeOn_ == true)
+	{
+		RecipeOnTime_ += _DeltaTime;
+		float MoveYPos = GameEngineMath::LerpLimit(36.f, -52.f, RecipeOnTime_);
+		BottomParentRenderer_.lock()->GetTransform().SetLocalPosition({ 0,MoveYPos,1 });
+	}
 	if (GlobalTimer_.IsTimeOver() == false)
 	{
 		GlobalTimer_.Update(_DeltaTime);
