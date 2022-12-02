@@ -322,6 +322,22 @@ void Overcooked::InputMake()
 
 		//GameEngineInput::GetInst()->CreateKey("PlayerSlice", VK_CONTROL);
 	}
+
+	if (false == GameEngineInput::GetInst()->IsKey("PlayerLeft2"))
+	{
+		GameEngineInput::GetInst()->CreateKey("IsSingleMode", '1');
+		GameEngineInput::GetInst()->CreateKey("ChangePlayerCustom2", 'K');
+		GameEngineInput::GetInst()->CreateKey("ChangePlayerNum2", 'J');
+		GameEngineInput::GetInst()->CreateKey("PlayerLeft2", 'F');
+		GameEngineInput::GetInst()->CreateKey("PlayerRight2", 'H');
+		GameEngineInput::GetInst()->CreateKey("PlayerFront2", 'T');
+		GameEngineInput::GetInst()->CreateKey("PlayerBack2", 'G');
+		GameEngineInput::GetInst()->CreateKey("PlayerDash2", VK_TAB);
+		GameEngineInput::GetInst()->CreateKey("PlayerHold2", 'Z');
+		GameEngineInput::GetInst()->CreateKey("PlayerInteract2", VK_SHIFT);
+
+		//GameEngineInput::GetInst()->CreateKey("PlayerSlice", VK_CONTROL);
+	}
 }
 
 void Overcooked::LoadStage(std::string_view _StageName)

@@ -19,23 +19,23 @@ void Player::IdleStart(const StateInfo& _Info)
 void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 
-	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft") ||
-		true == GameEngineInput::GetInst()->IsPressKey("PlayerRight") ||
-		true == GameEngineInput::GetInst()->IsPressKey("PlayerFront") ||
-		true == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
+	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft" + PNumString) ||
+		true == GameEngineInput::GetInst()->IsPressKey("PlayerRight" + PNumString) ||
+		true == GameEngineInput::GetInst()->IsPressKey("PlayerFront" + PNumString) ||
+		true == GameEngineInput::GetInst()->IsPressKey("PlayerBack" + PNumString))
 	{
 
 		StateManager.ChangeState("Move");
 	}
 
 
-	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerHold"))
+	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerHold" + PNumString))
 	{
 		StateManager.ChangeState("HoldUp");
 	}
 
 
-	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerInteract")) //컨트롤키
+	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerInteract" + PNumString)) //컨트롤키
 	{
 		if (CurrentHoldingObject_ == nullptr) // 손에 아무것도 없을때
 		{
@@ -51,10 +51,10 @@ void Player::MoveStart(const StateInfo& _Info)
 }
 void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	if (false == GameEngineInput::GetInst()->IsPressKey("PlayerLeft") &&
-		false == GameEngineInput::GetInst()->IsPressKey("PlayerRight") &&
-		false == GameEngineInput::GetInst()->IsPressKey("PlayerFront") &&
-		false == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
+	if (false == GameEngineInput::GetInst()->IsPressKey("PlayerLeft" + PNumString) &&
+		false == GameEngineInput::GetInst()->IsPressKey("PlayerRight" + PNumString) &&
+		false == GameEngineInput::GetInst()->IsPressKey("PlayerFront" + PNumString) &&
+		false == GameEngineInput::GetInst()->IsPressKey("PlayerBack" + PNumString))
 	{
 
 		StateManager.ChangeState("Idle");
@@ -104,7 +104,7 @@ void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 		MoveAngle();
 	}
 
-	if (true == GameEngineInput::GetInst()->IsUpKey("PlayerInteract"))
+	if (true == GameEngineInput::GetInst()->IsUpKey("PlayerInteract" + PNumString))
 	{
 		PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "Throw");
 		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
@@ -146,7 +146,7 @@ void Player::HoldUpStart(const StateInfo& _Info)
 }
 void Player::HoldUpUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerInteract")) //컨트롤키
+	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerInteract" + PNumString)) //컨트롤키
 	{
 		if (CurHoldType_ == PlayerHoldType::CanThrow)
 		{
@@ -158,17 +158,17 @@ void Player::HoldUpUpdate(float _DeltaTime, const StateInfo& _Info)
 		}
 	}
 
-	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerHold")) // 놓기
+	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerHold" + PNumString)) // 놓기
 	{ 
 		StateManager.ChangeState("HoldDown");
 	}
 
 
 	// Player object 를 든 상태로도 이동 가능하게 하기
-	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft") ||
-		true == GameEngineInput::GetInst()->IsPressKey("PlayerRight") ||
-		true == GameEngineInput::GetInst()->IsPressKey("PlayerFront") ||
-		true == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
+	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft" + PNumString) ||
+		true == GameEngineInput::GetInst()->IsPressKey("PlayerRight" + PNumString) ||
+		true == GameEngineInput::GetInst()->IsPressKey("PlayerFront" + PNumString) ||
+		true == GameEngineInput::GetInst()->IsPressKey("PlayerBack" + PNumString))
 	{
 		PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] +"WalkHolding");
 		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
@@ -244,10 +244,10 @@ void Player::SliceUpdate(float _DeltaTime, const StateInfo& _Info)
 		StateManager.ChangeState("Idle");
 	}
 
-	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft") ||
-		true == GameEngineInput::GetInst()->IsPressKey("PlayerRight") ||
-		true == GameEngineInput::GetInst()->IsPressKey("PlayerFront") ||
-		true == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
+	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft" + PNumString) ||
+		true == GameEngineInput::GetInst()->IsPressKey("PlayerRight" + PNumString) ||
+		true == GameEngineInput::GetInst()->IsPressKey("PlayerFront" + PNumString) ||
+		true == GameEngineInput::GetInst()->IsPressKey("PlayerBack" + PNumString))
 	{
 		StateManager.ChangeState("Move");
 		return;
@@ -261,10 +261,10 @@ void Player::DishWashStart(const StateInfo& _Info) // 설거지하는 도중 이동하면 �
 }
 void Player::DishWashUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	if (false == GameEngineInput::GetInst()->IsPressKey("PlayerLeft") &&
-		false == GameEngineInput::GetInst()->IsPressKey("PlayerRight") &&
-		false == GameEngineInput::GetInst()->IsPressKey("PlayerFront") &&
-		false == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
+	if (false == GameEngineInput::GetInst()->IsPressKey("PlayerLeft" + PNumString) &&
+		false == GameEngineInput::GetInst()->IsPressKey("PlayerRight" + PNumString) &&
+		false == GameEngineInput::GetInst()->IsPressKey("PlayerFront" + PNumString) &&
+		false == GameEngineInput::GetInst()->IsPressKey("PlayerBack" + PNumString))
 	{
 
 		StateManager.ChangeState("Idle");
@@ -285,7 +285,7 @@ void Player::FireOffStart(const StateInfo& _Info)
 void Player::FireOffUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 
-	if (false == GameEngineInput::GetInst()->IsPressKey("PlayerInteract"))
+	if (false == GameEngineInput::GetInst()->IsPressKey("PlayerInteract" + PNumString))
 	{
 		StateManager.ChangeState("Hold");
 		return;

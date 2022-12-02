@@ -123,6 +123,9 @@ public:
 		IsSlice_ = true;
 	}
 
+	bool IsSingleMode;
+	std::string PNumString;
+	void PNumSgtringUpdate();
 private:
 
 	void DetachPlayerHoldingToGround();
@@ -152,6 +155,8 @@ private:
 
 
 private:
+
+
 
 	float Speed_;
 	float CurAngle_;
