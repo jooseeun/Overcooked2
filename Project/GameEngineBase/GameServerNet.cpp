@@ -31,14 +31,15 @@ void GameServerNet::WindowNetStartUp()
 	IsStart = true;
 }
 
-int GameServerNet::Send(SOCKET _Socket, const char* Data, size_t _Size)
+int GameServerNet::NetSend(SOCKET _Socket, const char* Data, size_t _Size)
 {
 	return send(_Socket, Data, static_cast<int>(_Size), 0);
 }
 
-int GameServerNet::Send(const char* Data, size_t _Size)
+int GameServerNet::NetSendPacket(SOCKET _Socket, std::shared_ptr<GameServerPacket> _Packet)
 {
-	return 0;
+	GameServerSerializer NewSer = PacketSerializ(_Packet);
+	return NetSend(_Socket, reinterpret_cast<char*>(NewSer.GetDataPtr()), NewSer.GetOffSet());
 }
 
 GameServerSerializer GameServerNet::PacketSerializ(std::shared_ptr<GameServerPacket> _Packet)

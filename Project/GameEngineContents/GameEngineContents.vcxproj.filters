@@ -242,6 +242,12 @@
     <ClInclude Include="GamePacket.h">
       <Filter>Data</Filter>
     </ClInclude>
+    <ClInclude Include="GameServerObject.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerTestPlayer.h">
+      <Filter>Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -484,6 +490,12 @@
     </ClCompile>
     <ClCompile Include="GamePacket.cpp">
       <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="GameServerObject.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerTestPlayer.cpp">
+      <Filter>Global</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

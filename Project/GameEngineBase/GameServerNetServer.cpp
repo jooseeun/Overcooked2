@@ -7,6 +7,7 @@
 
 GameServerNetServer::GameServerNetServer()
 {
+	IsHost = true;
 }
 
 GameServerNetServer::~GameServerNetServer()
@@ -59,6 +60,15 @@ void GameServerNetServer::Accept(int Port)
 	AcceptThread.Start("AcceptThread", std::bind(&GameServerNetServer::AcceptFunction, this, &AcceptThread));
 }
 
+int GameServerNetServer::SendPacket(std::shared_ptr<GameServerPacket> _Packet)
+{
+	for (size_t i = 0; i < UserSockets.size(); i++)
+	{
+		NetSendPacket(UserSockets[i], _Packet);
+	}
+
+	return 0;
+}
 
 void GameServerNetServer::AcceptFunction(GameEngineThread* Thread)
 {
@@ -77,6 +87,12 @@ void GameServerNetServer::AcceptFunction(GameEngineThread* Thread)
 		std::stringstream ThreadName;
 		ThreadName << NewUser;
 		ThreadName << "UserThread";
+
+		if (nullptr != AcceptCallBack)
+		{
+			AcceptCallBack(NewUser);
+		}
+
 		NewThread.Start(ThreadName.str(), std::bind(&GameServerNetServer::UserFunction, this, &NewThread, NewUser));
 		UserSockets.push_back(NewUser);
 

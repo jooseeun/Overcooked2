@@ -218,6 +218,10 @@
     <ClInclude Include="GamePlayStaticObject.h" />
     <ClInclude Include="GamePlayStuff.h" />
     <ClInclude Include="GamePlayTool.h" />
+    <ClInclude Include="GameServerObject.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GlobalGameData.h">
       <SubType>
       </SubType>
@@ -294,6 +298,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ServerTestLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ServerTestPlayer.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -413,6 +421,10 @@
     <ClCompile Include="GamePlayStaticObject.cpp" />
     <ClCompile Include="GamePlayStuff.cpp" />
     <ClCompile Include="GamePlayTool.cpp" />
+    <ClCompile Include="GameServerObject.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GlobalGameData.cpp">
       <SubType>
       </SubType>
@@ -497,6 +509,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="ServerTestLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ServerTestPlayer.cpp">
       <SubType>
       </SubType>
     </ClCompile>
