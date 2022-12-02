@@ -15,6 +15,8 @@ public:
 		return Inst_;
 	}
 
+	// 마지막에 지우더라도 내가 의도한 순서에서 지우고 싶기 때문에
+	// pointer로 삭제하는 겁니다.
 	static void Destroy()
 	{
 		if (nullptr != Inst_)
@@ -36,20 +38,25 @@ public:
 
 	static inline float GetDeltaTime()
 	{
-		if (Inst_->FrameLimit != -1 && 0.05f <= Inst_->SumDeltaTimef)
+		if (0.05f <= Inst_->DeltaTimef)
 		{
-			Inst_->SumDeltaTimef = 0.05f;
+			Inst_->DeltaTimef = 0.05f;
 		}
+
+		if (Inst_->FrameLimit == -1)
+		{
+			return Inst_->DeltaTimef * Inst_->GlobalScale;
+		}
+
 
 		return Inst_->SumDeltaTimef * Inst_->GlobalScale;
 	}
 
-	static inline void SetLimitFrame(unsigned int _Frame ) 
+	static inline void SetLimitFrame(unsigned int _Frame)
 	{
 		Inst_->FrameLimit = _Frame;
 		Inst_->FrameTime = 1.0f / Inst_->FrameLimit;
-		Inst_->FrameCheckTime = 0.0f;
-		Inst_->CalDeltaTimef = 0.0f;
+		Inst_->CurFrameTime = 0.0f;
 	}
 
 	template<typename EnumType>
@@ -70,7 +77,7 @@ public:
 	}
 
 
-	void SetTimeScale(int _Key, float _TimeScale) 
+	void SetTimeScale(int _Key, float _TimeScale)
 	{
 		TimeScale_[_Key] = _TimeScale;
 	}
@@ -85,34 +92,14 @@ public:
 		return TimeScale_[_Key];
 	}
 
-	void SetGlobalScale(float _GlobalScale) 
+	void SetGlobalScale(float _GlobalScale)
 	{
 		GlobalScale = _GlobalScale;
 	}
 
-	static bool IsFrameCheck() 
+	static bool IsFrameCheck()
 	{
 		return Inst_->FrameUpdate;
-	}
-
-	static int GetFrameLimit()
-	{
-		return Inst_->FrameLimit;
-	}
-
-	static float GetFrameTime()
-	{
-		return Inst_->FrameTime;
-	}
-
-	static int FrameUpdateCount()
-	{
-		return Inst_->UpdateCount;
-	}
-
-	static void FrameUpdateCountReset()
-	{
-		Inst_->UpdateCount = 0;
 	}
 
 protected:
@@ -123,21 +110,18 @@ private:
 	double DeltaTimed;
 	float DeltaTimef;
 	float SumDeltaTimef;
-	float CalDeltaTimef;
-	float GlobalScale;
 	std::map<int, float> TimeScale_;
-	int Frame;
-	bool FrameUpdate;
+	float GlobalScale;
 
-	// 프레임 제한 관련
-	int UpdateCount;
-	int FrameLimit;
-	float FrameTime; // 1 / 프레임
-
-	// FrameCheck
-	float FrameCheckTime; // 1초
+	float FrameCheckTime;
 	int SumFPS;
+	int SumFPSCount;
 	int FPS;
+
+	int FrameLimit;
+	float FrameTime;
+	float CurFrameTime;
+	bool FrameUpdate;
 
 	GameEngineTime();
 	~GameEngineTime();

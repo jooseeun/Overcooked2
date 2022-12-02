@@ -102,7 +102,7 @@ void GameEngineCore::CoreUpdate(GameEngineCore* _UserCore)
 
 	if (nullptr == CurrentLevel)
 	{
-		MsgBoxAssert("레벨을 지정해주지 않으면 엔진을 시작할수가 없습니다.");
+		MsgBoxAssert("레벨을 지정해주지 않으면 엔진을 시작할수가 업습니다.");
 	}
 
 	GameEngineSound::Update();
@@ -110,33 +110,11 @@ void GameEngineCore::CoreUpdate(GameEngineCore* _UserCore)
 	float DeltaTime = GameEngineTime::GetDeltaTime();
 	GameEngineInput::GetInst()->Update(DeltaTime);
 
-	if (-1 == GameEngineTime::GetFrameLimit())
-	{
-		_UserCore->Update(DeltaTime);
-		CurrentLevel->LevelUpdate(DeltaTime);
-		CurrentLevel->Release(DeltaTime);
-		CurrentLevel->Render(DeltaTime);
-		return;
-	}
-
 	if (true == GameEngineTime::IsFrameCheck())
 	{
-		int Count = GameEngineTime::FrameUpdateCount();
-
-		if (10 <= Count)
-		{
-			GameEngineTime::FrameUpdateCountReset();
-		}
-
-		while (Count--)
-		{
-			_UserCore->Update(DeltaTime);
-			CurrentLevel->LevelUpdate(DeltaTime);
-			CurrentLevel->Release(DeltaTime);
-		}
-
-		CurrentLevel->Render(DeltaTime);
-		GameEngineTime::FrameUpdateCountReset();
+		// 엔진수준에서 유저가 하고 싶은일.
+		_UserCore->Update(DeltaTime);
+		CurrentLevel->LevelUpdate(DeltaTime);
 	}
 }
 
