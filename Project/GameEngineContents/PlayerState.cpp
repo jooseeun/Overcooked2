@@ -18,6 +18,7 @@ void Player::IdleStart(const StateInfo& _Info)
 }
 void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	ColCheckPlayer();
 
 	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft" + PNumString) ||
 		true == GameEngineInput::GetInst()->IsPressKey("PlayerRight" + PNumString) ||
@@ -68,7 +69,9 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		// 플레이어 벽 출돌 체크
 		if (PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == false &&
 			PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
-				std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
+				std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false
+			&& PlayerCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Character, CollisionType::CT_OBB,
+				std::bind(&GamePlayPhysics::PullPlayer, this, std::placeholders::_1, std::placeholders::_2))==false)
 		{
 			GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * _DeltaTime);
 		}
@@ -83,7 +86,9 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		if (PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == false &&
 			PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
-				std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
+				std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false
+			&& PlayerCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Character, CollisionType::CT_OBB,
+				std::bind(&GamePlayPhysics::PullPlayer, this, std::placeholders::_1, std::placeholders::_2)) == false)
 		{
 			GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * 0.5f * _DeltaTime);
 		}
@@ -128,6 +133,7 @@ void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::HoldUpStart(const StateInfo& _Info)
 {
+	ColCheckPlayer();
 	if (CurrentHoldingObject_ == nullptr)
 	{
 		CurStateType_ = PlayerCurStateType::HoldUp;
@@ -180,7 +186,9 @@ void Player::HoldUpUpdate(float _DeltaTime, const StateInfo& _Info)
 			// 플레이어 벽 출돌 체크
 			if (PlayerForwardCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Map_Object, CollisionType::CT_AABB) == false &&
 				PlayerForwardCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Object_StaticObject, CollisionType::CT_AABB,
-					std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
+					std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false
+				&& PlayerCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Character, CollisionType::CT_OBB,
+					std::bind(&GamePlayPhysics::PullPlayer, this, std::placeholders::_1, std::placeholders::_2)) == false)
 			{
 				GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * _DeltaTime);
 			}
@@ -195,7 +203,9 @@ void Player::HoldUpUpdate(float _DeltaTime, const StateInfo& _Info)
 		{
 			if (PlayerForwardCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Map_Object, CollisionType::CT_AABB) == false &&
 				PlayerForwardCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Object_StaticObject, CollisionType::CT_AABB,
-					std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
+					std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false
+				&& PlayerCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Character, CollisionType::CT_OBB,
+					std::bind(&GamePlayPhysics::PullPlayer, this, std::placeholders::_1, std::placeholders::_2)) == false)
 			{
 				GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * 0.5f * _DeltaTime);
 			}
@@ -233,6 +243,7 @@ void Player::SliceStart(const StateInfo& _Info) // 자르는 도중 이동하면 취소됨
 }
 void Player::SliceUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	ColCheckPlayer();
 	Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 		std::bind(&Player::TableSliceCheck, this, std::placeholders::_1, std::placeholders::_2));
 
@@ -261,6 +272,7 @@ void Player::DishWashStart(const StateInfo& _Info) // 설거지하는 도중 이동하면 �
 }
 void Player::DishWashUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	ColCheckPlayer();
 	if (false == GameEngineInput::GetInst()->IsPressKey("PlayerLeft" + PNumString) &&
 		false == GameEngineInput::GetInst()->IsPressKey("PlayerRight" + PNumString) &&
 		false == GameEngineInput::GetInst()->IsPressKey("PlayerFront" + PNumString) &&
@@ -285,6 +297,7 @@ void Player::FireOffStart(const StateInfo& _Info)
 void Player::FireOffUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 
+	ColCheckPlayer();
 	if (false == GameEngineInput::GetInst()->IsPressKey("PlayerInteract" + PNumString))
 	{
 		StateManager.ChangeState("Hold");

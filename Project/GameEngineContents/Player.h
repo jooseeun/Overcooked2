@@ -149,6 +149,7 @@ private:
 	CollisionReturn TableSliceCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 	CollisionReturn InteractTableCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 
+
 	std::shared_ptr<GameEngineActor> CurrentHoldingObject_;
 	std::shared_ptr<GameEngineCollision> TableCollision_;
 	std::shared_ptr<GameEngineCollision> Collision_Interact_; // 상호작용 콜리전
@@ -156,7 +157,7 @@ private:
 
 private:
 
-
+	
 
 	float Speed_;
 	float CurAngle_;
@@ -180,6 +181,7 @@ private:
 	std::shared_ptr<GameEngineCollision> PlayerForwardCollision_;
 	std::shared_ptr<GameEngineCollision> PlayerForwardLeftCollision_;
 	std::shared_ptr<GameEngineCollision> PlayerForwardRightCollision_;
+	std::shared_ptr<GameEngineCollision> PlayerCollision_;
 
 
 	GameEngineStateManager StateManager;

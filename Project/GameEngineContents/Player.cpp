@@ -130,35 +130,44 @@ void Player::Start()
 	}
 
 	{
+		PlayerCollision_ = CreateComponent<GameEngineCollision>();
+		PlayerCollision_->GetTransform().SetLocalScale({ 100,100,100 });
+		PlayerCollision_->GetTransform().SetLocalPosition({ 0,-20,0 });
+		PlayerCollision_->ChangeOrder(CollisionOrder::Object_Character);
+		SetCollision(PlayerCollision_);
+
 		PlayerFloorCollision_ = CreateComponent<GameEngineCollision>();
 		PlayerFloorCollision_->GetTransform().SetLocalScale({ 100,15,100 });
 		PlayerFloorCollision_->GetTransform().SetLocalPosition({ 0,-20,0 });
-		PlayerFloorCollision_->ChangeOrder(CollisionOrder::Object_Character);
-		SetCollision(PlayerFloorCollision_);
+		PlayerFloorCollision_->ChangeOrder(CollisionOrder::Object_CharacterColCheck);
+		SetGravityCollision(PlayerFloorCollision_);
 	}
 	{
 		PlayerForwardCollision_ = CreateComponent<GameEngineCollision>();
 		PlayerForwardCollision_->GetTransform().SetLocalScale({ 55,100,10 });
 		PlayerForwardCollision_->GetTransform().SetLocalPosition({ 0,0,-50 });
-		PlayerForwardCollision_->ChangeOrder(CollisionOrder::Object_Character);
+		PlayerForwardCollision_->ChangeOrder(CollisionOrder::Object_CharacterColCheck);
 		PlayerForwardCollision_->SetDebugSetting(CollisionType::CT_AABB, { 0,0,0 });
 	}
 	{
 		PlayerForwardLeftCollision_ = CreateComponent<GameEngineCollision>();
 		PlayerForwardLeftCollision_->GetTransform().SetLocalScale({ 20,100,10 });
 		PlayerForwardLeftCollision_->GetTransform().SetLocalPosition({ 70,0,-50 });
-		PlayerForwardLeftCollision_->ChangeOrder(CollisionOrder::Max);
+		PlayerForwardLeftCollision_->ChangeOrder(CollisionOrder::Object_CharacterColCheck);
 		PlayerForwardLeftCollision_->SetDebugSetting(CollisionType::CT_AABB, { 0,0,0 });
+		SetLeftCollision(PlayerForwardLeftCollision_);
 	}
 	{
 		PlayerForwardRightCollision_ = CreateComponent<GameEngineCollision>();
 		PlayerForwardRightCollision_->GetTransform().SetLocalScale({ 20,100,10 });
 		PlayerForwardRightCollision_->GetTransform().SetLocalPosition({ -70,0,-50 });
-		PlayerForwardRightCollision_->ChangeOrder(CollisionOrder::Max);
+		PlayerForwardRightCollision_->ChangeOrder(CollisionOrder::Object_CharacterColCheck);
 		PlayerForwardRightCollision_->SetDebugSetting(CollisionType::CT_AABB, { 0,0,0 });
+		SetRightCollision(PlayerForwardRightCollision_);
 	}
 
 	Collision_Interact_ = CreateComponent<GameEngineCollision>("PlayerCollision");
+	Collision_Interact_->ChangeOrder(CollisionOrder::Object_Character_Interact);
 	Collision_Interact_->GetTransform().SetLocalScale({ 50,100,200});
 	Collision_Interact_->GetTransform().SetLocalPosition({ 0,0,-60 });
 
@@ -1033,3 +1042,5 @@ CollisionReturn Player::InteractTableCheck(std::shared_ptr<GameEngineCollision> 
 
 	return CollisionReturn::ContinueCheck;
 }
+
+
