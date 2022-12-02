@@ -87,7 +87,7 @@ void Overcooked::Start()
 	CreateLevel<Stage_1_2>("1-2");
 	CreateLevel<Stage_1_3>("1-3");
 	CreateLevel<Stage_1_4>("1-4");
-	CreateLevel<Stage_1_4>("2-1");
+	CreateLevel<Stage_2_1>("2-1");
 	CreateLevel<MapToolLevel>("MapToolLevel");
 	CreateLevel<MeshToolLevel>("MeshToolLevel");
 	CreateLevel<TitleLevel>("TitleLevel");
