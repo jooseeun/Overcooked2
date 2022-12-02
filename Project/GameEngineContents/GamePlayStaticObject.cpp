@@ -44,44 +44,35 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 	switch (_Type)
 	{
 	case PlayerCurStateType::HoldUp:
+	{
+		std::shared_ptr<GamePlayStuff> PlayerHave = _Player->GetPlayerHolding()->CastThis<GamePlayStuff>();
 		if (Stuff_Current_ == nullptr)
 		{
-			if (_Player->GetPlayerHolding() == nullptr)
+			if (PlayerHave != nullptr)
 			{
-				return SetPlayerState_Return::Nothing;
-			}
-			else
-			{
-				switch (_Player->GetPlayerHolding()->CastThis<GamePlayStuff>()->HoldDown(_Player, CastThis<GamePlayObject>()))
-				{
-				case HoldDownEnum::Nothing:
-					break;
-				case HoldDownEnum::HoldDown:
-					break;
-				case HoldDownEnum::HoldUp:
-					break;
-				default:
-					break;
-				}
-				
-				if ( )
-				{
-
-				}
+				_Player->DetachPlayerHolding();
+				SetStuff(PlayerHave);
 			}
 		}
 		else
 		{
-			switch (Stuff_Current_->HoldDown(_Player, CastThis<GamePlayObject>()))
+			switch (Stuff_Current_->HoldUp(_Player))
 			{
-			case HoldDownEnum::Nothing:
-				return SetPlayerState_Return::Nothing;
-				break;
+
 			case HoldDownEnum::HoldUp:
+				return SetPlayerState_Return::Using;
+				break;
+			case HoldDownEnum::HoldDown:
+
+
+			case HoldDownEnum::Nothing:
 			default:
+				return SetPlayerState_Return::Nothing;
 				break;
 			}
 		}
+	}
+	
 		break;
 	case PlayerCurStateType::HoldDown:	
 	{

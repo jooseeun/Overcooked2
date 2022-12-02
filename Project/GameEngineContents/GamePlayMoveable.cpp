@@ -3,6 +3,7 @@
 #include "GamePlayEquipment.h"
 
 GamePlayMoveable::GamePlayMoveable()
+	: TrimmingFirstTime_(false)
 //, CookedStat_Current_(CookedStat::Nomal)
 {
 }
@@ -18,6 +19,30 @@ void GamePlayMoveable::Start()
 	GetCollisionObject()->ChangeOrder(CollisionOrder::Object_Moveable);
 }
 
+bool GamePlayMoveable::Input_Manual(std::shared_ptr<Player> _Player, float _Delta, float _MaxTime)
+{
+	CookingGage_ += _Delta / _MaxTime;
+	if (CookingGage_ > 1.0f)
+	{
+		if (TrimmingFirstTime_ == false)
+		{
+			// 플레이어, UI에게 끝났다고 신호
+			FinishTrimmingFirst();
+			TrimmingFirstTime_ = true;
+		}
+		else
+		{
+			// 이건 필요한가?????
+			FinishTrimming();
+		}
+
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
 
 //SetPlayerState_Return GamePlayMoveable::SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type)
 //{

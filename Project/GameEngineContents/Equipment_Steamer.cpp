@@ -11,8 +11,8 @@ Equipment_Steamer::~Equipment_Steamer()
 
 void Equipment_Steamer::Start()
 {
-	GamePlayEquipment::Start();
-	GamePlayEquipment::SetToolInfoType(ToolInfo::Steamer);
+	GamePlayBowl::Start();
+	GamePlayBowl::SetToolInfoType(ToolInfo::Steamer);
 
 	Lid_ = GetLevel()->CreateActor<GameEngineActor>();
 	Lid_->SetParent(shared_from_this());

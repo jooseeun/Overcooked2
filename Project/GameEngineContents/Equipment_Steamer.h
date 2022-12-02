@@ -1,5 +1,5 @@
 #pragma once
-#include "GamePlayEquipment.h"
+#include "GamePlayBowl.h"
 
 enum class SteamerState
 {
@@ -11,7 +11,7 @@ enum class SteamerState
 };
 
 // Ό³Έν :
-class Equipment_Steamer : public GamePlayEquipment
+class Equipment_Steamer : public GamePlayBowl
 {
 public:
 	// constrcuter destructer
@@ -60,5 +60,9 @@ private:
 	float Angle_;
 
 	std::shared_ptr<GameEngineActor> Lid_;
+
+	// 
+
+	CombineType CombineThis(std::shared_ptr<GamePlayFood> _Food) override;
 };
 

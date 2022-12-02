@@ -39,3 +39,31 @@ void GamePlayTool::SetMoveable(std::shared_ptr<GameEngineUpdateObject> _Child)
 	Object.lock()->GetTransform().SetLocalPosition(MoveablePos_);
 	Object.lock()->GetCollisionObject()->Off();
 }
+
+HoldDownEnum GamePlayTool::HoldUp(std::shared_ptr<Player> _Player)
+{
+	if (Moveable_Current_ != nullptr)
+	{
+		switch (Moveable_Current_->HoldUp(_Player))
+		{
+		case HoldDownEnum::HoldUpDelete:
+		case HoldDownEnum::HoldUp:
+			ReSetCurrentMoveable();
+			return HoldDownEnum::HoldUp;
+			break;
+		case HoldDownEnum::HoldDown:
+			return HoldDownEnum::HoldDown;
+			break;
+		case HoldDownEnum::Nothing:
+			return HoldDownEnum::Nothing;
+			break;
+		default:
+			return HoldDownEnum::Nothing;
+			break;
+		}
+	}
+	else
+	{
+		return HoldDownEnum::Nothing;
+	}
+};

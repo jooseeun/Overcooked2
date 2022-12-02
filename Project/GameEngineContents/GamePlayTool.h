@@ -47,6 +47,9 @@ public:
 		Moveable_Current_.reset();
 	}
 
+	HoldDownEnum HoldUp(std::shared_ptr<Player> _Player) override;
+
+
 	inline ObjectToolType GetObjectToolType()
 	{
 		return Enum_ObjectToolType_;
@@ -62,8 +65,6 @@ protected:
 	void LevelStartEvent() override {};
 	void LevelEndEvent() override {};
 
-	virtual bool CanHoldThis(std::shared_ptr<GamePlayMoveable> _Moveable) { return true; };
-
 protected:
 
 	inline void SetInteractOption(AutoOption _Option)
@@ -75,7 +76,7 @@ protected:
 private:
 	std::shared_ptr<GamePlayMoveable> Moveable_Current_;
 
-	HoldDownEnum HoldDown(std::)
+	//HoldDownEnum HoldDown(std::);
 protected:
 	inline void SetObjectToolType(ObjectToolType _Type)
 	{

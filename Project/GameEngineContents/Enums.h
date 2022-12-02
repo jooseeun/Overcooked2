@@ -94,7 +94,7 @@ enum class IngredientType
 	Meat,
 	Lettuce, //양상추
 	Rice,
-	Flour, //밀가루
+	Flourbread, //밀가루
 	Bread,
 	Fish,
 	Sausage,
@@ -108,5 +108,5 @@ enum class IngredientType
 	Honey,
 	PastaNoodles, //파스타 면
 	Prawn,
-	Cucumber //오이
+	Cucumber, //오이
 };

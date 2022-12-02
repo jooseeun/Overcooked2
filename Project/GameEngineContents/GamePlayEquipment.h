@@ -9,6 +9,7 @@ enum class ObjectEquipmentType
 	Bowl,
 	Using
 };
+class GamePlayFood;
 class GamePlayEquipment : public GamePlayMoveable
 {
 public:
@@ -52,6 +53,15 @@ protected:
 	}
 private:
 	ObjectEquipmentType Enum_ObjectEquipmentType_;
+
+	HoldDownEnum HoldUp(std::shared_ptr<GamePlayFood> _Food)
+	{
+		return HoldDownEnum::Nothing;
+	}
+	HoldDownEnum HoldUp(std::shared_ptr<GamePlayEquipment> _Equipment) final
+	{
+		return HoldDownEnum::Nothing;
+	}
 
 };
 

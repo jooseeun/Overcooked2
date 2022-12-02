@@ -18,7 +18,11 @@ public:
 protected:
 	void Start() override;
 private:
-	
+	inline bool HoldDown(std::shared_ptr<Player> _Player) final
+	{
+		_Player->SetCurHoldType(PlayerHoldType::FireExtinguisher);
+		return true;
+	};
 
 };
 

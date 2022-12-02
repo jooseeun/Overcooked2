@@ -242,6 +242,9 @@
     <ClInclude Include="GamePacket.h">
       <Filter>Data</Filter>
     </ClInclude>
+    <ClInclude Include="Food_Ingredients_Bread.h">
+      <Filter>Contents\Object\Food</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -484,6 +487,9 @@
     </ClCompile>
     <ClCompile Include="GamePacket.cpp">
       <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Food_Ingredients_Bread.cpp">
+      <Filter>Contents\Object\Food</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

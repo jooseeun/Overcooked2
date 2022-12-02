@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "GamePlayStuff.h"
 #include "Player.h"
+#include "GamePlayTool.h"
 
 GamePlayStuff::GamePlayStuff()
 	: Enum_ObjectStuffType_(ObjectStuffType::None)
@@ -26,23 +27,18 @@ SetPlayerState_Return GamePlayStuff::SetPlayerState(std::shared_ptr<Player> _Pla
 	case PlayerCurStateType::HoldUp:
 	case PlayerCurStateType::HoldDown:
 	{
-		//switch (HoldDown(_Player))
-		//{
-		//case HoldDownEnum::HoldDown:
-		//case HoldDownEnum::HoldDown_Already:
-		//	MsgBoxAssert("플레이어가 오브젝트를 떨어트릴려고 했습니다")
-		//	return SetPlayerState_Return::Using;
-		//	break;
-		//case HoldDownEnum::HoldUp:
-		//	_Player->SetPlayerHolding(std::dynamic_pointer_cast<GameEngineActor>(shared_from_this()));
-		//	GetCollisionObject()->Off();
-		//case HoldDownEnum::HoldUp_Already:
-		//	return SetPlayerState_Return::Using;
-		//	break;
-		//default:
-		//	return SetPlayerState_Return::Nothing;
-		//	break;
-		//};
+		if (_Player->GetPlayerHolding() == nullptr)
+		{
+			if (HoldDown(_Player))
+			{
+				_Player->SetPlayerHolding(shared_from_this());
+				return SetPlayerState_Return::Using;
+			}
+			else
+			{
+				return SetPlayerState_Return::Nothing;
+			}
+		}
 	}
 		break;
 	case PlayerCurStateType::Slice:

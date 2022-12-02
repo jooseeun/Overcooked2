@@ -8,12 +8,20 @@ enum class ObjectStuffType
 	Tool,
 	Moveable,
 };
+enum class CombineType
+{
+	NoRespon,
+	DeleteThis,
+	DeleteThat,
+};
 enum class HoldDownEnum
 {
 	Nothing,
-	HoldDown,
 	HoldUp,
+	HoldUpDelete,
+	HoldDown,
 };
+
 enum class UsingDownEnum
 {
 	Nothing,
@@ -36,8 +44,6 @@ public:
 	GamePlayStuff& operator=(const GamePlayStuff& _Other) = delete;
 	GamePlayStuff& operator=(GamePlayStuff&& _Other) noexcept = delete;
 
-
-
 	inline ObjectStuffType GetObjectStuffType() const
 	{
 		if (Enum_ObjectStuffType_ == ObjectStuffType::None)
@@ -57,18 +63,19 @@ public:
 		Enum_ToolInfo_ = _Info;
 	}
 
-	virtual void SetParentObject(std::shared_ptr<GameEngineUpdateObject> _Object);
+	//virtual void SetParentObject(std::shared_ptr<GameEngineUpdateObject> _Object);
 
-
-	inline virtual HoldDownEnum HoldDown(std::shared_ptr<Player> _Player, std::shared_ptr<GamePlayObject> _Object)
+	inline virtual HoldDownEnum HoldUp(std::shared_ptr<Player> _Player)
 	{
+		MsgBoxAssert("º¸Çè")
 		return HoldDownEnum::Nothing;
 	};
 
-	//inline virtual UsingDownEnum UsingDown(std::shared_ptr<Player> _Player)
-	//{
-	//	return UsingDownEnum::Nothing;
-	//};
+
+	inline virtual UsingDownEnum UsingDown(std::shared_ptr<Player> _Player)
+	{
+		return UsingDownEnum::Nothing;
+	};
 
 
 protected:

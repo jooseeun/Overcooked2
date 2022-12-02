@@ -1,8 +1,8 @@
 #pragma once
-#include "GamePlayEquipment.h"
+#include "GamePlayBowl.h"
 
 // Ό³Έν :
-class Equipment_Bowl : public GamePlayEquipment
+class Equipment_Bowl : public GamePlayBowl
 {
 public:
 	// constrcuter destructer
@@ -20,6 +20,7 @@ protected:
 	void Update(float _DeltaTime) override;
 
 private:
+	CombineType CombineThis(std::shared_ptr<GamePlayFood> _Food) override;
 
 };
 

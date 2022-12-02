@@ -30,9 +30,9 @@ public:
 protected:
 	void Start() override;
 private:
-	
-	//HoldDownEnum HoldDown(std::shared_ptr<Player> _Player) final;
-	bool CanHoldThis(std::shared_ptr<GamePlayMoveable> _Moveable) final;
+	bool HoldDown(std::shared_ptr<Player> _Player) final;
+	UsingDownEnum UsingDown(std::shared_ptr<Player> _Player) final;
+	bool Trimming_;
 
 	std::shared_ptr<GameEngineActor> Knife_;
 

@@ -19,6 +19,6 @@ protected:
 	void Start() override;
 
 private:
-
+	void FinishTrimmingFirst() final;
 };
 
