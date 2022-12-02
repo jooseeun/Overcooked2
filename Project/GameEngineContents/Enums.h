@@ -109,5 +109,9 @@ enum class IngredientType
 	Honey,
 	PastaNoodles, //파스타 면
 	Prawn,
-	Cucumber //오이
+	Cucumber, //오이
+	Orange,
+	Nuts,
+	Strawberry,
+
 };

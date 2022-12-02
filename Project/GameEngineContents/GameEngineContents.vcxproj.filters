@@ -182,7 +182,7 @@
     <ClInclude Include="Candle.h">
       <Filter>Contents\Object\MapObject</Filter>
     </ClInclude>
-    <ClInclude Include="Pigeon_Flying.h">
+    <ClInclude Include="Bird_Flying.h">
       <Filter>Contents\Object\MapObject</Filter>
     </ClInclude>
     <ClInclude Include="LoadingData.h">
@@ -241,6 +241,21 @@
     </ClInclude>
     <ClInclude Include="GamePacket.h">
       <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="IcePlatform.h">
+      <Filter>Contents\Object\MapObject</Filter>
+    </ClInclude>
+    <ClInclude Include="IceBlock.h">
+      <Filter>Contents\Object\MapObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Cannon.h">
+      <Filter>Contents\Object\StaticMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Contents\Object\StaticMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Oven.h">
+      <Filter>Contents\Object\StaticMesh</Filter>
     </ClInclude>
     <ClInclude Include="GameServerObject.h">
       <Filter>Global</Filter>
@@ -431,7 +446,7 @@
     <ClCompile Include="Candle.cpp">
       <Filter>Contents\Object\MapObject</Filter>
     </ClCompile>
-    <ClCompile Include="Pigeon_Flying.cpp">
+    <ClCompile Include="Bird_Flying.cpp">
       <Filter>Contents\Object\MapObject</Filter>
     </ClCompile>
     <ClCompile Include="LoadingData.cpp">
@@ -496,6 +511,21 @@
     </ClCompile>
     <ClCompile Include="ServerTestPlayer.cpp">
       <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="IcePlatform.cpp">
+      <Filter>Contents\Object\MapObject</Filter>
+    </ClCompile>
+    <ClCompile Include="IceBlock.cpp">
+      <Filter>Contents\Object\MapObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Cannon.cpp">
+      <Filter>Contents\Object\StaticMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Contents\Object\StaticMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Oven.cpp">
+      <Filter>Contents\Object\StaticMesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

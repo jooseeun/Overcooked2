@@ -214,6 +214,8 @@ void Overcooked::TextureLoad()
 		}
 
 		GameEngineTexture::Cut("t_sk_crate_lid_images.png", 5, 5);
+		GameEngineTexture::Cut("t_sk_crate_lid_images_dlc02.png", 3, 3);
+		GameEngineTexture::Cut("t_sk_crate_lid_images_dlc03.png", 3, 3);
 	}
 
 	{
