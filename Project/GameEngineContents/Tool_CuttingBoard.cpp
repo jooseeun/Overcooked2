@@ -2,6 +2,7 @@
 #include "Tool_CuttingBoard.h"
 #include "GamePlayMoveable.h"
 #include "GamePlayFood.h"
+#include "Player.h"
 
 Tool_CuttingBoard::Tool_CuttingBoard()
 	: Trimming_(false)
@@ -33,17 +34,17 @@ void Tool_CuttingBoard::Start()
 }
 
 
-bool Tool_CuttingBoard::HoldDown(std::shared_ptr<Player> _Player)
-{
-	if (Trimming_ == false)
-	{
-		return GetCurrentMoveable()->HoldDown(_Player);
-	}
-	else
-	{
-		return false;
-	}
-}
+//bool Tool_CuttingBoard::HoldDown(std::shared_ptr<Player> _Player)
+//{
+//	if (Trimming_ == false)
+//	{
+//		return GetCurrentMoveable()->CastThis<GamePlayStuff>()->HoldUp(_Player);
+//	}
+//	else
+//	{
+//		return false;
+//	}
+//}
 
  UsingDownEnum Tool_CuttingBoard::UsingDown(std::shared_ptr<Player> _Player)
 {
@@ -60,7 +61,7 @@ bool Tool_CuttingBoard::HoldDown(std::shared_ptr<Player> _Player)
 			 {
 			 case IngredientType::Seaweed:
 			 case IngredientType::Rice:
-			 case IngredientType::Flourbread:
+			 case IngredientType::Flour:
 			 case IngredientType::Bread:
 			 case IngredientType::DumplingSkin:
 			 case IngredientType::Egg:
@@ -83,7 +84,7 @@ bool Tool_CuttingBoard::HoldDown(std::shared_ptr<Player> _Player)
 			 case IngredientType::Chocolate:
 			 case IngredientType::Prawn:
 			 case IngredientType::Cucumber:
-				 if (Food->Input_Manual(std::shared_ptr<Player> _Player, 5.f, GameEngineTime::GetDeltaTime())) // 원래 12초
+				 if (Food->Input_Manual(_Player, 5.f, GameEngineTime::GetDeltaTime())) // 원래 12초
 				 {
 					 return UsingDownEnum::Nothing;
 				 }

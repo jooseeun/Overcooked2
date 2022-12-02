@@ -41,12 +41,7 @@ public:
 		MsgBoxAssert("아직 설정되지 않았습니다");
 		return SetPlayerState_Return::Nothing;
 	};
-
-
-
-	//virtual Input_PutDownOption Input_PutDown(std::shared_ptr<GamePlayMoveable> _Object) { return Input_PutDownOption::NoResponse; }
-	//virtual Input_PickUpOption Input_PickUp(std::shared_ptr<Player> _Player) { return Input_PickUpOption::NoResponse; }
-	//virtual bool Input_Action() { return false; }
+	
 
 	inline std::shared_ptr<GameEngineFBXStaticRenderer> GetFBXMesh() const
 	{
@@ -90,20 +85,7 @@ protected:
 		return Enum_ObjectType_;
 	}
 
-	inline void SetVector(const float4& _Vector)
-	{
-		Vector_ = _Vector;
-	}
 
-	inline void PlusVector(const float4& _Vector)
-	{
-		Vector_ += _Vector;
-	}
-
-	inline float4 GetVector() const
-	{
-		return Vector_;
-	}
 
 private:
 	std::shared_ptr<GameEngineFBXStaticRenderer> Mesh_Object_;
@@ -111,9 +93,6 @@ private:
 	std::shared_ptr<GameEngineCollision> Collision_Object_;
 
 	ObjectType Enum_ObjectType_;
-
-	// Physics
-	float4 Vector_;
 
 	//PhysicCollision PhysicCollision_;
 

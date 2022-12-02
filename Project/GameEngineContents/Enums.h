@@ -95,7 +95,7 @@ enum class IngredientType
 	Meat,
 	Lettuce, //양상추
 	Rice,
-	Flourbread, //밀가루
+	Flour, //밀가루
 	Bread,
 	Fish,
 	Sausage,

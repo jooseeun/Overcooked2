@@ -63,6 +63,5 @@ private:
 
 	// 
 
-	CombineType CombineThis(std::shared_ptr<GamePlayFood> _Food) override;
 };
 

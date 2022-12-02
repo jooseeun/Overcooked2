@@ -98,10 +98,19 @@ private:
 	ObjectBowlType Enum_ObjectBowlType_;
 	std::shared_ptr<CombinFood> CombinFood_;
 
-	//HoldDownEnum HoldUp(std::shared_ptr<GamePlayFood> _Food);
-	//HoldDownEnum HoldUp(std::shared_ptr<GamePlayBowl> _Bowl);
+	HoldDownEnum HoldUp(std::shared_ptr<GamePlayFood> _Food) final
+	{
+		if (CheckCombinFood(_Food->GetObjectFoodClass()))
+		{
+			return HoldDownEnum::HoldUp;
+		}
+		else
+		{
+			return HoldDownEnum::Nothing;
+		}
+	}
 
-	void CheckCombinFood();
+	virtual bool CheckCombinFood(IngredientType	_Type) { return false; };
 
 };
 

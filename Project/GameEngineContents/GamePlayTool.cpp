@@ -44,7 +44,7 @@ HoldDownEnum GamePlayTool::HoldUp(std::shared_ptr<Player> _Player)
 {
 	if (Moveable_Current_ != nullptr)
 	{
-		switch (Moveable_Current_->HoldUp(_Player))
+		switch (Moveable_Current_->CastThis<GamePlayStuff>()->HoldUp(_Player))
 		{
 		case HoldDownEnum::HoldUpDelete:
 		case HoldDownEnum::HoldUp:

@@ -70,6 +70,8 @@ private:
 	float CookingGage_;
 	bool TrimmingFirstTime_;
 
+
+
 	virtual HoldDownEnum HoldUp(std::shared_ptr<GamePlayFood> _Food);
 	virtual HoldDownEnum HoldUp(std::shared_ptr<GamePlayEquipment> _Equipment);
 	virtual HoldDownEnum HoldUp(std::shared_ptr<GamePlayBowl> _Bowl);

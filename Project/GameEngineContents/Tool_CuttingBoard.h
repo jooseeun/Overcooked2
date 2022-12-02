@@ -30,7 +30,7 @@ public:
 protected:
 	void Start() override;
 private:
-	bool HoldDown(std::shared_ptr<Player> _Player) final;
+	//bool HoldDown(std::shared_ptr<Player> _Player) final;
 	UsingDownEnum UsingDown(std::shared_ptr<Player> _Player) final;
 	bool Trimming_;
 

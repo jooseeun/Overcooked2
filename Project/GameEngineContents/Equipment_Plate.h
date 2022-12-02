@@ -38,6 +38,5 @@ private:
 	bool Washing_;
 
 	std::shared_ptr<Equipment_Plate> Pile_Plate_;
-	CombineType CombineThis(std::shared_ptr<GamePlayFood> _Food) override;
 };
 

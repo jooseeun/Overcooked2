@@ -25,20 +25,28 @@ SetPlayerState_Return GamePlayStuff::SetPlayerState(std::shared_ptr<Player> _Pla
 	switch (_Type)
 	{
 	case PlayerCurStateType::HoldUp:
-	case PlayerCurStateType::HoldDown:
 	{
 		if (_Player->GetPlayerHolding() == nullptr)
 		{
-			if (HoldDown(_Player))
+			switch (HoldUp(_Player))
 			{
-				_Player->SetPlayerHolding(shared_from_this());
-				return SetPlayerState_Return::Using;
+			default:
+				break;
 			}
-			else
-			{
-				return SetPlayerState_Return::Nothing;
-			}
+			//if ()
+			//{
+			//	_Player->SetPlayerHolding(shared_from_this());
+			//	return SetPlayerState_Return::Using;
+			//}
+			//else
+			//{
+			//	return SetPlayerState_Return::Nothing;
+			//}
 		}
+	}
+	case PlayerCurStateType::HoldDown:
+	{
+
 	}
 		break;
 	case PlayerCurStateType::Slice:

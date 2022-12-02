@@ -8,18 +8,13 @@ enum class ObjectStuffType
 	Tool,
 	Moveable,
 };
-enum class CombineType
-{
-	NoRespon,
-	DeleteThis,
-	DeleteThat,
-};
 enum class HoldDownEnum
 {
 	Nothing,
 	HoldUp,
 	HoldUpDelete,
 	HoldDown,
+	HoldDownDelete,
 };
 
 enum class UsingDownEnum
@@ -70,7 +65,6 @@ public:
 		MsgBoxAssert("º¸Çè")
 		return HoldDownEnum::Nothing;
 	};
-
 
 	inline virtual UsingDownEnum UsingDown(std::shared_ptr<Player> _Player)
 	{
