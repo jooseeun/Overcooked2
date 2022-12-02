@@ -47,8 +47,6 @@ public:
 		Moveable_Current_.reset();
 	}
 
-	HoldDownEnum HoldUp(std::shared_ptr<Player> _Player) override;
-
 
 	inline ObjectToolType GetObjectToolType()
 	{

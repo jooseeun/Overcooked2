@@ -199,88 +199,88 @@ private:
 	IngredientType Enum_IngredientType_;
 	bool Trim_; // ture - 접시위에 올릴수 있음
 
-	HoldDownEnum HoldUp(std::shared_ptr<Player> _Player) final
-	{
-		if (_Player->GetPlayerHolding()->CastThis<GamePlayFood>() != nullptr)
-		{
-			switch (HoldUp(_Player->GetPlayerHolding()->CastThis<GamePlayFood>()))
-			{
-			case HoldDownEnum::HoldUp:
-				_Player->SetPlayerHolding(shared_from_this());
-				_Player->SetCurHoldType(PlayerHoldType::CanThrow);
-				return HoldDownEnum::HoldUp;
-				break;
-			case HoldDownEnum::HoldUpDelete:
-				_Player->SetPlayerHolding(shared_from_this());
-				_Player->SetCurHoldType(PlayerHoldType::NotThrow);
-				return HoldDownEnum::HoldUpDelete;
-				break;
-			case HoldDownEnum::HoldDown:
-				_Player->DetachPlayerHolding();
-				return HoldDownEnum::HoldDown;
-			default:
-				return HoldDownEnum::Nothing;
-				break;
-			}
-		}
-		else if (_Player->GetPlayerHolding()->CastThis<GamePlayBowl>())
-		{
-			switch (HoldUp(_Player->GetPlayerHolding()->CastThis<GamePlayBowl>()))
-			{
-			case HoldDownEnum::HoldUpDelete:
-				MsgBoxAssert("미정")
-					return HoldDownEnum::HoldUpDelete;
-				break;
-			case HoldDownEnum::HoldDown:
-				MsgBoxAssert("미정")
-					return HoldDownEnum::HoldDown;
-				break;
-			default:
-				break;
-			}
-		}
-		else
-		{
-			//return HoldUp(_Player->GetPlayerHolding()->CastThis<GamePlayEquipment>());
-		}
-		return HoldDownEnum::Nothing;
-
-	};
-
-
-
-	HoldDownEnum HoldUp(std::shared_ptr<GamePlayFood> _Food) final
-	{
-		switch (CheckCombine(GetObjectFoodClass(), _Food->GetObjectFoodClass()))
-		{
-		case ReturnMix::AtoB:
-			return HoldDownEnum::HoldDown;
-			break;
-		case ReturnMix::BtoA:
-			return HoldDownEnum::HoldUpDelete;
-			break;
-		default:
-			break;
-		}
-		return HoldDownEnum::Nothing;
-	}
-
-	HoldDownEnum HoldUp(std::shared_ptr<GamePlayEquipment> _Equipment) final
-	{
-		return HoldDownEnum::Nothing;
-	}
-
-	HoldDownEnum HoldUp(std::shared_ptr<GamePlayBowl> _Bowl) final
-	{
-		if (Trim_ == false)
-		{
-			return HoldDownEnum::Nothing;
-		}
-		else
-		{
-			return HoldDownEnum::HoldDown;
-		}
-		
-	}
-};
-
+//	HoldDownEnum HoldUp(std::shared_ptr<Player> _Player) final
+//	{
+//		if (_Player->GetPlayerHolding()->CastThis<GamePlayFood>() != nullptr)
+//		{
+//			switch (HoldUp(_Player->GetPlayerHolding()->CastThis<GamePlayFood>()))
+//			{
+//			case HoldDownEnum::HoldUp:
+//				_Player->SetPlayerHolding(shared_from_this());
+//				_Player->SetCurHoldType(PlayerHoldType::CanThrow);
+//				return HoldDownEnum::HoldUp;
+//				break;
+//			case HoldDownEnum::HoldUpDelete:
+//				_Player->SetPlayerHolding(shared_from_this());
+//				_Player->SetCurHoldType(PlayerHoldType::NotThrow);
+//				return HoldDownEnum::HoldUpDelete;
+//				break;
+//			case HoldDownEnum::HoldDown:
+//				_Player->DetachPlayerHolding();
+//				return HoldDownEnum::HoldDown;
+//			default:
+//				return HoldDownEnum::Nothing;
+//				break;
+//			}
+//		}
+//		else if (_Player->GetPlayerHolding()->CastThis<GamePlayBowl>())
+//		{
+//			switch (HoldUp(_Player->GetPlayerHolding()->CastThis<GamePlayBowl>()))
+//			{
+//			case HoldDownEnum::HoldUpDelete:
+//				MsgBoxAssert("미정")
+//					return HoldDownEnum::HoldUpDelete;
+//				break;
+//			case HoldDownEnum::HoldDown:
+//				MsgBoxAssert("미정")
+//					return HoldDownEnum::HoldDown;
+//				break;
+//			default:
+//				break;
+//			}
+//		}
+//		else
+//		{
+//			//return HoldUp(_Player->GetPlayerHolding()->CastThis<GamePlayEquipment>());
+//		}
+//		return HoldDownEnum::Nothing;
+//
+//	};
+//
+//
+//
+//	HoldDownEnum HoldUp(std::shared_ptr<GamePlayFood> _Food) final
+//	{
+//		switch (CheckCombine(GetObjectFoodClass(), _Food->GetObjectFoodClass()))
+//		{
+//		case ReturnMix::AtoB:
+//			return HoldDownEnum::HoldDown;
+//			break;
+//		case ReturnMix::BtoA:
+//			return HoldDownEnum::HoldUpDelete;
+//			break;
+//		default:
+//			break;
+//		}
+//		return HoldDownEnum::Nothing;
+//	}
+//
+//	HoldDownEnum HoldUp(std::shared_ptr<GamePlayEquipment> _Equipment) final
+//	{
+//		return HoldDownEnum::Nothing;
+//	}
+//
+//	HoldDownEnum HoldUp(std::shared_ptr<GamePlayBowl> _Bowl) final
+//	{
+//		if (Trim_ == false)
+//		{
+//			return HoldDownEnum::Nothing;
+//		}
+//		else
+//		{
+//			return HoldDownEnum::HoldDown;
+//		}
+//		
+//	}
+//};
+//

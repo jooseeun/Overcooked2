@@ -28,11 +28,11 @@ SetPlayerState_Return GamePlayStuff::SetPlayerState(std::shared_ptr<Player> _Pla
 	{
 		if (_Player->GetPlayerHolding() == nullptr)
 		{
-			switch (HoldUp(_Player))
+		/*	switch (HoldUp(_Player))
 			{
 			default:
 				break;
-			}
+			}*/
 			//if ()
 			//{
 			//	_Player->SetPlayerHolding(shared_from_this());

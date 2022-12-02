@@ -56,18 +56,18 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 		}
 		else
 		{
-			switch (Stuff_Current_->HoldUp(_Player))
-			{
+			//switch (Stuff_Current_->HoldUp(_Player))
+			//{
 
-			case HoldDownEnum::HoldUp:
-				return SetPlayerState_Return::Using;
-				break;
-			case HoldDownEnum::HoldDown:
-			case HoldDownEnum::Nothing:
-			default:
-				return SetPlayerState_Return::Nothing;
-				break;
-			}
+			//case HoldDownEnum::HoldUp:
+			//	return SetPlayerState_Return::Using;
+			//	break;
+			//case HoldDownEnum::HoldDown:
+			//case HoldDownEnum::Nothing:
+			//default:
+			//	return SetPlayerState_Return::Nothing;
+			//	break;
+			//}
 		}
 	}
 		break;

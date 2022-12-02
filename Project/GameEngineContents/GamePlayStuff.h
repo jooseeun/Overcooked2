@@ -60,11 +60,7 @@ public:
 
 	//virtual void SetParentObject(std::shared_ptr<GameEngineUpdateObject> _Object);
 
-	inline virtual HoldDownEnum HoldUp(std::shared_ptr<Player> _Player)
-	{
-		MsgBoxAssert("º¸Çè")
-		return HoldDownEnum::Nothing;
-	};
+
 
 	inline virtual UsingDownEnum UsingDown(std::shared_ptr<Player> _Player)
 	{
