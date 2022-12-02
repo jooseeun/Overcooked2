@@ -170,18 +170,7 @@ void Overcooked::MeshLoad()
 
 	//std::vector<std::weak_ptr<GameEngineFBXMesh>> Test = GameEngineFBXMesh::LoadLevel("Level");
 
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Object");
-		Dir.Move("StaticObject");
-		Dir.Move("TitleVan");
-
-		std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(Dir.PlusFilePath("m_van_01.fbx"));
-		std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
-	}
+	GameEngineFBXMesh::LoadLevel("Level\\Title");
 
 	// 맵툴 오브젝트
 	{
@@ -348,6 +337,7 @@ void Overcooked::LoadStage(std::string_view _StageName)
 
 void Overcooked::LoadCommonResource()
 {
+
 	//{
 	//	GameEngineDirectory Dir;
 	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
