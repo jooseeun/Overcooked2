@@ -69,9 +69,7 @@ void Stage_1_1::PlayLevelStartEvent()
 	IsLevelFirst_ = false;
 	std::shared_ptr<LevelActor> Tmp = CreateActor<LevelActor>();
 	Tmp->SetLevelMesh("1_1.FBX");
-
-	Tmp->GetRenderer()->SetSubMaterial(7, "TextureAlpha");
-
+	Tmp->GetRenderer()->SetSubMaterial(6, "TextureAlpha");
 
 	GlobalIOManager::Load(IOType::SortMap, 0);
 	DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);

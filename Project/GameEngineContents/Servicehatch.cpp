@@ -19,11 +19,13 @@ void Servicehatch::Start()
 	GetFBXMesh()->SetFBXMesh("m_dlc08_servicehatch_01.fbx", "Texture");
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 	GetFBXMesh()->GetTransform().SetWorldMove({ -60, 0, 0 });
+	
+	GetFBXMesh()->SetSubConstantBufferLink(0, "RENDEROPTION", &RenderOptionMyInst, sizeof(RenderOption));
 }
 
 void Servicehatch::Update(float _DeltaTime)
 {
-	GetFBXMesh()->RenderOptionInst.UV.x -= _DeltaTime * 0.5f;
+	RenderOptionMyInst.UV.x -= _DeltaTime * 0.5f;
 }
 
 
