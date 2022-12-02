@@ -245,6 +245,12 @@
     <ClInclude Include="Food_Ingredients_Bread.h">
       <Filter>Contents\Object\Food</Filter>
     </ClInclude>
+    <ClInclude Include="GameServerObject.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerTestPlayer.h">
+      <Filter>Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -490,6 +496,12 @@
     </ClCompile>
     <ClCompile Include="Food_Ingredients_Bread.cpp">
       <Filter>Contents\Object\Food</Filter>
+    </ClCompile>
+    <ClCompile Include="GameServerObject.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerTestPlayer.cpp">
+      <Filter>Global</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

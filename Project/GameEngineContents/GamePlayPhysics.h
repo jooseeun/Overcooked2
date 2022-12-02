@@ -25,7 +25,18 @@ public:
 	{
 		PhysicsCollision_ = _Col;
 	}
-
+	inline void SetGravityCollision(std::shared_ptr<GameEngineCollision> _Col) // 원래 사용하던 collision 넣어주면됨, 아님 새로 만들어 주어서 넣어주면 됩니다
+	{
+		PhysicsGravityCollision_ = _Col;
+	}
+	inline void SetLeftCollision(std::shared_ptr<GameEngineCollision> _Col) // 원래 사용하던 collision 넣어주면됨, 아님 새로 만들어 주어서 넣어주면 됩니다
+	{
+		PhysicsLeftCollision_ = _Col;
+	}
+	inline void SetRightCollision(std::shared_ptr<GameEngineCollision> _Col) // 원래 사용하던 collision 넣어주면됨, 아님 새로 만들어 주어서 넣어주면 됩니다
+	{
+		PhysicsRightCollision_ = _Col;
+	}
 	inline bool GetIsThrow() const
 	{
 		return IsThrow_;
@@ -55,6 +66,7 @@ public:
 	{
 		return CurMass_;
 	}
+	CollisionReturn PullPlayer(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 protected:
 
 	void Gravity(); // 중력함수 -> Update에서 일단 하는중
@@ -78,5 +90,9 @@ private:
 	bool IsThrow_;
 
 	std::shared_ptr<GameEngineCollision> PhysicsCollision_;
+	std::shared_ptr<GameEngineCollision> PhysicsGravityCollision_;
+
+	std::shared_ptr<GameEngineCollision> PhysicsLeftCollision_;
+	std::shared_ptr<GameEngineCollision> PhysicsRightCollision_;
 };
 

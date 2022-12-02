@@ -44,7 +44,7 @@ void Overcooked::Start()
 	LoadingData::AddFunc("1-4", std::bind(&Overcooked::LoadStage, this, "1_4"));
 	LoadingData::AddFunc("2-1", std::bind(&Overcooked::LoadStage, this, "2_1"));
 
-	GameEngineTime::SetLimitFrame(60);
+	//GameEngineTime::SetLimitFrame(60);
 
 	//{
 	//	D3D11_BLEND_DESC Desc = { 0 };
@@ -87,7 +87,7 @@ void Overcooked::Start()
 	CreateLevel<Stage_1_2>("1-2");
 	CreateLevel<Stage_1_3>("1-3");
 	CreateLevel<Stage_1_4>("1-4");
-	CreateLevel<Stage_1_4>("2-1");
+	CreateLevel<Stage_2_1>("2-1");
 	CreateLevel<MapToolLevel>("MapToolLevel");
 	CreateLevel<MeshToolLevel>("MeshToolLevel");
 	CreateLevel<TitleLevel>("TitleLevel");
@@ -319,6 +319,22 @@ void Overcooked::InputMake()
 		GameEngineInput::GetInst()->CreateKey("PlayerDash", 'X');
 		GameEngineInput::GetInst()->CreateKey("PlayerHold", VK_SPACE);
 		GameEngineInput::GetInst()->CreateKey("PlayerInteract", VK_CONTROL);
+
+		//GameEngineInput::GetInst()->CreateKey("PlayerSlice", VK_CONTROL);
+	}
+
+	if (false == GameEngineInput::GetInst()->IsKey("PlayerLeft2"))
+	{
+		GameEngineInput::GetInst()->CreateKey("IsSingleMode", '1');
+		GameEngineInput::GetInst()->CreateKey("ChangePlayerCustom2", 'K');
+		GameEngineInput::GetInst()->CreateKey("ChangePlayerNum2", 'J');
+		GameEngineInput::GetInst()->CreateKey("PlayerLeft2", 'F');
+		GameEngineInput::GetInst()->CreateKey("PlayerRight2", 'H');
+		GameEngineInput::GetInst()->CreateKey("PlayerFront2", 'T');
+		GameEngineInput::GetInst()->CreateKey("PlayerBack2", 'G');
+		GameEngineInput::GetInst()->CreateKey("PlayerDash2", VK_TAB);
+		GameEngineInput::GetInst()->CreateKey("PlayerHold2", 'Z');
+		GameEngineInput::GetInst()->CreateKey("PlayerInteract2", VK_SHIFT);
 
 		//GameEngineInput::GetInst()->CreateKey("PlayerSlice", VK_CONTROL);
 	}

@@ -25,6 +25,7 @@ public:
 	virtual void ChangeLoadMaterial();
 
 	virtual void SetSubMaterial(int _Index, const std::string& _Material);
+	virtual void SetSubConstantBufferLink(int _Index, const std::string& _Name, const void* _Data, UINT _Size);
 
 	void Start() override;
 	void Render(float _DeltaTime) override;

@@ -10,6 +10,7 @@ enum class CollisionOrder
 	Object_None,
 	Object_StaticObject,
 	Object_Character,
+	Object_CharacterColCheck,
 	Object_Character_Interact,
 	Object_Moveable,
 

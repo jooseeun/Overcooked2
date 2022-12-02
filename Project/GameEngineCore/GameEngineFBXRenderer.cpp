@@ -175,6 +175,15 @@ void GameEngineFBXRenderer::SetSubMaterial(int _Index, const std::string& _Mater
 	return;
 }
 
+void GameEngineFBXRenderer::SetSubConstantBufferLink(int _Index, const std::string& _Name, const void* _Data, UINT _Size)
+{
+	std::vector<GameEngineRenderUnit>& TmpUnits = Unit[_Index];
+	for (size_t i = 0; i < TmpUnits.size(); i++)
+	{
+		TmpUnits[i].ShaderResources.SetConstantBufferLink(_Name, _Data, _Size);
+	}
+}
+
 void GameEngineFBXRenderer::Render(float _DeltaTime) 
 {
 	for (size_t UnitIndex = 0; UnitIndex < Unit.size(); UnitIndex++)

@@ -19,15 +19,14 @@ public:
 
 	void Accept(int Port);
 
-	int Send(const char* Data, size_t _Size) 
+	int Send(const char* Data, size_t _Size) override
 	{
 		return 0;
 	}
 
-	int SendPacket(std::shared_ptr<GameServerPacket> _Packet) 
-	{
-		return 0;
-	}
+	int SendPacket(std::shared_ptr<GameServerPacket> _Packet) override;
+
+	std::function<void(SOCKET)> AcceptCallBack;
 
 protected:
 

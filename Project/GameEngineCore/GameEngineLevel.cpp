@@ -322,7 +322,8 @@ void GameEngineLevel::LevelUpdate(float _DeltaTime)
 	AddAccTime(_DeltaTime);
 	Update(_DeltaTime);
 	ActorUpdate(_DeltaTime);
-	//Release(_DeltaTime);
+	Render(_DeltaTime);
+	Release(_DeltaTime);
 }
 
 // 레벨을 이동하는 액터

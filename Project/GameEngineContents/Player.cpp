@@ -29,9 +29,11 @@ Player::Player()
 	, CurrentHoldingObject_(nullptr)
 	, FireOff_(false)
 	, PlayerName_()
-	, PlayerPNum(3)
+	, PlayerPNum(1)
 	, IsSlice_(false)
 	, DashTime_(0.0f)
+	, IsSingleMode(false)
+	, PNumString("")
 {
 
 }
@@ -43,6 +45,7 @@ Player::~Player()
 void Player::Start()
 {
 	GetTransform().SetLocalScale({ 1, 1, 1 });
+
 
 
 	{
@@ -127,35 +130,44 @@ void Player::Start()
 	}
 
 	{
+		PlayerCollision_ = CreateComponent<GameEngineCollision>();
+		PlayerCollision_->GetTransform().SetLocalScale({ 100,100,100 });
+		PlayerCollision_->GetTransform().SetLocalPosition({ 0,-20,0 });
+		PlayerCollision_->ChangeOrder(CollisionOrder::Object_Character);
+		SetCollision(PlayerCollision_);
+
 		PlayerFloorCollision_ = CreateComponent<GameEngineCollision>();
 		PlayerFloorCollision_->GetTransform().SetLocalScale({ 100,15,100 });
 		PlayerFloorCollision_->GetTransform().SetLocalPosition({ 0,-20,0 });
-		PlayerFloorCollision_->ChangeOrder(CollisionOrder::Object_Character);
-		SetCollision(PlayerFloorCollision_);
+		PlayerFloorCollision_->ChangeOrder(CollisionOrder::Object_CharacterColCheck);
+		SetGravityCollision(PlayerFloorCollision_);
 	}
 	{
 		PlayerForwardCollision_ = CreateComponent<GameEngineCollision>();
 		PlayerForwardCollision_->GetTransform().SetLocalScale({ 55,100,10 });
 		PlayerForwardCollision_->GetTransform().SetLocalPosition({ 0,0,-50 });
-		PlayerForwardCollision_->ChangeOrder(CollisionOrder::Object_Character);
+		PlayerForwardCollision_->ChangeOrder(CollisionOrder::Object_CharacterColCheck);
 		PlayerForwardCollision_->SetDebugSetting(CollisionType::CT_AABB, { 0,0,0 });
 	}
 	{
 		PlayerForwardLeftCollision_ = CreateComponent<GameEngineCollision>();
 		PlayerForwardLeftCollision_->GetTransform().SetLocalScale({ 20,100,10 });
 		PlayerForwardLeftCollision_->GetTransform().SetLocalPosition({ 70,0,-50 });
-		PlayerForwardLeftCollision_->ChangeOrder(CollisionOrder::Max);
+		PlayerForwardLeftCollision_->ChangeOrder(CollisionOrder::Object_CharacterColCheck);
 		PlayerForwardLeftCollision_->SetDebugSetting(CollisionType::CT_AABB, { 0,0,0 });
+		SetLeftCollision(PlayerForwardLeftCollision_);
 	}
 	{
 		PlayerForwardRightCollision_ = CreateComponent<GameEngineCollision>();
 		PlayerForwardRightCollision_->GetTransform().SetLocalScale({ 20,100,10 });
 		PlayerForwardRightCollision_->GetTransform().SetLocalPosition({ -70,0,-50 });
-		PlayerForwardRightCollision_->ChangeOrder(CollisionOrder::Max);
+		PlayerForwardRightCollision_->ChangeOrder(CollisionOrder::Object_CharacterColCheck);
 		PlayerForwardRightCollision_->SetDebugSetting(CollisionType::CT_AABB, { 0,0,0 });
+		SetRightCollision(PlayerForwardRightCollision_);
 	}
 
 	Collision_Interact_ = CreateComponent<GameEngineCollision>("PlayerCollision");
+	Collision_Interact_->ChangeOrder(CollisionOrder::Object_Character_Interact);
 	Collision_Interact_->GetTransform().SetLocalScale({ 50,100,200});
 	Collision_Interact_->GetTransform().SetLocalPosition({ 0,0,-60 });
 
@@ -352,11 +364,11 @@ void Player::ChangePlayerColor() // 플레이어 팀 색 바꾸는 함수
 
 void Player::CustomKeyCheck()
 {
-	if (true == GameEngineInput::GetInst()->IsDownKey("ChangePlayerCustom"))
+	if (true == GameEngineInput::GetInst()->IsDownKey("ChangePlayerCustom" + PNumString))
 	{
 		ChangePlayer();
 	}
-	if (true == GameEngineInput::GetInst()->IsDownKey("ChangePlayerNum"))
+	if (true == GameEngineInput::GetInst()->IsDownKey("ChangePlayerNum" + PNumString))
 	{
 		PlayerPNum += 1;
 		if (PlayerPNum == 5)
@@ -382,16 +394,47 @@ void  Player::LevelStartEvent()
 
 void Player::Update(float _DeltaTime)
 {
+	if (true == GameEngineInput::GetInst()->IsDownKey("IsSingleMode"))
+	{
+		IsSingleMode = true;
+	}
+	if (IsSingleMode == true)
+	{
+		std::shared_ptr<Player> MainPlayer2 = GetLevel()->CreateActor<Player>();
+		MainPlayer2->GetTransform().SetLocalPosition({ -1000, 500, 200 });
+		MainPlayer2->PlayerPNum = 2;
+
+		IsSingleMode = false;
+	}
+
+
 	StateManager.Update(_DeltaTime);
+	PNumSgtringUpdate();
 	DashCheck(_DeltaTime);
 	CustomKeyCheck();
 	Gravity();
 	
 }
 
-
-
-
+void Player::PNumSgtringUpdate()
+{
+	if (PlayerPNum == 1)
+	{
+		PNumString = "";
+	}
+	else if (PlayerPNum == 2)
+	{
+		PNumString = "2";
+	}
+	else if (PlayerPNum == 3)
+	{
+		PNumString = "3";
+	}
+	else if (PlayerPNum == 4)
+	{
+		PNumString = "4";
+	}
+}
 
 
 bool Player::MoveAngle()
@@ -641,7 +684,7 @@ bool Player::MoveAngle()
 void Player::DashCheck(float _DeltaTime)
 {
 	DashTime_ -= 1.0f * _DeltaTime;
-	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerDash"))
+	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerDash" + PNumString))
 	{
 		if (DashTime_ < 0.0f)
 		{
@@ -652,10 +695,10 @@ void Player::DashCheck(float _DeltaTime)
 
 	if (DashTime_ > 0.0f)
 	{
-		if (false == GameEngineInput::GetInst()->IsPressKey("PlayerLeft") &&
-			false == GameEngineInput::GetInst()->IsPressKey("PlayerRight") &&
-			false == GameEngineInput::GetInst()->IsPressKey("PlayerFront") &&
-			false == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
+		if (false == GameEngineInput::GetInst()->IsPressKey("PlayerLeft" + PNumString) &&
+			false == GameEngineInput::GetInst()->IsPressKey("PlayerRight" + PNumString) &&
+			false == GameEngineInput::GetInst()->IsPressKey("PlayerFront" + PNumString) &&
+			false == GameEngineInput::GetInst()->IsPressKey("PlayerBack" + PNumString))
 		{
 			if (PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == false &&
 				PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
@@ -683,58 +726,58 @@ void Player::DashCheck(float _DeltaTime)
 
 void Player::PlayerDirCheck() // 플레이어 방향 체크하고 회전시키는 함수
 {
-	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerFront"))
+	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerFront" + PNumString))
 	{
 		CurDir_ = PlayerDir::Front;
-		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft"))
+		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft" + PNumString))
 		{
 			CurDir_ = PlayerDir::FrontLeft;
 
 		}
-		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerRight"))
+		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerRight" + PNumString))
 		{
 			CurDir_ = PlayerDir::FrontRight;
 		}
 
 	}
 
-	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
+	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerBack" + PNumString))
 	{
 		CurDir_ = PlayerDir::Back;
-		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft"))
+		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft" + PNumString))
 		{
 			CurDir_ = PlayerDir::BackLeft;
 		}
-		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerRight"))
+		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerRight" + PNumString))
 		{
 			CurDir_ = PlayerDir::BackRight;
 		}
 
 	}
 
-	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft"))
+	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft" + PNumString))
 	{
 		CurDir_ = PlayerDir::Left;
-		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerFront"))
+		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerFront" + PNumString))
 		{
 			CurDir_ = PlayerDir::FrontLeft;
 		}
-		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
+		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerBack" + PNumString))
 		{
 			CurDir_ = PlayerDir::BackLeft;
 		}
 
 	}
 
-	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerRight"))
+	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerRight" + PNumString))
 	{
 
 		CurDir_ = PlayerDir::Right;
-		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerFront"))
+		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerFront" + PNumString))
 		{
 			CurDir_ = PlayerDir::FrontRight;
 		}
-		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
+		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerBack" + PNumString))
 		{
 			CurDir_ = PlayerDir::BackRight;
 		}
@@ -999,3 +1042,5 @@ CollisionReturn Player::InteractTableCheck(std::shared_ptr<GameEngineCollision> 
 
 	return CollisionReturn::ContinueCheck;
 }
+
+

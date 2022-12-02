@@ -4,6 +4,7 @@
 #include <GameEngineBase/GameServerNetClient.h>
 
 // Ό³Έν :
+class ServerTestPlayer;
 class ServerTestLevel : public GameEngineLevel
 {
 public:
@@ -19,6 +20,7 @@ public:
 
 	static GameServerNet* Net;
 	void ObjectUpdatePacketProcess(std::shared_ptr<GameServerPacket> _Packet);
+	void ClientInitPacketProcess(std::shared_ptr<GameServerPacket> _Packet);
 
 protected:
 	void Start() override;
@@ -28,10 +30,10 @@ protected:
 	void LevelEndEvent() override;
 
 private:
+	std::shared_ptr<ServerTestPlayer> MainPlayer;
+
 	static GameServerNetServer Server;
 	static GameServerNetClient Client;
-
-	std::map<__int64, std::shared_ptr<GameEngineActor>> AllServerActor;
 
 };
 

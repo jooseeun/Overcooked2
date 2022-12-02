@@ -6,6 +6,7 @@ GameEngineCameraActor::GameEngineCameraActor()
 	: CameraComponent(nullptr)
 	, RotSpeed(180.0f)
 	, Speed(500.0f)
+	, FreeCameraMode(false)
 {
 }
 
@@ -29,7 +30,6 @@ void GameEngineCameraActor::Start()
 		GameEngineInput::GetInst()->CreateKey("CamMoveBoost", VK_LSHIFT);
 		GameEngineInput::GetInst()->CreateKey("CamRot", VK_RBUTTON);
 	}
-
 }
 
 void GameEngineCameraActor::Update(float _DeltaTime)
