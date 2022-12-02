@@ -4,6 +4,7 @@
 
 GameServerNetClient::GameServerNetClient() 
 {
+	IsHost = false;
 }
 
 GameServerNetClient::~GameServerNetClient() 
@@ -42,16 +43,42 @@ void GameServerNetClient::Connect(const std::string& _Ip, int Port)
 		return;
 	}
 
-	int a = 0;
+	RecvThread.Start("RecvThread", std::bind(&GameServerNetClient::RecvThreadFunction, this, &RecvThread));
 }
 
 int GameServerNetClient::Send(const char* Data, size_t _Size)
 {
-	return GameServerNet::Send(SessionSocket, Data, _Size);
+	return GameServerNet::NetSend(SessionSocket, Data, _Size);
 }
 
 int GameServerNetClient::SendPacket(std::shared_ptr<GameServerPacket> _Packet)
 {
 	GameServerSerializer Ser = PacketSerializ(_Packet);
 	return Send(Ser.GetDataPtrConvert<const char*>(), Ser.GetOffSet());
+}
+
+void GameServerNetClient::RecvThreadFunction(GameEngineThread* _Thread)
+{
+	char Packet[1024] = { 0 };
+	while (true)
+	{
+		int Result = recv(SessionSocket, Packet, sizeof(Packet), 0);
+
+		if (-1 == Result)
+		{
+			// MsgBoxAssert("네트워크 에러");
+			return;
+		}
+
+		GameServerSerializer Ser = GameServerSerializer(Packet, 1024);
+		int PacketType;
+		int PacketSize;
+
+		memcpy_s(&PacketType, sizeof(int), Ser.GetDataPtr(), sizeof(int));
+		memcpy_s(&PacketSize, sizeof(int), Ser.GetDataPtr() + 4, sizeof(int));
+
+		std::shared_ptr<GameServerPacket> Packet = Dis.PacketReturnCallBack(PacketType, PacketSize, Ser);
+
+		Dis.ProcessPacket(Packet);
+	}
 }
