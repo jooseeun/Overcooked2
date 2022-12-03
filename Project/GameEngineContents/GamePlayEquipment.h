@@ -1,5 +1,6 @@
 #pragma once
 #include "GamePlayMoveable.h"
+#include "GamePlayStaticObject.h"
 
 // Ό³Έν :
 enum class ObjectEquipmentType
@@ -54,5 +55,16 @@ protected:
 private:
 	ObjectEquipmentType Enum_ObjectEquipmentType_;
 
+	HoldDownEnum HoldOn(std::shared_ptr<Player> _Player) override
+	{
+		if (_Player->GetPlayerHolding() == nullptr)
+		{
+			_Player->SetPlayerHolding(shared_from_this());
+			return HoldDownEnum::HoldUp;
+		}
+		else
+		{
+			return HoldDownEnum::Nothing;
+		}
+	};
 };
-

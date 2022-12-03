@@ -21,6 +21,9 @@ void Equipment_Plate::Start()
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 	GetCollisionObject()->GetTransform().SetWorldPosition({ 0, -25, 0});
 	GetCollisionObject()->GetTransform().SetLocalScale({ 100, 25, 100 });
+
+
+	GetCombinFood()->Start(1, shared_from_this(), false);
 }
 
 void Equipment_Plate::SetDirty()
@@ -34,6 +37,63 @@ void Equipment_Plate::SetClean()
 	Dirty_ = false;
 	// 텍스쳐 변경필요
 }
+
+
+HoldDownEnum Equipment_Plate::HoldOn(std::shared_ptr<Player> _Player) 
+{
+	if (_Player->GetPlayerHolding() == nullptr)
+	{
+		_Player->SetPlayerHolding(shared_from_this());
+		return HoldDownEnum::HoldUp;
+	}
+	else
+	{
+		if (_Player->GetPlayerHolding()->CastThis<GamePlayFood>() != nullptr)
+		{
+			IngredientType Type = _Player->GetPlayerHolding()->CastThis<GamePlayFood>()->GetObjectFoodClass();
+			for (size_t i = 0; i < GetCombinFood()->Food_Current_.size(); i++)
+			{
+				if (GetCombinFood()->Food_Current_[i] == IngredientType::None)
+				{
+					continue;
+				}
+				else if(GamePlayFood::CheckCombine(GetCombinFood()->Food_Current_[i], Type) == ReturnMix::NoMix)
+				{
+					return HoldDownEnum::Nothing;
+				}
+			}
+			if (!GetCombinFood()->PushFood(Type))
+			{
+				return HoldDownEnum::Nothing;
+			}
+			_Player->DetachPlayerHolding();
+			return HoldDownEnum::HoldDown;
+		}
+		else if (_Player->GetPlayerHolding()->CastThis<GamePlayBowl>() != nullptr)
+		{
+			MsgBoxAssert("아직")
+		}
+		else
+		{
+			return HoldDownEnum::Nothing;
+		}
+		return HoldDownEnum::Nothing;
+	}
+}
+
+HoldDownEnum Equipment_Plate::PickUp(std::shared_ptr<GamePlayMoveable> _Moveable)
+{
+	if (GetCombinFood()->IsClear())
+	{
+		_Moveable->Death();
+		GetCombinFood()->PushFood(IngredientType::Fish);
+		GetCombinFood()->SetRenderer("Sushi_Roll_Salmon.FBX");
+		return HoldDownEnum::HoldUp;
+	}
+	return HoldDownEnum::Nothing;
+	
+}
+
 
 
 //Input_PutDownOption Equipment_Plate::Input_PutDown(std::shared_ptr<GamePlayMoveable> _Object)

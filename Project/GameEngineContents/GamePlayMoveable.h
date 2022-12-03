@@ -47,7 +47,7 @@ public:
 	{
 		return CookingGage_;
 	}
-	bool Input_Manual(std::shared_ptr<Player> _Player, float _MaxTime, float _Delta);
+	bool Input_Manual(std::shared_ptr<Player> _Player, float _Delta, float _MaxTime);
 protected:
 	void Start() override;
 	//void Update(float _DeltaTime) final;
@@ -70,14 +70,13 @@ private:
 	float CookingGage_;
 	bool TrimmingFirstTime_;
 
-
-
-	virtual HoldDownEnum HoldUp(std::shared_ptr<GamePlayFood> _Food);
-	virtual HoldDownEnum HoldUp(std::shared_ptr<GamePlayEquipment> _Equipment);
-	virtual HoldDownEnum HoldUp(std::shared_ptr<GamePlayBowl> _Bowl);
-
 	virtual void FinishTrimmingFirst() {}
 	virtual void FinishTrimming() {}
 
+	HoldDownEnum HoldOn(std::shared_ptr<GamePlayStaticObject> _Object) override;
+	HoldDownEnum HoldOn(std::shared_ptr<Player> _Object) override
+	{
+		return HoldDownEnum::Nothing;
+	}
 };
 

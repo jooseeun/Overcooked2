@@ -24,3 +24,4 @@ void Food_Ingredients_Fish::FinishTrimmingFirst()
 	SetTrim();
 	GetFBXMesh()->SetFBXMesh("Sushi_Roll_Salmon.FBX", "Texture");
 }
+

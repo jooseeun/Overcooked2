@@ -1,9 +1,11 @@
 #include "PreCompile.h"
 #include "GamePlayMoveable.h"
 #include "GamePlayEquipment.h"
+#include "GamePlayTool.h"
 
 GamePlayMoveable::GamePlayMoveable()
 	: TrimmingFirstTime_(false)
+	, CookingGage_(0)
 //, CookedStat_Current_(CookedStat::Nomal)
 {
 }
@@ -21,8 +23,8 @@ void GamePlayMoveable::Start()
 
 bool GamePlayMoveable::Input_Manual(std::shared_ptr<Player> _Player, float _Delta, float _MaxTime)
 {
-	CookingGage_ += _Delta / _MaxTime;
-	if (CookingGage_ > 1.0f)
+	CookingGage_ += _Delta;
+	if (CookingGage_ > _MaxTime)
 	{
 		if (TrimmingFirstTime_ == false)
 		{
@@ -43,6 +45,39 @@ bool GamePlayMoveable::Input_Manual(std::shared_ptr<Player> _Player, float _Delt
 		return false;
 	}
 }
+
+HoldDownEnum GamePlayMoveable::HoldOn(std::shared_ptr<GamePlayStaticObject> _Object)
+{
+	if (_Object->GetStuff() == nullptr)
+	{
+		_Object->SetStuff(shared_from_this()->CastThis<GamePlayStuff>());
+		return HoldDownEnum::HoldDown;
+	}
+	else
+	{
+		switch (_Object->GetStuff()->CastThis<GamePlayStuff>()->PickUp(shared_from_this()->CastThis<GamePlayMoveable>()))
+		{
+		case HoldDownEnum::Nothing:
+			return HoldDownEnum::Nothing;
+			break;
+		case HoldDownEnum::HoldUp:
+			if (_Object->GetStuff()->CastThis<GamePlayTool>() == nullptr)
+			{
+				_Object->SetStuff(shared_from_this()->CastThis<GamePlayMoveable>());
+			}
+			return HoldDownEnum::HoldUp;
+			break;
+		case HoldDownEnum::HoldDown:
+			return HoldDownEnum::HoldDown;
+			break;
+		default:
+			break;
+		}
+	}
+	return HoldDownEnum::Nothing;
+}
+
+
 
 //SetPlayerState_Return GamePlayMoveable::SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type)
 //{

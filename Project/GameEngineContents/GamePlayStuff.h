@@ -12,9 +12,7 @@ enum class HoldDownEnum
 {
 	Nothing,
 	HoldUp,
-	HoldUpDelete,
 	HoldDown,
-	HoldDownDelete,
 };
 
 enum class UsingDownEnum
@@ -24,6 +22,8 @@ enum class UsingDownEnum
 	Throwing
 };
 
+class GamePlayTool;
+class Player;
 class GamePlayStuff : public GamePlayObject
 {
 	friend class GamePlayStaticObject;
@@ -58,9 +58,19 @@ public:
 		Enum_ToolInfo_ = _Info;
 	}
 
-	//virtual void SetParentObject(std::shared_ptr<GameEngineUpdateObject> _Object);
 
-
+	inline virtual HoldDownEnum HoldOn(std::shared_ptr<Player> _Player)
+	{
+		return HoldDownEnum::Nothing;
+	};
+	inline virtual HoldDownEnum HoldOn(std::shared_ptr<GamePlayStaticObject> _Player)
+	{
+		return HoldDownEnum::Nothing;
+	};
+	inline virtual HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable> _Moveable)
+	{
+		return HoldDownEnum::Nothing;
+	}
 
 	inline virtual UsingDownEnum UsingDown(std::shared_ptr<Player> _Player)
 	{

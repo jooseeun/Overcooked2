@@ -15,54 +15,61 @@ enum class ObjectBowlType
 };
 struct CombinFood
 {
-	////GamePlayBowl& operator=(const GamePlayBowl& _Other)
-	////{
-	////	GamePlayBowl
-	////}
+	bool PushFood(IngredientType _Type)
+	{
+		for (size_t i = 0; i < Food_Current_.size(); i++)
+		{
+			if (Food_Current_[i] == IngredientType::None)
+			{
+				Food_Current_[i] = _Type;
+				RefreshThumbnail();
+				return true;
+			}
+		}
+		return false;
+	}
 
-	//bool AddFood(IngredientType _Food)
-	//{
-	//	for (size_t i = 0; i < Food_Current_.size(); i++)
-	//	{
-	//		if (GamePlayFood::SandwitchTest(_Food) == false)
-	//		{
-	//			return false;
-	//		}
-	//	}
-	//	size_t i = 0;
+	void RefreshThumbnail()
+	{
 
-	//	for (; i < Food_Current_.size(); i++)
-	//	{
-	//		if (Food_Current_[i] == IngredientType::None)
-	//		{
-	//			Food_Current_[i] = _Food;
-	//			RefreshThumbnail();
-	//			return true;
-	//		}
-	//		else
-	//		{
-	//			continue;
-	//		}
-	//	}
+	}
 
+	void SetRenderer(const std::string& _Name)
+	{
+		if (Renderer_ != nullptr)
+		{
+			Renderer_->Death();
+		}
+		Renderer_ = Moveable_->CreateComponent<GameEngineFBXStaticRenderer>();
+		Renderer_->SetFBXMesh(_Name, "Texture");
+		//Renderer_->GetTransform().SetWorldScale({ 100, 100, 100 });
+		Renderer_->GetTransform().SetLocalPosition(float4::ZERO);
+	}
+	bool IsClear()
+	{
+		for (size_t i = 0; i < Food_Current_.size(); i++)
+		{
+			if (Food_Current_[i] != IngredientType::None)
+			{
+				return false;
+			}
+		}
+		return true;
+	}
 
-	//	if (i < 3)
-	//	{
-	//		Food_Current_.push_back(_Type);
-	//		RefreshThumbnail();
-	//		return true;
-	//	}
-	//}
-
-	//void RefreshThumbnail()
-	//{
-
-	//}
+	void Start(int _Index, std::shared_ptr<GameEngineUpdateObject> _Object, bool _bool)
+	{
+		Moveable_ = _Object->CastThis<GamePlayMoveable>();
+		for (size_t i = 0; i < _Index; i++)
+		{
+			Food_Current_.push_back(IngredientType::None);
+		}
+	}
 
 	std::vector<IngredientType> Food_Current_;
 	std::vector<std::shared_ptr<FoodThumbnail>> Food_Thumbnail_;
+	std::shared_ptr<GameEngineFBXStaticRenderer> Renderer_;
 	std::shared_ptr<GamePlayMoveable> Moveable_;
-
 };
 
 class GamePlayBowl : public GamePlayEquipment
@@ -86,6 +93,14 @@ public:
 		}
 		return Enum_ObjectBowlType_;
 	}
+	inline std::shared_ptr<CombinFood> GetCombinFood()
+	{
+		if (CombinFood_ == nullptr)
+		{
+			CombinFood_ = std::make_shared<CombinFood>();
+		}
+		return CombinFood_;
+	}
 
 protected:
 	void Start() override;
@@ -98,17 +113,8 @@ private:
 	ObjectBowlType Enum_ObjectBowlType_;
 	std::shared_ptr<CombinFood> CombinFood_;
 
-	HoldDownEnum HoldUp(std::shared_ptr<GamePlayFood> _Food) final
-	{
-		if (CheckCombinFood(_Food->GetObjectFoodClass()))
-		{
-			return HoldDownEnum::HoldUp;
-		}
-		else
-		{
-			return HoldDownEnum::Nothing;
-		}
-	}
+	//HoldDownEnum HoldOn(std::shared_ptr<Player> _Player) override;
+
 
 	virtual bool CheckCombinFood(IngredientType	_Type) { return false; };
 

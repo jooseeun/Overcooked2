@@ -171,7 +171,6 @@ public:
 		}
 
 		return false;
-
 	}
 
 protected:
@@ -198,6 +197,37 @@ protected:
 private:
 	IngredientType Enum_IngredientType_;
 	bool Trim_; // ture - 접시위에 올릴수 있음
+
+	inline HoldDownEnum HoldOn(std::shared_ptr<Player> _Player) override
+	{
+		if (_Player->GetPlayerHolding() == nullptr)
+		{
+			_Player->SetPlayerHolding(shared_from_this());
+			return HoldDownEnum::HoldUp;
+		}
+		return HoldDownEnum::Nothing;
+	};
+
+	//HoldDownEnum HoldFood(std::shared_ptr<GamePlayBowl> _Bowl)
+	//{
+	//	switch (_Bowl->GetObjectBowlType())
+	//	{
+	//	case ObjectBowlType::Bowl:
+	//		break;
+	//	case ObjectBowlType::Pod:
+	//		break;
+	//	case ObjectBowlType::Plate:
+
+	//		break;
+	//	case ObjectBowlType::FryingPan:
+	//		break;
+	//	case ObjectBowlType::Steamer:
+	//		break;
+	//	default:
+	//		return HoldDownEnum::Nothing;
+	//		break;
+	//	}
+	//}
 
 //	HoldDownEnum HoldUp(std::shared_ptr<Player> _Player) final
 //	{
@@ -282,5 +312,5 @@ private:
 //		}
 //		
 //	}
-//};
-//
+};
+

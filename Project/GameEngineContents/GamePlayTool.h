@@ -23,7 +23,7 @@ enum class ObjectToolType
 	, Dispenser	   //
 
 };
-
+class Player;
 class GamePlayTool : public GamePlayStuff
 {
 public:
@@ -41,12 +41,11 @@ public:
 	{
 		return Moveable_Current_;
 	}
-	inline void ReSetCurrentMoveable()
+	inline virtual void ReSetCurrentMoveable()
 	{
-		Moveable_Current_->GetTransform().SetLocalPosition(float4::ZERO);
+		//Moveable_Current_->GetTransform().SetLocalPosition(float4::ZERO);
 		Moveable_Current_.reset();
 	}
-
 
 	inline ObjectToolType GetObjectToolType()
 	{
@@ -90,6 +89,16 @@ private:
 	float4 MoveablePos_;
 
 
+	HoldDownEnum HoldOn(std::shared_ptr<Player> _Player) override;
+
+	inline HoldDownEnum HoldOn(std::shared_ptr<GamePlayStaticObject> _Object) override
+	{
+	MsgBoxAssert("¿À·ù")
+		return HoldDownEnum::Nothing;
+	
+	};
+
+	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable> _Moveable) override;
 
 	// Bloom
 public:

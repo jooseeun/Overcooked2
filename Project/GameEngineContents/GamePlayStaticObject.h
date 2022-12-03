@@ -20,10 +20,6 @@ public:
 	GamePlayStaticObject& operator=(GamePlayStaticObject&& _Other) noexcept = delete;
 
 public:
-	//Input_PutDownOption Input_PutDown(std::shared_ptr<GamePlayMoveable> _Object) override;
-	//Input_PickUpOption Input_PickUp(std::shared_ptr<Player> _Player) override;
-	//PlayerHoldType Input_Action() { return PlayerHoldType::Max; } override;
-
 	SetPlayerState_Return SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type) override;
 	
 

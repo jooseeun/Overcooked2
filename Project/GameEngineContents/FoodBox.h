@@ -26,6 +26,7 @@ private:
 
 	//HoldDownEnum HoldDown(std::shared_ptr<Player> _Player) override;
 	IngredientType Type_;
+	HoldDownEnum HoldOn(std::shared_ptr<Player> _Player) override;
 };
 
 class FoodBox : public GamePlayStaticObject

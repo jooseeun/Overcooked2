@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "GamePlayTool.h"
 #include "GamePlayMoveable.h"
+#include "Player.h"
 
 GamePlayTool::GamePlayTool()
 	: Moveable_Current_(nullptr)
@@ -39,6 +40,44 @@ void GamePlayTool::SetMoveable(std::shared_ptr<GameEngineUpdateObject> _Child)
 	Object.lock()->GetTransform().SetLocalPosition(MoveablePos_);
 	Object.lock()->GetCollisionObject()->Off();
 }
+
+HoldDownEnum GamePlayTool::HoldOn(std::shared_ptr<Player> _Player)
+{
+	if (Moveable_Current_ != nullptr)
+	{
+		switch (Moveable_Current_->HoldOn(_Player))
+		{
+		case HoldDownEnum::Nothing:
+			return HoldDownEnum::Nothing;
+			break;
+		case HoldDownEnum::HoldUp:
+			ReSetCurrentMoveable();
+			return HoldDownEnum::HoldUp;
+			break;
+		case HoldDownEnum::HoldDown:
+			return HoldDownEnum::HoldDown;
+			break;
+		default:
+			break;
+		}
+	}
+	else
+	{
+		return HoldDownEnum::Nothing;
+	}
+};
+
+
+HoldDownEnum GamePlayTool::PickUp(std::shared_ptr<GamePlayMoveable> _Moveable)
+{
+	if (GetCurrentMoveable() == nullptr)
+	{
+		SetMoveable(_Moveable);
+		return HoldDownEnum::HoldUp;
+	}
+	return HoldDownEnum::Nothing;
+}
+
 
 //HoldDownEnum GamePlayTool::HoldUp(std::shared_ptr<Player> _Player)
 //{
