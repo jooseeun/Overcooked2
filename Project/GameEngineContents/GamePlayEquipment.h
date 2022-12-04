@@ -42,7 +42,7 @@ protected:
 	void OnEvent() override {};
 	void OffEvent() override {};
 
-	void LevelStartEvent() override {}; 버그수정
+	void LevelStartEvent() override {};
 	void LevelEndEvent() override {};
 
 
