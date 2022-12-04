@@ -59,6 +59,7 @@ private:
 	{
 		if (_Player->GetPlayerHolding() == nullptr)
 		{
+			_Player->SetCurHoldType(PlayerHoldType::NotThrow);
 			_Player->SetPlayerHolding(shared_from_this());
 			return HoldDownEnum::HoldUp;
 		}
