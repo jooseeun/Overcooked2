@@ -78,8 +78,8 @@ void GamePlayPhysics::Throw(float4 _Vector)
 	if (IsThrow_ == false)
 	{
 		IsThrow_ = true;
-		UpTime_ = 1.0f;
-		ThrowTime_ = 2.0f;
+		UpTime_ = 0.3f;
+		ThrowTime_ = 0.6;
 	}
 	else
 	{
@@ -92,10 +92,10 @@ void GamePlayPhysics::Throw(float4 _Vector)
 		if (UpTime_ > 0.0f)
 		{
 			UpTime_ -= 1.0f * GameEngineTime::GetDeltaTime();
-			GetTransform().SetWorldUpMove(500.0f, GameEngineTime::GetDeltaTime());
+			GetTransform().SetWorldUpMove(200.0f, GameEngineTime::GetDeltaTime());
 		}
 		
-		GetTransform().SetWorldMove(_Vector * GameEngineTime::GetDeltaTime() * 1000.0f);
+		GetTransform().SetWorldMove(_Vector * GameEngineTime::GetDeltaTime() * 500.0f);
 	}
 	
 }

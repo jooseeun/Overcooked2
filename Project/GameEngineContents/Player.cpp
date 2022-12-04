@@ -16,7 +16,7 @@ Player::Player()
 	:Speed_(650.0f)
 	, CurAngle_(0)
 	, CurDir_(PlayerDir::Front)
-	, CurHoldType_(PlayerHoldType::Max)
+	, CurHoldType_(PlayerHoldType::CanThrow)
 	, CurStateType_(PlayerCurStateType::Max)
 	, PlayerFloorCollision_(nullptr)
 	, PlayerForwardCollision_(nullptr)
@@ -34,6 +34,7 @@ Player::Player()
 	, DashTime_(0.0f)
 	, IsSingleMode(false)
 	, PNumString("")
+	, CameraUpTime_(1.0f)
 {
 
 }
@@ -70,11 +71,11 @@ void Player::Start()
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "WalkHolding",
 			GameEngineRenderingEvent(PlayerName_[i] + "_WalkHolding.FBX", 0.035f, true));
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "CarDeath",
-			GameEngineRenderingEvent(PlayerName_[i] + "_CarDeath.FBX", 0.035f, true));
+			GameEngineRenderingEvent(PlayerName_[i] + "_CarDeath.FBX", 0.035f, false));
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Death",
-			GameEngineRenderingEvent(PlayerName_[i] + "_Death.FBX", 0.035f, true));
+			GameEngineRenderingEvent(PlayerName_[i] + "_Death.FBX", 0.035f, false));
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Drowning",
-			GameEngineRenderingEvent(PlayerName_[i] + "_Drowning.FBX", 0.035f, true));
+			GameEngineRenderingEvent(PlayerName_[i] + "_Drowning.FBX", 0.035f, false));
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Fall",
 			GameEngineRenderingEvent(PlayerName_[i] + "_Fall.FBX", 0.035f, true));
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "IdleHolding",
@@ -84,7 +85,7 @@ void Player::Start()
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Stand",
 			GameEngineRenderingEvent(PlayerName_[i] + "_Stand.FBX", 0.035f, true));
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Throw",
-			GameEngineRenderingEvent(PlayerName_[i] + "_Throw.FBX", 0.035f, true));
+			GameEngineRenderingEvent(PlayerName_[i] + "_Throw.FBX", 0.035f, false));
 
 
 		PlayerIdleRenderer_[i]->ChangeAnimation(PlayerName_[i] + "Idle");
@@ -413,7 +414,35 @@ void Player::Update(float _DeltaTime)
 	DashCheck(_DeltaTime);
 	CustomKeyCheck();
 	Gravity();
-	
+
+	CameraMove(_DeltaTime);
+}
+
+void Player::CameraMove(float _DeltaTime)
+{
+	if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
+		Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB) == true)
+	{
+		CameraDownTime_ = 1.0f;
+		CameraUpTime_ -= 1.0f * _DeltaTime;
+
+		if (CameraUpTime_ > 0.0f)
+		{
+			GetLevel()->GetMainCameraActorTransform().SetWorldUpMove(10.0f, _DeltaTime);
+		}
+
+	}
+	else
+	{
+		CameraUpTime_ = 1.0f;
+		CameraDownTime_ -= 1.0f * _DeltaTime;
+
+		if (CameraDownTime_ > 0.0f)
+		{
+			GetLevel()->GetMainCameraActorTransform().SetWorldDownMove(10.0f, _DeltaTime);
+		}
+		
+	}
 }
 
 void Player::PNumSgtringUpdate()

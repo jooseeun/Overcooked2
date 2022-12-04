@@ -175,8 +175,9 @@ private:
 
 private:
 
-	
-
+	void CameraMove(float _DeltaTime);
+	float CameraUpTime_;
+	float CameraDownTime_;
 	float Speed_;
 	float CurAngle_;
 	PlayerDir CurDir_;

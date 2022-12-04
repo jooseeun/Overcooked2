@@ -46,6 +46,7 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 }
 
+
 void Player::MoveStart(const StateInfo& _Info)
 {
 	WalkRendererON();
@@ -99,7 +100,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 void Player::ThrowStart(const StateInfo& _Info)
 {
 
-
+	CurrentHoldingObject_->CastThis<GamePlayPhysics>()->Throw(GetTransform().GetBackVector());
 }
 void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 {
@@ -116,18 +117,25 @@ void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 		Throw(GetTransform().GetBackVector());
 	}
-	//if (CurrentHoldingObject_->GetIsThrow() == true) // 일단 Throw 주석처리
-	//{
-	//	CurrentHoldingObject_->Throw(GetTransform().GetBackVector());
-	//}
-	//else
-	//{
-	//	StateManager.ChangeState("Idle");
-	//}
-	PlayerIdleRenderer_[PlayerCustomNum]->AnimationBindEnd(PlayerName_[PlayerCustomNum] +"Throw", [=](const GameEngineRenderingEvent& _Info)
-		{
+	if (CurrentHoldingObject_->CastThis<GamePlayPhysics>()->GetIsThrow() == true) // 일단 Throw 주석처리
+	{
+		CurrentHoldingObject_->CastThis<GamePlayPhysics>()->Throw(GetTransform().GetBackVector());
+	}
+	else
+	{
 
-			CurHoldType_ = PlayerHoldType::Max;
+		DetachPlayerHolding();
+		CurHoldType_ = PlayerHoldType::Max;
+		StateManager.ChangeState("Idle");
+	}
+
+	PlayerIdleRenderer_[PlayerCustomNum]->AnimationBindEnd(PlayerName_[PlayerCustomNum] + "Throw", [=](const GameEngineRenderingEvent& _Info)
+		{
+			IdleRendererON();
+			PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "Idle");
+			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
+			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
+
 		});
 }
 
@@ -184,8 +192,8 @@ void Player::HoldUpUpdate(float _DeltaTime, const StateInfo& _Info)
 		if (MoveAngle() == true)
 		{
 			// 플레이어 벽 출돌 체크
-			if (PlayerForwardCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Map_Object, CollisionType::CT_AABB) == false &&
-				PlayerForwardCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Object_StaticObject, CollisionType::CT_AABB,
+			if (PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == false &&
+				PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 					std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false
 				&& PlayerCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Character, CollisionType::CT_OBB,
 					std::bind(&GamePlayPhysics::PullPlayer, this, std::placeholders::_1, std::placeholders::_2)) == false)
@@ -201,14 +209,15 @@ void Player::HoldUpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 		else
 		{
-			if (PlayerForwardCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Map_Object, CollisionType::CT_AABB) == false &&
-				PlayerForwardCollision_->IsCollision(CollisionType::CT_AABB, CollisionOrder::Object_StaticObject, CollisionType::CT_AABB,
+			if (PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == false &&
+				PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 					std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false
 				&& PlayerCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Character, CollisionType::CT_OBB,
 					std::bind(&GamePlayPhysics::PullPlayer, this, std::placeholders::_1, std::placeholders::_2)) == false)
 			{
 				GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * 0.5f * _DeltaTime);
 			}
+			return;
 		}
 	}
 	else

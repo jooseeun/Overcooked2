@@ -67,10 +67,10 @@ public:
 		return CurMass_;
 	}
 	CollisionReturn PullPlayer(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
+	void Throw(float4 _Vector);
 protected:
 
 	void Gravity(); // 중력함수 -> Update에서 일단 하는중
-	void Throw(float4 _Vector);
 
 	bool StaticObjectCollisionCheck(); // 맵 오브젝트, 테이블 등등이랑 충돌하면 true 반환함수
 
