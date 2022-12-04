@@ -28,8 +28,9 @@ void GamePlayTool::Start()
 
 void GamePlayTool::SetMoveable(std::shared_ptr<Player> _Player)
 {
-	SetMoveable(_Player->GetPlayerHolding());
+	std::weak_ptr<GameEngineUpdateObject> Object = _Player->GetPlayerHolding();
 	_Player->DetachPlayerHolding();
+	SetMoveable(Object.lock());
 }
 
 void GamePlayTool::SetMoveable(std::shared_ptr<GameEngineUpdateObject> _Child)
