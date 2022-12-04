@@ -204,16 +204,18 @@ private:
 	IngredientType Enum_IngredientType_;
 	bool Trim_; // ture - 접시위에 올릴수 있음
 
-	inline HoldDownEnum HoldOn(std::shared_ptr<Player> _Player) override
-	{
-		if (_Player->GetPlayerHolding() == nullptr)
-		{
-			_Player->SetCurHoldType(PlayerHoldType::CanThrow);
-			_Player->SetPlayerHolding(shared_from_this());
-			return HoldDownEnum::HoldUp;
-		}
-		return HoldDownEnum::Nothing;
-	};
+	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable) override;
+
+	//inline HoldDownEnum HoldOn(std::shared_ptr<Player> _Player) override
+	//{
+	//	if (_Player->GetPlayerHolding() == nullptr)
+	//	{
+	//		_Player->SetCurHoldType(PlayerHoldType::CanThrow);
+	//		_Player->SetPlayerHolding(shared_from_this());
+	//		return HoldDownEnum::HoldUp;
+	//	}
+	//	return HoldDownEnum::Nothing;
+	//};
 
 };
 

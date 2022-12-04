@@ -38,10 +38,19 @@ public:
 	{
 		if (Enum_ObjectMoveableType_ == ObjectMoveableType::None)
 		{
-			MsgBoxAssert("Object의 ObjectType이 설정되지 않았습니다. (GamePlayStuff::Enum_ObjectStuffType_ 설정)");
+			MsgBoxAssert("Object의 ObjectType이 설정되지 않았습니다. (GamePlayMoveable::Enum_ObjectStuffType_ 설정)");
 		}
 		return Enum_ObjectMoveableType_;
 	}
+	inline PlayerHoldType GetHoldType() const
+	{
+		if (Enum_HoldType_ == PlayerHoldType::Max)
+		{
+			MsgBoxAssert("Object의 PlayerHoldType이 설정되지 않았습니다. (GamePlayMoveable::Enum_HoldType_ 설정)");
+		}
+		return Enum_HoldType_;
+	}
+
 
 	inline float GetCookingGage() const
 	{
@@ -64,19 +73,21 @@ protected:
 	{
 		Enum_ObjectMoveableType_ = _Type;
 	}
+	inline void SetHoldType(PlayerHoldType _Type)
+	{
+		Enum_HoldType_ = _Type;
+	}
 
 private:
 	ObjectMoveableType Enum_ObjectMoveableType_;
 	float CookingGage_;
 	bool TrimmingFirstTime_;
+	PlayerHoldType Enum_HoldType_;
 
 	virtual void FinishTrimmingFirst() {}
 	virtual void FinishTrimming() {}
 
-	HoldDownEnum HoldOn(std::shared_ptr<GamePlayStaticObject> _Object) override;
-	HoldDownEnum HoldOn(std::shared_ptr<Player> _Object) override
-	{
-		return HoldDownEnum::Nothing;
-	}
+	
+
 };
 

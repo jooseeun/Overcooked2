@@ -37,9 +37,9 @@ private:
 	bool Dirty_;
 	bool Washing_;
 
-	HoldDownEnum HoldOn(std::shared_ptr<Player> _Player) override;
-	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable> _Moveable) override;
 	//HoldDownEnum HoldOn(std::shared_ptr<GamePlayStaticObject> _Object) override;
+	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable) override;
+
 
 	std::shared_ptr<Equipment_Plate> Pile_Plate_;
 };

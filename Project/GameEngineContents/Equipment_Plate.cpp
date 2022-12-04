@@ -38,69 +38,84 @@ void Equipment_Plate::SetClean()
 	// 텍스쳐 변경필요
 }
 
-
-HoldDownEnum Equipment_Plate::HoldOn(std::shared_ptr<Player> _Player) 
+HoldDownEnum Equipment_Plate::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 {
-	if (_Player->GetPlayerHolding() == nullptr)
+	if ((*_Moveable) != nullptr)
 	{
-		_Player->SetPlayerHolding(shared_from_this());
-		return HoldDownEnum::HoldUp;
+		std::weak_ptr<GamePlayFood> Food = (*_Moveable)->CastThis<GamePlayFood>();
+		if (Food.lock() != nullptr)
+		{
+			if (GetCombinFood()->IsClear())
+			{
+				GetCombinFood()->PushFood(Food.lock()->GetObjectFoodClass());
+				GetCombinFood()->SetRenderer(*_Moveable);
+
+				(*_Moveable)->Death();
+				(*_Moveable)->Off();
+				(*_Moveable) = nullptr;
+
+
+				return HoldDownEnum::HoldUp;
+			}
+		}
 	}
 	else
 	{
-		if (_Player->GetPlayerHolding()->CastThis<GamePlayFood>() != nullptr)
-		{
-			IngredientType Type = _Player->GetPlayerHolding()->CastThis<GamePlayFood>()->GetObjectFoodClass();
-			for (size_t i = 0; i < GetCombinFood()->Food_Current_.size(); i++)
-			{
-				if (GetCombinFood()->Food_Current_[i] == IngredientType::None)
-				{
-					continue;
-				}
-				else if(GamePlayFood::CheckCombine(GetCombinFood()->Food_Current_[i], Type) == ReturnMix::NoMix)
-				{
-					return HoldDownEnum::Nothing;
-				}
-			}
-			if (!GetCombinFood()->PushFood(Type))
-			{
-				return HoldDownEnum::Nothing;
-			}
-			_Player->DetachPlayerHolding();
-			return HoldDownEnum::HoldDown;
-		}
-		else if (_Player->GetPlayerHolding()->CastThis<GamePlayBowl>() != nullptr)
-		{
-			MsgBoxAssert("아직")
-		}
-		else
-		{
-			return HoldDownEnum::Nothing;
-		}
-		return HoldDownEnum::Nothing;
+		(*_Moveable) = CastThis<GamePlayMoveable>();
+		return HoldDownEnum::HoldDown;
 	}
-}
-
-HoldDownEnum Equipment_Plate::PickUp(std::shared_ptr<GamePlayMoveable> _Moveable)
-{
-	std::weak_ptr<GamePlayFood> Food = _Moveable->CastThis<GamePlayFood>();
-	if (Food.lock() != nullptr)
-	{
-		if (GetCombinFood()->IsClear())
-		{
-			GetCombinFood()->PushFood(Food.lock()->GetObjectFoodClass());
-			GetCombinFood()->SetRenderer(_Moveable);
-
-			_Moveable->Death();
-			_Moveable->Off();
-
-			return HoldDownEnum::HoldUp;
-		}
-	}
-
 	return HoldDownEnum::Nothing;
 }
 
+//HoldDownEnum Equipment_Plate::HoldOn(std::shared_ptr<Player> _Player) 
+//{
+//	if (_Player->GetPlayerHolding() == nullptr)
+//	{
+//		_Player->SetPlayerHolding(shared_from_this());
+//		return HoldDownEnum::HoldUp;
+//	}
+//	else
+//	{
+//		if (_Player->GetPlayerHolding()->CastThis<GamePlayFood>() != nullptr)
+//		{
+//			IngredientType Type = _Player->GetPlayerHolding()->CastThis<GamePlayFood>()->GetObjectFoodClass();
+//			for (size_t i = 0; i < GetCombinFood()->Food_Current_.size(); i++)
+//			{
+//				if (GetCombinFood()->Food_Current_[i] == IngredientType::None)
+//				{
+//					continue;
+//				}
+//				else if(GamePlayFood::CheckCombine(GetCombinFood()->Food_Current_[i], Type) == ReturnMix::NoMix)
+//				{
+//					return HoldDownEnum::Nothing;
+//				}
+//			}
+//			if (!GetCombinFood()->PushFood(Type))
+//			{
+//				return HoldDownEnum::Nothing;
+//			}
+//			_Player->DetachPlayerHolding();
+//			return HoldDownEnum::HoldDown;
+//		}
+//		else if (_Player->GetPlayerHolding()->CastThis<GamePlayBowl>() != nullptr)
+//		{
+//			MsgBoxAssert("아직")
+//		}
+//		else
+//		{
+//			return HoldDownEnum::Nothing;
+//		}
+//		return HoldDownEnum::Nothing;
+//	}
+//}
+//
+//HoldDownEnum Equipment_Plate::PickUp(std::shared_ptr<GamePlayMoveable> _Moveable)
+//{
+
+//
+//	return HoldDownEnum::Nothing;
+//}
+//
 
 
 //Input_PutDownOption Equipment_Plate::Input_PutDown(std::shared_ptr<GamePlayMoveable> _Object)

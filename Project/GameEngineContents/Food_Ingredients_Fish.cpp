@@ -26,5 +26,6 @@ void Food_Ingredients_Fish::FinishTrimmingFirst()
 	ChangeFBXMesh();
 	MeshName_ = "Sushi_Roll_Salmon.FBX";
 	GetFBXMesh()->SetFBXMesh(MeshName_, "Texture");
+	GetFBXMesh()->GetTransform().SetLocalRotation({ 0,-90,0 });
 }
 

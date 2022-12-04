@@ -37,7 +37,7 @@ protected:
 	void Start() override;
 private:
 	//bool HoldDown(std::shared_ptr<Player> _Player) final;
-	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable> _Moveable) override;
+	//HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable> _Moveable) override;
 
 	UsingDownEnum UsingDown(std::shared_ptr<Player> _Player) final;
 	bool Trimming_;
