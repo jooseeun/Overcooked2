@@ -186,6 +186,7 @@ void GameEngineFBXRenderer::SetSubConstantBufferLink(int _Index, const std::stri
 
 void GameEngineFBXRenderer::Render(float _DeltaTime) 
 {
+	std::vector<GameEngineRenderUnit*> TmpUnits;
 	for (size_t UnitIndex = 0; UnitIndex < Unit.size(); UnitIndex++)
 	{
 		for (size_t SubSetIndex = 0; SubSetIndex < Unit[UnitIndex].size(); SubSetIndex++)
@@ -194,8 +195,18 @@ void GameEngineFBXRenderer::Render(float _DeltaTime)
 			{
 				continue;
 			}
+			if (Unit[UnitIndex][SubSetIndex].GetMaterial()->GetName() == "GLASS")
+			{
+				TmpUnits.push_back(&Unit[UnitIndex][SubSetIndex]);
+				continue;
+			}
 
 			Unit[UnitIndex][SubSetIndex].Render(_DeltaTime);
 		}
+	}
+
+	for (size_t i = 0; i < TmpUnits.size(); i++)
+	{
+		TmpUnits[i]->Render(_DeltaTime);
 	}
 }

@@ -291,7 +291,6 @@ void EngineRenderingPipeLine()
 		NewPipe->SetVertexShader("Texture.hlsl");
 		NewPipe->SetPixelShader("Texture.hlsl");
 		NewPipe->OutputMergerBlendSetting();
-
 	}
 
 	{

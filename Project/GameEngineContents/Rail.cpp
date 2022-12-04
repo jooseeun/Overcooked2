@@ -18,11 +18,13 @@ void Rail::Start()
 
 	GetCollisionObject()->GetTransform().SetWorldScale({ 120, 50, 120 });
 	GetCollisionObject()->GetTransform().SetWorldMove({ 0, 25, 0 });
+
+	GetFBXMesh()->SetSubConstantBufferLink(0, "RENDEROPTION", &RenderOptionMyInst, sizeof(RenderOption));
 }
 
 void Rail::Update(float _Delta)
 {
-	GetFBXMesh()->RenderOptionInst.UV.x += _Delta;
+	RenderOptionMyInst.UV.x += _Delta;
 }
 
 

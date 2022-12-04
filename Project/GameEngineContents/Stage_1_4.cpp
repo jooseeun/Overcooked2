@@ -3,6 +3,11 @@
 #include "Player.h"
 #include "TestPortal.h"
 
+#include "GraphicWindow.h"
+#include <GameEngineCore/GlobalVignette.h>
+#include <GameEngineCore/GlobalOverlay.h>
+#include <GameEngineCore/GlobalBloom.h>
+
 Stage_1_4::Stage_1_4()
 {
 }
@@ -58,5 +63,15 @@ void Stage_1_4::PlayLevelStartEvent()
 
 	std::shared_ptr<Player> MainPlayer = CreateActor<Player>();
 	MainPlayer->GetTransform().SetLocalPosition({ -1000, 1000, 1000 });
+
+	std::shared_ptr<GlobalOverlay> GlobalOverlay_ = GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalOverlay>();
+	GraphicWindow::Main_->SetOverlay(GlobalOverlay_);
+
+	std::shared_ptr<GlobalBloom> GlobalBloom_ = GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalBloom>();
+	GraphicWindow::Main_->SetBloom(GlobalBloom_);
+
+	std::shared_ptr<GlobalVignette> GlobalVignette_ = GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalVignette>();
+	GraphicWindow::Main_->SetVignette(GlobalVignette_);
+
 	return;
 }

@@ -12,7 +12,6 @@
 #include "InGameUIActor.h"
 
 #include "GraphicWindow.h"
-
 #include <GameEngineCore/GlobalVignette.h>
 #include <GameEngineCore/GlobalOverlay.h>
 #include <GameEngineCore/GlobalBloom.h>
@@ -71,6 +70,7 @@ void Stage_1_1::PlayLevelStartEvent()
 	std::shared_ptr<LevelActor> Tmp = CreateActor<LevelActor>();
 	Tmp->SetLevelMesh("1_1.FBX");
 	Tmp->GetRenderer()->SetSubMaterial(6, "TextureAlpha");
+	Tmp->GetRenderer()->SetSubMaterial(31, "Glass");
 
 	GlobalIOManager::Load(IOType::SortMap, 0);
 	DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);

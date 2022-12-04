@@ -23,6 +23,8 @@ protected:
 	void Update(float _DeltaTime) override;
 
 private:
-	std::shared_ptr<GameEngineFBXStaticRenderer> BlendRenderer_;;
+	std::shared_ptr<GameEngineFBXStaticRenderer> BlendRenderer_;
+	RenderOption RenderOptionMyInst;
+
 };
 

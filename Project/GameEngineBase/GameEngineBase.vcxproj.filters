@@ -37,6 +37,9 @@
     <Filter Include="Server">
       <UniqueIdentifier>{2cb864a4-8aa6-4047-b0b4-905d18dc1bba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Thread">
+      <UniqueIdentifier>{adb5115d-11bf-471f-acb0-539239cc4bbd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineDebug.cpp">
@@ -87,8 +90,6 @@
     <ClCompile Include="PreCompile.cpp">
       <Filter>PreCompile</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineThread.cpp" />
-    <ClCompile Include="GameEngineThreadPool.cpp" />
     <ClCompile Include="GameServerNet.cpp">
       <Filter>Server</Filter>
     </ClCompile>
@@ -106,6 +107,12 @@
     </ClCompile>
     <ClCompile Include="GameServerDispatcher.cpp">
       <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineThread.cpp">
+      <Filter>Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineThreadPool.cpp">
+      <Filter>Thread</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -163,8 +170,6 @@
     <ClInclude Include="magic_enum.hpp">
       <Filter>Enum</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineThread.h" />
-    <ClInclude Include="GameEngineThreadPool.h" />
     <ClInclude Include="GameServerNet.h">
       <Filter>Server</Filter>
     </ClInclude>
@@ -182,6 +187,12 @@
     </ClInclude>
     <ClInclude Include="GameServerDispatcher.h">
       <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineThread.h">
+      <Filter>Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineThreadPool.h">
+      <Filter>Thread</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
