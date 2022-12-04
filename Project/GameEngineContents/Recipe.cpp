@@ -27,13 +27,13 @@ void RecipeManager::CreateRecipe(FoodType _Type)
 {
 	Recipe NewRecipe(_Type);
 
-	NewRecipe.ParentRenderer_ = ParentActor_.lock()->CreateUIRenderer("Top_Recipe_Background.png");
+	NewRecipe.ParentRenderer_ = ParentActor_.lock()->CreateUIRenderer("Null.png");
 	NewRecipe.ParentRenderer_.lock()->GetTransform().SetLocalScale({ 1.f,1.f,1.f });
-	NewRecipe.ParentRenderer_.lock()->Off();
+	//NewRecipe.ParentRenderer_.lock()->Off();
 
-	NewRecipe.BottomParentRenderer_ = ParentActor_.lock()->CreateUIRenderer("Top_Recipe_Background.png", "BottomParent");
+	NewRecipe.BottomParentRenderer_ = ParentActor_.lock()->CreateUIRenderer("Null.png", "BottomParent");
 	NewRecipe.BottomParentRenderer_.lock()->GetTransform().SetLocalScale({ 1.f,1.f,1.f });
-	NewRecipe.BottomParentRenderer_.lock()->Off();
+	//NewRecipe.BottomParentRenderer_.lock()->Off();
 	NewRecipe.BottomParentRenderer_.lock()->ResistDebug();
 	NewRecipe.BottomParentRenderer_.lock()->GetTransform().SetParentTransform(NewRecipe.ParentRenderer_.lock()->GetTransform());
 
@@ -298,8 +298,16 @@ void RecipeManager::Update(float _DeltaTime)
 			//LeftPivot.x -= StartIter->GetScale().Half().x;
 			StartIter->SetWorldPosition(MovePos);
 
+			float Length = Des.x - MovePos.x;
+			Length = abs(Length);
+			if (Length < 15.0f && StartIter->IsPumpHori_ == false)
+			{
+				StartIter->IsPumpHori_ = true;
+				StartIter->ParentRenderer_.lock()->StartPumpHori(1.13f, 10.0f);
+
+			}
 			//다 도착하면 레시피 내려가게
-			if (MovePos.CompareInt2D(Des) == true)
+			if (Length < 1.0f )
 			{
 				StartIter->IsRecipeOn_ = true;
 			}
@@ -432,32 +440,41 @@ void Recipe::Update(float _DeltaTime)
 	AccTime_ += _DeltaTime;
 	if (IsRecipeOn_ == true)
 	{
-		RecipeOnTime_ += _DeltaTime;
+		RecipeOnTime_ += _DeltaTime * 3.5f;
 		float MoveYPos = GameEngineMath::LerpLimit(36.f, -52.f, RecipeOnTime_);
 		BottomParentRenderer_.lock()->GetTransform().SetLocalPosition({ 0,MoveYPos,1 });
-	}
-	if (GlobalTimer_.IsTimeOver() == false)
-	{
-		GlobalTimer_.Update(_DeltaTime);
-	}
-	if (BarTimer_[2].IsTimeOver() == false)
-	{
-		BarTimer_[2].Update(_DeltaTime);
-	}
-	else
-	{
-		if (BarTimer_[1].IsTimeOver() == false)
+
+		//PumpVerti
+		if (MoveYPos < -50.f && IsPumpVerti_ == false)
 		{
-			BarTimer_[1].Update(_DeltaTime);
+			IsPumpVerti_ = true;
+			BottomParentRenderer_.lock()->StartPumpVerti(1.14f, 10.0f);
+		}
+
+		if (GlobalTimer_.IsTimeOver() == false)
+		{
+			GlobalTimer_.Update(_DeltaTime);
+		}
+		if (BarTimer_[2].IsTimeOver() == false)
+		{
+			BarTimer_[2].Update(_DeltaTime);
 		}
 		else
 		{
-			if (BarTimer_[0].IsTimeOver() == false)
+			if (BarTimer_[1].IsTimeOver() == false)
 			{
-				BarTimer_[0].Update(_DeltaTime);
+				BarTimer_[1].Update(_DeltaTime);
+			}
+			else
+			{
+				if (BarTimer_[0].IsTimeOver() == false)
+				{
+					BarTimer_[0].Update(_DeltaTime);
+				}
 			}
 		}
 	}
+
 
 	for (int i = 2; i >= 0; i--)
 	{

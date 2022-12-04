@@ -211,11 +211,11 @@ void OverCookedUIRenderer::Update(float _Delta)
 		float4 CurScale = {};
 		if (Pump_IterTime_ < 1.f)
 		{
-			CurScale = float4::LerpLimit(PrevScale_, PrevScale_ * PumpRatio_, Pump_IterTime_);
+			CurScale = float4::LerpLimit(PrevScale_, PumpScale_, Pump_IterTime_);
 		}
 		else if (Pump_IterTime_ >= 1.f)
 		{
-			CurScale = float4::LerpLimit(PrevScale_ * PumpRatio_, PrevScale_, Pump_IterTime_ - 1.f);
+			CurScale = float4::LerpLimit(PumpScale_, PrevScale_, Pump_IterTime_ - 1.f);
 		}
 		GetTransform().SetLocalScale(CurScale);
 	}
@@ -391,6 +391,35 @@ void OverCookedUIRenderer::StartPump(float _Ratio, float _Speed)
 	PrevScale_ = GetTransform().GetLocalScale();
 	PumpingSpeed_ = _Speed;
 	PumpRatio_ = _Ratio;
+	PumpScale_ = PrevScale_ * PumpRatio_;
+	IsPumping_ = true;
+}
+
+void OverCookedUIRenderer::StartPumpHori(float _Ratio, float _Speed)
+{
+	//이미 펌핑중이면 들어오지 못하게
+	if (IsPumping() == true)
+	{
+		return;
+	}
+	PrevScale_ = GetTransform().GetLocalScale();
+	PumpingSpeed_ = _Speed;
+	PumpRatio_ = _Ratio;
+	PumpScale_ = { PrevScale_.x * PumpRatio_,PrevScale_.y,PrevScale_.z };
+	IsPumping_ = true;
+}
+
+void OverCookedUIRenderer::StartPumpVerti(float _Ratio, float _Speed)
+{
+	//이미 펌핑중이면 들어오지 못하게
+	if (IsPumping() == true)
+	{
+		return;
+	}
+	PrevScale_ = GetTransform().GetLocalScale();
+	PumpingSpeed_ = _Speed;
+	PumpRatio_ = _Ratio;
+	PumpScale_ = { PrevScale_.x ,PrevScale_.y * PumpRatio_,PrevScale_.z };
 	IsPumping_ = true;
 }
 

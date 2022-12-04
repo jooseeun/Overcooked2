@@ -7,7 +7,7 @@ struct FoodData
 	std::vector<IngredientType> Ingredient;
 	std::vector<ToolInfo> Cookery;
 	std::vector<ToolInfo> CommonCookery;
-	float WaitingTime;
+	float WaitingTime = 0.f;
 };
 
 struct RecipeSetData
@@ -53,6 +53,10 @@ private:
 	void Update(float _DeltaTime);
 
 private:
+	//pump ฐüทร
+	bool IsPumpHori_ = false;
+	bool IsPumpVerti_ = false;
+
 	float AccTime_ = 0.f;
 	float4 LeftTargetPos_ = {};
 	FoodData Data_;

@@ -90,6 +90,11 @@ public:
 
 	void StartPump(float _Ratio, float _Speed = 1.f);
 
+	void StartPumpHori(float _Ratio, float _Speed = 1.f);
+
+	void StartPumpVerti(float _Ratio, float _Speed = 1.f);
+
+
 	void StartDown(float _Speed);
 
 	void SetSamplerWrap();
@@ -138,11 +143,13 @@ private:
 
 	//Pump관련
 	float4 PrevScale_ = {};
+	float4 PumpScale_;
 	float Pump_IterTime_ = 0.f;
 	float PumpingSpeed_ = 1.f;
 	float PumpRatio_ = 0.f;
 	bool IsPumping_ = false;
 	bool IsPumping();
+
 
 	//Down관련
 	bool IsDown_ = false;
