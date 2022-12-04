@@ -100,7 +100,7 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 				switch (_Player->GetPlayerHolding()->CastThis<GamePlayStuff>()->HoldOn(shared_from_this()->CastThis<GamePlayStaticObject>()))
 				{
 				case HoldDownEnum::HoldUp:
-					_Player->DetachPlayerHolding();
+					_Player->CurrentHoldingNull();
 					return SetPlayerState_Return::Using;
 					break;
 				case HoldDownEnum::HoldDown:
