@@ -42,7 +42,7 @@ protected:
 	void OnEvent() override {};
 	void OffEvent() override {};
 
-	void LevelStartEvent() override {};
+	void LevelStartEvent() override {}; 버그수정
 	void LevelEndEvent() override {};
 
 
@@ -59,6 +59,7 @@ private:
 	{
 		if (_Player->GetPlayerHolding() == nullptr)
 		{
+			_Player->SetCurHoldType(PlayerHoldType::NotThrow);
 			_Player->SetPlayerHolding(shared_from_this());
 			return HoldDownEnum::HoldUp;
 		}
