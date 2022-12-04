@@ -151,6 +151,20 @@ void Overcooked::LoadMaterial()
 		NewPipe->SetVertexShader("Bloom.hlsl");
 		NewPipe->SetPixelShader("Bloom.hlsl");
 	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("Glass");
+		NewPipe->SetVertexShader("Glass.hlsl");
+		NewPipe->SetPixelShader("Glass.hlsl");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("Portal");
+		NewPipe->SetOutputMergerBlend("AddBlend");
+		NewPipe->SetVertexShader("Portal.hlsl");
+		NewPipe->SetPixelShader("Portal.hlsl");
+		NewPipe->OutputMergerBlendSetting();
+	}
 }
 
 void Overcooked::Update(float _DeltaTime)

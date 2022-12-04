@@ -45,6 +45,12 @@
     <FxCompile Include="TextureAlpha.hlsl">
       <Filter>Object</Filter>
     </FxCompile>
+    <FxCompile Include="Glass.hlsl">
+      <Filter>Object</Filter>
+    </FxCompile>
+    <FxCompile Include="Portal.hlsl">
+      <Filter>Object</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Debug">

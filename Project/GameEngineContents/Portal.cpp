@@ -29,8 +29,8 @@ void Portal::SetPortalMesh(MapObjType _PortalType)
 		break;
 	}
 
-	std::vector<std::vector<GameEngineRenderUnit>> Unit_ = GetFBXMesh()->GetAllRenderUnit();
-	Unit_[0][0].GetCloneMaterial()->SetOutputMergerBlend("AddBlend");
+	GetFBXMesh()->SetSubMaterial(1, "Portal");
+	GetFBXMesh()->SetSubConstantBufferLink(1, "RENDEROPTION", &RenderOptionMyInst, sizeof(RenderOption));
 }
 
 void Portal::Start()
@@ -39,12 +39,12 @@ void Portal::Start()
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 	GetCollisionObject()->GetTransform().SetLocalScale({ 100, 100, 100 });
 	GetCollisionObject()->GetTransform().SetLocalMove({ 0, 100, 0 });
+	
 	GetFBXMesh()->GetTransform().SetAddWorldRotation({ 90, 0, 0 });
-
 }
 
 void Portal::Update(float _DeltaTime)
 {
-	GetFBXMesh()->RenderOptionInst.UV.y += _DeltaTime * 1.7f;
+	RenderOptionMyInst.UV.y += _DeltaTime * 1.7f;
 }
 

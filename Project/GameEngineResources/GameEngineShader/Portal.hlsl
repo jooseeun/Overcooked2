@@ -15,7 +15,7 @@ struct Output
     float4 Tex : TEXCOORD;
 };
 
-Output TextureAlpha_VS(Input _Input)
+Output Portal_VS(Input _Input)
 {
     Output NewOutPut = (Output) 0;
     NewOutPut.Pos = mul(_Input.Pos, WorldViewProjection);
@@ -39,7 +39,7 @@ cbuffer PixelData : register(b0)
 Texture2D DiffuseTexture : register(t0);
 SamplerState LINEARWRAP : register(s0);
 
-float4 TextureAlpha_PS(Output _Input) : SV_Target0
+float4 Portal_PS(Output _Input) : SV_Target0
 {
     float4 Result = (DiffuseTexture.Sample(LINEARWRAP, _Input.Tex.xy + UV.xy) * MulColor) + PlusColor;
 
@@ -47,15 +47,6 @@ float4 TextureAlpha_PS(Output _Input) : SV_Target0
     {
         clip(-1);
     }
-    
-    //if (Result.a == 0)
-    //{
-    //    clip(-1);
-    //}
-    //else
-    //{
-    //    Result.a = 1.0f;
-    //}
     
     Result.a = 1.0f;
     return Result;
