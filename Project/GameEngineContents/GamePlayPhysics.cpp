@@ -12,6 +12,11 @@ GamePlayPhysics::GamePlayPhysics()
 	, CurSpeed_(0.0f)
 	, CurMass_(0.0f)
 	, PhysicsGravityCollision_(nullptr)
+	, PhysicsForwardCollision_(nullptr)
+	, PhysicsBackCollision_(nullptr)
+	, PhysicsLeftCollision_(nullptr)
+	, PhysicsRightCollision_(nullptr)
+
 {
 }
 
@@ -70,6 +75,17 @@ CollisionReturn GamePlayPhysics::PullPlayer(std::shared_ptr<GameEngineCollision>
 			_Other->GetActor()->GetTransform().SetWorldRightMove(100.0f, GameEngineTime::GetDeltaTime());
 		}
 	
+		if (PhysicsForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
+			PhysicsForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB) == true)
+		{
+			_Other->GetActor()->GetTransform().SetWorldBackMove(100.0f, GameEngineTime::GetDeltaTime());
+		}
+		else if (PhysicsBackCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
+			PhysicsBackCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB) == true)
+		{
+			_Other->GetActor()->GetTransform().SetWorldForwardMove(100.0f, GameEngineTime::GetDeltaTime());
+		}
+
 	return CollisionReturn::ContinueCheck;
 }
 

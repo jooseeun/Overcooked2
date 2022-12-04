@@ -197,9 +197,14 @@ private:
 	std::string PlayerName_[6];
 
 	std::shared_ptr<GameEngineCollision> PlayerFloorCollision_;
-	std::shared_ptr<GameEngineCollision> PlayerForwardCollision_;
 	std::shared_ptr<GameEngineCollision> PlayerForwardLeftCollision_;
 	std::shared_ptr<GameEngineCollision> PlayerForwardRightCollision_;
+	std::shared_ptr<GameEngineCollision> PlayerForwardCollision_;
+
+	std::shared_ptr<GameEngineCollision> PlayerRightCollision_;
+	std::shared_ptr<GameEngineCollision> PlayerLeftCollision_;
+	std::shared_ptr<GameEngineCollision> PlayerBackCollision_;
+
 	std::shared_ptr<GameEngineCollision> PlayerCollision_;
 
 

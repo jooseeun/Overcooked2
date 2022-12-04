@@ -156,7 +156,6 @@ void Player::Start()
 		PlayerForwardLeftCollision_->GetTransform().SetLocalPosition({ 70,0,-50 });
 		PlayerForwardLeftCollision_->ChangeOrder(CollisionOrder::Object_CharacterColCheck);
 		PlayerForwardLeftCollision_->SetDebugSetting(CollisionType::CT_AABB, { 0,0,0 });
-		SetLeftCollision(PlayerForwardLeftCollision_);
 	}
 	{
 		PlayerForwardRightCollision_ = CreateComponent<GameEngineCollision>();
@@ -164,8 +163,32 @@ void Player::Start()
 		PlayerForwardRightCollision_->GetTransform().SetLocalPosition({ -70,0,-50 });
 		PlayerForwardRightCollision_->ChangeOrder(CollisionOrder::Object_CharacterColCheck);
 		PlayerForwardRightCollision_->SetDebugSetting(CollisionType::CT_AABB, { 0,0,0 });
-		SetRightCollision(PlayerForwardRightCollision_);
 	}
+
+	{
+		PlayerRightCollision_ = CreateComponent<GameEngineCollision>();
+		PlayerRightCollision_->GetTransform().SetLocalScale({ 10,100,100 });
+		PlayerRightCollision_->GetTransform().SetLocalPosition({ -60,0,0 });
+		PlayerRightCollision_->ChangeOrder(CollisionOrder::Object_CharacterColCheck);
+		PlayerRightCollision_->SetDebugSetting(CollisionType::CT_AABB, { 0,0,0 });
+
+		PlayerLeftCollision_ = CreateComponent<GameEngineCollision>();
+		PlayerLeftCollision_->GetTransform().SetLocalScale({ 10,100,100 });
+		PlayerLeftCollision_->GetTransform().SetLocalPosition({ 60,0,0 });
+		PlayerLeftCollision_->ChangeOrder(CollisionOrder::Object_CharacterColCheck);
+		PlayerLeftCollision_->SetDebugSetting(CollisionType::CT_AABB, { 0,0,0 });
+
+		PlayerBackCollision_ = CreateComponent<GameEngineCollision>();
+		PlayerBackCollision_->GetTransform().SetLocalScale({ 55,100,10 });
+		PlayerBackCollision_->GetTransform().SetLocalPosition({ 0,0,60 });
+		PlayerBackCollision_->ChangeOrder(CollisionOrder::Object_CharacterColCheck);
+		PlayerBackCollision_->SetDebugSetting(CollisionType::CT_AABB, { 0,0,0 });
+	}
+
+	SetLeftCollision(PlayerLeftCollision_);
+	SetRightCollision(PlayerRightCollision_);
+	SetForwardCollision(PlayerForwardCollision_);
+	SetBackCollision(PlayerBackCollision_);
 
 	Collision_Interact_ = CreateComponent<GameEngineCollision>("PlayerCollision");
 	Collision_Interact_->ChangeOrder(CollisionOrder::Object_Character_Interact);

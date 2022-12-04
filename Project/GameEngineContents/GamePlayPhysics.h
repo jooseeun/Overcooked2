@@ -37,6 +37,14 @@ public:
 	{
 		PhysicsRightCollision_ = _Col;
 	}
+	inline void SetForwardCollision(std::shared_ptr<GameEngineCollision> _Col) // 원래 사용하던 collision 넣어주면됨, 아님 새로 만들어 주어서 넣어주면 됩니다
+	{
+		PhysicsForwardCollision_ = _Col;
+	}
+	inline void SetBackCollision(std::shared_ptr<GameEngineCollision> _Col) // 원래 사용하던 collision 넣어주면됨, 아님 새로 만들어 주어서 넣어주면 됩니다
+	{
+		PhysicsBackCollision_ = _Col;
+	}
 	inline bool GetIsThrow() const
 	{
 		return IsThrow_;
@@ -94,5 +102,7 @@ private:
 
 	std::shared_ptr<GameEngineCollision> PhysicsLeftCollision_;
 	std::shared_ptr<GameEngineCollision> PhysicsRightCollision_;
+	std::shared_ptr<GameEngineCollision> PhysicsForwardCollision_;
+	std::shared_ptr<GameEngineCollision> PhysicsBackCollision_;
 };
 
