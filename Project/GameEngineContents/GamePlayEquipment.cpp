@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "GamePlayEquipment.h"
+#include "GamePlayTool.h"
 
 GamePlayEquipment::GamePlayEquipment() 
 	: Enum_ObjectEquipmentType_(ObjectEquipmentType::None)

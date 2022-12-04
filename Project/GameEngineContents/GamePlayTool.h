@@ -23,7 +23,7 @@ enum class ObjectToolType
 	, Dispenser	   //
 
 };
-
+class Player;
 class GamePlayTool : public GamePlayStuff
 {
 public:
@@ -41,19 +41,11 @@ public:
 	{
 		return Moveable_Current_;
 	}
-	inline void ReSetCurrentMoveable()
+	inline virtual void ReSetCurrentMoveable()
 	{
-		Moveable_Current_->GetTransform().SetLocalPosition(float4::ZERO);
+		//Moveable_Current_->GetTransform().SetLocalPosition(float4::ZERO);
 		Moveable_Current_.reset();
 	}
-	//inline void SetCurrentMoveable(std::shared_ptr<GamePlayMoveable> _Moveable)
-	//{
-	//	if (_Moveable == nullptr)
-	//	{
-	//		ReSetCurrentMoveable();
-	//	}
-	//	Moveable_Current_ = _Moveable;
-	//}
 
 	inline ObjectToolType GetObjectToolType()
 	{
@@ -70,8 +62,6 @@ protected:
 	void LevelStartEvent() override {};
 	void LevelEndEvent() override {};
 
-	virtual bool CanHoldThis(std::shared_ptr<GamePlayMoveable> _Moveable) { return true; };
-
 protected:
 
 	inline void SetInteractOption(AutoOption _Option)
@@ -83,9 +73,7 @@ protected:
 private:
 	std::shared_ptr<GamePlayMoveable> Moveable_Current_;
 
-	HoldDownEnum HoldDown(std::shared_ptr<Player> _Player) override;
-
-
+	//HoldDownEnum HoldDown(std::);
 protected:
 	inline void SetObjectToolType(ObjectToolType _Type)
 	{
@@ -100,7 +88,17 @@ private:
 
 	float4 MoveablePos_;
 
-	//void SetMoveableObject(std::shared_ptr<GamePlayMoveable> _Object);
+
+	HoldDownEnum HoldOn(std::shared_ptr<Player> _Player) override;
+
+	inline HoldDownEnum HoldOn(std::shared_ptr<GamePlayStaticObject> _Object) override
+	{
+	MsgBoxAssert("¿À·ù")
+		return HoldDownEnum::Nothing;
+	
+	};
+
+	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable> _Moveable) override;
 
 	// Bloom
 public:

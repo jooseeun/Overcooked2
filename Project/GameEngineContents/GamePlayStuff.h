@@ -11,12 +11,10 @@ enum class ObjectStuffType
 enum class HoldDownEnum
 {
 	Nothing,
-	HoldDown,
-	HoldDown_Already,
-	ExitMe,
 	HoldUp,
-	HoldUp_Already,
+	HoldDown,
 };
+
 enum class UsingDownEnum
 {
 	Nothing,
@@ -24,6 +22,8 @@ enum class UsingDownEnum
 	Throwing
 };
 
+class GamePlayTool;
+class Player;
 class GamePlayStuff : public GamePlayObject
 {
 	friend class GamePlayStaticObject;
@@ -38,8 +38,6 @@ public:
 	GamePlayStuff(GamePlayStuff&& _Other) noexcept = delete;
 	GamePlayStuff& operator=(const GamePlayStuff& _Other) = delete;
 	GamePlayStuff& operator=(GamePlayStuff&& _Other) noexcept = delete;
-
-
 
 	inline ObjectStuffType GetObjectStuffType() const
 	{
@@ -60,13 +58,19 @@ public:
 		Enum_ToolInfo_ = _Info;
 	}
 
-	//virtual void SetParentObject(std::shared_ptr<GameEngineUpdateObject> _Object);
 
-
-	inline virtual HoldDownEnum HoldDown(std::shared_ptr<Player> _Player)
+	inline virtual HoldDownEnum HoldOn(std::shared_ptr<Player> _Player)
 	{
 		return HoldDownEnum::Nothing;
 	};
+	inline virtual HoldDownEnum HoldOn(std::shared_ptr<GamePlayStaticObject> _Player)
+	{
+		return HoldDownEnum::Nothing;
+	};
+	inline virtual HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable> _Moveable)
+	{
+		return HoldDownEnum::Nothing;
+	}
 
 	inline virtual UsingDownEnum UsingDown(std::shared_ptr<Player> _Player)
 	{

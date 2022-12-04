@@ -20,10 +20,6 @@ public:
 	GamePlayStaticObject& operator=(GamePlayStaticObject&& _Other) noexcept = delete;
 
 public:
-	//Input_PutDownOption Input_PutDown(std::shared_ptr<GamePlayMoveable> _Object) override;
-	//Input_PickUpOption Input_PickUp(std::shared_ptr<Player> _Player) override;
-	//PlayerHoldType Input_Action() { return PlayerHoldType::Max; } override;
-
 	SetPlayerState_Return SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type) override;
 	
 
@@ -39,16 +35,7 @@ public:
 		SetStuff(_Player->GetPlayerHolding()->CastThis<GamePlayStuff>());
 		_Player->DetachPlayerHolding();
 	}
-	inline void SetStuff(std::shared_ptr<GamePlayStuff> _Stuff)
-	{
-		Stuff_Current_ = _Stuff;
-		Stuff_Current_->GetCollisionObject()->Off();
-		if (nullptr != _Stuff)
-		{
-			_Stuff->SetParent(std::dynamic_pointer_cast<GamePlayObject>(shared_from_this()));
-			_Stuff->GetTransform().SetLocalPosition(ToolPos_);
-		}
-	}
+	void SetStuff(std::shared_ptr<GamePlayStuff> _Stuff);
 	inline void ReSetStuff()
 	{
 		Stuff_Current_.reset();
