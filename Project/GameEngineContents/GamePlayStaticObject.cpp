@@ -44,118 +44,74 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 	switch (_Type)
 	{
 	case PlayerCurStateType::HoldUp:
+	{
 		if (Stuff_Current_ == nullptr)
 		{
-			return SetPlayerState_Return::Nothing;
+			if (_Player->GetPlayerHolding() != nullptr)
+			{
+				SetStuff(_Player->GetPlayerHolding()->CastThis<GamePlayStuff>());
+				_Player->DetachPlayerHolding();
+			}
+			else
+			{
+
+			}
 		}
 		else
 		{
-			switch (Stuff_Current_->HoldDown(_Player))
+			switch (Stuff_Current_->HoldOn(_Player))
 			{
-			case HoldDownEnum::Nothing:
-				return SetPlayerState_Return::Nothing;
-				break;
 			case HoldDownEnum::HoldUp:
-				_Player->SetPlayerHolding(Stuff_Current_);
-				ReSetStuff();
-			case HoldDownEnum::HoldUp_Already:
+				if (Stuff_Current_->GetObjectStuffType() == ObjectStuffType::Moveable)
+				{
+					ReSetStuff();
+				}
 				return SetPlayerState_Return::Using;
 				break;
+			case HoldDownEnum::HoldDown:
+			case HoldDownEnum::Nothing:
 			default:
-				MsgBoxAssert("아직 처리하지 않은 예외")
+				return SetPlayerState_Return::Nothing;
 				break;
 			}
 		}
-
-		//if (GetMoveable() != nullptr)
-		//{
-		//	std::weak_ptr<GamePlayMoveable> Moveable = GetMoveable_TakeOut();
-		//	Moveable.lock()->GetCollisionObject()->Off();
-		//	switch (Moveable.lock()->GetObjectMoveableType())
-		//	{
-		//	case ObjectMoveableType::Food:
-		//		_Player->SetCurHoldType(PlayerHoldType::CanThrow);
-		//		break;
-		//	case ObjectMoveableType::Equipment:
-		//		_Player->SetCurHoldType(PlayerHoldType::NotThrow);
-		//		break;
-		//	default:
-		//		break;
-		//	}
-		//	_Player->SetPlayerHolding(Moveable.lock());
-		//	return SetPlayerState_Return::Using;
-		//}
-		//else
-		//{
-		//	return SetPlayerState_Return::Nothing;
-		//}
+	}
 		break;
 	case PlayerCurStateType::HoldDown:	
 	{
-		std::weak_ptr<GamePlayMoveable> Moveable = std::dynamic_pointer_cast<GamePlayMoveable>(_Player->GetPlayerHolding());
-		if (Moveable.lock() != nullptr)
+		if (Stuff_Current_ == nullptr)
 		{
-			if (GetMoveable() == nullptr)
+			if (_Player->GetPlayerHolding() != nullptr)
 			{
-				if (Stuff_Current_ == nullptr)
-				{
-					_Player->DetachPlayerHolding();
-					SetStuff(Moveable.lock());
-				}
-				else
-				{
-					switch (Stuff_Current_->HoldDown(_Player))
-					{
-					case HoldDownEnum::Nothing:
-						break;
-					case HoldDownEnum::HoldDown:
-						MsgBoxAssert("예외확인용")
-						//Moveable.lock()->SetParentObject(Stuff_Current_);
-					case HoldDownEnum::HoldDown_Already:
-						break;
-					case HoldDownEnum::HoldUp:
-						break;
-					case HoldDownEnum::HoldUp_Already:
-						break;
-					default:
-						break;
-					}
-					
-				}
+				std::weak_ptr Stuff = _Player->GetPlayerHolding()->CastThis<GamePlayStuff>();
+				_Player->DetachPlayerHolding();
+				SetStuff(Stuff.lock());
 				return SetPlayerState_Return::Using;
 			}
 			else
 			{
-				if (Stuff_Current_->GetObjectStuffType() == ObjectStuffType::Moveable)
-				{
-					switch (Stuff_Current_->HoldDown(_Player))
-					{
-					case HoldDownEnum::HoldUp:
-						MsgBoxAssert("예외")
-					case HoldDownEnum::Nothing:
-					case HoldDownEnum::HoldUp_Already:
-						return SetPlayerState_Return::Nothing;
-						break;
-					case HoldDownEnum::HoldDown:
-						MsgBoxAssert("예외")
-					case HoldDownEnum::HoldDown_Already:
-						return SetPlayerState_Return::Using;
-						break;
-					default:
-						break;
-					}
-				}
-				else
-				{
-
-				}
+				MsgBoxAssert("오류")
 			}
 		}
 		else
 		{
-			MsgBoxAssert("처리안된 예외")
+			if (_Player->GetPlayerHolding() != nullptr)
+			{
+				switch (_Player->GetPlayerHolding()->CastThis<GamePlayStuff>()->HoldOn(shared_from_this()->CastThis<GamePlayStaticObject>()))
+				{
+				case HoldDownEnum::HoldUp:
+					_Player->DetachPlayerHolding();
+					return SetPlayerState_Return::Using;
+					break;
+				case HoldDownEnum::HoldDown:
+				case HoldDownEnum::Nothing:
+				default:
+					return SetPlayerState_Return::Nothing;
+					break;
+				}
+			}
+
 		}
-		
 
 	}
 		break;
@@ -177,8 +133,10 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 			switch (Stuff_Current_->UsingDown(_Player))
 			{
 			case UsingDownEnum::Nothing:
+				return SetPlayerState_Return::Nothing;
 				break;
 			case UsingDownEnum::Using:
+				return SetPlayerState_Return::Using;
 				break;
 			default:
 				break;
@@ -226,4 +184,22 @@ std::shared_ptr<GamePlayMoveable> GamePlayStaticObject::GetMoveable_TakeOut()
 		}
 	}
 	return Moveable.lock();
+}
+
+void GamePlayStaticObject::SetStuff(std::shared_ptr<GamePlayStuff> _Stuff)
+{
+	if (Stuff_Current_ != nullptr)
+	{
+		if (Stuff_Current_->CastThis<GamePlayTool>() != nullptr)
+		{
+			MsgBoxAssert("오류")
+		}
+	}
+	Stuff_Current_ = _Stuff;
+	Stuff_Current_->GetCollisionObject()->Off();
+	if (nullptr != _Stuff)
+	{
+		_Stuff->SetParent(std::dynamic_pointer_cast<GamePlayObject>(shared_from_this()));
+		_Stuff->GetTransform().SetLocalPosition(ToolPos_);
+	}
 }

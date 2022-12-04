@@ -11,8 +11,8 @@ Equipment_Bowl::~Equipment_Bowl()
 
 void Equipment_Bowl::Start()
 {
-	GamePlayEquipment::Start();
-	GamePlayEquipment::SetToolInfoType(ToolInfo::Bowl);
+	GamePlayBowl::Start();
+	GamePlayBowl::SetToolInfoType(ToolInfo::Bowl);
 
 	GetFBXMesh()->SetFBXMesh("Bowl_Static.fbx", "Texture");
 	GetFBXMesh()->GetTransform().SetWorldScale({ 1, 1, 1 });

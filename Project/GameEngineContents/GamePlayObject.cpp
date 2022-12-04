@@ -23,9 +23,13 @@ void GamePlayObject::Start()
 	Collision_Object_->ChangeOrder(CollisionOrder::Object_None);
 
 	AnimationMesh_Obejct_ = CreateComponent<GameEngineFBXAnimationRenderer>("AnimationMesh_Obejct");
+	SetGravityCollision(Collision_Object_);
 }
 
 void GamePlayObject::Update(float _DeltaTime)
 {
-	
+	if (GetParent() == nullptr)
+	{
+		Gravity();
+	}
 }

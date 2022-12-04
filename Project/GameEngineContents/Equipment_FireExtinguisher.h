@@ -18,7 +18,11 @@ public:
 protected:
 	void Start() override;
 private:
-	HoldDownEnum HoldDown(std::shared_ptr<Player> _Player) final;
+	//inline bool HoldDown(std::shared_ptr<Player> _Player) final
+	//{
+	//	_Player->SetCurHoldType(PlayerHoldType::FireExtinguisher);
+	//	return true;
+	//};
 
 };
 

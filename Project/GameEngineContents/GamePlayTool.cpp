@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "GamePlayTool.h"
 #include "GamePlayMoveable.h"
+#include "Player.h"
 
 GamePlayTool::GamePlayTool()
 	: Moveable_Current_(nullptr)
@@ -24,58 +25,12 @@ void GamePlayTool::Start()
 // ---------------------------------------Update
 
 
-HoldDownEnum GamePlayTool::HoldDown(std::shared_ptr<Player> _Player)
-{
-	std::weak_ptr<GamePlayMoveable> Moveable = std::dynamic_pointer_cast<GamePlayMoveable>(_Player->GetPlayerHolding());
-	if (Moveable.lock() == nullptr)
-	{
-		if (Moveable_Current_ == nullptr)
-		{
-			return HoldDownEnum::Nothing;
-		}
-		else
-		{
-			_Player->SetPlayerHolding(Moveable_Current_);
-			Moveable_Current_.reset();
-			return HoldDownEnum::HoldUp_Already;
-		}
-	}
-	else
-	{
-		if (Moveable_Current_ == nullptr && CanHoldThis(Moveable.lock()))
-		{
-			SetMoveable(_Player);
-			return HoldDownEnum::HoldDown_Already;
-		}
-		else
-		{
-			switch (Moveable_Current_->HoldDown(_Player))
-			{
-			case HoldDownEnum::Nothing:
-				return HoldDownEnum::Nothing;
-				break;
-			case HoldDownEnum::HoldDown:
-				MsgBoxAssert("예외처리 대기중")
-			case HoldDownEnum::HoldDown_Already:
-				return HoldDownEnum::HoldDown_Already;
-				break;
-			case HoldDownEnum::HoldUp:
-				MsgBoxAssert("예외처리 대기중")
-			case HoldDownEnum::HoldUp_Already:
-				return HoldDownEnum::HoldUp_Already;
-				break;
-			default:
-				break;
-			}
-		}
-	}
-	return HoldDownEnum::Nothing;
-}
 
 void GamePlayTool::SetMoveable(std::shared_ptr<Player> _Player)
 {
-	SetMoveable(_Player->GetPlayerHolding());
+	std::weak_ptr<GameEngineUpdateObject> Object = _Player->GetPlayerHolding();
 	_Player->DetachPlayerHolding();
+	SetMoveable(Object.lock());
 }
 
 void GamePlayTool::SetMoveable(std::shared_ptr<GameEngineUpdateObject> _Child)
@@ -86,3 +41,69 @@ void GamePlayTool::SetMoveable(std::shared_ptr<GameEngineUpdateObject> _Child)
 	Object.lock()->GetTransform().SetLocalPosition(MoveablePos_);
 	Object.lock()->GetCollisionObject()->Off();
 }
+
+HoldDownEnum GamePlayTool::HoldOn(std::shared_ptr<Player> _Player)
+{
+	if (Moveable_Current_ != nullptr)
+	{
+		switch (Moveable_Current_->HoldOn(_Player))
+		{
+		case HoldDownEnum::Nothing:
+			return HoldDownEnum::Nothing;
+			break;
+		case HoldDownEnum::HoldUp:
+			ReSetCurrentMoveable();
+			return HoldDownEnum::HoldUp;
+			break;
+		case HoldDownEnum::HoldDown:
+			return HoldDownEnum::HoldDown;
+			break;
+		default:
+			break;
+		}
+	}
+	else
+	{
+		return HoldDownEnum::Nothing;
+	}
+};
+
+
+HoldDownEnum GamePlayTool::PickUp(std::shared_ptr<GamePlayMoveable> _Moveable)
+{
+	if (GetCurrentMoveable() == nullptr)
+	{
+		SetMoveable(_Moveable);
+		return HoldDownEnum::HoldUp;
+	}
+	return HoldDownEnum::Nothing;
+}
+
+
+//HoldDownEnum GamePlayTool::HoldUp(std::shared_ptr<Player> _Player)
+//{
+//	if (Moveable_Current_ != nullptr)
+//	{
+//		switch (Moveable_Current_->CastThis<GamePlayStuff>()->HoldUp(_Player))
+//		{
+//		case HoldDownEnum::HoldUpDelete:
+//		case HoldDownEnum::HoldUp:
+//			ReSetCurrentMoveable();
+//			return HoldDownEnum::HoldUp;
+//			break;
+//		case HoldDownEnum::HoldDown:
+//			return HoldDownEnum::HoldDown;
+//			break;
+//		case HoldDownEnum::Nothing:
+//			return HoldDownEnum::Nothing;
+//			break;
+//		default:
+//			return HoldDownEnum::Nothing;
+//			break;
+//		}
+//	}
+//	else
+//	{
+//		return HoldDownEnum::Nothing;
+//	}
+//};

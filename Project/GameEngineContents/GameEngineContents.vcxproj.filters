@@ -257,6 +257,9 @@
     <ClInclude Include="Oven.h">
       <Filter>Contents\Object\StaticMesh</Filter>
     </ClInclude>
+    <ClInclude Include="Food_Ingredients_Bread.h">
+      <Filter>Contents\Object\Food</Filter>
+    </ClInclude>
     <ClInclude Include="GameServerObject.h">
       <Filter>Global</Filter>
     </ClInclude>
@@ -505,6 +508,9 @@
     </ClCompile>
     <ClCompile Include="GamePacket.cpp">
       <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Food_Ingredients_Bread.cpp">
+      <Filter>Contents\Object\Food</Filter>
     </ClCompile>
     <ClCompile Include="GameServerObject.cpp">
       <Filter>Global</Filter>

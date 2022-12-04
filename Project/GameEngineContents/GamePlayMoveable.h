@@ -15,6 +15,9 @@ enum class CookedStat
 	Cooking,
 	End
 };
+class GamePlayFood;
+class GamePlayEquipment;
+class GamePlayBowl;
 class GamePlayMoveable : public GamePlayStuff
 {
 	friend class GamePlayTool;
@@ -44,8 +47,7 @@ public:
 	{
 		return CookingGage_;
 	}
-//	HoldDownEnum CalculateMoveable(std::shared_ptr<GamePlayMoveable> _Other);
-
+	bool Input_Manual(std::shared_ptr<Player> _Player, float _Delta, float _MaxTime);
 protected:
 	void Start() override;
 	//void Update(float _DeltaTime) final;
@@ -57,8 +59,6 @@ protected:
 	void LevelStartEvent() override {};
 	void LevelEndEvent() override {};
 
-
-
 protected:
 	inline void SetObjectMoveableType(ObjectMoveableType _Type)
 	{
@@ -68,5 +68,15 @@ protected:
 private:
 	ObjectMoveableType Enum_ObjectMoveableType_;
 	float CookingGage_;
+	bool TrimmingFirstTime_;
+
+	virtual void FinishTrimmingFirst() {}
+	virtual void FinishTrimming() {}
+
+	HoldDownEnum HoldOn(std::shared_ptr<GamePlayStaticObject> _Object) override;
+	HoldDownEnum HoldOn(std::shared_ptr<Player> _Object) override
+	{
+		return HoldDownEnum::Nothing;
+	}
 };
 
