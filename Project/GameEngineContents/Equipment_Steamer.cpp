@@ -2,6 +2,10 @@
 #include "Equipment_Steamer.h"
 
 Equipment_Steamer::Equipment_Steamer() 
+	: Angle_(0.f)
+	, IsInteraction_(false)
+	, IsOpen_(false)
+	, SteamerState_(SteamerState::Idle)
 {
 }
 

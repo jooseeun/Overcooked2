@@ -3,6 +3,7 @@
 
 Cannon::Cannon() 
 	: CannonBase_(nullptr)
+	, CurState_(CannonState::Max)
 {
 }
 
@@ -18,12 +19,13 @@ void Cannon::Start()
 	CannonBase_->SetParent(shared_from_this());
 
 	std::shared_ptr<GameEngineFBXStaticRenderer> BaseRenderer = CannonBase_->CreateComponent<GameEngineFBXStaticRenderer>();
-	BaseRenderer->SetFBXMesh("Cannon_Base.fbx", "Texture", 0);
+	BaseRenderer->SetFBXMesh("Cannon_Base.fbx", "Texture");
 	BaseRenderer->GetTransform().SetWorldScale({ 100, 100, 100 });
 
 	GetFBXMesh()->SetFBXMesh("m_dlc08_cannon_01.fbx", "Texture");
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
-	GetFBXMesh()->GetTransform().SetWorldMove({ 0, 0, 0 });
+	GetFBXMesh()->GetTransform().SetWorldMove({ 0, 100, 0 });
+	GetFBXMesh()->GetTransform().SetWorldRotation({90, 0, 90});
 
 	GetCollisionObject()->GetTransform().SetWorldScale({ 100, 100, 100 });
 }

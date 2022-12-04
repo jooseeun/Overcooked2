@@ -135,7 +135,7 @@ Index:0.00,0.00,0.00;
 
 { 
 Name:;
-Type:FoodBox;
+Type:FoodBox_Normal;
 Pos:-1670.00,0.00,-114.00;
 Rot:0.00,0.00,0.00;
 Scale:1.00,1.00,1.00;

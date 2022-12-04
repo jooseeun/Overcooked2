@@ -12,6 +12,9 @@
 #include "FoodBox.h"
 #include "Rail.h"
 #include "Dispenser.h"
+#include "Cannon.h"
+#include "Button.h"
+#include "Oven.h"
 
 #include "Equipment_Plate.h"
 #include "Equipment_FireExtinguisher.h"
@@ -212,7 +215,7 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 
 	for (size_t i = 0; i < _Data.size(); i++)
 	{
-		int Order = _Data[i].Index_.z;
+		int Order = (int)_Data[i].Index_.z;
 
 		switch (_Data[i].MapObjType_)
 		{
@@ -260,17 +263,17 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 			Object.lock()->SetStaticObjectType(MapObjType::CounterTop_WiZard);
 		}
 		break;
-		//case MapObjType::CounterTop_Mixer:
-		//{
-		//	CurActor_ = _Level->CreateActor<CounterTop>();
-		//	std::weak_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurActor_.lock());
+		case MapObjType::CounterTop_Winter:
+		{
+			CurActor_ = _Level->CreateActor<CounterTop>();
+			std::weak_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurActor_.lock());
 
-		//	Object.lock()->SetCounterTopType(CounterTopType::Mixer);
-		//	Object.lock()->SetConterTopMesh(CounterTopType::Mixer);
+			Object.lock()->SetCounterTopType(CounterTopType::Winter);
+			Object.lock()->SetConterTopMesh(CounterTopType::Winter);
 
-		//	Object.lock()->SetStaticObjectType(MapObjType::CounterTop_Mixer);
-		//}
-		//break;
+			Object.lock()->SetStaticObjectType(MapObjType::CounterTop_Winter);
+		}
+		break;
 		case MapObjType::Cooker:
 		{
 			CurActor_ = _Level->CreateActor<Cooker>();
@@ -303,12 +306,23 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 			CurActor_.lock()->SetStaticObjectType(MapObjType::PlateReturn);
 		}
 		break;
-		case MapObjType::FoodBox:
+		case MapObjType::FoodBox_Normal:
 		{
 			CurActor_ = _Level->CreateActor<FoodBox>();
-			CurActor_.lock()->SetStaticObjectType(MapObjType::FoodBox);
+			CurActor_.lock()->SetStaticObjectType(MapObjType::FoodBox_Normal);
 
 			std::weak_ptr<FoodBox> Object = std::dynamic_pointer_cast<FoodBox>(CurActor_.lock());
+			Object.lock()->SetFoodBoxMesh(FoodBoxType::Normal);
+			Object.lock()->SetFoodType(static_cast<IngredientType>(_Data[i].Index_.x));
+		}
+		break;
+		case MapObjType::FoodBox_Winter:
+		{
+			CurActor_ = _Level->CreateActor<FoodBox>();
+			CurActor_.lock()->SetStaticObjectType(MapObjType::FoodBox_Winter);
+
+			std::weak_ptr<FoodBox> Object = std::dynamic_pointer_cast<FoodBox>(CurActor_.lock());
+			Object.lock()->SetFoodBoxMesh(FoodBoxType::Winter);
 			Object.lock()->SetFoodType(static_cast<IngredientType>(_Data[i].Index_.x));
 		}
 		break;
@@ -331,6 +345,24 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 		{
 			CurActor_ = _Level->CreateActor<Dispenser>();
 			CurActor_.lock()->SetStaticObjectType(MapObjType::Dispenser);
+		}
+		break;
+		case MapObjType::Cannon:
+		{
+			CurActor_ = _Level->CreateActor<Cannon>();
+			CurActor_.lock()->SetStaticObjectType(MapObjType::Cannon);
+		}
+		break;
+		case MapObjType::Button:
+		{
+			CurActor_ = _Level->CreateActor<Button>();
+			CurActor_.lock()->SetStaticObjectType(MapObjType::Button);
+		}
+		break;
+		case MapObjType::Oven:
+		{
+			CurActor_ = _Level->CreateActor<Oven>();
+			CurActor_.lock()->SetStaticObjectType(MapObjType::Oven);
 		}
 		break;
 		default:

@@ -33,16 +33,16 @@ void Stage_2_1::PlayLevelStartEvent()
 
 	CreateActor<LevelActor>()->SetLevelMesh("2_1.FBX");
 
-	//GlobalIOManager::Load(IOType::SortMap, 3);
-	//DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
+	GlobalIOManager::Load(IOType::SortMap, 4);
+	DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
 
-	//GlobalIOManager::Load(IOType::UnsortMap, 3);
+	//GlobalIOManager::Load(IOType::UnsortMap, 4);
 	//DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
 
 	GetMainCameraActorTransform().SetLocalRotation({ 60, 180, 0 });
-	GetMainCameraActorTransform().SetLocalPosition({ -1173, 3300, 2500 });
+	GetMainCameraActorTransform().SetLocalPosition({ -1700, 3000, 750 });
 
 	std::shared_ptr<Player> MainPlayer = CreateActor<Player>();
-	MainPlayer->GetTransform().SetLocalPosition({ -1000, 1000, 1000 });
+	MainPlayer->GetTransform().SetLocalPosition({ -1000, 1000, 200 });
 	return;
 }

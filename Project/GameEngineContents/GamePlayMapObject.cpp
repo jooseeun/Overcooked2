@@ -61,7 +61,7 @@ void GamePlayMapObject::SetMapObjectMesh(const std::string& _Name, MapObjType _O
 		GetAnimationFBXMesh()->CreateFBXAnimation("Idle", GameEngineRenderingEvent(_Name + ".fbx", 0.04f, true));
 
 		GetAnimationFBXMesh()->ChangeAnimation("Idle");
-		GetAnimationFBXMesh()->ChangeAnimationFrame(GameEngineRandom::MainRandom.RandomInt(0, GetAnimationFBXMesh()->GetAnimationFrameCount()));
+		GetAnimationFBXMesh()->ChangeAnimationFrame(GameEngineRandom::MainRandom.RandomInt(0, (int)GetAnimationFBXMesh()->GetAnimationFrameCount()));
 	}
 		break;
 	case MapObjType::Car:

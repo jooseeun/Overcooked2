@@ -12,6 +12,9 @@
 #include "FoodBox.h"
 #include "Rail.h"
 #include "Dispenser.h"
+#include "Cannon.h"
+#include "Button.h"
+#include "Oven.h"
 
 #include "Equipment_Plate.h"
 #include "Equipment_FireExtinguisher.h"
@@ -259,11 +262,15 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				Prefabs_.push_back("Cooker");
 				Prefabs_.push_back("Sink");
 				Prefabs_.push_back("CounterTop_Wizard");
-				Prefabs_.push_back("FoodBox");
+				Prefabs_.push_back("FoodBox_Normal");
+				Prefabs_.push_back("FoodBox_Winter");
 				Prefabs_.push_back("Sink_Wizard");
 				Prefabs_.push_back("Rail");
 				Prefabs_.push_back("Dispenser");
-				Prefabs_.push_back("CounterTop_Mixer");
+				Prefabs_.push_back("CounterTop_Winter");
+				Prefabs_.push_back("Cannon");
+				Prefabs_.push_back("Button");
+				Prefabs_.push_back("Oven");
 			}
 		}
 
@@ -311,26 +318,33 @@ void MapEditorWindow::ShowLevelSelectTable()
 				}
 
 				LevelActor_ = CurLevel_->CreateActor<LevelActor>();
-				LoadingData::GetFunc("1-" + std::to_string(LevelIndex_ + 1))();
 
 				switch (LevelIndex_)
 				{
 				case 0:
+					LoadingData::GetFunc("1-" + std::to_string(LevelIndex_ + 1))();
 					LevelActor_.lock()->SetLevelMesh("1_1.FBX");
 					break;
 
 				case 1:
+					LoadingData::GetFunc("1-" + std::to_string(LevelIndex_ + 1))();
 					LevelActor_.lock()->SetLevelMesh("1_2.FBX");
 					break;
 
 				case 2:
+					LoadingData::GetFunc("1-" + std::to_string(LevelIndex_ + 1))();
 					LevelActor_.lock()->SetLevelMesh("1_3.FBX");
 					break;
 
 				case 3:
+					LoadingData::GetFunc("1-" + std::to_string(LevelIndex_ + 1))();
 					LevelActor_.lock()->SetLevelMesh("1_4.FBX");
 					break;
 
+				case 4:
+					LoadingData::GetFunc("2-1")();
+					LevelActor_.lock()->SetLevelMesh("2_1.FBX");
+					break;
 				default:
 					LevelActor_.lock()->SetLevelMesh("1_1.FBX");
 					break;
@@ -410,7 +424,7 @@ void MapEditorWindow::UnSortToolTab()
 
 	for (size_t i = 0; i < RendererType.size(); ++i)
 	{
-		if (i <= 14)
+		if (i <= 18)
 		{
 			continue;
 		}
@@ -604,14 +618,10 @@ void MapEditorWindow::UnSortToolTab()
 		Position_ = UnSortActorList_[SelectIndex].lock()->GetTransform().GetWorldPosition();
 		float4 RendererPos = UnSortActorList_[SelectIndex].lock()->GetFBXMesh()->GetTransform().GetLocalPosition();
 		ImGui::Text("Position");
-		ImGui::DragFloat("Position.x", &Position_.x);
-		ImGui::DragFloat("Position.y", &Position_.y);
-		ImGui::DragFloat("Position.z", &Position_.z);
-		ImGui::DragFloat("RendererPosition.x", &RendererPos.x);
-		ImGui::DragFloat("RendererPosition.y", &RendererPos.y);
-		ImGui::DragFloat("RendererPosition.z", &RendererPos.z);
-		ImGui::InputFloat4("Position", Position_.Arr1D);
-		ImGui::InputFloat4("RendererPosition", RendererPos.Arr1D);
+		ImGui::DragFloat3("Drag Position", Position_.Arr1D);
+		ImGui::InputFloat3("Input Position", Position_.Arr1D);
+		ImGui::DragFloat3("Drag RendererPosition", RendererPos.Arr1D);
+		ImGui::InputFloat3("Input RendererPosition", RendererPos.Arr1D);
 
 		if (true == ImGui::Button("Position Reset"))
 		{
@@ -630,11 +640,8 @@ void MapEditorWindow::UnSortToolTab()
 
 		Rotation_ = UnSortActorList_[SelectIndex].lock()->GetTransform().GetWorldRotation();
 		ImGui::Text("Rotation");
-		ImGui::DragFloat("Rotation.x", &Rotation_.x);
-		ImGui::DragFloat("Rotation.y", &Rotation_.y);
-		ImGui::DragFloat("Rotation.z", &Rotation_.z);
-
-		ImGui::InputFloat4("Rotation_", Rotation_.Arr1D);
+		ImGui::DragFloat3("Drag Rotation", Rotation_.Arr1D);
+		ImGui::InputFloat3("Input Rotation", Rotation_.Arr1D);
 
 		if (true == ImGui::Button("Rotation Reset"))
 		{
@@ -647,12 +654,9 @@ void MapEditorWindow::UnSortToolTab()
 		CollisionScale_ = UnSortActorList_[SelectIndex].lock()->GetCollisionObject()->GetTransform().GetWorldScale();
 		float4 Scale = UnSortActorList_[SelectIndex].lock()->GetTransform().GetWorldScale();
 		ImGui::Text("Collision Scale");
-		ImGui::DragFloat("Collision Scale.x", &CollisionScale_.x);
-		ImGui::DragFloat("Collision Scale.y", &CollisionScale_.y);
-		ImGui::DragFloat("Collision Scale.z", &CollisionScale_.z);
-
-		ImGui::InputFloat4("Collision Scale", CollisionScale_.Arr1D);
-		ImGui::InputFloat4("Scale", Scale.Arr1D);
+		ImGui::DragFloat3("Drag Collision Scale", CollisionScale_.Arr1D);
+		ImGui::InputFloat3("Input Collision Scale", CollisionScale_.Arr1D);
+		ImGui::InputFloat3("Input Scale", Scale.Arr1D);
 
 		if (true == ImGui::Button("Collision Scale Reset"))
 		{
@@ -804,20 +808,22 @@ void MapEditorWindow::SortToolTab()
 		{
 			auto CurType = magic_enum::enum_name(SortActorList_[ActorIndex].lock()->GetStuff()->GetToolInfoType());
 
-			for (size_t i = 0; i < ToolNames.size(); ++i)
+			if (SortActorList_[ActorIndex].lock()->GetStuff()->GetToolInfoType() != ToolInfo::None)
 			{
-				if (ToolNames[i] == CurType)
+				for (size_t i = 0; i < ToolNames.size(); ++i)
 				{
-					if (false == IsChecks_[i])
+					if (ToolNames[i] == CurType)
 					{
-						SortActorList_[ActorIndex].lock()->GetStuff()->Death();
-						SortActorList_[ActorIndex].lock()->ReSetStuff();
+						if (false == IsChecks_[i])
+						{
+							SortActorList_[ActorIndex].lock()->GetStuff()->Death();
+							SortActorList_[ActorIndex].lock()->ReSetStuff();
+						}
+
+						continue;
 					}
-
-					continue;
+					IsChecks_[i] = false;
 				}
-
-				IsChecks_[i] = false;
 			}
 		}
 
@@ -903,14 +909,15 @@ void MapEditorWindow::SortToolTab()
 
 	if (true == IsFoodBox_)
 	{
-		for (size_t i = 0; i < FoodNames.size(); ++i)
+		for (size_t i = 1; i < FoodNames.size(); ++i)
 		{
 			ImGui::Checkbox(FoodNames[i].data(), &IsFoods_[i]);
 
 			if (true == IsFoods_[i])
 			{
-				std::weak_ptr<FoodBox> Food = std::dynamic_pointer_cast<FoodBox>(SortActorList_[ActorIndex].lock());
-				Food.lock()->SetFoodType(static_cast<IngredientType>(i));
+				std::dynamic_pointer_cast<FoodBox>(SortActorList_[ActorIndex].lock())->SetFoodType(static_cast<IngredientType>(i - 1));
+		/*		std::weak_ptr<FoodBox> Food = std::dynamic_pointer_cast<FoodBox>(SortActorList_[ActorIndex].lock());
+				Food.lock()->SetFoodType(static_cast<IngredientType>(i - 1));*/
 			}
 		}
 	}
@@ -918,7 +925,8 @@ void MapEditorWindow::SortToolTab()
 	ImGui::Text("");
 
 	static int Index[2] = { 0, 0 };
-	ImGui::DragInt2("Index", Index);
+	ImGui::DragInt2("Drag Index", Index);
+	ImGui::InputInt2("Input Index", Index);
 
 	if (true == ImGui::Button("Create"))
 	{
@@ -996,9 +1004,11 @@ void MapEditorWindow::SortToolTab()
 		case 9:
 		{
 			CurStaticMesh_ = CurLevel_->CreateActor<FoodBox>();
-			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::FoodBox);
+			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::FoodBox_Normal);
 
 			std::weak_ptr<FoodBox> Object = std::dynamic_pointer_cast<FoodBox>(CurStaticMesh_.lock());
+			Object.lock()->SetFoodBoxType(FoodBoxType::Normal);
+			Object.lock()->SetFoodBoxMesh(FoodBoxType::Normal);
 			Object.lock()->SetFoodType(IngredientType::Tomato);
 
 			IsFoodBox_ = true;
@@ -1006,35 +1016,67 @@ void MapEditorWindow::SortToolTab()
 		break;
 		case 10:
 		{
+			CurStaticMesh_ = CurLevel_->CreateActor<FoodBox>();
+			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::FoodBox_Winter);
+
+			std::weak_ptr<FoodBox> Object = std::dynamic_pointer_cast<FoodBox>(CurStaticMesh_.lock());
+			Object.lock()->SetFoodBoxType(FoodBoxType::Winter);
+			Object.lock()->SetFoodBoxMesh(FoodBoxType::Winter);
+			Object.lock()->SetFoodType(IngredientType::Tomato);
+
+			IsFoodBox_ = true;
+		}
+		break;
+		case 11:
+		{
 			CurStaticMesh_ = CurLevel_->CreateActor<Sink>();
 			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::Sink_Wizard);
 
 			std::weak_ptr<Sink> Object = std::dynamic_pointer_cast<Sink>(CurStaticMesh_.lock());
 			Object.lock()->SetSinkMesh(SinkType::Wizard);
 		}
-		case 11:
+		break;
+		case 12:
 		{
 			CurStaticMesh_ = CurLevel_->CreateActor<Rail>();
 			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::Rail);
 		}
 		break;
-		case 12:
+		case 13:
 		{
 			CurStaticMesh_ = CurLevel_->CreateActor<Dispenser>();
 			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::Dispenser);
 		}
 		break;
-		//case 13:
-		//{
-		//	CurStaticMesh_ = CurLevel_->CreateActor<CounterTop>();
-		//	std::weak_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurStaticMesh_.lock());
+		case 14:
+		{
+			CurStaticMesh_ = CurLevel_->CreateActor<CounterTop>();
+			std::weak_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurStaticMesh_.lock());
 
-		//	Object.lock()->SetCounterTopType(CounterTopType::Mixer);
-		//	Object.lock()->SetConterTopMesh(CounterTopType::Mixer);
+			Object.lock()->SetCounterTopType(CounterTopType::Winter);
+			Object.lock()->SetConterTopMesh(CounterTopType::Winter);
 
-		//	Object.lock()->SetStaticObjectType(MapObjType::CounterTop_Mixer);
-		//}
-		//break;
+			Object.lock()->SetStaticObjectType(MapObjType::CounterTop_Winter);
+		}
+		break;
+		case 15:
+		{
+			CurStaticMesh_ = CurLevel_->CreateActor<Cannon>();
+			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::Cannon);
+		}
+		break;
+		case 16:
+		{
+			CurStaticMesh_ = CurLevel_->CreateActor<Button>();
+			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::Button);
+		}
+		break;
+		case 17:
+		{
+			CurStaticMesh_ = CurLevel_->CreateActor<Oven>();
+			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::Oven);
+		}
+		break;
 		}
 
 		//기준 엑터의 자식으로 둔다.

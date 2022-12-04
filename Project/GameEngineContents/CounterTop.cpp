@@ -42,7 +42,6 @@ void CounterTop::SetConterTopMesh(CounterTopType _Type)
 	case CounterTopType::Winter:
 		Name = "m_wizard_countertop.fbx";
 		break;
-	break;
 	default:
 		break;
 	}

@@ -288,7 +288,7 @@ Index:0.00,0.00,2.00;
 
 { 
 Name:;
-Type:FoodBox;
+Type:FoodBox_Normal;
 Pos:-2059.00,-2.00,1216.00;
 Rot:0.00,0.00,0.00;
 Scale:1.00,1.00,1.00;
@@ -297,7 +297,7 @@ Index:7.00,0.00,2.00;
 
 { 
 Name:;
-Type:FoodBox;
+Type:FoodBox_Normal;
 Pos:-1937.00,-2.00,1216.00;
 Rot:0.00,0.00,0.00;
 Scale:1.00,1.00,1.00;
@@ -306,7 +306,7 @@ Index:10.00,0.00,2.00;
 
 { 
 Name:;
-Type:FoodBox;
+Type:FoodBox_Normal;
 Pos:-1815.00,-2.00,1216.00;
 Rot:0.00,0.00,0.00;
 Scale:1.00,1.00,1.00;
@@ -315,7 +315,7 @@ Index:6.00,0.00,2.00;
 
 { 
 Name:;
-Type:FoodBox;
+Type:FoodBox_Normal;
 Pos:-1693.00,-2.00,1216.00;
 Rot:0.00,0.00,0.00;
 Scale:1.00,1.00,1.00;
@@ -324,7 +324,7 @@ Index:17.00,0.00,2.00;
 
 { 
 Name:;
-Type:FoodBox;
+Type:FoodBox_Normal;
 Pos:-1571.00,-2.00,1216.00;
 Rot:0.00,0.00,0.00;
 Scale:1.00,1.00,1.00;

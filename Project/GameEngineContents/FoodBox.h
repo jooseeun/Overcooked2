@@ -4,6 +4,13 @@
 #include "GamePlayTool.h"
 #include "Enums.h"
 
+enum class FoodBoxType
+{
+	Normal,
+	Winter,	// 2-1 맵 전용
+	Max,
+};
+
 //음식 스폰 박스
 class Tool_FoodBox : public GamePlayTool
 {
@@ -40,6 +47,18 @@ public:
 	FoodBox& operator=(const FoodBox& _Other) = delete;
 	FoodBox& operator=(FoodBox&& _Other) noexcept = delete;
 
+	inline void SetFoodBoxType(FoodBoxType _Type)
+	{
+		Type_ = _Type;
+	}
+
+	inline FoodBoxType GetFoodBoxType()
+	{
+		return Type_;
+	}
+
+	void SetFoodBoxMesh(FoodBoxType _Type);
+
 	inline void SwitchIsInteraction()
 	{
 		IsInteraction_ = !IsInteraction_;
@@ -56,12 +75,15 @@ protected:
 	void Update(float _DeltaTime) override;
 
 private:
+	std::shared_ptr<GameEngineActor> Lid_;
 
+	std::shared_ptr<GameEngineFBXStaticRenderer> LidRenderer_;
 	std::shared_ptr<GameEngineTextureRenderer> Renderer_;
 
+private:
 	bool IsInteraction_;
 	bool IsOpen_;
 	float Angle_;
 
-	std::shared_ptr<GameEngineActor> Lid_;
+	FoodBoxType Type_;
 };

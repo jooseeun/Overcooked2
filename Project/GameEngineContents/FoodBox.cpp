@@ -7,11 +7,49 @@ FoodBox::FoodBox()
 	, IsInteraction_(false)
 	, Angle_(0.f)
 	, Renderer_(nullptr)
+	, LidRenderer_(nullptr)
+	, Lid_(nullptr)
+	, Type_(FoodBoxType::Max)
 {
 }
 
 FoodBox::~FoodBox()
 {
+}
+
+void FoodBox::SetFoodBoxMesh(FoodBoxType _Type)
+{
+	std::string Name = "";
+
+	switch (_Type)
+	{
+	case FoodBoxType::Normal:
+	{
+		Name = "CreateBox.fbx";
+		Renderer_->GetTransform().SetLocalMove({ 0.f, 43.f, -55.f });
+		Renderer_->GetTransform().SetLocalRotation({ 90.f, 0.f });
+		Renderer_->GetTransform().SetWorldScale({ 60, 60 });
+	}
+		break;
+	case FoodBoxType::Winter:
+	{
+		Name = "CreateBox2.fbx";
+		Renderer_->GetTransform().SetLocalMove({ 0.f, 43.f, -55.f });
+		Renderer_->GetTransform().SetLocalRotation({ 0.f, 0.f });
+		Renderer_->GetTransform().SetWorldScale({ 60, 60 });
+	}
+		break;
+	default:
+		break;
+	}
+
+
+	LidRenderer_->SetFBXMesh(Name, "Texture", 1);
+	LidRenderer_->GetTransform().SetWorldScale({ 120, 100, 120 });
+	LidRenderer_->GetTransform().SetWorldMove({ 0, 0.f, -55.f });
+
+	GetFBXMesh()->SetFBXMesh(Name, "Texture", 0);
+	GetFBXMesh()->GetTransform().SetWorldScale({ 120, 100, 120 });
 }
 
 void FoodBox::SetFoodType(IngredientType _Type)
@@ -118,25 +156,15 @@ void FoodBox::Start()
 	Lid_->SetParent(shared_from_this());
 	Lid_->GetTransform().SetWorldMove({ 0, 0.f, 50.f });
 
-	std::shared_ptr<GameEngineFBXStaticRenderer> LidRenderer = Lid_->CreateComponent<GameEngineFBXStaticRenderer>();
-	LidRenderer->SetFBXMesh("CreateBox.fbx", "Texture", 1);
-	LidRenderer->GetTransform().SetWorldScale({ 120, 100, 120 });
-	LidRenderer->GetTransform().SetWorldMove({ 0, 0.f, -55.f });
-
 	std::shared_ptr<GameEngineCollision> Collision_Object_ = Lid_->CreateComponent<GameEngineCollision>("Collision_Object");
 	Collision_Object_->SetDebugSetting(CollisionType::CT_AABB, { 0, 0.8f, 0, 0.5f });
 	Collision_Object_->ChangeOrder(CollisionOrder::Object_None);
-
-	GetFBXMesh()->SetFBXMesh("CreateBox.fbx", "Texture", 0);
-	GetFBXMesh()->GetTransform().SetWorldScale({ 120, 100, 120 });
+	LidRenderer_ = Lid_->CreateComponent<GameEngineFBXStaticRenderer>();
 
 	GetCollisionObject()->GetTransform().SetWorldScale({ 120, 50, 120 });
 	GetCollisionObject()->GetTransform().SetWorldMove({ 0, 25, 0 });
 
 	Renderer_ = Lid_->CreateComponent<GameEngineTextureRenderer>();
-	Renderer_->GetTransform().SetLocalMove({ 0.f, 43.f, -55.f });
-	Renderer_->GetTransform().SetLocalRotation({ 90.f, 0.f });
-	Renderer_->GetTransform().SetWorldScale({ 60, 60 });
 	Renderer_->GetTransform().PixLocalNegativeX();
 
 	SetStuff(GetLevel()->CreateActor<Tool_FoodBox>());
@@ -175,6 +203,7 @@ void FoodBox::Update(float _DeltaTime)
 }
 
 Tool_FoodBox::Tool_FoodBox()
+	: Type_(IngredientType::Tomato)
 {
 }
 
