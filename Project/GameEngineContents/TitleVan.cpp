@@ -17,7 +17,7 @@ void TitleVan::Start()
 
 	std::shared_ptr<GameEngineFBXStaticRenderer> Test = CreateComponent<GameEngineFBXStaticRenderer>();
 	Test->SetFBXMesh("m_van_01.FBX", "Texture");
-	Test->GetTransform().SetLocalScale({ 100,100,100 });
+	Test->GetTransform().SetLocalScale({ 10,10,10 });
 }
 
 void TitleVan::Update(float _DeltaTime)

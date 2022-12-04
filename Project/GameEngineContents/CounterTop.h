@@ -7,7 +7,7 @@ enum class CounterTopType
 	Corner,
 	NoEdge,
 	Wizard,
-	Mixer,
+	Winter,
 };
 
 // Á¶¸®´ë

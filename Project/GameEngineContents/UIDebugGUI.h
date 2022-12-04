@@ -49,6 +49,16 @@ public:
 		Transform_.insert(std::make_pair(_Name, _Value));
 	}
 
+	static void AddFunction(const std::string _Name, std::function<void()> _Func)
+	{
+		//_Name이 동일한 Function을 등록하려고 하면, 무시한다.
+		if (Function_.find(_Name) != Function_.end())
+		{
+			return;
+		}
+		Function_.insert(std::make_pair(_Name, _Func));
+	}
+
 private:
 	void Initialize(class GameEngineLevel* _Level) override;
 	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
@@ -64,6 +74,7 @@ private:
 
 	static std::map<std::string, GameEngineTransform*> Transform_;
 
+	static std::map<std::string, std::function<void()>> Function_;
 public:
 	static std::shared_ptr<UIDebugGUI> Main_;
 };

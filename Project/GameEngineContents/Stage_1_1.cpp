@@ -9,6 +9,7 @@
 #include <GameEngineCore/GameEngineBlur.h>
 
 #include "FoodThumbnail.h"
+#include "InGameUIActor.h"
 
 #include "GraphicWindow.h"
 

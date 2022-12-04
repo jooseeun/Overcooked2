@@ -2,18 +2,18 @@
 #include "GamePlayMapObject.h"
 
 // Ό³Έν :
-class Pigeon_Flying : public GamePlayMapObject
+class Bird_Flying : public GamePlayMapObject
 {
 public:
 	// constrcuter destructer
-	Pigeon_Flying();
-	~Pigeon_Flying();
+	Bird_Flying();
+	~Bird_Flying();
 
 	// delete Function
-	Pigeon_Flying(const Pigeon_Flying& _Other) = delete;
-	Pigeon_Flying(Pigeon_Flying&& _Other) noexcept = delete;
-	Pigeon_Flying& operator=(const Pigeon_Flying& _Other) = delete;
-	Pigeon_Flying& operator=(Pigeon_Flying&& _Other) noexcept = delete;
+	Bird_Flying(const Bird_Flying& _Other) = delete;
+	Bird_Flying(Bird_Flying&& _Other) noexcept = delete;
+	Bird_Flying& operator=(const Bird_Flying& _Other) = delete;
+	Bird_Flying& operator=(Bird_Flying&& _Other) noexcept = delete;
 
 public:
 	inline void SetStartPosition(float4 _StartPos)

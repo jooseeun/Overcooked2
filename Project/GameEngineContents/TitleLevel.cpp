@@ -23,6 +23,7 @@ void TitleLevel::Start()
 	GetMainCameraActorTransform().SetLocalRotation({ 0, -158, 0});
 	GetMainCameraActorTransform().SetLocalPosition({ 659, 21, 1402});
 
+	CreateActor<LevelActor>()->SetLevelMesh("TitleLevel.FBX");
 }
 
 void TitleLevel::Update(float _DeltaTime)

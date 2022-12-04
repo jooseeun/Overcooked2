@@ -39,13 +39,10 @@ void CounterTop::SetConterTopMesh(CounterTopType _Type)
 	case CounterTopType::Wizard:
 		Name = "m_wizard_countertop_05.fbx";
 		break;	
-	//case CounterTopType::Mixer:
-	//{
-	//	Name = "Mixer_Countertop2.fbx";
-	//	GetCollisionObject()->GetTransform().SetLocalRotate({ 90, 0, 0 });
-	//	GetCollisionObject()->GetTransform().SetLocalMove({0, -20, -20});
-	//}	
-	//break;
+	case CounterTopType::Winter:
+		Name = "m_wizard_countertop.fbx";
+		break;
+	break;
 	default:
 		break;
 	}

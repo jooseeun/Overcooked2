@@ -1,7 +1,7 @@
 #include "PreCompile.h"
-#include "Pigeon_Flying.h"
+#include "Bird_Flying.h"
 
-Pigeon_Flying::Pigeon_Flying() 
+Bird_Flying::Bird_Flying() 
 	: MoveDir_(0.f)
 	, IsPause_(true)
 	, Time_(0.f)
@@ -9,11 +9,11 @@ Pigeon_Flying::Pigeon_Flying()
 {
 }
 
-Pigeon_Flying::~Pigeon_Flying() 
+Bird_Flying::~Bird_Flying() 
 {
 }
 
-void Pigeon_Flying::Start()
+void Bird_Flying::Start()
 {
 	GamePlayMapObject::Start();
 	GetAnimationFBXMesh()->GetTransform().SetWorldScale({ 130.f, 130.f, 130.f });
@@ -26,7 +26,7 @@ void Pigeon_Flying::Start()
 	RandomTime_ = GameEngineRandom::MainRandom.RandomInt(13, 22);
 }
 
-void Pigeon_Flying::Update(float _DeltaTime)
+void Bird_Flying::Update(float _DeltaTime)
 {
 	// 일정 시간 지난 후 시작 위치로 이동
 	if (Time_ > RandomTime_)

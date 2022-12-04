@@ -1,0 +1,7 @@
+{ 
+MeshName:ROBINGROUND_01.FBX;
+MeshInfoCount:1;
+Path:;
+Mat:T_DLC3_ROBIN_01_D.PNG;
+}
+

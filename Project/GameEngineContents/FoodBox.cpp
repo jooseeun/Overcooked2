@@ -96,6 +96,15 @@ void FoodBox::SetFoodType(IngredientType _Type)
 	case IngredientType::Cucumber:
 		Renderer_->SetTexture("t_sk_crate_lid_images.png", 23);
 		break;
+	case IngredientType::Orange:
+		Renderer_->SetTexture("t_sk_crate_lid_images_dlc03.png", 1);
+		break;
+	case IngredientType::Nuts:
+		Renderer_->SetTexture("t_sk_crate_lid_images_dlc03.png", 0);
+		break;
+	case IngredientType::Strawberry:
+		Renderer_->SetTexture("t_sk_crate_lid_images_dlc02.png", 2);
+		break;
 	default:
 		break;
 	}
@@ -237,6 +246,12 @@ HoldDownEnum Tool_FoodBox::HoldOn(std::shared_ptr<Player> _Player)
 				_Player->SetPlayerHolding(GetLevel()->CreateActor<Food_Ingredients_Prawn>());
 				break;
 			case IngredientType::Cucumber:
+				break;
+			case IngredientType::Orange:
+				break;
+			case IngredientType::Nuts:
+				break;
+			case IngredientType::Strawberry:
 				break;
 			default:
 				break;

@@ -149,7 +149,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Button.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Candle.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Cannon.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -239,6 +247,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="IceBlock.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="IcePlatform.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="InGameUIActor.h">
       <SubType>
       </SubType>
@@ -279,9 +295,13 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Oven.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Overcooked.h" />
     <ClInclude Include="OverCookedUIRenderer.h" />
-    <ClInclude Include="Pigeon_Flying.h">
+    <ClInclude Include="Bird_Flying.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -358,7 +378,15 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Button.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Candle.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Cannon.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -446,6 +474,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="IceBlock.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="IcePlatform.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="InGameUIActor.cpp">
       <SubType>
       </SubType>
@@ -486,9 +522,13 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Oven.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Overcooked.cpp" />
     <ClCompile Include="OverCookedUIRenderer.cpp" />
-    <ClCompile Include="Pigeon_Flying.cpp">
+    <ClCompile Include="Bird_Flying.cpp">
       <SubType>
       </SubType>
     </ClCompile>

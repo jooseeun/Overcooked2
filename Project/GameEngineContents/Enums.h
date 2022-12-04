@@ -110,4 +110,9 @@ enum class IngredientType
 	PastaNoodles, //파스타 면
 	Prawn,
 	Cucumber, //오이
+	Orange,
+	Nuts,
+	Strawberry,
+
+	Cucumber, //오이
 };

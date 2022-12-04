@@ -4,6 +4,7 @@
 #include "OverCookedUIRenderer.h"
 
 #include "GlobalGameData.h"
+#include "UIDebugGUI.h"
 
 using namespace ContentsUtility;
 
@@ -77,12 +78,13 @@ void InGameUIActor::UIStart()
 
 	//레시피 매니저
 	RecipeManager_.Init(std::dynamic_pointer_cast<InGameUIActor>(shared_from_this()));
+	RecipeManager_.DebugFunction();
 	//	RecipeManager_.CreateRecipe(FoodType::FishSushimi);
 	//RecipeManager_.CreateRecipe(FoodType::PlainBurger);
-	RecipeManager_.CreateRecipe(FoodType::CarrotDumpling);
+	//RecipeManager_.CreateRecipe(FoodType::CarrotDumpling);
 
-	RecipeManager_.CreateRecipe(FoodType::SteamedFish);
-	RecipeManager_.CreateRecipe(FoodType::MeatDumpling);
+	//RecipeManager_.CreateRecipe(FoodType::CheeseBurgerLettuceTomato);
+	//RecipeManager_.CreateRecipe(FoodType::CheeseBurger);
 }
 
 void InGameUIActor::UIUpdate(float _DeltaTime)
