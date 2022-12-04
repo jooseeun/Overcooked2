@@ -1,7 +1,0 @@
-{ 
-MeshName:M_VAN_01.FBX;
-MeshInfoCount:1;
-Path:;
-Mat:T_VAN_01_AO.PNG;
-}
-
