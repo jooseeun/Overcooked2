@@ -2,7 +2,7 @@
 #include <GameEngineCore/GameEngineActor.h>
 #include <GameEngineCore/GameEngineFBXStaticRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
-
+#include "GamePlayPhysics.h"
 // Ό³Έν :
 enum class ObjectType
 {
@@ -22,7 +22,7 @@ enum class SetPlayerState_Return
 
 class GamePlayMoveable;
 class Player;
-class GamePlayObject : public GameEngineActor
+class GamePlayObject : public GamePlayPhysics
 {
 protected:
 	GamePlayObject();
@@ -56,6 +56,13 @@ public:
 	inline std::shared_ptr<GameEngineCollision> GetCollisionObject() const
 	{
 		return Collision_Object_;
+	}
+
+	std::shared_ptr<GameEngineFBXStaticRenderer> ChangeFBXMesh()
+	{
+		Mesh_Object_->Death();
+		Mesh_Object_ = CreateComponent<GameEngineFBXStaticRenderer>("Mesh_Object");
+		return Mesh_Object_;
 	}
 
 protected:

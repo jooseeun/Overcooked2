@@ -83,15 +83,22 @@ HoldDownEnum Equipment_Plate::HoldOn(std::shared_ptr<Player> _Player)
 
 HoldDownEnum Equipment_Plate::PickUp(std::shared_ptr<GamePlayMoveable> _Moveable)
 {
-	if (GetCombinFood()->IsClear())
+	std::weak_ptr<GamePlayFood> Food = _Moveable->CastThis<GamePlayFood>();
+	if (Food.lock() != nullptr)
 	{
-		_Moveable->Death();
-		GetCombinFood()->PushFood(IngredientType::Fish);
-		GetCombinFood()->SetRenderer("Sushi_Roll_Salmon.FBX");
-		return HoldDownEnum::HoldUp;
+		if (GetCombinFood()->IsClear())
+		{
+			GetCombinFood()->PushFood(Food.lock()->GetObjectFoodClass());
+			GetCombinFood()->SetRenderer(_Moveable);
+
+			_Moveable->Death();
+			_Moveable->Off();
+
+			return HoldDownEnum::HoldUp;
+		}
 	}
+
 	return HoldDownEnum::Nothing;
-	
 }
 
 

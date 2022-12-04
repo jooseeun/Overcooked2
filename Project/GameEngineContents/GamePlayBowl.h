@@ -34,16 +34,22 @@ struct CombinFood
 
 	}
 
-	void SetRenderer(const std::string& _Name)
+	void SetRenderer(std::shared_ptr<GamePlayMoveable> _Moveable/*const std::string& _Name*/)
 	{
-		if (Renderer_ != nullptr)
-		{
-			Renderer_->Death();
-		}
-		Renderer_ = Moveable_->CreateComponent<GameEngineFBXStaticRenderer>();
-		Renderer_->SetFBXMesh(_Name, "Texture");
-		//Renderer_->GetTransform().SetWorldScale({ 100, 100, 100 });
-		Renderer_->GetTransform().SetLocalPosition(float4::ZERO);
+		//
+		//Renderer_->GetMe
+		Renderer_ = _Moveable->GetFBXMesh();
+		Renderer_.lock()->SetParent(Moveable_.lock());
+		const float4& Pos = Renderer_.lock()->GetTransform().GetWorldPosition();
+		Renderer_.lock()->GetTransform().SetLocalPosition(float4::ZERO);
+		//if (Renderer_.lock() != nullptr)
+		//{
+		//	Renderer_.lock()->Death();
+		//}
+		//Renderer_ = Moveable_.lock()->CreateComponent<GameEngineFBXStaticRenderer>();
+		//Renderer_.lock()->SetFBXMesh(_Moveable->Get);
+		////Renderer_->GetTransform().SetWorldScale({ 100, 100, 100 });
+		//Renderer_.lock()->GetTransform().SetLocalPosition(float4::ZERO);
 	}
 	bool IsClear()
 	{
@@ -67,9 +73,9 @@ struct CombinFood
 	}
 
 	std::vector<IngredientType> Food_Current_;
-	std::vector<std::shared_ptr<FoodThumbnail>> Food_Thumbnail_;
-	std::shared_ptr<GameEngineFBXStaticRenderer> Renderer_;
-	std::shared_ptr<GamePlayMoveable> Moveable_;
+	std::vector<std::weak_ptr<FoodThumbnail>> Food_Thumbnail_;
+	std::weak_ptr<GameEngineFBXStaticRenderer> Renderer_;
+	std::weak_ptr<GamePlayMoveable> Moveable_;
 };
 
 class GamePlayBowl : public GamePlayEquipment

@@ -14,14 +14,17 @@ void Food_Ingredients_Fish::Start()
 	GamePlayFood::Start();
 	GamePlayFood::SetObjectFoodClass(IngredientType::Fish);
 
-	GetFBXMesh()->SetFBXMesh("m_ingredients_fish_01.FBX", "Texture");
+	MeshName_ = "m_ingredients_fish_01.FBX";
+	GetFBXMesh()->SetFBXMesh(MeshName_, "Texture");
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
-	
 }
 
 void Food_Ingredients_Fish::FinishTrimmingFirst()
 {
 	SetTrim();
-	GetFBXMesh()->SetFBXMesh("Sushi_Roll_Salmon.FBX", "Texture");
+
+	ChangeFBXMesh();
+	MeshName_ = "Sushi_Roll_Salmon.FBX";
+	GetFBXMesh()->SetFBXMesh(MeshName_, "Texture");
 }
 

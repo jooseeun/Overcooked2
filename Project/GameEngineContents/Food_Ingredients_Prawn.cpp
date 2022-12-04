@@ -33,7 +33,8 @@ void Food_Ingredients_Prawn::Start()
 	//		std::vector<FBXNodeInfo> Nodes = Mesh_Prawn->CheckAllNode();
 	//	}
 	//}
-	GetFBXMesh()->SetFBXMesh("m_ingredients_prawn_01.FBX", "Texture");
+	MeshName_ = "m_ingredients_prawn_01.FBX";
+	GetFBXMesh()->SetFBXMesh(MeshName_, "Texture");
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 
 

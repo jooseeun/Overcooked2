@@ -35,16 +35,7 @@ public:
 		SetStuff(_Player->GetPlayerHolding()->CastThis<GamePlayStuff>());
 		_Player->DetachPlayerHolding();
 	}
-	inline void SetStuff(std::shared_ptr<GamePlayStuff> _Stuff)
-	{
-		Stuff_Current_ = _Stuff;
-		Stuff_Current_->GetCollisionObject()->Off();
-		if (nullptr != _Stuff)
-		{
-			_Stuff->SetParent(std::dynamic_pointer_cast<GamePlayObject>(shared_from_this()));
-			_Stuff->GetTransform().SetLocalPosition(ToolPos_);
-		}
-	}
+	void SetStuff(std::shared_ptr<GamePlayStuff> _Stuff);
 	inline void ReSetStuff()
 	{
 		Stuff_Current_.reset();

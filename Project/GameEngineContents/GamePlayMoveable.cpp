@@ -61,9 +61,12 @@ HoldDownEnum GamePlayMoveable::HoldOn(std::shared_ptr<GamePlayStaticObject> _Obj
 			return HoldDownEnum::Nothing;
 			break;
 		case HoldDownEnum::HoldUp:
-			if (_Object->GetStuff()->CastThis<GamePlayTool>() == nullptr)
+			if (!IsDeath())
 			{
-				_Object->SetStuff(shared_from_this()->CastThis<GamePlayMoveable>());
+				if (_Object->GetStuff()->CastThis<GamePlayTool>() == nullptr)
+				{
+					_Object->SetStuff(shared_from_this()->CastThis<GamePlayMoveable>());
+				}
 			}
 			return HoldDownEnum::HoldUp;
 			break;

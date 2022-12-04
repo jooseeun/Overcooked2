@@ -83,8 +83,9 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 		{
 			if (_Player->GetPlayerHolding() != nullptr)
 			{
-				SetStuff(_Player->GetPlayerHolding()->CastThis<GamePlayStuff>());
+				std::weak_ptr Stuff = _Player->GetPlayerHolding()->CastThis<GamePlayStuff>();
 				_Player->DetachPlayerHolding();
+				SetStuff(Stuff.lock());
 				return SetPlayerState_Return::Using;
 			}
 			else
@@ -183,4 +184,22 @@ std::shared_ptr<GamePlayMoveable> GamePlayStaticObject::GetMoveable_TakeOut()
 		}
 	}
 	return Moveable.lock();
+}
+
+void GamePlayStaticObject::SetStuff(std::shared_ptr<GamePlayStuff> _Stuff)
+{
+	if (Stuff_Current_ != nullptr)
+	{
+		if (Stuff_Current_->CastThis<GamePlayTool>() != nullptr)
+		{
+			MsgBoxAssert("¿À·ù")
+		}
+	}
+	Stuff_Current_ = _Stuff;
+	Stuff_Current_->GetCollisionObject()->Off();
+	if (nullptr != _Stuff)
+	{
+		_Stuff->SetParent(std::dynamic_pointer_cast<GamePlayObject>(shared_from_this()));
+		_Stuff->GetTransform().SetLocalPosition(ToolPos_);
+	}
 }

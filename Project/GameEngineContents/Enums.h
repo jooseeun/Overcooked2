@@ -114,5 +114,5 @@ enum class IngredientType
 	Nuts,
 	Strawberry,
 
-	Cucumber, //오이
+	//Cucumber, //오이
 };
