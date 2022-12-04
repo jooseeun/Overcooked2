@@ -100,7 +100,7 @@ public:
 	}
 	
 
-	std::shared_ptr<GameEngineActor> GetPlayerHolding() const // 현재 플레이어 손에있는 오브젝트 얻는 함수
+	std::shared_ptr<GameEngineActor> GetPlayerHolding()// 현재 플레이어 손에있는 오브젝트 얻는 함수
 	{
 		return CurrentHoldingObject_;
 	}
@@ -117,10 +117,28 @@ public:
 
 	}
 
+	inline void CurrentHoldingNull()
+	{
+		if (CurrentHoldingObject_ != nullptr)
+		{
+			CurrentHoldingObject_ = nullptr;
+		}
+
+	}
+
+	inline void CurrentHoldingDetach()
+	{
+		if (CurrentHoldingObject_ != nullptr)
+		{
+			CurrentHoldingObject_->DetachObject();
+		}
+
+	}
+
 	/// 다 잘랐다고 플레이어에게 알려주는 함수 -> 플레이어가 Slice상태에서 idle상태로 변환한다.
 	inline void FinishSlice()
 	{
-		IsSlice_ = true;
+		IsSlice_ = false;
 	}
 
 	bool IsSingleMode;
