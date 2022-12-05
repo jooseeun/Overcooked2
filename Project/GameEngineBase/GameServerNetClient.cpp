@@ -80,5 +80,6 @@ void GameServerNetClient::RecvThreadFunction(GameEngineThread* _Thread)
 		std::shared_ptr<GameServerPacket> Packet = Dis.PacketReturnCallBack(PacketType, PacketSize, Ser);
 
 		Dis.ProcessPacket(Packet);
+		Packet = { 0 };
 	}
 }

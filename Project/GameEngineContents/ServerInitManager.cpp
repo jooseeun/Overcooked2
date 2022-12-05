@@ -120,11 +120,13 @@ void ServerInitManager::StartInit()
 			break;
 		default:
 			int a = 0;
-
 			break;
 		}
 
-		NewPacket->DeSerializePacket(Data);
+		if (NewPacket != nullptr)
+		{
+			NewPacket->DeSerializePacket(Data);
+		}
 
 		return NewPacket;
 	};

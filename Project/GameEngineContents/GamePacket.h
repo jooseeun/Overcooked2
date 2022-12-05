@@ -4,6 +4,7 @@
 
 enum class ContentsPacketType
 {
+	Default,
 	ObjectUpdate,
 	ClinetInit,
 };
