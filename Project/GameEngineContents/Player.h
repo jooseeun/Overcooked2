@@ -141,9 +141,13 @@ public:
 		IsSlice_ = false;
 	}
 
+
 	bool IsSingleMode;
 	std::string PNumString;
+	
 	void PNumSgtringUpdate();
+
+
 private:
 
 	void DetachPlayerHoldingToGround();
