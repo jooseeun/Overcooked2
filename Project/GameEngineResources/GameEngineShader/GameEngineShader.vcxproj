@@ -134,6 +134,7 @@
     <FxCompile Include="Debug3D.hlsl" />
     <FxCompile Include="Glass.hlsl" />
     <FxCompile Include="JBMWater.hlsl" />
+    <FxCompile Include="LightHeader.fx" />
     <FxCompile Include="ObjectHighlight.hlsl" />
     <FxCompile Include="Overlay.hlsl" />
     <FxCompile Include="Portal.hlsl" />
