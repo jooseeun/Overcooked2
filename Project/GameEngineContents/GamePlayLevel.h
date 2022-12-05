@@ -15,6 +15,8 @@ public:
 	GamePlayLevel& operator=(const GamePlayLevel& _Other) = delete;
 	GamePlayLevel& operator=(GamePlayLevel&& _Other) noexcept = delete;
 
+	bool HandOverFood(FoodType _Type);
+
 protected:
 	void Start() final;
 	void Update(float _DeltaTime) final;

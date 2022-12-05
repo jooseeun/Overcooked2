@@ -94,6 +94,7 @@ public:
 
 	void StartPumpVerti(float _Ratio, float _Speed = 1.f);
 
+	void StartVibrationHori(float _Scale, float _Speed);
 
 	void StartDown(float _Speed);
 
@@ -141,6 +142,13 @@ private:
 	std::map<std::string, FrameAnimation> FrameAni;
 	std::shared_ptr<FrameAnimation> CurAni;
 
+	//Vibration관련
+	float4 PrevPos_ = {};
+	float4 VibrationPos_ = {};
+	float VibrationSpeed_ = 1.f;
+	float Vibration_IterTime_ = 0.f;
+	bool IsVibration_ = false;
+
 	//Pump관련
 	float4 PrevScale_ = {};
 	float4 PumpScale_;
@@ -149,7 +157,6 @@ private:
 	float PumpRatio_ = 0.f;
 	bool IsPumping_ = false;
 	bool IsPumping();
-
 
 	//Down관련
 	bool IsDown_ = false;

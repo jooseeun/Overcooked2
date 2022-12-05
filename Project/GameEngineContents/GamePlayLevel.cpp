@@ -15,6 +15,11 @@ GamePlayLevel::~GamePlayLevel()
 {
 }
 
+bool GamePlayLevel::HandOverFood(FoodType _Type)
+{
+	return	UIActor_->RecipeManager_.HandOver(_Type);
+}
+
 void GamePlayLevel::Start()
 {
 	UIActor_ = CreateActor<InGameUIActor>();

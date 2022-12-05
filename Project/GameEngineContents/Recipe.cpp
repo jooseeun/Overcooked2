@@ -180,6 +180,56 @@ void RecipeManager::CreateRecipe(FoodType _Type)
 	Recipes_.push_back(NewRecipe);
 }
 
+bool RecipeManager::HandOver(FoodType _Type)
+{
+	if (_Type == FoodType::None)
+	{
+		return false;
+	}
+
+	//음식 검색
+	std::list<Recipe>::iterator _Iter = Recipes_.begin();
+	for (; _Iter != Recipes_.end(); _Iter++)
+	{
+		if (_Iter->Data_.Type == _Type)
+		{
+			break;
+		}
+	}
+
+	_Iter->ParentRenderer_.lock()->Death();
+
+	_Iter->FoodRenderer_.lock()->Death();
+	_Iter->TopBackgroundRenderer_.lock()->Death();
+
+	//Bar관련
+	_Iter->BarParentRenderer_.lock()->Death();
+	for (int i = 0; i < _Iter->BarBackgroundRenderer_.size(); i++)
+	{
+		_Iter->BarBackgroundRenderer_[i].lock()->Death();
+	}
+	for (int i = 0; i < _Iter->BarRenderer_.size(); i++)
+	{
+		_Iter->BarRenderer_[i].lock()->Death();
+	}
+
+	_Iter->BottomParentRenderer_.lock()->Death();
+	for (int i = 0; i < _Iter->BottomBackgroundRenderer_.size(); i++)
+	{
+		_Iter->BottomBackgroundRenderer_[i].lock()->Death();
+	}
+	for (int i = 0; i < _Iter->IngredientRenderer_.size(); i++)
+	{
+		_Iter->IngredientRenderer_[i].lock()->Death();
+	}
+	for (int i = 0; i < _Iter->CookeryRenderer_.size(); i++)
+	{
+		_Iter->CookeryRenderer_[i].lock()->Death();
+	}
+	Recipes_.erase(_Iter);
+	return true;
+}
+
 void RecipeManager::DeleteRecipe(int _Count)
 {
 	std::list<Recipe>::iterator _Iter = Recipes_.begin();
@@ -300,14 +350,13 @@ void RecipeManager::Update(float _DeltaTime)
 
 			float Length = Des.x - MovePos.x;
 			Length = abs(Length);
-			if (Length < 15.0f && StartIter->IsPumpHori_ == false)
+			if (Length < 20.0f && StartIter->IsPumpHori_ == false)
 			{
 				StartIter->IsPumpHori_ = true;
 				StartIter->ParentRenderer_.lock()->StartPumpHori(1.13f, 10.0f);
-
 			}
 			//다 도착하면 레시피 내려가게
-			if (Length < 1.0f )
+			if (Length < 1.0f)
 			{
 				StartIter->IsRecipeOn_ = true;
 			}
@@ -332,7 +381,7 @@ void RecipeManager::DebugFunction()
 	UIDebugGUI::Main_->AddFunction("Create_FishSushimi", std::bind(&RecipeManager::CreateRecipe, this, FoodType::FishSushimi));
 	UIDebugGUI::Main_->AddFunction("Create_MeatDumpling", std::bind(&RecipeManager::CreateRecipe, this, FoodType::MeatDumpling));
 	UIDebugGUI::Main_->AddFunction("DeleteFront", std::bind(&RecipeManager::DeleteRecipe, this, 0));
-	UIDebugGUI::Main_->AddFunction("DeleteSecond", std::bind(&RecipeManager::DeleteRecipe, this, 1));
+	UIDebugGUI::Main_->AddFunction("HandOverFishSushimi", std::bind(&RecipeManager::HandOver, this, FoodType::FishSushimi));
 }
 
 Recipe::Recipe(FoodType _Type)
@@ -475,7 +524,6 @@ void Recipe::Update(float _DeltaTime)
 		}
 	}
 
-
 	for (int i = 2; i >= 0; i--)
 	{
 		float Percentage = BarTimer_[i].GetCurTime() / BarTimer_[i].Default_Time_;
@@ -483,6 +531,15 @@ void Recipe::Update(float _DeltaTime)
 
 		float GlobalPercentage = GlobalTimer_.GetCurTime() / GlobalTimer_.Default_Time_;
 		BarRenderer_[i].lock()->UpdateLeftTime(GlobalPercentage);
+	}
+
+	//부들부들 거리는거
+	float GlobalPercentage = GlobalTimer_.GetCurTime() / GlobalTimer_.Default_Time_;
+	if (GlobalPercentage < 0.18f)
+	{
+		ParentRenderer_.lock()->StartVibrationHori(3.0f, 21.0f);
+
+		//TopBackgroundRenderer_.lock()->UpdateColor();
 	}
 	//TimeGauge
 	//float Percentage = LeftTimer.GetCurTime() / GlobalGameData::GetMaxTime();

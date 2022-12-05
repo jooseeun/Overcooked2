@@ -91,6 +91,7 @@ public:
 
 	void Init(std::weak_ptr<InGameUIActor> _ParentActor_);
 	void CreateRecipe(FoodType _Type);
+	bool HandOver(FoodType _Type);
 	void DeleteRecipe(int _Count);
 	//void DeleteRecipe(std::list<Recipe>::iterator _Iter);
 
@@ -106,6 +107,7 @@ private:
 
 class InGameUIActor : public UIActor
 {
+	friend GamePlayLevel;
 public:
 	InGameUIActor();
 	~InGameUIActor();
