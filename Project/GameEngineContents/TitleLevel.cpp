@@ -26,7 +26,7 @@ void TitleLevel::Start()
 	CreateActor<LevelActor>()->SetLevelMesh("TitleLevel.FBX");
 
 	std::shared_ptr<GameEngineFBXStaticRenderer> SkyPlane = CreateActor<GameEngineActor>()->CreateComponent<GameEngineFBXStaticRenderer>();
-	SkyPlane->SetFBXMesh("m_menu_bg_sky.fbx", "Texture");
+	SkyPlane->SetFBXMesh("m_menu_bg_sky.fbx", "TextureSkybox");
 	SkyPlane->GetTransform().SetWorldScale({ 50.f , 50.f , 50.f });
 }
 

@@ -52,6 +52,9 @@
       <Filter>Object</Filter>
     </FxCompile>
     <FxCompile Include="LightHeader.fx" />
+    <FxCompile Include="TextureSkybox.hlsl">
+      <Filter>Object</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Debug">

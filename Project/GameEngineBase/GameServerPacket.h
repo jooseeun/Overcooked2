@@ -66,12 +66,14 @@ public:
 
 	GameServerPacket()
 		: PacketID(GameServerPacketError)
+		, Size(0)
 		, Master(-1)
 	{
 	}
 
 	GameServerPacket(int _PacketType)
 		: PacketID(_PacketType)
+		, Size(0)
 		, Master(-1)
 	{
 	}

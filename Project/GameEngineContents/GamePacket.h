@@ -55,6 +55,7 @@ public:
 	int ObjectID;
 
 	ClientInitPacket()
+		: ObjectID(-1)
 	{
 		SetPacketID(ContentsPacketType::ClinetInit);
 	}

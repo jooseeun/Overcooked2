@@ -165,6 +165,12 @@ void Overcooked::LoadMaterial()
 		NewPipe->SetPixelShader("Portal.hlsl");
 		NewPipe->OutputMergerBlendSetting();
 	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("TextureSkybox");
+		NewPipe->SetVertexShader("TextureSkybox.hlsl");
+		NewPipe->SetPixelShader("TextureSkybox.hlsl");
+	}
 }
 
 void Overcooked::Update(float _DeltaTime)
