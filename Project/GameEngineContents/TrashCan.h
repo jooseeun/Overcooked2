@@ -38,14 +38,10 @@ public:
 
 protected:
 	void Start() override;
+	void Update(float _Delta) override;
 
-	//Input_UsingOption Input_ActionToManual(Player* _Player) override
-	//{
-	//	return Input_UsingOption::NoResponse; // ¼öÁ¤¿ä
-	//}
-
-	//void Input_Action_End(std::shared_ptr<GamePlayMoveable> _Moveable) override;
 private:
-	
+	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable) override;
+	float Delay_;
 };
 

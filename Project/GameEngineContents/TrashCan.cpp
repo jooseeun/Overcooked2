@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "TrashCan.h"
+#include "GamePlayBowl.h"
 
 TrashCan::TrashCan() 
 {
@@ -25,6 +26,7 @@ void TrashCan::Start()
 // ----------------------Tool---------------------------
 
 Tool_TrashCan::Tool_TrashCan()
+	: Delay_(0)
 {
 }
 
@@ -38,7 +40,43 @@ void Tool_TrashCan::Start()
 	GamePlayTool::SetInteractOption(AutoOption::NoResponse);
 	GamePlayTool::SetObjectToolType(ObjectToolType::TrashCan);
 }
-//
+
+void Tool_TrashCan::Update(float _Delta)
+{
+	if (GetCurrentMoveable() != nullptr)
+	{
+		Delay_ += _Delta;
+		if (Delay_ > 1.f)
+		{
+			GetCurrentMoveable()->Death();
+			GetCurrentMoveable()->Off();
+			ReSetCurrentMoveable();
+			Delay_ = 0;
+		}
+	}
+}
+
+HoldDownEnum Tool_TrashCan::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
+{
+	if (GetCurrentMoveable() == nullptr)
+	{
+		if ((*_Moveable) != nullptr &&
+			(*_Moveable)->GetObjectMoveableType() == ObjectMoveableType::Food)
+		{
+			SetMoveable((*_Moveable));
+			(*_Moveable) = nullptr;
+			Delay_ = 0;
+		}
+		else if((*_Moveable)->CastThis<GamePlayBowl>() != nullptr)
+		{
+			//
+			(*_Moveable)->CastThis<GamePlayBowl>()->GetCombinFood();
+		}
+	}
+	return HoldDownEnum::Nothing;
+}
+
+
 //void Tool_TrashCan::Input_ActionToAuto_Update(std::shared_ptr<GamePlayMoveable> _Moveable, float _DeltaTime)
 //{
 //	_Moveable->PlusCookingTime(_DeltaTime);
