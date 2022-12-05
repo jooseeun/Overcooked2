@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "Servicehatch.h"
+#include "Equipment_Plate.h"
 
 Servicehatch::Servicehatch()
 {
@@ -41,6 +42,19 @@ void Tool_Servicehatch::Start()
 	GamePlayTool::Start();
 	GamePlayTool::SetInteractOption(AutoOption::NoResponse);
 	GamePlayTool::SetObjectToolType(ObjectToolType::Servicehatch);
+}
+
+HoldDownEnum Tool_Servicehatch::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
+{
+	if ((*_Moveable) != nullptr)
+	{
+		std::weak_ptr<Equipment_Plate> Plate = (*_Moveable)->CastThis<Equipment_Plate>();
+		if (Plate.lock() != nullptr)
+		{
+			//Plate
+		}
+	}
+	return HoldDownEnum::Nothing;
 }
 
 

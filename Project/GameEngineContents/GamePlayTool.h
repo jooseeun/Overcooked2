@@ -44,6 +44,11 @@ public:
 	inline virtual void ReSetCurrentMoveable()
 	{
 		//Moveable_Current_->GetTransform().SetLocalPosition(float4::ZERO);
+		if (Moveable_Current_->IsDeath())
+		{
+			Moveable_Current_->Off();
+			Moveable_Current_->GetFBXMesh()->Off();
+		}
 		Moveable_Current_.reset();
 	}
 
@@ -51,6 +56,8 @@ public:
 	{
 		return Enum_ObjectToolType_;
 	}
+
+	virtual void SetMoveable(std::shared_ptr<GameEngineUpdateObject> _Child);
 
 protected:
 	void Start() override;
@@ -79,8 +86,9 @@ protected:
 	{
 		Enum_ObjectToolType_ = _Type;
 	}
-	virtual void SetMoveable(std::shared_ptr<GameEngineUpdateObject> _Child);
+
 	void SetMoveable(std::shared_ptr<Player> _Player);
+	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable) override;
 
 private:
 	ObjectToolType Enum_ObjectToolType_;
@@ -89,16 +97,7 @@ private:
 	float4 MoveablePos_;
 
 
-	HoldDownEnum HoldOn(std::shared_ptr<Player> _Player) override;
 
-	inline HoldDownEnum HoldOn(std::shared_ptr<GamePlayStaticObject> _Object) override
-	{
-	MsgBoxAssert("¿À·ù")
-		return HoldDownEnum::Nothing;
-	
-	};
-
-	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable> _Moveable) override;
 
 	// Bloom
 public:

@@ -6,6 +6,8 @@
 GamePlayMoveable::GamePlayMoveable()
 	: TrimmingFirstTime_(false)
 	, CookingGage_(0)
+	, Enum_ObjectMoveableType_(ObjectMoveableType::None)
+	, Enum_HoldType_(PlayerHoldType::Max)
 //, CookedStat_Current_(CookedStat::Nomal)
 {
 }
@@ -45,75 +47,39 @@ bool GamePlayMoveable::Input_Manual(std::shared_ptr<Player> _Player, float _Delt
 		return false;
 	}
 }
-
-HoldDownEnum GamePlayMoveable::HoldOn(std::shared_ptr<GamePlayStaticObject> _Object)
-{
-	if (_Object->GetStuff() == nullptr)
-	{
-		_Object->SetStuff(shared_from_this()->CastThis<GamePlayStuff>());
-		return HoldDownEnum::HoldDown;
-	}
-	else
-	{
-		switch (_Object->GetStuff()->CastThis<GamePlayStuff>()->PickUp(shared_from_this()->CastThis<GamePlayMoveable>()))
-		{
-		case HoldDownEnum::Nothing:
-			return HoldDownEnum::Nothing;
-			break;
-		case HoldDownEnum::HoldUp:
-			if (!IsDeath())
-			{
-				if (_Object->GetStuff()->CastThis<GamePlayTool>() == nullptr)
-				{
-					_Object->SetStuff(shared_from_this()->CastThis<GamePlayMoveable>());
-				}
-			}
-			return HoldDownEnum::HoldUp;
-			break;
-		case HoldDownEnum::HoldDown:
-			return HoldDownEnum::HoldDown;
-			break;
-		default:
-			break;
-		}
-	}
-	return HoldDownEnum::Nothing;
-}
-
-
-
-//SetPlayerState_Return GamePlayMoveable::SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type)
+//
+//HoldDownEnum GamePlayMoveable::HoldOn(std::shared_ptr<GamePlayStaticObject> _Object)
 //{
-//	switch (_Type)
+//	if (_Object->GetStuff() == nullptr)
 //	{
-//	case PlayerCurStateType::HoldUp:
+//		_Object->SetStuff(shared_from_this()->CastThis<GamePlayStuff>());
+//		return HoldDownEnum::HoldDown;
+//	}
+//	else
 //	{
-//		switch (Enum_ObjectMoveableType_)
+//		switch (_Object->GetStuff()->CastThis<GamePlayStuff>()->PickUp(shared_from_this()->CastThis<GamePlayMoveable>()))
 //		{
-//		case ObjectMoveableType::Food:
-//			_Player->SetCurHoldType(PlayerHoldType::CanThrow);
+//		case HoldDownEnum::Nothing:
+//			return HoldDownEnum::Nothing;
 //			break;
-//		case ObjectMoveableType::Equipment:
-//			_Player->SetCurHoldType(PlayerHoldType::NotThrow);
+//		case HoldDownEnum::HoldUp:
+//			if (!IsDeath())
+//			{
+//				if (_Object->GetStuff()->CastThis<GamePlayTool>() == nullptr)
+//				{
+//					_Object->SetStuff(shared_from_this()->CastThis<GamePlayMoveable>());
+//				}
+//			}
+//			return HoldDownEnum::HoldUp;
+//			break;
+//		case HoldDownEnum::HoldDown:
+//			return HoldDownEnum::HoldDown;
 //			break;
 //		default:
 //			break;
 //		}
-//		_Player->SetPlayerHolding(std::dynamic_pointer_cast<GameEngineActor>(shared_from_this()));
 //	}
-//	break;
-//	case PlayerCurStateType::Throw:
-//	{
-//		if (Enum_ObjectMoveableType_ == ObjectMoveableType::Food)
-//		{
-//			// 던지다
-//		}
-//	}
-//	break;
-//	default:
-//		MsgBoxAssert("아직 설정되지 않은 분기")
-//			break;
-//	}
-//
-//	return SetPlayerState_Return::Using;
+//	return HoldDownEnum::Nothing;
 //}
+//
+

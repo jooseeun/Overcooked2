@@ -59,15 +59,15 @@ public:
 	}
 
 
-	inline virtual HoldDownEnum HoldOn(std::shared_ptr<Player> _Player)
-	{
-		return HoldDownEnum::Nothing;
-	};
-	inline virtual HoldDownEnum HoldOn(std::shared_ptr<GamePlayStaticObject> _Player)
-	{
-		return HoldDownEnum::Nothing;
-	};
-	inline virtual HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable> _Moveable)
+	//inline virtual HoldDownEnum HoldOn(std::shared_ptr<Player>* _Player)
+	//{
+	//	return HoldDownEnum::Nothing;
+	//};
+	//inline virtual HoldDownEnum HoldOn(std::shared_ptr<GamePlayStaticObject>* _Player)
+	//{
+	//	return HoldDownEnum::Nothing;
+	//};
+	inline virtual HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 	{
 		return HoldDownEnum::Nothing;
 	}
