@@ -22,8 +22,7 @@ protected:
 	void Start() override;
 
 private:
-	static GameEngineFBXMesh* Mesh_Prawn;
-
+	void FinishTrimmingFirst() override;
 
 };
 
