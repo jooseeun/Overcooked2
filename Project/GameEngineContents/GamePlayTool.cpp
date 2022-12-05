@@ -6,6 +6,7 @@
 GamePlayTool::GamePlayTool()
 	: Moveable_Current_(nullptr)
 	, InteractOption_Current_(AutoOption::NoResponse)
+	, Enum_ObjectToolType_(ObjectToolType::None)
 	, MoveablePos_({0, 0})
 {
 }

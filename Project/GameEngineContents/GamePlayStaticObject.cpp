@@ -7,6 +7,7 @@
 GamePlayStaticObject::GamePlayStaticObject() 
 	: Stuff_Current_(nullptr)
 	, ToolPos_({0, 50})
+	, MyType_(MapObjType::Max)
 {
 }
 
