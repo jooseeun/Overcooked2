@@ -125,10 +125,9 @@ void ServerTestPlayer::Update(float _DeltaTime)
 		return;
 	}
 
-	if (PacketList.size())
+	while (false == IsPacketEmpty())
 	{
-		std::shared_ptr<GameServerPacket> Packet = PacketList.front();
-		PacketList.pop_front();
+		std::shared_ptr<GameServerPacket> Packet = PopPacket();
 
 		ContentsPacketType PacketType = Packet->GetPacketIDToEnum<ContentsPacketType>();
 
