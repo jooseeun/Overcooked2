@@ -99,11 +99,20 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 }
 void Player::ThrowStart(const StateInfo& _Info)
 {
-
-	CurrentHoldingObject_->CastThis<GamePlayPhysics>()->Throw(GetTransform().GetBackVector());
+	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "Idle");
+	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
+	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
+	IsThrow_ = false;
 }
 void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	PlayerIdleRenderer_[PlayerCustomNum]->AnimationBindEnd(PlayerName_[PlayerCustomNum] + "Throw", [=](const GameEngineRenderingEvent& _Info)
+		{
+			PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "Idle");
+			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
+			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
+		});
+
 	CurStateType_ = PlayerCurStateType::Throw;
 	{ //컨트롤 키를 때기 전까지 안던져짐, 방향이동 가능
 		PlayerDirCheck();
@@ -115,28 +124,27 @@ void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 		PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "Throw");
 		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
-		Throw(GetTransform().GetBackVector());
-	}
-	if (CurrentHoldingObject_->CastThis<GamePlayPhysics>()->GetIsThrow() == true) // 일단 Throw 주석처리
-	{
+		PlayerIdleRenderer_[PlayerCustomNum]->GetCurAnim()->bOnceEnd = false;
+		ThrowVec_ = GetTransform().GetBackVector();
 		CurrentHoldingObject_->CastThis<GamePlayPhysics>()->Throw(GetTransform().GetBackVector());
+		CurrentHoldingDetach();
+		IsThrow_ = true;
 	}
-	else
+	if (IsThrow_ == true)
 	{
-
-		DetachPlayerHolding();
-		CurHoldType_ = PlayerHoldType::Max;
-		StateManager.ChangeState("Idle");
+		if (CurrentHoldingObject_->CastThis<GamePlayPhysics>()->GetIsThrow() == true) // 일단 Throw 주석처리
+		{
+			CurrentHoldingObject_->CastThis<GamePlayPhysics>()->Throw(ThrowVec_);
+		}
+		else
+		{
+			CurrentHoldingNull();
+			//CurHoldType_ = PlayerHoldType::Max;
+			StateManager.ChangeState("Idle");
+		}
 	}
 
-	PlayerIdleRenderer_[PlayerCustomNum]->AnimationBindEnd(PlayerName_[PlayerCustomNum] + "Throw", [=](const GameEngineRenderingEvent& _Info)
-		{
-			IdleRendererON();
-			PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "Idle");
-			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
-			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 
-		});
 }
 
 void Player::HoldUpStart(const StateInfo& _Info)

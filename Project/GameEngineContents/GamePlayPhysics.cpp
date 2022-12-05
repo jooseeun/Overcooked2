@@ -109,10 +109,10 @@ void GamePlayPhysics::Throw(float4 _Vector)
 		if (UpTime_ > 0.0f)
 		{
 			UpTime_ -= 1.0f * GameEngineTime::GetDeltaTime();
-			GetTransform().SetWorldUpMove(200.0f, GameEngineTime::GetDeltaTime());
+			GetTransform().SetWorldUpMove(300.0f, GameEngineTime::GetDeltaTime());
 		}
 		
-		GetTransform().SetWorldMove(_Vector * GameEngineTime::GetDeltaTime() * 500.0f);
+		GetTransform().SetWorldMove(_Vector * GameEngineTime::GetDeltaTime() * 800.0f);
 	}
 	
 }

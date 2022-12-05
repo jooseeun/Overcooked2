@@ -180,6 +180,9 @@ private:
 private:
 
 	void CameraMove(float _DeltaTime);
+	bool IsCameraMove_;
+	bool IsThrow_;
+	float4 ThrowVec_;
 	float CameraUpTime_;
 	float CameraDownTime_;
 	float Speed_;

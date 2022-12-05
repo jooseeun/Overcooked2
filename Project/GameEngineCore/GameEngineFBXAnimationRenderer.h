@@ -152,6 +152,11 @@ public:
 		return CurAnimation->GetRendereringEvent().Frames.size() - 1;
 	}
 
+	inline std::shared_ptr<FBXRendererAnimation> GetCurAnim()
+	{
+		return CurAnimation;
+	}
+
 protected:
 
 private:

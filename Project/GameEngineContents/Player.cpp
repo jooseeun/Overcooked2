@@ -35,6 +35,9 @@ Player::Player()
 	, IsSingleMode(false)
 	, PNumString("")
 	, CameraUpTime_(1.0f)
+	, IsCameraMove_(true)
+	, ThrowVec_()
+	, IsThrow_(false)
 {
 
 }
@@ -85,7 +88,7 @@ void Player::Start()
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Stand",
 			GameEngineRenderingEvent(PlayerName_[i] + "_Stand.FBX", 0.035f, true));
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Throw",
-			GameEngineRenderingEvent(PlayerName_[i] + "_Throw.FBX", 0.035f, false));
+			GameEngineRenderingEvent(PlayerName_[i] + "_Throw.FBX", 0.035f, true));
 
 
 		PlayerIdleRenderer_[i]->ChangeAnimation(PlayerName_[i] + "Idle");
@@ -313,13 +316,13 @@ void Player::ChangePlayerColor() // 플레이어 팀 색 바꾸는 함수
 		WalkRender.AlphaColor.g = 0.0f;
 		WalkRender.AlphaColor.b = 0.0f;
 
-		WalkRender.AlphaColor.r = 1.0f;
-		WalkRender.AlphaColor.g = 0.0f;
-		WalkRender.AlphaColor.b = 0.0f;
+		ChopRender.AlphaColor.r = 1.0f;
+		ChopRender.AlphaColor.g = 0.0f;
+		ChopRender.AlphaColor.b = 0.0f;
 
-		WalkRender.AlphaColor.r = 1.0f;
-		WalkRender.AlphaColor.g = 0.0f;
-		WalkRender.AlphaColor.b = 0.0f;
+		WashRender.AlphaColor.r = 1.0f;
+		WashRender.AlphaColor.g = 0.0f;
+		WashRender.AlphaColor.b = 0.0f;
 
 	}
 
@@ -334,13 +337,13 @@ void Player::ChangePlayerColor() // 플레이어 팀 색 바꾸는 함수
 		WalkRender.AlphaColor.g = 0.0f;
 		WalkRender.AlphaColor.b = 1.0f;
 
-		WalkRender.AlphaColor.r = 0.0f;
-		WalkRender.AlphaColor.g = 0.0f;
-		WalkRender.AlphaColor.b = 1.0f;
+		ChopRender.AlphaColor.r = 0.0f;
+		ChopRender.AlphaColor.g = 0.0f;
+		ChopRender.AlphaColor.b = 1.0f;
 
-		WalkRender.AlphaColor.r = 0.0f;
-		WalkRender.AlphaColor.g = 0.0f;
-		WalkRender.AlphaColor.b = 1.0f;
+		WashRender.AlphaColor.r = 0.0f;
+		WashRender.AlphaColor.g = 0.0f;
+		WashRender.AlphaColor.b = 1.0f;
 
 	}
 
@@ -354,13 +357,13 @@ void Player::ChangePlayerColor() // 플레이어 팀 색 바꾸는 함수
 		WalkRender.AlphaColor.g = 1.0f;
 		WalkRender.AlphaColor.b = 0.0f;
 
-		WalkRender.AlphaColor.r = 0.0f;
-		WalkRender.AlphaColor.g = 1.0f;
-		WalkRender.AlphaColor.b = 0.0f;
+		ChopRender.AlphaColor.r = 0.0f;
+		ChopRender.AlphaColor.g = 1.0f;
+		ChopRender.AlphaColor.b = 0.0f;
 
-		WalkRender.AlphaColor.r = 0.0f;
-		WalkRender.AlphaColor.g = 1.0f;
-		WalkRender.AlphaColor.b = 0.0f;
+		WashRender.AlphaColor.r = 0.0f;
+		WashRender.AlphaColor.g = 1.0f;
+		WashRender.AlphaColor.b = 0.0f;
 
 	}
 
@@ -374,13 +377,13 @@ void Player::ChangePlayerColor() // 플레이어 팀 색 바꾸는 함수
 		WalkRender.AlphaColor.g = 1.0f;
 		WalkRender.AlphaColor.b = 0.0f;
 
-		WalkRender.AlphaColor.r = 1.0f;
-		WalkRender.AlphaColor.g = 1.0f;
-		WalkRender.AlphaColor.b = 0.0f;
+		ChopRender.AlphaColor.r = 1.0f;
+		ChopRender.AlphaColor.g = 1.0f;
+		ChopRender.AlphaColor.b = 0.0f;
 
-		WalkRender.AlphaColor.r = 1.0f;
-		WalkRender.AlphaColor.g = 1.0f;
-		WalkRender.AlphaColor.b = 0.0f;
+		WashRender.AlphaColor.r = 1.0f;
+		WashRender.AlphaColor.g = 1.0f;
+		WashRender.AlphaColor.b = 0.0f;
 
 	}
 }
@@ -446,26 +449,33 @@ void Player::CameraMove(float _DeltaTime)
 	if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
 		Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB) == true)
 	{
-		CameraDownTime_ = 1.0f;
-		CameraUpTime_ -= 1.0f * _DeltaTime;
-
-		if (CameraUpTime_ > 0.0f)
+		if (IsCameraMove_ == false)
 		{
-			GetLevel()->GetMainCameraActorTransform().SetWorldUpMove(10.0f, _DeltaTime);
-		}
-
-	}
-	else
-	{
-		CameraUpTime_ = 1.0f;
-		CameraDownTime_ -= 1.0f * _DeltaTime;
-
-		if (CameraDownTime_ > 0.0f)
-		{
-			GetLevel()->GetMainCameraActorTransform().SetWorldDownMove(10.0f, _DeltaTime);
+			CameraDownTime_ = 1.0f;
+			IsCameraMove_ = true;
 		}
 		
 	}
+	else
+	{
+		if (IsCameraMove_ == true)
+		{
+			CameraUpTime_ = 1.0f;
+			IsCameraMove_ = false;
+		}
+	}
+
+	if (CameraDownTime_ > 0.0f)
+	{
+		CameraDownTime_ -= 1.0f * _DeltaTime;
+		GetLevel()->GetMainCameraActorTransform().SetWorldDownMove(10.0f, _DeltaTime);
+	}
+	else if (CameraUpTime_ > 0.0f)
+	{
+		CameraUpTime_ -= 1.0f * _DeltaTime;
+		GetLevel()->GetMainCameraActorTransform().SetWorldUpMove(10.0f, _DeltaTime);
+	}
+
 }
 
 void Player::PNumSgtringUpdate()
@@ -756,7 +766,16 @@ void Player::DashCheck(float _DeltaTime)
 				PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 					std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
 			{
-				WalkRendererON();
+				if (StateManager.GetCurStateStateName() == "HoldUp")
+				{
+					PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "WalkHolding");
+					PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
+					PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
+				}
+				if (StateManager.GetCurStateStateName() == "Idle")
+				{
+					WalkRendererON();
+				}
 				GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * _DeltaTime);
 			}
 		}
@@ -770,7 +789,12 @@ void Player::DashCheck(float _DeltaTime)
 			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 		}
-
+		if (StateManager.GetCurStateStateName() == "HoldUp")
+		{
+			PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "IdleHolding");
+			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
+			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
+		}
 		Speed_ = 650.0f;
 	}
 
