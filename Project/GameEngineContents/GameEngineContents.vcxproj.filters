@@ -266,6 +266,9 @@
     <ClInclude Include="ServerTestPlayer.h">
       <Filter>Global</Filter>
     </ClInclude>
+    <ClInclude Include="PortalCollision.h">
+      <Filter>Contents\Object\MapObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -532,6 +535,9 @@
     </ClCompile>
     <ClCompile Include="Oven.cpp">
       <Filter>Contents\Object\StaticMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="PortalCollision.cpp">
+      <Filter>Contents\Object\MapObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

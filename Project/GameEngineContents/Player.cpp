@@ -14,8 +14,8 @@
 
 Player::Player()
 	:Speed_(650.0f)
-	, CurAngle_(0)
-	, CurDir_(PlayerDir::Front)
+	, CurAngle_(180.0f)
+	, CurDir_(PlayerDir::Back)
 	, CurHoldType_(PlayerHoldType::CanThrow)
 	, CurStateType_(PlayerCurStateType::Max)
 	, PlayerFloorCollision_(nullptr)

@@ -3,6 +3,8 @@
 #include "Player.h"
 #include "TestPortal.h"
 
+#include "PortalCollision.h"
+
 #include "GraphicWindow.h"
 #include <GameEngineCore/GlobalVignette.h>
 #include <GameEngineCore/GlobalOverlay.h>
@@ -72,6 +74,34 @@ void Stage_1_4::PlayLevelStartEvent()
 
 	std::shared_ptr<GlobalVignette> GlobalVignette_ = GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalVignette>();
 	GraphicWindow::Main_->SetVignette(GlobalVignette_);
+
+
+	std::shared_ptr<PortalCollision> Blue1 = CreateActor<PortalCollision>();
+	Blue1->SetPotalType(MapObjType::Portal_Blue);
+	Blue1->GetTransform().SetWorldPosition({ -370.00,1.00,310.00 });
+	std::shared_ptr<PortalCollision> Blue2 = CreateActor<PortalCollision>();
+	Blue2->SetPotalType(MapObjType::Portal_Blue);
+	Blue2->GetTransform().SetWorldPosition({ -963.00,180.00,289.00 });
+
+	std::shared_ptr<PortalCollision> Puple1 = CreateActor<PortalCollision>();
+	Puple1->SetPotalType(MapObjType::Portal_Blue);
+	Puple1->GetTransform().SetWorldPosition({ -1471.00,180.00,289.00 });
+	std::shared_ptr<PortalCollision> Puple2 = CreateActor<PortalCollision>();
+	Puple2->SetPotalType(MapObjType::Portal_Blue);
+	Puple2->GetTransform().SetWorldPosition({ -2057.00,1.00,310.00 });
+
+	
+	Blue1->SetNextPotal(Blue2);
+	Blue1->SetNextPos({ -963.00, 180.00, 289.00 });
+
+	Blue2->SetNextPotal(Blue1);
+	Blue2->SetNextPos({ -370.00,1.00,310.00 });
+
+	Puple1->SetNextPotal(Puple2);
+	Puple1->SetNextPos({ -2057.00,1.00,310.00 });
+
+	Puple2->SetNextPotal(Puple1);
+	Puple2->SetNextPos({ -1471.00,180.00,289.00 });
 
 	return;
 }

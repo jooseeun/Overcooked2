@@ -141,11 +141,17 @@ public:
 		IsSlice_ = false;
 	}
 
+	inline void SetCurFrontDir()
+	{
+		CurDir_ = PlayerDir::Front;
+		CurAngle_ = 180.0f;
+	}
 
 	bool IsSingleMode;
 	std::string PNumString;
 	
 	void PNumSgtringUpdate();
+
 
 
 private:

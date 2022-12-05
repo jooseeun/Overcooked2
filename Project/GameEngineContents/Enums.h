@@ -17,6 +17,7 @@ enum class CollisionOrder
 	// Collision 물리 충돌용
 	Floor,			// 바닥 콜리전
 	Map_Object,
+	Map_Potal
 };
 
 enum class PlayerDir

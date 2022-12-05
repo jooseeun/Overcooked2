@@ -22,6 +22,7 @@ protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
+
 private:
 	std::shared_ptr<GameEngineFBXStaticRenderer> BlendRenderer_;
 	RenderOption RenderOptionMyInst;
