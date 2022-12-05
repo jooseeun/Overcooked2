@@ -198,8 +198,7 @@ void FoodBox::Update(float _DeltaTime)
 			if (0.f >= Angle_)
 			{
 				Angle_ = 0.f;
-				IsInteraction_ = false;
-				IsInteraction_ = false;
+				IsInteraction_ = true;
 				IsOpen_ = false;
 			}
 		}

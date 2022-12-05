@@ -113,7 +113,7 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				GlobalIOManager::AddMapData(TmpData);
 			}
 
-			GlobalIOManager::Save(IOType::UnsortMap);
+			GlobalIOManager::Save(IOType::UnsortMap, LevelIndex_);
 			GlobalIOManager::Clear();
 		}
 
@@ -1017,11 +1017,11 @@ void MapEditorWindow::SortToolTab()
 		case 10:
 		{
 			CurStaticMesh_ = CurLevel_->CreateActor<FoodBox>();
-			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::FoodBox_Winter);
+			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::FoodBox_Normal);
 
 			std::weak_ptr<FoodBox> Object = std::dynamic_pointer_cast<FoodBox>(CurStaticMesh_.lock());
-			Object.lock()->SetFoodBoxType(FoodBoxType::Winter);
-			Object.lock()->SetFoodBoxMesh(FoodBoxType::Winter);
+			Object.lock()->SetFoodBoxType(FoodBoxType::Normal);
+			Object.lock()->SetFoodBoxMesh(FoodBoxType::Normal);
 			Object.lock()->SetFoodType(IngredientType::Tomato);
 
 			IsFoodBox_ = true;
