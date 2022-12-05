@@ -36,13 +36,13 @@ void Stage_2_1::PlayLevelStartEvent()
 	GlobalIOManager::Load(IOType::SortMap, 4);
 	DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
 
-	//GlobalIOManager::Load(IOType::UnsortMap, 4);
-	//DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
+	GlobalIOManager::Load(IOType::UnsortMap, 4);
+	DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
 
 	GetMainCameraActorTransform().SetLocalRotation({ 60, 180, 0 });
 	GetMainCameraActorTransform().SetLocalPosition({ -1700, 3000, 750 });
 
 	std::shared_ptr<Player> MainPlayer = CreateActor<Player>();
-	MainPlayer->GetTransform().SetLocalPosition({ -1000, 1000, 200 });
+	MainPlayer->GetTransform().SetLocalPosition({ -1000, 0, -800 });
 	return;
 }

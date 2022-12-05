@@ -1,8 +1,8 @@
 #pragma once
-#include "GamePlayStaticObject.h"
+#include "Cannon.h"
 
 // Ό³Έν :
-class Button : public GamePlayStaticObject
+class Button : public Cannon
 {
 public:
 	// constrcuter destructer
