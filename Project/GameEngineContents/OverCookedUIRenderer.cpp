@@ -219,6 +219,45 @@ void OverCookedUIRenderer::Update(float _Delta)
 		}
 		GetTransform().SetLocalScale(CurScale);
 	}
+	//Vibration
+	if (IsVibration_ == true)
+	{
+		if (Vibration_IterTime_ >= 4.f)
+		{
+			IsVibration_ = false;
+			GetTransform().SetLocalPosition(PrevPos_);
+			Vibration_IterTime_ = 0.f;
+			return;
+		}
+		Vibration_IterTime_ += _Delta * VibrationSpeed_;
+		float4 CurPos = {};
+		float4 MoveVector = VibrationPos_ - PrevPos_;
+		if (Vibration_IterTime_ < 1.f)
+		{
+			CurPos = float4::LerpLimit(PrevPos_, PrevPos_ + MoveVector, Vibration_IterTime_);
+		}
+		else if (Vibration_IterTime_ >= 1.f && Vibration_IterTime_ < 2.f)
+		{
+			CurPos = float4::LerpLimit(PrevPos_ + MoveVector, PrevPos_, Vibration_IterTime_ - 1.f);
+		}
+		else if (Vibration_IterTime_ >= 2.f && Vibration_IterTime_ < 3.f)
+		{
+			CurPos = float4::LerpLimit(PrevPos_, PrevPos_ - MoveVector, Vibration_IterTime_ - 2.f);
+		}
+		else if (Vibration_IterTime_ >= 3.f && Vibration_IterTime_ < 4.f)
+		{
+			CurPos = float4::LerpLimit(PrevPos_ - MoveVector, PrevPos_, Vibration_IterTime_ - 3.f);
+		}
+		else if (Vibration_IterTime_ >= 4.f)
+		{
+			IsVibration_ = false;
+			GetTransform().SetLocalPosition(PrevPos_);
+			Vibration_IterTime_ = 0.f;
+			return;
+		}
+
+		GetTransform().SetLocalPosition(CurPos);
+	}
 	if (IsDown_ == true)
 	{
 		DownIter_ += _Delta * DownSpeed_;
@@ -421,6 +460,19 @@ void OverCookedUIRenderer::StartPumpVerti(float _Ratio, float _Speed)
 	PumpRatio_ = _Ratio;
 	PumpScale_ = { PrevScale_.x ,PrevScale_.y * PumpRatio_,PrevScale_.z };
 	IsPumping_ = true;
+}
+
+void OverCookedUIRenderer::StartVibrationHori(float _Scale, float _Speed)
+{
+	//이미 펌핑중이면 들어오지 못하게
+	if (IsVibration_ == true)
+	{
+		return;
+	}
+	PrevPos_ = GetTransform().GetLocalPosition();
+	VibrationSpeed_ = _Speed;
+	VibrationPos_ = { PrevPos_.x + _Scale,PrevPos_.y,PrevPos_.z };
+	IsVibration_ = true;
 }
 
 void OverCookedUIRenderer::ScaleToTexture()

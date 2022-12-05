@@ -146,19 +146,36 @@ InitGlobalGameData::InitGlobalGameData()
 			}
 		}
 
-		//생선사시미
+		//사시미
 		{
-			FoodType _Type;
-			std::vector<IngredientType> _Ingredient;
-			std::vector<ToolInfo> _Cookery;
+			//생선
+			{
+				FoodType _Type;
+				std::vector<IngredientType> _Ingredient;
+				std::vector<ToolInfo> _Cookery;
 
-			_Type = FoodType::FishSushimi;
-			_Ingredient.push_back(IngredientType::Fish);
+				_Type = FoodType::FishSushimi;
+				_Ingredient.push_back(IngredientType::Fish);
 
-			_Cookery.push_back(ToolInfo::None);
+				_Cookery.push_back(ToolInfo::None);
 
-			GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-				CreateFoodData(_Type, _Ingredient, _Cookery, 40.f)));
+				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
+					CreateFoodData(_Type, _Ingredient, _Cookery, 40.f)));
+			}
+			//새우
+			{
+				FoodType _Type;
+				std::vector<IngredientType> _Ingredient;
+				std::vector<ToolInfo> _Cookery;
+
+				_Type = FoodType::PrawnSushimi;
+				_Ingredient.push_back(IngredientType::Prawn);
+
+				_Cookery.push_back(ToolInfo::None);
+
+				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
+					CreateFoodData(_Type, _Ingredient, _Cookery, 37.f)));
+			}
 		}
 	}
 }

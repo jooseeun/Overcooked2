@@ -198,12 +198,13 @@ void InGameUIActor::UpdateTime(float _DeltaTime)
 		Under30_ = 0.f;
 	}
 
-	//Debug용 Test코드
+	//뒤버그
 	if (LeftTimer.GetCurTime() < 30.f)
 	{
 		if (CurScore_ <= 0)
 		{
 			GlobalGameData::AddScore(100);
+			RecipeManager_.CreateRecipe(FoodType::FishSushimi);
 		}
 	}
 	if (LeftTimer.GetCurTime() < 20.f)
@@ -211,6 +212,7 @@ void InGameUIActor::UpdateTime(float _DeltaTime)
 		if (CurScore_ <= 100)
 		{
 			GlobalGameData::AddScore(100);
+			RecipeManager_.CreateRecipe(FoodType::PrawnSushimi);
 		}
 	}
 }
