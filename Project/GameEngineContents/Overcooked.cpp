@@ -336,7 +336,7 @@ void Overcooked::InputMake()
 
 	if (false == GameEngineInput::GetInst()->IsKey("PlayerLeft2"))
 	{
-		GameEngineInput::GetInst()->CreateKey("IsSingleMode", '1');
+		GameEngineInput::GetInst()->CreateKey("IsSingleMode", VK_RSHIFT);
 		GameEngineInput::GetInst()->CreateKey("ChangePlayerCustom2", 'K');
 		GameEngineInput::GetInst()->CreateKey("ChangePlayerNum2", 'J');
 		GameEngineInput::GetInst()->CreateKey("PlayerLeft2", 'F');
