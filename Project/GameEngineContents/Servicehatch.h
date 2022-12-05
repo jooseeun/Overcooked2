@@ -43,5 +43,6 @@ protected:
 	void Start() override;
 
 private:
+	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable) override;
 };
 

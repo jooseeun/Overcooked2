@@ -1,5 +1,6 @@
 #pragma once
 #include "GamePlayMoveable.h"
+#include "FoodThumbnail.h"
 // 설명 :
 //enum class ObjectFoodType
 //{
@@ -177,6 +178,11 @@ public:
 	{
 		return MeshName_;
 	}
+	inline bool GetTrim()
+	{
+		return Trim_;
+	}
+	
 
 protected:
 	void Start() override;
@@ -192,6 +198,12 @@ protected:
 protected:
 	inline void SetObjectFoodClass(IngredientType _Class)
 	{
+		if (FoodThumbnail_ == nullptr)
+		{
+			FoodThumbnail_ = GetLevel()->CreateActor<FoodThumbnail>();
+			FoodThumbnail_->LinkObject(CastThis<GameEngineActor>(), {0, -25, 0});
+		}
+		FoodThumbnail_->SetThumbnail(_Class);
 		Enum_IngredientType_ = _Class;
 	}
 	inline void SetTrim()
@@ -199,13 +211,14 @@ protected:
 		Trim_ = true;
 	}
 
+
 	std::string MeshName_; // 지금 매쉬 이름
+	std::shared_ptr<FoodThumbnail> FoodThumbnail_; // 썸네일
 private:
 	IngredientType Enum_IngredientType_;
 	bool Trim_; // ture - 접시위에 올릴수 있음
 
 	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable) override;
-
 	//inline HoldDownEnum HoldOn(std::shared_ptr<Player> _Player) override
 	//{
 	//	if (_Player->GetPlayerHolding() == nullptr)

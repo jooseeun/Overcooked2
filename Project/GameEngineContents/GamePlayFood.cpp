@@ -5,6 +5,7 @@ GamePlayFood::GamePlayFood()
 	: Enum_IngredientType_(IngredientType::None)
 	, Trim_(false)
 	, MeshName_()
+	, FoodThumbnail_(nullptr)
 {
 }
 
