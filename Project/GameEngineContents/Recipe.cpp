@@ -197,37 +197,40 @@ bool RecipeManager::HandOver(FoodType _Type)
 		}
 	}
 
-	_Iter->ParentRenderer_.lock()->Death();
-
-	_Iter->FoodRenderer_.lock()->Death();
-	_Iter->TopBackgroundRenderer_.lock()->Death();
-
-	//Bar관련
-	_Iter->BarParentRenderer_.lock()->Death();
-	for (int i = 0; i < _Iter->BarBackgroundRenderer_.size(); i++)
-	{
-		_Iter->BarBackgroundRenderer_[i].lock()->Death();
-	}
-	for (int i = 0; i < _Iter->BarRenderer_.size(); i++)
-	{
-		_Iter->BarRenderer_[i].lock()->Death();
-	}
-
-	_Iter->BottomParentRenderer_.lock()->Death();
-	for (int i = 0; i < _Iter->BottomBackgroundRenderer_.size(); i++)
-	{
-		_Iter->BottomBackgroundRenderer_[i].lock()->Death();
-	}
-	for (int i = 0; i < _Iter->IngredientRenderer_.size(); i++)
-	{
-		_Iter->IngredientRenderer_[i].lock()->Death();
-	}
-	for (int i = 0; i < _Iter->CookeryRenderer_.size(); i++)
-	{
-		_Iter->CookeryRenderer_[i].lock()->Death();
-	}
-	Recipes_.erase(_Iter);
+	_Iter->IsHandOver_ = true;
 	return true;
+
+	//_Iter->ParentRenderer_.lock()->Death();
+
+	//_Iter->FoodRenderer_.lock()->Death();
+	//_Iter->TopBackgroundRenderer_.lock()->Death();
+
+	////Bar관련
+	//_Iter->BarParentRenderer_.lock()->Death();
+	//for (int i = 0; i < _Iter->BarBackgroundRenderer_.size(); i++)
+	//{
+	//	_Iter->BarBackgroundRenderer_[i].lock()->Death();
+	//}
+	//for (int i = 0; i < _Iter->BarRenderer_.size(); i++)
+	//{
+	//	_Iter->BarRenderer_[i].lock()->Death();
+	//}
+
+	//_Iter->BottomParentRenderer_.lock()->Death();
+	//for (int i = 0; i < _Iter->BottomBackgroundRenderer_.size(); i++)
+	//{
+	//	_Iter->BottomBackgroundRenderer_[i].lock()->Death();
+	//}
+	//for (int i = 0; i < _Iter->IngredientRenderer_.size(); i++)
+	//{
+	//	_Iter->IngredientRenderer_[i].lock()->Death();
+	//}
+	//for (int i = 0; i < _Iter->CookeryRenderer_.size(); i++)
+	//{
+	//	_Iter->CookeryRenderer_[i].lock()->Death();
+	//}
+	//Recipes_.erase(_Iter);
+	//return true;
 }
 
 void RecipeManager::DeleteRecipe(int _Count)
@@ -372,6 +375,22 @@ void RecipeManager::Update(float _DeltaTime)
 			StartIter->Update(_DeltaTime);
 		}
 	}
+
+	//릴리즈
+	{
+		std::list<Recipe>::iterator StartIter = Recipes_.begin();
+		std::list<Recipe>::iterator EndIter = Recipes_.end();
+		int Count = 0;
+		for (; StartIter != EndIter; StartIter++)
+		{
+			if (StartIter->IsDead_ == true)
+			{
+				DeleteRecipe(Count);
+				break;
+			}
+			Count++;
+		}
+	}
 }
 
 void RecipeManager::DebugFunction()
@@ -500,25 +519,29 @@ void Recipe::Update(float _DeltaTime)
 			BottomParentRenderer_.lock()->StartPumpVerti(1.14f, 10.0f);
 		}
 
-		if (GlobalTimer_.IsTimeOver() == false)
+		//건네면 시간이 흐르지 않는다
+		if (IsHandOver_ == false)
 		{
-			GlobalTimer_.Update(_DeltaTime);
-		}
-		if (BarTimer_[2].IsTimeOver() == false)
-		{
-			BarTimer_[2].Update(_DeltaTime);
-		}
-		else
-		{
-			if (BarTimer_[1].IsTimeOver() == false)
+			if (GlobalTimer_.IsTimeOver() == false)
 			{
-				BarTimer_[1].Update(_DeltaTime);
+				GlobalTimer_.Update(_DeltaTime);
+			}
+			if (BarTimer_[2].IsTimeOver() == false)
+			{
+				BarTimer_[2].Update(_DeltaTime);
 			}
 			else
 			{
-				if (BarTimer_[0].IsTimeOver() == false)
+				if (BarTimer_[1].IsTimeOver() == false)
 				{
-					BarTimer_[0].Update(_DeltaTime);
+					BarTimer_[1].Update(_DeltaTime);
+				}
+				else
+				{
+					if (BarTimer_[0].IsTimeOver() == false)
+					{
+						BarTimer_[0].Update(_DeltaTime);
+					}
 				}
 			}
 		}
@@ -535,14 +558,93 @@ void Recipe::Update(float _DeltaTime)
 
 	//부들부들 거리는거
 	float GlobalPercentage = GlobalTimer_.GetCurTime() / GlobalTimer_.Default_Time_;
-	if (GlobalPercentage < 0.18f)
+	if (0.001f < GlobalPercentage && GlobalPercentage < 0.18f)
 	{
 		ParentRenderer_.lock()->StartVibrationHori(3.0f, 21.0f);
-
 		//TopBackgroundRenderer_.lock()->UpdateColor();
 	}
-	//TimeGauge
-	//float Percentage = LeftTimer.GetCurTime() / GlobalGameData::GetMaxTime();
-	//TimerUIInst_.Bar->UpdateLeftToRight(Percentage);
-	//TimerUIInst_.Bar->UpdateLeftTime(Percentage);
+
+	//시간 다되서 빨개지는거
+	if (GlobalPercentage <= 0.001f)
+	{
+		float4 _PlusColor = { 0,0,0,0 };
+		float4 _MulColor = { 1.0f,1.0f,1.0f,1.0f };
+
+		Timeout_IterTime_ += _DeltaTime * 2.5f;
+		if (Timeout_IterTime_ < 1.f)
+		{
+			_MulColor.y = 1 - Timeout_IterTime_;
+			_MulColor.z = 1 - Timeout_IterTime_;
+		}
+		else if (Timeout_IterTime_ >= 1.f && Timeout_IterTime_ < 2.f)
+		{
+			_MulColor.y = Timeout_IterTime_ - 1.f;
+			_MulColor.z = Timeout_IterTime_ - 1.f;
+		}
+		else//시간이 다됬으면
+		{
+			Timeout_IterTime_ = 0.f;
+			_MulColor.y = 1.f;
+			_MulColor.z = 1.f;
+			GlobalTimer_.StartTimer(Data_.WaitingTime);
+			for (int i = 0; i < 3; i++)
+			{
+				BarTimer_[i].StartTimer();
+			}
+		}
+
+		for (int i = 0; i < IngredientRenderer_.size(); i++)
+		{
+			IngredientRenderer_[i].lock()->UpdateColor(_PlusColor, _MulColor);
+		}
+		TopBackgroundRenderer_.lock()->UpdateColor(_PlusColor, _MulColor);
+		FoodRenderer_.lock()->UpdateColor(_PlusColor, _MulColor);
+		for (int i = 0; i < BottomBackgroundRenderer_.size(); i++)
+		{
+			BottomBackgroundRenderer_[i].lock()->UpdateColor(_PlusColor, _MulColor);
+		}
+	}
+
+	//제출해서 초록색
+	if (IsHandOver_ == true && IsDead_ == false)
+	{
+		float4 _PlusColor = { 0,0,0,0 };
+		float4 _MulColor = { 1.0f,1.0f,1.0f,1.0f };
+
+		HandOver_IterTime_ += _DeltaTime * 2.5f;
+		if (HandOver_IterTime_ < 1.f)
+		{
+			_MulColor.x = 1 - HandOver_IterTime_;
+			_MulColor.z = 1 - HandOver_IterTime_;
+		}
+		else if (HandOver_IterTime_ >= 1.f && HandOver_IterTime_ < 2.f)
+		{
+			_MulColor.x = HandOver_IterTime_ - 1.f;
+			_MulColor.z = HandOver_IterTime_ - 1.f;
+			_MulColor.w = 2.f - HandOver_IterTime_;
+		}
+		else//시간이 다됬으면
+		{
+			IsDead_ = true;
+		}
+
+		for (int i = 0; i < IngredientRenderer_.size(); i++)
+		{
+			IngredientRenderer_[i].lock()->UpdateColor(_PlusColor, _MulColor);
+		}
+		TopBackgroundRenderer_.lock()->UpdateColor(_PlusColor, _MulColor);
+		FoodRenderer_.lock()->UpdateColor(_PlusColor, _MulColor);
+		for (int i = 0; i < BottomBackgroundRenderer_.size(); i++)
+		{
+			BottomBackgroundRenderer_[i].lock()->UpdateColor(_PlusColor, _MulColor);
+		}
+		for (int i = 0; i < BarRenderer_.size(); i++)
+		{
+			BarRenderer_[i].lock()->UpdateColor(_PlusColor, _MulColor);
+		}
+		for (int i = 0; i < BarBackgroundRenderer_.size(); i++)
+		{
+			BarBackgroundRenderer_[i].lock()->UpdateColor(_PlusColor, _MulColor);
+		}
+	}
 }

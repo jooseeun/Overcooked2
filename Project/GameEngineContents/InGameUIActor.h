@@ -53,6 +53,14 @@ private:
 	void Update(float _DeltaTime);
 
 private:
+	//주기관련
+	bool IsDead_ = false;
+	//색깔관련
+	float Timeout_IterTime_ = 0.f;
+	bool IsTimeOut_;
+
+	bool IsHandOver_ = false;
+	float HandOver_IterTime_ = 0.f;
 	//pump 관련
 	bool IsPumpHori_ = false;
 	bool IsPumpVerti_ = false;

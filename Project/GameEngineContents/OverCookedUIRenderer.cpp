@@ -49,6 +49,12 @@ void OverCookedUIRenderer::UpdateLeftTime(float _Percentage)
 	PixelDataInst.MulColor = float4(1.0f, 1.0f, 1.0f, 0.5f);
 }
 
+void OverCookedUIRenderer::UpdateColor(const float4& _PlusColor, const float4& _MulColor)
+{
+	PixelDataInst.PlusColor = _PlusColor;
+	PixelDataInst.MulColor = _MulColor;
+}
+
 void OverCookedUIRenderer::Start()
 {
 	GameEngineDefaultRenderer::Start();

@@ -1,11 +1,14 @@
 #include "PreCompile.h"
 #include "GlobalGameData.h"
 #include "InGameUIActor.h"
+#include "UIDebugGUI.h"
 
 std::string GlobalGameData::CurStage_ = "";
 
 std::map<std::string, StageData> GlobalGameData::AllStageData_;
 std::map<FoodType, FoodData> GlobalGameData::AllFoodData_;
+float4 GlobalGameData::DebugValue1_ = {};
+float4 GlobalGameData::DebugValue2_ = {};
 
 ContentsUtility::Timer GlobalGameData::LeftTime_;;
 
@@ -21,6 +24,9 @@ GlobalGameData::~GlobalGameData()
 
 InitGlobalGameData::InitGlobalGameData()
 {
+	UIDebugGUI::Main_.get()->AddMutableValue("DebugValue1", &GlobalGameData::DebugValue1_);
+	UIDebugGUI::Main_.get()->AddMutableValue("DebugValue2", &GlobalGameData::DebugValue2_);
+
 	//스테이지 데이터 Init
 	{
 		GlobalGameData::AllStageData_.insert(std::make_pair("1-1",
