@@ -24,6 +24,10 @@ void TitleLevel::Start()
 	GetMainCameraActorTransform().SetLocalPosition({ 659, 21, 1402});
 
 	CreateActor<LevelActor>()->SetLevelMesh("TitleLevel.FBX");
+
+	std::shared_ptr<GameEngineFBXStaticRenderer> SkyPlane = CreateActor<GameEngineActor>()->CreateComponent<GameEngineFBXStaticRenderer>();
+	SkyPlane->SetFBXMesh("m_menu_bg_sky.fbx", "Texture");
+	SkyPlane->GetTransform().SetWorldScale({ 50.f , 50.f , 50.f });
 }
 
 void TitleLevel::Update(float _DeltaTime)
