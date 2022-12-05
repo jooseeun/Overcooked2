@@ -93,6 +93,11 @@ private:
 	static ContentsUtility::Timer LeftTime_;
 
 	static int Score_;
+
+public:
+
+	static float4 DebugValue1_;
+	static float4 DebugValue2_;
 };
 
 namespace UI_Utility

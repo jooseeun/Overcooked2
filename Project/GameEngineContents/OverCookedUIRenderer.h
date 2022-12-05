@@ -115,7 +115,7 @@ public:
 
 	void UpdateLeftTime(float _Percentage);
 
-	void UpdateColor(const float4& _Color);
+	void UpdateColor(const float4& _PlusColor = { 0,0,0,0 }, const float4& _MulColor = { 1.f,1.f,1.f,1.f });
 
 protected:
 	void Start() override;
