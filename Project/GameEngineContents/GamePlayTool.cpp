@@ -6,6 +6,7 @@
 GamePlayTool::GamePlayTool()
 	: Moveable_Current_(nullptr)
 	, InteractOption_Current_(AutoOption::NoResponse)
+	, Enum_ObjectToolType_(ObjectToolType::None)
 	, MoveablePos_({0, 0})
 {
 }
@@ -42,40 +43,86 @@ void GamePlayTool::SetMoveable(std::shared_ptr<GameEngineUpdateObject> _Child)
 	Object.lock()->GetCollisionObject()->Off();
 }
 
-HoldDownEnum GamePlayTool::HoldOn(std::shared_ptr<Player> _Player)
+//HoldDownEnum GamePlayTool::HoldOn(std::shared_ptr<Player> _Player)
+//{
+//	if (Moveable_Current_ != nullptr)
+//	{
+//		switch (Moveable_Current_->HoldOn(_Player))
+//		{
+//		case HoldDownEnum::Nothing:
+//			return HoldDownEnum::Nothing;
+//			break;
+//		case HoldDownEnum::HoldUp:
+//			ReSetCurrentMoveable();
+//			return HoldDownEnum::HoldUp;
+//			break;
+//		case HoldDownEnum::HoldDown:
+//			return HoldDownEnum::HoldDown;
+//			break;
+//		default:
+//			break;
+//		}
+//	}
+//	else
+//	{
+//		return HoldDownEnum::Nothing;
+//	}
+//};
+
+
+HoldDownEnum GamePlayTool::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 {
-	if (Moveable_Current_ != nullptr)
+	if ((*_Moveable) != nullptr)
 	{
-		switch (Moveable_Current_->HoldOn(_Player))
+		if (Moveable_Current_ != nullptr) 
 		{
-		case HoldDownEnum::Nothing:
-			return HoldDownEnum::Nothing;
-			break;
-		case HoldDownEnum::HoldUp:
-			ReSetCurrentMoveable();
+			switch (Moveable_Current_->PickUp(_Moveable))
+			{
+			case HoldDownEnum::Nothing:
+			{
+				std::shared_ptr<GamePlayMoveable> Moveable = (shared_from_this()->CastThis<GamePlayMoveable>());
+				switch ((*_Moveable)->PickUp(&Moveable))
+				{
+				case HoldDownEnum::HoldUp:
+					if (Moveable == nullptr)
+					{
+						ReSetCurrentMoveable();
+					}
+					return HoldDownEnum::HoldDown;
+					break;
+				case HoldDownEnum::Nothing:
+				default:
+					break;
+				}
+			}
+				break;
+			case HoldDownEnum::HoldDown:
+				return HoldDownEnum::HoldDown;
+				break;
+			case HoldDownEnum::HoldUp:
+				return HoldDownEnum::HoldUp;
+				break;
+			default:
+				break;
+			}
+		}
+		else
+		{
+			Moveable_Current_ = (*_Moveable);
+			(*_Moveable) = nullptr;
 			return HoldDownEnum::HoldUp;
-			break;
-		case HoldDownEnum::HoldDown:
-			return HoldDownEnum::HoldDown;
-			break;
-		default:
-			break;
 		}
 	}
 	else
 	{
-		return HoldDownEnum::Nothing;
+		if (Moveable_Current_ != nullptr)
+		{
+			(*_Moveable) = Moveable_Current_;
+			ReSetCurrentMoveable();
+			return HoldDownEnum::HoldDown;
+		}
 	}
-};
 
-
-HoldDownEnum GamePlayTool::PickUp(std::shared_ptr<GamePlayMoveable> _Moveable)
-{
-	if (GetCurrentMoveable() == nullptr)
-	{
-		SetMoveable(_Moveable);
-		return HoldDownEnum::HoldUp;
-	}
 	return HoldDownEnum::Nothing;
 }
 

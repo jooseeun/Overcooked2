@@ -3,6 +3,8 @@
 #include "GamePlayFood.h"
 
 GamePlayBowl::GamePlayBowl() 
+	: Enum_ObjectBowlType_(ObjectBowlType::None)
+	, CombinFood_(nullptr)
 {
 }
 

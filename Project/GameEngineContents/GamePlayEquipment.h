@@ -54,18 +54,19 @@ protected:
 	}
 private:
 	ObjectEquipmentType Enum_ObjectEquipmentType_;
+	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable) override;
 
-	HoldDownEnum HoldOn(std::shared_ptr<Player> _Player) override
-	{
-		if (_Player->GetPlayerHolding() == nullptr)
-		{
-			_Player->SetCurHoldType(PlayerHoldType::NotThrow);
-			_Player->SetPlayerHolding(shared_from_this());
-			return HoldDownEnum::HoldUp;
-		}
-		else
-		{
-			return HoldDownEnum::Nothing;
-		}
-	};
+	//HoldDownEnum HoldOn(std::shared_ptr<Player> _Player) override
+	//{
+	//	if (_Player->GetPlayerHolding() == nullptr)
+	//	{
+	//		_Player->SetCurHoldType(PlayerHoldType::NotThrow);
+	//		_Player->SetPlayerHolding(shared_from_this());
+	//		return HoldDownEnum::HoldUp;
+	//	}
+	//	else
+	//	{
+	//		return HoldDownEnum::Nothing;
+	//	}
+	//};
 };

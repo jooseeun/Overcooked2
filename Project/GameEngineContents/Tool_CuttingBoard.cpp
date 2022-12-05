@@ -102,15 +102,15 @@ void Tool_CuttingBoard::Start()
 	return UsingDownEnum::Nothing;
 };
 
- HoldDownEnum Tool_CuttingBoard::PickUp(std::shared_ptr<GamePlayMoveable> _Moveable)
- {
-	 if (GetCurrentMoveable() == nullptr)
-	 {
-		 SetMoveable(_Moveable);
-		 return HoldDownEnum::HoldUp;
-	 }
-	 return HoldDownEnum::Nothing;
- }
+ //HoldDownEnum Tool_CuttingBoard::PickUp(std::shared_ptr<GamePlayMoveable> _Moveable)
+ //{
+	// if (GetCurrentMoveable() == nullptr)
+	// {
+	//	 SetMoveable(_Moveable);
+	//	 return HoldDownEnum::HoldUp;
+	// }
+	// return HoldDownEnum::Nothing;
+ //}
 
 //
 //HoldDownEnum Tool_CuttingBoard::HoldDown(std::shared_ptr<Player> _Player)
