@@ -63,15 +63,14 @@ public:
 		return ID;
 	}
 
-	void PushPacket(std::shared_ptr<GameServerPacket> _Packet)
-	{
-		PacketList.push_back(_Packet);
-	}
+	void PushPacket(std::shared_ptr<GameServerPacket> _Packet);
+	bool IsPacketEmpty();
+	std::shared_ptr<GameServerPacket> PopPacket();
 
 protected:
-	std::list<std::shared_ptr<GameServerPacket>> PacketList;
 
 private:
+	std::list<std::shared_ptr<GameServerPacket>> PacketList;
 	bool IsNetInit;
 	ServerObjectType ServerType;
 	int ID;

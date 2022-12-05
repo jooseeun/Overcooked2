@@ -39,7 +39,7 @@ private:
 	GameEngineThread AcceptThread;
 
 	std::vector<SOCKET> UserSockets;
-	std::vector<GameEngineThread> UserThreads;
+	std::vector<std::shared_ptr<GameEngineThread>> UserThreads;
 
 	void AcceptFunction(GameEngineThread* Thread);
 

@@ -45,6 +45,10 @@ void ServerTestLevel::ObjectUpdatePacketProcess(std::shared_ptr<GameServerPacket
 	}
 
 	FindObject->PushPacket(_Packet);
+	if (true == Net->GetIsHost())
+	{
+		Net->SendPacket(Packet);
+	}
 }
 
 void ServerTestLevel::ClientInitPacketProcess(std::shared_ptr<GameServerPacket> _Packet)
