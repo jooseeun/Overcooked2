@@ -66,6 +66,8 @@ void Stage_1_1::PlayLevelStartEvent()
 		return;
 	}
 
+	ServerInitManager::StartInit();
+
 	IsLevelFirst_ = false;
 	std::shared_ptr<LevelActor> Tmp = CreateActor<LevelActor>();
 	Tmp->SetLevelMesh("1_1.FBX");
@@ -82,8 +84,8 @@ void Stage_1_1::PlayLevelStartEvent()
 	MainWater->GetTransform().SetLocalPosition({ -1400, 500, 200 });
 	MainWater->GetTransform().SetWorldScale({ 800, 800, 800 });
 
-	std::shared_ptr<Player> MainPlayer = CreateActor<Player>();
-	MainPlayer->GetTransform().SetLocalPosition({ -1400, 500, 200 });
+	//std::shared_ptr<Player> MainPlayer = CreateActor<Player>();
+	//MainPlayer->GetTransform().SetLocalPosition({ -1400, 500, 200 });
 
 
 
@@ -102,9 +104,9 @@ void Stage_1_1::PlayLevelStartEvent()
 	GraphicWindow::Main_->SetVignette(GlobalVignette_);
 
 	//테스트용 - 동원
-	std::shared_ptr NewFoodThumbNail = CreateActor<FoodThumbnail>();
-	NewFoodThumbNail->LinkObject(MainPlayer, { 0,100, 0 });
-	NewFoodThumbNail->SetThumbnail(IngredientType::None);
+	//std::shared_ptr NewFoodThumbNail = CreateActor<FoodThumbnail>();
+	//NewFoodThumbNail->LinkObject(MainPlayer, { 0,100, 0 });
+	//NewFoodThumbNail->SetThumbnail(IngredientType::None);
 
 	return;
 }

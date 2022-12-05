@@ -1,6 +1,7 @@
 #pragma once
 #include <atomic>
 #include <list>
+#include "ServerInitManager.h"
 
 enum class ServerObjectBaseState
 {

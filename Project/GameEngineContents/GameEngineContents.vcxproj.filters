@@ -269,6 +269,9 @@
     <ClInclude Include="PortalCollision.h">
       <Filter>Contents\Object\MapObject</Filter>
     </ClInclude>
+    <ClInclude Include="ServerInitManager.h">
+      <Filter>Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -538,6 +541,9 @@
     </ClCompile>
     <ClCompile Include="PortalCollision.cpp">
       <Filter>Contents\Object\MapObject</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerInitManager.cpp">
+      <Filter>Level</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

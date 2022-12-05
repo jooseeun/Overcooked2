@@ -1,7 +1,8 @@
 #pragma once
 #include "GamePlayLevel.h"
+#include "ServerInitManager.h"
 
-class Stage_1_1 : public GamePlayLevel
+class Stage_1_1 : public GamePlayLevel, public ServerInitManager
 {
 public:
 	Stage_1_1();
