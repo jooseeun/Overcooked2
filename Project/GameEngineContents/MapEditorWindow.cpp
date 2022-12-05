@@ -107,7 +107,7 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				if (UnSortActorList_[i].lock()->GetMapObjType() == MapObjType::Candle)
 				{
 					std::weak_ptr<Candle> Object = std::dynamic_pointer_cast<Candle>(UnSortActorList_[i].lock());
-					TmpData.Index_.x = (float)Object.lock()->GetCandleTypeIndex();
+					TmpData.Index_.x = static_cast<float>(Object.lock()->GetCandleTypeIndex());
 				}
 
 				GlobalIOManager::AddMapData(TmpData);
@@ -482,7 +482,7 @@ void MapEditorWindow::UnSortToolTab()
 			}
 			if (false != IsCheckCandle[i])
 			{
-				CandleTypeIndex = (int)i;
+				CandleTypeIndex = static_cast<int>(i);
 			}
 		}
 
@@ -604,7 +604,7 @@ void MapEditorWindow::UnSortToolTab()
 
 		if (UnSortActorList_.size() <= SelectIndex)
 		{
-			SelectIndex = (int)UnSortActorList_.size() - 1;
+			SelectIndex = static_cast<int>(UnSortActorList_.size()) - 1;
 			if (SelectIndex <= -1)
 			{
 				SelectIndex = 0;
