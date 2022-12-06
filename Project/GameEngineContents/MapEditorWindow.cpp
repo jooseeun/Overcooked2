@@ -31,6 +31,8 @@
 #include "Candle.h"
 #include "Lift.h"
 #include "Portal.h"
+#include "IceBlock.h"
+#include "IcePlatform.h"
 
 #include "LoadingData.h"
 
@@ -576,6 +578,25 @@ void MapEditorWindow::UnSortToolTab()
 			std::weak_ptr<Portal> Object = CurLevel_->CreateActor<Portal>();
 			Object.lock()->SetName(AllUnSortActorName_[SelectNameIndex]);
 			Object.lock()->SetPortalMesh(MapObjType::Portal_Purple);
+			Object.lock()->SetMapObjType(ObjectTypeIndex);
+			UnSortActorList_.push_back(Object);
+		}
+		break;
+		case MapObjType::IceBlock:
+		{
+			std::weak_ptr<IceBlock> Object = CurLevel_->CreateActor<IceBlock>();
+			auto Type = magic_enum::enum_cast<IceBlockType>(AllUnSortActorName_[SelectNameIndex]);
+			Object.lock()->SetIceBlockType(Type.value());
+			Object.lock()->SetIceBlockMesh(Type.value());
+			Object.lock()->SetName(AllUnSortActorName_[SelectNameIndex]);
+			Object.lock()->SetMapObjType(ObjectTypeIndex);
+			UnSortActorList_.push_back(Object);
+		}
+		break;
+		case MapObjType::IcePlatform:
+		{
+			std::weak_ptr<IcePlatform> Object = CurLevel_->CreateActor<IcePlatform>();
+			Object.lock()->SetName(AllUnSortActorName_[SelectNameIndex]);
 			Object.lock()->SetMapObjType(ObjectTypeIndex);
 			UnSortActorList_.push_back(Object);
 		}

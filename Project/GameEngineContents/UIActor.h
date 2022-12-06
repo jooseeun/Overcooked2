@@ -7,6 +7,20 @@ class OverCookedUIRenderer;
 class UIActor : public GameEngineActor
 {
 public:
+	struct PlayerIcon
+	{
+	public:
+		void Off();
+		void On();
+		int Index; //0 ~ 3
+		std::shared_ptr<OverCookedUIRenderer> Parent;
+		std::shared_ptr<OverCookedUIRenderer> Hat;
+		std::shared_ptr<OverCookedUIRenderer> NameBox;
+
+		std::string Name;
+		std::shared_ptr<GameEngineFontRenderer> CountFont;
+		std::shared_ptr<GameEngineFontRenderer> NameFont;
+	};
 	UIActor();
 	~UIActor();
 

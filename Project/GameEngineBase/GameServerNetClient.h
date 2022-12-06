@@ -16,7 +16,7 @@ public:
 	GameServerNetClient& operator=(const GameServerNetClient& _Other) = delete;
 	GameServerNetClient& operator=(GameServerNetClient&& _Other) noexcept = delete;
 
-	void Connect(const std::string& _Ip, int Port);
+	void Connect(std::string _Ip, int Port);
 
 	int Send(const char* Data, size_t _Size) override;
 
@@ -29,6 +29,5 @@ private:
 	GameEngineThread RecvThread;
 
 	void RecvThreadFunction(GameEngineThread* _Thread);
-
 };
 

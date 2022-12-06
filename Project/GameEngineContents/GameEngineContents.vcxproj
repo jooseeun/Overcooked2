@@ -340,6 +340,14 @@
     </ClInclude>
     <ClInclude Include="PreCompile.h" />
     <ClInclude Include="Rail.h" />
+    <ClInclude Include="ResultLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ResultLevelActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="SelectStageLevel.h" />
     <ClInclude Include="SelectStageUIActor.h">
       <SubType>
@@ -603,6 +611,14 @@
     </ClCompile>
     <ClCompile Include="Rail.cpp" />
     <ClCompile Include="Recipe.cpp" />
+    <ClCompile Include="ResultLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ResultLevelActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="SelectStageLevel.cpp" />
     <ClCompile Include="SelectStageUIActor.cpp">
       <SubType>

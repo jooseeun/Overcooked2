@@ -2,16 +2,16 @@
 #include "GameServerNetClient.h"
 #include "GameEngineDebug.h"
 
-GameServerNetClient::GameServerNetClient() 
+GameServerNetClient::GameServerNetClient()
 {
 	IsHost = false;
 }
 
-GameServerNetClient::~GameServerNetClient() 
+GameServerNetClient::~GameServerNetClient()
 {
 }
 
-void GameServerNetClient::Connect(const std::string& _Ip, int Port)
+void GameServerNetClient::Connect(std::string _Ip, int Port)
 {
 	GameServerNet::WindowNetStartUp();
 
@@ -60,6 +60,7 @@ int GameServerNetClient::SendPacket(std::shared_ptr<GameServerPacket> _Packet)
 void GameServerNetClient::RecvThreadFunction(GameEngineThread* _Thread)
 {
 	char Packet[1024] = { 0 };
+
 	while (true)
 	{
 		int Result = recv(SessionSocket, Packet, sizeof(Packet), 0);
@@ -71,6 +72,7 @@ void GameServerNetClient::RecvThreadFunction(GameEngineThread* _Thread)
 		}
 
 		GameServerSerializer Ser = GameServerSerializer(Packet, 1024);
+
 		int PacketType;
 		int PacketSize;
 
@@ -80,6 +82,5 @@ void GameServerNetClient::RecvThreadFunction(GameEngineThread* _Thread)
 		std::shared_ptr<GameServerPacket> Packet = Dis.PacketReturnCallBack(PacketType, PacketSize, Ser);
 
 		Dis.ProcessPacket(Packet);
-		Packet = { 0 };
 	}
 }
