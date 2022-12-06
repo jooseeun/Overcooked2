@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "LightTestLevel.h"
+#include <GameEngineCore/GameEngineLight.h>
 
 LightTestLevel::LightTestLevel()
 {
@@ -24,5 +25,5 @@ void LightTestLevel::Start()
 
 void LightTestLevel::LevelStartEvent()
 {
-	std::shared_ptr<Player> MainPlayer = CreateActor<Player>(OBJECTORDER::Player);
+	//std::shared_ptr<Player> MainPlayer = CreateActor<Player>(OBJECTORDER::Player);
 }

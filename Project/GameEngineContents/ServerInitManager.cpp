@@ -24,7 +24,7 @@ void ServerInitManager::ObjectUpdatePacketProcess(std::shared_ptr<GameServerPack
 		MsgBoxAssert("ObjectUpdate 패킷이 아닙니다");
 	}
 
-	std::shared_ptr<GameServerObject> FindObject = GameServerObject::GetServerObject(Packet->ObjectID);
+	GameServerObject* FindObject = GameServerObject::GetServerObject(Packet->ObjectID);
 	if (nullptr == FindObject)
 	{
 		ServerObjectType Type = Packet->Type;

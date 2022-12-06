@@ -10,7 +10,7 @@ struct Input
 struct Output
 {
     float4 Pos : SV_POSITION;
-    float4 PosLocal : POSITION;
+    float4 ViewPos : POSITION;
     float4 Normal : NORMAL;
 };
 
