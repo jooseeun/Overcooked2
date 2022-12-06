@@ -43,6 +43,6 @@ void Stage_2_1::PlayLevelStartEvent()
 	GetMainCameraActorTransform().SetLocalPosition({ -1700, 3000, 750 });
 
 	std::shared_ptr<Player> MainPlayer = CreateActor<Player>();
-	MainPlayer->GetTransform().SetLocalPosition({ -1000, 0, -800 });
+	MainPlayer->GetTransform().SetLocalPosition({ -2300, 0, -800 });
 	return;
 }

@@ -31,6 +31,8 @@
 #include "Candle.h"
 #include "Lift.h"
 #include "Portal.h"
+#include "IceBlock.h"
+#include "IcePlatform.h"
 
 MapDataParser::MapDataParser()
 	: CurActor_()
@@ -168,6 +170,31 @@ std::vector<std::weak_ptr<GamePlayMapObject>>& MapDataParser::UnSortMapDataParsi
 			Object.lock()->GetTransform().SetWorldRotation(_Data[i].Rot_);
 			Object.lock()->SetMapObjType(_Data[i].MapObjType_);
 			Object.lock()->SetPortalMesh(_Data[i].MapObjType_);
+			Object.lock()->SetName(_Data[i].ObjName_);
+			UnSortActorList_.push_back(Object);
+		}
+		break;
+		case MapObjType::IceBlock:
+		{
+			std::weak_ptr<IceBlock> Object = _Level->CreateActor<IceBlock>();
+			auto Type = magic_enum::enum_cast<IceBlockType>(_Data[i].ObjName_);
+			Object.lock()->SetIceBlockType(Type.value());
+			Object.lock()->SetIceBlockMesh(Type.value());
+			Object.lock()->GetTransform().SetWorldPosition(_Data[i].Pos_);
+			Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(_Data[i].Scale_);
+			Object.lock()->GetTransform().SetWorldRotation(_Data[i].Rot_);
+			Object.lock()->SetMapObjType(_Data[i].MapObjType_);
+			Object.lock()->SetName(_Data[i].ObjName_);
+			UnSortActorList_.push_back(Object);
+		}
+		break;
+		case MapObjType::IcePlatform:
+		{
+			std::weak_ptr<IcePlatform> Object = _Level->CreateActor<IcePlatform>();
+			Object.lock()->GetTransform().SetWorldPosition(_Data[i].Pos_);
+			Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(_Data[i].Scale_);
+			Object.lock()->GetTransform().SetWorldRotation(_Data[i].Rot_);
+			Object.lock()->SetMapObjType(_Data[i].MapObjType_);
 			Object.lock()->SetName(_Data[i].ObjName_);
 			UnSortActorList_.push_back(Object);
 		}

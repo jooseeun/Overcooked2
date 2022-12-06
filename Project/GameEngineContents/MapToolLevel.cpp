@@ -68,16 +68,15 @@ void MapToolLevel::Start()
 	Window_->GetAllUnSortActorName().push_back("Portal_Purple");
 
 	// 2-1
-	Window_->GetAllUnSortActorName().push_back("m_dlc09_iceplatform_0");
+	Window_->GetAllUnSortActorName().push_back("IcePlarform");
 	Window_->GetAllUnSortActorName().push_back("NPC_Dora_Green_01");
-	Window_->GetAllUnSortActorName().push_back("p_dlc09_iceblock_02 (1)");
-	Window_->GetAllUnSortActorName().push_back("p_dlc09_iceblock_02 (2)");
-	Window_->GetAllUnSortActorName().push_back("p_dlc09_iceblock_02 (3)");
-	Window_->GetAllUnSortActorName().push_back("p_dlc09_iceblock_02 (4)");
-	Window_->GetAllUnSortActorName().push_back("p_dlc09_iceblock_02 (6)");
-	Window_->GetAllUnSortActorName().push_back("p_dlc09_iceblock_02 (8)");
-	Window_->GetAllUnSortActorName().push_back("p_dlc09_iceblock_02 (10)");
-	Window_->GetAllUnSortActorName().push_back("p_dlc09_iceblock_02 (1)");
+	Window_->GetAllUnSortActorName().push_back("Ice01");
+	Window_->GetAllUnSortActorName().push_back("Ice02");
+	Window_->GetAllUnSortActorName().push_back("Ice03");
+	Window_->GetAllUnSortActorName().push_back("Ice04");
+	Window_->GetAllUnSortActorName().push_back("Ice06");
+	Window_->GetAllUnSortActorName().push_back("Ice08");
+	Window_->GetAllUnSortActorName().push_back("Ice10");
 	Window_->GetAllUnSortActorName().push_back("RobinGround_01");
 }
 
