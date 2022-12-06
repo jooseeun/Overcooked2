@@ -38,6 +38,7 @@ Player::Player()
 	, IsCameraMove_(true)
 	, ThrowVec_()
 	, IsThrow_(false)
+	, IsPotal_(false)
 {
 
 }

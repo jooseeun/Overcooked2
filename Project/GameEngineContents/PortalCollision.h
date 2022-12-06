@@ -41,12 +41,14 @@ public:
 		InterActor_ = _InterActor;
 	}
 	bool IsBig_;
+	bool IsSmall_;
 protected:
 	void Start() override;
 	void Update(float _DeltaTime);
 	void End() {}
 
 	void BigActor();
+	void SmallActor();
 
 private:
 	MapObjType PotalType_;
@@ -55,6 +57,6 @@ private:
 	std::shared_ptr<GameEngineActor> InterActor_;
 	float4 NextPos_;
 
-	CollisionReturn SmallActor(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
+	CollisionReturn ColCheckActor(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 };
 
