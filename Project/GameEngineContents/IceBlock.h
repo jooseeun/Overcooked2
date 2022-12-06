@@ -10,6 +10,7 @@ enum class IceBlockType
 	Ice06,
 	Ice08,
 	Ice10,
+	Ice11,
 	Max,
 };
 

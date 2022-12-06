@@ -77,6 +77,7 @@ void MapToolLevel::Start()
 	Window_->GetAllUnSortActorName().push_back("Ice06");
 	Window_->GetAllUnSortActorName().push_back("Ice08");
 	Window_->GetAllUnSortActorName().push_back("Ice10");
+	Window_->GetAllUnSortActorName().push_back("Ice11");
 	Window_->GetAllUnSortActorName().push_back("RobinGround_01");
 }
 
