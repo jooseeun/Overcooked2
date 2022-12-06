@@ -41,13 +41,14 @@ void GamePlayLevel::LevelStartEvent()
 	GlobalGameData::GetLeftTimeRef().StartTimer(GlobalGameData::GetMaxTime());
 	//남은 스코어 초기화
 	GlobalGameData::SetScore(0);
+	//현재 스테이지로 셋팅
+	GlobalGameData::SetCurStage(GetName());
 
 	if (IsLevelStartFirst_ == false)
 	{
 		//FadeIn이벤트
 		UIDebugGUI::Main_->On();
 		GraphicWindow::Main_->On();
-
 		UIActor_->StartFadeIn();
 		PlayLevelStartEvent();
 		return;
@@ -56,7 +57,6 @@ void GamePlayLevel::LevelStartEvent()
 
 	//GUI를 통해 바로 스테이지로 진입하려하면
 	//최초에는 무조건 LoadingLvel로 가서 해당 레벨의 리소스를 로드합니다.
-	GlobalGameData::SetCurStage(GetName());
 	GEngine::ChangeLevel("LoadingLevel");
 	return;
 }

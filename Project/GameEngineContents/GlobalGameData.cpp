@@ -29,16 +29,52 @@ InitGlobalGameData::InitGlobalGameData()
 
 	//Ω∫≈◊¿Ã¡ˆ µ•¿Ã≈Õ Init
 	{
-		GlobalGameData::AllStageData_.insert(std::make_pair("1-1",
-			CreateStageData("1-1", Thema::SushiCity)));
-		GlobalGameData::AllStageData_.insert(std::make_pair("1-2",
-			CreateStageData("1-2", Thema::SushiCity)));
-		GlobalGameData::AllStageData_.insert(std::make_pair("1-3",
-			CreateStageData("1-3", Thema::SushiCity)));
-		GlobalGameData::AllStageData_.insert(std::make_pair("1-4",
-			CreateStageData("1-4", Thema::WizardKitchen)));
-		GlobalGameData::AllStageData_.insert(std::make_pair("2-1",
-			CreateStageData("2-1", Thema::WizardKitchen)));
+		{
+			std::vector<FoodType> StageRecipe;
+			StageRecipe.push_back(FoodType::FishSushimi);
+			StageRecipe.push_back(FoodType::PrawnSushimi);
+			GlobalGameData::AllStageData_.insert(std::make_pair("1-1",
+				CreateStageData("1-1", Thema::SushiCity, StageRecipe)));
+		}
+
+		{
+			std::vector<FoodType> StageRecipe;
+			StageRecipe.push_back(FoodType::FishSushimi);
+			StageRecipe.push_back(FoodType::PrawnSushimi);
+			StageRecipe.push_back(FoodType::CucumberSushi);
+			StageRecipe.push_back(FoodType::FishSushi);
+			StageRecipe.push_back(FoodType::FishandCucumberSushi);
+			GlobalGameData::AllStageData_.insert(std::make_pair("1-2",
+				CreateStageData("1-2", Thema::SushiCity, StageRecipe)));
+		}
+
+		{
+			std::vector<FoodType> StageRecipe;
+			StageRecipe.push_back(FoodType::SteamedFish);
+			StageRecipe.push_back(FoodType::CarrotDumpling);
+			StageRecipe.push_back(FoodType::MeatDumpling);
+			StageRecipe.push_back(FoodType::PrawnDumpling);
+			GlobalGameData::AllStageData_.insert(std::make_pair("1-3",
+				CreateStageData("1-3", Thema::SushiCity, StageRecipe)));
+		}
+
+		{
+			std::vector<FoodType> StageRecipe;
+			StageRecipe.push_back(FoodType::PlainBurger);
+			StageRecipe.push_back(FoodType::CheeseBurger);
+			StageRecipe.push_back(FoodType::CheeseBurgerLettuceTomato);
+			GlobalGameData::AllStageData_.insert(std::make_pair("1-4",
+				CreateStageData("1-4", Thema::WizardKitchen, StageRecipe)));
+		}
+
+		{
+			std::vector<FoodType> StageRecipe;
+			StageRecipe.push_back(FoodType::PlainBurger);
+			StageRecipe.push_back(FoodType::CheeseBurger);
+			StageRecipe.push_back(FoodType::CheeseBurgerLettuceTomato);
+			GlobalGameData::AllStageData_.insert(std::make_pair("2-1",
+				CreateStageData("2-1", Thema::WizardKitchen, StageRecipe)));
+		}
 	}
 
 	//¿ΩΩƒ µ•¿Ã≈Õ Init
@@ -183,14 +219,75 @@ InitGlobalGameData::InitGlobalGameData()
 					CreateFoodData(_Type, _Ingredient, _Cookery, 37.f)));
 			}
 		}
+
+		//±Ëπ‰
+		{
+			//ª˝º±±Ëπ‰
+			{
+				FoodType _Type;
+				std::vector<IngredientType> _Ingredient;
+				std::vector<ToolInfo> _Cookery;
+
+				_Type = FoodType::FishSushi;
+				_Ingredient.push_back(IngredientType::Seaweed);
+				_Ingredient.push_back(IngredientType::Rice);
+				_Ingredient.push_back(IngredientType::Fish);
+
+				_Cookery.push_back(ToolInfo::None);
+				_Cookery.push_back(ToolInfo::Pot);
+				_Cookery.push_back(ToolInfo::None);
+
+				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
+					CreateFoodData(_Type, _Ingredient, _Cookery, 65.f)));
+			}
+			//ø¿¿Ã±Ëπ‰
+			{
+				FoodType _Type;
+				std::vector<IngredientType> _Ingredient;
+				std::vector<ToolInfo> _Cookery;
+
+				_Type = FoodType::CucumberSushi;
+				_Ingredient.push_back(IngredientType::Seaweed);
+				_Ingredient.push_back(IngredientType::Rice);
+				_Ingredient.push_back(IngredientType::Cucumber);
+
+				_Cookery.push_back(ToolInfo::None);
+				_Cookery.push_back(ToolInfo::Pot);
+				_Cookery.push_back(ToolInfo::None);
+
+				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
+					CreateFoodData(_Type, _Ingredient, _Cookery, 65.f)));
+			}
+			//ª˝º±ø¿¿Ã±Ëπ‰
+			{
+				FoodType _Type;
+				std::vector<IngredientType> _Ingredient;
+				std::vector<ToolInfo> _Cookery;
+
+				_Type = FoodType::FishandCucumberSushi;
+				_Ingredient.push_back(IngredientType::Seaweed);
+				_Ingredient.push_back(IngredientType::Rice);
+				_Ingredient.push_back(IngredientType::Cucumber);
+				_Ingredient.push_back(IngredientType::Fish);
+
+				_Cookery.push_back(ToolInfo::None);
+				_Cookery.push_back(ToolInfo::Pot);
+				_Cookery.push_back(ToolInfo::None);
+				_Cookery.push_back(ToolInfo::None);
+
+				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
+					CreateFoodData(_Type, _Ingredient, _Cookery, 80.f)));
+			}
+		}
 	}
 }
 
-StageData InitGlobalGameData::CreateStageData(std::string_view _StageName, Thema _StageThema)
+StageData InitGlobalGameData::CreateStageData(std::string_view _StageName, Thema _StageThema, std::vector<FoodType> _StageRecipe)
 {
 	StageData NewData;
 	NewData.StageName = _StageName;
 	NewData.StageThema = _StageThema;
+	NewData.StageRecipe = _StageRecipe;
 	return NewData;
 }
 

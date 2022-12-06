@@ -13,13 +13,14 @@ struct StageData
 {
 	std::string StageName; //1-1, 1-2
 	Thema StageThema;
+	std::vector<FoodType> StageRecipe; //해당 스테이지에 나오는 음식들
 };
 class InitGlobalGameData
 {
 public:
 	InitGlobalGameData();
 private:
-	StageData CreateStageData(std::string_view _StageName, Thema _StageThema);
+	StageData CreateStageData(std::string_view _StageName, Thema _StageThema, std::vector<FoodType> _StageRecipe);
 	FoodData CreateFoodData(FoodType _Type, std::vector<IngredientType>& _Ingredient, std::vector<ToolInfo>& _Cookery, float _WaitingTime, bool IsCommonCookery = false);
 };
 
