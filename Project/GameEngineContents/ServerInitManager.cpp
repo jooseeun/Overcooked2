@@ -34,8 +34,8 @@ void ServerInitManager::ObjectUpdatePacketProcess(std::shared_ptr<GameServerPack
 		{
 			std::shared_ptr<Player> NewPlayer = GEngine::GetCurrentLevel()->CreateActor<Player>();
 			NewPlayer->GetTransform().SetLocalPosition({ -1400, 500, 200 });
-			NewPlayer->ClientInit(Packet->Type, Packet->ObjectID);
-			FindObject = NewPlayer;
+			//NewPlayer->ClientInit(Packet->Type, Packet->ObjectID);
+			//FindObject = NewPlayer;
 			break;
 		}
 		default:
@@ -69,18 +69,20 @@ void ServerInitManager::ClientInitPacketProcess(std::shared_ptr<GameServerPacket
 
 void ServerInitManager::StartInit()
 {
-	std::shared_ptr<Player> TmpPlayer;
-	if (nullptr == Player::GetMyPlayer())
-	{
-		TmpPlayer = GEngine::GetCurrentLevel()->CreateActor<Player>();
-		Player::SetMyPlayer(TmpPlayer);
-		TmpPlayer->SetLevelOverOn();
-		TmpPlayer->GetTransform().SetLocalPosition({ -1400, 500, 200 });
-	}
-	else
-	{
-		TmpPlayer = Player::GetMyPlayer();
-	}
+	return;
+
+	std::shared_ptr<Player> TmpPlayer = nullptr;
+	//if (nullptr == Player::GetMyPlayer())
+	//{
+	//	TmpPlayer = GEngine::GetCurrentLevel()->CreateActor<Player>();
+	//	Player::SetMyPlayer(TmpPlayer);
+	//	TmpPlayer->SetLevelOverOn();
+	//	TmpPlayer->GetTransform().SetLocalPosition({ -1400, 500, 200 });
+	//}
+	//else
+	//{
+	//	TmpPlayer = Player::GetMyPlayer();
+	//}
 
 	if (true == GameEngineStatusWindow::IsHost)
 	{
@@ -96,7 +98,7 @@ void ServerInitManager::StartInit()
 			Server.NetSendPacket(_User, Packet);
 		};
 
-		TmpPlayer->ServerInit(ServerObjectType::Player);
+		//TmpPlayer->ServerInit(ServerObjectType::Player);
 	}
 	else
 	{
