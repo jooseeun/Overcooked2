@@ -275,6 +275,18 @@
     <ClInclude Include="LightTestLevel.h">
       <Filter>Level</Filter>
     </ClInclude>
+    <ClInclude Include="Food_Ingredients_Cheese.h">
+      <Filter>Contents\Object\Food</Filter>
+    </ClInclude>
+    <ClInclude Include="Food_Ingredients_Meat.h">
+      <Filter>Contents\Object\Food</Filter>
+    </ClInclude>
+    <ClInclude Include="Food_Ingredients_Tomato.h">
+      <Filter>Contents\Object\Food</Filter>
+    </ClInclude>
+    <ClInclude Include="Food_Ingredients_Lettuce.h">
+      <Filter>Contents\Object\Food</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -550,6 +562,18 @@
     </ClCompile>
     <ClCompile Include="LightTestLevel.cpp">
       <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Food_Ingredients_Cheese.cpp">
+      <Filter>Contents\Object\Food</Filter>
+    </ClCompile>
+    <ClCompile Include="Food_Ingredients_Meat.cpp">
+      <Filter>Contents\Object\Food</Filter>
+    </ClCompile>
+    <ClCompile Include="Food_Ingredients_Tomato.cpp">
+      <Filter>Contents\Object\Food</Filter>
+    </ClCompile>
+    <ClCompile Include="Food_Ingredients_Lettuce.cpp">
+      <Filter>Contents\Object\Food</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

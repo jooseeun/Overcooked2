@@ -201,7 +201,7 @@ protected:
 		if (FoodThumbnail_ == nullptr)
 		{
 			FoodThumbnail_ = GetLevel()->CreateActor<FoodThumbnail>();
-			FoodThumbnail_->LinkObject(CastThis<GameEngineActor>(), {0, -25, 0});
+			FoodThumbnail_->LinkObject(CastThis<GameEngineActor>(), {0, 50, 0});
 		}
 		FoodThumbnail_->SetThumbnail(_Class);
 		Enum_IngredientType_ = _Class;

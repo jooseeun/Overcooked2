@@ -14,7 +14,8 @@ void Food_Ingredients_Bread::Start()
 	GamePlayFood::Start();
 	GamePlayFood::SetObjectFoodClass(IngredientType::Bread);
 
-	//GetFBXMesh()->SetFBXMesh("m_ingredients_fish_01.FBX", "Texture");
+	GetFBXMesh()->SetFBXMesh("t_ingredients_bun_01_d.FBX", "Texture");
 	//GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 
+	SetTrim();
 }
