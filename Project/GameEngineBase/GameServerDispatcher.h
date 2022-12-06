@@ -42,6 +42,5 @@ public:
 
 private:
 	std::map<int, std::function<void(std::shared_ptr<GameServerPacket>)>> PacketProcessMap;
-
 };
 

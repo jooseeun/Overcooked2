@@ -1,8 +1,10 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
+#include <GameEngineCore/CoreMinimal.h>
 #include "GameServerObject.h"
 
 // Ό³Έν :
+class GameEngineCollision;
+class GameEngineTextureRenderer;
 class ServerTestPlayer : public GameEngineActor, public GameServerObject
 {
 private:
@@ -32,12 +34,14 @@ protected:
 	void Update(float _DeltaTime);
 	void End() {}
 
-	std::shared_ptr<GameEngineTextureRenderer> Renderer_;
+	std::shared_ptr < GameEngineTextureRenderer> Renderer;
 	std::shared_ptr<GameEngineCollision> Collision;
+	std::shared_ptr < GameEngineTextureRenderer> HPRenderer;
 
 	void IdleStart(const StateInfo& _Info);
 	void IdleUpdate(float _DeltaTime, const StateInfo& _Info);
 
+	// void MoveStart(const StateInfo& _Info);
 	void MoveUpdate(float _DeltaTime, const StateInfo& _Info);
 
 private:
@@ -50,6 +54,5 @@ private:
 	float4 ResultColor;
 
 	GameEngineStateManager StateManager;
-
 };
 

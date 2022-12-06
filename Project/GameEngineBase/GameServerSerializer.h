@@ -1,6 +1,10 @@
 #pragma once
 #include "GameEngineMath.h"
 
+// 일반적으로 클래스를 만들게 되면 가상함수니 포인터니 이런애들이 너무 많아서
+// 저장한다는것이 의미가 없다.
+// 의미있는 데이터만 직렬화 작업을 거쳐서 순수하게 바이트 덩어리로 만들어주는 애입니다.
+
 // 설명 :
 class GameServerSerializer
 {
@@ -10,7 +14,7 @@ public:
 	GameServerSerializer(const char* _Data, unsigned int _Size);
 	~GameServerSerializer();
 
-	// delete Function
+	//// delete Function
 	//GameServerSerializer(const GameServerSerializer& _Other) = delete;
 	//GameServerSerializer(GameServerSerializer&& _Other) noexcept = delete;
 	//GameServerSerializer& operator=(const GameServerSerializer& _Other) = delete;
@@ -47,6 +51,7 @@ public:
 	}
 
 	void Write(const void* Data, unsigned int _Size);
+
 	void Read(void* Data, unsigned int _Size);
 
 	void operator<<(const std::string& _Value);
@@ -67,6 +72,7 @@ public:
 	{
 		Write(reinterpret_cast<const void*>(&_Value), static_cast<unsigned int>(sizeof(T)));
 	}
+
 
 	void operator>>(std::string& _Value);
 	void operator>>(int& _Value);
