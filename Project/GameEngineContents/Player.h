@@ -148,6 +148,7 @@ public:
 	}
 
 	bool IsSingleMode;
+	bool IsPotal_;
 	std::string PNumString;
 	
 	void PNumSgtringUpdate();
