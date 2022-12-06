@@ -62,7 +62,7 @@ HoldDownEnum Equipment_Plate::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveabl
 							if (GetCombinFood()->IsClear())
 							{
 								GetCombinFood()->PushFood(Food.lock()->GetObjectFoodClass());
-								GetCombinFood()->SetRenderer(*_Moveable);
+								//GetCombinFood()->SetRenderer(*_Moveable);
 
 								(*_Moveable)->Death();
 								(*_Moveable)->Off();

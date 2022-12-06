@@ -7,6 +7,7 @@ GamePlayFood::GamePlayFood()
 	, MeshName_()
 	, FoodThumbnail_(nullptr)
 	, Platting_(false)
+	, CookingType_(CookingType::Default)
 {
 }
 

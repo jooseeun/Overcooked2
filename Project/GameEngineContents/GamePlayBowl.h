@@ -62,11 +62,39 @@ struct CombinFood
 
 	void RefreshThumbnailAndRenderer()
 	{
-		RefreshFoodRecipe();
+		RefreshFoodRenderer();
 	}
-	void RefreshFoodRecipe()
+	void RefreshFoodRenderer()
 	{
-
+		switch (GetFoodType())
+		{
+		case FoodType::CucumberSushi:
+			break;
+		case FoodType::FishSushi:
+			break;
+		case FoodType::FishandCucumberSushi:
+			break;
+		case FoodType::FishSushimi:
+			break;
+		case FoodType::PrawnSushimi:
+			break;
+		case FoodType::PlainBurger:
+			break;
+		case FoodType::CheeseBurger:
+			break;
+		case FoodType::CheeseBurgerLettuceTomato:
+			break;
+		case FoodType::PrawnDumpling:
+			break;
+		case FoodType::SteamedFish:
+			break;
+		case FoodType::MeatDumpling:
+			break;
+		case FoodType::CarrotDumpling:
+			break;
+		default:
+			break;
+		}
 	}
 
 	FoodType GetFoodType()
@@ -123,6 +151,23 @@ struct CombinFood
 		}
 		return true;
 	}
+
+	//CombinFood& operator=(const CombinFood& _Other)
+	//{
+	//	Renderer_->Death();
+	//	Renderer_->Off();
+	//	for (size_t i = 0; i < Food_Thumbnail_.size(); i++)
+	//	{
+	//		Food_Thumbnail_[i].lock()->Death();
+	//		Food_Thumbnail_[i].lock()->Off();
+	//	}
+
+
+	//	Food_Current_ = _Other.Food_Current_;
+
+
+	//}
+
 	//void SetRenderer(std::shared_ptr<GamePlayMoveable> _Moveable/*const std::string& _Name*/)
 	//{
 	//	Renderer_ = _Moveable->GetFBXMesh();
@@ -134,7 +179,7 @@ struct CombinFood
 
 	std::vector<IngredientType> Food_Current_;
 	std::vector<std::weak_ptr<FoodThumbnail>> Food_Thumbnail_;
-	std::weak_ptr<GameEngineFBXStaticRenderer> Renderer_;
+	std::shared_ptr<GameEngineFBXStaticRenderer> Renderer_;
 	std::weak_ptr<GamePlayMoveable> Moveable_;
 };
 

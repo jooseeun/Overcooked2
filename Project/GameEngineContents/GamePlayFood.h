@@ -35,6 +35,13 @@ enum class ReturnMix
 	BtoA
 };
 
+enum class CookingType
+{
+	Default
+	, User0
+	, User1
+};
+
 
 class GamePlayFood : public GamePlayMoveable
 {
@@ -185,6 +192,10 @@ public:
 	{
 		return Platting_;
 	}
+	inline CookingType GetCookingType()
+	{
+		return CookingType_;
+	}
 	
 
 protected:
@@ -217,6 +228,11 @@ protected:
 	{
 		Platting_ = true;
 	}
+	inline void SetCookingType(CookingType _Type)
+	{
+		CookingType_ = _Type;
+	}
+	
 
 
 	std::string MeshName_; // 지금 매쉬 이름
@@ -225,6 +241,7 @@ private:
 	IngredientType Enum_IngredientType_;
 	bool Trim_; // ture - 손질이 다 됨
 	bool Platting_; // ture - 접시에 올릴수 있는가?
+	CookingType CookingType_;
 
 	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable) override;
 
