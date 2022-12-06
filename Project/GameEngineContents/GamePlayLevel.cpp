@@ -17,7 +17,7 @@ GamePlayLevel::~GamePlayLevel()
 
 bool GamePlayLevel::HandOverFood(FoodType _Type)
 {
-	return	UIActor_->RecipeManager_.HandOver(_Type);
+	return	UIActor_->HandOverFood(_Type);
 }
 
 void GamePlayLevel::Start()
@@ -43,13 +43,15 @@ void GamePlayLevel::LevelStartEvent()
 	GlobalGameData::SetScore(0);
 	//현재 스테이지로 셋팅
 	GlobalGameData::SetCurStage(GetName());
-
+	//아직 게임시작하지 않은 상태
+	GlobalGameData::SetGameStart(false);
 	if (IsLevelStartFirst_ == false)
 	{
 		//FadeIn이벤트
 		UIDebugGUI::Main_->On();
 		GraphicWindow::Main_->On();
 		UIActor_->StartFadeIn();
+		GlobalGameData::SetGameStart(true);//이거 나중에 지우고, UI 준비땅 후에 시작되게 만들기.
 		PlayLevelStartEvent();
 		return;
 	}

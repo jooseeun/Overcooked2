@@ -58,7 +58,7 @@ public:
 
 	static float GetMaxTime()
 	{
-		return 40.f;
+		return 240.f;
 	}
 
 	static int GetScore()
@@ -84,7 +84,18 @@ public:
 	{
 		return AllFoodData_[_Type];
 	}
+
+	static void SetGameStart(bool _IsGameStart)
+	{
+		IsGameStart_ = _IsGameStart;
+	}
+
+	static bool IsGameStart()
+	{
+		return IsGameStart_;
+	}
 private:
+	static bool IsGameStart_;
 	static std::string CurStage_;
 
 	static std::map<std::string, StageData> AllStageData_;

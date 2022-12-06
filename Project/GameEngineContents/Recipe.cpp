@@ -396,10 +396,7 @@ void RecipeManager::Update(float _DeltaTime)
 void RecipeManager::DebugFunction()
 {
 	//µÚ¹ö±×
-	UIDebugGUI::Main_->AddFunction("Create_CheeseBurgerLettuceTomato", std::bind(&RecipeManager::CreateRecipe, this, FoodType::CheeseBurgerLettuceTomato));
-	UIDebugGUI::Main_->AddFunction("Create_FishSushimi", std::bind(&RecipeManager::CreateRecipe, this, FoodType::FishSushimi));
-	UIDebugGUI::Main_->AddFunction("Create_MeatDumpling", std::bind(&RecipeManager::CreateRecipe, this, FoodType::MeatDumpling));
-	UIDebugGUI::Main_->AddFunction("DeleteFront", std::bind(&RecipeManager::DeleteRecipe, this, 0));
+	UIDebugGUI::Main_->AddFunction("DeleteFront Stage 1-1", std::bind(&RecipeManager::DeleteRecipe, this, 0));
 	UIDebugGUI::Main_->AddFunction("HandOverFishSushimi", std::bind(&RecipeManager::HandOver, this, FoodType::FishSushimi));
 }
 

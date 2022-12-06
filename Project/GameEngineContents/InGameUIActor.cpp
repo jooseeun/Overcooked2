@@ -76,6 +76,8 @@ void InGameUIActor::UIStart()
 		//ResistDebug("Score", ScoreUIInst_.Score->GetTransform());
 	}
 
+	NotDeleteRecipe_Timer_.StartTimer(10.f);
+	NotDeleteRecipe_Timer_.SetTimeOverFunc(std::bind(&InGameUIActor::CreateRandomRecipe, this));
 	//레시피 매니저
 	RecipeManager_.Init(std::dynamic_pointer_cast<InGameUIActor>(shared_from_this()));
 	RecipeManager_.DebugFunction();
@@ -89,6 +91,10 @@ void InGameUIActor::UIStart()
 
 void InGameUIActor::UIUpdate(float _DeltaTime)
 {
+	if (GlobalGameData::IsGameStart() == false)
+	{
+		return;
+	}
 	int Score = GlobalGameData::GetScore();
 	if (CurScore_ != Score) //이전에 저장된 스코어 값과 현재 가지고 온 스코어 값이 다르다면
 	{
@@ -126,7 +132,7 @@ void InGameUIActor::UIUpdate(float _DeltaTime)
 
 	RecipeManager_.Update(_DeltaTime);
 
-	//UpdateScore
+	//UpdateTime & RecipeSpawn
 	UpdateTime(_DeltaTime);
 }
 
@@ -134,6 +140,26 @@ void InGameUIActor::UpdateTime(float _DeltaTime)
 {
 	//UpdateTime
 	ContentsUtility::Timer& LeftTimer = GlobalGameData::GetLeftTimeRef();
+	NotDeleteRecipe_Timer_.Update(_DeltaTime);
+	if (NotDeleteRecipe_Timer_.IsTimeOver() == true)
+	{
+		NotDeleteRecipe_Timer_.StartTimer();
+	}
+
+	//레시피가 1개 이하면 바로 레시피를 추가한다.
+	{
+		if (RecipeManager_.GetRecipeCount() <= 1)
+		{
+			CreateRandomRecipe();
+		}
+	}
+	////최초의 Update 전에 레시피 두개를 생성한다.
+	//if (LeftTimer.GetCurTime() >= LeftTimer.Default_Time_)
+	//{
+	//	//CreateRandomRecipe();
+	//	CreateRandomRecipe();
+	//}
+
 	LeftTimer.Update(_DeltaTime);
 
 	//TimeFont
@@ -198,21 +224,53 @@ void InGameUIActor::UpdateTime(float _DeltaTime)
 		Under30_ = 0.f;
 	}
 
+	//레시피 생성
+
 	//뒤버그
-	if (LeftTimer.GetCurTime() < 30.f)
+	//if (LeftTimer.GetCurTime() < 30.f)
+	//{
+	//	if (CurScore_ <= 0)
+	//	{
+	//		GlobalGameData::AddScore(100);
+	//		RecipeManager_.CreateRecipe(FoodType::FishSushimi);
+	//	}
+	//}
+	//if (LeftTimer.GetCurTime() < 20.f)
+	//{
+	//	if (CurScore_ <= 100)
+	//	{
+	//		GlobalGameData::AddScore(100);
+	//		RecipeManager_.CreateRecipe(FoodType::PrawnSushimi);
+	//	}
+	//}
+}
+
+void InGameUIActor::LevelStartEvent()
+{
+	if (GlobalGameData::IsGameStart() == true)
 	{
-		if (CurScore_ <= 0)
-		{
-			GlobalGameData::AddScore(100);
-			RecipeManager_.CreateRecipe(FoodType::FishSushimi);
-		}
 	}
-	if (LeftTimer.GetCurTime() < 20.f)
+}
+
+void InGameUIActor::CreateRandomRecipe()
+{
+	if (RecipeManager_.GetRecipeCount() >= 5)
 	{
-		if (CurScore_ <= 100)
-		{
-			GlobalGameData::AddScore(100);
-			RecipeManager_.CreateRecipe(FoodType::PrawnSushimi);
-		}
+		return;
 	}
+	std::vector<FoodType> FoodTypes = GlobalGameData::GetCurStage().StageRecipe;
+
+	int RandomValue = GameEngineRandom::MainRandom.RandomInt(0, static_cast<int>(FoodTypes.size()) - 1);
+	NotDeleteRecipe_Timer_.StartTimer();
+	RecipeManager_.CreateRecipe(FoodTypes[RandomValue]);
+}
+
+bool InGameUIActor::HandOverFood(FoodType _Type)
+{
+	if (RecipeManager_.HandOver(_Type) == true)
+	{
+		NotDeleteRecipe_Timer_.StartTimer();
+		return true;
+	}
+	return false;
 }

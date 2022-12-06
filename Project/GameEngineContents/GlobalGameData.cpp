@@ -9,6 +9,7 @@ std::map<std::string, StageData> GlobalGameData::AllStageData_;
 std::map<FoodType, FoodData> GlobalGameData::AllFoodData_;
 float4 GlobalGameData::DebugValue1_ = {};
 float4 GlobalGameData::DebugValue2_ = {};
+bool GlobalGameData::IsGameStart_ = false;
 
 ContentsUtility::Timer GlobalGameData::LeftTime_;;
 
@@ -179,6 +180,22 @@ InitGlobalGameData::InitGlobalGameData()
 				_Type = FoodType::MeatDumpling;
 				_Ingredient.push_back(IngredientType::Flour);
 				_Ingredient.push_back(IngredientType::Meat);
+
+				_Cookery.push_back(ToolInfo::Mixer);
+				_Cookery.push_back(ToolInfo::Steamer);
+
+				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
+					CreateFoodData(_Type, _Ingredient, _Cookery, 55.f, true)));
+			}
+			//새우 만두
+			{
+				FoodType _Type;
+				std::vector<IngredientType> _Ingredient;
+				std::vector<ToolInfo> _Cookery;
+
+				_Type = FoodType::PrawnDumpling;
+				_Ingredient.push_back(IngredientType::Flour);
+				_Ingredient.push_back(IngredientType::Prawn);
 
 				_Cookery.push_back(ToolInfo::Mixer);
 				_Cookery.push_back(ToolInfo::Steamer);
