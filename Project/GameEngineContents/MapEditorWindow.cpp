@@ -1017,11 +1017,10 @@ void MapEditorWindow::SortToolTab()
 		case 10:
 		{
 			CurStaticMesh_ = CurLevel_->CreateActor<FoodBox>();
-			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::FoodBox_Normal);
-
+			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::FoodBox_Winter);
 			std::weak_ptr<FoodBox> Object = std::dynamic_pointer_cast<FoodBox>(CurStaticMesh_.lock());
-			Object.lock()->SetFoodBoxType(FoodBoxType::Normal);
-			Object.lock()->SetFoodBoxMesh(FoodBoxType::Normal);
+			Object.lock()->SetFoodBoxType(FoodBoxType::Winter);
+			Object.lock()->SetFoodBoxMesh(FoodBoxType::Winter);
 			Object.lock()->SetFoodType(IngredientType::Tomato);
 
 			IsFoodBox_ = true;
@@ -1132,11 +1131,18 @@ void MapEditorWindow::SortToolTab()
 
 	ImGui::Text("");
 
-	if (true == ImGui::Button("RotateY")
+	if (true == ImGui::Button("+ RotateY")
 		&& 0 < SortActorList_.size()
 		&& ActorIndex < SortActorList_.size())
 	{
 		SortActorList_[ActorIndex].lock()->GetTransform().SetAddWorldRotation({ 0.f, 90.f, 0.f });
+	}
+
+	if (true == ImGui::Button("- RotateY")
+		&& 0 < SortActorList_.size()
+		&& ActorIndex < SortActorList_.size())
+	{
+		SortActorList_[ActorIndex].lock()->GetTransform().SetAddWorldRotation({ 0.f, -90.f, 0.f });
 	}
 
 	if (true == ImGui::Button("RotateX")

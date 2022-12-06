@@ -97,17 +97,20 @@ public:
 	RecipeManager();
 	~RecipeManager();
 
+	inline int GetRecipeCount()
+	{
+		return static_cast<int>(Recipes_.size());
+	}
 	void Init(std::weak_ptr<InGameUIActor> _ParentActor_);
 	void CreateRecipe(FoodType _Type);
 	bool HandOver(FoodType _Type);
-	void DeleteRecipe(int _Count);
 	//void DeleteRecipe(std::list<Recipe>::iterator _Iter);
-
 	void Update(float _DeltaTime);
 
 	void DebugFunction();
 
 private:
+	void DeleteRecipe(int _Count);
 
 	std::list<Recipe> Recipes_;
 	std::weak_ptr<InGameUIActor> ParentActor_;
@@ -130,6 +133,12 @@ protected:
 	void UIUpdate(float _DeltaTime) override;
 
 	void UpdateTime(float _DeltaTime);
+
+	void LevelStartEvent() override;
+
+	void CreateRandomRecipe();
+
+	bool HandOverFood(FoodType _Type);
 
 	RecipeManager RecipeManager_;
 private:
@@ -161,4 +170,6 @@ private:
 
 	float GetScoreIter_ = 0.f;
 	bool IsGetScore_ = false;
+
+	Timer NotDeleteRecipe_Timer_; // 10초동안 레시피가 사라지지 않는거 확인하는 타이머
 };

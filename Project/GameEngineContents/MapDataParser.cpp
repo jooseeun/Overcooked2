@@ -319,10 +319,10 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 		case MapObjType::FoodBox_Winter:
 		{
 			CurActor_ = _Level->CreateActor<FoodBox>();
-			CurActor_.lock()->SetStaticObjectType(MapObjType::FoodBox_Normal);
+			CurActor_.lock()->SetStaticObjectType(MapObjType::FoodBox_Winter);
 
 			std::weak_ptr<FoodBox> Object = std::dynamic_pointer_cast<FoodBox>(CurActor_.lock());
-			Object.lock()->SetFoodBoxMesh(FoodBoxType::Normal);
+			Object.lock()->SetFoodBoxMesh(FoodBoxType::Winter);
 			Object.lock()->SetFoodType(static_cast<IngredientType>(_Data[i].Index_.x));
 		}
 		break;
