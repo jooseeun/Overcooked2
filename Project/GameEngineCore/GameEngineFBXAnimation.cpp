@@ -115,8 +115,6 @@ bool GameEngineFBXAnimation::AnimationLoad(std::shared_ptr <GameEngineFBXMesh> _
 	int deformerCount = pCurrMesh->GetDeformerCount();
 	fbxsdk::FbxAMatrix geometryTransform = GetGeometryTransformation(_Node);
 
-
-
 	fbxsdk::FbxTakeInfo* takeInfo = Scene->GetTakeInfo(AnimationDatas[AnimationIndex].AniName.c_str());
 	fbxsdk::FbxTime start = takeInfo->mLocalTimeSpan.GetStart();
 	fbxsdk::FbxTime end = takeInfo->mLocalTimeSpan.GetStop();
@@ -211,10 +209,66 @@ bool GameEngineFBXAnimation::AnimationLoad(std::shared_ptr <GameEngineFBXMesh> _
 				}
 			}
 		}
-
 	}
 
-	return true;
+	if (0 != deformerCount)
+	{
+		return true;
+	}
+
+	{
+		endTime = end.GetFrameCount(timeMode);
+		startTime = start.GetFrameCount(timeMode);
+
+		FbxExAniData& CurAniData = AnimationDatas[AnimationIndex];
+		CurAniData.EndTime = endTime;
+		CurAniData.StartTime = startTime;
+		CurAniData.TimeMode = timeMode;
+
+		std::vector<FBXNodeInfo> ALLNODE = CheckAllNode();
+		fbxsdk::FbxNode* pLinkNode = Scene->FindNodeByName(linkName.c_str());
+		for (size_t i = 0; i < ALLNODE.size(); i++)
+		{
+			for (size_t MeshIndex = 0; MeshIndex < CurAniData.AniFrameData.size(); ++MeshIndex)
+			{
+				for (size_t boneIndex = 0; boneIndex < CurAniData.AniFrameData[MeshIndex].size(); boneIndex++)
+				{
+					FbxExBoneFrame& Frame = CurAniData.AniFrameData[MeshIndex][boneIndex];
+					Frame.BoneMatData.resize(endTime - startTime + 1);
+					Frame.BoneIndex = static_cast<int>(boneIndex);
+					Frame.BoneParentIndex = static_cast<int>(boneIndex);
+
+					for (fbxsdk::FbxLongLong i = startTime; i <= endTime; ++i)
+					{
+						fixIndex = i - startTime;
+
+						FbxExBoneFrameData& FrameData = Frame.BoneMatData[fixIndex];
+
+						currTime.SetFrame(fixIndex, timeMode);
+						currentTransformOffset = _Node->EvaluateGlobalTransform(currTime) * JointMatrix * geometryTransform;
+
+						fbxsdk::FbxNode* Node = ALLNODE[i].Node;
+
+						globalTransform = currentTransformOffset.Inverse() * Node->EvaluateGlobalTransform(currTime);
+
+						localTransform.SetS(Node->EvaluateLocalScaling(currTime));
+						localTransform.SetR(Node->EvaluateLocalRotation(currTime));
+						localTransform.SetT(Node->EvaluateLocalTranslation(currTime));
+
+						FrameData.Time = currTime.GetSecondDouble();
+						FrameData.LocalAnimation = localTransform;
+						FrameData.GlobalAnimation = globalTransform;
+						FrameData.FrameMat = FbxMatTofloat4x4(FrameData.GlobalAnimation);
+						FrameData.S = FbxVecTofloat4(FrameData.GlobalAnimation.GetS());
+						FrameData.Q = FbxQuaternionTofloat4(FrameData.GlobalAnimation.GetQ());
+						FrameData.T = FbxVecToTransform(FrameData.GlobalAnimation.GetT());
+					}
+				}
+			}
+		}
+	}
+
+	return false;
 }
 
 

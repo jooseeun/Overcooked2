@@ -3,6 +3,7 @@
 #include <GameEngineBase/GameEngineMath.h>
 #include <GameEngineBase/GameEngineWindow.h>
 #include "GameEngineInstancingBuffer.h"
+#include <set>
 
 enum class CAMERAPROJECTIONMODE
 {
@@ -12,6 +13,7 @@ enum class CAMERAPROJECTIONMODE
 
 
 // 설명 :
+class GameEngineLight;
 class GameEngineLevel;
 class GameEngineCamera;
 class GameEngineInstancing;
@@ -92,6 +94,7 @@ public:
 
 	GameEngineInstancing& GetInstancing(const std::string& _Name);
 	float4 GetWorldPositionToScreenPosition(const float4& _Pos);
+	void PushLight(std::shared_ptr<class GameEngineLight> _Light);
 
 protected:
 	void Start();
@@ -114,6 +117,8 @@ private:
 	std::map<int, std::list<std::shared_ptr<class GameEngineRenderer>>> AllRenderer_;
 
 	std::unordered_map<std::string, GameEngineInstancing> InstancingMap;
+
+	std::set<std::shared_ptr<class GameEngineLight>> AllLight;
 
 	float4x4 View; // 바라보는것
 	float4x4 Projection;

@@ -24,7 +24,7 @@ void ServerTestLevel::ObjectUpdatePacketProcess(std::shared_ptr<GameServerPacket
 {
 	std::shared_ptr<ObjectUpdatePacket> Packet = std::dynamic_pointer_cast<ObjectUpdatePacket>(_Packet);
 
-	std::shared_ptr<GameServerObject> FindObject = GameServerObject::GetServerObject(Packet->ObjectID);
+	GameServerObject* FindObject = GameServerObject::GetServerObject(Packet->ObjectID);
 
 	if (nullptr == FindObject)
 	{
@@ -36,7 +36,7 @@ void ServerTestLevel::ObjectUpdatePacketProcess(std::shared_ptr<GameServerPacket
 		{
 			std::shared_ptr<ServerTestPlayer> NewPlayer = CreateActor<ServerTestPlayer>(0);
 			NewPlayer->ClientInit(Packet->Type, Packet->ObjectID);
-			FindObject = NewPlayer;
+			FindObject = NewPlayer.get();
 			break;
 		}
 		default:

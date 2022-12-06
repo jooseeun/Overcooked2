@@ -141,6 +141,16 @@ float4 GameEngineCamera::GetWorldPositionToScreenPosition(const float4& _Pos)
 	return Pos;
 }
 
+void GameEngineCamera::PushLight(std::shared_ptr<class GameEngineLight> _Light)
+{
+	if (true == AllLight.contains(_Light))
+	{
+		return;
+	}
+
+	AllLight.insert(_Light);
+}
+
 void GameEngineCamera::Release(float _DelataTime)
 {
 	std::map<int, std::list<std::shared_ptr<GameEngineRenderer>>>::iterator StartGroupIter = AllRenderer_.begin();
