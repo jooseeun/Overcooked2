@@ -66,6 +66,7 @@ void PortalCollision::SmallActor()
 			IsSmall_ = false;
 		}
 	}
+
 }
 void PortalCollision::BigActor()
 {
