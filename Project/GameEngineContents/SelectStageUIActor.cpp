@@ -546,24 +546,6 @@ void SelectStageUIActor::StartTransition(int _A)
 	//GEngine::ChangeLevel("LoadingLevel");
 }
 
-void SelectStageUIActor::PlayerIcon::Off()
-{
-	Parent->Off();
-	Hat->Off();
-	NameBox->Off();
-	CountFont->Off();
-	NameFont->Off();
-}
-
-void SelectStageUIActor::PlayerIcon::On()
-{
-	Parent->On();
-	Hat->On();
-	NameBox->On();
-	CountFont->On();
-	NameFont->On();
-}
-
 void SelectStageUIActor::LevelSelect::On()
 {
 	Parent->On();

@@ -96,3 +96,21 @@ void UIActor::InitTransitionRenderer()
 	TransitionIcon_->ChangeCamera(CAMERAORDER::AboveUICAMERA);
 	TransitionIcon_->Off();
 }
+
+void UIActor::PlayerIcon::Off()
+{
+	Parent->Off();
+	Hat->Off();
+	NameBox->Off();
+	CountFont->Off();
+	NameFont->Off();
+}
+
+void UIActor::PlayerIcon::On()
+{
+	Parent->On();
+	Hat->On();
+	NameBox->On();
+	CountFont->On();
+	NameFont->On();
+}
