@@ -240,14 +240,17 @@ HoldDownEnum Tool_FoodBox::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 		case IngredientType::Mushroom:
 			break;
 		case IngredientType::Meat:
+			(*_Moveable) = (GetLevel()->CreateActor<Food_Ingredients_Meat>());
 			break;
 		case IngredientType::Lettuce:
+			(*_Moveable) = (GetLevel()->CreateActor<Food_Ingredients_Lettuce>());
 			break;
 		case IngredientType::Rice:
 			break;
 		case IngredientType::Flour:
 			break;
 		case IngredientType::Bread:
+			(*_Moveable) = (GetLevel()->CreateActor<Food_Ingredients_Bread>());
 			break;
 		case IngredientType::Fish:
 			(*_Moveable) = (GetLevel()->CreateActor<Food_Ingredients_Fish>());
@@ -263,6 +266,7 @@ HoldDownEnum Tool_FoodBox::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 		case IngredientType::Burrito:
 			break;
 		case IngredientType::Cheese:
+			(*_Moveable) = (GetLevel()->CreateActor<Food_Ingredients_Cheese>());
 			break;
 		case IngredientType::Carrot:
 			break;
@@ -273,6 +277,7 @@ HoldDownEnum Tool_FoodBox::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 		case IngredientType::PastaNoodles:
 			break;
 		case IngredientType::Tomato:
+			(*_Moveable) = (GetLevel()->CreateActor<Food_Ingredients_Tomato>());
 			break;
 		case IngredientType::Prawn:
 			(*_Moveable) = (GetLevel()->CreateActor<Food_Ingredients_Prawn>());

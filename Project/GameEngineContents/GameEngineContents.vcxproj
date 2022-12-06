@@ -198,8 +198,24 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Food_Ingredients_Cheese.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Food_Ingredients_Fish.h" />
+    <ClInclude Include="Food_Ingredients_Lettuce.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Food_Ingredients_Meat.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Food_Ingredients_Prawn.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Food_Ingredients_Tomato.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -437,8 +453,24 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Food_Ingredients_Cheese.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Food_Ingredients_Fish.cpp" />
+    <ClCompile Include="Food_Ingredients_Lettuce.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Food_Ingredients_Meat.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Food_Ingredients_Prawn.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Food_Ingredients_Tomato.cpp">
       <SubType>
       </SubType>
     </ClCompile>
