@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "Food_Ingredients_Fish.h"
+#include "GlobalGameData.h"
 
 Food_Ingredients_Fish::Food_Ingredients_Fish() 
 {
@@ -17,9 +18,15 @@ void Food_Ingredients_Fish::Start()
 	MeshName_ = "m_ingredients_fish_01.FBX";
 	GetFBXMesh()->SetFBXMesh(MeshName_, "Texture");
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
+
 }
 
 void Food_Ingredients_Fish::FinishTrimmingFirst()
+{
+
+}
+
+void Food_Ingredients_Fish::TrimmingSushi()
 {
 	SetTrim();
 
@@ -28,4 +35,7 @@ void Food_Ingredients_Fish::FinishTrimmingFirst()
 	GetFBXMesh()->SetFBXMesh(MeshName_, "Texture");
 	GetFBXMesh()->GetTransform().SetLocalRotation({ 0,-90,0 });
 }
-
+void Food_Ingredients_Fish::TrimmingSteam()
+{
+	
+}

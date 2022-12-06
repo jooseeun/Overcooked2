@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "Equipment_Plate.h"
+#include "GlobalGameData.h"
 
 Equipment_Plate::Equipment_Plate()
 	: Dirty_(false)
@@ -45,20 +46,39 @@ HoldDownEnum Equipment_Plate::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveabl
 		std::weak_ptr<GamePlayFood> Food = (*_Moveable)->CastThis<GamePlayFood>();
 		if (Food.lock() != nullptr)
 		{
-			if (Food.lock()->GetTrim())
+			const StageData& Data = GlobalGameData::GetCurStageRef();
+			FoodData FoodData_;
+
+			for (size_t i = 0; i < Data.StageRecipe.size(); i++)
 			{
-				if (GetCombinFood()->IsClear())
+				FoodData_ = GlobalGameData::GetFoodData(Data.StageRecipe[i]);
+				for (size_t j = 0; j < FoodData_.Ingredient.size(); j++)
 				{
-					GetCombinFood()->PushFood(Food.lock()->GetObjectFoodClass());
-					GetCombinFood()->SetRenderer(*_Moveable);
+					if (FoodData_.Ingredient[j] == Food.lock()->GetObjectFoodClass())
+					{
+						if (Food.lock()->GetPlatting())
+						{
 
-					(*_Moveable)->Death();
-					(*_Moveable)->Off();
-					(*_Moveable) = nullptr;
+							if (GetCombinFood()->IsClear())
+							{
+								GetCombinFood()->PushFood(Food.lock()->GetObjectFoodClass());
+								GetCombinFood()->SetRenderer(*_Moveable);
 
-					return HoldDownEnum::HoldUp;
+								(*_Moveable)->Death();
+								(*_Moveable)->Off();
+								(*_Moveable) = nullptr;
+
+								return HoldDownEnum::HoldUp;
+							}
+							
+						}
+					}
 				}
 			}
+		}
+		else
+		{
+
 		}
 	}
 	else

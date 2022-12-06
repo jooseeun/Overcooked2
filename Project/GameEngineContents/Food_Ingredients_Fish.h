@@ -20,5 +20,8 @@ protected:
 
 private:
 	void FinishTrimmingFirst() final;
+
+	void TrimmingSushi();
+	void TrimmingSteam();
 };
 

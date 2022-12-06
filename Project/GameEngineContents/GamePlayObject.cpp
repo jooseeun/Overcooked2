@@ -28,8 +28,8 @@ void GamePlayObject::Start()
 
 void GamePlayObject::Update(float _DeltaTime)
 {
-	//if (GetParent() == nullptr)
-	//{
-	//	Gravity();
-	//}
+	if (GetParent() == nullptr)
+	{
+		Gravity();
+	}
 }

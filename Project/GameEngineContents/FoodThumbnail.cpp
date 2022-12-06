@@ -4,6 +4,8 @@
 #include "GlobalGameData.h"
 #include "UIDebugGUI.h"
 
+using namespace UI_Utility;
+
 FoodThumbnail::FoodThumbnail()
 {
 }
@@ -15,64 +17,7 @@ FoodThumbnail::~FoodThumbnail()
 void FoodThumbnail::SetThumbnail(IngredientType _Type)
 {
 	std::string _FileName = "Plus.png";
-	switch (_Type)
-	{
-	case IngredientType::None:
-		_FileName = "Plus.png";
-		break;
-	case IngredientType::Tomato:
-		break;
-	case IngredientType::Onion:
-		break;
-	case IngredientType::Potato:
-		break;
-	case IngredientType::Dough:
-		break;
-	case IngredientType::Seaweed:
-		break;
-	case IngredientType::Mushroom:
-		break;
-	case IngredientType::Meat:
-		break;
-	case IngredientType::Lettuce:
-		break;
-	case IngredientType::Rice:
-		break;
-	case IngredientType::Flour:
-		break;
-	case IngredientType::Bread:
-		break;
-	case IngredientType::Fish:
-		break;
-	case IngredientType::Sausage:
-		break;
-	case IngredientType::DumplingSkin:
-		break;
-	case IngredientType::Egg:
-		break;
-	case IngredientType::Chicken:
-		break;
-	case IngredientType::Burrito:
-		break;
-	case IngredientType::Cheese:
-		break;
-	case IngredientType::Carrot:
-		break;
-	case IngredientType::Chocolate:
-		break;
-	case IngredientType::Honey:
-		break;
-	case IngredientType::PastaNoodles:
-		break;
-	case IngredientType::Prawn:
-		_FileName = "prawn_Icon.png";
-		break;
-	case IngredientType::Cucumber:
-		break;
-	default:
-		MsgBoxAssert("선택한 이미지 리소스가 아직 추가되지 않았습니다. UI담당에게 문의하세요");
-		break;
-	}
+	_FileName = EnumToString(_Type);
 	SingleThumbnail_->SetTexture(_FileName);
 }
 

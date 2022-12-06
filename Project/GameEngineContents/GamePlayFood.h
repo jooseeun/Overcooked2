@@ -36,7 +36,6 @@ enum class ReturnMix
 };
 
 
-
 class GamePlayFood : public GamePlayMoveable
 {
 protected:
@@ -182,6 +181,10 @@ public:
 	{
 		return Trim_;
 	}
+	inline bool GetPlatting()
+	{
+		return Platting_;
+	}
 	
 
 protected:
@@ -191,7 +194,7 @@ protected:
 	void OnEvent() override {};
 	void OffEvent() override {};
 
-	void LevelStartEvent() override {};
+	void LevelStartEvent() final {};
 	void LevelEndEvent() override {};
 
 
@@ -210,25 +213,20 @@ protected:
 	{
 		Trim_ = true;
 	}
+	inline void SetPlatting()
+	{
+		Platting_ = true;
+	}
 
 
 	std::string MeshName_; // 지금 매쉬 이름
 	std::shared_ptr<FoodThumbnail> FoodThumbnail_; // 썸네일
 private:
 	IngredientType Enum_IngredientType_;
-	bool Trim_; // ture - 접시위에 올릴수 있음
+	bool Trim_; // ture - 손질이 다 됨
+	bool Platting_; // ture - 접시에 올릴수 있는가?
 
 	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable) override;
-	//inline HoldDownEnum HoldOn(std::shared_ptr<Player> _Player) override
-	//{
-	//	if (_Player->GetPlayerHolding() == nullptr)
-	//	{
-	//		_Player->SetCurHoldType(PlayerHoldType::CanThrow);
-	//		_Player->SetPlayerHolding(shared_from_this());
-	//		return HoldDownEnum::HoldUp;
-	//	}
-	//	return HoldDownEnum::Nothing;
-	//};
 
 };
 

@@ -6,6 +6,7 @@ GamePlayFood::GamePlayFood()
 	, Trim_(false)
 	, MeshName_()
 	, FoodThumbnail_(nullptr)
+	, Platting_(false)
 {
 }
 
