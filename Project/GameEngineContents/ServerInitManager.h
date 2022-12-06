@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngineBase/GameServerNetServer.h>
 #include <GameEngineBase/GameServerNetClient.h>
+#include <functional>
 
 // Ό³Έν :
 class ServerInitManager

@@ -39,8 +39,9 @@ Player::Player()
 	, ThrowVec_()
 	, IsThrow_(false)
 	, IsPotal_(false)
+	, IsPlayerble(false)
 {
-
+	//MyPlayer = shared_from_this();
 }
 
 Player::~Player()
@@ -424,7 +425,9 @@ void  Player::LevelStartEvent()
 
 		}
 	}
-	}
+	
+	ServerStart();
+}
 
 
 void Player::Update(float _DeltaTime)
@@ -442,6 +445,9 @@ void Player::Update(float _DeltaTime)
 		IsSingleMode = false;
 	}
 
+	{
+		ServerUpdate(_DeltaTime);
+	}
 
 	StateManager.Update(_DeltaTime);
 	PNumSgtringUpdate();
@@ -462,7 +468,7 @@ void Player::CameraMove(float _DeltaTime)
 			CameraDownTime_ = 1.0f;
 			IsCameraMove_ = true;
 		}
-		
+
 	}
 	else
 	{
@@ -564,7 +570,7 @@ bool Player::MoveAngle()
 		else if (CurAngle_ >= 270 || CurAngle_ < 90)
 		{
 			CurAngle_ += 1200.0f * GameEngineTime::GetDeltaTime();
-			if (CurAngle_ <270 &&CurAngle_ > 90)
+			if (CurAngle_ < 270 && CurAngle_ > 90)
 			{
 				CurAngle_ = 90;
 				return true;
@@ -582,7 +588,7 @@ bool Player::MoveAngle()
 		if (CurAngle_ > 270 || CurAngle_ < 90)
 		{
 			CurAngle_ -= 1200.0f * GameEngineTime::GetDeltaTime();
-			if (CurAngle_ > 90 &&CurAngle_ < 270)
+			if (CurAngle_ > 90 && CurAngle_ < 270)
 			{
 				CurAngle_ = 270;
 				return true;
@@ -1110,7 +1116,7 @@ CollisionReturn Player::TableSliceCheck(std::shared_ptr<GameEngineCollision> _Th
 	CurStateType_ = PlayerCurStateType::Slice;
 	if (SetPlayerState_Return::Using ==
 		_Other->GetParent()->CastThis<GamePlayStaticObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_))
-	{  
+	{
 		//자를수 있으면 자르는 상태로 변경
 		TableCollision_ = _Other;
 		StateManager.ChangeState("Slice");
@@ -1129,4 +1135,63 @@ CollisionReturn Player::InteractTableCheck(std::shared_ptr<GameEngineCollision> 
 	return CollisionReturn::ContinueCheck;
 }
 
+//////// 서버 
+std::shared_ptr<Player> Player::MyPlayer = nullptr;
+bool Player::OnePlayerInit = false;
 
+void Player::ServerStart()
+{
+	if (false == OnePlayerInit)
+	{
+		IsPlayerble = true;
+		OnePlayerInit = true;
+	}
+}
+
+void Player::ServerUpdate(float _DeltaTime)
+{
+	if (false == GetIsNetInit())
+	{
+		return;
+	}
+
+	if (true == IsPlayerble)
+	{
+		ServerInitManager* CurManager = dynamic_cast<ServerInitManager*>(GetLevel());
+		if (CurManager == nullptr)
+		{
+			return;
+		}
+
+		std::shared_ptr<ObjectUpdatePacket> Packet = std::make_shared<ObjectUpdatePacket>();
+		Packet->ObjectID = GetNetID();
+		Packet->Type = ServerObjectType::Player;
+		Packet->State = ServerObjectBaseState::Base;
+		Packet->Pos = GetTransform().GetWorldPosition();
+		Packet->Rot = GetTransform().GetWorldRotation();
+		CurManager->Net->SendPacket(Packet);
+		return;
+	}
+
+	while (false == IsPacketEmpty())
+	{
+		std::shared_ptr<GameServerPacket> Packet = PopPacket();
+
+		ContentsPacketType PacketType = Packet->GetPacketIDToEnum<ContentsPacketType>();
+
+		switch (PacketType)
+		{
+		case ContentsPacketType::ObjectUpdate:
+		{
+			std::shared_ptr<ObjectUpdatePacket> ObjectUpdate = std::dynamic_pointer_cast<ObjectUpdatePacket>(Packet);
+			GetTransform().SetWorldPosition(ObjectUpdate->Pos);
+			GetTransform().SetWorldRotation(ObjectUpdate->Rot);
+			break;
+		}
+		case ContentsPacketType::ClinetInit:
+		default:
+			MsgBoxAssert("처리할수 없는 패킷이 날아왔습니다.");
+			break;
+		}
+	}
+}

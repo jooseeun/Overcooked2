@@ -4,14 +4,10 @@
 
 #define	GameServerPacketError -1
 
-// MonsterMovePacket : public GameServerPacket
-// PlayerReady : public GameServerPacket
-
 // 설명 :
 class GameServerPacket : public std::enable_shared_from_this<GameServerPacket>
 {
 public:
-
 	// delete Function
 	GameServerPacket(const GameServerPacket& _Other) = delete;
 	GameServerPacket(GameServerPacket&& _Other) noexcept = delete;
@@ -58,7 +54,6 @@ public:
 		Master = _Master;
 	}
 
-
 	void SerializePacket(GameServerSerializer& _Ser)
 	{
 		Serialize(_Ser);
@@ -70,9 +65,9 @@ public:
 		DeSerialize(_Ser);
 	}
 
-
 	GameServerPacket()
 		: PacketID(GameServerPacketError)
+		, Size(-1)
 		, Master(-1)
 	{
 
@@ -80,6 +75,7 @@ public:
 
 	GameServerPacket(int _PacketType)
 		: PacketID(_PacketType)
+		, Size(-1)
 		, Master(-1)
 	{
 
@@ -105,13 +101,10 @@ protected:
 		_Ser >> Master;
 	}
 
-
-
 private:
 	unsigned int PacketID; // 패킷의 종류
 	unsigned int Size; // 패킷의 크기
-	SOCKET Master; // 패킷의 크기
-
+	SOCKET Master; // 패킷의 주인
 
 	void SerializeEnd(GameServerSerializer& _Ser)
 	{
@@ -125,8 +118,6 @@ private:
 		unsigned char* Ptr = _Ser.GetDataPtr();
 
 		memcpy_s(&Ptr[4], sizeof(int), &Size, sizeof(int));
-
-		// _Ser.GetDataPtr[]
 	}
 };
 

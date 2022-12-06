@@ -4,6 +4,7 @@
 #include <GameEngineCore/GameEngineFBXAnimationRenderer.h>
 #include <GameEngineCore/GameEngineStateManager.h>
 #include "GamePlayPhysics.h"
+#include "GameServerObject.h"
 
 // 설명 :
 class GameEngineFBXAnimationRenderer;
@@ -11,7 +12,7 @@ class GameEngineFBXStaticRenderer;
 class GameEngineCollision;
 class GamePlayMoveable;
 class GamePlayStaticObject;
-class Player : public GamePlayPhysics
+class Player : public GamePlayPhysics, public GameServerObject
 {
 public:
 	// constrcuter destructer
@@ -77,7 +78,7 @@ public:
 	void ChangePlayerColor();
 
 public:
-	
+
 	//inline void SetPlayerHolding(std::shared_ptr<GameEngineActor> _CurrentHoldingObject_) // 플레이어 손에 올리는 함수 엑터를 손에올려줍니다
 	//{
 	//	CurrentHoldingObject_ = _CurrentHoldingObject_;
@@ -104,7 +105,7 @@ public:
 	{
 		CurHoldType_ = _CurHoldType;
 	}
-	
+
 
 	std::shared_ptr<GameEngineActor> GetPlayerHolding()// 현재 플레이어 손에있는 오브젝트 얻는 함수
 	{
@@ -156,7 +157,7 @@ public:
 	bool IsSingleMode;
 	bool IsPotal_;
 	std::string PNumString;
-	
+
 	void PNumSgtringUpdate();
 
 
@@ -229,5 +230,25 @@ private:
 
 
 	GameEngineStateManager StateManager;
+
+//////// 서버 
+private:
+	static std::shared_ptr<Player> MyPlayer;
+	static bool OnePlayerInit;
+	bool IsPlayerble;
+
+	void ServerStart();
+	void ServerUpdate(float _DeltaTime);
+
+public:
+	static std::shared_ptr<Player> GetMyPlayer()
+	{
+		return MyPlayer;
+	}
+
+	static void SetMyPlayer(std::shared_ptr<Player> _Player)
+	{
+		MyPlayer = _Player;
+	}
 };
 

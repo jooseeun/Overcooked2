@@ -23,14 +23,15 @@ public:
 
 public:
 	void ObjectUpdatePacketProcess(std::shared_ptr<GameServerPacket> _Packet);
-
 	void ClientInitPacketProcess(std::shared_ptr<GameServerPacket> _Packet);
 
 protected:
 	void Start() override;
-	void Update(float _DeltaTime) override;
-	void End() override;
 	void LevelStartEvent() override;
+
+
+	void Update(float _DeltaTime) override {};
+	void End() override {};
 
 private:
 	std::shared_ptr<ServerTestPlayer> MainPlayer;

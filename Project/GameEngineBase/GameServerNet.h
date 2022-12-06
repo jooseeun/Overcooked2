@@ -10,6 +10,7 @@ public:
 
 public:
 	GameServerDispatcher Dis;
+
 	// constrcuter destructer
 	GameServerNet();
 	~GameServerNet();
@@ -33,10 +34,8 @@ public:
 		return IsHost;
 	}
 
-
 protected:
 	bool IsHost;
-
 
 private:
 

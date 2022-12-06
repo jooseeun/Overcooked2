@@ -11,14 +11,12 @@
 #include <GameEngineCore/GameEngineFont.h>
 #include <GameEngineBase/GameEngineRandom.h>
 
-
 bool ServerTestPlayer::OnePlayerInit = false;
 
 ServerTestPlayer* ServerTestPlayer::MainPlayer = nullptr;
 
 ServerTestPlayer::ServerTestPlayer()
-	: Renderer(nullptr)
-	, IsPlayerble(false)
+	: IsPlayerble(false)
 {
 	MainPlayer = this;
 }
@@ -26,7 +24,6 @@ ServerTestPlayer::ServerTestPlayer()
 ServerTestPlayer::~ServerTestPlayer()
 {
 }
-
 
 void ServerTestPlayer::Start()
 {
@@ -54,11 +51,6 @@ void ServerTestPlayer::Start()
 void ServerTestPlayer::Update(float _DeltaTime)
 {
 	if (false == GetIsNetInit())
-	{
-		return;
-	}
-
-	if (true == GetLevel()->GetMainCameraActor()->IsFreeCameraMode())
 	{
 		return;
 	}
@@ -92,7 +84,6 @@ void ServerTestPlayer::Update(float _DeltaTime)
 		ServerTestLevel::Net->SendPacket(Packet);
 		return;
 	}
-
 
 	while (false == IsPacketEmpty())
 	{

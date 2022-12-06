@@ -19,12 +19,9 @@ ServerInitManager::~ServerInitManager()
 void ServerInitManager::ObjectUpdatePacketProcess(std::shared_ptr<GameServerPacket> _Packet)
 {
 	std::shared_ptr<ObjectUpdatePacket> Packet = std::dynamic_pointer_cast<ObjectUpdatePacket>(_Packet);
-	if (nullptr == Packet)
-	{
-		MsgBoxAssert("ObjectUpdate 패킷이 아닙니다");
-	}
 
 	GameServerObject* FindObject = GameServerObject::GetServerObject(Packet->ObjectID);
+
 	if (nullptr == FindObject)
 	{
 		ServerObjectType Type = Packet->Type;
@@ -33,13 +30,12 @@ void ServerInitManager::ObjectUpdatePacketProcess(std::shared_ptr<GameServerPack
 		case ServerObjectType::Player:
 		{
 			std::shared_ptr<Player> NewPlayer = GEngine::GetCurrentLevel()->CreateActor<Player>();
-			NewPlayer->GetTransform().SetLocalPosition({ -1400, 500, 200 });
-			//NewPlayer->ClientInit(Packet->Type, Packet->ObjectID);
-			//FindObject = NewPlayer;
+			NewPlayer->ClientInit(Packet->Type, Packet->ObjectID);
+			FindObject = NewPlayer.get();
 			break;
 		}
 		default:
-			return;
+			break;
 		}
 	}
 
@@ -55,7 +51,7 @@ void ServerInitManager::ClientInitPacketProcess(std::shared_ptr<GameServerPacket
 	std::shared_ptr<ClientInitPacket> Packet = std::dynamic_pointer_cast<ClientInitPacket>(_Packet);
 	if (nullptr == Packet)
 	{
-		MsgBoxAssert("ClientInit 패킷이 아닙니다");
+		MsgBoxAssert("클라이언트 init패킷이 아닙니다");
 	}
 
 	if (true == Net->GetIsHost())
@@ -63,26 +59,16 @@ void ServerInitManager::ClientInitPacketProcess(std::shared_ptr<GameServerPacket
 		MsgBoxAssert("호스트인데 클라이언트용 패킷을 받았습니다.");
 	}
 
-
-	//MainPlayer->ClientInit(ServerObjectType::Player, Packet->ObjectID);
+	Player::GetMyPlayer()->ClientInit(ServerObjectType::Player, Packet->ObjectID);
 }
 
 void ServerInitManager::StartInit()
 {
-	return;
-
-	std::shared_ptr<Player> TmpPlayer = nullptr;
-	//if (nullptr == Player::GetMyPlayer())
-	//{
-	//	TmpPlayer = GEngine::GetCurrentLevel()->CreateActor<Player>();
-	//	Player::SetMyPlayer(TmpPlayer);
-	//	TmpPlayer->SetLevelOverOn();
-	//	TmpPlayer->GetTransform().SetLocalPosition({ -1400, 500, 200 });
-	//}
-	//else
-	//{
-	//	TmpPlayer = Player::GetMyPlayer();
-	//}
+	if (nullptr == Player::GetMyPlayer())
+	{
+		Player::SetMyPlayer(GEngine::GetCurrentLevel()->CreateActor<Player>());
+		Player::GetMyPlayer()->SetLevelOverOn();
+	}
 
 	if (true == GameEngineStatusWindow::IsHost)
 	{
@@ -98,7 +84,7 @@ void ServerInitManager::StartInit()
 			Server.NetSendPacket(_User, Packet);
 		};
 
-		//TmpPlayer->ServerInit(ServerObjectType::Player);
+		Player::GetMyPlayer()->CastThis<GameServerObject>()->ServerInit(ServerObjectType::Player);
 	}
 	else
 	{
@@ -108,10 +94,8 @@ void ServerInitManager::StartInit()
 
 	Net->Dis.PacketReturnCallBack = [=](int _PacketType, int _PacketSize, GameServerSerializer& Data)
 	{
-		ContentsPacketType Type = static_cast<ContentsPacketType>(_PacketType);
-
 		std::shared_ptr<GameServerPacket> NewPacket;
-
+		ContentsPacketType Type = static_cast<ContentsPacketType>(_PacketType);
 		switch (Type)
 		{
 		case ContentsPacketType::ObjectUpdate:
@@ -125,11 +109,7 @@ void ServerInitManager::StartInit()
 			break;
 		}
 
-		if (NewPacket != nullptr)
-		{
-			NewPacket->DeSerializePacket(Data);
-		}
-
+		NewPacket->DeSerializePacket(Data);
 		return NewPacket;
 	};
 
@@ -141,6 +121,7 @@ void ServerInitManager::StartInit()
 	}
 	else
 	{
+		// 내가 클라이언트 일때만 등록해야하는 패킷
 		Net->Dis.AddHandler(ContentsPacketType::ClinetInit, std::bind(&ServerInitManager::ClientInitPacketProcess, this, std::placeholders::_1));
 	}
 }
