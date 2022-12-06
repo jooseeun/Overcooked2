@@ -339,3 +339,25 @@ void Player::FireOffUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 
 }
+
+
+
+void Player::CanonInterStart(const StateInfo& _Info)
+{
+
+}
+void Player::CanonInterUpdate(float _DeltaTime, const StateInfo& _Info)
+{
+	
+
+	
+}
+
+void Player::CanonFlyStart(const StateInfo& _Info)
+{
+
+}
+void Player::CanonFlyUpdate(float _DeltaTime, const StateInfo& _Info)
+{
+
+}

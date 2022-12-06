@@ -232,7 +232,14 @@ void Player::Start()
 		, std::bind(&Player::FireOffUpdate, this, std::placeholders::_1, std::placeholders::_2)
 		, std::bind(&Player::FireOffStart, this, std::placeholders::_1)
 	);
-
+	StateManager.CreateStateMember("CanonInter"
+		, std::bind(&Player::CanonInterUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::CanonInterStart, this, std::placeholders::_1)
+	);
+	StateManager.CreateStateMember("CanonFly"
+		, std::bind(&Player::CanonFlyUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::CanonFlyStart, this, std::placeholders::_1)
+	);
 
 	StateManager.ChangeState("Idle");
 	ChangePlayerColor();

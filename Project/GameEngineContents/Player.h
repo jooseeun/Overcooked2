@@ -54,6 +54,12 @@ protected:
 	void FireOffStart(const StateInfo& _Info);
 	void FireOffUpdate(float _DeltaTime, const StateInfo& _Info);
 
+	void CanonInterStart(const StateInfo& _Info);
+	void CanonInterUpdate(float _DeltaTime, const StateInfo& _Info);
+
+	void CanonFlyStart(const StateInfo& _Info);
+	void CanonFlyUpdate(float _DeltaTime, const StateInfo& _Info);
+
 	void DashCheck(float _DeltaTime);
 	void PlayerDirCheck();
 	bool MoveAngle();
