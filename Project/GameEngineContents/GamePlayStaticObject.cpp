@@ -104,15 +104,36 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 		}
 		else
 		{
+			std::shared_ptr<GamePlayMoveable> Moveable = _Player->GetPlayerHolding()->CastThis<GamePlayMoveable>();
 			if (Stuff_Current_ == nullptr)
 			{
-				SetStuff(_Player->GetPlayerHolding()->CastThis<GamePlayMoveable>());
-				_Player->CurrentHoldingNull();
-				return SetPlayerState_Return::Using;
+				std::shared_ptr<GamePlayMoveable> Empty = nullptr;
+				switch (Moveable->PickUp(&Empty))
+				{
+				case HoldDownEnum::Nothing:
+					return SetPlayerState_Return::Nothing;
+					break;
+				case HoldDownEnum::HoldDown:
+					if (Empty != nullptr)
+					{
+						SetStuff(Empty);
+						_Player->CurrentHoldingNull();
+						return SetPlayerState_Return::Using;
+					}
+					break;
+				case HoldDownEnum::HoldUp: // ±×¸© Àü¿ë?
+					if (Empty != nullptr)
+					{
+						SetStuff(Empty);
+						return SetPlayerState_Return::Nothing;
+					}
+					break;
+				default:
+					break;
+				}
 			}
 			else
 			{
-				std::shared_ptr<GamePlayMoveable> Moveable = _Player->GetPlayerHolding()->CastThis<GamePlayMoveable>();
 				switch (GetStuff()->PickUp(&Moveable))
 				{
 				case HoldDownEnum::Nothing:

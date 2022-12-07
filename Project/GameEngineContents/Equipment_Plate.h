@@ -52,7 +52,8 @@ public:
 				{
 					Pile_Plate_ = _Plate;
 					Pile_Plate_->SetParent(shared_from_this());
-					Pile_Plate_->GetTransform().SetLocalPosition({ 0, 25,0 });
+					Pile_Plate_->On();
+					Pile_Plate_->GetTransform().SetLocalPosition({ 0, 25 , 0 });
 				}
 				return true;
 			}
@@ -68,7 +69,12 @@ public:
 		}
 		else
 		{
-			return Pile_Plate_->GetPlate();
+			std::weak_ptr<Equipment_Plate> Plate = Pile_Plate_->GetPlate();
+			if (Pile_Plate_ == Plate.lock())
+			{
+				Pile_Plate_ = nullptr;
+			}
+			return Plate.lock();
 		}
 	}
 

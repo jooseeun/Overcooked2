@@ -97,7 +97,16 @@ HoldDownEnum Equipment_Plate::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveabl
 			return HoldDownEnum::Nothing;
 		}
 		(*_Moveable) = GetPlate();
-		return HoldDownEnum::HoldDown;
+		if ((*_Moveable) == CastThis<Equipment_Plate>())
+		{
+			return HoldDownEnum::HoldDown;
+		}
+		else if ((*_Moveable) == Pile_Plate_)
+		{
+			Pile_Plate_ = nullptr;
+		}
+		return HoldDownEnum::HoldUp;
+
 	}
 	return HoldDownEnum::Nothing;
 }

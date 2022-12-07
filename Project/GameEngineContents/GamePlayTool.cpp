@@ -97,6 +97,7 @@ HoldDownEnum GamePlayTool::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 			}
 				break;
 			case HoldDownEnum::HoldDown:
+				ReSetCurrentMoveable();
 				return HoldDownEnum::HoldDown;
 				break;
 			case HoldDownEnum::HoldUp:

@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "GamePlayFood.h"
 #include "GlobalGameData.h"
+#include "Equipment_Plate.h"
 
 GamePlayFood::GamePlayFood() 
 	: Enum_IngredientType_(IngredientType::None)
@@ -84,7 +85,19 @@ HoldDownEnum GamePlayFood::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 	}
 	else
 	{
-		MsgBoxAssert("예외 처리 예정. 더빠른 처리를 원하면 컨텐츠 담당자를 닥달해주세요")
+		if ((*_Moveable)->CastThis<Equipment_Plate>() != nullptr)
+		{
+			std::shared_ptr<GamePlayMoveable> Food = CastThis<GamePlayMoveable>();
+			switch ((*_Moveable)->PickUp(&Food))
+			{
+			case HoldDownEnum::HoldUp:
+				return HoldDownEnum::HoldDown;
+				break;
+			default:
+				break;
+			}
+		}
+		//MsgBoxAssert("예외 처리 예정. 더빠른 처리를 원하면 컨텐츠 담당자를 닥달해주세요")
 	}
 
 	return HoldDownEnum::Nothing;
