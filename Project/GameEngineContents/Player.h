@@ -54,6 +54,9 @@ protected:
 	void FireOffStart(const StateInfo& _Info);
 	void FireOffUpdate(float _DeltaTime, const StateInfo& _Info);
 
+	void DrowningStart(const StateInfo& _Info);
+	void DrowningUpdate(float _DeltaTime, const StateInfo& _Info);
+
 	void CanonInterStart(const StateInfo& _Info);
 	void CanonInterUpdate(float _DeltaTime, const StateInfo& _Info);
 
@@ -65,7 +68,7 @@ protected:
 	bool MoveAngle();
 
 	void MoveCollisionSideCheck(float _DeltaTime);
-
+	
 
 public:
 	inline std::shared_ptr<GameEngineCollision> GetInteractCollision() const
@@ -78,16 +81,6 @@ public:
 
 public:
 	
-	//inline void SetPlayerHolding(std::shared_ptr<GameEngineActor> _CurrentHoldingObject_) // 플레이어 손에 올리는 함수 엑터를 손에올려줍니다
-	//{
-	//	CurrentHoldingObject_ = _CurrentHoldingObject_;
-	//	if (CurrentHoldingObject_->GetParent() != nullptr)
-	//	{
-	//		CurrentHoldingObject_->DetachObject();
-	//	}
-	//	CurrentHoldingObject_->SetParent(shared_from_this());
-	//	CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,50,-60 });
-	//}
 
 	inline void SetPlayerHolding(std::shared_ptr<GameEngineUpdateObject> _CurrentHoldingObject_) // 플레이어 손에 올리는 함수 엑터를 손에올려줍니다
 	{
@@ -159,7 +152,10 @@ public:
 	
 	void PNumSgtringUpdate();
 
-
+	inline void SetResponePos(float4 _Pos)
+	{
+		ResponePos_ = _Pos;
+	}
 
 private:
 
@@ -207,6 +203,9 @@ private:
 	float DashTime_;
 	bool FireOff_;
 	bool IsSlice_;
+
+	float DeathTime_;
+	float4 ResponePos_;
 
 	std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerIdleRenderer_[6];
 	std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerWalkRenderer_[6];

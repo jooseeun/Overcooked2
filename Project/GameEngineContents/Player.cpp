@@ -46,6 +46,8 @@ Player::Player()
 	, ThrowVec_()
 	, IsThrow_(false)
 	, IsPotal_(false)
+	, DeathTime_(0.0f)
+	, ResponePos_(float4{ -1400, 200, 200 })
 {
 
 }
@@ -82,11 +84,11 @@ void Player::Start()
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "WalkHolding",
 			GameEngineRenderingEvent(PlayerName_[i] + "_WalkHolding.FBX", 0.035f, true));
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "CarDeath",
-			GameEngineRenderingEvent(PlayerName_[i] + "_CarDeath.FBX", 0.035f, false));
+			GameEngineRenderingEvent(PlayerName_[i] + "_CarDeath.FBX", 0.035f, true));
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Death",
-			GameEngineRenderingEvent(PlayerName_[i] + "_Death.FBX", 0.035f, false));
+			GameEngineRenderingEvent(PlayerName_[i] + "_Death.FBX", 0.035f, true));
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Drowning",
-			GameEngineRenderingEvent(PlayerName_[i] + "_Drowning.FBX", 0.035f, false));
+			GameEngineRenderingEvent(PlayerName_[i] + "_Drowning.FBX", 0.035f, true));
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Fall",
 			GameEngineRenderingEvent(PlayerName_[i] + "_Fall.FBX", 0.035f, true));
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "IdleHolding",
@@ -272,7 +274,10 @@ void Player::Start()
 		, std::bind(&Player::CanonFlyUpdate, this, std::placeholders::_1, std::placeholders::_2)
 		, std::bind(&Player::CanonFlyStart, this, std::placeholders::_1)
 	);
-
+	StateManager.CreateStateMember("Drowning"
+		, std::bind(&Player::DrowningUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::DrowningStart, this, std::placeholders::_1)
+	);
 	StateManager.ChangeState("Idle");
 	ChangePlayerColor();
 
@@ -464,6 +469,15 @@ void Player::Update(float _DeltaTime)
 	if (true == GameEngineInput::GetInst()->IsDownKey("IsSingleMode"))
 	{
 		IsSingleMode = true;
+	}
+	
+
+	if (PlayerCameraCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::DeadZone, CollisionType::CT_OBB) == true)
+	{
+		if (StateManager.GetCurStateStateName() != "Drowning")
+		{
+			StateManager.ChangeState("Drowning");
+		}
 	}
 	if (IsSingleMode == true)
 	{

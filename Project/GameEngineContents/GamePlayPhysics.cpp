@@ -28,7 +28,7 @@ void GamePlayPhysics::Gravity()// 중력함수 -> Update 해주면 됨
 {
 	if (PhysicsGravityCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Floor, CollisionType::CT_OBB) == false)
 	{
-		GetTransform().SetWorldDownMove(300.0f, GameEngineTime::GetDeltaTime());
+		GetTransform().SetWorldDownMove(500.0f, GameEngineTime::GetDeltaTime());
 	}
 }
 

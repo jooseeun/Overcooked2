@@ -330,6 +330,7 @@ void Overcooked::InputMake()
 		GameEngineInput::GetInst()->CreateKey("PlayerDash", 'X');
 		GameEngineInput::GetInst()->CreateKey("PlayerHold", VK_SPACE);
 		GameEngineInput::GetInst()->CreateKey("PlayerInteract", VK_CONTROL);
+		GameEngineInput::GetInst()->CreateKey("PlayerDeath", VK_NUMPAD0);
 
 		//GameEngineInput::GetInst()->CreateKey("PlayerSlice", VK_CONTROL);
 	}

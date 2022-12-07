@@ -340,11 +340,34 @@ void Player::FireOffUpdate(float _DeltaTime, const StateInfo& _Info)
 
 }
 
+void Player::DrowningStart(const StateInfo& _Info)
+{
+	IdleRendererON();
+	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "Drowning");
+	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
+	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 
+	DeathTime_ = 5.0f;
+}
+void Player::DrowningUpdate(float _DeltaTime, const StateInfo& _Info)
+{
+	DeathTime_ -= 1.0f* _DeltaTime;
+	if (DeathTime_ < 3.0f)
+	{
+		PlayerIdleRenderer_[PlayerCustomNum]->Off();
+	}
+	if (DeathTime_ <= 0.0f)
+	{
+		CurrentHoldingDetach();
+		GetTransform().SetWorldPosition(ResponePos_);
+		StateManager.ChangeState("Idle");
+		
+	}
+}
 
 void Player::CanonInterStart(const StateInfo& _Info)
 {
-
+	
 }
 void Player::CanonInterUpdate(float _DeltaTime, const StateInfo& _Info)
 {
