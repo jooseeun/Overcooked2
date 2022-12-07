@@ -132,7 +132,6 @@ std::vector<std::weak_ptr<GamePlayMapObject>>& MapDataParser::UnSortMapDataParsi
 			Object.lock()->GetTransform().SetWorldPosition(_Data[i].Pos_);
 			Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(_Data[i].Scale_);
 			Object.lock()->GetTransform().SetWorldRotation(_Data[i].Rot_);
-			Object.lock()->SetMapObjectMesh(_Data[i].ObjName_, _Data[i].MapObjType_);
 			Object.lock()->SetMapObjType(_Data[i].MapObjType_);
 			Object.lock()->SetName(_Data[i].ObjName_);
 			UnSortActorList_.push_back(Object);
@@ -144,7 +143,18 @@ std::vector<std::weak_ptr<GamePlayMapObject>>& MapDataParser::UnSortMapDataParsi
 			Object.lock()->GetTransform().SetWorldPosition(_Data[i].Pos_);
 			Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(_Data[i].Scale_);
 			Object.lock()->GetTransform().SetWorldRotation(_Data[i].Rot_);
-			Object.lock()->SetMapObjectMesh(_Data[i].ObjName_, _Data[i].MapObjType_);
+			Object.lock()->SetMapObjType(_Data[i].MapObjType_);
+			Object.lock()->SetName(_Data[i].ObjName_);
+			UnSortActorList_.push_back(Object);
+		}
+		break;
+		case MapObjType::Collision_DeadZone:
+		{
+			std::weak_ptr<GamePlayFloor> Object = _Level->CreateActor<GamePlayFloor>();
+			Object.lock()->SetCollisionOrder(CollisionOrder::DeadZone);
+			Object.lock()->GetTransform().SetWorldPosition(_Data[i].Pos_);
+			Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(_Data[i].Scale_);
+			Object.lock()->GetTransform().SetWorldRotation(_Data[i].Rot_);
 			Object.lock()->SetMapObjType(_Data[i].MapObjType_);
 			Object.lock()->SetName(_Data[i].ObjName_);
 			UnSortActorList_.push_back(Object);

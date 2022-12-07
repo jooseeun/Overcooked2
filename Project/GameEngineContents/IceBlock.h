@@ -36,7 +36,7 @@ public:
 
 	void SetIceBlockMesh(IceBlockType _Type);
 
-	inline void SetMovable()
+	inline void SwitchMovable()
 	{
 		IsMovable_ = !IsMovable_;
 	}

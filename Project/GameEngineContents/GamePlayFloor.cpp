@@ -9,6 +9,11 @@ GamePlayFloor::~GamePlayFloor()
 {
 }
 
+void GamePlayFloor::SetCollisionOrder(CollisionOrder _Order)
+{
+	GetCollisionObject()->ChangeOrder(_Order);
+}
+
 void GamePlayFloor::Start()
 {
 	GamePlayObject::Start();

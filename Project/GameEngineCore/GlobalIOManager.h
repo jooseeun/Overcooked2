@@ -45,6 +45,7 @@ enum class MapObjType
 	Robin_Grounded,
 	IceBlock,
 	IcePlatform,
+	Collision_DeadZone,
 
 	Max,
 };
@@ -117,4 +118,3 @@ private:
 	static MeshData MeshData_;
 
 };
-

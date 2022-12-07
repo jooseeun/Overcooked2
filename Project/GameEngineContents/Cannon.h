@@ -6,6 +6,7 @@ enum class CannonState
 	Idle,
 	Ready,
 	Shoot,
+	ShootToIdle,
 	Max,
 };
 
@@ -39,9 +40,22 @@ protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
+	void IdleStart(const StateInfo& _Info);
+	void LIdleUpdate(float _DeltaTime, const StateInfo& _Info);
+
+	void ReadyStart(const StateInfo& _Info);
+	void ReadyUpdate(float _DeltaTime, const StateInfo& _Info);
+
+	void ShootStart(const StateInfo& _Info);
+	void ShootUpdate(float _DeltaTime, const StateInfo& _Info);
+
+	void ShootToIdleStart(const StateInfo& _Info);
+	void ShootToIdleUpdate(float _DeltaTime, const StateInfo& _Info);
+
 private:
 	std::shared_ptr<GameEngineActor> CannonBase_;
 
 	CannonState CurState_;
+	GameEngineStateManager StateManager;
 };
 

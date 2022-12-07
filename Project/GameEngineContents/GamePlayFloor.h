@@ -15,6 +15,8 @@ public:
 	GamePlayFloor& operator=(const GamePlayFloor& _Other) = delete;
 	GamePlayFloor& operator=(GamePlayFloor&& _Other) noexcept = delete;
 
+public:
+	void SetCollisionOrder(CollisionOrder _Order);
 
 protected:
 	void Start() override;

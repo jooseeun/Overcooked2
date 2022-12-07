@@ -564,6 +564,16 @@ void MapEditorWindow::UnSortToolTab()
 			UnSortActorList_.push_back(Object);
 		}
 		break;
+		case MapObjType::Collision_DeadZone:
+		{
+			std::weak_ptr<GamePlayFloor> Object = CurLevel_->CreateActor<GamePlayFloor>();
+			Object.lock()->SetCollisionOrder(CollisionOrder::DeadZone);
+			Object.lock()->GetTransform().SetWorldPosition({ 0.f, -200.f, 0.f });
+			Object.lock()->SetName(AllUnSortActorName_[SelectNameIndex]);
+			Object.lock()->SetMapObjType(ObjectTypeIndex);
+			UnSortActorList_.push_back(Object);
+		}
+		break;
 		case MapObjType::Portal_Blue:
 		{
 			std::weak_ptr<Portal> Object = CurLevel_->CreateActor<Portal>();
