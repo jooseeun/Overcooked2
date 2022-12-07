@@ -91,6 +91,27 @@ void Player::Start()
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Throw",
 			GameEngineRenderingEvent(PlayerName_[i] + "_Throw.FBX", 0.035f, true));
 
+		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "CannonEnterHolding",
+			GameEngineRenderingEvent(PlayerName_[i] + "_CannonEnterHolding.FBX", 0.035f, true));
+		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "CannonEnterIdle",
+			GameEngineRenderingEvent(PlayerName_[i] + "_CannonEnterIdle.FBX", 0.035f, true));
+		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "CannonFireHolding",
+			GameEngineRenderingEvent(PlayerName_[i] + "_CannonFireHolding.FBX", 0.035f, true));
+		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "CannonFireIdle",
+			GameEngineRenderingEvent(PlayerName_[i] + "_CannonFireIdle.FBX", 0.035f, true));
+		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "CannonFlyingHolding",
+			GameEngineRenderingEvent(PlayerName_[i] + "_CannonFlyingHolding.FBX", 0.035f, true));
+		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "CannonFlyingIdle",
+			GameEngineRenderingEvent(PlayerName_[i] + "_CannonFlyingIdle.FBX", 0.035f, true));
+		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "CannonIdleIdle",
+			GameEngineRenderingEvent(PlayerName_[i] + "_CannonIdleIdle.FBX", 0.035f, true));
+		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "CannonIdleHolding",
+			GameEngineRenderingEvent(PlayerName_[i] + "_CannonIdleHolding.FBX", 0.035f, true));
+		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "CannonLandingHolding",
+			GameEngineRenderingEvent(PlayerName_[i] + "_CannonLandingHolding.FBX", 0.035f, true));
+		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "CannonLandingIdle",
+			GameEngineRenderingEvent(PlayerName_[i] + "_CannonLandingIdle.FBX", 0.035f, true));
+
 
 		PlayerIdleRenderer_[i]->ChangeAnimation(PlayerName_[i] + "Idle");
 		PlayerIdleRenderer_[i]->GetTransform().SetLocalRotation({ 90,180,0 });
