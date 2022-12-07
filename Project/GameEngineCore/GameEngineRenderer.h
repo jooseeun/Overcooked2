@@ -125,10 +125,15 @@ public:
 
     void SetRenderingOrder(int _Order);
 
-	virtual void InstancingOn() 
+	inline virtual void InstancingOn()
 	{
 		IsInstancing_ = true;
 	};
+
+	inline std::shared_ptr<class GameEngineCamera> GetCamera()
+	{
+		return Camera.lock();
+	}
 
 	void EngineShaderResourcesSetting(GameEngineShaderResourcesHelper* _ShaderResources);
 

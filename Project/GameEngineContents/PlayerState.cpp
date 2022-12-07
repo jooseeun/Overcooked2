@@ -25,8 +25,11 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 		true == GameEngineInput::GetInst()->IsPressKey("PlayerFront" + PNumString) ||
 		true == GameEngineInput::GetInst()->IsPressKey("PlayerBack" + PNumString))
 	{
-
-		StateManager.ChangeState("Move");
+		if (IsPotal_ == false)
+		{
+			StateManager.ChangeState("Move");
+			
+		}
 	}
 
 
@@ -53,6 +56,7 @@ void Player::MoveStart(const StateInfo& _Info)
 }
 void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+
 	if (false == GameEngineInput::GetInst()->IsPressKey("PlayerLeft" + PNumString) &&
 		false == GameEngineInput::GetInst()->IsPressKey("PlayerRight" + PNumString) &&
 		false == GameEngineInput::GetInst()->IsPressKey("PlayerFront" + PNumString) &&
@@ -64,7 +68,11 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 
 	PlayerDirCheck();
+	if (IsPotal_ == true)
+	{
+		StateManager.ChangeState("Idle");
 
+	}
 	if (MoveAngle() == true)
 	{
 		// 플레이어 벽 출돌 체크
@@ -168,6 +176,7 @@ void Player::HoldUpStart(const StateInfo& _Info)
 }
 void Player::HoldUpUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+
 	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerInteract" + PNumString)) //컨트롤키
 	{
 		if (CurHoldType_ == PlayerHoldType::CanThrow)
@@ -184,7 +193,10 @@ void Player::HoldUpUpdate(float _DeltaTime, const StateInfo& _Info)
 	{ 
 		StateManager.ChangeState("HoldDown");
 	}
-
+	if (IsPotal_ == true)
+	{
+		return;
+	}
 
 	// Player object 를 든 상태로도 이동 가능하게 하기
 	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft" + PNumString) ||
@@ -325,5 +337,27 @@ void Player::FireOffUpdate(float _DeltaTime, const StateInfo& _Info)
 		PlayerDirCheck();
 		MoveAngle();
 	}
+
+}
+
+
+
+void Player::CanonInterStart(const StateInfo& _Info)
+{
+
+}
+void Player::CanonInterUpdate(float _DeltaTime, const StateInfo& _Info)
+{
+	
+
+	
+}
+
+void Player::CanonFlyStart(const StateInfo& _Info)
+{
+
+}
+void Player::CanonFlyUpdate(float _DeltaTime, const StateInfo& _Info)
+{
 
 }

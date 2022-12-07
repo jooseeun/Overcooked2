@@ -18,9 +18,11 @@ public:
 
 protected:
 	void Start() override;
+	void Update(float _Delat) override;
 	void LevelStartEvent() override;
 
 private:
+	std::shared_ptr<GameEngineLight> LightObject;
 
 };
 

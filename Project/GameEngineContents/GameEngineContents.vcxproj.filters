@@ -287,6 +287,12 @@
     <ClInclude Include="Food_Ingredients_Lettuce.h">
       <Filter>Contents\Object\Food</Filter>
     </ClInclude>
+    <ClInclude Include="ResultLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="ResultLevelActor.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -574,6 +580,12 @@
     </ClCompile>
     <ClCompile Include="Food_Ingredients_Lettuce.cpp">
       <Filter>Contents\Object\Food</Filter>
+    </ClCompile>
+    <ClCompile Include="ResultLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="ResultLevelActor.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

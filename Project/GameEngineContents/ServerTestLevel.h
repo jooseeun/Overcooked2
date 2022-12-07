@@ -2,6 +2,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineBase/GameServerNetServer.h>
 #include <GameEngineBase/GameServerNetClient.h>
+#include <functional>
 
 // Ό³Έν :
 class ServerTestPlayer;
@@ -19,7 +20,10 @@ public:
 	ServerTestLevel& operator=(ServerTestLevel&& _Other) noexcept = delete;
 
 	static GameServerNet* Net;
+
+public:
 	void ObjectUpdatePacketProcess(std::shared_ptr<GameServerPacket> _Packet);
+
 	void ClientInitPacketProcess(std::shared_ptr<GameServerPacket> _Packet);
 
 protected:
@@ -27,7 +31,6 @@ protected:
 	void Update(float _DeltaTime) override;
 	void End() override;
 	void LevelStartEvent() override;
-	void LevelEndEvent() override;
 
 private:
 	std::shared_ptr<ServerTestPlayer> MainPlayer;

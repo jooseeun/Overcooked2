@@ -4,9 +4,30 @@
 
 enum class ContentsPacketType
 {
-	Default,
-	ObjectUpdate,
-	ClinetInit,
+	ObjectUpdate, // 오브젝트 업데이트
+	ClinetInit, // 클라이언트가 들어오면 서버가 보내줄 패킷.
+};
+
+class ClientInitPacket : public GameServerPacket
+{
+public:
+	int ObjectID;
+
+	ClientInitPacket()
+	{
+		SetPacketID(ContentsPacketType::ClinetInit);
+	}
+
+	virtual void Serialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::Serialize(_Ser);
+		_Ser << ObjectID;
+	}
+	virtual void DeSerialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::DeSerialize(_Ser);
+		_Ser >> ObjectID;
+	}
 };
 
 class ObjectUpdatePacket : public GameServerPacket
@@ -46,29 +67,5 @@ public:
 		_Ser >> Rot;
 		_Ser >> Scale;
 		_Ser >> Animation;
-	}
-};
-
-
-class ClientInitPacket : public GameServerPacket
-{
-public:
-	int ObjectID;
-
-	ClientInitPacket()
-		: ObjectID(-1)
-	{
-		SetPacketID(ContentsPacketType::ClinetInit);
-	}
-
-	virtual void Serialize(GameServerSerializer& _Ser)
-	{
-		GameServerPacket::Serialize(_Ser);
-		_Ser << ObjectID;
-	}
-	virtual void DeSerialize(GameServerSerializer& _Ser)
-	{
-		GameServerPacket::DeSerialize(_Ser);
-		_Ser >> ObjectID;
 	}
 };

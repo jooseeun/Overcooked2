@@ -38,6 +38,7 @@ Player::Player()
 	, IsCameraMove_(true)
 	, ThrowVec_()
 	, IsThrow_(false)
+	, IsPotal_(false)
 {
 
 }
@@ -231,7 +232,14 @@ void Player::Start()
 		, std::bind(&Player::FireOffUpdate, this, std::placeholders::_1, std::placeholders::_2)
 		, std::bind(&Player::FireOffStart, this, std::placeholders::_1)
 	);
-
+	StateManager.CreateStateMember("CanonInter"
+		, std::bind(&Player::CanonInterUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::CanonInterStart, this, std::placeholders::_1)
+	);
+	StateManager.CreateStateMember("CanonFly"
+		, std::bind(&Player::CanonFlyUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::CanonFlyStart, this, std::placeholders::_1)
+	);
 
 	StateManager.ChangeState("Idle");
 	ChangePlayerColor();
@@ -786,12 +794,6 @@ void Player::DashCheck(float _DeltaTime)
 		{
 			IdleRendererON();
 			PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "Idle");
-			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
-			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
-		}
-		if (StateManager.GetCurStateStateName() == "HoldUp")
-		{
-			PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "IdleHolding");
 			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 		}

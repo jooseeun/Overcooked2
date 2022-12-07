@@ -10,6 +10,7 @@ GameServerSerializer::GameServerSerializer()
 GameServerSerializer::GameServerSerializer(const char* _Data, unsigned int _Size)
 	: Offset(0)
 {
+
 	Data.resize(_Size);
 	memcpy_s(&Data[0], _Size, _Data, _Size);
 }
@@ -33,6 +34,7 @@ void GameServerSerializer::Write(const void* _Data, unsigned int _Size)
 
 	memcpy_s(&Data[Offset], _Size, _Data, _Size);
 	Offset += _Size;
+
 }
 
 void GameServerSerializer::operator<<(const int _Value)
@@ -65,6 +67,9 @@ void GameServerSerializer::operator<<(const float4& _Value)
 {
 	Write(&_Value, sizeof(float4));
 }
+
+
+
 
 void GameServerSerializer::operator>>(std::string& _Value)
 {

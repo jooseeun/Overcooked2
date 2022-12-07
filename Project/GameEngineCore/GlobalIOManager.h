@@ -42,6 +42,9 @@ enum class MapObjType
 	Portal_Purple,
 	Collision_Wall,			// 벽, 바닥용 콜리전
 	Collision_Floor,
+	Robin_Grounded,
+	IceBlock,
+	IcePlatform,
 
 	Max,
 };

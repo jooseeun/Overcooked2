@@ -4,10 +4,14 @@
 
 #define	GameServerPacketError -1
 
+// MonsterMovePacket : public GameServerPacket
+// PlayerReady : public GameServerPacket
+
 // 설명 :
 class GameServerPacket : public std::enable_shared_from_this<GameServerPacket>
 {
 public:
+
 	// delete Function
 	GameServerPacket(const GameServerPacket& _Other) = delete;
 	GameServerPacket(GameServerPacket&& _Other) noexcept = delete;
@@ -20,6 +24,7 @@ public:
 	{
 		return std::dynamic_pointer_cast<ConvertType>(shared_from_this());
 	}
+
 
 	unsigned int GetPacketID()
 	{
@@ -38,12 +43,12 @@ public:
 		PacketID = static_cast<int>(_Enum);
 	}
 
-	inline SOCKET GetMaster()
+	SOCKET GetMaster()
 	{
 		return Master;
 	}
 
-	inline void SetMaster(SOCKET _Master)
+	void SetMaster(SOCKET _Master)
 	{
 		if (Master != -1)
 		{
@@ -53,36 +58,40 @@ public:
 		Master = _Master;
 	}
 
-	inline void SerializePacket(GameServerSerializer& _Ser)
+
+	void SerializePacket(GameServerSerializer& _Ser)
 	{
 		Serialize(_Ser);
 		SerializeEnd(_Ser);
 	}
 
-	inline void DeSerializePacket(GameServerSerializer& _Ser)
+	void DeSerializePacket(GameServerSerializer& _Ser)
 	{
 		DeSerialize(_Ser);
 	}
 
+
 	GameServerPacket()
 		: PacketID(GameServerPacketError)
-		, Size(0)
 		, Master(-1)
 	{
+
 	}
 
 	GameServerPacket(int _PacketType)
 		: PacketID(_PacketType)
-		, Size(0)
 		, Master(-1)
 	{
+
 	}
 
 	~GameServerPacket()
 	{
+
 	}
 
 protected:
+
 	virtual void Serialize(GameServerSerializer& _Ser) = 0
 	{
 		_Ser << PacketID;
@@ -96,10 +105,13 @@ protected:
 		_Ser >> Master;
 	}
 
+
+
 private:
 	unsigned int PacketID; // 패킷의 종류
 	unsigned int Size; // 패킷의 크기
-	SOCKET Master; // 패킷을 보낸 사람
+	SOCKET Master; // 패킷의 크기
+
 
 	void SerializeEnd(GameServerSerializer& _Ser)
 	{
@@ -113,7 +125,8 @@ private:
 		unsigned char* Ptr = _Ser.GetDataPtr();
 
 		memcpy_s(&Ptr[4], sizeof(int), &Size, sizeof(int));
-	}
 
+		// _Ser.GetDataPtr[]
+	}
 };
 

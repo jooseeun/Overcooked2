@@ -26,7 +26,7 @@ void Bird_Flying::Start()
 	RandomTime_ = GameEngineRandom::MainRandom.RandomInt(13, 22);
 }
 
-void Bird_Flying::Update(float _DeltaTime)
+void Bird_Flying::Update(float _DeltaTime) 
 {
 	// 일정 시간 지난 후 시작 위치로 이동
 	if (Time_ > RandomTime_)

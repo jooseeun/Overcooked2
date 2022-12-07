@@ -7,13 +7,12 @@
 #include "GameEngineCamera.h"
 #include "GameEngineInstancing.h"
 
-
 #include "GameEngineVertexBuffer.h"
 #include "GameEngineIndexBuffer.h"
 #include "GameEngineMesh.h"
+#include "GameEngineCamera.h"
 
 #include "GameEngineInputLayOut.h"
-
 
 //////////////////////////////////////////////////////// GameEngineRenderUnit 
 
@@ -50,6 +49,12 @@ void GameEngineRenderUnit::EngineShaderResourcesSetting(std::shared_ptr<GameEngi
 	}
 
 	ParentRenderer = _Renderer;
+	
+	std::shared_ptr<GameEngineCamera> Camera = ParentRenderer.lock()->GetCamera();
+	if (true == ShaderResources.IsConstantBuffer("LightDatas"))
+	{
+		ShaderResources.SetConstantBufferLink("LightDatas", &Camera->LightDataObject, sizeof(LightDatas));
+	}
 
 	//// 랜더러 쪽으로 빠져야 한다.
 	if (true == ShaderResources.IsConstantBuffer("TRANSFORMDATA"))
