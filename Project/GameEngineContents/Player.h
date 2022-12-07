@@ -226,6 +226,7 @@ private:
 	std::shared_ptr<GameEngineCollision> PlayerBackCollision_;
 
 	std::shared_ptr<GameEngineCollision> PlayerCollision_;
+	std::shared_ptr<GameEngineCollision> PlayerCameraCollision_;
 
 
 	GameEngineStateManager StateManager;

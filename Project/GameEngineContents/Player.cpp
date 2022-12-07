@@ -20,6 +20,13 @@ Player::Player()
 	, CurStateType_(PlayerCurStateType::Max)
 	, PlayerFloorCollision_(nullptr)
 	, PlayerForwardCollision_(nullptr)
+	, PlayerForwardLeftCollision_(nullptr)
+	, PlayerForwardRightCollision_(nullptr)
+	, PlayerRightCollision_(nullptr)
+	, PlayerLeftCollision_(nullptr)
+	, PlayerBackCollision_(nullptr)
+	, PlayerCollision_(nullptr)
+	, PlayerCameraCollision_(nullptr)
 	, PlayerCustomNum(5)
 	, PlayerIdleRenderer_()
 	, PlayerWalkRenderer_()
@@ -220,6 +227,10 @@ void Player::Start()
 	Collision_Interact_->GetTransform().SetLocalScale({ 50,100,200});
 	Collision_Interact_->GetTransform().SetLocalPosition({ 0,0,-60 });
 
+	PlayerCameraCollision_ = CreateComponent<GameEngineCollision>();
+	PlayerCameraCollision_->ChangeOrder(CollisionOrder::Max);
+	PlayerCameraCollision_->GetTransform().SetLocalScale({ 200,200,200 });
+	PlayerCameraCollision_->GetTransform().SetLocalPosition({ 0,0,0 });
 
 	StateManager.CreateStateMember("Idle"
 		, std::bind(&Player::IdleUpdate, this, std::placeholders::_1, std::placeholders::_2)
@@ -475,13 +486,15 @@ void Player::Update(float _DeltaTime)
 
 void Player::CameraMove(float _DeltaTime)
 {
-	if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
-		Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB) == true)
+	if (PlayerCameraCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB) == true)
 	{
 		if (IsCameraMove_ == false)
 		{
-			CameraDownTime_ = 1.0f;
-			IsCameraMove_ = true;
+			if (CameraUpTime_ <= 0.0f && CameraDownTime_ <= 0.0f)
+			{
+				CameraUpTime_ = 1.0f;
+				IsCameraMove_ = true;
+			}
 		}
 		
 	}
@@ -489,20 +502,24 @@ void Player::CameraMove(float _DeltaTime)
 	{
 		if (IsCameraMove_ == true)
 		{
-			CameraUpTime_ = 1.0f;
-			IsCameraMove_ = false;
+			if (CameraDownTime_ <= 0.0f && CameraUpTime_ <= 0.0f)
+			{
+				CameraDownTime_ = 1.0f;
+				IsCameraMove_ = false;
+			}
 		}
 	}
 
 	if (CameraDownTime_ > 0.0f)
 	{
 		CameraDownTime_ -= 1.0f * _DeltaTime;
-		GetLevel()->GetMainCameraActorTransform().SetWorldDownMove(10.0f, _DeltaTime);
+		GetLevel()->GetMainCameraActorTransform().SetWorldMove(float4{ 0,-20.0f* _DeltaTime,0 });
 	}
+
 	else if (CameraUpTime_ > 0.0f)
 	{
 		CameraUpTime_ -= 1.0f * _DeltaTime;
-		GetLevel()->GetMainCameraActorTransform().SetWorldUpMove(10.0f, _DeltaTime);
+		GetLevel()->GetMainCameraActorTransform().SetWorldMove(float4{ 0,20.0f * _DeltaTime,0 });
 	}
 
 }
