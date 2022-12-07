@@ -55,6 +55,9 @@
     <FxCompile Include="TextureSkybox.hlsl">
       <Filter>Object</Filter>
     </FxCompile>
+    <FxCompile Include="AddBlendAlpha.hlsl">
+      <Filter>Object</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Debug">

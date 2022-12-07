@@ -43,20 +43,23 @@ float4 TextureAlpha_PS(Output _Input) : SV_Target0
 {
     float4 Result = (DiffuseTexture.Sample(LINEARWRAP, _Input.Tex.xy + UV.xy) * MulColor) + PlusColor;
 
-    if (Result.r + Result.b < 1.0f)
-    {
-        clip(-1);
-    }
-    
-    //if (Result.a == 0)
+    //if (Result.r + Result.b < 1.0f)
     //{
     //    clip(-1);
     //}
-    //else
-    //{
-    //    Result.a = 1.0f;
-    //}
+    //
+
+    if (Result.a == 0)
+    {
+        clip(-1);
+    }
+
+    else
+    {
+        Result.a = 1.0f;
+    }
     
-    Result.a = 1.0f;
+    //Result.a = 1.0f;
+
     return Result;
 }

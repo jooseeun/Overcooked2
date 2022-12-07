@@ -29,10 +29,19 @@ void Stage_1_3::PlayLevelStart()
 
 	//std::shared_ptr<Player> MainPlayer = CreateActor<Player>();
 	//MainPlayer->GetTransform().SetLocalPosition({ -2606, 500, 0 });
+
+
 }
 
 void Stage_1_3::PlayLevelUpdate(float _DeltaTime)
 {
+	if (true == GameEngineInput::GetInst()->IsDownKey("SubTest"))
+	{
+		SubsetDebugIndex_++;
+		LevelActor_->GetRenderer()->SetSubMaterial(SubsetDebugIndex_, "Glass");
+
+		GameEngineDebug::OutPutString(std::to_string(SubsetDebugIndex_));
+	}
 }
 
 void Stage_1_3::End()
@@ -48,9 +57,11 @@ void Stage_1_3::PlayLevelStartEvent()
 
 	IsLevelFirst_ = false;
 
-	std::shared_ptr<LevelActor> Tmp = CreateActor<LevelActor>();
-	Tmp->SetLevelMesh("1_3.FBX");
-	Tmp->GetRenderer()->SetSubMaterial(1, "Glass");
+	LevelActor_ = CreateActor<LevelActor>();
+	LevelActor_->SetLevelMesh("1_3.FBX");
+	LevelActor_->GetRenderer()->SetSubMaterial(1, "Glass");
+	LevelActor_->GetRenderer()->SetSubMaterial(19, "Glass");
+	LevelActor_->GetRenderer()->SetSubMaterial(38, "TextureAlpha");
 
 	GlobalIOManager::Load(IOType::SortMap, 2);
 	DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);

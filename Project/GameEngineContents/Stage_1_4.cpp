@@ -36,6 +36,13 @@ void Stage_1_4::PlayLevelStart()
 
 void Stage_1_4::PlayLevelUpdate(float _DeltaTime)
 {
+	if (true == GameEngineInput::GetInst()->IsDownKey("SubTest"))
+	{
+		SubsetDebugIndex_++;
+		LevelActor_->GetRenderer()->SetSubMaterial(SubsetDebugIndex_, "Glass");
+
+		GameEngineDebug::OutPutString(std::to_string(SubsetDebugIndex_));
+	}
 }
 
 void Stage_1_4::End()
@@ -51,7 +58,12 @@ void Stage_1_4::PlayLevelStartEvent()
 
 	IsLevelFirst_ = false;
 
-	CreateActor<LevelActor>()->SetLevelMesh("1_4.FBX");
+	LevelActor_ = CreateActor<LevelActor>();
+	LevelActor_->SetLevelMesh("1_4.FBX");
+	//LevelActor_->GetRenderer()->SetSubMaterial(38, "Glass");
+
+	WallColor_.MulColor = float4{ 1.75f, 1.75f, 1.75f, 1.f };
+	LevelActor_->GetRenderer()->SetSubConstantBufferLink(38, "PixelData", &WallColor_, sizeof(WallColor));
 
 	CreateActor<TestPortal>();
 
@@ -90,7 +102,7 @@ void Stage_1_4::PlayLevelStartEvent()
 	Puple2->SetPotalType(MapObjType::Portal_Blue);
 	Puple2->GetTransform().SetWorldPosition({ -2057.00,1.00,310.00 });
 
-	
+
 	Blue1->SetNextPotal(Blue2);
 	Blue1->SetNextPos({ -963.00, 180.00, 289.00 });
 

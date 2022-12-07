@@ -1,6 +1,16 @@
 #pragma once
 #include "GamePlayLevel.h"
 
+struct WallColor
+{
+	float4 MulColor;
+	float4 PlusColor;
+	float4 Slice;
+
+	int AlphaFlag;
+	float4 AlphaColor;
+};
+
 class Stage_1_4 : public GamePlayLevel
 {
 public:
@@ -20,4 +30,6 @@ protected:
 
 private:
 	bool IsLevelFirst_ = true;
+
+	WallColor WallColor_;
 };

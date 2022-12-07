@@ -96,6 +96,8 @@ void Overcooked::Start()
 	ChangeLevel("SelectStage");
 
 	GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
+
+	GameEngineInput::GetInst()->CreateKey("SubTest", 'K');
 }
 
 void Overcooked::LoadMaterial()
@@ -163,6 +165,14 @@ void Overcooked::LoadMaterial()
 		NewPipe->SetOutputMergerBlend("AddBlend");
 		NewPipe->SetVertexShader("Portal.hlsl");
 		NewPipe->SetPixelShader("Portal.hlsl");
+		NewPipe->OutputMergerBlendSetting();
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("AddBlendAlpha");
+		NewPipe->SetOutputMergerBlend("AddBlend");
+		NewPipe->SetVertexShader("AddBlendAlpha.hlsl");
+		NewPipe->SetPixelShader("AddBlendAlpha.hlsl");
 		NewPipe->OutputMergerBlendSetting();
 	}
 

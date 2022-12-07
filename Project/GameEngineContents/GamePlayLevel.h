@@ -33,7 +33,10 @@ protected:
 	virtual void PlayLevelEndEvent() {};
 
 	MapDataParser DataParser_;
-	std::shared_ptr< InGameUIActor> UIActor_;
+	std::shared_ptr<InGameUIActor> UIActor_;
+
+	std::shared_ptr<LevelActor> LevelActor_;
+	int SubsetDebugIndex_ = 0;
 private:
 	bool IsLevelStartFirst_ = true; //레벨 이동을 맨 처음 할 경우 리소스 로드로 갑니다
 public:

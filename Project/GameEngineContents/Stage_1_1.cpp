@@ -54,10 +54,19 @@ void Stage_1_1::PlayLevelUpdate(float _DeltaTime)
 		GetMainCameraActor()->FreeCameraModeOnOff();
 		GetUICameraActor()->FreeCameraModeOnOff();
 	}
+
+	if (true == GameEngineInput::GetInst()->IsDownKey("SubTest"))
+	{
+		SubsetDebugIndex_++;
+		LevelActor_->GetRenderer()->SetSubMaterial(SubsetDebugIndex_, "Glass");
+
+		GameEngineDebug::OutPutString(std::to_string(SubsetDebugIndex_));
+	}
 }
 
 void Stage_1_1::End()
 {
+
 }
 
 void Stage_1_1::PlayLevelStartEvent()
@@ -70,10 +79,13 @@ void Stage_1_1::PlayLevelStartEvent()
 	ServerInitManager::StartInit();
 
 	IsLevelFirst_ = false;
-	std::shared_ptr<LevelActor> Tmp = CreateActor<LevelActor>();
-	Tmp->SetLevelMesh("1_1.FBX");
-	Tmp->GetRenderer()->SetSubMaterial(6, "TextureAlpha");
-	Tmp->GetRenderer()->SetSubMaterial(31, "Glass");
+	LevelActor_ = CreateActor<LevelActor>();
+	LevelActor_->SetLevelMesh("1_1.FBX");
+	LevelActor_->GetRenderer()->SetSubMaterial(6, "TextureAlpha");
+	LevelActor_->GetRenderer()->SetSubMaterial(31, "Glass");
+	LevelActor_->GetRenderer()->SetSubMaterial(32, "AddBlendAlpha");
+	LevelActor_->GetRenderer()->SetSubMaterial(33, "AddBlendAlpha");
+	LevelActor_->GetRenderer()->SetSubMaterial(16, "TextureAlpha");
 
 	GlobalIOManager::Load(IOType::SortMap, 0);
 	DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
