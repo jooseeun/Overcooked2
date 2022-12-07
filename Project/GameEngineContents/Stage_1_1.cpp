@@ -9,6 +9,7 @@
 #include <GameEngineCore/GameEngineBlur.h>
 
 #include "FoodThumbnail.h"
+#include "CookingBar.h"
 #include "InGameUIActor.h"
 
 #include "GraphicWindow.h"
@@ -104,7 +105,10 @@ void Stage_1_1::PlayLevelStartEvent()
 	//테스트용 - 동원
 	//std::shared_ptr NewFoodThumbNail = CreateActor<FoodThumbnail>();
 	//NewFoodThumbNail->LinkObject(MainPlayer, { 0,100, 0 });
-	//NewFoodThumbNail->SetThumbnail(IngredientType::None);
+	//NewFoodThumbNail->SetThumbnail(IngredientType::Prawn);
+
+	//std::weak_ptr NewFoodThumbNail = CreateActor<CookingBar>();
+	//NewFoodThumbNail.lock()->LinkObject(MainPlayer, { 0,0, 0 }, &GlobalGameData::DebugValue1_.x);
 
 	return;
 }

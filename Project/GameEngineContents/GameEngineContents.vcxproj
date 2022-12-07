@@ -170,6 +170,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Cooker.h" />
+    <ClInclude Include="CookingBar.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="CounterTop.h" />
     <ClInclude Include="Dispenser.h">
       <SubType>
@@ -435,6 +439,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Cooker.cpp" />
+    <ClCompile Include="CookingBar.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="CounterTop.cpp" />
     <ClCompile Include="Dispenser.cpp">
       <SubType>

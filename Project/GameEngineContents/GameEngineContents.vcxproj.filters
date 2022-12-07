@@ -293,6 +293,9 @@
     <ClInclude Include="ResultLevelActor.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="CookingBar.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -585,6 +588,9 @@
       <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="ResultLevelActor.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CookingBar.cpp">
       <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>

@@ -24,18 +24,16 @@ SelectStageLevel::~SelectStageLevel()
 
 void SelectStageLevel::Start()
 {
-	std::shared_ptr<GlobalOverlay> GlobalOverlay_= GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalOverlay>();
+	std::shared_ptr<GlobalOverlay> GlobalOverlay_ = GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalOverlay>();
 	std::shared_ptr<GlobalBloom> GlobalBloom_ = GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalBloom>();
 	std::shared_ptr<GlobalVignette> GlobalVignette_ = GetUICamera()->GetCameraRenderTarget()->AddEffect<GlobalVignette>();
-	
+
 	GraphicWindow::Main_ = GameEngineGUI::CreateGUIWindow<GraphicWindow>("GraphicGUI", nullptr);
 	GraphicWindow::Main_->SetOverlay(GlobalOverlay_);
 	GraphicWindow::Main_->SetBloom(GlobalBloom_);
 	GraphicWindow::Main_->SetVignette(GlobalVignette_);
 
 	GraphicWindow::Main_->Off();
-	
-
 
 	std::shared_ptr<SelectStageUIActor> NewActor = CreateActor<SelectStageUIActor>();
 	UIDebugGUI::Main_ = GameEngineGUI::CreateGUIWindow<UIDebugGUI>("UIDebugGUI", nullptr);
@@ -68,5 +66,4 @@ void SelectStageLevel::LevelEndEvent()
 {
 	UIDebugGUI::Main_->Off();
 	GraphicWindow::Main_->Off();
-
 }
