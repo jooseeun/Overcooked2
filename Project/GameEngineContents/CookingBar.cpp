@@ -15,11 +15,12 @@ CookingBar::~CookingBar()
 {
 }
 
-void CookingBar::LinkObject(std::shared_ptr<GameEngineActor> _Actor, const float4& _Offset, float* _LinkValue)
+void CookingBar::LinkObject(std::shared_ptr<GameEngineActor> _Actor, const float4& _Offset, float* _LinkValue, bool _IsOver)
 {
 	ChaseActor_ = _Actor;
 	Offset_ = _Offset;
 	UpdateValue_ = _LinkValue;
+	IsOver_ = _IsOver;
 }
 
 void CookingBar::Start()

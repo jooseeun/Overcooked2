@@ -13,7 +13,7 @@ public:
 	CookingBar& operator=(const CookingBar& _Ohter) = delete;
 	CookingBar& operator=(const CookingBar&& _Other) noexcept = delete;
 
-	void LinkObject(std::shared_ptr<GameEngineActor> _Actor, const float4& _Offset, float* _LinkValue);
+	void LinkObject(std::shared_ptr<GameEngineActor> _Actor, const float4& _Offset, float* _LinkValue, bool _IsOver = false); //IsOver : 100이 넘어갈 수 있는 오브젝트
 
 	inline void SetOffset(const float4& _Offset)
 	{
@@ -35,4 +35,6 @@ private:
 	float4 Offset_ = { 0,0,0 };
 
 	float* UpdateValue_ = nullptr;
+
+	bool IsOver_ = false;
 };
