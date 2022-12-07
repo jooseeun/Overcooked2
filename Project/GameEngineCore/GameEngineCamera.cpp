@@ -70,6 +70,16 @@ void GameEngineCamera::Render(float _DeltaTime)
 	float4 WindowSize = GameEngineWindow::GetInst()->GetScale();
 
 	{
+		LightDataObject.Count = static_cast<int>(AllLight.size());
+		int LightCount = 0;
+		for (std::shared_ptr<GameEngineLight> Light : AllLight)
+		{
+			Light->LightDataUpdate(this);
+			LightDataObject.Lights[LightCount++] = Light->GetLightData();
+		}
+	}
+
+	{
 		for (std::pair<const int, std::list<std::shared_ptr<GameEngineRenderer>>>& Group : AllRenderer_)
 		{
 			float ScaleTime = GameEngineTime::GetInst()->GetDeltaTime(Group.first);
