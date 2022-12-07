@@ -21,7 +21,7 @@ protected:
 private:
 	void FinishTrimmingFirst() final;
 
-	void TrimmingSushi();
-	void TrimmingSteam();
+	void TrimmingPlatting() override;
+	void TrimmingSteam() override;
 };
 

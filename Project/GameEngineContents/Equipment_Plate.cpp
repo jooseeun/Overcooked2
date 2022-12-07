@@ -43,6 +43,15 @@ HoldDownEnum Equipment_Plate::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveabl
 {
 	if ((*_Moveable) != nullptr)
 	{
+		if (Pile_Plate_ != nullptr)
+		{
+			return HoldDownEnum::Nothing;
+		}
+
+		if (Dirty_ == true || Pile_Plate_ != nullptr)
+		{
+			return HoldDownEnum::Nothing;
+		}
 		std::weak_ptr<GamePlayFood> Food = (*_Moveable)->CastThis<GamePlayFood>();
 		if (Food.lock() != nullptr)
 		{
@@ -83,7 +92,11 @@ HoldDownEnum Equipment_Plate::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveabl
 	}
 	else
 	{
-		(*_Moveable) = CastThis<GamePlayMoveable>();
+		if (Dirty_ == true)
+		{
+			return HoldDownEnum::Nothing;
+		}
+		(*_Moveable) = GetPlate();
 		return HoldDownEnum::HoldDown;
 	}
 	return HoldDownEnum::Nothing;

@@ -66,6 +66,12 @@ struct CombinFood
 	}
 	void RefreshFoodRenderer()
 	{
+		if (Renderer_ != nullptr)
+		{
+			Renderer_->Death();
+			Renderer_->Off();
+		}
+		Renderer_ = Moveable_.lock()->CreateComponent<GameEngineFBXStaticRenderer>();
 		switch (GetFoodType())
 		{
 		case FoodType::CucumberSushi:
@@ -75,8 +81,16 @@ struct CombinFood
 		case FoodType::FishandCucumberSushi:
 			break;
 		case FoodType::FishSushimi:
+		{
+			Renderer_->SetFBXMesh("Sushi_Roll_Salmon.FBX", "Texture");
+			Renderer_->GetTransform().SetLocalRotation({ 0,-90,0 });
+		}
 			break;
 		case FoodType::PrawnSushimi:
+		{
+			Renderer_->SetFBXMesh("Prawn_Sushimi.FBX", "Texture");
+			Renderer_->GetTransform().SetLocalRotation({ 0,-90,0 });
+		}
 			break;
 		case FoodType::PlainBurger:
 			break;
@@ -150,6 +164,21 @@ struct CombinFood
 			}
 		}
 		return true;
+	}
+
+	void Clear()
+	{
+		Food_Current_.clear();
+		for (size_t i = 0; i < Food_Thumbnail_.size(); i++)
+		{
+			Food_Thumbnail_[i].lock()->Death();
+			Food_Thumbnail_[i].lock()->Off();
+			Food_Thumbnail_[i].reset();
+		}
+		Food_Thumbnail_.clear();
+		Renderer_->Death();
+		Renderer_->Off();
+		Renderer_.reset();
 	}
 
 	//CombinFood& operator=(const CombinFood& _Other)

@@ -104,8 +104,9 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 		}
 		else
 		{
-			if (SetCheckAndPushMoveable(_Player->GetPlayerHolding()->CastThis<GamePlayMoveable>()))
+			if (Stuff_Current_ == nullptr)
 			{
+				SetStuff(_Player->GetPlayerHolding()->CastThis<GamePlayMoveable>());
 				_Player->CurrentHoldingNull();
 				return SetPlayerState_Return::Using;
 			}
@@ -206,24 +207,25 @@ std::shared_ptr<GamePlayMoveable> GamePlayStaticObject::GetMoveable_TakeOut()
 	return Moveable.lock();
 }
 
-bool GamePlayStaticObject::SetCheckAndPushMoveable(std::shared_ptr<GamePlayMoveable> _Moveable)
-{
-	if (GetMoveable() != nullptr)
-	{
-		return false;
-	}
-
-	if (Stuff_Current_ == nullptr)
-	{
-		SetStuff(_Moveable);
-	}
-	else
-	{
-		Stuff_Current_->CastThis<GamePlayTool>()->SetMoveable(_Moveable);
-	}
-	return true;
-	
-}
+//bool GamePlayStaticObject::SetCheckAndPushMoveable(std::shared_ptr<GamePlayMoveable> _Moveable)
+//{
+//	if (GetMoveable() != nullptr)
+//	{
+//		return false;
+//	}
+//
+//	if (Stuff_Current_ == nullptr)
+//	{
+//		SetStuff(_Moveable);
+//		return true;
+//	}
+//	else
+//	{
+//		return false;
+//	}
+//
+//	
+//}
 
 void GamePlayStaticObject::SetMoveable(std::shared_ptr<GamePlayMoveable> _Moveable)
 {

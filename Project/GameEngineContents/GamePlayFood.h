@@ -38,8 +38,9 @@ enum class ReturnMix
 enum class CookingType
 {
 	Default
-	, User0
-	, User1
+	, Pried
+	, Steam
+	, Mixer
 };
 
 
@@ -210,16 +211,7 @@ protected:
 
 
 protected:
-	inline void SetObjectFoodClass(IngredientType _Class)
-	{
-		if (FoodThumbnail_ == nullptr)
-		{
-			FoodThumbnail_ = GetLevel()->CreateActor<FoodThumbnail>();
-			FoodThumbnail_->LinkObject(CastThis<GameEngineActor>(), {0, 50, 0});
-		}
-		FoodThumbnail_->SetThumbnail(_Class);
-		Enum_IngredientType_ = _Class;
-	}
+	void SetObjectFoodClass(IngredientType _Class);
 	inline void SetTrim()
 	{
 		Trim_ = true;
@@ -231,12 +223,33 @@ protected:
 	inline void SetCookingType(CookingType _Type)
 	{
 		CookingType_ = _Type;
+		switch (CookingType_)
+		{
+		case CookingType::Default:
+			Function_TrimmingType_ = std::bind(&GamePlayFood::TrimmingPlatting, this);
+			break;
+		case CookingType::Pried:
+			Function_TrimmingType_ = std::bind(&GamePlayFood::TrimmingPried, this);
+			break;
+		case CookingType::Steam:
+			Function_TrimmingType_ = std::bind(&GamePlayFood::TrimmingSteam, this);
+			break;
+		case CookingType::Mixer:
+			Function_TrimmingType_ = std::bind(&GamePlayFood::TrimmingMixer, this);
+			break;
+		default:
+			MsgBoxAssert("아직 설정되지 않았습니다")
+			break;
+		}
 	}
 	
 
 
 	std::string MeshName_; // 지금 매쉬 이름
 	std::shared_ptr<FoodThumbnail> FoodThumbnail_; // 썸네일
+
+	std::function<void()> Function_TrimmingType_;
+
 private:
 	IngredientType Enum_IngredientType_;
 	bool Trim_; // ture - 손질이 다 됨
@@ -244,6 +257,12 @@ private:
 	CookingType CookingType_;
 
 	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable) override;
+
+
+	virtual void TrimmingPlatting() {};
+	virtual void TrimmingPried() {};
+	virtual void TrimmingMixer() {};
+	virtual void TrimmingSteam() {};
 
 };
 

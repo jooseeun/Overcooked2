@@ -44,14 +44,19 @@ public:
 	Tool_Sink& operator=(const Tool_Sink& _Other) = delete;
 	Tool_Sink& operator=(Tool_Sink&& _Other) noexcept = delete;
 
-
+	static Tool_Sink* GetInst()
+	{
+		return Inst_;
+	}
 
 protected:
 	void Start() override;
 
-	
+	void LevelStartEvent() override;
+	void LevelEndEvent() override;
+
 private:
-	std::shared_ptr<Equipment_Plate> ReturnCleanPlate_;
+	static Tool_Sink* Inst_;
 
 	//UsingDownEnum UsingDown(std::shared_ptr<GamePlayStuff> _Stuff) override;
 };
