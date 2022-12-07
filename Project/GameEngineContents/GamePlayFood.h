@@ -35,6 +35,13 @@ enum class ReturnMix
 	BtoA
 };
 
+enum class CookingType
+{
+	Default
+	, Pried
+	, Steam
+	, Mixer
+};
 
 
 class GamePlayFood : public GamePlayMoveable
@@ -182,6 +189,14 @@ public:
 	{
 		return Trim_;
 	}
+	inline bool GetPlatting()
+	{
+		return Platting_;
+	}
+	inline CookingType GetCookingType()
+	{
+		return CookingType_;
+	}
 	
 
 protected:
@@ -191,44 +206,63 @@ protected:
 	void OnEvent() override {};
 	void OffEvent() override {};
 
-	void LevelStartEvent() override {};
+	void LevelStartEvent() final {};
 	void LevelEndEvent() override {};
 
 
 protected:
-	inline void SetObjectFoodClass(IngredientType _Class)
-	{
-		if (FoodThumbnail_ == nullptr)
-		{
-			FoodThumbnail_ = GetLevel()->CreateActor<FoodThumbnail>();
-			FoodThumbnail_->LinkObject(CastThis<GameEngineActor>(), {0, 50, 0});
-		}
-		FoodThumbnail_->SetThumbnail(_Class);
-		Enum_IngredientType_ = _Class;
-	}
+	void SetObjectFoodClass(IngredientType _Class);
 	inline void SetTrim()
 	{
 		Trim_ = true;
 	}
+	inline void SetPlatting()
+	{
+		Platting_ = true;
+	}
+	inline void SetCookingType(CookingType _Type)
+	{
+		CookingType_ = _Type;
+		switch (CookingType_)
+		{
+		case CookingType::Default:
+			Function_TrimmingType_ = std::bind(&GamePlayFood::TrimmingPlatting, this);
+			break;
+		case CookingType::Pried:
+			Function_TrimmingType_ = std::bind(&GamePlayFood::TrimmingPried, this);
+			break;
+		case CookingType::Steam:
+			Function_TrimmingType_ = std::bind(&GamePlayFood::TrimmingSteam, this);
+			break;
+		case CookingType::Mixer:
+			Function_TrimmingType_ = std::bind(&GamePlayFood::TrimmingMixer, this);
+			break;
+		default:
+			MsgBoxAssert("아직 설정되지 않았습니다")
+			break;
+		}
+	}
+	
 
 
 	std::string MeshName_; // 지금 매쉬 이름
 	std::shared_ptr<FoodThumbnail> FoodThumbnail_; // 썸네일
+
+	std::function<void()> Function_TrimmingType_;
+
 private:
 	IngredientType Enum_IngredientType_;
-	bool Trim_; // ture - 접시위에 올릴수 있음
+	bool Trim_; // ture - 손질이 다 됨
+	bool Platting_; // ture - 접시에 올릴수 있는가?
+	CookingType CookingType_;
 
 	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable) override;
-	//inline HoldDownEnum HoldOn(std::shared_ptr<Player> _Player) override
-	//{
-	//	if (_Player->GetPlayerHolding() == nullptr)
-	//	{
-	//		_Player->SetCurHoldType(PlayerHoldType::CanThrow);
-	//		_Player->SetPlayerHolding(shared_from_this());
-	//		return HoldDownEnum::HoldUp;
-	//	}
-	//	return HoldDownEnum::Nothing;
-	//};
+
+
+	virtual void TrimmingPlatting() {};
+	virtual void TrimmingPried() {};
+	virtual void TrimmingMixer() {};
+	virtual void TrimmingSteam() {};
 
 };
 

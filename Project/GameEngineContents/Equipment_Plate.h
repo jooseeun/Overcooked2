@@ -29,6 +29,49 @@ public:
 		Washing_ = true;
 	}
 
+	bool SetPlate(std::shared_ptr<Equipment_Plate> _Plate)
+	{
+		if (_Plate == nullptr)
+		{
+			return false;
+		}
+		else
+		{
+			if (Dirty_ != _Plate->Dirty_)
+			{
+				return false;
+			}
+			else
+			{
+				if (Pile_Plate_ != nullptr)
+				{
+					Pile_Plate_->SetPlate(_Plate);
+			
+				}
+				else
+				{
+					Pile_Plate_ = _Plate;
+					Pile_Plate_->SetParent(shared_from_this());
+					Pile_Plate_->GetTransform().SetLocalPosition({ 0, 25,0 });
+				}
+				return true;
+			}
+		}
+		return false;
+	}
+
+	std::shared_ptr<Equipment_Plate> GetPlate()
+	{
+		if (Pile_Plate_ == nullptr)
+		{
+			return CastThis<Equipment_Plate>();
+		}
+		else
+		{
+			return Pile_Plate_->GetPlate();
+		}
+	}
+
 	void SetDirty();
 	void SetClean();
 protected:

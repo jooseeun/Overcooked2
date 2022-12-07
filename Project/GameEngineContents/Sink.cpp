@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "Sink.h"
 #include "Equipment_Plate.h"
+
+Tool_Sink* Tool_Sink::Inst_ = nullptr;
 Sink::Sink()
 {
 }
@@ -26,6 +28,7 @@ void Sink::SetSinkMesh(SinkType _Type)
 	}
 
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
+
 }
 
 void Sink::Start()
@@ -48,6 +51,10 @@ Tool_Sink::Tool_Sink()
 
 Tool_Sink::~Tool_Sink()
 {
+	if (Tool_Sink::Inst_ == this)
+	{
+		Tool_Sink::Inst_ = nullptr;
+	}
 }
 
 void Tool_Sink::Start()
@@ -56,6 +63,16 @@ void Tool_Sink::Start()
 	GamePlayTool::SetInteractOption(AutoOption::Manual);
 	GamePlayTool::SetObjectToolType(ObjectToolType::Sink);
 
+	Tool_Sink::Inst_ = this;
+
+}
+
+void Tool_Sink::LevelStartEvent()
+{
+
+}
+void Tool_Sink::LevelEndEvent()
+{
 }
 
 //Input_PutDownOption Tool_Sink::Input_PutDown(std::shared_ptr<GamePlayMoveable> _Object)

@@ -19,6 +19,12 @@ void Food_Ingredients_Tomato::Start()
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 }
 
+//void Food_Ingredients_Tomato::Update(float _DeltaTime)
+//{
+//	GameEngineDebug::OutPutString(std::to_string(GetTransform().GetWorldScale().x) + " + " + std::to_string(GetTransform().GetWorldScale().y));
+//	GameEngineDebug::OutPutString("//////////////////////////////////////////////////////////////////////////////////////////////////");
+//}
+
 void Food_Ingredients_Tomato::FinishTrimmingFirst()
 {
 	SetTrim();

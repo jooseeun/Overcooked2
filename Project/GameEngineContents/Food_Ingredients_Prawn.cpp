@@ -23,6 +23,7 @@ void Food_Ingredients_Prawn::Start()
 void Food_Ingredients_Prawn::FinishTrimmingFirst()
 {
 	SetTrim();
+	SetPlatting();
 
 	ChangeFBXMesh();
 	MeshName_ = "Prawn_Sushimi.FBX";

@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "Servicehatch.h"
 #include "Equipment_Plate.h"
+#include "GamePlayLevel.h"
+#include "PlateReturn.h"
 
 Servicehatch::Servicehatch()
 {
@@ -22,6 +24,8 @@ void Servicehatch::Start()
 	GetFBXMesh()->GetTransform().SetWorldMove({ -60, 0, 0 });
 	
 	GetFBXMesh()->SetSubConstantBufferLink(0, "RENDEROPTION", &RenderOptionMyInst, sizeof(RenderOption));
+
+	SetStuff(GetLevel()->CreateActor<Tool_Servicehatch>());
 }
 
 void Servicehatch::Update(float _DeltaTime)
@@ -51,7 +55,13 @@ HoldDownEnum Tool_Servicehatch::PickUp(std::shared_ptr<GamePlayMoveable>* _Movea
 		std::weak_ptr<Equipment_Plate> Plate = (*_Moveable)->CastThis<Equipment_Plate>();
 		if (Plate.lock() != nullptr)
 		{
-			//Plate
+			GetLevel<GamePlayLevel>()->HandOverFood(Plate.lock()->GetCombinFood()->GetFoodType());
+			(*_Moveable)->Off();
+			Tool_PlateReturn::GetInst()->SetPlateCooltime(Plate.lock());
+			Plate.lock()->GetCombinFood()->Clear();
+			(*_Moveable) = nullptr;
+
+			return HoldDownEnum::HoldUp;
 		}
 	}
 	return HoldDownEnum::Nothing;
