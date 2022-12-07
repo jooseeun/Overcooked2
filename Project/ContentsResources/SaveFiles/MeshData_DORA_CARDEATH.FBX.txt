@@ -2,11 +2,11 @@
 MeshName:DORA_CARDEATH.FBX;
 MeshInfoCount:5;
 Path:;
-Mat:;
-Path:\DORAHAND.PNG;
-Mat:DORAHAND.PNG;
+Mat:T_CHEF_BODY_D.PNG;
 Path:;
-Mat:DORAHAND.PNG;
+Mat:;
+Path:;
+Mat:;
 Path:;
 Mat:;
 Path:;
