@@ -2,6 +2,7 @@
 #include "IcePlatform.h"
 
 IcePlatform::IcePlatform() 
+	: MoveDir_({0.f, 0.f, 230.f})
 {
 }
 
@@ -22,5 +23,14 @@ void IcePlatform::Start()
 
 void IcePlatform::Update(float _DeltaTime)
 {
+	if (GetTransform().GetWorldPosition().z > 1329.f)
+	{
+		GetTransform().SetWorldPosition({ -1984.f, -100.f, -2722.f });
+	}
+	else
+	{
+		GetTransform().SetWorldMove({ MoveDir_ * _DeltaTime });
+	}
+
 }
 

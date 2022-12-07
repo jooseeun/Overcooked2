@@ -36,11 +36,24 @@ public:
 
 	void SetIceBlockMesh(IceBlockType _Type);
 
+	inline void SetMovable()
+	{
+		IsMovable_ = !IsMovable_;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
+	void Move(float _DeltaTime);
+
 private:
 	IceBlockType IceBlockType_;
+	float4 MoveDir_;
+
+	float RandomX_;
+	float RandomY_;
+
+	bool IsMovable_;
 };
 
