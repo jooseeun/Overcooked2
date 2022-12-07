@@ -2,6 +2,10 @@
 #include "IceBlock.h"
 
 IceBlock::IceBlock() 
+	: MoveDir_({0.f, 0.f, 70.f})
+	, RandomX_(0.f)
+	, RandomY_(0.f)
+	, IsMovable_(true)
 {
 }
 
@@ -50,9 +54,30 @@ void IceBlock::SetIceBlockMesh(IceBlockType _Type)
 void IceBlock::Start()
 {
 	GamePlayMapObject::Start();
+	
+	RandomX_ = GameEngineRandom::MainRandom.RandomFloat(-1740.f, -1720.f);
+	RandomY_ = GameEngineRandom::MainRandom.RandomFloat(-10.f, 40.f);
 }
 
 void IceBlock::Update(float _DeltaTime)
 {
+	Move(_DeltaTime);
+}
+
+void IceBlock::Move(float _DeltaTime)
+{
+	if (false == IsMovable_)
+	{
+		return;
+	}
+
+	if (GetTransform().GetWorldPosition().z > 824.f)
+	{
+		GetTransform().SetWorldPosition({ RandomX_, RandomY_, -2665.f });
+	}
+	else
+	{
+		GetTransform().SetWorldMove({ MoveDir_ * _DeltaTime });
+	}
 }
 
