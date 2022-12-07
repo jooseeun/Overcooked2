@@ -2,6 +2,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 
 class UIDebugGUI;
+class SelectStageUIActor;
 class SelectStageLevel : public GameEngineLevel
 {
 public:
@@ -20,5 +21,6 @@ protected:
 	void LevelStartEvent() override;
 	void LevelEndEvent() override;
 
+	std::weak_ptr< SelectStageUIActor> SelectStageActor_;
 private:
 };

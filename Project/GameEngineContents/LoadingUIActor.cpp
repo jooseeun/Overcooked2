@@ -3,6 +3,7 @@
 
 #include "GlobalGameData.h"
 #include "OverCookedUIRenderer.h"
+#include "GamePlayLevel.h"
 
 #include "LoadingData.h"
 LoadingUIActor::LoadingUIActor()
@@ -128,6 +129,17 @@ void LoadingUIActor::UIUpdate(float _DeltaTime)
 {
 	if (TransitionIcon_->IsFinishFadeOut_ == true)
 	{
+		std::vector<GameEngineLevel*> AllLevel = GameEngineCore::GetAllLevelVector();
+		int i = 0;
+		for (; i < AllLevel.size(); i++)
+		{
+			if (AllLevel[i]->GetNameCopy() == StageName_)
+			{
+				break;
+			}
+		}
+		GamePlayLevel* Ptr = dynamic_cast<GamePlayLevel*>(AllLevel[i]);
+		Ptr->SetIsLevelStart_False();
 		GEngine::ChangeLevel(StageName_);
 	}
 	////FadeIn & Out이 진행중이면 Info 업데이트를 하지 않는다.

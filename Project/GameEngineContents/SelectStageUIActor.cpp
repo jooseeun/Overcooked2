@@ -111,7 +111,7 @@ void SelectStageUIActor::UIUpdate(float _DeltaTime)
 	}
 	case 2://Transition애니메이션 대기
 	{
-		if (TransitionIcon_->IsUpdate() == false)
+		if (TransitionIcon_->IsFinishFadeOut_ == true)
 		{
 			GEngine::ChangeLevel("LoadingLevel");
 		}

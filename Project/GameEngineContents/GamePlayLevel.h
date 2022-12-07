@@ -36,4 +36,9 @@ protected:
 	std::shared_ptr< InGameUIActor> UIActor_;
 private:
 	bool IsLevelStartFirst_ = true; //레벨 이동을 맨 처음 할 경우 리소스 로드로 갑니다
+public:
+	inline void SetIsLevelStart_False() //GUI가 아닌 SelectLevel > LoadingLevel로 이동할 경우 필요한 함수입니다.
+	{
+		IsLevelStartFirst_ = false;
+	}
 };

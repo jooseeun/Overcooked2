@@ -35,7 +35,6 @@ void SelectStageLevel::Start()
 
 	GraphicWindow::Main_->Off();
 
-	std::shared_ptr<SelectStageUIActor> NewActor = CreateActor<SelectStageUIActor>();
 	UIDebugGUI::Main_ = GameEngineGUI::CreateGUIWindow<UIDebugGUI>("UIDebugGUI", nullptr);
 	UIDebugGUI::Main_->Off();
 
@@ -60,10 +59,19 @@ void SelectStageLevel::LevelStartEvent()
 {
 	UIDebugGUI::Main_->On();
 	GraphicWindow::Main_->On();
+	if (SelectStageActor_.lock() == nullptr)
+	{
+		SelectStageActor_ = CreateActor<SelectStageUIActor>();
+	}
 }
 
 void SelectStageLevel::LevelEndEvent()
 {
 	UIDebugGUI::Main_->Off();
 	GraphicWindow::Main_->Off();
+	if (SelectStageActor_.lock() != nullptr)
+	{
+		SelectStageActor_.lock()->Death();
+		SelectStageActor_.reset();
+	}
 }

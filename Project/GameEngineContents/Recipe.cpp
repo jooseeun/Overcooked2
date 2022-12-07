@@ -189,15 +189,25 @@ bool RecipeManager::HandOver(FoodType _Type)
 
 	//음식 검색
 	std::list<Recipe>::iterator _Iter = Recipes_.begin();
+	std::vector< std::list<Recipe>::iterator> Vector;
 	for (; _Iter != Recipes_.end(); _Iter++)
 	{
 		if (_Iter->Data_.Type == _Type)
 		{
-			break;
+			Vector.push_back(_Iter);
 		}
 	}
 
-	_Iter->IsHandOver_ = true;
+	std::list<Recipe>::iterator MostLeftIter = Vector[0];
+	for (int i = 0; i < Vector.size(); i++)
+	{
+		if (Vector[i]->GetLeftTime() <= MostLeftIter->GetLeftTime())
+		{
+			MostLeftIter = Vector[i];
+		}
+	}
+
+	MostLeftIter->IsHandOver_ = true;
 	return true;
 
 	//_Iter->ParentRenderer_.lock()->Death();
@@ -498,6 +508,11 @@ void Recipe::SetWorldPosition(const float4& _WorldPos)
 void Recipe::OpenRecipe()
 {
 	BottomParentRenderer_.lock()->GetTransform().SetLocalPosition({ 0,-52.f,1 });
+}
+
+float Recipe::GetLeftTime()
+{
+	return GlobalTimer_.GetCurTime();
 }
 
 void Recipe::Update(float _DeltaTime)

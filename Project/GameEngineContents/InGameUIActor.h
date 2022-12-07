@@ -49,6 +49,8 @@ public:
 	void SetWorldPosition(const float4& _WorldPos);
 
 	void OpenRecipe();
+
+	float GetLeftTime();
 private:
 	void Update(float _DeltaTime);
 
