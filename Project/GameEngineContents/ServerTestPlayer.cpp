@@ -81,6 +81,9 @@ void ServerTestPlayer::Update(float _DeltaTime)
 		Packet->State = ServerObjectBaseState::Base;
 		Packet->Pos = GetTransform().GetWorldPosition();
 		Packet->Rot = GetTransform().GetWorldRotation();
+		Packet->Scale = GetTransform().GetWorldScale();
+		Packet->Animation = "Test";
+
 		ServerTestLevel::Net->SendPacket(Packet);
 		return;
 	}

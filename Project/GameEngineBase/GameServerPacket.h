@@ -21,10 +21,14 @@ public:
 		return std::dynamic_pointer_cast<ConvertType>(shared_from_this());
 	}
 
-
-	unsigned int GetPacketID()
+	inline unsigned int GetPacketID()
 	{
 		return PacketID;
+	}
+
+	inline unsigned int GetPacketSize()
+	{
+		return Size;
 	}
 
 	template<typename EnumType>

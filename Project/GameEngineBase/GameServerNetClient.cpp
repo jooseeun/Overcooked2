@@ -53,6 +53,7 @@ int GameServerNetClient::Send(const char* Data, size_t _Size)
 
 int GameServerNetClient::SendPacket(std::shared_ptr<GameServerPacket> _Packet)
 {
+	GameEngineDebug::OutPutString("Send Client : " + std::to_string(_Packet->GetPacketID()));
 	GameServerSerializer Ser = PacketSerializ(_Packet);
 	return Send(Ser.GetDataPtrConvert<const char*>(), Ser.GetOffSet());
 }
@@ -78,6 +79,8 @@ void GameServerNetClient::RecvThreadFunction(GameEngineThread* _Thread)
 
 		memcpy_s(&PacketType, sizeof(int), Ser.GetDataPtr(), sizeof(int));
 		memcpy_s(&PacketSize, sizeof(int), Ser.GetDataPtr() + 4, sizeof(int));
+
+		GameEngineDebug::OutPutString("Recv Client : " + std::to_string(PacketType) + ", " + std::to_string(PacketSize));
 
 		std::shared_ptr<GameServerPacket> Packet = Dis.PacketReturnCallBack(PacketType, PacketSize, Ser);
 

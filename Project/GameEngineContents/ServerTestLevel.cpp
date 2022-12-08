@@ -117,7 +117,7 @@ void ServerTestLevel::LevelStartEvent()
 			NewPacket = std::make_shared<ClientInitPacket>();
 			break;
 		default:
-			int a = 0;
+			NewPacket = std::make_shared<IgnorePacket>();
 			break;
 		}
 

@@ -35,6 +35,7 @@ void ServerInitManager::ObjectUpdatePacketProcess(std::shared_ptr<GameServerPack
 			break;
 		}
 		default:
+			int a = 0;
 			break;
 		}
 	}

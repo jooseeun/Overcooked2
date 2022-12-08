@@ -115,8 +115,9 @@ void GameServerNetServer::UserFunction(GameEngineThread* Thread, SOCKET _Socket)
 		memcpy_s(&PacketType, sizeof(int), Ser.GetDataPtr(), sizeof(int));
 		memcpy_s(&PacketSize, sizeof(int), Ser.GetDataPtr() + 4, sizeof(int));
 
-		std::shared_ptr<GameServerPacket> Packet =
-			Dis.PacketReturnCallBack(PacketType, PacketSize, Ser);
+		GameEngineDebug::OutPutString("Recv Server : " + std::to_string(PacketType) + ", " + std::to_string(PacketSize) + "," + std::to_string(_Socket));
+
+		std::shared_ptr<GameServerPacket> Packet = Dis.PacketReturnCallBack(PacketType, PacketSize, Ser);
 
 		Packet->SetMaster(_Socket);
 
@@ -135,6 +136,8 @@ int GameServerNetServer::SendPacket(std::shared_ptr<GameServerPacket> _Packet)
 
 		NetSendPacket(UserSockets[i], _Packet);
 	}
+
+	GameEngineDebug::OutPutString("Send Server : " + std::to_string(_Packet->GetPacketID()) + ", " + std::to_string(_Packet->GetPacketSize()));
 
 	return 0;
 }

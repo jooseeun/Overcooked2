@@ -1169,6 +1169,8 @@ void Player::ServerUpdate(float _DeltaTime)
 		Packet->State = ServerObjectBaseState::Base;
 		Packet->Pos = GetTransform().GetWorldPosition();
 		Packet->Rot = GetTransform().GetWorldRotation();
+		Packet->Scale = GetTransform().GetWorldScale();
+		Packet->Animation = "Test";
 		CurManager->Net->SendPacket(Packet);
 		return;
 	}
