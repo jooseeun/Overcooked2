@@ -60,7 +60,6 @@ void Stage_1_4::PlayLevelStartEvent()
 
 	LevelActor_ = CreateActor<LevelActor>();
 	LevelActor_->SetLevelMesh("1_4.FBX");
-	//LevelActor_->GetRenderer()->SetSubMaterial(38, "Glass");
 
 	WallColor_.MulColor = float4{ 1.75f, 1.75f, 1.75f, 1.f };
 	LevelActor_->GetRenderer()->SetSubConstantBufferLink(38, "PixelData", &WallColor_, sizeof(WallColor));

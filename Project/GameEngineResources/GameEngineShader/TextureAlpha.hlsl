@@ -49,7 +49,7 @@ float4 TextureAlpha_PS(Output _Input) : SV_Target0
     //}
     //
 
-    if (Result.a == 0)
+    if (Result.a <= 0.f)
     {
         clip(-1);
     }
