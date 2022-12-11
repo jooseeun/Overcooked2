@@ -24,7 +24,7 @@ void Servicehatch::Start()
 	GetFBXMesh()->GetTransform().SetWorldMove({ -60, 0, 0 });
 	
 	GetFBXMesh()->SetSubConstantBufferLink(0, "RENDEROPTION", &RenderOptionMyInst, sizeof(RenderOption));
-	GetFBXMesh()->SetSubMaterial(2, "TextureAlpha");
+	//GetFBXMesh()->SetSubMaterial(2, "TextureAlpha");
 
 	SetStuff(GetLevel()->CreateActor<Tool_Servicehatch>());
 }
