@@ -66,8 +66,6 @@ void Stage_1_1::PlayLevelStartEvent()
 		return;
 	}
 
-	ServerInitManager::StartInit();
-
 	IsLevelFirst_ = false;
 	std::shared_ptr<LevelActor> Tmp = CreateActor<LevelActor>();
 	Tmp->SetLevelMesh("1_1.FBX");
@@ -86,6 +84,8 @@ void Stage_1_1::PlayLevelStartEvent()
 
 	std::shared_ptr<Player> MainPlayer = CreateActor<Player>();
 	MainPlayer->GetTransform().SetLocalPosition({ -1400, 500, 200 });
+
+	ServerInitManager::StartInit();
 
 	std::shared_ptr<GlobalMouseInput> Mouse = CreateActor<GlobalMouseInput>();
 

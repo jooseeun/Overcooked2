@@ -21,6 +21,7 @@ public:
 
 	void ObjectUpdatePacketProcess(std::shared_ptr<GameServerPacket> _Packet);
 	void ClientInitPacketProcess(std::shared_ptr<GameServerPacket> _Packet);
+	void Ignore(std::shared_ptr<GameServerPacket> _Packet);
 
 protected:
 	void StartInit();

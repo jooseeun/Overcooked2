@@ -9,6 +9,7 @@
 #include "GameEngineInstancing.h"
 #include "GameEngineStructuredBuffer.h"
 #include <GameEngineBase/GameEngineWindow.h>
+#include "GameEngineRenderer.h"
 
 GameEngineCamera::GameEngineCamera() 
 	: CameraRenderTarget(nullptr)
@@ -77,21 +78,24 @@ void GameEngineCamera::Render(float _DeltaTime)
 			std::list<std::shared_ptr<GameEngineRenderer>>& RenderList = Group.second;
 			RenderList.sort(ZSort);
 
-			for (std::shared_ptr<GameEngineRenderer>& Renderer : Group.second)
+
+			std::list<std::shared_ptr<GameEngineRenderer>>::iterator BeginIter = Group.second.begin();
+			std::list<std::shared_ptr<GameEngineRenderer>>::iterator EndIter = Group.second.end();
+			for (; BeginIter != EndIter; BeginIter++)
 			{
-				if (false == Renderer->IsUpdate())
+				if (false == (*BeginIter)->IsUpdate())
 				{
 					continue;
 				}
 
-				Renderer->RenderOptionInst.DeltaTime = _DeltaTime;
-				Renderer->RenderOptionInst.SumDeltaTime += _DeltaTime;
-				Renderer->GetTransform().SetView(View);
-				Renderer->GetTransform().SetProjection(Projection);
-				Renderer->GetTransform().CalculateWorldViewProjection();
+				(*BeginIter)->RenderOptionInst.DeltaTime = _DeltaTime;
+				(*BeginIter)->RenderOptionInst.SumDeltaTime += _DeltaTime;
+				(*BeginIter)->GetTransform().SetView(View);
+				(*BeginIter)->GetTransform().SetProjection(Projection);
+				(*BeginIter)->GetTransform().CalculateWorldViewProjection();
 
 				// 인스턴싱 정보 수집
-				Renderer->Render(ScaleTime);
+				(*BeginIter)->Render(ScaleTime);
 			}
 		}
 	}

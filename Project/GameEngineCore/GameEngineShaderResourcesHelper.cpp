@@ -18,25 +18,61 @@ GameEngineShaderResourcesHelper::~GameEngineShaderResourcesHelper()
 
 void GameEngineShaderResourcesHelper::AllResourcesSetting()
 {
-	for (const std::pair<std::string, GameEngineConstantBufferSetter>& Setter : ConstantBufferSettingMap)
 	{
-		Setter.second.Setting();
+		std::multimap<std::string, GameEngineConstantBufferSetter>::iterator BeginIter = ConstantBufferSettingMap.begin();
+		std::multimap<std::string, GameEngineConstantBufferSetter>::iterator EndIter = ConstantBufferSettingMap.end();
+		for (; BeginIter != EndIter; BeginIter++)
+		{
+			BeginIter->second.Setting();
+		}
 	}
 
-	for (const std::pair<std::string, GameEngineTextureSetter>& Setter : TextureSettingMap)
 	{
-		Setter.second.Setting();
+		std::multimap<std::string, GameEngineTextureSetter>::iterator BeginIter = TextureSettingMap.begin();
+		std::multimap<std::string, GameEngineTextureSetter>::iterator EndIter = TextureSettingMap.end();
+		for (; BeginIter != EndIter; BeginIter++)
+		{
+			BeginIter->second.Setting();
+		}
 	}
 
-	for (const std::pair<std::string, GameEngineSamplerSetter>& Setter : SamplerSettingMap)
 	{
-		Setter.second.Setting();
+		std::multimap<std::string, GameEngineSamplerSetter>::iterator BeginIter = SamplerSettingMap.begin();
+		std::multimap<std::string, GameEngineSamplerSetter>::iterator EndIter = SamplerSettingMap.end();
+		for (; BeginIter != EndIter; BeginIter++)
+		{
+			BeginIter->second.Setting();
+		}
 	}
 
-	for (const std::pair<std::string, GameEngineStructuredBufferSetter>& Setter : StructuredBufferSettingMap)
 	{
-		Setter.second.Setting();
+		std::multimap<std::string, GameEngineStructuredBufferSetter>::iterator BeginIter = StructuredBufferSettingMap.begin();
+		std::multimap<std::string, GameEngineStructuredBufferSetter>::iterator EndIter = StructuredBufferSettingMap.end();
+		for (; BeginIter != EndIter; BeginIter++)
+		{
+			BeginIter->second.Setting();
+		}
 	}
+	//
+	//for (const std::pair<std::string, GameEngineConstantBufferSetter>& Setter : ConstantBufferSettingMap)
+	//{
+	//	Setter.second.Setting();
+	//}
+	//
+	//for (const std::pair<std::string, GameEngineTextureSetter>& Setter : TextureSettingMap)
+	//{
+	//	Setter.second.Setting();
+	//}
+	//
+	//for (const std::pair<std::string, GameEngineSamplerSetter>& Setter : SamplerSettingMap)
+	//{
+	//	Setter.second.Setting();
+	//}
+	//
+	//for (const std::pair<std::string, GameEngineStructuredBufferSetter>& Setter : StructuredBufferSettingMap)
+	//{
+	//	Setter.second.Setting();
+	//}
 }
 
 
@@ -104,10 +140,10 @@ void GameEngineShaderResourcesHelper::ShaderCheck(std::shared_ptr < GameEngineSh
 
 	for (const std::pair<std::string, GameEngineStructuredBufferSetter>& Data : _Shader->StructuredBufferSettingMap)
 	{
-	/*	if (_Shader->StructuredBufferSettingMap.size() == StructuredBufferSettingMap.size())
-		{
-			break;
-		}*/
+		/*	if (_Shader->StructuredBufferSettingMap.size() == StructuredBufferSettingMap.size())
+			{
+				break;
+			}*/
 		std::multimap<std::string, GameEngineStructuredBufferSetter>::iterator InsertIter =
 			StructuredBufferSettingMap.insert(std::make_pair(Data.first, Data.second));
 

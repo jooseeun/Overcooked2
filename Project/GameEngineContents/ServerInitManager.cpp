@@ -63,6 +63,11 @@ void ServerInitManager::ClientInitPacketProcess(std::shared_ptr<GameServerPacket
 	Player::GetMyPlayer()->ClientInit(ServerObjectType::Player, Packet->ObjectID);
 }
 
+void ServerInitManager::Ignore(std::shared_ptr<GameServerPacket> _Packet)
+{
+	return;
+}
+
 void ServerInitManager::StartInit()
 {
 	if (nullptr == Player::GetMyPlayer())
@@ -106,7 +111,7 @@ void ServerInitManager::StartInit()
 			NewPacket = std::make_shared<ClientInitPacket>();
 			break;
 		default:
-			int a = 0;
+			NewPacket = std::make_shared<IgnorePacket>();
 			break;
 		}
 
@@ -115,10 +120,13 @@ void ServerInitManager::StartInit()
 	};
 
 	Net->Dis.AddHandler(ContentsPacketType::ObjectUpdate, std::bind(&ServerInitManager::ObjectUpdatePacketProcess, this, std::placeholders::_1));
+	Net->Dis.AddHandler(ContentsPacketType::Ignore, std::bind(&ServerInitManager::Ignore, this, std::placeholders::_1));
+	Net->Dis.AddHandler(ContentsPacketType::None, std::bind(&ServerInitManager::Ignore, this, std::placeholders::_1));
 
 	if (true == Net->GetIsHost())
 	{
 		// 내가 서버일때만 등록해야하는 패킷
+		Net->Dis.AddHandler(ContentsPacketType::ClinetInit, std::bind(&ServerInitManager::Ignore, this, std::placeholders::_1));
 	}
 	else
 	{

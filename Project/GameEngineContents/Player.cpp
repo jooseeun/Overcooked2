@@ -13,14 +13,14 @@
 //감정표현 - E
 
 Player::Player()
-	:Speed_(650.0f)
+	: Speed_(650.0f)
 	, CurAngle_(180.0f)
 	, CurDir_(PlayerDir::Back)
 	, CurHoldType_(PlayerHoldType::CanThrow)
 	, CurStateType_(PlayerCurStateType::Max)
 	, PlayerFloorCollision_(nullptr)
 	, PlayerForwardCollision_(nullptr)
-	, PlayerCustomNum(5)
+	, PlayerCustomNum(0)
 	, PlayerIdleRenderer_()
 	, PlayerWalkRenderer_()
 	, PlayerChopRenderer_()
@@ -41,7 +41,6 @@ Player::Player()
 	, IsPotal_(false)
 	, IsPlayerble(false)
 {
-	//MyPlayer = shared_from_this();
 }
 
 Player::~Player()
@@ -50,6 +49,11 @@ Player::~Player()
 
 void Player::Start()
 {
+	if (MyPlayer == nullptr)
+	{
+		MyPlayer = std::dynamic_pointer_cast<Player>(shared_from_this());
+	}
+
 	GetTransform().SetLocalScale({ 1, 1, 1 });
 
 
@@ -64,7 +68,7 @@ void Player::Start()
 
 	}
 
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		PlayerIdleRenderer_[i] = CreateComponent<GameEngineFBXAnimationRenderer>();
 		PlayerIdleRenderer_[i]->SetFBXMesh(PlayerName_[i] + "_Idle.FBX", "TextureAnimation");
@@ -197,7 +201,7 @@ void Player::Start()
 
 	Collision_Interact_ = CreateComponent<GameEngineCollision>("PlayerCollision");
 	Collision_Interact_->ChangeOrder(CollisionOrder::Object_Character_Interact);
-	Collision_Interact_->GetTransform().SetLocalScale({ 50,100,200});
+	Collision_Interact_->GetTransform().SetLocalScale({ 50,100,200 });
 	Collision_Interact_->GetTransform().SetLocalPosition({ 0,0,-60 });
 
 
@@ -425,7 +429,7 @@ void  Player::LevelStartEvent()
 
 		}
 	}
-	
+
 	ServerStart();
 }
 
@@ -438,9 +442,9 @@ void Player::Update(float _DeltaTime)
 	}
 	if (IsSingleMode == true)
 	{
-		std::shared_ptr<Player> MainPlayer2 = GetLevel()->CreateActor<Player>();
-		MainPlayer2->GetTransform().SetLocalPosition({ -1000, 500, 200 });
-		MainPlayer2->PlayerPNum = 2;
+		//std::shared_ptr<Player> MainPlayer2 = GetLevel()->CreateActor<Player>();
+		//MainPlayer2->GetTransform().SetLocalPosition({ -1000, 500, 200 });
+		//MainPlayer2->PlayerPNum = 2;
 
 		IsSingleMode = false;
 	}
@@ -1171,7 +1175,9 @@ void Player::ServerUpdate(float _DeltaTime)
 		Packet->Rot = GetTransform().GetWorldRotation();
 		Packet->Scale = GetTransform().GetWorldScale();
 		Packet->Animation = "Test";
+		GameEngineDebug::OutPutString(Packet->Pos.ToString());
 		CurManager->Net->SendPacket(Packet);
+
 		return;
 	}
 

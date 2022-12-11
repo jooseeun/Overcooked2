@@ -167,6 +167,11 @@ void GameEngineRenderUnit::Render(float _DeltaTime)
 		MsgBoxAssert("매쉬가 없으므로 랜더링을 할수 없습니다.");
 	}
 
+	if (nullptr == InputLayOut && nullptr != Mesh)
+	{
+		InputLayOut = GameEngineInputLayOut::Create(Mesh->GetLayOutDesc(), Material->GetVertexShader());
+	}
+
 	if (nullptr == InputLayOut)
 	{
 		MsgBoxAssert("인풋 레이아웃이 없으므로 랜더링을 할수 없습니다.");
