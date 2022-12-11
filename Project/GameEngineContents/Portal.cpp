@@ -37,8 +37,8 @@ void Portal::Start()
 {
 	GamePlayMapObject::Start();
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
-	GetCollisionObject()->GetTransform().SetLocalScale({ 100, 100, 100 });
-	GetCollisionObject()->GetTransform().SetLocalMove({ 0, 100, 0 });
+	//GetCollisionObject()->GetTransform().SetLocalScale({ 100, 100, 100 });
+	//GetCollisionObject()->GetTransform().SetLocalMove({ 0, 100, 0 });
 	
 	GetFBXMesh()->GetTransform().SetAddWorldRotation({ 90, 0, 0 });
 }

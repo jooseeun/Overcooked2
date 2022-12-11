@@ -3,6 +3,8 @@
 #include "Player.h"
 #include "IceBlock.h"
 
+#include "PortalCollision.h"
+
 Stage_2_1::Stage_2_1()
 {
 }
@@ -60,6 +62,20 @@ void Stage_2_1::PlayLevelStartEvent()
 	Block->SetIceBlockType(IceBlockType::Ice11);
 	Block->SetIceBlockMesh(IceBlockType::Ice11);
 	Block->SwitchMovable();
+
+	std::shared_ptr<PortalCollision> Puple1 = CreateActor<PortalCollision>();
+	Puple1->SetPotalType(MapObjType::Portal_Blue);
+	Puple1->GetTransform().SetWorldPosition({ -591.00,260.00,-1402.00 });
+
+	std::shared_ptr<PortalCollision> Puple2 = CreateActor<PortalCollision>();
+	Puple2->SetPotalType(MapObjType::Portal_Blue);
+	Puple2->GetTransform().SetWorldPosition({ -2688.00,50.00,-1021.00 });
+
+	Puple1->SetNextPotal(Puple2);
+	Puple1->SetNextPos({ -2688.00,50.00,-1021.00 });
+
+	Puple2->SetNextPotal(Puple1);
+	Puple2->SetNextPos({ -591.00,260.00,-1402.00 });
 
 	return;
 }

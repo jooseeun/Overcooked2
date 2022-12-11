@@ -493,7 +493,11 @@ void Player::Update(float _DeltaTime)
 	PNumSgtringUpdate();
 	DashCheck(_DeltaTime);
 	CustomKeyCheck();
-	Gravity();
+
+	if (IsPotal_ != true)
+	{
+		Gravity();
+	}
 
 	CameraMove(_DeltaTime);
 }
