@@ -201,7 +201,7 @@ bool RecipeManager::HandOver(FoodType _Type)
 	std::list<Recipe>::iterator MostLeftIter = Vector[0];
 	for (int i = 0; i < Vector.size(); i++)
 	{
-		if (Vector[i]->GetLeftTime() <= MostLeftIter->GetLeftTime())
+		if (Vector[i]->GetLeftTime() < MostLeftIter->GetLeftTime())
 		{
 			MostLeftIter = Vector[i];
 		}

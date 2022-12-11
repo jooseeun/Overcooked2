@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
 
+class ResultLevelActor;
 class ResultLevel : public GameEngineLevel
 {
 public:
@@ -18,4 +19,8 @@ protected:
 	void End() override;
 	void LevelStartEvent() override;
 	void LevelEndEvent() override;
+
+
+private:
+	std::weak_ptr<ResultLevelActor> ResultLevelActor_;
 };

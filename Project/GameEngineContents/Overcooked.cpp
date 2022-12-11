@@ -6,6 +6,7 @@
 
 #include "SelectStageLevel.h"
 #include "LoadingLevel.h"
+#include "ResultLevel.h"
 #include "MapToolLevel.h"
 
 #include "TitleLevel.h"
@@ -91,6 +92,8 @@ void Overcooked::Start()
 	CreateLevel<MapToolLevel>("MapToolLevel");
 	CreateLevel<MeshToolLevel>("MeshToolLevel");
 	CreateLevel<TitleLevel>("TitleLevel");
+	CreateLevel<ResultLevel>("ResultLevel");
+
 	CreateLevel<ServerTestLevel>("ServerTestLevel");
 
 	ChangeLevel("SelectStage");
