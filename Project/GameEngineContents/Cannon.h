@@ -1,6 +1,6 @@
 #pragma once
 #include "GamePlayStaticObject.h"
-
+#include "Player.h"
 enum class CannonState
 {
 	Idle,
@@ -11,6 +11,7 @@ enum class CannonState
 };
 
 // Ό³Έν :
+
 class Cannon : public GamePlayStaticObject
 {
 
@@ -35,7 +36,16 @@ public:
 	{
 		CurState_ = _CurState;
 	}
-
+	inline void SetPlayer(std::shared_ptr<Player> _Player)
+	{
+		CurPlayer_ = _Player;
+		CurPlayer_->SetParent(shared_from_this());
+	}
+	inline void DetachCurPlayer()
+	{
+		CurPlayer_->DetachObject();
+		CurPlayer_ = nullptr;
+	}
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -54,6 +64,8 @@ protected:
 
 private:
 	std::shared_ptr<GameEngineActor> CannonBase_;
+
+	std::shared_ptr<Player> CurPlayer_;
 
 	CannonState CurState_;
 	GameEngineStateManager StateManager;

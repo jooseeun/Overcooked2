@@ -180,6 +180,7 @@ private:
 	CollisionReturn TableSliceCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 	CollisionReturn InteractTableCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 
+	CollisionReturn EnterCanon(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 
 	std::shared_ptr<GameEngineActor> CurrentHoldingObject_;
 	std::shared_ptr<GameEngineCollision> TableCollision_;

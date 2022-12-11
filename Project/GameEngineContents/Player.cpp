@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "GamePlayStaticObject.h"
 #include "CounterTop.h"
+#include "Cannon.h"
 #include <math.h>
 
 
@@ -491,11 +492,11 @@ void Player::Update(float _DeltaTime)
 
 	StateManager.Update(_DeltaTime);
 	PNumSgtringUpdate();
-	DashCheck(_DeltaTime);
 	CustomKeyCheck();
 
 	if (IsPotal_ != true)
 	{
+		DashCheck(_DeltaTime);
 		Gravity();
 	}
 
@@ -1186,3 +1187,12 @@ CollisionReturn Player::InteractTableCheck(std::shared_ptr<GameEngineCollision> 
 }
 
 
+
+CollisionReturn Player::EnterCanon(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
+{
+	_Other->GetParent()->CastThis<Cannon>()->SetPlayer(shared_from_this()->CastThis<Player>());
+	GetTransform().SetWorldPosition({ -636.00, 100.0, -1111.00 });
+	GetTransform().SetWorldRotation({270, 0, 90 });
+	IsPotal_ = true;
+	return CollisionReturn::ContinueCheck;
+}

@@ -3,6 +3,7 @@
 #include "FoodBox.h"
 #include "TrashCan.h"
 #include "Equipment_Plate.h"
+#include "Cannon.h"
 
 #include <math.h>
 
@@ -35,7 +36,16 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerHold" + PNumString))
 	{
-		StateManager.ChangeState("HoldUp");
+		if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Cannon, CollisionType::CT_OBB,
+			std::bind(&Player::EnterCanon, this, std::placeholders::_1, std::placeholders::_2)) == true)
+		{
+			StateManager.ChangeState("CanonInter");
+
+		}
+		else
+		{
+			StateManager.ChangeState("HoldUp");
+		}
 	}
 
 
@@ -367,12 +377,35 @@ void Player::DrowningUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::CanonInterStart(const StateInfo& _Info)
 {
-	
+	IdleRendererON();
+	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "CannonEnterIdle");
+	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
+	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
+	PlayerIdleRenderer_[PlayerCustomNum]->GetCurAnim()->bOnceEnd = false;
 }
 void Player::CanonInterUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	
+	PlayerIdleRenderer_[PlayerCustomNum]->AnimationBindEnd(PlayerName_[PlayerCustomNum] + "CannonEnterIdle", [=](const GameEngineRenderingEvent& _Info)
+		{
+			PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "CannonIdleIdle");
+			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
+			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
+		});
 
+
+
+	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerDash" + PNumString))
+	{
+		if (GetParent() != nullptr)
+		{
+			GetParent()->CastThis<Cannon>()->DetachCurPlayer();
+
+		}
+		GetTransform().SetWorldRotation({ 90,180, 0 });
+		GetTransform().SetWorldPosition({ -806.00, 100.0, -1111.00 });
+		IsPotal_ = false;
+		StateManager.ChangeState("Idle");
+	}
 	
 }
 
@@ -382,5 +415,5 @@ void Player::CanonFlyStart(const StateInfo& _Info)
 }
 void Player::CanonFlyUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-
+	DetachObject();
 }
