@@ -44,6 +44,24 @@ void Stage_2_1::PlayLevelStartEvent()
 	LevelActor_ = CreateActor<LevelActor>();
 	LevelActor_->SetLevelMesh("2_1.FBX");
 
+	//{
+	//	std::shared_ptr<GameEngineTextureRenderer> Water_ = CreateActor<GameEngineActor>()->CreateComponent<GameEngineTextureRenderer>();
+	//	Water_->GetTransform().SetWorldScale({ 800, 800, 1 });
+	//	Water_->SetMaterial("JBMWater");
+	//	Water_->SetMesh("FullRect");
+	//	Water_->SetTexture("Icy_Water.png");
+	//	Water_->SetRenderingOrder(999);
+	//}
+
+	//{
+	//	std::shared_ptr<GameEngineTextureRenderer> Water_ = CreateActor<GameEngineActor>()->CreateComponent<GameEngineTextureRenderer>();
+	//	Water_->GetTransform().SetWorldScale({ 800, 800, 1 });
+	//	Water_->SetMaterial("JBMWater");
+	//	Water_->SetMesh("FullRect");
+	//	Water_->SetTexture("water2.png");
+	//	Water_->SetRenderingOrder(999);
+	//}
+
 	GlobalIOManager::Load(IOType::SortMap, 4);
 	DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
 

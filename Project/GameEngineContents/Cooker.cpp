@@ -18,6 +18,7 @@ void Cooker::Start()
 	GetCollisionObject()->GetTransform().SetWorldMove({ 0, 25, 0 });
 
 	GetFBXMesh()->SetFBXMesh("m_sk_cooker_01.fbx", "Texture");
+	GetFBXMesh()->SetSubMaterial(1, "TextureAlpha");
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 	GetFBXMesh()->GetTransform().SetWorldMove({ 0, 0, 0 });
 	ToolPos_ = {0.f, 60.f, 0.f};

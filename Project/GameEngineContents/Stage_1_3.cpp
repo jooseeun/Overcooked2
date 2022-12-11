@@ -62,6 +62,8 @@ void Stage_1_3::PlayLevelStartEvent()
 	LevelActor_->GetRenderer()->SetSubMaterial(1, "Glass");
 	LevelActor_->GetRenderer()->SetSubMaterial(19, "Glass");
 	LevelActor_->GetRenderer()->SetSubMaterial(38, "TextureAlpha");
+	LevelActor_->GetRenderer()->SetSubMaterial(56, "TextureAlpha");
+	LevelActor_->GetRenderer()->SetSubMaterial(57, "TextureAlpha");
 
 	GlobalIOManager::Load(IOType::SortMap, 2);
 	DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
