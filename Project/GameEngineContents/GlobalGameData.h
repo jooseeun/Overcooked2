@@ -43,11 +43,19 @@ public:
 	}
 	static StageData& GetCurStageRef()
 	{
+		if (AllStageData_.find(CurStage_) == AllStageData_.end())
+		{
+			MsgBoxAssertString("셋팅된 CurStage : " + CurStage_ + " 의 데이터가 존재하지 않습니다.");
+		}
 		return AllStageData_[CurStage_];
 	}
 
 	static StageData GetCurStage()
 	{
+		if (AllStageData_.find(CurStage_) == AllStageData_.end())
+		{
+			MsgBoxAssertString("셋팅된 CurStage : " + CurStage_ + " 의 데이터가 존재하지 않습니다.");
+		}
 		return AllStageData_[CurStage_];
 	}
 
