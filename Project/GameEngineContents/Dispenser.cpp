@@ -9,6 +9,25 @@ Dispenser::~Dispenser()
 {
 }
 
+void Dispenser::SettingIngredientList(DispenserType _Type)
+{
+	switch (_Type)
+	{
+	case DispenserType::Type1:
+	{
+		IngredientList_.push_back(IngredientType::Seaweed);
+		IngredientList_.push_back(IngredientType::Rice);
+	}
+		break;
+	case DispenserType::Type2:
+	{
+		IngredientList_.push_back(IngredientType::Prawn);
+		IngredientList_.push_back(IngredientType::Fish);
+	}
+		break;
+	}
+}
+
 void Dispenser::Start()
 {
 	GamePlayStaticObject::Start();

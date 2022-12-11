@@ -41,6 +41,8 @@ public:
 		IsMovable_ = !IsMovable_;
 	}
 
+	void RotateIce(float _DeltaTime);
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -53,7 +55,12 @@ private:
 
 	float RandomX_;
 	float RandomY_;
+	float Angle_;
+	float MaxAngle_;
+	float AngleDir_;
 
 	bool IsMovable_;
+	bool IsDirChange_;
+	bool IsLeft_;
 };
 

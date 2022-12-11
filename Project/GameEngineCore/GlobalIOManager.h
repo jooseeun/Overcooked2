@@ -27,7 +27,8 @@ enum class MapObjType
 	FoodBox_Normal,		//음식 스폰 박스
 	FoodBox_Winter,
 	Rail,				//컨베이어 벨트
-	Dispenser,
+	Dispenser_Type1,
+	Dispenser_Type2,
 	Cannon,
 	Button,
 	Oven,

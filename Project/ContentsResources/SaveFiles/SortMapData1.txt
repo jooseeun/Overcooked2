@@ -189,7 +189,7 @@ Index:0.00,0.00,0.00;
 
 { 
 Name:;
-Type:Dispenser;
+Type:Dispenser_Type1;
 Pos:-1304.00,0.00,-114.00;
 Rot:90.00,270.00,0.00;
 Scale:1.00,1.00,1.00;
@@ -279,7 +279,7 @@ Index:0.00,0.00,1.00;
 
 { 
 Name:;
-Type:Dispenser;
+Type:Dispenser_Type2;
 Pos:-3376.00,0.00,-115.00;
 Rot:90.00,270.00,0.00;
 Scale:1.00,1.00,1.00;

@@ -2,6 +2,12 @@
 #include "GamePlayStaticObject.h"
 #include "GamePlayTool.h"
 
+enum class DispenserType
+{
+	Type1,
+	Type2,
+};
+
 // Ό³Έν :
 class Dispenser : public GamePlayStaticObject
 {
@@ -16,12 +22,27 @@ public:
 	Dispenser& operator=(const Dispenser& _Other) = delete;
 	Dispenser& operator=(Dispenser&& _Other) noexcept = delete;
 
+public:
+	inline DispenserType GetDispenserType()
+	{
+		return Type_;
+	}
+
+	inline void SetDispenserType(DispenserType _Type)
+	{
+		Type_ = _Type;
+	}
+
+	void SettingIngredientList(DispenserType _Type);
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
 private:
+	DispenserType Type_;
 
+	std::vector<IngredientType> IngredientList_;
 };
 
 class Tool_Dispenser : public GamePlayTool

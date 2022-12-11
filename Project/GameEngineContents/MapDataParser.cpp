@@ -400,10 +400,24 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 			CurActor_.lock()->SetStaticObjectType(MapObjType::Rail);
 		}
 		break;
-		case MapObjType::Dispenser:
+		case MapObjType::Dispenser_Type1:
 		{
 			CurActor_ = _Level->CreateActor<Dispenser>();
-			CurActor_.lock()->SetStaticObjectType(MapObjType::Dispenser);
+			std::weak_ptr<Dispenser> Object = std::dynamic_pointer_cast<Dispenser>(CurActor_.lock());
+
+			Object.lock()->SetDispenserType(DispenserType::Type1);
+			Object.lock()->SettingIngredientList(DispenserType::Type1);
+			Object.lock()->SetStaticObjectType(MapObjType::Dispenser_Type1);
+		}
+		break;
+		case MapObjType::Dispenser_Type2:
+		{
+			CurActor_ = _Level->CreateActor<Dispenser>();
+			std::weak_ptr<Dispenser> Object = std::dynamic_pointer_cast<Dispenser>(CurActor_.lock());
+
+			Object.lock()->SetDispenserType(DispenserType::Type2);
+			Object.lock()->SettingIngredientList(DispenserType::Type2);
+			Object.lock()->SetStaticObjectType(MapObjType::Dispenser_Type2);
 		}
 		break;
 		case MapObjType::Cannon:
