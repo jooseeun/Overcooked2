@@ -42,6 +42,12 @@ void CounterTop::SetConterTopMesh(CounterTopType _Type)
 	case CounterTopType::Winter:
 		Name = "m_wizard_countertop.fbx";
 		break;
+	case CounterTopType::Mixer_Kevin:
+		Name = "CounterMixer2.fbx";
+		break;
+	case CounterTopType::Mixer_Winter:
+		Name = "CounterMixer_Winter.fbx";
+		break;
 	default:
 		break;
 	}

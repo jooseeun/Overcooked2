@@ -58,7 +58,7 @@ void GamePlayMapObject::SetMapObjectMesh(const std::string& _Name, MapObjType _O
 	case MapObjType::Animation:
 	{
 		GetAnimationFBXMesh()->GetTransform().SetWorldScale({ 100.f, 100.f, 100.f });
-		GetAnimationFBXMesh()->SetFBXMesh(_Name + ".fbx", "TextureAnimation", 0, 0);
+		GetAnimationFBXMesh()->SetFBXMesh(_Name + ".fbx", "TextureAnimation");
 		GetAnimationFBXMesh()->CreateFBXAnimation("Idle", GameEngineRenderingEvent(_Name + ".fbx", 0.04f, true));
 		GetAnimationFBXMesh()->ChangeAnimation("Idle");
 	}

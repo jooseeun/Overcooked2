@@ -311,6 +311,28 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 			Object.lock()->SetStaticObjectType(MapObjType::CounterTop_Winter);
 		}
 		break;
+		case MapObjType::CounterMixer_Kevin:
+		{
+			CurActor_ = _Level->CreateActor<CounterTop>();
+			std::weak_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurActor_.lock());
+
+			Object.lock()->SetCounterTopType(CounterTopType::Mixer_Kevin);
+			Object.lock()->SetConterTopMesh(CounterTopType::Mixer_Kevin);
+
+			Object.lock()->SetStaticObjectType(MapObjType::CounterMixer_Kevin);
+		}
+		break;
+		case MapObjType::CounterMixer_Winter:
+		{
+			CurActor_ = _Level->CreateActor<CounterTop>();
+			std::weak_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurActor_.lock());
+
+			Object.lock()->SetCounterTopType(CounterTopType::Mixer_Winter);
+			Object.lock()->SetConterTopMesh(CounterTopType::Mixer_Winter);
+
+			Object.lock()->SetStaticObjectType(MapObjType::CounterMixer_Winter);
+		}
+		break;
 		case MapObjType::Cooker:
 		{
 			CurActor_ = _Level->CreateActor<Cooker>();

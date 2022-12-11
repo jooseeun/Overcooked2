@@ -273,6 +273,8 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				Prefabs_.push_back("Cannon");
 				Prefabs_.push_back("Button");
 				Prefabs_.push_back("Oven");
+				Prefabs_.push_back("CounterMixer_Kevin");
+				Prefabs_.push_back("CounterMixer_Winter");
 			}
 		}
 
@@ -426,7 +428,7 @@ void MapEditorWindow::UnSortToolTab()
 
 	for (size_t i = 0; i < RendererType.size(); ++i)
 	{
-		if (i <= 18)
+		if (i <= 20)
 		{
 			continue;
 		}
@@ -1105,6 +1107,28 @@ void MapEditorWindow::SortToolTab()
 		{
 			CurStaticMesh_ = CurLevel_->CreateActor<Oven>();
 			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::Oven);
+		}
+		break;
+		case 18:
+		{
+			CurStaticMesh_ = CurLevel_->CreateActor<CounterTop>();
+			std::weak_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurStaticMesh_.lock());
+
+			Object.lock()->SetCounterTopType(CounterTopType::Mixer_Kevin);
+			Object.lock()->SetConterTopMesh(CounterTopType::Mixer_Kevin);
+
+			Object.lock()->SetStaticObjectType(MapObjType::CounterMixer_Kevin);
+		}
+		break;
+		case 19:
+		{
+			CurStaticMesh_ = CurLevel_->CreateActor<CounterTop>();
+			std::weak_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurStaticMesh_.lock());
+
+			Object.lock()->SetCounterTopType(CounterTopType::Mixer_Winter);
+			Object.lock()->SetConterTopMesh(CounterTopType::Mixer_Winter);
+
+			Object.lock()->SetStaticObjectType(MapObjType::CounterMixer_Winter);
 		}
 		break;
 		}
