@@ -79,6 +79,11 @@ public:
 		return ToolPos_;
 	}
 
+	std::shared_ptr<GameEngineCollision> GetCrashCollision()
+	{
+		return CrashCollision_;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override {};
@@ -94,6 +99,7 @@ protected:
 
 private:
 	std::shared_ptr<GamePlayStuff> Stuff_Current_;
+	std::shared_ptr<GameEngineCollision> CrashCollision_;
 
 	MapObjType MyType_;
 

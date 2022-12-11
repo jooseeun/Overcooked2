@@ -62,7 +62,11 @@ public:
 
 protected:
 	void Start() override;
+	void Update(float _Delta) override;
 
 private:
+	CollisionReturn GetFrontStaticObject(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
+	bool FirstTimeCheck_;
+	std::weak_ptr<GamePlayStaticObject> Front_StaticObject_;
 };
 

@@ -56,6 +56,10 @@ public:
 	{
 		return Enum_ObjectToolType_;
 	}
+	inline float4 GetMoveablePos() const
+	{
+		return MoveablePos_;
+	}
 
 	virtual void SetMoveable(std::shared_ptr<GameEngineUpdateObject> _Child);
 

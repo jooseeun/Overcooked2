@@ -13,6 +13,7 @@ enum class CollisionOrder
 	Object_CharacterColCheck,
 	Object_Character_Interact,
 	Object_Moveable,
+	Object_StaticObject_1,
 
 	// Collision 물리 충돌용
 	Floor,			// 바닥 콜리전
