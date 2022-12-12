@@ -12,7 +12,7 @@ public:
 	ResultLevelActor& operator=(const ResultLevelActor&& _Other) noexcept = delete;
 
 protected:
-	std::weak_ptr<GameEngineFBXAnimationRenderer> Mesh;
+	std::weak_ptr<GameEngineFBXAnimationRenderer> OnionKing_;
 	void UIStart() override;
 	void UIUpdate(float _DeltaTime) override;
 	void UIEnd() override;

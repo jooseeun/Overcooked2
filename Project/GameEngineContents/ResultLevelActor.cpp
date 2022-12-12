@@ -80,42 +80,52 @@ void ResultLevelActor::UIStart()
 
 	//어니언킹
 	{
-		Mesh = CreateComponent<GameEngineFBXAnimationRenderer>();
-		Mesh.lock()->ChangeCamera(CAMERAORDER::AboveUICAMERA);
+		OnionKing_ = CreateComponent<GameEngineFBXAnimationRenderer>();
+		OnionKing_.lock()->ChangeCamera(CAMERAORDER::AboveUICAMERA);
 
-		Mesh.lock()->SetFBXMeshExceptionMesh("m_onion_king_01.fbx", "TextureAnimation", 7);
+		OnionKing_.lock()->SetFBXMeshExceptionMesh("m_onion_king_01.fbx", "TextureAnimation", 7);
 
-		Mesh.lock()->CreateFBXAnimation("Phase0_0",
+		OnionKing_.lock()->CreateFBXAnimation("Phase0_0",
 			GameEngineRenderingEvent("m_onion_king_01.fbx", 0.035f, true), 0);
-		Mesh.lock()->CreateFBXAnimation("Phase1_0",
+		OnionKing_.lock()->CreateFBXAnimation("Phase1_0",
 			GameEngineRenderingEvent("m_onion_king_01.fbx", 0.035f, true), 1);
-		Mesh.lock()->CreateFBXAnimation("Phase1_1",
+		OnionKing_.lock()->CreateFBXAnimation("Phase1_1",
 			GameEngineRenderingEvent("m_onion_king_01.fbx", 0.035f, true), 2);
-		Mesh.lock()->CreateFBXAnimation("Phase2_0",
+		OnionKing_.lock()->CreateFBXAnimation("Phase2_0",
 			GameEngineRenderingEvent("m_onion_king_01.fbx", 0.035f, true), 3);
-		Mesh.lock()->CreateFBXAnimation("Phase2_1",
+		OnionKing_.lock()->CreateFBXAnimation("Phase2_1",
 			GameEngineRenderingEvent("m_onion_king_01.fbx", 0.035f, false), 5);
 
-		Mesh.lock()->ChangeAnimation("Phase2_1");
-		Mesh.lock()->GetTransform().SetLocalScale({ 200,200,200 });
-		Mesh.lock()->GetTransform().SetLocalPosition({ 390.f,-68.f,0.f });
-		Mesh.lock()->GetTransform().SetLocalRotation({ 0,180,0 });
+		OnionKing_.lock()->ChangeAnimation("Phase1_0");
+		OnionKing_.lock()->GetTransform().SetLocalScale({ 200,200,200 });
+		OnionKing_.lock()->GetTransform().SetLocalPosition({ 380.f,-68.f,0.f });
+		OnionKing_.lock()->GetTransform().SetLocalRotation({ 0,180,0 });
 
-		ResistDebug("OnionKing", Mesh.lock()->GetTransform());
+		ResistDebug("OnionKing", OnionKing_.lock()->GetTransform());
 	}
 
-	Mesh.lock()->AnimationBindTime("Phase2_1", [&](const GameEngineRenderingEvent& _Info, float _Time)
-		{
-			if (_Info.PlayTime >= 0.8f)
+	//어니언킹 애니메이션 바인딩
+	{
+		OnionKing_.lock()->AnimationBindTime("Phase2_0", [&](const GameEngineRenderingEvent& _Info, float _Time)
 			{
-				Mesh.lock()->ChangeAnimation("Phase2_1");
-				Mesh.lock()->GetTransform().SetLocalScale({ 200,200,200 });
-				Mesh.lock()->GetTransform().SetLocalPosition({ 390.f,-68.f,0.f });
-				Mesh.lock()->GetTransform().SetLocalRotation({ 0,180,0 });
-				Mesh.lock()->GetCurAnim()->bOnceEnd = false;
-				Mesh.lock()->GetCurAnim()->Reset();
-			}
-		});
+				if (_Info.PlayTime >= 2.35f)
+				{
+					OnionKing_.lock()->ChangeAnimation("Phase2_0");
+					OnionKing_.lock()->GetCurAnim()->bOnceEnd = false;
+					OnionKing_.lock()->GetCurAnim()->Reset();
+				}
+			});
+
+		OnionKing_.lock()->AnimationBindTime("Phase2_1", [&](const GameEngineRenderingEvent& _Info, float _Time)
+			{
+				if (_Info.PlayTime >= 0.8f)
+				{
+					OnionKing_.lock()->ChangeAnimation("Phase2_1");
+					OnionKing_.lock()->GetCurAnim()->bOnceEnd = false;
+					OnionKing_.lock()->GetCurAnim()->Reset();
+				}
+			});
+	}
 }
 
 void ResultLevelActor::UIUpdate(float _DeltaTime)
