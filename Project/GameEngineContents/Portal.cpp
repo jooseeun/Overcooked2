@@ -15,13 +15,13 @@ void Portal::SetPortalMesh(MapObjType _PortalType)
 	{
 	case MapObjType::Portal_Blue:
 	{
-		GetFBXMesh()->SetFBXMesh("Portal_Blue2.fbx", "Texture");
+		GetFBXMesh()->SetFBXMesh("Portal_Blue2.fbx", "Swirl");
 		//BlendRenderer_->SetFBXMesh("Portal_Blue2.fbx", "Texture", 1);
 	}
 		break;
 	case MapObjType::Portal_Purple:
 	{
-		GetFBXMesh()->SetFBXMesh("Portal_Purple2.fbx", "Texture");
+		GetFBXMesh()->SetFBXMesh("Portal_Purple2.fbx", "Swirl");
 		//BlendRenderer_->SetFBXMesh("Portal_Purple2.fbx", "Texture", 1);
 	}
 		break;
@@ -46,5 +46,7 @@ void Portal::Start()
 void Portal::Update(float _DeltaTime)
 {
 	RenderOptionMyInst.UV.y += _DeltaTime * 1.7f;
+	GetFBXMesh()->RenderOptionInst.Random += _DeltaTime;
+
 }
 

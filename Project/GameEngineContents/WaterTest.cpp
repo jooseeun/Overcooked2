@@ -14,7 +14,7 @@ void WaterTest::Start()
 	{
 		Renderer_ = CreateComponent<GameEngineTextureRenderer>();
 		Renderer_->GetTransform().SetWorldScale({ 800, 800, 1 });
-		Renderer_->SetMaterial("JBMWater");
+		Renderer_->SetMaterial("Swirl");
 		Renderer_->SetMesh("FullRect");
 		Renderer_->SetTexture("Icy_Water.png");
 		Renderer_->SetRenderingOrder(999);
@@ -44,6 +44,8 @@ void WaterTest::Start()
 
 void WaterTest::Update(float _Delta)
 {
+
+	//Renderer_->GetPixelData().Time = _Delta;
 	if (GameEngineInput::GetInst()->IsDownKey("Test1"))
 	{
 		if (Renderer_->IsUpdate())
@@ -86,5 +88,5 @@ void WaterTest::Update(float _Delta)
 	Renderer2_->RenderOptionInst.UV.y -= _Delta * 0.01f;
 	Renderer2_->RenderOptionInst.Random += _Delta;
 
-	Renderer_->RenderOptionInst.UV.y -= _Delta * 0.01f;
+	Renderer_->RenderOptionInst.Random += _Delta;
 }

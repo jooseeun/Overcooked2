@@ -152,6 +152,13 @@ void Overcooked::LoadMaterial()
 	}
 
 	{
+		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("Swirl");
+		NewPipe->SetVertexShader("Swirl.hlsl");
+		NewPipe->SetPixelShader("Swirl.hlsl");
+	}
+
+
+	{
 		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("Bloom");
 		NewPipe->SetVertexShader("Bloom.hlsl");
 		NewPipe->SetPixelShader("Bloom.hlsl");
