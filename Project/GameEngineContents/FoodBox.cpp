@@ -4,7 +4,7 @@
 
 FoodBox::FoodBox()
 	: IsOpen_(false)
-	, IsInteraction_(false)
+	, IsInteraction_(true)
 	, Angle_(0.f)
 	, Renderer_(nullptr)
 	, LidRenderer_(nullptr)
@@ -191,7 +191,7 @@ void FoodBox::Update(float _DeltaTime)
 			if (0.f >= Angle_)
 			{
 				Angle_ = 0.f;
-				IsInteraction_ = false;	//
+			//	IsInteraction_ = false;	//
 				IsOpen_ = false;
 			}
 		}

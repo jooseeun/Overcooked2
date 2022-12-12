@@ -503,7 +503,7 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 			SortActorList_.push_back(CurActor_);
 
 			CurActor_.lock()->GetTransform().SetWorldPosition(_Data[i].Pos_);
-			CurActor_.lock()->GetFBXMesh()->GetTransform().SetWorldRotation(_Data[i].Rot_);
+			CurActor_.lock()->GetTransform().SetWorldRotation(_Data[i].Rot_);
 			CurActor_.lock()->GetTransform().SetWorldScale(_Data[i].Scale_);
 
 			//if (nullptr != CurActor_.lock()->GetStuff())
