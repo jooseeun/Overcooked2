@@ -7,7 +7,6 @@
 GameEngineFBXAnimationRenderer::GameEngineFBXAnimationRenderer()
 	: Pause(false)
 {
-
 }
 
 GameEngineFBXAnimationRenderer::~GameEngineFBXAnimationRenderer()
@@ -198,7 +197,6 @@ void GameEngineFBXAnimationRenderer::SetFBXMesh(const std::string& _Name, const 
 		return;
 	}
 
-
 	GameEngineFBXRenderer::SetFBXMesh(_Name, _Material);
 }
 
@@ -270,6 +268,34 @@ GameEngineRenderUnit* GameEngineFBXAnimationRenderer::SetFBXMesh(const std::stri
 	}
 
 	return Unit;
+}
+
+void GameEngineFBXAnimationRenderer::SetFBXMeshExceptionMesh(const std::string& _Name, std::string _Material, size_t MeshIndex)
+{
+	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(_Name);
+
+	if (GlobalIOManager::Load(IOType::Mesh, "_" + FindFBXMesh->GetNameCopy()))
+	{
+		MeshData Data = GlobalIOManager::GetMeshData();
+
+		for (size_t j = 0; j < Data.PreviewMeshInfo_.size(); j++)
+		{
+			FindFBXMesh->GetFbxRenderUnit()[j].MaterialData[0].DifTexturePath = Data.PreviewMeshInfo_[j].DifTexturePath_;
+			FindFBXMesh->GetFbxRenderUnit()[j].MaterialData[0].DifTextureName = Data.PreviewMeshInfo_[j].DifTextureName_;
+		}
+	}
+
+	for (size_t UnitCount = 0; UnitCount < FindFBXMesh->GetRenderUnitCount(); UnitCount++)
+	{
+		if (UnitCount == MeshIndex)
+		{
+			continue;
+		}
+		for (size_t SubSetCount = 0; SubSetCount < FindFBXMesh->GetSubSetCount(UnitCount); SubSetCount++)
+		{
+			SetFBXMesh(_Name, _Material, UnitCount, SubSetCount);
+		}
+	}
 }
 
 void GameEngineFBXAnimationRenderer::PauseSwtich()
@@ -345,7 +371,6 @@ void GameEngineFBXAnimationRenderer::ChangeAnimation(const std::string& _Animati
 	CurAnimation = FindIter->second;
 }
 
-
 void GameEngineFBXAnimationRenderer::ChangeAnimationFrame(size_t _StartIndex)
 {
 	size_t ChangeFrame = _StartIndex;
@@ -357,7 +382,6 @@ void GameEngineFBXAnimationRenderer::ChangeAnimationFrame(size_t _StartIndex)
 
 	CurAnimation->GetRendereringEvent().CurFrame = static_cast<unsigned int>(ChangeFrame);
 }
-
 
 void GameEngineFBXAnimationRenderer::Update(float _DeltaTime)
 {

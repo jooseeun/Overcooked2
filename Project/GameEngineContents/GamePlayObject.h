@@ -61,6 +61,7 @@ public:
 	std::shared_ptr<GameEngineFBXStaticRenderer> ChangeFBXMesh()
 	{
 		Mesh_Object_->Death();
+		Mesh_Object_->Off();
 		Mesh_Object_ = CreateComponent<GameEngineFBXStaticRenderer>("Mesh_Object");
 		return Mesh_Object_;
 	}

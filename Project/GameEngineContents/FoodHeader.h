@@ -6,5 +6,8 @@
 #include "Food_Ingredients_Lettuce.h"
 #include "Food_Ingredients_Cheese.h"
 #include "Food_Ingredients_Bread.h"
+#include "Food_Ingredients_Seaweed.h"
+#include "Food_Ingredients_Cucumber.h"
+#include "Food_Ingredients_Rice.h"
 //#include "Food_Ingredients_.h"
 //#include "Food_Ingredients_.h"

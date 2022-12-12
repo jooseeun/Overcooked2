@@ -23,6 +23,10 @@ protected:
 	void PlayLevelStartEvent() override;
 
 private:
+	RenderOption WaterRenderOption1_;
+	RenderOption WaterRenderOption2_;
+
+	std::shared_ptr<GameEngineActor> WaterActor_;
 	std::shared_ptr<Player> MainPlayer;
 	std::shared_ptr<Cannon> CannonObj;
 	bool IsLevelFirst_ = true;

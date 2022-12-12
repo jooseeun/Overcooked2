@@ -15,9 +15,10 @@ struct Output
 
 Output JBMWater_VS(Input _Input)
 {
-    Output NewOutPut = (Output) 0;
-    NewOutPut.Pos = _Input.Pos;
-    NewOutPut.Tex = _Input.Tex;
+    Output NewOutPut = (Output)0;
+    NewOutPut.Pos = mul(_Input.Pos, WorldViewProjection);
+    NewOutPut.Tex = _Input.Tex * 2.5f;
+
     return NewOutPut;
 }
 

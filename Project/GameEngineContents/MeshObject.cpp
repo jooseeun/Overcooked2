@@ -13,3 +13,7 @@ void MeshObject::Start()
 {
 
 }
+
+void MeshObject::Update(float _DeltaTime)
+{
+}

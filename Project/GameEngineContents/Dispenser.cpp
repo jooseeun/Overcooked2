@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "Dispenser.h"
+#include "FoodHeader.h"
 
 Dispenser::Dispenser() 
 {
@@ -11,21 +12,7 @@ Dispenser::~Dispenser()
 
 void Dispenser::SettingIngredientList(DispenserType _Type)
 {
-	switch (_Type)
-	{
-	case DispenserType::Type1:
-	{
-		IngredientList_.push_back(IngredientType::Seaweed);
-		IngredientList_.push_back(IngredientType::Rice);
-	}
-		break;
-	case DispenserType::Type2:
-	{
-		IngredientList_.push_back(IngredientType::Prawn);
-		IngredientList_.push_back(IngredientType::Fish);
-	}
-		break;
-	}
+	GetStuff()->CastThis<Tool_Dispenser>()->SettingIngredientList(_Type);
 }
 
 void Dispenser::Start()
@@ -37,6 +24,8 @@ void Dispenser::Start()
 
 	GetCollisionObject()->GetTransform().SetWorldScale({ 120, 50, 120 });
 	GetCollisionObject()->GetTransform().SetWorldMove({ 0, 25, 0 });
+
+	SetStuff(GetLevel()->CreateActor<Tool_Dispenser>());
 }
 
 void Dispenser::Update(float _DeltaTime)
@@ -45,6 +34,9 @@ void Dispenser::Update(float _DeltaTime)
 
 
 Tool_Dispenser::Tool_Dispenser()
+	: FirstTimeCheck_(false)
+	, Index_(false)
+	, Delay_(0)
 {
 }
 
@@ -58,3 +50,72 @@ void Tool_Dispenser::Start()
 	GamePlayTool::SetObjectToolType(ObjectToolType::Dispenser);
 }
 
+void Tool_Dispenser::SettingIngredientList(DispenserType _Type)
+{
+	switch (_Type)
+	{
+	case DispenserType::Type1:
+	{
+		IngredientList_.push_back(IngredientType::Seaweed);
+		IngredientList_.push_back(IngredientType::Rice);
+	}
+	break;
+	case DispenserType::Type2:
+	{
+		IngredientList_.push_back(IngredientType::Prawn);
+		IngredientList_.push_back(IngredientType::Fish);
+	}
+	break;
+	}
+}
+
+
+void Tool_Dispenser::Update(float _Delta)
+{
+	if (FirstTimeCheck_ == false)
+	{
+		std::shared_ptr<GameEngineCollision> Collision = CreateComponent<GameEngineCollision>();
+		Collision->GetTransform().SetLocalPosition({ -50, 0, -50 });
+		Collision->GetTransform().SetWorldScale({ 100, 50, 50 });
+		Collision->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
+			std::bind(&Tool_Dispenser::GetFrontStaticObject, this, std::placeholders::_1, std::placeholders::_2));
+		Collision->Off();
+		Collision->Death();
+		Collision = nullptr;
+
+		FirstTimeCheck_ = true;
+	}
+
+	if (Front_StaticObject_.lock() != nullptr)
+	{
+		Delay_ += _Delta;
+		if (Front_StaticObject_.lock()->GetMoveable() == nullptr && Delay_ > 3.f)
+		{
+			Delay_ = 0;
+		//	Front_StaticObject_.lock()->SetMoveable(GetLevel()->CreateActor<Food_Ingredients_Fish>()); //µð¹ö±ë¿ë
+
+			++Index_;
+			if (Index_ >= IngredientList_.size())
+			{
+				Index_ = 0;
+			}
+			Front_StaticObject_.lock()->SetMoveable(GamePlayFood::GetIngredientClass(IngredientList_[Index_]));
+		}
+	}
+}
+
+CollisionReturn Tool_Dispenser::GetFrontStaticObject(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
+{
+	if (GetParent() == _Other->GetParent())
+	{
+		return CollisionReturn::ContinueCheck;
+	}
+	std::weak_ptr<GamePlayStaticObject> Object = _Other->GetParent()->CastThis<GamePlayStaticObject>();
+
+	if (Object.lock() != nullptr)
+	{
+		Front_StaticObject_ = Object.lock();
+		return CollisionReturn::Break;
+	}
+	return CollisionReturn::ContinueCheck;
+}

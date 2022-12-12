@@ -26,6 +26,8 @@ protected:
 	void Start() override;
 
 private:
+
+	std::shared_ptr<GameEngineCollision> Collision_Sink_;
 };
 
 // Ό³Έν :
@@ -52,12 +54,9 @@ public:
 protected:
 	void Start() override;
 
-	void LevelStartEvent() override;
-	void LevelEndEvent() override;
-
 private:
 	static Tool_Sink* Inst_;
+	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable) override;
 
-	//UsingDownEnum UsingDown(std::shared_ptr<GamePlayStuff> _Stuff) override;
 };
 

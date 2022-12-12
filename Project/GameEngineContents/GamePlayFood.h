@@ -181,6 +181,8 @@ public:
 		return false;
 	}
 
+	static std::shared_ptr<GamePlayFood> GetIngredientClass(IngredientType _Type);
+
 	inline const std::string& GetMeshName() const
 	{
 		return MeshName_;

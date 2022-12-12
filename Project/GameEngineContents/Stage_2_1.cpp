@@ -28,6 +28,9 @@ void Stage_2_1::PlayLevelUpdate(float _DeltaTime)
 
 		GameEngineDebug::OutPutString(std::to_string(SubsetDebugIndex_));
 	}
+
+	WaterRenderOption1_.UV.y += _DeltaTime * 0.25f;
+	WaterRenderOption2_.UV.y += _DeltaTime * 0.25f;
 }
 
 void Stage_2_1::End()
@@ -46,23 +49,24 @@ void Stage_2_1::PlayLevelStartEvent()
 	LevelActor_ = CreateActor<LevelActor>();
 	LevelActor_->SetLevelMesh("2_1.FBX");
 
-	//{
-	//	std::shared_ptr<GameEngineTextureRenderer> Water_ = CreateActor<GameEngineActor>()->CreateComponent<GameEngineTextureRenderer>();
-	//	Water_->GetTransform().SetWorldScale({ 800, 800, 1 });
-	//	Water_->SetMaterial("JBMWater");
-	//	Water_->SetMesh("FullRect");
-	//	Water_->SetTexture("Icy_Water.png");
-	//	Water_->SetRenderingOrder(999);
-	//}
+	WaterActor_ = CreateActor<GameEngineActor>();
+	WaterActor_->GetTransform().SetWorldScale({ 2000, 3000, 1 });
+	WaterActor_->GetTransform().SetWorldPosition({-1500.f, -50.f, -1200.f});
+	WaterActor_->GetTransform().SetWorldRotation({ 90.f, 0.f, 0.f });
 
-	//{
-	//	std::shared_ptr<GameEngineTextureRenderer> Water_ = CreateActor<GameEngineActor>()->CreateComponent<GameEngineTextureRenderer>();
-	//	Water_->GetTransform().SetWorldScale({ 800, 800, 1 });
-	//	Water_->SetMaterial("JBMWater");
-	//	Water_->SetMesh("FullRect");
-	//	Water_->SetTexture("water2.png");
-	//	Water_->SetRenderingOrder(999);
-	//}
+	{
+		std::shared_ptr<GameEngineTextureRenderer> Water = WaterActor_->CreateComponent<GameEngineTextureRenderer>();
+		Water->SetMaterial("JBMWater");
+		Water->SetTexture("Icy_Water.png");
+		Water->GetShaderResources().SetConstantBufferLink("RENDEROPTION", &WaterRenderOption1_, sizeof(RenderOption));
+	}
+
+	{
+		std::shared_ptr<GameEngineTextureRenderer> Water = WaterActor_->CreateComponent<GameEngineTextureRenderer>();
+		Water->SetMaterial("JBMWater");
+		Water->SetTexture("water2.png");
+		Water->GetShaderResources().SetConstantBufferLink("RENDEROPTION", &WaterRenderOption2_, sizeof(RenderOption));
+	}
 
 	GlobalIOManager::Load(IOType::SortMap, 4);
 	DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
@@ -75,7 +79,7 @@ void Stage_2_1::PlayLevelStartEvent()
 
 	MainPlayer = CreateActor<Player>();
 	MainPlayer->GetTransform().SetLocalPosition({ -2300, 0, -800 });
-	MainPlayer->SetResponePos({ -2300, 0, -800  });
+	MainPlayer->SetResponePos({ -2300, 0, -800 });
 
 	std::shared_ptr<IceBlock> Block = CreateActor <IceBlock>();
 	Block->GetTransform().SetWorldPosition({ -1383.f, 0.f, -2070.f });

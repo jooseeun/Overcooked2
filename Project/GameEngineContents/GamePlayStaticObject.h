@@ -30,7 +30,6 @@ public:
 	}
 	std::shared_ptr<GamePlayMoveable> GetMoveable() const;
 	std::shared_ptr<GamePlayMoveable> GetMoveable_TakeOut();
-	bool SetCheckAndPushMoveable(std::shared_ptr<GamePlayMoveable> _Moveable);
 	void SetMoveable(std::shared_ptr<GamePlayMoveable> _Moveable);
 
 	inline void SetStuff(std::shared_ptr<Player> _Player)
@@ -79,6 +78,11 @@ public:
 		return ToolPos_;
 	}
 
+	std::shared_ptr<GameEngineCollision> GetCrashCollision()
+	{
+		return CrashCollision_;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override {};
@@ -94,6 +98,7 @@ protected:
 
 private:
 	std::shared_ptr<GamePlayStuff> Stuff_Current_;
+	std::shared_ptr<GameEngineCollision> CrashCollision_;
 
 	MapObjType MyType_;
 

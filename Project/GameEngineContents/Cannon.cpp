@@ -5,7 +5,7 @@ Cannon::Cannon()
 	: CurState_(CannonState::Shoot)
 	, Interaction_(false)
 	, ZAngle_({0.f, 0.f, -50.f})
-	, MaxAngle_({0.f, 0.f, -400.f})
+	, MaxAngle_({0.f, 0.f, -60.f})
 	, Speed_(50.f)
 {
 }
@@ -60,6 +60,17 @@ void Cannon::Update(float _DeltaTime)
 	// Button => Off
 
 	// Shoot ³¡³­ ÈÄ => Idle
+
+
+	if (Mesh_Object_->GetTransform().GetWorldRotation().z < MaxAngle_.z && Mesh_Object_->GetTransform().GetWorldRotation().z != 0.f)
+	{
+		int a = 0;
+	}
+	else if(Mesh_Object_->GetTransform().GetWorldRotation().z > MaxAngle_.z)
+	{
+		Mesh_Object_->GetTransform().SetAddWorldRotation(ZAngle_ * _DeltaTime);
+
+	}
 
 	DebugOn();
 

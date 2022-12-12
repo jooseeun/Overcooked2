@@ -41,7 +41,7 @@ public:
 	}
 
 public:
-	FBXRendererAnimation() 
+	FBXRendererAnimation()
 		: Start(0)
 		, End(0)
 		, bOnceStart(false)
@@ -83,6 +83,7 @@ public:
 	void SetFBXMesh(const std::string& _Name) override;
 	void SetFBXMesh(const std::string& _Name, const std::string& _Material) override;
 	GameEngineRenderUnit* SetFBXMesh(const std::string& _Name, std::string _Material, size_t _MeshIndex, size_t _SubSetIndex = 0) override;
+	virtual void SetFBXMeshExceptionMesh(const std::string& _Name, std::string _Material, size_t MeshIndex);
 
 	void CreateFBXAnimation(const std::string& _AnimationName, const GameEngineRenderingEvent& _Desc, int _Index = 0);
 	void ChangeAnimation(const std::string& _AnimationName, bool _IsBlending = false);
@@ -169,6 +170,4 @@ private:
 
 	float IsChangeTimer_;
 	std::map<size_t, std::vector<AnimationBoneData>> BeforeAnimationBoneDatas;
-
 };
-
