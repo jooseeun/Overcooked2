@@ -12,12 +12,14 @@ Button::~Button()
 
 void Button::Start()
 {
-	GamePlayStaticObject::Start();
+	Mesh_Object_ = CreateComponent<GameEngineFBXStaticRenderer>("Mesh_Object");
+	Collision_Object_ = CreateComponent<GameEngineCollision>("Collision_Object");
 
-	GetFBXMesh()->SetFBXMesh("ButtonOff2.fbx", "Texture");
-	GetFBXMesh()->GetTransform().SetWorldMove({ 0, 0, -50 });
-	GetCollisionObject()->ChangeOrder(CollisionOrder::Map_Button);
-	GetCollisionObject()->GetTransform().SetWorldScale({ 100, 100, 100 });
+	Mesh_Object_->SetFBXMesh("ButtonOff2.fbx", "Texture");
+	Mesh_Object_->GetTransform().SetWorldMove({ 0, 40.f, 0.f });
+	Mesh_Object_->GetTransform().SetWorldRotation({ 90.f, 0.f, 0.f });
+	Collision_Object_->ChangeOrder(CollisionOrder::Map_Button);
+	Collision_Object_->GetTransform().SetWorldScale({ 100, 100, 100 });
 }
 
 void Button::Update(float _DeltaTime)
@@ -31,7 +33,7 @@ void Button::Update(float _DeltaTime)
 			return;
 		}
 		IsOn_ = false;
-		GetFBXMesh()->SetFBXMesh("ButtonOff2.fbx", "Texture");
+		Mesh_Object_->SetFBXMesh("ButtonOff2.fbx", "Texture");
 	}
 	else if (GetCannonState() == CannonState::Ready)
 	{
@@ -40,7 +42,7 @@ void Button::Update(float _DeltaTime)
 			return;
 		}
 		IsOn_ = true;
-		GetFBXMesh()->SetFBXMesh("ButtonOn2.fbx", "Texture");
+		Mesh_Object_->SetFBXMesh("ButtonOn2.fbx", "Texture");
 	}
 }
 

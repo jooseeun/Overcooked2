@@ -5,7 +5,9 @@ Cannon::Cannon()
 	: CannonBase_(nullptr)
 	, CurState_(CannonState::Max)
 	, Interaction_(false)
-	, ZAngle_({0.f, 0.f, -30.f})
+	, ZAngle_({0.f, 0.f, -50.f})
+	, MaxAngle_({0.f, 0.f, -400.f})
+	, Speed_(50.f)
 {
 }
 
@@ -15,8 +17,6 @@ Cannon::~Cannon()
 
 void Cannon::Start()
 {
-	GamePlayStaticObject::Start();
-
 	CannonBase_ = GetLevel()->CreateActor<GameEngineActor>();
 	CannonBase_->SetParent(shared_from_this());
 
@@ -24,12 +24,15 @@ void Cannon::Start()
 	BaseRenderer->SetFBXMesh("Cannon_Base.fbx", "Texture");
 	BaseRenderer->GetTransform().SetWorldScale({ 100, 100, 100 });
 
-	GetFBXMesh()->SetFBXMesh("m_dlc08_cannon_02.fbx", "Texture");
-	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
-	GetFBXMesh()->GetTransform().SetWorldMove({ 0, 100, 0 });
+	Mesh_Object_ = CreateComponent<GameEngineFBXStaticRenderer>("Mesh_Object");
+	Collision_Object_ = CreateComponent<GameEngineCollision>("Collision_Object");
 
-	GetCollisionObject()->ChangeOrder(CollisionOrder::Map_Cannon);
-	GetCollisionObject()->GetTransform().SetWorldScale({ 100, 100, 100 });
+	Mesh_Object_->SetFBXMesh("m_dlc08_cannon_02.fbx", "Texture");
+	Mesh_Object_->GetTransform().SetWorldScale({ 100, 100, 100 });
+	Mesh_Object_->GetTransform().SetWorldMove({ 0, 100, 0 });
+
+	Collision_Object_->ChangeOrder(CollisionOrder::Map_Cannon);
+	Collision_Object_->GetTransform().SetWorldScale({ 100, 100, 100 });
 
 	StateManager.CreateStateMember("Idle"
 		, std::bind(&Cannon::IdleUpdate, this, std::placeholders::_1, std::placeholders::_2)
@@ -60,7 +63,7 @@ void Cannon::Update(float _DeltaTime)
 	// Button => Off
 
 	// Shoot ³¡³­ ÈÄ => Idle
-	GetFBXMesh()->GetTransform().SetAddWorldRotation( ZAngle_  *_DeltaTime);
+	Mesh_Object_->GetTransform().SetAddWorldRotation( ZAngle_  *_DeltaTime);
 }
 
 void Cannon::IdleStart(const StateInfo& _Info)

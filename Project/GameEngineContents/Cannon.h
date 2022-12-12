@@ -1,5 +1,5 @@
 #pragma once
-#include "GamePlayStaticObject.h"
+#include "GameEngineCore//GameEngineActor.h"
 #include "Player.h"
 enum class CannonState
 {
@@ -12,7 +12,7 @@ enum class CannonState
 
 // Ό³Έν :
 
-class Cannon : public GamePlayStaticObject
+class Cannon : public GameEngineActor
 {
 
 public:
@@ -70,6 +70,9 @@ protected:
 
 private:
 	std::shared_ptr<GameEngineActor> CannonBase_;
+	std::shared_ptr<GameEngineFBXStaticRenderer> Mesh_Object_;
+	std::shared_ptr<GameEngineFBXAnimationRenderer> AnimationMesh_Obejct_;
+	std::shared_ptr<GameEngineCollision> Collision_Object_;
 
 	std::shared_ptr<Player> CurPlayer_;
 
@@ -78,5 +81,7 @@ private:
 
 	bool Interaction_;
 	float4 ZAngle_;
+	float4 MaxAngle_;
+	float Speed_;
 };
 

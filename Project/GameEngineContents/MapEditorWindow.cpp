@@ -1086,7 +1086,7 @@ void MapEditorWindow::SortToolTab()
 			Object.lock()->SetStaticObjectType(MapObjType::CounterTop_Winter);
 		}
 		break;
-		case 14:
+		/*case 14:
 		{
 			CurStaticMesh_ = CurLevel_->CreateActor<Cannon>();
 			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::Cannon);
@@ -1097,7 +1097,7 @@ void MapEditorWindow::SortToolTab()
 			CurStaticMesh_ = CurLevel_->CreateActor<Button>();
 			CurStaticMesh_.lock()->SetStaticObjectType(MapObjType::Button);
 		}
-		break;
+		break;*/
 		case 16:
 		{
 			CurStaticMesh_ = CurLevel_->CreateActor<Oven>();

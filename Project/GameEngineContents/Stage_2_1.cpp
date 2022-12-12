@@ -2,6 +2,8 @@
 #include "Stage_2_1.h"
 #include "Player.h"
 #include "IceBlock.h"
+#include "Cannon.h"
+#include "Button.h"
 
 #include "PortalCollision.h"
 
@@ -94,6 +96,12 @@ void Stage_2_1::PlayLevelStartEvent()
 
 	Puple2->SetNextPotal(Puple1);
 	Puple2->SetNextPos({ -591.00,260.00,-1402.00 });
+
+	std::shared_ptr<Cannon> CannonObj = CreateActor<Cannon>();
+	CannonObj->GetTransform().SetWorldPosition({-606.f, 0.f, -1111.f});
+
+	std::shared_ptr<Button> ButtonObj = CreateActor<Button>();
+	ButtonObj->GetTransform().SetWorldPosition({ -606.f, 0.f, -989.f });
 
 	return;
 }

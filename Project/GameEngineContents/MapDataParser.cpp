@@ -420,18 +420,18 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 			Object.lock()->SetStaticObjectType(MapObjType::Dispenser_Type2);
 		}
 		break;
-		case MapObjType::Cannon:
-		{
-			CurActor_ = _Level->CreateActor<Cannon>();
-			CurActor_.lock()->SetStaticObjectType(MapObjType::Cannon);
-		}
-		break;
-		case MapObjType::Button:
-		{
-			CurActor_ = _Level->CreateActor<Button>();
-			CurActor_.lock()->SetStaticObjectType(MapObjType::Button);
-		}
-		break;
+		//case MapObjType::Cannon:
+		//{
+		//	CurActor_ = _Level->CreateActor<Cannon>();
+		//	CurActor_.lock()->SetStaticObjectType(MapObjType::Cannon);
+		//}
+		//break;
+		//case MapObjType::Button:
+		//{
+		//	CurActor_ = _Level->CreateActor<Button>();
+		//	CurActor_.lock()->SetStaticObjectType(MapObjType::Button);
+		//}
+		//break;
 		case MapObjType::Oven:
 		{
 			CurActor_ = _Level->CreateActor<Oven>();
