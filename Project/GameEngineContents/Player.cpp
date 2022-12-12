@@ -454,6 +454,11 @@ void Player::Update(float _DeltaTime)
 		ServerUpdate(_DeltaTime);
 	}
 
+	if (MyPlayer != shared_from_this())
+	{
+		return;
+	}
+
 	StateManager.Update(_DeltaTime);
 	PNumSgtringUpdate();
 	DashCheck(_DeltaTime);
@@ -1143,6 +1148,7 @@ CollisionReturn Player::InteractTableCheck(std::shared_ptr<GameEngineCollision> 
 //////// ¼­¹ö 
 std::shared_ptr<Player> Player::MyPlayer = nullptr;
 bool Player::OnePlayerInit = false;
+int Player::MaxPlayerCount_ = 0;
 int Player::PlayerCount_ = 0;
 
 void Player::ServerStart()
@@ -1177,9 +1183,12 @@ void Player::ServerUpdate(float _DeltaTime)
 		Packet->Rot = GetTransform().GetWorldRotation();
 		Packet->Scale = GetTransform().GetWorldScale();
 		Packet->Animation = "Test";
-		GameEngineDebug::OutPutString(Packet->Pos.ToString());
 		CurManager->Net->SendPacket(Packet);
 
+		if (Player::MaxPlayerCount_ < Packet->ObjectID)
+		{
+			Player::MaxPlayerCount_ = Packet->ObjectID;
+		}
 		return;
 	}
 

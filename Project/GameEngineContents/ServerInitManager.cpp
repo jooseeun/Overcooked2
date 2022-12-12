@@ -24,21 +24,15 @@ void ServerInitManager::ObjectUpdatePacketProcess(std::shared_ptr<GameServerPack
 
 	if (nullptr == FindObject)
 	{
+		if (ServerObjectType::Player == Packet->Type)
+		{
+			if (Player::MaxPlayerCount_ < Packet->ObjectID)
+			{
+				Player::MaxPlayerCount_ = Packet->ObjectID;
+			}
+		}
+
 		return;
-		//ServerObjectType Type = Packet->Type;
-		//switch (Type)
-		//{
-		//case ServerObjectType::Player:
-		//{
-		//	std::shared_ptr<Player> NewPlayer = GEngine::GetCurrentLevel()->CreateActor<Player>();
-		//	NewPlayer->ClientInit(Packet->Type, Packet->ObjectID);
-		//	FindObject = NewPlayer.get();
-		//	break;
-		//}
-		//default:
-		//	int a = 0;
-		//	break;
-		//}
 	}
 
 	FindObject->PushPacket(_Packet);
@@ -143,11 +137,16 @@ void ServerInitManager::Update(float _Delta)
 		return;
 	}
 
-	std::vector<SOCKET> TmpSockets = Server.GetUserSockets();
-	if (Player::PlayerCount_ < TmpSockets.size() + 1)
+	if (Player::MaxPlayerCount_ > Player::PlayerCount_)
 	{
-		std::shared_ptr<Player> NewPlayer = GEngine::GetCurrentLevel()->CreateActor<Player>();
-		NewPlayer->ClientInit(ServerObjectType::Player, TmpSockets.size());
-		NewPlayer->GetTransform().SetLocalPosition({ -1400, 500, 200 });
+		for (int i = 0; i < Player::MaxPlayerCount_; i++)
+		{
+			if (nullptr == GameServerObject::GetServerObject(i + 1))
+			{
+				std::shared_ptr<Player> NewPlayer = GEngine::GetCurrentLevel()->CreateActor<Player>();
+				NewPlayer->ClientInit(ServerObjectType::Player, i + 1);
+				NewPlayer->GetTransform().SetLocalPosition({ -1400, 500, 200 });
+			}
+		}
 	}
 }
