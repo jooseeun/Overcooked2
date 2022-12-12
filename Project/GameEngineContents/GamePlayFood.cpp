@@ -89,6 +89,7 @@ std::shared_ptr<GamePlayFood> GamePlayFood::GetIngredientClass(IngredientType _T
 	case IngredientType::Dough:
 		break;
 	case IngredientType::Seaweed:
+		Moveable = (GEngine::GetCurrentLevel()->CreateActor<Food_Ingredients_Seaweed>());
 		break;
 	case IngredientType::Mushroom:
 		break;
@@ -99,6 +100,7 @@ std::shared_ptr<GamePlayFood> GamePlayFood::GetIngredientClass(IngredientType _T
 		Moveable = (GEngine::GetCurrentLevel()->CreateActor<Food_Ingredients_Lettuce>());
 		break;
 	case IngredientType::Rice:
+		Moveable = (GEngine::GetCurrentLevel()->CreateActor<Food_Ingredients_Rice>());
 		break;
 	case IngredientType::Flour:
 		break;
@@ -136,6 +138,7 @@ std::shared_ptr<GamePlayFood> GamePlayFood::GetIngredientClass(IngredientType _T
 		Moveable = (GEngine::GetCurrentLevel()->CreateActor<Food_Ingredients_Prawn>());
 		break;
 	case IngredientType::Cucumber:
+		Moveable = (GEngine::GetCurrentLevel()->CreateActor<Food_Ingredients_Cucumber>());
 		break;
 	case IngredientType::Orange:
 		break;

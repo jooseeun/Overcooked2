@@ -28,7 +28,7 @@ void Rail::Update(float _Delta)
 {
 	RenderOptionMyInst.UV.x += _Delta;
 
-	//GetTransform().SetWorldRotation({ 0, 90, 0 });
+	GetTransform().SetWorldRotation({ 0, 0, 0 });
 	//GameEngineDebug::OutPutString(std::to_string(GetTransform().GetWorldRotation().x) + ", " + std::to_string(GetTransform().GetWorldRotation().y) + ", " + std::to_string(GetTransform().GetWorldRotation().z));
 }
 
@@ -55,8 +55,8 @@ void Tool_Rail::Update(float _Delta)
 	if (FirstTimeCheck_ == false)
 	{
 		std::shared_ptr<GameEngineCollision> Collision = CreateComponent<GameEngineCollision>();
-		Collision->GetTransform().SetLocalPosition({50, 0, 0});
-		Collision->GetTransform().SetWorldScale({100, 50, 50});
+		Collision->GetTransform().SetLocalPosition({0, 0, -50});
+		Collision->GetTransform().SetWorldScale({50, 50, 100});
 		Collision->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 			std::bind(&Tool_Rail::GetFrontStaticObject, this, std::placeholders::_1, std::placeholders::_2));
 		Collision->Off();
@@ -93,9 +93,6 @@ void Tool_Rail::Update(float _Delta)
 				ReSetCurrentMoveable();
 			}
 		}
-		//
-		int a = 0;
-		//Front_StaticObject_->
 	}
 }
 

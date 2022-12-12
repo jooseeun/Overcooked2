@@ -30,7 +30,6 @@ public:
 	}
 	std::shared_ptr<GamePlayMoveable> GetMoveable() const;
 	std::shared_ptr<GamePlayMoveable> GetMoveable_TakeOut();
-	bool SetCheckAndPushMoveable(std::shared_ptr<GamePlayMoveable> _Moveable);
 	void SetMoveable(std::shared_ptr<GamePlayMoveable> _Moveable);
 
 	inline void SetStuff(std::shared_ptr<Player> _Player)

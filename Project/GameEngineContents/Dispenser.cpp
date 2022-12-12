@@ -75,7 +75,7 @@ void Tool_Dispenser::Update(float _Delta)
 	if (FirstTimeCheck_ == false)
 	{
 		std::shared_ptr<GameEngineCollision> Collision = CreateComponent<GameEngineCollision>();
-		Collision->GetTransform().SetLocalPosition({ -50, 0, 0 });
+		Collision->GetTransform().SetLocalPosition({ -50, 0, -50 });
 		Collision->GetTransform().SetWorldScale({ 100, 50, 50 });
 		Collision->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
 			std::bind(&Tool_Dispenser::GetFrontStaticObject, this, std::placeholders::_1, std::placeholders::_2));
@@ -92,14 +92,14 @@ void Tool_Dispenser::Update(float _Delta)
 		if (Front_StaticObject_.lock()->GetMoveable() == nullptr && Delay_ > 3.f)
 		{
 			Delay_ = 0;
-			Front_StaticObject_.lock()->SetMoveable(GetLevel()->CreateActor<Food_Ingredients_Fish>());
+		//	Front_StaticObject_.lock()->SetMoveable(GetLevel()->CreateActor<Food_Ingredients_Fish>()); //µð¹ö±ë¿ë
 
-			//++Index_;
-			//if (Index_ >= IngredientList_.size())
-			//{
-			//	Index_ = 0;
-			//}
-			//Front_StaticObject_.lock()->SetMoveable(GamePlayFood::GetIngredientClass(IngredientList_[Index_]));
+			++Index_;
+			if (Index_ >= IngredientList_.size())
+			{
+				Index_ = 0;
+			}
+			Front_StaticObject_.lock()->SetMoveable(GamePlayFood::GetIngredientClass(IngredientList_[Index_]));
 		}
 	}
 }

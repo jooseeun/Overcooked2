@@ -1,6 +1,7 @@
 #pragma once
 #include "GamePlayStuff.h"
 #include "GamePlayMoveable.h"
+#include "CookingBar.h"
 // Ό³Έν :
 enum class AutoOption
 {
@@ -99,7 +100,7 @@ private:
 	AutoOption InteractOption_Current_;
 
 	float4 MoveablePos_;
-
+	std::shared_ptr<CookingBar> CookingBar_;
 
 
 
