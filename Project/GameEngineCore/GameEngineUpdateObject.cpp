@@ -53,17 +53,44 @@ void GameEngineUpdateObject::AllUpdate(float _DeltaTime)
 	ReleaseUpdate(_DeltaTime);
 	Update(GameEngineTime::GetInst()->GetTimeScale(GetOrder()) * _DeltaTime);
 
-	for (std::shared_ptr<GameEngineUpdateObject> Com : Childs)
+
+
+	//if (shared_from_this()->IsDebug() == true )
+	//{
+	//	int a = 0;
+	//}
+	
+	std::list<std::shared_ptr<GameEngineUpdateObject>>::iterator StartIter = Childs.begin();
+	std::list<std::shared_ptr<GameEngineUpdateObject>>::iterator EndIter = Childs.end();
+
+
+	for (; StartIter != EndIter;StartIter++)
 	{
-		//Com->AddAccTime(_DeltaTime);
-		//Com->ReleaseUpdate(_DeltaTime);
-		if (false == Com->IsUpdate())
+		if (*StartIter == nullptr)
+		{
+			continue;
+		}
+		if (false == (*StartIter)->IsUpdate())
 		{
 			continue;
 		}
 
-		Com->AllUpdate(_DeltaTime);
+		(*StartIter)->AllUpdate(_DeltaTime);
 	}
+
+	//for (std::shared_ptr<GameEngineUpdateObject> Com : Childs)
+	//{
+	//	//Com->AddAccTime(_DeltaTime);
+	//	//Com->ReleaseUpdate(_DeltaTime);
+	//	if (false == Com->IsUpdate())
+	//	{
+	//		continue;
+	//	}
+
+	//	Com->AllUpdate(_DeltaTime);
+	//	
+	//
+	//}
 }
 
 void GameEngineUpdateObject::AllLevelStartEvent()

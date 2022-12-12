@@ -26,7 +26,7 @@ void Button::Update(float _DeltaTime)
 {
 	// 캐논 Shoot => Off
 	// 캐논 Ready => On
-	if (GetCannonState() == CannonState::Shoot || GetCannonState() == CannonState::Idle)
+	/*if (GetCannonState() == CannonState::Shoot || GetCannonState() == CannonState::Idle)
 	{
 		if (false == IsOn_)
 		{
@@ -43,6 +43,6 @@ void Button::Update(float _DeltaTime)
 		}
 		IsOn_ = true;
 		Mesh_Object_->SetFBXMesh("ButtonOn2.fbx", "Texture");
-	}
+	}*/
 }
 

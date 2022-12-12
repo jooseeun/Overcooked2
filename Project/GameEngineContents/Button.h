@@ -2,7 +2,7 @@
 #include "Cannon.h"
 
 // Ό³Έν :
-class Button : public Cannon
+class Button : public GameEngineActor
 {
 public:
 	// constrcuter destructer

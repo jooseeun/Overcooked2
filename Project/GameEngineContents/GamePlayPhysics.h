@@ -21,27 +21,27 @@ public:
 		return PhysicsCollision_;
 	}
 
-	inline void SetCollision(std::shared_ptr<GameEngineCollision> _Col) // 원래 사용하던 collision 넣어주면됨, 아님 새로 만들어 주어서 넣어주면 됩니다
+	inline void SetCollision(std::shared_ptr<GameEngineCollision> _Col) 
 	{
 		PhysicsCollision_ = _Col;
 	}
-	inline void SetGravityCollision(std::shared_ptr<GameEngineCollision> _Col) // 원래 사용하던 collision 넣어주면됨, 아님 새로 만들어 주어서 넣어주면 됩니다
+	inline void SetGravityCollision(std::shared_ptr<GameEngineCollision> _Col) 
 	{
 		PhysicsGravityCollision_ = _Col;
 	}
-	inline void SetLeftCollision(std::shared_ptr<GameEngineCollision> _Col) // 원래 사용하던 collision 넣어주면됨, 아님 새로 만들어 주어서 넣어주면 됩니다
+	inline void SetLeftCollision(std::shared_ptr<GameEngineCollision> _Col) 
 	{
 		PhysicsLeftCollision_ = _Col;
 	}
-	inline void SetRightCollision(std::shared_ptr<GameEngineCollision> _Col) // 원래 사용하던 collision 넣어주면됨, 아님 새로 만들어 주어서 넣어주면 됩니다
+	inline void SetRightCollision(std::shared_ptr<GameEngineCollision> _Col) 
 	{
 		PhysicsRightCollision_ = _Col;
 	}
-	inline void SetForwardCollision(std::shared_ptr<GameEngineCollision> _Col) // 원래 사용하던 collision 넣어주면됨, 아님 새로 만들어 주어서 넣어주면 됩니다
+	inline void SetForwardCollision(std::shared_ptr<GameEngineCollision> _Col) 
 	{
 		PhysicsForwardCollision_ = _Col;
 	}
-	inline void SetBackCollision(std::shared_ptr<GameEngineCollision> _Col) // 원래 사용하던 collision 넣어주면됨, 아님 새로 만들어 주어서 넣어주면 됩니다
+	inline void SetBackCollision(std::shared_ptr<GameEngineCollision> _Col)
 	{
 		PhysicsBackCollision_ = _Col;
 	}

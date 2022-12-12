@@ -73,7 +73,7 @@ void Stage_2_1::PlayLevelStartEvent()
 	GetMainCameraActorTransform().SetLocalRotation({ 60, 180, 0 });
 	GetMainCameraActorTransform().SetLocalPosition({ -1700, 3000, 750 });
 
-	std::shared_ptr<Player> MainPlayer = CreateActor<Player>();
+	MainPlayer = CreateActor<Player>();
 	MainPlayer->GetTransform().SetLocalPosition({ -2300, 0, -800 });
 	MainPlayer->SetResponePos({ -2300, 0, -800  });
 
@@ -97,7 +97,7 @@ void Stage_2_1::PlayLevelStartEvent()
 	Puple2->SetNextPotal(Puple1);
 	Puple2->SetNextPos({ -591.00,260.00,-1402.00 });
 
-	std::shared_ptr<Cannon> CannonObj = CreateActor<Cannon>();
+	CannonObj = CreateActor<Cannon>();
 	CannonObj->GetTransform().SetWorldPosition({-606.f, 0.f, -1111.f});
 
 	std::shared_ptr<Button> ButtonObj = CreateActor<Button>();

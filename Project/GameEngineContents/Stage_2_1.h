@@ -1,6 +1,8 @@
 #pragma once
 #include "GamePlayLevel.h"
 
+class Player;
+class Cannon;
 class Stage_2_1 : public GamePlayLevel
 {
 public:
@@ -21,6 +23,8 @@ protected:
 	void PlayLevelStartEvent() override;
 
 private:
+	std::shared_ptr<Player> MainPlayer;
+	std::shared_ptr<Cannon> CannonObj;
 	bool IsLevelFirst_ = true;
 };
 

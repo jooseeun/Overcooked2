@@ -1,6 +1,5 @@
 #pragma once
 #include "GameEngineCore//GameEngineActor.h"
-#include "Player.h"
 enum class CannonState
 {
 	Idle,
@@ -36,22 +35,15 @@ public:
 	{
 		CurState_ = _CurState;
 	}
-	inline void SetPlayer(std::shared_ptr<Player> _Player)
-	{
-		CurPlayer_ = _Player;
-		CurPlayer_->SetParent(shared_from_this());
-	}
-	inline void DetachCurPlayer()
-	{
-		CurPlayer_->DetachObject();
-		CurPlayer_ = nullptr;
-	}
 
 	inline void SwitchInteraction_()
 	{
 		Interaction_ = !Interaction_;
 	}
-
+	inline float4 GetZAngle()
+	{
+		return ZAngle_;
+	}
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -69,12 +61,12 @@ protected:
 	void ShootToIdleUpdate(float _DeltaTime, const StateInfo& _Info);
 
 private:
-	std::shared_ptr<GameEngineActor> CannonBase_;
+	std::shared_ptr<GameEngineFBXStaticRenderer> BaseRenderer;
 	std::shared_ptr<GameEngineFBXStaticRenderer> Mesh_Object_;
 	std::shared_ptr<GameEngineFBXAnimationRenderer> AnimationMesh_Obejct_;
 	std::shared_ptr<GameEngineCollision> Collision_Object_;
 
-	std::shared_ptr<Player> CurPlayer_;
+
 
 	CannonState CurState_;
 	GameEngineStateManager StateManager;

@@ -9,6 +9,7 @@
 
 void Player::IdleStart(const StateInfo& _Info)
 {
+	
 	IsHolding_ = "Idle";
 	CurStateType_ = PlayerCurStateType::Idle;
 	IdleRendererON();		
@@ -395,6 +396,7 @@ void Player::DrowningUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::CannonInterStart(const StateInfo& _Info)
 {
+
 	IdleRendererON();
 	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "CannonEnter"+ IsHolding_);
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
@@ -410,37 +412,64 @@ void Player::CannonInterUpdate(float _DeltaTime, const StateInfo& _Info)
 			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 		});
 
-
+	//GetTransform().SetWorldRotation({ 270, 0, CurCannon_->GetZAngle().z });
+	
 
 	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerDash" + PNumString))
 	{
-		if (GetParent() != nullptr)
-		{
-			DetachObject();
-
-		}
-		GetTransform().SetWorldRotation({ 90,180, 0 });
+		//DetachObject();
+		CurCannon_ = nullptr;
+		//GetTransform().SetWorldPosition({ -806.00, 100.0, -1111.00 });
 		GetTransform().SetWorldPosition({ -806.00, 100.0, -1111.00 });
+		GetTransform().SetWorldRotation({ 0, 0, 0 });		
+		CurDir_ = PlayerDir::Right;
+		CurAngle_ = 90;
+		GetTransform().SetLocalRotation({ 0,CurAngle_, 0 });
 		IsPotal_ = false;
 		StateManager.ChangeState("Idle");
+		return;
 	}
-	/*if (GetParent()->CastThis<Cannon>()->GetCannonState() == CannonState::Shoot)
-	{
 
+	if (CurCannon_->GetCannonState() == CannonState::Shoot)
+	{
 		StateManager.ChangeState("CannonFly");
-	}*/
+	}
 }
 
 void Player::CannonFlyStart(const StateInfo& _Info)
 {
 	IdleRendererON();
+	GetTransform().SetWorldRotation({ 0, 0, 0 });
+	CurDir_ = PlayerDir::Right;
+	CurAngle_ = 90;
+	GetTransform().SetLocalRotation({ 0,CurAngle_, 0 });
 	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "CannonFlying"+ IsHolding_);
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 	PlayerIdleRenderer_[PlayerCustomNum]->GetCurAnim()->bOnceEnd = false;
+	CannonFlyPos_ = { -2150.0f, 100.0f , -1111.00 };
+	IsPotal_ = true;
+	FlyTime_ = 1.5f;
 }
 void Player::CannonFlyUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	//	-1723, 100.0f , -1111.00
-	DetachObject();
+	if (FlyTime_ >= 0.0f)
+	{
+		GetTransform().SetWorldUpMove(600.0f, _DeltaTime);
+		FlyTime_ -= 1.0f * _DeltaTime;
+	}
+	else 
+	{
+		Gravity();
+	}
+	float4  Vec = CannonFlyPos_ - GetTransform().GetWorldPosition();
+	if (GetTransform().GetWorldPosition().x <= -2150.0f)
+	{
+		IsPotal_ = false;
+		StateManager.ChangeState("Idle");
+	}
+	Vec.Normalize3D();
+	Vec.y = 0;
+	GetTransform().SetWorldMove(Vec * 700.0f * GameEngineTime::GetDeltaTime());
+
 }

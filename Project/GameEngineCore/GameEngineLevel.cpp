@@ -78,7 +78,7 @@ void GameEngineLevel::ActorUpdate(float _DeltaTime)
 			{
 				continue;
 			}
-
+	
 			Actor->AllUpdate(_DeltaTime);
 		}
 	}

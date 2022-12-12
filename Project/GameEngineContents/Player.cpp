@@ -51,6 +51,8 @@ Player::Player()
 	, ResponePos_(float4{ -1400, 200, 200 })
 	, IsSink_(false)
 	, IsHolding_("Idle")
+	, FlyTime_(0.0f)
+	, CannonFlyPos_()
 {
 
 }
@@ -82,6 +84,7 @@ void Player::Start()
 
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Idle",
 			GameEngineRenderingEvent(PlayerName_[i] + "_Idle.FBX", 0.035f, true));
+
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Idle2",
 			GameEngineRenderingEvent(PlayerName_[i] + "_Idle2.FBX", 0.035f, true));
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "WalkHolding",
@@ -112,9 +115,9 @@ void Player::Start()
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "CannonFireIdle",
 			GameEngineRenderingEvent(PlayerName_[i] + "_CannonFireIdle.FBX", 0.035f, true));
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "CannonFlyingHolding",
-			GameEngineRenderingEvent(PlayerName_[i] + "_CannonFlyingHolding.FBX", 0.035f, true));
+			GameEngineRenderingEvent(PlayerName_[i] + "_CannonFlyingHolding.FBX", 0.035f, false));
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "CannonFlyingIdle",
-			GameEngineRenderingEvent(PlayerName_[i] + "_CannonFlyingIdle.FBX", 0.035f, true));
+			GameEngineRenderingEvent(PlayerName_[i] + "_CannonFlyingIdle.FBX", 0.035f, false));
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "CannonIdleIdle",
 			GameEngineRenderingEvent(PlayerName_[i] + "_CannonIdleIdle.FBX", 0.035f, true));
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "CannonIdleHolding",
@@ -498,7 +501,7 @@ void Player::Update(float _DeltaTime)
 
 	if (IsPotal_ != true)
 	{
-		DashCheck(_DeltaTime);
+		//DashCheck(_DeltaTime);
 		Gravity();
 	}
 
@@ -812,6 +815,10 @@ bool Player::MoveAngle()
 
 void Player::DashCheck(float _DeltaTime)
 {
+	if (StateManager.GetCurStateStateName() == "CannonIdle")
+	{
+		return;
+	}
 	DashTime_ -= 1.0f * _DeltaTime;
 	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerDash" + PNumString))
 	{
@@ -1192,7 +1199,8 @@ CollisionReturn Player::InteractTableCheck(std::shared_ptr<GameEngineCollision> 
 
 CollisionReturn Player::EnterCannon(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 {
-	_Other->GetParent()->CastThis<Cannon>()->SetPlayer(shared_from_this()->CastThis<Player>());
+	//SetParent(_Other->GetParent());
+	CurCannon_ = _Other->GetParent()->CastThis<Cannon>();
 	GetTransform().SetWorldPosition({ -636.00, 90.0, -1111.00 });
 	GetTransform().SetWorldRotation({270, 0, 90 });
 	IsPotal_ = true;

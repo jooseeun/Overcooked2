@@ -4,6 +4,7 @@
 #include <GameEngineCore/GameEngineFBXAnimationRenderer.h>
 #include <GameEngineCore/GameEngineStateManager.h>
 #include "GamePlayPhysics.h"
+#include "Cannon.h"
 
 // 설명 :
 class GameEngineFBXAnimationRenderer;
@@ -153,6 +154,7 @@ public:
 
 	bool IsSingleMode;
 	bool IsPotal_;
+	float FlyTime_;
 	std::string PNumString;
 	std::string IsHolding_;
 	
@@ -192,8 +194,9 @@ private:
 	std::shared_ptr<GameEngineCollision> TableCollision_;
 	std::shared_ptr<GameEngineCollision> Collision_Interact_; // 상호작용 콜리전
 
-
 private:
+	std::shared_ptr<Cannon> CurCannon_;
+	float4 CannonFlyPos_;
 
 	void CameraMove(float _DeltaTime);
 	bool IsCameraMove_;
