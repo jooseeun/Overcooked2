@@ -27,9 +27,9 @@ protected:
 	void End() override;
 
 private:
-	std::shared_ptr<OverCookedUIRenderer> SingleThumbnail_;
+	std::weak_ptr<OverCookedUIRenderer> SingleThumbnail_;
 
-	std::shared_ptr<GameEngineActor> ChaseActor_;
+	std::weak_ptr<GameEngineActor> ChaseActor_;
 
 	float4 Pivot_ = { 0,0,0 };
 	float4 Offset_ = { 0,0,0 };
