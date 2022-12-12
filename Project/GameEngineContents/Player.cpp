@@ -41,6 +41,7 @@ Player::Player()
 	, IsPotal_(false)
 	, IsPlayerble(false)
 {
+	++PlayerCount_;
 }
 
 Player::~Player()
@@ -1142,6 +1143,7 @@ CollisionReturn Player::InteractTableCheck(std::shared_ptr<GameEngineCollision> 
 //////// ¼­¹ö 
 std::shared_ptr<Player> Player::MyPlayer = nullptr;
 bool Player::OnePlayerInit = false;
+int Player::PlayerCount_ = 0;
 
 void Player::ServerStart()
 {

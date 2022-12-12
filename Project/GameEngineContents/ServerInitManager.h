@@ -25,6 +25,7 @@ public:
 
 protected:
 	void StartInit();
+	void Update(float _Delta);
 
 private:
 	bool IsLevelFirst_ = true;

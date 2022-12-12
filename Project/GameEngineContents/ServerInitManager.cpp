@@ -24,20 +24,21 @@ void ServerInitManager::ObjectUpdatePacketProcess(std::shared_ptr<GameServerPack
 
 	if (nullptr == FindObject)
 	{
-		ServerObjectType Type = Packet->Type;
-		switch (Type)
-		{
-		case ServerObjectType::Player:
-		{
-			std::shared_ptr<Player> NewPlayer = GEngine::GetCurrentLevel()->CreateActor<Player>();
-			NewPlayer->ClientInit(Packet->Type, Packet->ObjectID);
-			FindObject = NewPlayer.get();
-			break;
-		}
-		default:
-			int a = 0;
-			break;
-		}
+		return;
+		//ServerObjectType Type = Packet->Type;
+		//switch (Type)
+		//{
+		//case ServerObjectType::Player:
+		//{
+		//	std::shared_ptr<Player> NewPlayer = GEngine::GetCurrentLevel()->CreateActor<Player>();
+		//	NewPlayer->ClientInit(Packet->Type, Packet->ObjectID);
+		//	FindObject = NewPlayer.get();
+		//	break;
+		//}
+		//default:
+		//	int a = 0;
+		//	break;
+		//}
 	}
 
 	FindObject->PushPacket(_Packet);
@@ -132,5 +133,21 @@ void ServerInitManager::StartInit()
 	{
 		// 내가 클라이언트 일때만 등록해야하는 패킷
 		Net->Dis.AddHandler(ContentsPacketType::ClinetInit, std::bind(&ServerInitManager::ClientInitPacketProcess, this, std::placeholders::_1));
+	}
+}
+
+void ServerInitManager::Update(float _Delta)
+{
+	if (nullptr == Net)
+	{
+		return;
+	}
+
+	std::vector<SOCKET> TmpSockets = Server.GetUserSockets();
+	if (Player::PlayerCount_ < TmpSockets.size() + 1)
+	{
+		std::shared_ptr<Player> NewPlayer = GEngine::GetCurrentLevel()->CreateActor<Player>();
+		NewPlayer->ClientInit(ServerObjectType::Player, TmpSockets.size());
+		NewPlayer->GetTransform().SetLocalPosition({ -1400, 500, 200 });
 	}
 }

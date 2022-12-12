@@ -241,6 +241,7 @@ private:
 	void ServerUpdate(float _DeltaTime);
 
 public:
+	static int PlayerCount_;
 	static std::shared_ptr<Player> GetMyPlayer()
 	{
 		return MyPlayer;

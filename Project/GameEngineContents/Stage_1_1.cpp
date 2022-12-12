@@ -53,6 +53,8 @@ void Stage_1_1::PlayLevelUpdate(float _DeltaTime)
 		GetMainCameraActor()->FreeCameraModeOnOff();
 		GetUICameraActor()->FreeCameraModeOnOff();
 	}
+
+	ServerInitManager::Update(_DeltaTime);
 }
 
 void Stage_1_1::End()

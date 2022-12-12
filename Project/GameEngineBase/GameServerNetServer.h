@@ -22,6 +22,11 @@ public:
 
 	std::function<void(SOCKET)> AcceptCallBack;
 
+	inline std::vector<SOCKET>& GetUserSockets()
+	{
+		return UserSockets;
+	}
+
 protected:
 
 private:
