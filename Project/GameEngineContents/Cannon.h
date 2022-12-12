@@ -46,12 +46,18 @@ public:
 		CurPlayer_->DetachObject();
 		CurPlayer_ = nullptr;
 	}
+
+	inline void SwitchInteraction_()
+	{
+		Interaction_ = !Interaction_;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
 	void IdleStart(const StateInfo& _Info);
-	void LIdleUpdate(float _DeltaTime, const StateInfo& _Info);
+	void IdleUpdate(float _DeltaTime, const StateInfo& _Info);
 
 	void ReadyStart(const StateInfo& _Info);
 	void ReadyUpdate(float _DeltaTime, const StateInfo& _Info);
@@ -69,5 +75,8 @@ private:
 
 	CannonState CurState_;
 	GameEngineStateManager StateManager;
+
+	bool Interaction_;
+	float4 ZAngle_;
 };
 
