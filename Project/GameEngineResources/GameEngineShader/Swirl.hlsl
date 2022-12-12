@@ -48,26 +48,36 @@ Texture2D Tex : register(t0);
 SamplerState LINEARWRAP : register(s0);
 float4 Swirl_PS(Output _Input) : SV_Target0
 {
-    float2 PixelUVSize = float2(1.0f / 1280.0f, 1.0f / 720.0f);
-    float2 PixelUVCenter = _Input.Tex.xy;
-    float2 StartUV = PixelUVCenter + (-PixelUVSize * 2);
-    float2 CurUV = StartUV ;
+    //float2 PixelUVSize = float2(1.0f / 1280.0f, 1.0f / 720.0f);
+    //float2 PixelUVCenter = _Input.Tex.xy;
+    //float2 StartUV = PixelUVCenter + (-PixelUVSize * 2);
+    
+        
+    float2 CurUV = _Input.Tex.xy;
     
     float4 Texture = Tex.Sample(LINEARWRAP, _Input.Tex.xy + UV.xy);
-    
-    float Result = swirlFun(CurUV, 50.0, 6) ;
+    float4 SaveTexture = Tex.Sample(LINEARWRAP, _Input.Tex.xy + UV.xy) + PlusColor;
+
+    float swirlResult = swirlFun(CurUV, 10.0, 4) ;
    // TmpTex += float4(re, re, re, 1.0);
 
-    
-    if (Texture.a == 0)
-    {
-        clip(-1);
-    }
-    if (1 <= Texture.a)
-    {
-        Texture.a = 1.0f;
-    }
+    float4 Result = Texture + swirlResult ;
 
-    return Texture + Result + PlusColor;
+    
+    
+    if (Result.r + Result.b < 1.0f)
+    {
+        Result.r = 0.6;
+        Result.g = 0.4;
+        Result.b = 0.7;
+        Result.a = 1.0f;
+        //clip(-1);
+    }
+    //if (1 <= Texture.a)
+    //{
+    //    Texture.a = 1.0f;
+    //}
+    //Texture
+    return Result;
 
 }

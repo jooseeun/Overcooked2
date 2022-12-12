@@ -140,6 +140,7 @@
     <FxCompile Include="Overlay.hlsl" />
     <FxCompile Include="Portal.hlsl" />
     <FxCompile Include="RenderOption.fx" />
+    <FxCompile Include="Swirl.hlsl" />
     <FxCompile Include="TargetMerge.hlsl" />
     <FxCompile Include="Texture.hlsl" />
     <FxCompile Include="TextureAlpha.hlsl" />

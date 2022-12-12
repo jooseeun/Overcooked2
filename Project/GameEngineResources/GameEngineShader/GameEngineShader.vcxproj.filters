@@ -58,6 +58,9 @@
     <FxCompile Include="AddBlendAlpha.hlsl">
       <Filter>Object</Filter>
     </FxCompile>
+    <FxCompile Include="Swirl.hlsl">
+      <Filter>Object</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Debug">
