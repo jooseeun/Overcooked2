@@ -15,6 +15,7 @@ void Rail::Start()
 
 	GetFBXMesh()->SetFBXMesh("m_sk_conveyor_belt_01.fbx", "Texture");
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
+	GetFBXMesh()->GetTransform().SetWorldRotation({ 0, 90, 0 });
 
 	GetCollisionObject()->GetTransform().SetWorldScale({ 120, 50, 120 });
 	GetCollisionObject()->GetTransform().SetWorldMove({ 0, 25, 0 });
@@ -28,7 +29,7 @@ void Rail::Update(float _Delta)
 {
 	RenderOptionMyInst.UV.x += _Delta;
 
-	GetTransform().SetWorldRotation({ 0, 0, 0 });
+	//GetTransform().SetWorldRotation({ 0, 0, 0 });
 	//GameEngineDebug::OutPutString(std::to_string(GetTransform().GetWorldRotation().x) + ", " + std::to_string(GetTransform().GetWorldRotation().y) + ", " + std::to_string(GetTransform().GetWorldRotation().z));
 }
 
