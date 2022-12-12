@@ -9,6 +9,7 @@
 
 void Player::IdleStart(const StateInfo& _Info)
 {
+	IsHolding_ = "Idle";
 	CurStateType_ = PlayerCurStateType::Idle;
 	IdleRendererON();		
 	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] +"Idle");
@@ -37,11 +38,17 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerHold" + PNumString))
 	{
 		if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Cannon, CollisionType::CT_OBB,
-			std::bind(&Player::EnterCanon, this, std::placeholders::_1, std::placeholders::_2)) == true)
+			std::bind(&Player::EnterCannon, this, std::placeholders::_1, std::placeholders::_2)) == true)
 		{
-			StateManager.ChangeState("CanonInter");
+			StateManager.ChangeState("CannonInter");
 
 		}
+		//설거지상호작용
+		//else if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Sink, CollisionType::CT_OBB,
+		//	std::bind(&Player::EnterCannon, this, std::placeholders::_1, std::placeholders::_2)) == true)
+		//{
+		//	StateManager.ChangeState("DishWash");
+		//}
 		else
 		{
 			StateManager.ChangeState("HoldUp");
@@ -178,10 +185,11 @@ void Player::HoldUpStart(const StateInfo& _Info)
 				std::bind(&Player::TableHoldUpCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
 			{
 				StateManager.ChangeState("Idle");
+				return;
 			}// 테이블 검사
+			IsHolding_ = "Holding";
 		}
 	}
-
 
 }
 void Player::HoldUpUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -306,7 +314,12 @@ void Player::SliceUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::DishWashStart(const StateInfo& _Info) // 설거지하는 도중 이동하면 취소됨
 {
+	WashRendererON();
+	PlayerWashRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "Wash");
+	PlayerWashRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
+	PlayerWashRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 	CurStateType_ = PlayerCurStateType::DishWash;
+	IsSink_ = true;
 
 }
 void Player::DishWashUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -320,6 +333,11 @@ void Player::DishWashUpdate(float _DeltaTime, const StateInfo& _Info)
 
 		StateManager.ChangeState("Idle");
 		return;
+	}
+
+	if (IsSink_ == false)
+	{
+		StateManager.ChangeState("Idle");
 	}
 }
 
@@ -375,19 +393,19 @@ void Player::DrowningUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 }
 
-void Player::CanonInterStart(const StateInfo& _Info)
+void Player::CannonInterStart(const StateInfo& _Info)
 {
 	IdleRendererON();
-	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "CannonEnterIdle");
+	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "CannonEnter"+ IsHolding_);
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 	PlayerIdleRenderer_[PlayerCustomNum]->GetCurAnim()->bOnceEnd = false;
 }
-void Player::CanonInterUpdate(float _DeltaTime, const StateInfo& _Info)
+void Player::CannonInterUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	PlayerIdleRenderer_[PlayerCustomNum]->AnimationBindEnd(PlayerName_[PlayerCustomNum] + "CannonEnterIdle", [=](const GameEngineRenderingEvent& _Info)
+	PlayerIdleRenderer_[PlayerCustomNum]->AnimationBindEnd(PlayerName_[PlayerCustomNum] + "CannonEnter"+ IsHolding_, [=](const GameEngineRenderingEvent& _Info)
 		{
-			PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "CannonIdleIdle");
+			PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "CannonIdle"+ IsHolding_);
 			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 		});
@@ -398,7 +416,7 @@ void Player::CanonInterUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		if (GetParent() != nullptr)
 		{
-			GetParent()->CastThis<Cannon>()->DetachCurPlayer();
+			DetachObject();
 
 		}
 		GetTransform().SetWorldRotation({ 90,180, 0 });
@@ -406,14 +424,23 @@ void Player::CanonInterUpdate(float _DeltaTime, const StateInfo& _Info)
 		IsPotal_ = false;
 		StateManager.ChangeState("Idle");
 	}
-	
+	/*if (GetParent()->CastThis<Cannon>()->GetCannonState() == CannonState::Shoot)
+	{
+
+		StateManager.ChangeState("CannonFly");
+	}*/
 }
 
-void Player::CanonFlyStart(const StateInfo& _Info)
+void Player::CannonFlyStart(const StateInfo& _Info)
 {
-
+	IdleRendererON();
+	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "CannonFlying"+ IsHolding_);
+	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
+	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
+	PlayerIdleRenderer_[PlayerCustomNum]->GetCurAnim()->bOnceEnd = false;
 }
-void Player::CanonFlyUpdate(float _DeltaTime, const StateInfo& _Info)
+void Player::CannonFlyUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	//	-1723, 100.0f , -1111.00
 	DetachObject();
 }

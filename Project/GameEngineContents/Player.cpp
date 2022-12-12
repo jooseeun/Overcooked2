@@ -49,6 +49,8 @@ Player::Player()
 	, IsPotal_(false)
 	, DeathTime_(0.0f)
 	, ResponePos_(float4{ -1400, 200, 200 })
+	, IsSink_(false)
+	, IsHolding_("Idle")
 {
 
 }
@@ -267,13 +269,13 @@ void Player::Start()
 		, std::bind(&Player::FireOffUpdate, this, std::placeholders::_1, std::placeholders::_2)
 		, std::bind(&Player::FireOffStart, this, std::placeholders::_1)
 	);
-	StateManager.CreateStateMember("CanonInter"
-		, std::bind(&Player::CanonInterUpdate, this, std::placeholders::_1, std::placeholders::_2)
-		, std::bind(&Player::CanonInterStart, this, std::placeholders::_1)
+	StateManager.CreateStateMember("CannonInter"
+		, std::bind(&Player::CannonInterUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::CannonInterStart, this, std::placeholders::_1)
 	);
-	StateManager.CreateStateMember("CanonFly"
-		, std::bind(&Player::CanonFlyUpdate, this, std::placeholders::_1, std::placeholders::_2)
-		, std::bind(&Player::CanonFlyStart, this, std::placeholders::_1)
+	StateManager.CreateStateMember("CannonFly"
+		, std::bind(&Player::CannonFlyUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::CannonFlyStart, this, std::placeholders::_1)
 	);
 	StateManager.CreateStateMember("Drowning"
 		, std::bind(&Player::DrowningUpdate, this, std::placeholders::_1, std::placeholders::_2)
@@ -1188,10 +1190,10 @@ CollisionReturn Player::InteractTableCheck(std::shared_ptr<GameEngineCollision> 
 
 
 
-CollisionReturn Player::EnterCanon(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
+CollisionReturn Player::EnterCannon(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 {
 	_Other->GetParent()->CastThis<Cannon>()->SetPlayer(shared_from_this()->CastThis<Player>());
-	GetTransform().SetWorldPosition({ -636.00, 100.0, -1111.00 });
+	GetTransform().SetWorldPosition({ -636.00, 90.0, -1111.00 });
 	GetTransform().SetWorldRotation({270, 0, 90 });
 	IsPotal_ = true;
 	return CollisionReturn::ContinueCheck;

@@ -57,11 +57,11 @@ protected:
 	void DrowningStart(const StateInfo& _Info);
 	void DrowningUpdate(float _DeltaTime, const StateInfo& _Info);
 
-	void CanonInterStart(const StateInfo& _Info);
-	void CanonInterUpdate(float _DeltaTime, const StateInfo& _Info);
+	void CannonInterStart(const StateInfo& _Info);
+	void CannonInterUpdate(float _DeltaTime, const StateInfo& _Info);
 
-	void CanonFlyStart(const StateInfo& _Info);
-	void CanonFlyUpdate(float _DeltaTime, const StateInfo& _Info);
+	void CannonFlyStart(const StateInfo& _Info);
+	void CannonFlyUpdate(float _DeltaTime, const StateInfo& _Info);
 
 	void DashCheck(float _DeltaTime);
 	void PlayerDirCheck();
@@ -140,6 +140,11 @@ public:
 		IsSlice_ = false;
 	}
 
+	inline void FinishSink()
+	{
+		IsSink_ = false;
+	}
+
 	inline void SetCurFrontDir()
 	{
 		CurDir_ = PlayerDir::Front;
@@ -149,6 +154,7 @@ public:
 	bool IsSingleMode;
 	bool IsPotal_;
 	std::string PNumString;
+	std::string IsHolding_;
 	
 	void PNumSgtringUpdate();
 
@@ -180,7 +186,7 @@ private:
 	CollisionReturn TableSliceCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 	CollisionReturn InteractTableCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 
-	CollisionReturn EnterCanon(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
+	CollisionReturn EnterCannon(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 
 	std::shared_ptr<GameEngineActor> CurrentHoldingObject_;
 	std::shared_ptr<GameEngineCollision> TableCollision_;
@@ -204,6 +210,7 @@ private:
 	float DashTime_;
 	bool FireOff_;
 	bool IsSlice_;
+	bool IsSink_;
 
 	float DeathTime_;
 	float4 ResponePos_;
