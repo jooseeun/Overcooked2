@@ -6,7 +6,7 @@ Cannon::Cannon()
 	, CurState_(CannonState::Max)
 	, Interaction_(false)
 	, ZAngle_({0.f, 0.f, -50.f})
-	, MaxAngle_({0.f, 0.f, -400.f})
+	, MaxAngle_({0.f, 0.f, -60.f})
 	, Speed_(50.f)
 {
 }
@@ -17,10 +17,10 @@ Cannon::~Cannon()
 
 void Cannon::Start()
 {
-	CannonBase_ = GetLevel()->CreateActor<GameEngineActor>();
-	CannonBase_->SetParent(shared_from_this());
+	//CannonBase_ = GetLevel()->CreateActor<GameEngineActor>();
+	//CannonBase_->SetParent(shared_from_this());
 
-	std::shared_ptr<GameEngineFBXStaticRenderer> BaseRenderer = CannonBase_->CreateComponent<GameEngineFBXStaticRenderer>();
+	std::shared_ptr<GameEngineFBXStaticRenderer> BaseRenderer = CreateComponent<GameEngineFBXStaticRenderer>();
 	BaseRenderer->SetFBXMesh("Cannon_Base.fbx", "Texture");
 	BaseRenderer->GetTransform().SetWorldScale({ 100, 100, 100 });
 
@@ -63,7 +63,17 @@ void Cannon::Update(float _DeltaTime)
 	// Button => Off
 
 	// Shoot ³¡³­ ÈÄ => Idle
-	Mesh_Object_->GetTransform().SetAddWorldRotation( ZAngle_  *_DeltaTime);
+
+
+	if (Mesh_Object_->GetTransform().GetWorldRotation().z < MaxAngle_.z && Mesh_Object_->GetTransform().GetWorldRotation().z != 0.f)
+	{
+		int a = 0;
+	}
+	else if(Mesh_Object_->GetTransform().GetWorldRotation().z > MaxAngle_.z)
+	{
+		Mesh_Object_->GetTransform().SetAddWorldRotation(ZAngle_ * _DeltaTime);
+
+	}
 }
 
 void Cannon::IdleStart(const StateInfo& _Info)
