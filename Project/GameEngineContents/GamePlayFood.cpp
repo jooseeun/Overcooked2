@@ -2,6 +2,7 @@
 #include "GamePlayFood.h"
 #include "GlobalGameData.h"
 #include "Equipment_Plate.h"
+#include "FoodHeader.h"
 
 GamePlayFood::GamePlayFood() 
 	: Enum_IngredientType_(IngredientType::None)
@@ -75,6 +76,79 @@ void GamePlayFood::SetObjectFoodClass(IngredientType _Class)
 		}
 	}
 }
+
+std::shared_ptr<GamePlayFood> GamePlayFood::GetIngredientClass(IngredientType _Type)
+{
+	std::shared_ptr<GamePlayFood> Moveable = nullptr;
+	switch (_Type)
+	{
+	case IngredientType::Onion:
+		break;
+	case IngredientType::Potato:
+		break;
+	case IngredientType::Dough:
+		break;
+	case IngredientType::Seaweed:
+		break;
+	case IngredientType::Mushroom:
+		break;
+	case IngredientType::Meat:
+		Moveable = (GEngine::GetCurrentLevel()->CreateActor<Food_Ingredients_Meat>());
+		break;
+	case IngredientType::Lettuce:
+		Moveable = (GEngine::GetCurrentLevel()->CreateActor<Food_Ingredients_Lettuce>());
+		break;
+	case IngredientType::Rice:
+		break;
+	case IngredientType::Flour:
+		break;
+	case IngredientType::Bread:
+		Moveable = (GEngine::GetCurrentLevel()->CreateActor<Food_Ingredients_Bread>());
+		break;
+	case IngredientType::Fish:
+		Moveable = (GEngine::GetCurrentLevel()->CreateActor<Food_Ingredients_Fish>());
+		break;
+	case IngredientType::Sausage:
+		break;
+	case IngredientType::DumplingSkin:
+		break;
+	case IngredientType::Egg:
+		break;
+	case IngredientType::Chicken:
+		break;
+	case IngredientType::Burrito:
+		break;
+	case IngredientType::Cheese:
+		Moveable = (GEngine::GetCurrentLevel()->CreateActor<Food_Ingredients_Cheese>());
+		break;
+	case IngredientType::Carrot:
+		break;
+	case IngredientType::Chocolate:
+		break;
+	case IngredientType::Honey:
+		break;
+	case IngredientType::PastaNoodles:
+		break;
+	case IngredientType::Tomato:
+		Moveable = (GEngine::GetCurrentLevel()->CreateActor<Food_Ingredients_Tomato>());
+		break;
+	case IngredientType::Prawn:
+		Moveable = (GEngine::GetCurrentLevel()->CreateActor<Food_Ingredients_Prawn>());
+		break;
+	case IngredientType::Cucumber:
+		break;
+	case IngredientType::Orange:
+		break;
+	case IngredientType::Nuts:
+		break;
+	case IngredientType::Strawberry:
+		break;
+	default:
+		break;
+	}
+	return Moveable;
+}
+
 
 HoldDownEnum GamePlayFood::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 {

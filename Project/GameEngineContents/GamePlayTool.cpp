@@ -36,10 +36,12 @@ void GamePlayTool::SetMoveable(std::shared_ptr<Player> _Player)
 
 void GamePlayTool::SetMoveable(std::shared_ptr<GameEngineUpdateObject> _Child)
 {
-	_Child->SetParent(shared_from_this());
 	std::weak_ptr<GamePlayMoveable> Object = _Child->CastThis<GamePlayMoveable>();
+	float4 Rotation = Object.lock()->GetTransform().GetWorldRotation();
+	_Child->SetParent(shared_from_this());
 	Moveable_Current_ = Object.lock();
 	Object.lock()->GetTransform().SetLocalPosition(MoveablePos_);
+	Object.lock()->GetTransform().SetWorldRotation(Rotation);
 	Object.lock()->GetCollisionObject()->Off();
 }
 

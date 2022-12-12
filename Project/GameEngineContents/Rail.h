@@ -50,5 +50,7 @@ private:
 	bool FirstTimeCheck_;
 
 	CollisionReturn GetFrontStaticObject(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
+
+	void SetMoveable(std::shared_ptr<GameEngineUpdateObject> _Child) override;
 };
 

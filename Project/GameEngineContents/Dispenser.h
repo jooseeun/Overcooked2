@@ -42,7 +42,7 @@ protected:
 private:
 	DispenserType Type_;
 
-	std::vector<IngredientType> IngredientList_;
+
 };
 
 class Tool_Dispenser : public GamePlayTool
@@ -59,14 +59,17 @@ public:
 	Tool_Dispenser& operator=(const Tool_Dispenser& _Other) = delete;
 	Tool_Dispenser& operator=(Tool_Dispenser&& _Other) noexcept = delete;
 
-
+	void SettingIngredientList(DispenserType _Type);
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
 
 private:
-	CollisionReturn GetFrontStaticObject(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 	bool FirstTimeCheck_;
+	float Delay_;
+	int Index_;
 	std::weak_ptr<GamePlayStaticObject> Front_StaticObject_;
+	CollisionReturn GetFrontStaticObject(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
+	std::vector<IngredientType> IngredientList_;
 };
 

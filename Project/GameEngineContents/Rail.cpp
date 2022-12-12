@@ -74,7 +74,6 @@ void Tool_Rail::Update(float _Delta)
 			{
 				After_Moveable_ = GetCurrentMoveable();
 				float4 Pos = After_Moveable_.lock()->GetTransform().GetWorldPosition();
-				ReSetCurrentMoveable();
 				After_Moveable_.lock()->SetParent(Front_StaticObject_.lock());
 				After_Moveable_.lock()->GetTransform().SetLocalPosition(Front_StaticObject_.lock()->GetTransform().GetWorldPosition() - Pos);
 				MoveTime_ = 0;
@@ -85,37 +84,25 @@ void Tool_Rail::Update(float _Delta)
 		if (After_Moveable_.lock() != nullptr)
 		{
 			MoveTime_ += _Delta;
-			After_Moveable_.lock()->GetTransform().SetLocalPosition(float4::LerpLimit(GetTransform().GetWorldPosition() - Front_StaticObject_.lock()->GetTransform().GetWorldPosition(), float4::ZERO, MoveTime_ / 1.5f));
+			After_Moveable_.lock()->GetTransform().SetLocalPosition(float4::LerpLimit((GetTransform().GetWorldPosition()) - (Front_StaticObject_.lock()->GetTransform().GetWorldPosition()), Front_StaticObject_.lock()->GetToolPos(), MoveTime_ / 1.5f));
 			if (MoveTime_ > 1.5f)
 			{
 				Front_StaticObject_.lock()->SetMoveable(After_Moveable_.lock());
 				MoveTime_ = 0;
 				After_Moveable_.reset();
+				ReSetCurrentMoveable();
 			}
 		}
-
-		if (Before_Moveable_.lock() != nullptr)
-		{
-
-		}
-
-
-		if (Front_StaticObject_.lock()->GetMoveable() == After_Moveable_.lock())
-		{
-			Push_Moveable_.lock()->GetTransform().SetLocalPosition(float4::Lerp(GetTransform().GetWorldPosition() - Front_StaticObject_.lock()->GetTransform().GetWorldPosition(), float4::ZERO, 1.f - (MoveTime_ / 1.5f)));
-			MoveTime_ += _Delta;
-			if (MoveTime_ > 1.5f)
-			{
-				MoveTime_ = 0;
-			}
-		}
-
-
-
 		//
 		int a = 0;
 		//Front_StaticObject_->
 	}
+}
+
+void Tool_Rail::SetMoveable(std::shared_ptr<GameEngineUpdateObject> _Child)
+{
+	GamePlayTool::SetMoveable(_Child);
+
 }
 
 
