@@ -23,19 +23,25 @@ void Equipment_Plate::Start()
 	GetCollisionObject()->GetTransform().SetWorldPosition({ 0, -25, 0});
 	GetCollisionObject()->GetTransform().SetLocalScale({ 100, 25, 100 });
 
-
 	GetCombinFood()->Start(1, shared_from_this(), false);
+	SetDirty();
 }
 
 void Equipment_Plate::SetDirty()
 {
 	Dirty_ = true;
+	ChangeFBXMesh();
+	GetFBXMesh()->SetFBXMesh("m_sk_plate_dirty.fbx", "Texture");
+	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 	// 텍스쳐 변경필요
 }
 
 void Equipment_Plate::SetClean()
 {
 	Dirty_ = false;
+	ChangeFBXMesh();
+	GetFBXMesh()->SetFBXMesh("m_sk_plate_02.fbx", "Texture");
+	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 	// 텍스쳐 변경필요
 }
 
@@ -92,10 +98,6 @@ HoldDownEnum Equipment_Plate::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveabl
 	}
 	else
 	{
-		if (Dirty_ == true)
-		{
-			return HoldDownEnum::Nothing;
-		}
 		(*_Moveable) = GetPlate();
 		if ((*_Moveable) == CastThis<Equipment_Plate>())
 		{

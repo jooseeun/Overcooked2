@@ -8,6 +8,7 @@ GamePlayStaticObject::GamePlayStaticObject()
 	: Stuff_Current_(nullptr)
 	, ToolPos_({0, 50})
 	, MyType_(MapObjType::Max)
+	, CrashCollision_(nullptr)
 {
 }
 
@@ -20,6 +21,12 @@ void GamePlayStaticObject::Start()
 	GamePlayObject::Start();
 	GamePlayObject::SetObjectType(ObjectType::StaticObject);
 	GetCollisionObject()->ChangeOrder(CollisionOrder::Object_StaticObject);
+	CrashCollision_ = CreateComponent<GameEngineCollision>();
+	CrashCollision_->GetTransform().SetWorldScale({10, 20, 10});
+	CrashCollision_->GetTransform().SetLocalPosition({ 0, 50, 0 });
+	CrashCollision_->SetDebugSetting(CollisionType::CT_AABB, {0.8f, 0, 0.5f, 0.5f});
+	CrashCollision_->ChangeOrder(CollisionOrder::Object_StaticObject_1);
+
 } 
 
 void GamePlayStaticObject::SetHighlightEffectOff()
@@ -269,7 +276,8 @@ void GamePlayStaticObject::SetMoveable(std::shared_ptr<GamePlayMoveable> _Moveab
 		}
 		else
 		{
-			Stuff_Current_ = _Moveable;
+			MsgBoxAssert("아직처리하지 않은 예외")
+			//Stuff_Current_ = _Moveable;
 		}
 	}
 }

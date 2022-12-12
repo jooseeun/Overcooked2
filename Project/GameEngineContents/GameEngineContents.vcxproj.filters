@@ -296,6 +296,15 @@
     <ClInclude Include="CookingBar.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="Food_Ingredients_Cucumber.h">
+      <Filter>Contents\Object\Food</Filter>
+    </ClInclude>
+    <ClInclude Include="Food_Ingredients_Seaweed.h">
+      <Filter>Contents\Object\Food</Filter>
+    </ClInclude>
+    <ClInclude Include="Food_Ingredients_Rice.h">
+      <Filter>Contents\Object\Food</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -592,6 +601,15 @@
     </ClCompile>
     <ClCompile Include="CookingBar.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Food_Ingredients_Cucumber.cpp">
+      <Filter>Contents\Object\Food</Filter>
+    </ClCompile>
+    <ClCompile Include="Food_Ingredients_Seaweed.cpp">
+      <Filter>Contents\Object\Food</Filter>
+    </ClCompile>
+    <ClCompile Include="Food_Ingredients_Rice.cpp">
+      <Filter>Contents\Object\Food</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
