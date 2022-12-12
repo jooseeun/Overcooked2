@@ -45,12 +45,13 @@ protected:
 private:
 	std::weak_ptr<GamePlayStaticObject> Front_StaticObject_;
 	std::weak_ptr<GamePlayMoveable> After_Moveable_;
-	std::weak_ptr<GamePlayMoveable> Before_Moveable_;
+	//std::weak_ptr<GamePlayMoveable> Before_Moveable_;
 	float MoveTime_;
 	bool FirstTimeCheck_;
 
 	CollisionReturn GetFrontStaticObject(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 
 	void SetMoveable(std::shared_ptr<GameEngineUpdateObject> _Child) override;
+	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable) override;
 };
 

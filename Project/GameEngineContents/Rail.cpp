@@ -103,6 +103,34 @@ void Tool_Rail::SetMoveable(std::shared_ptr<GameEngineUpdateObject> _Child)
 
 }
 
+HoldDownEnum Tool_Rail::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
+{
+	switch (GamePlayTool::PickUp(_Moveable))
+	{
+	case HoldDownEnum::HoldUp:
+		MsgBoxAssert("¹Ì±¸Çö");
+		return HoldDownEnum::HoldUp;
+		break;
+	case HoldDownEnum::HoldDown:
+		if (After_Moveable_.lock() == (*_Moveable))
+		{
+			After_Moveable_.reset();
+		}
+		//if (GetCurrentMoveable() == After_Moveable_.lock())
+		//{
+		//	
+		//}
+		return HoldDownEnum::HoldDown;
+		break;
+	default:
+		break;
+	}
+	
+
+	return HoldDownEnum::Nothing;
+}
+
+
 
 CollisionReturn Tool_Rail::GetFrontStaticObject(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 {
