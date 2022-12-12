@@ -21,6 +21,10 @@ protected:
 	void PlayLevelStartEvent() override;
 
 private:
+	RenderOption WaterRenderOption1_;
+	RenderOption WaterRenderOption2_;
+
+	std::shared_ptr<GameEngineActor> WaterActor_;
 	bool IsLevelFirst_ = true;
 };
 
