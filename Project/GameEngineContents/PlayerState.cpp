@@ -396,7 +396,7 @@ void Player::DrowningUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::CannonInterStart(const StateInfo& _Info)
 {
-
+	//CurCannon_->SetPlayer(std::dynamic_pointer_cast<Player>(shared_from_this()));		// 테스트
 	IdleRendererON();
 	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "CannonEnter"+ IsHolding_);
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
@@ -418,6 +418,7 @@ void Player::CannonInterUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerDash" + PNumString))
 	{
 		//DetachObject();
+		//CurCannon_->ResetPlayer();	// 테스트
 		CurCannon_ = nullptr;
 		//GetTransform().SetWorldPosition({ -806.00, 100.0, -1111.00 });
 		GetTransform().SetWorldPosition({ -806.00, 100.0, -1111.00 });

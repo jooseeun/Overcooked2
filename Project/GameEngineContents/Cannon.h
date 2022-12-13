@@ -4,13 +4,14 @@ enum class CannonState
 {
 	Idle,
 	Ready,
+	ReadyToIdle,
 	Shoot,
 	ShootToIdle,
 	Max,
 };
 
 // 설명 :
-
+class Button;
 class Cannon : public GameEngineActor
 {
 
@@ -31,19 +32,33 @@ public:
 		return CurState_;
 	}
 
-	inline void SetCannonState(CannonState _CurState)
+	inline void SetPlayer(std::shared_ptr<Player> _Player)
 	{
-		CurState_ = _CurState;
+		Player_ = _Player;
 	}
 
-	inline void SwitchInteraction_()
+	inline void ResetPlayer()
 	{
-		Interaction_ = !Interaction_;
+		if (Player_ == nullptr)
+		{
+			return;
+		}
+
+		Player_.reset();
+		Player_ = nullptr;
 	}
-	inline float4 GetZAngle()
+
+	inline std::shared_ptr<Button> GetButton()
 	{
-		return ZAngle_;
+		return Button_;
 	}
+
+	// 캐논의 상태를 Idle => Ready 로 바꾸는 함수
+	//inline void SwitchInteraction_()
+	//{
+	//	Interaction_ = !Interaction_;
+	//} 
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -54,26 +69,30 @@ protected:
 	void ReadyStart(const StateInfo& _Info);
 	void ReadyUpdate(float _DeltaTime, const StateInfo& _Info);
 
+	void ReadyToIdleStart(const StateInfo& _Info);
+	void ReadyToIdleUpdate(float _DeltaTime, const StateInfo& _Info);
+
 	void ShootStart(const StateInfo& _Info);
 	void ShootUpdate(float _DeltaTime, const StateInfo& _Info);
 
 	void ShootToIdleStart(const StateInfo& _Info);
 	void ShootToIdleUpdate(float _DeltaTime, const StateInfo& _Info);
 
-private:
-	std::shared_ptr<GameEngineFBXStaticRenderer> BaseRenderer;
 	std::shared_ptr<GameEngineFBXStaticRenderer> Mesh_Object_;
-	std::shared_ptr<GameEngineFBXAnimationRenderer> AnimationMesh_Obejct_;
 	std::shared_ptr<GameEngineCollision> Collision_Object_;
 
+private:
+	std::shared_ptr<GameEngineFBXStaticRenderer> BaseRenderer;
 
+	std::shared_ptr<Player> Player_;
+	std::shared_ptr<Button> Button_;
 
 	CannonState CurState_;
 	GameEngineStateManager StateManager;
 
-	bool Interaction_;
-	float4 ZAngle_;
-	float4 MaxAngle_;
-	float Speed_;
+	bool IsShoot_;
+	float CurAngle_;
+	float ShootAngle_;
+	float MaxAngle_;
 };
 
