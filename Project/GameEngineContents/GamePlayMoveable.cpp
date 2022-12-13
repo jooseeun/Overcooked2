@@ -8,6 +8,7 @@ GamePlayMoveable::GamePlayMoveable()
 	, CookingGage_(0)
 	, Enum_ObjectMoveableType_(ObjectMoveableType::None)
 	, Enum_HoldType_(PlayerHoldType::Max)
+	, CookingBar_(nullptr)
 //, CookedStat_Current_(CookedStat::Nomal)
 {
 }
@@ -21,12 +22,17 @@ void GamePlayMoveable::Start()
 	GamePlayStuff::Start();
 	GamePlayStuff::SetObjectStuffType(ObjectStuffType::Moveable);
 	GetCollisionObject()->ChangeOrder(CollisionOrder::Object_Moveable);
+
+	CookingBar_ = GetLevel()->CreateActor<CookingBar>();
+	CookingBar_->LinkObject(CastThis<GameEngineActor>(), {0,-40,0}, &CookingGage_, false);
+
 }
 
 bool GamePlayMoveable::Input_Manual(std::shared_ptr<Player> _Player, float _Delta, float _MaxTime)
 {
-	CookingGage_ += _Delta;
-	if (CookingGage_ > _MaxTime)
+	CookingGage_ += (_Delta * 100.f) / _MaxTime;
+
+	if (CookingGage_ > 100.f)
 	{
 		if (TrimmingFirstTime_ == false)
 		{
@@ -47,7 +53,7 @@ bool GamePlayMoveable::Input_Manual(std::shared_ptr<Player> _Player, float _Delt
 		return false;
 	}
 }
-//
+
 //HoldDownEnum GamePlayMoveable::HoldOn(std::shared_ptr<GamePlayStaticObject> _Object)
 //{
 //	if (_Object->GetStuff() == nullptr)

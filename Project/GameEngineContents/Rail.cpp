@@ -100,7 +100,6 @@ void Tool_Rail::Update(float _Delta)
 void Tool_Rail::SetMoveable(std::shared_ptr<GameEngineUpdateObject> _Child)
 {
 	GamePlayTool::SetMoveable(_Child);
-
 }
 
 HoldDownEnum Tool_Rail::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
@@ -116,17 +115,11 @@ HoldDownEnum Tool_Rail::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 		{
 			After_Moveable_.reset();
 		}
-		//if (GetCurrentMoveable() == After_Moveable_.lock())
-		//{
-		//	
-		//}
 		return HoldDownEnum::HoldDown;
 		break;
 	default:
 		break;
 	}
-	
-
 	return HoldDownEnum::Nothing;
 }
 

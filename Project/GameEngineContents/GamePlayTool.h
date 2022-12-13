@@ -1,7 +1,7 @@
 #pragma once
 #include "GamePlayStuff.h"
 #include "GamePlayMoveable.h"
-#include "CookingBar.h"
+
 // Ό³Έν :
 enum class AutoOption
 {
@@ -61,11 +61,17 @@ public:
 	{
 		return MoveablePos_;
 	}
+	inline void SetMoveablePos(const float4& _Pos)
+	{
+		MoveablePos_ = _Pos;
+	}
+
 
 	virtual void SetMoveable(std::shared_ptr<GameEngineUpdateObject> _Child);
 
 protected:
 	void Start() override;
+	void Update(float _DeltaTime) override;
 	void End() override {};
 
 	void OnEvent() override {};
@@ -100,8 +106,6 @@ private:
 	AutoOption InteractOption_Current_;
 
 	float4 MoveablePos_;
-	std::shared_ptr<CookingBar> CookingBar_;
-
 
 
 	// Bloom

@@ -54,8 +54,12 @@ public:
 protected:
 	void Start() override;
 
+	UsingDownEnum UsingDown(std::shared_ptr<Player> _Player) override;
+
+
 private:
 	static Tool_Sink* Inst_;
+	std::vector<std::shared_ptr<Equipment_Plate>>  Dirty_Plate_;
 	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable) override;
 
 };

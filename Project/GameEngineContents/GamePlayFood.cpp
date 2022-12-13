@@ -24,7 +24,7 @@ void GamePlayFood::Start()
 	GamePlayMoveable::Start();
 	GamePlayMoveable::SetObjectMoveableType(ObjectMoveableType::Food);
 	GamePlayMoveable::SetHoldType(PlayerHoldType::CanThrow);
-
+	//CookingBar_->LinkObject(CastThis<GameEngineActor>(), { 0,25,0 }, &CookingGage_, false);
 	
 }
 

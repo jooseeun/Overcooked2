@@ -2,6 +2,7 @@
 #include "GamePlayTool.h"
 #include "GamePlayMoveable.h"
 #include "Player.h"
+#include "Equipment_Pot.h"
 
 GamePlayTool::GamePlayTool()
 	: Moveable_Current_(nullptr)
@@ -20,14 +21,22 @@ void GamePlayTool::Start()
 {
 	GamePlayStuff::Start();
 	GamePlayStuff::SetObjectStuffType(ObjectStuffType::Tool);
-	
 
-	CookingBar_ = GetLevel()->CreateActor<CookingBar>();
-	//CookingBar_->LinkObject();
 }
 
 // ---------------------------------------Update
+void GamePlayTool::Update(float _DeltaTime)
+{
+	if (InteractOption_Current_ == AutoOption::Auto)
+	{
+		if (Moveable_Current_ != nullptr &&
+			Moveable_Current_->CastThis<Equipment_Pot>() != nullptr)
+		{
+			Moveable_Current_->CastThis<Equipment_Pot>()->GetCombinFood();
+		}
+	}
 
+}
 
 
 void GamePlayTool::SetMoveable(std::shared_ptr<Player> _Player)

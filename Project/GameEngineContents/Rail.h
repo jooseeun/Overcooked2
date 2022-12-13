@@ -45,6 +45,7 @@ protected:
 private:
 	std::weak_ptr<GamePlayStaticObject> Front_StaticObject_;
 	std::weak_ptr<GamePlayMoveable> After_Moveable_;
+	std::weak_ptr<GamePlayMoveable> Before_Moveable_;
 	//std::weak_ptr<GamePlayMoveable> Before_Moveable_;
 	float MoveTime_;
 	bool FirstTimeCheck_;

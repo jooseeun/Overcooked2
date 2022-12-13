@@ -1,6 +1,7 @@
 #pragma once
 #include "GamePlayStuff.h"
 #include "Player.h"
+#include "CookingBar.h"
 // Ό³Έν :
 
 enum class ObjectMoveableType
@@ -56,6 +57,10 @@ public:
 	{
 		return CookingGage_;
 	}
+	inline std::shared_ptr<CookingBar> GetCookingBar()
+	{
+		return CookingBar_;
+	}
 	bool Input_Manual(std::shared_ptr<Player> _Player, float _Delta, float _MaxTime);
 protected:
 	void Start() override;
@@ -78,16 +83,17 @@ protected:
 		Enum_HoldType_ = _Type;
 	}
 
+
 private:
 	ObjectMoveableType Enum_ObjectMoveableType_;
 	float CookingGage_;
 	bool TrimmingFirstTime_;
 	PlayerHoldType Enum_HoldType_;
+	std::shared_ptr<CookingBar> CookingBar_;
+
 
 	virtual void FinishTrimmingFirst() {}
 	virtual void FinishTrimming() {}
-
-	
 
 };
 

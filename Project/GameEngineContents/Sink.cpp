@@ -73,7 +73,7 @@ void Tool_Sink::Start()
 
 
 	Tool_Sink::Inst_ = this;
-
+	SetMoveablePos({-120, 0, 0});
 }
 
 HoldDownEnum Tool_Sink::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
@@ -86,33 +86,87 @@ HoldDownEnum Tool_Sink::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 		{
 			Plate->ChangeFBXMesh();
 			Plate->GetFBXMesh()->SetFBXMesh("m_sk_plate_dirty_Sink.fbx", "Texture");
-			Plate->GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
-			if (GetCurrentMoveable() != nullptr)
+			Plate->GetFBXMesh()->GetTransform().SetWorldScale({ 80, 80, 80 });
+			switch (Dirty_Plate_.size())
 			{
-				GetCurrentMoveable()->CastThis<Equipment_Plate>()->SetPlate(Plate);
-				Plate->Off();
-			}
-			else
+			case 0:
 			{
-				SetMoveable(Plate);
+				Plate->SetParent(shared_from_this());
+				Plate->GetTransform().SetLocalPosition({ -75, -20, 10 });
+				Plate->GetTransform().SetLocalRotation({ 0, 200, 0 });
+				Plate->GetCollisionObject()->Off();
+				Dirty_Plate_.push_back(Plate);
 			}
+			break;
+			case 1:
+			{
+				Plate->SetParent(shared_from_this());
+				Plate->GetTransform().SetLocalPosition({ -75, -20, 25 });
+				Plate->GetTransform().SetLocalRotation({ 0, 200, 0 });
+				Plate->GetCollisionObject()->Off();
+				Dirty_Plate_.push_back(Plate);
+			}
+			break;
+			case 2:
+			{
+				Plate->SetParent(shared_from_this());
+				Plate->GetTransform().SetLocalPosition({ 150, 20, 80 });
+				Plate->GetCollisionObject()->Off();
+				Dirty_Plate_.push_back(Plate);
+			}
+			break;
+			default:
+			{
+				Plate->GetFBXMesh()->Off();
+				Plate->GetCollisionObject()->Off();
+				Dirty_Plate_.push_back(Plate);
+			}
+			break;
+			}
+
 			(*_Moveable) = nullptr;
 			return HoldDownEnum::HoldUp;
 		}
-		
 	}
 	else
 	{
 		if (GetCurrentMoveable() != nullptr)
 		{
-			if (true)
-			{
-
-			}
+			(*_Moveable) = GetCurrentMoveable();
+			ReSetCurrentMoveable();
+			return HoldDownEnum::HoldDown;
 		}
 	}
 	return HoldDownEnum::Nothing;
 }
+
+UsingDownEnum Tool_Sink::UsingDown(std::shared_ptr<Player> _Player)
+{
+	if (!Dirty_Plate_.empty())
+	{
+		if (Dirty_Plate_.back()->Input_Manual(_Player, GameEngineTime::GetDeltaTime(), 5.f)) // ¿ø·¡ 12ÃÊ
+		{
+			Dirty_Plate_.back()->SetClean();
+			if (GetCurrentMoveable() != nullptr)
+			{
+				GetCurrentMoveable()->CastThis<Equipment_Plate>()->SetPlate(Dirty_Plate_.back());
+			}
+			else
+			{
+				SetMoveable(Dirty_Plate_.back());
+			}
+			Dirty_Plate_.pop_back();
+
+			if (Dirty_Plate_.empty())
+			{
+				_Player->FinishSink();
+			}
+			return UsingDownEnum::Nothing;
+		}
+	}
+	return UsingDownEnum::Using;
+}
+
 
 //Input_PutDownOption Tool_Sink::Input_PutDown(std::shared_ptr<GamePlayMoveable> _Object)
 //{
