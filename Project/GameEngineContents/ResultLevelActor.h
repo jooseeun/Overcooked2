@@ -13,6 +13,7 @@ public:
 
 protected:
 	std::weak_ptr<GameEngineFBXAnimationRenderer> OnionKing_;
+	std::weak_ptr<GameEngineFBXAnimationRenderer> Kevin_;
 	void UIStart() override;
 	void UIUpdate(float _DeltaTime) override;
 	void UIEnd() override;

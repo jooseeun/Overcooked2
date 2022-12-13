@@ -5,6 +5,33 @@
 #include "OverCookedUIRenderer.h"
 #include "GamePlayLevel.h"
 
+//void GameEngineFBXAnimationRenderer::SetFBXMeshExceptionMesh(const std::string& _Name, std::string _Material, size_t MeshIndex)
+//{
+//	std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find(_Name);
+//
+//	if (GlobalIOManager::Load(IOType::Mesh, "_" + FindFBXMesh->GetNameCopy()))
+//	{
+//		MeshData Data = GlobalIOManager::GetMeshData();
+//
+//		for (size_t j = 0; j < Data.PreviewMeshInfo_.size(); j++)
+//		{
+//			FindFBXMesh->GetFbxRenderUnit()[j].MaterialData[0].DifTexturePath = Data.PreviewMeshInfo_[j].DifTexturePath_;
+//			FindFBXMesh->GetFbxRenderUnit()[j].MaterialData[0].DifTextureName = Data.PreviewMeshInfo_[j].DifTextureName_;
+//		}
+//	}
+//
+//	for (size_t UnitCount = 0; UnitCount < FindFBXMesh->GetRenderUnitCount(); UnitCount++)
+//	{
+//		if (UnitCount == MeshIndex)
+//		{
+//			continue;
+//		}
+//		for (size_t SubSetCount = 0; SubSetCount < FindFBXMesh->GetSubSetCount(UnitCount); SubSetCount++)
+//		{
+//			SetFBXMesh(_Name, _Material, UnitCount, SubSetCount);
+//		}
+//	}
+//}
 ResultLevelActor::ResultLevelActor()
 {
 }
@@ -15,7 +42,11 @@ ResultLevelActor::~ResultLevelActor()
 
 void ResultLevelActor::UIStart()
 {
-	CreateUIRenderer("EndBackground.png");
+	//맨 뒤에 백그라운드
+	{
+		std::weak_ptr<OverCookedUIRenderer> Renderer = CreateUIRenderer("EndBackground.png");
+		Renderer.lock()->GetTransform().SetLocalPosition({ 0,0,1000 });
+	}
 
 	//중앙 결과창 렌더러
 	{
@@ -81,7 +112,7 @@ void ResultLevelActor::UIStart()
 	//어니언킹
 	{
 		OnionKing_ = CreateComponent<GameEngineFBXAnimationRenderer>();
-		OnionKing_.lock()->ChangeCamera(CAMERAORDER::AboveUICAMERA);
+		OnionKing_.lock()->ChangeCamera(CAMERAORDER::UICAMERA);
 
 		OnionKing_.lock()->SetFBXMeshExceptionMesh("m_onion_king_01.fbx", "TextureAnimation", 7);
 
@@ -96,12 +127,12 @@ void ResultLevelActor::UIStart()
 		OnionKing_.lock()->CreateFBXAnimation("Phase2_1",
 			GameEngineRenderingEvent("m_onion_king_01.fbx", 0.035f, false), 5);
 
-		OnionKing_.lock()->ChangeAnimation("Phase1_0");
+		OnionKing_.lock()->ChangeAnimation("Phase2_1");
 		OnionKing_.lock()->GetTransform().SetLocalScale({ 200,200,200 });
 		OnionKing_.lock()->GetTransform().SetLocalPosition({ 380.f,-68.f,0.f });
 		OnionKing_.lock()->GetTransform().SetLocalRotation({ 0,180,0 });
 
-		ResistDebug("OnionKing", OnionKing_.lock()->GetTransform());
+		//ResistDebug("OnionKing", OnionKing_.lock()->GetTransform());
 	}
 
 	//어니언킹 애니메이션 바인딩
@@ -125,6 +156,25 @@ void ResultLevelActor::UIStart()
 					OnionKing_.lock()->GetCurAnim()->Reset();
 				}
 			});
+	}
+
+	//케빈
+	{
+		{
+			Kevin_ = CreateComponent<GameEngineFBXAnimationRenderer>();
+			Kevin_.lock()->ChangeCamera(CAMERAORDER::UICAMERA);
+			Kevin_.lock()->SetFBXMesh("m_kevin_01.fbx", "TextureAnimation");
+			Kevin_.lock()->CreateFBXAnimation("kPhase0_0", GameEngineRenderingEvent("m_kevin_01.fbx", 0.035f, true), 5);
+			Kevin_.lock()->CreateFBXAnimation("kPhase1_0", GameEngineRenderingEvent("m_kevin_01.fbx", 0.035f, true), 4);
+			Kevin_.lock()->CreateFBXAnimation("kPhase2_0", GameEngineRenderingEvent("m_kevin_01.fbx", 0.035f, true), 2);
+			Kevin_.lock()->CreateFBXAnimation("kPhase2_1", GameEngineRenderingEvent("m_kevin_01.fbx", 0.035f, true), 6);
+			Kevin_.lock()->ChangeAnimation("kPhase2_1");
+			Kevin_.lock()->GetTransform().SetLocalScale({ 80,80,80 });
+			Kevin_.lock()->GetTransform().SetLocalPosition({ -370.f,-48.f,0.f });
+			Kevin_.lock()->GetTransform().SetLocalRotation({ 0,180,0 });
+
+			ResistDebug("Kevin", Kevin_.lock()->GetTransform());
+		}
 	}
 }
 
