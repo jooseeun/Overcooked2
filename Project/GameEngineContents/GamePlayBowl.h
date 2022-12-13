@@ -5,6 +5,7 @@
 #include "FoodThumbnail.h"
 #include "InGameUIActor.h"
 #include "GlobalGameData.h"
+#include "GamePlayTool.h"
 
 enum class ObjectBowlType
 {
@@ -241,6 +242,8 @@ public:
 		}
 		return CombinFood_;
 	}
+
+
 
 protected:
 	void Start() override;

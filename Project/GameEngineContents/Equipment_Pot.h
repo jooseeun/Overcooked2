@@ -1,5 +1,7 @@
 #pragma once
 #include "GamePlayBowl.h"
+#include "GamePlayTool.h"
+#include "Food_Ingredients_Rice.h"
 // Ό³Έν :
 class Equipment_Pot final : public GamePlayBowl
 {
@@ -16,6 +18,11 @@ public:
 
 protected:
 	void Start() override;
+
+
+	bool AutoTrim(float _DeltaTime, ObjectToolType _Tool)  override;
 private:
+	std::shared_ptr<Food_Ingredients_Rice> Rice_;
+	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable) override;
 };
 

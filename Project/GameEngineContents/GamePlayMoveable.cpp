@@ -54,6 +54,31 @@ bool GamePlayMoveable::Input_Manual(std::shared_ptr<Player> _Player, float _Delt
 	}
 }
 
+
+bool GamePlayMoveable::Input_Auto(float _Delta, float _MaxTime)
+{
+	CookingGage_ += (_Delta * 100.f) / _MaxTime;
+
+	if (CookingGage_ > 100.f)
+	{
+		if (TrimmingFirstTime_ == false)
+		{
+			FinishTrimmingFirst();
+			TrimmingFirstTime_ = true;
+		}
+		else
+		{
+			FinishTrimming();
+		}
+
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 //HoldDownEnum GamePlayMoveable::HoldOn(std::shared_ptr<GamePlayStaticObject> _Object)
 //{
 //	if (_Object->GetStuff() == nullptr)

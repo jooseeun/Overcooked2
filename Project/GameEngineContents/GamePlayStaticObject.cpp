@@ -292,7 +292,8 @@ void GamePlayStaticObject::SetStuff(std::shared_ptr<GamePlayStuff> _Stuff)
 	{
 		if (Stuff_Current_->CastThis<GamePlayTool>() != nullptr)
 		{
-			MsgBoxAssert("¿À·ù")
+			std::shared_ptr<GamePlayMoveable> Stuff = _Stuff->CastThis<GamePlayMoveable>();
+			Stuff_Current_->PickUp(&Stuff);
 		}
 	}
 	Stuff_Current_ = _Stuff;

@@ -19,6 +19,7 @@ enum class CookedStat
 class GamePlayFood;
 class GamePlayEquipment;
 class GamePlayBowl;
+enum class ObjectToolType;
 class GamePlayMoveable : public GamePlayStuff
 {
 	friend class GamePlayTool;
@@ -62,6 +63,8 @@ public:
 		return CookingBar_;
 	}
 	bool Input_Manual(std::shared_ptr<Player> _Player, float _Delta, float _MaxTime);
+	bool Input_Auto(float _Delta, float _MaxTime);
+	virtual bool AutoTrim(float _DeltaTim, ObjectToolType _Tool) { return false; }
 protected:
 	void Start() override;
 	//void Update(float _DeltaTime) final;

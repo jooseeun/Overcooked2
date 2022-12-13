@@ -66,12 +66,10 @@ public:
 		MoveablePos_ = _Pos;
 	}
 
-
 	virtual void SetMoveable(std::shared_ptr<GameEngineUpdateObject> _Child);
 
 protected:
 	void Start() override;
-	void Update(float _DeltaTime) override;
 	void End() override {};
 
 	void OnEvent() override {};

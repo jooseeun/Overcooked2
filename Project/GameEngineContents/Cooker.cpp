@@ -23,6 +23,8 @@ void Cooker::Start()
 	GetFBXMesh()->GetTransform().SetWorldMove({ 0, 0, 0 });
 	ToolPos_ = {0.f, 60.f, 0.f};
 	SetToolPos(ToolPos_);
+
+	SetStuff(GetLevel()->CreateActor<Tool_Cooker>());
 }
 
 
@@ -43,6 +45,17 @@ void Tool_Cooker::Start()
 	GamePlayTool::SetInteractOption(AutoOption::Auto);
 	//SetCookingEndTime(12.f);
 	GamePlayTool::SetObjectToolType(ObjectToolType::Cooker);
+}
+
+void Tool_Cooker::Update(float _DeltaTime)
+{
+	if (GetCurrentMoveable() != nullptr)
+	{
+		if (GetCurrentMoveable()->AutoTrim(_DeltaTime, GetObjectToolType()))
+		{
+			//불 붙히는 애니메이션
+		}
+	}
 }
 
 //HoldDownEnum Tool_Cooker::HoldDown(std::shared_ptr<GamePlayStuff> _Stuff)

@@ -17,6 +17,8 @@ void GamePlayBowl::Start()
 	GamePlayEquipment::Start();
 	GamePlayEquipment::SetObjectEquipmentType(ObjectEquipmentType::Bowl);
 }
+
+
 //
 //HoldDownEnum GamePlayBowl::HoldOn(std::shared_ptr<Player> _Player)
 //{
