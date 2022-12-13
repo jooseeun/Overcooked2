@@ -46,6 +46,11 @@ public:
 
 	GameEngineRenderUnit(const GameEngineRenderUnit& _Render);
 
+	inline bool GetIsOn()
+	{
+		return IsOn;
+	}
+
 	inline void On()
 	{
 		IsOn = true;
@@ -56,9 +61,16 @@ public:
 		IsOn = false;
 	}
 
+	inline GameEngineRenderer* GetRenderer()
+	{
+		return ParentRenderer;
+	}
+
 	void SetMesh(const std::string& _Name);
 
 	void SetMesh(std::shared_ptr<GameEngineMesh> _Mesh);
+
+	void PushCamera();
 
 	void SetMaterial(const std::string& _Name);
 
@@ -82,13 +94,12 @@ public:
 
 private:
 	bool IsOn;
-	std::weak_ptr<GameEngineRenderer> ParentRenderer;
+	GameEngineRenderer* ParentRenderer;
 	std::shared_ptr<GameEngineMesh> Mesh; // 이 메쉬를
 	std::shared_ptr<GameEngineMaterial> Material; // 이 설정으로
 	std::shared_ptr<GameEngineInputLayOut> InputLayOut;
 	D3D11_PRIMITIVE_TOPOLOGY Topology;// 이렇게 그린다.
 };
-
 
 // 설명 :
 class GameEngineMaterial;
@@ -98,7 +109,6 @@ class GameEngineRenderer
 {
 	friend class GameEngineLevel;
 	friend class GameEngineCamera;
-
 
 public:
 	RenderOption RenderOptionInst;
@@ -116,8 +126,6 @@ public:
 	// float4x4 ViewPort;
 	void ChangeCamera(CAMERAORDER _Order);
 
-    std::shared_ptr<GameEngineMaterial> ClonePipeLine(std::shared_ptr<GameEngineMaterial> _Rendering);
-
     inline int GetRenderingOrder() 
     {
         return RenderingOrder;
@@ -130,12 +138,10 @@ public:
 		IsInstancing_ = true;
 	};
 
-	inline std::shared_ptr<class GameEngineCamera> GetCamera()
+	GameEngineCamera* GetCamera()
 	{
-		return Camera.lock();
+		return Camera;
 	}
-
-	void EngineShaderResourcesSetting(GameEngineShaderResourcesHelper* _ShaderResources);
 
 	void PushRendererToMainCamera();
 
@@ -151,7 +157,8 @@ protected:
 	virtual void Update(float _DeltaTime) {}
 	virtual void End() {}
 
-    std::weak_ptr<class GameEngineCamera> Camera;
+	class GameEngineCamera* Camera;
+	std::vector<std::shared_ptr<GameEngineRenderUnit>> Units;
 
 	PixelData PixelDataInst;
 

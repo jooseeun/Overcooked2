@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "LightTestLevel.h"
 #include <GameEngineCore/GameEngineLight.h>
+#include "GameEngineStatusWindow.h"
 
 LightTestLevel::LightTestLevel()
 {
@@ -17,6 +18,8 @@ void LightTestLevel::Start()
 	LightObject = CreateActor<GameEngineLight>();
 	LightObject->GetTransform().SetWorldRotation({ 0.0f, 45.0f, 0.0f });
 	GetMainCamera()->PushLight(LightObject);
+
+	GameEngineStatusWindow::AddDebugRenderTarget("GBuffer", GetMainCamera()->GetCameraDeferredGBufferRenderTarget());
 
 	{
 		std::shared_ptr<GameEngineLight> Light = CreateActor<GameEngineLight>();

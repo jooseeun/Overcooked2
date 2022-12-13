@@ -26,6 +26,7 @@ void GameEngineDefaultRenderer::SetMaterial(const std::string& _Name)
 {
 	Unit->SetMaterial(_Name);
 	Unit->SetRenderer(std::dynamic_pointer_cast<GameEngineRenderer>(shared_from_this()));
+	Unit->PushCamera();
 }
 
 void GameEngineDefaultRenderer::Render(float _DeltaTime) 

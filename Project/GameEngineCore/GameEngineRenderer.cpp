@@ -11,6 +11,7 @@
 #include "GameEngineIndexBuffer.h"
 #include "GameEngineMesh.h"
 #include "GameEngineCamera.h"
+#include "GameEnginePixelShader.h"
 
 #include "GameEngineInputLayOut.h"
 
@@ -48,9 +49,9 @@ void GameEngineRenderUnit::EngineShaderResourcesSetting(std::shared_ptr<GameEngi
 		return;
 	}
 
-	ParentRenderer = _Renderer;
+	ParentRenderer = _Renderer.get();
 	
-	std::shared_ptr<GameEngineCamera> Camera = ParentRenderer.lock()->GetCamera();
+	GameEngineCamera* Camera = ParentRenderer->GetCamera();
 	if (true == ShaderResources.IsConstantBuffer("LightDatas"))
 	{
 		ShaderResources.SetConstantBufferLink("LightDatas", &Camera->LightDataObject, sizeof(LightDatas));
@@ -59,12 +60,12 @@ void GameEngineRenderUnit::EngineShaderResourcesSetting(std::shared_ptr<GameEngi
 	//// 랜더러 쪽으로 빠져야 한다.
 	if (true == ShaderResources.IsConstantBuffer("TRANSFORMDATA"))
 	{
-		ShaderResources.SetConstantBufferLink("TRANSFORMDATA", &ParentRenderer.lock()->GetTransformData(), sizeof(TransformData));
+		ShaderResources.SetConstantBufferLink("TRANSFORMDATA", &ParentRenderer->GetTransformData(), sizeof(TransformData));
 	}
 
 	if (true == ShaderResources.IsConstantBuffer("RENDEROPTION"))
 	{
-		ShaderResources.SetConstantBufferLink("RENDEROPTION", &ParentRenderer.lock()->RenderOptionInst, sizeof(RenderOption));
+		ShaderResources.SetConstantBufferLink("RENDEROPTION", &ParentRenderer->RenderOptionInst, sizeof(RenderOption));
 	}
 }
 
@@ -100,6 +101,28 @@ void GameEngineRenderUnit::SetMesh(std::shared_ptr<GameEngineMesh> _Mesh)
 	}
 }
 
+void GameEngineRenderUnit::PushCamera()
+{
+	if (nullptr == ParentRenderer)
+	{
+		MsgBoxAssert("부모랜더러가 세팅되지 않은 상태에서 카메라에 들어가려고 했습니다.");
+	}
+
+	if (nullptr == Material)
+	{
+		MsgBoxAssert("메테리얼이 세팅되지 않은 상태에서 카메라에 들어가려고 했습니다.");
+	}
+
+	GameEngineCamera* Camera = ParentRenderer->GetCamera();
+
+	if (nullptr == Camera)
+	{
+		MsgBoxAssert("카메라가 세팅되지 않은 랜더러입니다.");
+	}
+
+	Camera->PushRenderUnit(shared_from_this());
+}
+
 void GameEngineRenderUnit::SetMaterial(const std::string& _Name)
 {
 	Material = GameEngineMaterial::Find(_Name);
@@ -120,9 +143,9 @@ void GameEngineRenderUnit::SetMaterial(const std::string& _Name)
 
 void GameEngineRenderUnit::SetRenderer(std::shared_ptr<GameEngineRenderer> _Renderer)
 {
-	ParentRenderer = _Renderer;
+	ParentRenderer = _Renderer.get();
 
-	EngineShaderResourcesSetting(ParentRenderer.lock());
+	EngineShaderResourcesSetting(_Renderer);
 }
 
 std::shared_ptr<GameEngineMesh> GameEngineRenderUnit::GetMesh()
@@ -243,7 +266,7 @@ void GameEngineRenderer::PushRendererToMainCamera()
 
 void GameEngineRenderer::SetRenderingOrder(int _Order)
 {
-	Camera.lock()->ChangeRenderingOrder(std::dynamic_pointer_cast<GameEngineRenderer>(shared_from_this()), _Order);
+	Camera->ChangeRenderingOrder(std::dynamic_pointer_cast<GameEngineRenderer>(shared_from_this()), _Order);
 }
 
 void GameEngineRenderer::PushRendererToUICamera()

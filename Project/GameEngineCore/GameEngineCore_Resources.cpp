@@ -300,6 +300,12 @@ void EngineRenderingPipeLine()
 	}
 
 	{
+		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("DeferredColor");
+		NewPipe->SetVertexShader("DeferredColor.hlsl");
+		NewPipe->SetPixelShader("DeferredColor.hlsl");
+	}
+
+	{
 		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("Texture");
 		NewPipe->SetVertexShader("Texture.hlsl");
 		NewPipe->SetPixelShader("Texture.hlsl");

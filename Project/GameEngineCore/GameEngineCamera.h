@@ -12,6 +12,12 @@ enum class CAMERAPROJECTIONMODE
 	Orthographic,
 };
 
+enum class RENDERINGPATHORDER
+{
+	FORWARD,
+	DEFERRED,
+	MAX,
+};
 
 // Ό³Έν :
 class GameEngineLight;
@@ -51,6 +57,11 @@ public:
 	inline std::shared_ptr < GameEngineRenderTarget> GetCameraRenderTarget()
 	{
 		return CameraRenderTarget;
+	}
+
+	inline std::shared_ptr < GameEngineRenderTarget> GetCameraDeferredGBufferRenderTarget()
+	{
+		return CameraDeferredGBufferRenderTarget;
 	}
 
 	void SetCameraOrder(CAMERAORDER _Order);
@@ -107,7 +118,9 @@ protected:
 private:
 	void Render(float _DeltaTime);
 
-	void PushRenderer(std::shared_ptr < GameEngineRenderer> _Renderer);
+	void PushRenderer(std::shared_ptr<GameEngineRenderer> _Renderer);
+
+	void PushRenderUnit(std::shared_ptr<GameEngineRenderUnit> _RenderUnit);
 
 	void Release(float _DelataTime);
 
@@ -115,13 +128,21 @@ private:
 
 	void OverRenderer(std::shared_ptr < GameEngineCamera> _NextOver);
 
-	std::shared_ptr<class GameEngineRenderTarget> CameraRenderTarget;
+	std::shared_ptr<GameEngineRenderTarget> CameraRenderTarget;
+
+	std::shared_ptr<GameEngineRenderTarget> CameraForwardRenderTarget;
+
+	std::shared_ptr<GameEngineRenderTarget> CameraDeferredGBufferRenderTarget;
+
+	std::shared_ptr<GameEngineRenderTarget> CameraDeferredRenderTarget;
 
 	std::map<int, std::list<std::shared_ptr<class GameEngineRenderer>>> AllRenderer_;
 
+	std::map<RENDERINGPATHORDER, std::map<int, std::list<std::shared_ptr<GameEngineRenderUnit>>>> AllRenderUnit_;
+
 	std::unordered_map<std::string, GameEngineInstancing> InstancingMap;
 
-	std::set<std::shared_ptr<class GameEngineLight>> AllLight;
+	std::set<std::shared_ptr<GameEngineLight>> AllLight;
 
 	LightDatas LightDataObject;
 

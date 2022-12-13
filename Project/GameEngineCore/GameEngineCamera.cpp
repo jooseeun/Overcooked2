@@ -8,10 +8,13 @@
 #include "GameEngineVertexShader.h"
 #include "GameEngineInstancing.h"
 #include "GameEngineStructuredBuffer.h"
+#include "GameEnginePixelShader.h"
 #include <GameEngineBase/GameEngineWindow.h>
 
-GameEngineCamera::GameEngineCamera() 
+GameEngineCamera::GameEngineCamera()
 	: CameraRenderTarget(nullptr)
+	, CameraForwardRenderTarget(nullptr)
+	, CameraDeferredRenderTarget(nullptr)
 {
 	Size = GameEngineWindow::GetInst()->GetScale();
 	Mode = CAMERAPROJECTIONMODE::PersPective;
@@ -25,15 +28,23 @@ GameEngineCamera::GameEngineCamera()
 	ViewPortDesc.Height = Size.y;
 	ViewPortDesc.MinDepth = 0.0f;
 	ViewPortDesc.MaxDepth = 1.0f;
+
+	AllRenderUnit_.insert(std::make_pair(RENDERINGPATHORDER::FORWARD, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>()));
+	AllRenderUnit_.insert(std::make_pair(RENDERINGPATHORDER::DEFERRED, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>()));
 }
 
-GameEngineCamera::~GameEngineCamera() 
+GameEngineCamera::~GameEngineCamera()
 {
 }
 
 bool ZSort(std::shared_ptr<GameEngineRenderer> _Left, std::shared_ptr<GameEngineRenderer> _Right)
 {
 	return _Left->GetTransform().GetWorldPosition().z > _Right->GetTransform().GetWorldPosition().z;
+}
+
+bool ZSortUnit(std::shared_ptr<GameEngineRenderUnit> _Left, std::shared_ptr<GameEngineRenderUnit> _Right)
+{
+	return _Left->GetRenderer()->GetTransform().GetWorldPosition().z > _Right->GetRenderer()->GetTransform().GetWorldPosition().z;
 }
 
 GameEngineInstancing& GameEngineCamera::GetInstancing(const std::string& _Name)
@@ -43,16 +54,14 @@ GameEngineInstancing& GameEngineCamera::GetInstancing(const std::string& _Name)
 
 void GameEngineCamera::Render(float _DeltaTime)
 {
-	CameraRenderTarget->Clear();
-	CameraRenderTarget->Setting();
-
+	// 랜더 전처리 디퍼드 포워드 가리지 않고 사용하는 정보들을 계산한다.
 	// 순서적으로보면 레스터라이저 단계이지만 변경이 거의 없을거기 때문에.
 	GameEngineDevice::GetContext()->RSSetViewports(1, &ViewPortDesc);
 
 	// 랜더하기 전에 
 	View.LookToLH(
-		GetActor()->GetTransform().GetLocalPosition(), 
-		GetActor()->GetTransform().GetForwardVector(), 
+		GetActor()->GetTransform().GetLocalPosition(),
+		GetActor()->GetTransform().GetForwardVector(),
 		GetActor()->GetTransform().GetUpVector());
 
 	switch (Mode)
@@ -79,34 +88,83 @@ void GameEngineCamera::Render(float _DeltaTime)
 		}
 	}
 
+	// 포워드 타겟이 세팅되고
+	CameraForwardRenderTarget->Clear();
+	CameraForwardRenderTarget->Setting();
+
+	// 행렬 연산 먼저하고
+	for (std::pair<const int, std::list<std::shared_ptr<GameEngineRenderer>>>& Group : AllRenderer_)
 	{
-		for (std::pair<const int, std::list<std::shared_ptr<GameEngineRenderer>>>& Group : AllRenderer_)
+		float ScaleTime = GameEngineTime::GetInst()->GetDeltaTime(Group.first);
+
+		std::list<std::shared_ptr<GameEngineRenderer>>& RenderList = Group.second;
+		RenderList.sort(ZSort);
+
+		for (std::shared_ptr<GameEngineRenderer>& Renderer : Group.second)
+		{
+			if (false == Renderer->IsUpdate())
+			{
+				continue;
+			}
+
+			Renderer->RenderOptionInst.DeltaTime = _DeltaTime;
+			Renderer->RenderOptionInst.SumDeltaTime += _DeltaTime;
+			Renderer->GetTransform().SetView(View);
+			Renderer->GetTransform().SetProjection(Projection);
+			Renderer->GetTransform().CalculateWorldViewProjection();
+		}
+	}
+
+	//// 포워드
+	//{
+	//	for (std::pair<const int, std::list<std::shared_ptr<GameEngineRenderer>>>& Group : AllRenderer_)
+	//	{
+	//		float ScaleTime = GameEngineTime::GetInst()->GetDeltaTime(Group.first);
+
+	//		std::list<std::shared_ptr<GameEngineRenderer>>& RenderList = Group.second;
+	//		RenderList.sort(ZSort);
+
+	//		for (std::shared_ptr<GameEngineRenderer>& Renderer : Group.second)
+	//		{
+	//			if (false == Renderer->IsUpdate())
+	//			{
+	//				continue;
+	//			}
+	//			// 인스턴싱 정보 수집
+	//			Renderer->Render(ScaleTime);
+	//		}
+	//	}
+	//}
+
+	{
+		std::map<RENDERINGPATHORDER, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>::iterator ForwardIter
+			= AllRenderUnit_.find(RENDERINGPATHORDER::FORWARD);
+
+		std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& OrderMap = ForwardIter->second;
+
+		std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>::iterator OrderStartIter = OrderMap.begin();
+		std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>::iterator OrderEndIter = OrderMap.end();
+
+		for (std::pair<const int, std::list<std::shared_ptr<GameEngineRenderUnit>>>& Group : OrderMap)
 		{
 			float ScaleTime = GameEngineTime::GetInst()->GetDeltaTime(Group.first);
 
-			std::list<std::shared_ptr<GameEngineRenderer>>& RenderList = Group.second;
-			RenderList.sort(ZSort);
+			std::list<std::shared_ptr<GameEngineRenderUnit>>& RenderList = Group.second;
+			RenderList.sort(ZSortUnit);
 
-			for (std::shared_ptr<GameEngineRenderer>& Renderer : Group.second)
+			for (std::shared_ptr<GameEngineRenderUnit>& Unit : Group.second)
 			{
-				if (false == Renderer->IsUpdate())
+				if (false == Unit->GetIsOn())
 				{
 					continue;
 				}
-
-				Renderer->RenderOptionInst.DeltaTime = _DeltaTime;
-				Renderer->RenderOptionInst.SumDeltaTime += _DeltaTime;
-				Renderer->GetTransform().SetView(View);
-				Renderer->GetTransform().SetProjection(Projection);
-				Renderer->GetTransform().CalculateWorldViewProjection();
-
 				// 인스턴싱 정보 수집
-				Renderer->Render(ScaleTime);
+				Unit->Render(ScaleTime);
 			}
 		}
 	}
 
-	// 다끝나면 인스턴싱을 랜더링
+	//// 포워드 인스턴싱을 랜더링
 	{
 		// 쉐이더 리소스 세팅이 다른애들이 있으면
 		std::unordered_map<std::string, GameEngineInstancing>::iterator StartIter = InstancingMap.begin();
@@ -117,6 +175,64 @@ void GameEngineCamera::Render(float _DeltaTime)
 			StartIter->second.RenderInstancing(_DeltaTime);
 		}
 	}
+
+	// 포워드 타겟이 세팅되고
+	CameraDeferredGBufferRenderTarget->Clear();
+	CameraDeferredGBufferRenderTarget->Setting();
+
+	//// 이제부터는 디퍼드 랜더링
+	//{
+	//	for (std::pair<const int, std::list<std::shared_ptr<GameEngineRenderer>>>& Group : AllRenderer_)
+	//	{
+	//		float ScaleTime = GameEngineTime::GetInst()->GetDeltaTime(Group.first);
+
+	//		std::list<std::shared_ptr<GameEngineRenderer>>& RenderList = Group.second;
+	//		RenderList.sort(ZSort);
+
+	//		for (std::shared_ptr<GameEngineRenderer>& Renderer : Group.second)
+	//		{
+	//			if (false == Renderer->IsUpdate())
+	//			{
+	//				continue;
+	//			}
+	//			// 인스턴싱 정보 수집
+	//			Renderer->Render(ScaleTime);
+	//		}
+	//	}
+	//}
+
+
+	{
+		std::map<RENDERINGPATHORDER, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>::iterator ForwardIter
+			= AllRenderUnit_.find(RENDERINGPATHORDER::DEFERRED);
+
+		std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& OrderMap = ForwardIter->second;
+
+		std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>::iterator OrderStartIter = OrderMap.begin();
+		std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>::iterator OrderEndIter = OrderMap.end();
+
+		for (std::pair<const int, std::list<std::shared_ptr<GameEngineRenderUnit>>>& Group : OrderMap)
+		{
+			float ScaleTime = GameEngineTime::GetInst()->GetDeltaTime(Group.first);
+
+			std::list<std::shared_ptr<GameEngineRenderUnit>>& RenderList = Group.second;
+			RenderList.sort(ZSortUnit);
+
+			for (std::shared_ptr<GameEngineRenderUnit>& Unit : Group.second)
+			{
+				if (false == Unit->GetIsOn())
+				{
+					continue;
+				}
+				// 인스턴싱 정보 수집
+				Unit->Render(ScaleTime);
+			}
+		}
+	}
+
+	CameraRenderTarget->Clear();
+	CameraRenderTarget->Merge(CameraForwardRenderTarget);
+	CameraRenderTarget->Merge(CameraDeferredRenderTarget);
 }
 
 void GameEngineCamera::SetCameraOrder(CAMERAORDER _Order)
@@ -131,12 +247,54 @@ void GameEngineCamera::Start()
 	CameraRenderTarget->CreateRenderTargetTexture(GameEngineWindow::GetScale(), DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, float4::ZERO);
 
 	CameraRenderTarget->SettingDepthTexture(GameEngineDevice::GetBackBuffer()->GetDepthTexture());
+
+	// 포워드 타겟 만들기.
+	CameraForwardRenderTarget = GameEngineRenderTarget::Create();
+
+	CameraForwardRenderTarget->CreateRenderTargetTexture(GameEngineWindow::GetScale(), DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, float4::ZERO);
+
+	CameraForwardRenderTarget->SettingDepthTexture(GameEngineDevice::GetBackBuffer()->GetDepthTexture());
+
+	// 디퍼드 타겟 만들기
+	CameraDeferredGBufferRenderTarget = GameEngineRenderTarget::Create();
+	// 색상 0
+	CameraDeferredGBufferRenderTarget->CreateRenderTargetTexture(GameEngineWindow::GetScale(), DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, float4::ZERO);
+	// 포지션 1
+	CameraDeferredGBufferRenderTarget->CreateRenderTargetTexture(GameEngineWindow::GetScale(), DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, float4::ZERO);
+	// 노말 2
+	CameraDeferredGBufferRenderTarget->CreateRenderTargetTexture(GameEngineWindow::GetScale(), DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, float4::ZERO);
+
+	CameraDeferredGBufferRenderTarget->SettingDepthTexture(GameEngineDevice::GetBackBuffer()->GetDepthTexture());
+
+	CameraDeferredRenderTarget = GameEngineRenderTarget::Create();
+
+	CameraDeferredRenderTarget->CreateRenderTargetTexture(GameEngineWindow::GetScale(), DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, float4::ZERO);
+
+	CameraDeferredRenderTarget->SettingDepthTexture(GameEngineDevice::GetBackBuffer()->GetDepthTexture());
 }
 
 void GameEngineCamera::PushRenderer(std::shared_ptr<GameEngineRenderer> _Renderer)
 {
 	AllRenderer_[_Renderer->RenderingOrder].push_back(_Renderer);
 }
+
+void GameEngineCamera::PushRenderUnit(std::shared_ptr < GameEngineRenderUnit> _RenderUnit)
+{
+	if (nullptr == _RenderUnit)
+	{
+		MsgBoxAssert("랜더유니트가 존재하지 않습니다.");
+	}
+
+	RENDERINGPATHORDER Path = RENDERINGPATHORDER::FORWARD;
+
+	if (true == _RenderUnit->GetMaterial()->GetPixelShader()->GetIsDeferred())
+	{
+		Path = RENDERINGPATHORDER::DEFERRED;
+	}
+
+	AllRenderUnit_[Path][_RenderUnit->GetRenderer()->RenderingOrder].push_back(_RenderUnit);
+}
+
 
 float4 GameEngineCamera::GetWorldPositionToScreenPosition(const float4& _Pos)
 {
@@ -188,7 +346,7 @@ void GameEngineCamera::Release(float _DelataTime)
 	}
 }
 
-float4 GameEngineCamera::GetMouseScreenPosition() 
+float4 GameEngineCamera::GetMouseScreenPosition()
 {
 	POINT P;
 
@@ -217,7 +375,7 @@ float4 GameEngineCamera::GetMouseMyPositionWithRotation()
 	return Result;
 }
 
-void GameEngineCamera::Update(float _DeltaTime) 
+void GameEngineCamera::Update(float _DeltaTime)
 {
 	float4 MousePos = GetMouseWorldPosition();
 	MousePos.w = 0.0f;

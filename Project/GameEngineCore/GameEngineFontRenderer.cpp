@@ -52,8 +52,8 @@ void GameEngineFontRenderer::Render(float _DeltaTime)
 	{
 		Pos = GetTransform().GetWorldPosition();
 
-		Pos *= Camera.lock()->GetViewMatrix();
-		Pos *= Camera.lock()->GetProjectionMatrix();
+		Pos *= Camera->GetViewMatrix();
+		Pos *= Camera->GetProjectionMatrix();
 
 		float4x4 ViewPort;
 
@@ -82,7 +82,7 @@ void GameEngineFontRenderer::Render(float _DeltaTime)
 	}
 	Font->FontDraw(Text, FontSize, Pos, Color, static_cast<int>(LR) | static_cast<int>(TB));
 	GameEngineMaterial::AllShaderReset();
-	Camera.lock()->GetCameraRenderTarget()->Merge(FontTarget);
+	Camera->GetCameraRenderTarget()->Merge(FontTarget);
 
 	//GameEngineRenderTarget::SetPrevRenderTarget();
 	// FontTarget->R();

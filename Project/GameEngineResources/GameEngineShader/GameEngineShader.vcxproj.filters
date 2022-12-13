@@ -61,6 +61,13 @@
     <FxCompile Include="Swirl.hlsl">
       <Filter>Object</Filter>
     </FxCompile>
+    <FxCompile Include="Light.hlsl">
+      <Filter>Object</Filter>
+    </FxCompile>
+    <FxCompile Include="DeferredColor.hlsl">
+      <Filter>Object</Filter>
+    </FxCompile>
+    <FxCompile Include="DeferredHeader.fx" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Debug">

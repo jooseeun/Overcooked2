@@ -55,6 +55,6 @@ void CounterTop::SetConterTopMesh(CounterTopType _Type)
 	GetFBXMesh()->SetFBXMesh(Name, "Texture");
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 
-	std::vector<std::vector<GameEngineRenderUnit>>& Unit = GetFBXMesh()->GetAllRenderUnit();
+	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>>& Unit = GetFBXMesh()->GetAllRenderUnit();
 
 }
