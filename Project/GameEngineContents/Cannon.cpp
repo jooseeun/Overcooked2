@@ -1,12 +1,13 @@
 #include "PreCompile.h"
 #include "Cannon.h"
+#include "Button.h"
 
 Cannon::Cannon() 
-	: CurState_(CannonState::Shoot)
-	, Interaction_(false)
-	, ZAngle_({0.f, 0.f, -50.f})
-	, MaxAngle_({0.f, 0.f, -60.f})
-	, Speed_(50.f)
+	: CurState_(CannonState::Max)
+	, ShootAngle_(-190.f)
+	, MaxAngle_(-35.f)
+	, CurAngle_(0.f)
+	, IsShoot_(false)
 {
 }
 
@@ -21,7 +22,6 @@ void Cannon::Start()
 	BaseRenderer->SetFBXMesh("Cannon_Base.fbx", "Texture");
 	BaseRenderer->GetTransform().SetWorldScale({ 100, 100, 100 });
 
-
 	Mesh_Object_ = CreateComponent<GameEngineFBXStaticRenderer>("Mesh_Object");
 	Mesh_Object_->SetFBXMesh("m_dlc08_cannon_02.fbx", "Texture");
 	Mesh_Object_->GetTransform().SetWorldScale({ 100, 100, 100 });
@@ -31,6 +31,10 @@ void Cannon::Start()
 	Collision_Object_->ChangeOrder(CollisionOrder::Map_Cannon);
 	Collision_Object_->GetTransform().SetWorldScale({ 100, 100, 100 });
 
+	Button_ = GetLevel()->CreateActor<Button>();
+	Button_->GetTransform().SetWorldMove({0.f, 0.f, 122.f});
+	Button_->SetParent(shared_from_this());
+
 	StateManager.CreateStateMember("Idle"
 		, std::bind(&Cannon::IdleUpdate, this, std::placeholders::_1, std::placeholders::_2)
 		, std::bind(&Cannon::IdleStart, this, std::placeholders::_1)
@@ -38,6 +42,10 @@ void Cannon::Start()
 	StateManager.CreateStateMember("Ready"
 		, std::bind(&Cannon::ReadyUpdate, this, std::placeholders::_1, std::placeholders::_2)
 		, std::bind(&Cannon::ReadyStart, this, std::placeholders::_1)
+	);
+	StateManager.CreateStateMember("ReadyToIdle"
+		, std::bind(&Cannon::ReadyToIdleUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Cannon::ReadyToIdleStart, this, std::placeholders::_1)
 	);
 	StateManager.CreateStateMember("Shoot"
 		, std::bind(&Cannon::ShootUpdate, this, std::placeholders::_1, std::placeholders::_2)
@@ -61,29 +69,20 @@ void Cannon::Update(float _DeltaTime)
 
 	// Shoot ³¡³­ ÈÄ => Idle
 
-
-	if (Mesh_Object_->GetTransform().GetWorldRotation().z < MaxAngle_.z && Mesh_Object_->GetTransform().GetWorldRotation().z != 0.f)
-	{
-		int a = 0;
-	}
-	else if(Mesh_Object_->GetTransform().GetWorldRotation().z > MaxAngle_.z)
-	{
-		Mesh_Object_->GetTransform().SetAddWorldRotation(ZAngle_ * _DeltaTime);
-
-	}
+	CurAngle_ = Mesh_Object_->GetTransform().GetWorldRotation().z;
+	StateManager.Update(_DeltaTime);
 
 	DebugOn();
-
-	//Mesh_Object_->GetTransform().SetAddWorldRotation( ZAngle_  *_DeltaTime);
 }
 
 void Cannon::IdleStart(const StateInfo& _Info)
 {
+	CurState_ = CannonState::Idle;
 }
 
 void Cannon::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	if (true == Interaction_)
+	if (nullptr != Player_)
 	{
 		StateManager.ChangeState("Ready");
 	}
@@ -91,27 +90,74 @@ void Cannon::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Cannon::ReadyStart(const StateInfo& _Info)
 {
-	ZAngle_.z = 30.f;
-
+	CurState_ = CannonState::Ready;
+	Button_->SwitchButtonState();
 }
 
 void Cannon::ReadyUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	if (nullptr == Player_)
+	{
+		StateManager.ChangeState("ReadyToIdle");
+	}
+	if (true == Button_->CheckButtonPressedState())
+	{
+		StateManager.ChangeState("Shoot");
+	}
+
+	if (CurAngle_ > MaxAngle_)
+	{
+		Mesh_Object_->GetTransform().SetAddWorldRotation(float4{ 0.f, 0.f, ShootAngle_ } *_DeltaTime);;
+	}
+
+}
+
+void Cannon::ReadyToIdleStart(const StateInfo& _Info)
+{
+	CurState_ = CannonState::ReadyToIdle;
+	Button_->SwitchButtonState();
+}
+
+void Cannon::ReadyToIdleUpdate(float _DeltaTime, const StateInfo& _Info)
+{
+	if (CurAngle_ >= 0.f)
+	{
+		StateManager.ChangeState("Idle");
+	}
+	else
+	{
+		Mesh_Object_->GetTransform().SetAddWorldRotation(float4{ 0.f, 0.f, -ShootAngle_ } * _DeltaTime);
+	}
 }
 
 void Cannon::ShootStart(const StateInfo& _Info)
 {
+	CurState_ = CannonState::Shoot;
+	Button_->SwitchButtonState();
 }
 
 void Cannon::ShootUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	if (_Info.StateTime > 2.f)
+	{
+		StateManager.ChangeState("ShootToIdle");
+	}
 }
 
 void Cannon::ShootToIdleStart(const StateInfo& _Info)
 {
+	CurState_ = CannonState::ShootToIdle;
 }
 
 void Cannon::ShootToIdleUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	if (CurAngle_ >= 0.f)
+	{
+		StateManager.ChangeState("Idle");
+	}
+	else
+	{
+		Mesh_Object_->GetTransform().SetAddWorldRotation(float4{ 0.f, 0.f, -ShootAngle_ } *_DeltaTime);
+	}
 }
 
