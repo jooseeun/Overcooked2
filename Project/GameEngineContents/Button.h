@@ -28,6 +28,11 @@ public:
 		IsPressed_ = true;
 	}
 
+	inline void SetButtonUnPressed()
+	{
+		IsPressed_ = false;
+	}
+
 	inline bool CheckButtonPressedState()
 	{
 		return true == IsPressed_ ? true : false;

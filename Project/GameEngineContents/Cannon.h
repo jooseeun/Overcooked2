@@ -91,6 +91,7 @@ private:
 	GameEngineStateManager StateManager;
 
 	bool IsShoot_;
+	bool IsCounterReaction_;
 	float CurAngle_;
 	float ShootAngle_;
 	float MaxAngle_;
