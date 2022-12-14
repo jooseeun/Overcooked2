@@ -19,6 +19,7 @@ void Food_Ingredients_Fish::Start()
 	GetFBXMesh()->SetFBXMesh(MeshName_, "Texture");
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 
+
 }
 
 void Food_Ingredients_Fish::FinishTrimmingFirst()

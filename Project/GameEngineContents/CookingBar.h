@@ -15,6 +15,11 @@ public:
 
 	void LinkObject(std::shared_ptr<GameEngineActor> _Actor, const float4& _Offset, float* _LinkValue, bool _IsOver = false); //IsOver : 100이 넘어갈 수 있는 오브젝트
 
+	inline void SetOver(bool _IsOver)
+	{
+		IsOver_ = _IsOver;
+	}
+
 	inline void SetOffset(const float4& _Offset)
 	{
 		Offset_ = _Offset;

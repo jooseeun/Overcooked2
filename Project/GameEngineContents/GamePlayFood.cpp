@@ -61,6 +61,10 @@ void GamePlayFood::SetObjectFoodClass(IngredientType _Class)
 					{
 						SetCookingType(CookingType::Mixer);
 					}
+					else if (Data.Cookery[j] == ToolInfo::Pot)
+					{
+						SetCookingType(CookingType::Boil);
+					}
 					else
 					{
 						SetCookingType(CookingType::Default);
@@ -70,8 +74,6 @@ void GamePlayFood::SetObjectFoodClass(IngredientType _Class)
 				{
 					SetCookingType(CookingType::Default);
 				}
-
-
 			}
 		}
 	}

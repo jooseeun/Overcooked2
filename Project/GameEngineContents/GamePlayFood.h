@@ -41,6 +41,7 @@ enum class CookingType
 	, Pried
 	, Steam
 	, Mixer
+	, Boil
 };
 
 
@@ -239,6 +240,9 @@ protected:
 		case CookingType::Mixer:
 			Function_TrimmingType_ = std::bind(&GamePlayFood::TrimmingMixer, this);
 			break;
+		case CookingType::Boil :
+			Function_TrimmingType_ = std::bind(&GamePlayFood::TrimmingBoil, this);
+				break;
 		default:
 			MsgBoxAssert("아직 설정되지 않았습니다")
 			break;
@@ -265,6 +269,7 @@ private:
 	virtual void TrimmingPried() {};
 	virtual void TrimmingMixer() {};
 	virtual void TrimmingSteam() {};
+	virtual void TrimmingBoil() {};
 
 };
 

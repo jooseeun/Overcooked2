@@ -48,6 +48,8 @@ HoldDownEnum Equipment_Pot::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 			{
 				Rice_ = Rice;
 				Rice_->SetParent(shared_from_this());
+				Rice_->GetTransform().SetLocalPosition(float4::ZERO);
+				Rice_->GetTransform().SetLocalRotation(float4::ZERO);
 				Rice_->GetCollisionObject()->Off();
 				Rice_->GetFBXMesh()->Off();
 
@@ -62,7 +64,7 @@ HoldDownEnum Equipment_Pot::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 			{
 			case HoldDownEnum::HoldUp:
 				Rice_ = nullptr;
-				return HoldDownEnum::HoldDown;
+				return HoldDownEnum::Nothing;
 				break;
 			default:
 				break;
