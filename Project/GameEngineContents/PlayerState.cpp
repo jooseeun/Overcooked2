@@ -406,7 +406,7 @@ void Player::DrowningUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::CannonInterStart(const StateInfo& _Info)
 {
-	CurCannon_->SetPlayer(std::dynamic_pointer_cast<Player>(shared_from_this()));		// 테스트
+	//CurCannon_->SetPlayer(std::dynamic_pointer_cast<Player>(shared_from_this()));		// 테스트
 	IdleRendererON();
 	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "CannonEnter"+ IsHolding_);
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });

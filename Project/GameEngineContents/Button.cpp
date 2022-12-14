@@ -32,8 +32,6 @@ void Button::Start()
 
 	ButtonRenderer_On->Off();
 	ButtonRenderer_Off->On();
-	//ParentCannon_ = std::dynamic_pointer_cast<Cannon>(GetParent());
-
 }
 
 void Button::Update(float _DeltaTime)
@@ -66,8 +64,8 @@ void Button::Update(float _DeltaTime)
 	}
 	else
 	{
-		ButtonRenderer_Off->On();
 		ButtonRenderer_On->Off();
+		ButtonRenderer_Off->On();
 	}
 }
 

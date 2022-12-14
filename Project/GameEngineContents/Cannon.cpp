@@ -5,7 +5,7 @@
 
 Cannon::Cannon() 
 	: CurState_(CannonState::Max)
-	, ShootAngle_(-230.f)
+	, ShootAngle_(-250.f)
 	, MaxAngle_(-35.f)
 	, CurAngle_(0.f)
 	, IsShoot_(false)
@@ -71,11 +71,12 @@ void Cannon::Update(float _DeltaTime)
 
 	// Shoot 끝난 후 => Idle
 
-	//if (Player_ != nullptr)
-	//{
-	//	//Player_->CannonZAngle_ = CurAngle_; 각도 이렇게 넣어주세요
-	//}
 	CurAngle_ = Mesh_Object_->GetTransform().GetWorldRotation().z;
+	if (Player_ != nullptr)
+	{
+		Player_->CannonZAngle_ = CurAngle_; 
+	}
+
 	StateManager.Update(_DeltaTime);
 
 	DebugOn();
@@ -83,12 +84,21 @@ void Cannon::Update(float _DeltaTime)
 
 void Cannon::IdleStart(const StateInfo& _Info)
 {
+	if (Player_ == nullptr)
+	{
+		return;
+	}
 	CurState_ = CannonState::Idle;
 }
 
 void Cannon::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	if (nullptr != Player_)
+	if (Player_ == nullptr)
+	{
+		return;
+	}
+
+	if (true == Player_->IsCannon_)
 	{
 		StateManager.ChangeState("Ready");
 	}
@@ -97,31 +107,30 @@ void Cannon::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 void Cannon::ReadyStart(const StateInfo& _Info)
 {
 	CurState_ = CannonState::Ready;
-	Button_->SwitchButtonState();
+	Button_->IsReady_ = true;
 }
 
 void Cannon::ReadyUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	/*if (Player_->IsCannon_ == false)
+	//if (_Info.StateTime > 2.f)
+	//{
+	//	StateManager.ChangeState("Shoot");
+	//}
+	// 플레이어가 내렸다
+	if (false == Player_->IsCannon_)
 	{
 		ResetPlayer();
 		StateManager.ChangeState("ReadyToIdle");
-	}*/
-
-	if (nullptr == Player_)
-	{
-		StateManager.ChangeState("ReadyToIdle");
 	}
-
 	// 버튼이 눌렸다
-	if (true == Button_->CheckButtonPressedState())
+	else if (true == Button_->CheckButtonPressedState() && true == Player_->IsCannon_)
 	{
 		StateManager.ChangeState("Shoot");
 	}
 
 	if (CurAngle_ > MaxAngle_)
 	{
-		if (CurAngle_ == MaxAngle_ - 10.f && false == IsCounterReaction_)
+		if (CurAngle_ == MaxAngle_ + 10.f && false == IsCounterReaction_)
 		{
 			IsCounterReaction_ = true;
 			Mesh_Object_->GetTransform().SetAddWorldRotation(float4{ 0.f, 0.f, 10.f } *_DeltaTime);;
@@ -133,15 +142,11 @@ void Cannon::ReadyUpdate(float _DeltaTime, const StateInfo& _Info)
 void Cannon::ReadyToIdleStart(const StateInfo& _Info)
 {
 	CurState_ = CannonState::ReadyToIdle;
-	Button_->SwitchButtonState();
+	Button_->IsReady_ = false;
 }
 
 void Cannon::ReadyToIdleUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	if (nullptr != Player_)
-	{
-		StateManager.ChangeState("Ready");
-	}
 	if (CurAngle_ >= 0.f)
 	{
 		StateManager.ChangeState("Idle");
@@ -155,14 +160,15 @@ void Cannon::ReadyToIdleUpdate(float _DeltaTime, const StateInfo& _Info)
 void Cannon::ShootStart(const StateInfo& _Info)
 {
 	CurState_ = CannonState::Shoot;
-	//Player_->IsCannonFly_ = true;
-	Button_->SwitchButtonState();
+	Player_->IsCannon_ = false;
+	Player_->IsCannonFly_ = true;
+	Button_->IsReady_ = false;
 	Button_->SetButtonUnPressed();
 }
 
 void Cannon::ShootUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	if (_Info.StateTime > 2.f)
+	if (_Info.StateTime > 4.f)
 	{
 		StateManager.ChangeState("ShootToIdle");
 	}

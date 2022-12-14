@@ -43,6 +43,9 @@ public:
 		IsReady_ = !IsReady_;
 	}
 
+	bool IsReady_;
+	bool IsPressed_;
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -53,7 +56,6 @@ private:
 
 	std::shared_ptr<GameEngineCollision> Collision_Object_;
 
-	bool IsReady_;
-	bool IsPressed_;
+
 };
 
