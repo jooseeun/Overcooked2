@@ -24,7 +24,7 @@ void GamePlayMoveable::Start()
 	GetCollisionObject()->ChangeOrder(CollisionOrder::Object_Moveable);
 
 	CookingBar_ = GetLevel()->CreateActor<CookingBar>();
-	CookingBar_->LinkObject(CastThis<GameEngineActor>(), {0,-40,0}, &CookingGage_, false);
+	CookingBar_->LinkObject(CastThis<GameEngineActor>(), {0,-40,0}, &CookingGage_, true);
 
 }
 

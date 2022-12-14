@@ -22,3 +22,17 @@ void Food_Ingredients_Rice::Start()
 
 	SetTrim();
 }
+
+void Food_Ingredients_Rice::FinishTrimmingFirst()
+{
+	Function_TrimmingType_();
+}
+
+void Food_Ingredients_Rice::TrimmingBoil()
+{
+	MeshName_ = "t_ingredients_rice_trimming.FBX";
+	GetFBXMesh()->SetFBXMesh(MeshName_, "Texture");
+	GetFBXMesh()->GetTransform().SetWorldScale({ 0.9f, 0.9f, 0.9f });
+
+	SetPlatting();
+}

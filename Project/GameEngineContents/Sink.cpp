@@ -92,7 +92,7 @@ HoldDownEnum Tool_Sink::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 			case 0:
 			{
 				Plate->SetParent(shared_from_this());
-				Plate->GetTransform().SetLocalPosition({ -75, -20, 10 });
+				Plate->GetTransform().SetLocalPosition({ -75, -20, 5 });
 				Plate->GetTransform().SetLocalRotation({ 0, 200, 0 });
 				Plate->GetCollisionObject()->Off();
 				Dirty_Plate_.push_back(Plate);
@@ -101,20 +101,20 @@ HoldDownEnum Tool_Sink::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 			case 1:
 			{
 				Plate->SetParent(shared_from_this());
-				Plate->GetTransform().SetLocalPosition({ -75, -20, 25 });
-				Plate->GetTransform().SetLocalRotation({ 0, 200, 0 });
+				Plate->GetTransform().SetLocalPosition({ -75, -28, 20 });
+				Plate->GetTransform().SetLocalRotation({ 0, 210, 0 });
 				Plate->GetCollisionObject()->Off();
 				Dirty_Plate_.push_back(Plate);
 			}
 			break;
-			case 2:
-			{
-				Plate->SetParent(shared_from_this());
-				Plate->GetTransform().SetLocalPosition({ 150, 20, 80 });
-				Plate->GetCollisionObject()->Off();
-				Dirty_Plate_.push_back(Plate);
-			}
-			break;
+			//case 2:
+			//{
+			//	Plate->SetParent(shared_from_this());
+			//	Plate->GetTransform().SetLocalPosition({ 150, 20, 80 });
+			//	Plate->GetCollisionObject()->Off();
+			//	Dirty_Plate_.push_back(Plate);
+			//}
+			//break;
 			default:
 			{
 				Plate->GetFBXMesh()->Off();

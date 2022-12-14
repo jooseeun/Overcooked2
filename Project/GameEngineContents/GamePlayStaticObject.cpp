@@ -294,13 +294,17 @@ void GamePlayStaticObject::SetStuff(std::shared_ptr<GamePlayStuff> _Stuff)
 		{
 			std::shared_ptr<GamePlayMoveable> Stuff = _Stuff->CastThis<GamePlayMoveable>();
 			Stuff_Current_->PickUp(&Stuff);
+			_Stuff->GetCollisionObject()->Off();
 		}
 	}
-	Stuff_Current_ = _Stuff;
-	Stuff_Current_->GetCollisionObject()->Off();
-	if (nullptr != _Stuff)
+	else
 	{
-		_Stuff->SetParent(std::dynamic_pointer_cast<GamePlayObject>(shared_from_this()));
-		_Stuff->GetTransform().SetLocalPosition(ToolPos_);
+		Stuff_Current_ = _Stuff;
+		Stuff_Current_->GetCollisionObject()->Off();
+		if (nullptr != _Stuff)
+		{
+			_Stuff->SetParent(std::dynamic_pointer_cast<GamePlayObject>(shared_from_this()));
+			_Stuff->GetTransform().SetLocalPosition(ToolPos_);
+		}
 	}
 }

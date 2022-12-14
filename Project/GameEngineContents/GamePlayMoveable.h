@@ -62,6 +62,11 @@ public:
 	{
 		return CookingBar_;
 	}
+	inline void ReSetCookingGage()
+	{
+		CookingGage_ = 0;
+	}
+
 	bool Input_Manual(std::shared_ptr<Player> _Player, float _Delta, float _MaxTime);
 	bool Input_Auto(float _Delta, float _MaxTime);
 	virtual bool AutoTrim(float _DeltaTim, ObjectToolType _Tool) { return false; }

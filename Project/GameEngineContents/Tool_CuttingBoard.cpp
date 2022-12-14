@@ -84,6 +84,7 @@ void Tool_CuttingBoard::Start()
 			 case IngredientType::Chocolate:
 			 case IngredientType::Prawn:
 			 case IngredientType::Cucumber:
+				 Food->GetCookingBar()->SetOver(false);
 				 if (Food->Input_Manual(_Player,GameEngineTime::GetDeltaTime(), 5.f)) // ¿ø·¡ 12ÃÊ
 				 {
 					 _Player->FinishSlice();

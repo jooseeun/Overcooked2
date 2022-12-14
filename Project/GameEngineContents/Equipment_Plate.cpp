@@ -24,6 +24,7 @@ void Equipment_Plate::Start()
 	GetCollisionObject()->GetTransform().SetLocalScale({ 100, 25, 100 });
 
 	GetCombinFood()->Start(1, shared_from_this(), false);
+	GetCookingBar()->SetOver(false);
 	SetDirty();
 }
 
@@ -33,6 +34,7 @@ void Equipment_Plate::SetDirty()
 	ChangeFBXMesh();
 	GetFBXMesh()->SetFBXMesh("m_sk_plate_dirty.fbx", "Texture");
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
+	ReSetCookingGage();
 	// 텍스쳐 변경필요
 }
 
@@ -42,6 +44,7 @@ void Equipment_Plate::SetClean()
 	ChangeFBXMesh();
 	GetFBXMesh()->SetFBXMesh("m_sk_plate_02.fbx", "Texture");
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
+	ReSetCookingGage();
 	// 텍스쳐 변경필요
 }
 
@@ -73,18 +76,14 @@ HoldDownEnum Equipment_Plate::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveabl
 					{
 						if (Food.lock()->GetPlatting())
 						{
-							if (GetCombinFood()->IsClear())
-							{
-								GetCombinFood()->PushFood(Food.lock()->GetObjectFoodClass());
-								//GetCombinFood()->SetRenderer(*_Moveable);
+							GetCombinFood()->PushFood(Food.lock()->GetObjectFoodClass());
+							//GetCombinFood()->SetRenderer(*_Moveable);
 
-								(*_Moveable)->Death();
-								(*_Moveable)->Off();
-								(*_Moveable) = nullptr;
+							(*_Moveable)->Death();
+							(*_Moveable)->Off();
+							(*_Moveable) = nullptr;
 
-								return HoldDownEnum::HoldUp;
-							}
-							
+							return HoldDownEnum::HoldUp;
 						}
 					}
 				}
@@ -92,7 +91,24 @@ HoldDownEnum Equipment_Plate::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveabl
 		}
 		else
 		{
+		
+			if ((*_Moveable)->CastThis<GamePlayEquipment>()->GetObjectEquipmentType() == ObjectEquipmentType::Bowl)
+			{
+				std::shared_ptr<GamePlayMoveable> Moveable = CastThis<GamePlayMoveable>();
+				switch ((*_Moveable)->PickUp(&Moveable))
+				{
+				case HoldDownEnum::HoldDown:
+					return  HoldDownEnum::HoldUp;
+					break;
+				default:
+					return HoldDownEnum::Nothing;
+					break;
+				}
+			}
+			else if((*_Moveable)->CastThis<GamePlayEquipment>()->GetObjectEquipmentType() == ObjectEquipmentType::Dish)
+			{
 
+			}
 		}
 	}
 	else
@@ -107,7 +123,6 @@ HoldDownEnum Equipment_Plate::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveabl
 			Pile_Plate_ = nullptr;
 		}
 		return HoldDownEnum::HoldUp;
-
 	}
 	return HoldDownEnum::Nothing;
 }
