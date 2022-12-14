@@ -34,7 +34,7 @@ void Lift::Update(float _DeltaTime)
 
 			if (0.f <= GetTransform().GetWorldPosition().y)
 			{
-				MoveTime_ -= 5.f;
+				MoveTime_ = 0.f;
 				LiftState_ = LIFTSTATE::WAIT;
 			}
 		}
@@ -44,7 +44,7 @@ void Lift::Update(float _DeltaTime)
 
 		if (2.f <= WaitingTime_)
 		{
-			WaitingTime_ -= 2.f;
+			WaitingTime_ = 0.f;
 			LiftState_ = LIFTSTATE::DOWN;
 		}
 		break;
