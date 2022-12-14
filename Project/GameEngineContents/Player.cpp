@@ -53,6 +53,8 @@ Player::Player()
 	, IsHolding_("Idle")
 	, FlyTime_(0.0f)
 	, CannonFlyPos_()
+	, IsCannon_(false)
+	, IsCannonFly_(false)
 {
 
 }
@@ -1200,7 +1202,8 @@ CollisionReturn Player::InteractTableCheck(std::shared_ptr<GameEngineCollision> 
 CollisionReturn Player::EnterCannon(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 {
 	//SetParent(_Other->GetParent());
-	CurCannon_ = _Other->GetParent()->CastThis<Cannon>();
+	_Other->GetParent()->CastThis<Cannon>()->SetPlayer(shared_from_this()->CastThis<Player>());
+	IsCannon_ = true;
 	GetTransform().SetWorldPosition({ -636.00, 90.0, -1111.00 });
 	GetTransform().SetWorldRotation({270, 0, 90 });
 	IsPotal_ = true;

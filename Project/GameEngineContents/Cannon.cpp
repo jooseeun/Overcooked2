@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "Cannon.h"
 #include "Button.h"
+#include "Player.h"
 
 Cannon::Cannon() 
 	: CurState_(CannonState::Max)
@@ -69,6 +70,10 @@ void Cannon::Update(float _DeltaTime)
 
 	// Shoot 끝난 후 => Idle
 
+	//if (Player_ != nullptr)
+	//{
+	//	//Player_->CannonZAngle_ = CurAngle_; 각도 이렇게 넣어주세요
+	//}
 	CurAngle_ = Mesh_Object_->GetTransform().GetWorldRotation().z;
 	StateManager.Update(_DeltaTime);
 
@@ -96,6 +101,12 @@ void Cannon::ReadyStart(const StateInfo& _Info)
 
 void Cannon::ReadyUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	/*if (Player_->IsCannon_ == false)
+	{
+		ResetPlayer();
+		StateManager.ChangeState("ReadyToIdle");
+	}*/
+
 	if (nullptr == Player_)
 	{
 		StateManager.ChangeState("ReadyToIdle");
@@ -133,6 +144,7 @@ void Cannon::ReadyToIdleUpdate(float _DeltaTime, const StateInfo& _Info)
 void Cannon::ShootStart(const StateInfo& _Info)
 {
 	CurState_ = CannonState::Shoot;
+	//Player_->IsCannonFly_ = true;
 	Button_->SwitchButtonState();
 }
 

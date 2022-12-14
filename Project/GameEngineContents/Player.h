@@ -154,7 +154,17 @@ public:
 
 	bool IsSingleMode;
 	bool IsPotal_;
+
+
+
+	bool IsCannonFly_;
+	bool IsCannon_;
 	float FlyTime_;
+	float CannonZAngle_;
+
+
+
+
 	std::string PNumString;
 	std::string IsHolding_;
 	
@@ -195,7 +205,6 @@ private:
 	std::shared_ptr<GameEngineCollision> Collision_Interact_; // 상호작용 콜리전
 
 private:
-	std::shared_ptr<Cannon> CurCannon_;
 	float4 CannonFlyPos_;
 
 	void CameraMove(float _DeltaTime);
