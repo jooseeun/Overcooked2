@@ -102,6 +102,11 @@ public:
 	{
 		return IsGameStart_;
 	}
+
+	static int GetPlayerCount()
+	{
+		return PlayerCount_;
+	}
 private:
 	static bool IsGameStart_;
 	static std::string CurStage_;
@@ -113,6 +118,8 @@ private:
 	static ContentsUtility::Timer LeftTime_;
 
 	static int Score_;
+
+	static int PlayerCount_;
 
 public:
 

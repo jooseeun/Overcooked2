@@ -5,6 +5,8 @@
 #include <GameEngineCore/GameEngineFont.h>
 #include <GameEngineCore/GameEngineFontRenderer.h>
 
+#include "GlobalGameData.h"
+
 UIActor::UIActor()
 {
 }
@@ -54,6 +56,158 @@ void UIActor::StartFadeIn()
 void UIActor::ResistDebug(std::string_view _Name, GameEngineTransform& Trans)
 {
 	UIDebugGUI::Main_->AddTransform(_Name.data(), &Trans);
+}
+
+void UIActor::CreatePlayerIcon(int _Index, std::string_view _Name)
+{
+	PlayerIcon NewIcon;
+
+	NewIcon.Index = _Index;
+	NewIcon.Name = _Name;
+
+	//부모
+	std::shared_ptr<OverCookedUIRenderer> NewParent = CreateUIRenderer("AvatarSelectionRing.png");
+	NewParent->GetTransform().SetLocalScale({ 1,1,1 });
+	NewParent->GetTransform().SetLocalPosition({ 0,-180,0 });
+	NewIcon.Parent = NewParent;
+
+	//Hat Icon
+	std::string HatFile;
+	switch (_Index)
+	{
+	case 0:
+		HatFile = "hat_blue.png";
+		break;
+	case 1:
+		HatFile = "hat_red.png";
+		break;
+	case 2:
+		HatFile = "hat_green.png";
+		break;
+	case 3:
+		HatFile = "hat_yellow.png";
+		break;
+	default:
+		break;
+	}
+
+	std::shared_ptr<OverCookedUIRenderer> Hat = CreateUIRenderer(HatFile);
+	Hat->GetTransform().SetParentTransform(NewParent->GetTransform());
+	NewIcon.Hat = Hat;
+
+	std::shared_ptr<OverCookedUIRenderer> NameBox = CreateUIRenderer("UI_BigButtonsSmall_01.png");
+	NameBox->GetTransform().SetLocalPosition({ 0,-80,0 });
+	NameBox->GetTransform().SetParentTransform(NewParent->GetTransform());
+	NewIcon.NameBox = NameBox;
+
+	//숫자폰트
+	std::shared_ptr<GameEngineFontRenderer> NewCountFont = CreateComponent<GameEngineFontRenderer>(_Name.data());
+	NewCountFont->ChangeCamera(CAMERAORDER::UICAMERA);
+	NewCountFont->SetText(std::to_string(_Index + 1), "Naughty Squirrel");
+	NewCountFont->SetColor({ 0.4f,0.4f,0.4f,0.6f });
+	NewCountFont->SetSize(49.f);
+	NewCountFont->SetLeftAndRightSort(LeftAndRightSort::CENTER);
+	NewCountFont->SetAffectTransform(true);
+	NewCountFont->GetTransform().SetLocalMove({ -80,50.f,-1 });
+	NewCountFont->GetTransform().SetParentTransform(NewParent->GetTransform());
+	NewIcon.CountFont = NewCountFont;
+
+	//이름폰트
+	std::shared_ptr<GameEngineFontRenderer> NewNameFont = CreateComponent<GameEngineFontRenderer>(_Name.data());
+	NewNameFont->ChangeCamera(CAMERAORDER::UICAMERA);
+	NewNameFont->SetText(_Name.data(), "Naughty Squirrel");
+	NewNameFont->SetColor({ 1.f,1.f,1.f,1.f });
+	NewNameFont->SetSize(20.f);
+	NewNameFont->SetLeftAndRightSort(LeftAndRightSort::CENTER);
+	NewNameFont->SetAffectTransform(true);
+	NewNameFont->GetTransform().SetLocalMove({ 0,-62.f,-1 });
+	NewNameFont->GetTransform().SetParentTransform(NewParent->GetTransform());
+	NewIcon.NameFont = NewNameFont;
+
+	NewIcon.Off();
+
+	Icons_.push_back(NewIcon);
+}
+
+void UIActor::UpdatePlayerIcon(float _DeltaTime)
+{
+	PlayerCount_ = GlobalGameData::GetPlayerCount();
+	//버그 방지용
+	if (PlayerCount_ >= 5)
+	{
+		PlayerCount_ = 4;
+	}
+	if (PlayerCount_ <= -1)
+	{
+		PlayerCount_ = 0;
+	}
+	for (int i = 0; i < Icons_.size(); i++)
+	{
+		Icons_[i].Off();
+	}
+
+	//위치 정보 Update
+	std::vector<float4> IconPos;
+	float4 DefaultPos = Icons_[0].Parent->GetTransform().GetWorldPosition();
+	DefaultPos.x = 0;
+	switch (PlayerCount_)
+	{
+	case 1:
+	{
+		float4 Player0 = DefaultPos;
+		IconPos.push_back(Player0);
+		break;
+	}
+
+	case 2:
+	{
+		float4 Player0 = DefaultPos;
+		Player0.x -= 140.f;
+		float4 Player1 = DefaultPos;
+		Player1.x += 140.f;
+		IconPos.push_back(Player0);
+		IconPos.push_back(Player1);
+		break;
+	}
+	case 3:
+	{
+		float4 Player0 = DefaultPos;
+		Player0.x -= 230.f;
+		float4 Player1 = DefaultPos;
+		float4 Player2 = DefaultPos;
+		Player2.x += 230.f;
+		IconPos.push_back(Player0);
+		IconPos.push_back(Player1);
+		IconPos.push_back(Player2);
+		break;
+	}
+	case 4:
+	{
+		float4 Player0 = DefaultPos;
+		Player0.x -= 360.f;
+		float4 Player1 = DefaultPos;
+		Player1.x -= 120.f;
+		float4 Player2 = DefaultPos;
+		Player2.x += 120.f;
+		float4 Player3 = DefaultPos;
+		Player3.x += 360.f;
+		IconPos.push_back(Player0);
+		IconPos.push_back(Player1);
+		IconPos.push_back(Player2);
+		IconPos.push_back(Player3);
+		break;
+	}
+	default:
+		break;
+	}
+	for (int i = 0; i < IconPos.size(); i++)
+	{
+		Icons_[i].Parent->GetTransform().SetWorldPosition(IconPos[i]);
+	}
+	for (int i = 0; i < PlayerCount_; i++)
+	{
+		Icons_[i].On();
+	}
 }
 
 std::shared_ptr<OverCookedUIRenderer> UIActor::CreateUIRenderer(std::string_view _TextrueName)

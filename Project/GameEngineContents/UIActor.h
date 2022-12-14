@@ -42,9 +42,16 @@ protected:
 
 	void ResistDebug(std::string_view _Name, GameEngineTransform& Trans);
 
+	void CreatePlayerIcon(int _Index, std::string_view _Name);
+	void UpdatePlayerIcon(float _DeltaTime);
+
 	//Transition
 	std::shared_ptr<OverCookedUIRenderer> BlackRenderer_ = nullptr;
 	std::shared_ptr<OverCookedUIRenderer> TransitionIcon_ = nullptr;
+
+	//플레이어 아이콘
+	int PlayerCount_ = 1; //현재 접속한 플레이어 수
+	std::vector<PlayerIcon> Icons_;
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;

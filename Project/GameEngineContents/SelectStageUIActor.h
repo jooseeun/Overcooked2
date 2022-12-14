@@ -34,8 +34,6 @@ protected:
 
 private:
 	void InitRenderer();
-	void CreatePlayerIcon(int _Index, std::string_view _Name);
-	void UpdatePlayerIcon();
 	void MovingMap(float _DeltaTime);
 	void StartSelectMap();
 	void SetCurStage(int _Index);
@@ -72,10 +70,6 @@ private:
 	void ShowSelectEffect(int _Dir);
 	bool IsChanging();
 	int MovingDir_ = 0;
-
-	//플레이어 아이콘
-	int PlayerCount_ = 1; //현재 접속한 플레이어 수
-	std::vector<PlayerIcon> Icons_;
 
 	//페이즈 관련
 	int Phase_ = 0;

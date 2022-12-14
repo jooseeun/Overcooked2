@@ -95,40 +95,7 @@ void InGameUIActor::UIUpdate(float _DeltaTime)
 	{
 		return;
 	}
-	int Score = GlobalGameData::GetScore();
-	if (CurScore_ != Score) //이전에 저장된 스코어 값과 현재 가지고 온 스코어 값이 다르다면
-	{
-		ScoreUIInst_.Coin->ChangeFrameAnimation("CoinSpin");
-		CurScore_ = Score;
-		ScoreUIInst_.Score->SetText(std::to_string(CurScore_), "Naughty Squirrel");
-		IsGetScore_ = true;
-	}
-
-	//LeftTime Under 30
-	if (IsGetScore_ == true)
-	{
-		GetScoreIter_ += _DeltaTime * 3.f;
-		if (GetScoreIter_ < 1.0f)
-		{
-			float FontSize = GameEngineMath::Lerp(30.f, 35.f, GetScoreIter_);
-			ScoreUIInst_.Score->SetSize(FontSize);
-			float4 Color = float4::Lerp({ 1.0f,1.0f,1.0f,1.0f }, { 111.f / 256.f,59.f / 256.f,42.f / 256.f }, GetScoreIter_);
-			ScoreUIInst_.Score->SetColor(Color);
-		}
-		else if (GetScoreIter_ >= 1.f && GetScoreIter_ < 2.f)
-		{
-			float FontSize = GameEngineMath::Lerp(35.f, 30.f, GetScoreIter_ - 1);
-			ScoreUIInst_.Score->SetSize(FontSize);
-			float4 Color = float4::Lerp({ 111.f / 256.f,59.f / 256.f,42.f / 256.f }, { 1.0f,1.0f,1.0f,1.0f }, GetScoreIter_ - 1);
-			ScoreUIInst_.Score->SetColor(Color);
-		}
-		else
-		{
-			GetScoreIter_ = 0.f;
-			ScoreUIInst_.Score->SetSize(30.f);
-			IsGetScore_ = false;
-		}
-	}
+	UpdateScore(_DeltaTime);
 
 	RecipeManager_.Update(_DeltaTime);
 
@@ -243,6 +210,44 @@ void InGameUIActor::UpdateTime(float _DeltaTime)
 	//		RecipeManager_.CreateRecipe(FoodType::PrawnSushimi);
 	//	}
 	//}
+}
+
+void InGameUIActor::UpdateScore(float _DeltaTime)
+{
+	int Score = GlobalGameData::GetScore();
+	if (CurScore_ != Score) //이전에 저장된 스코어 값과 현재 가지고 온 스코어 값이 다르다면
+	{
+		ScoreUIInst_.Coin->ChangeFrameAnimation("CoinSpin");
+		CurScore_ = Score;
+		ScoreUIInst_.Score->SetText(std::to_string(CurScore_), "Naughty Squirrel");
+		IsGetScore_ = true;
+	}
+
+	//Score
+	if (IsGetScore_ == true)
+	{
+		GetScoreIter_ += _DeltaTime * 3.f;
+		if (GetScoreIter_ < 1.0f)
+		{
+			float FontSize = GameEngineMath::Lerp(30.f, 35.f, GetScoreIter_);
+			ScoreUIInst_.Score->SetSize(FontSize);
+			float4 Color = float4::Lerp({ 1.0f,1.0f,1.0f,1.0f }, { 111.f / 256.f,59.f / 256.f,42.f / 256.f }, GetScoreIter_);
+			ScoreUIInst_.Score->SetColor(Color);
+		}
+		else if (GetScoreIter_ >= 1.f && GetScoreIter_ < 2.f)
+		{
+			float FontSize = GameEngineMath::Lerp(35.f, 30.f, GetScoreIter_ - 1);
+			ScoreUIInst_.Score->SetSize(FontSize);
+			float4 Color = float4::Lerp({ 111.f / 256.f,59.f / 256.f,42.f / 256.f }, { 1.0f,1.0f,1.0f,1.0f }, GetScoreIter_ - 1);
+			ScoreUIInst_.Score->SetColor(Color);
+		}
+		else
+		{
+			GetScoreIter_ = 0.f;
+			ScoreUIInst_.Score->SetSize(30.f);
+			IsGetScore_ = false;
+		}
+	}
 }
 
 void InGameUIActor::LevelStartEvent()
