@@ -61,12 +61,12 @@ void IceBlock::Start()
 	GamePlayMapObject::Start();
 	
 	RandomX_ = GameEngineRandom::MainRandom.RandomFloat(-1740.f, -1720.f);
-	RandomY_ = GameEngineRandom::MainRandom.RandomFloat(-10.f, 40.f);
+	RandomY_ = GameEngineRandom::MainRandom.RandomFloat(-30.f, 10.f);
 }
 
 void IceBlock::Update(float _DeltaTime)
 {
-	//Move(_DeltaTime);
+	Move(_DeltaTime);
 	RotateIce(_DeltaTime);
 }
 
@@ -79,7 +79,7 @@ void IceBlock::Move(float _DeltaTime)
 
 	if (GetTransform().GetWorldPosition().z > 824.f)
 	{
-		GetTransform().SetWorldPosition({ RandomX_, RandomY_, -2665.f });
+		GetTransform().SetWorldPosition({ RandomX_, RandomY_, -2755.f });
 	}
 	else
 	{

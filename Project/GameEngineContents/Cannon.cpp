@@ -6,10 +6,13 @@
 Cannon::Cannon() 
 	: CurState_(CannonState::Max)
 	, ShootAngle_(-250.f)
-	, MaxAngle_(-35.f)
+	, MaxAngle_(-40.f)
 	, CurAngle_(0.f)
 	, IsShoot_(false)
 	, IsCounterReaction_(false)
+	, IsMoveDone_(false)
+	, ReactCount_(0)
+	, Power_(0.f)
 {
 }
 
@@ -88,6 +91,7 @@ void Cannon::IdleStart(const StateInfo& _Info)
 	{
 		return;
 	}
+	CurAngle_ = 0.f;
 	CurState_ = CannonState::Idle;
 }
 
@@ -97,6 +101,8 @@ void Cannon::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		return;
 	}
+
+	Mesh_Object_->GetTransform().SetWorldRotation(CurAngle_);
 
 	if (true == Player_->IsCannon_)
 	{
@@ -108,14 +114,12 @@ void Cannon::ReadyStart(const StateInfo& _Info)
 {
 	CurState_ = CannonState::Ready;
 	Button_->IsReady_ = true;
+	IsMoveDone_ = false;
+	IsCounterReaction_ = false;
 }
 
 void Cannon::ReadyUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	//if (_Info.StateTime > 2.f)
-	//{
-	//	StateManager.ChangeState("Shoot");
-	//}
 	// 플레이어가 내렸다
 	if (false == Player_->IsCannon_)
 	{
@@ -127,15 +131,32 @@ void Cannon::ReadyUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		StateManager.ChangeState("Shoot");
 	}
+	//else if (_Info.StateTime > 2.f && true == Player_->IsCannon_)
+	//{
+	//	StateManager.ChangeState("Shoot");
+	//}
 
-	if (CurAngle_ > MaxAngle_)
+	if (true == IsMoveDone_)
 	{
-		if (CurAngle_ == MaxAngle_ + 10.f && false == IsCounterReaction_)
+		return;
+	}
+
+	if (CurAngle_ <= MaxAngle_)
+	{
+		IsCounterReaction_ = true;
+	}
+	if (CurAngle_ > MaxAngle_ && false == IsCounterReaction_)
+	{
+		Mesh_Object_->GetTransform().SetAddWorldRotation(float4{ 0.f, 0.f, ShootAngle_ } *_DeltaTime);
+	}
+	else if (true == IsCounterReaction_)
+	{
+		if (CurAngle_ >= MaxAngle_ + 8.f)
 		{
-			IsCounterReaction_ = true;
-			Mesh_Object_->GetTransform().SetAddWorldRotation(float4{ 0.f, 0.f, 10.f } *_DeltaTime);;
+			IsCounterReaction_ = false;
+			IsMoveDone_ = true;
 		}
-		Mesh_Object_->GetTransform().SetAddWorldRotation(float4{ 0.f, 0.f, ShootAngle_ } *_DeltaTime);;
+		Mesh_Object_->GetTransform().SetAddWorldRotation(float4{ 0.f, 0.f, 100.f } *_DeltaTime);
 	}
 }
 
@@ -143,18 +164,32 @@ void Cannon::ReadyToIdleStart(const StateInfo& _Info)
 {
 	CurState_ = CannonState::ReadyToIdle;
 	Button_->IsReady_ = false;
+	IsMoveDone_ = false;
+	IsCounterReaction_ = false;
+	//ReactCount_ = 3;
+	//Power_ = 70.f;
 }
 
 void Cannon::ReadyToIdleUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	if (CurAngle_ >= 0.f)
+	//if (CurAngle_ >= 0.f)
+	//{
+	//	StateManager.ChangeState("Idle");
+	//}
+	//else
+	//{
+	//	Mesh_Object_->GetTransform().SetAddWorldRotation(float4{ 0.f, 0.f, -ShootAngle_ } * _DeltaTime);
+	//}
+
+	if (nullptr != Player_)
 	{
-		StateManager.ChangeState("Idle");
+		if (true == Player_->IsCannon_)
+		{
+			StateManager.ChangeState("Ready");
+		}
 	}
-	else
-	{
-		Mesh_Object_->GetTransform().SetAddWorldRotation(float4{ 0.f, 0.f, -ShootAngle_ } * _DeltaTime);
-	}
+
+	CounterReaction(_DeltaTime);
 }
 
 void Cannon::ShootStart(const StateInfo& _Info)
@@ -168,7 +203,7 @@ void Cannon::ShootStart(const StateInfo& _Info)
 
 void Cannon::ShootUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	if (_Info.StateTime > 4.f)
+	if (_Info.StateTime > 2.f)
 	{
 		StateManager.ChangeState("ShootToIdle");
 	}
@@ -177,17 +212,77 @@ void Cannon::ShootUpdate(float _DeltaTime, const StateInfo& _Info)
 void Cannon::ShootToIdleStart(const StateInfo& _Info)
 {
 	CurState_ = CannonState::ShootToIdle;
+	IsMoveDone_ = false;
+	IsCounterReaction_ = false;
+	//ReactCount_ = 3;
+	//Power_ = 70.f;
 }
 
 void Cannon::ShootToIdleUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	if (CurAngle_ >= 0.f)
+	//if (CurAngle_ >= 0.f)
+	//{
+	//	StateManager.ChangeState("Idle");
+	//}
+	//else
+	//{
+	//	Mesh_Object_->GetTransform().SetAddWorldRotation(float4{ 0.f, 0.f, -ShootAngle_ } *_DeltaTime);
+	//}
+
+	CounterReaction(_DeltaTime);
+}
+
+void Cannon::CounterReaction(float _DeltaTime)
+{
+	//if (ReactCount_ == 0)
+	//{
+	//	StateManager.ChangeState("Idle");
+	//}
+
+	//if (CurAngle_ > MaxAngle_ && false == IsCounterReaction_)
+	//{
+	//	if (CurAngle_ >= 0.f)
+	//	{
+	//		IsCounterReaction_ = true;
+	//	}
+
+	//	Mesh_Object_->GetTransform().SetAddWorldRotation(float4{ 0.f, 0.f, -ShootAngle_ } *_DeltaTime);
+	//}
+	//else if (true == IsCounterReaction_)
+	//{
+	//	Power_ += 300.f * _DeltaTime;
+	//	if (CurAngle_ <= 0.f && CurAngle_ >= -10.f)
+	//	{
+	//		Mesh_Object_->GetTransform().SetAddWorldRotation(float4{ 0.f, 0.f, Power_ } *_DeltaTime);
+	//	}
+	//	else if (CurAngle_ >= 2.f)
+	//	{
+	//		Mesh_Object_->GetTransform().SetAddWorldRotation(float4{ 0.f, 0.f, -Power_ } *_DeltaTime);
+	//		ReactCount_ -= 1;
+	//	}
+	//}
+
+	if (true == IsMoveDone_)
 	{
 		StateManager.ChangeState("Idle");
+		return;
+	}
+
+	if (CurAngle_ >= 0.f)
+	{
+		IsCounterReaction_ = true;
+	}
+	if (true == IsCounterReaction_)
+	{
+		if (CurAngle_ >= 0.f)
+		{
+			IsCounterReaction_ = false;
+			IsMoveDone_ = true;
+		}
+		Mesh_Object_->GetTransform().SetAddWorldRotation(float4{ 0.f, 0.f, -100.f } *_DeltaTime);
 	}
 	else
 	{
 		Mesh_Object_->GetTransform().SetAddWorldRotation(float4{ 0.f, 0.f, -ShootAngle_ } *_DeltaTime);
 	}
 }
-

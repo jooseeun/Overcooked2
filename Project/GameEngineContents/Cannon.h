@@ -78,6 +78,8 @@ protected:
 	void ShootToIdleStart(const StateInfo& _Info);
 	void ShootToIdleUpdate(float _DeltaTime, const StateInfo& _Info);
 
+	void CounterReaction(float _DeltaTime);
+
 	std::shared_ptr<GameEngineFBXStaticRenderer> Mesh_Object_;
 	std::shared_ptr<GameEngineCollision> Collision_Object_;
 
@@ -92,8 +94,12 @@ private:
 
 	bool IsShoot_;
 	bool IsCounterReaction_;
+	bool IsMoveDone_;
 	float CurAngle_;
 	float ShootAngle_;
 	float MaxAngle_;
+	float Power_;
+
+	int ReactCount_;
 };
 

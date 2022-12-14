@@ -88,6 +88,7 @@ void Stage_2_1::PlayLevelStartEvent()
 
 	std::shared_ptr<IceBlock> Block = CreateActor <IceBlock>();
 	Block->GetTransform().SetWorldPosition({ -1383.f, 0.f, -2070.f });
+	Block->GetTransform().SetWorldRotation({90.f, 0.f, 0.f});
 	Block->SetIceBlockType(IceBlockType::Ice11);
 	Block->SetIceBlockMesh(IceBlockType::Ice11);
 	Block->SwitchMovable();
