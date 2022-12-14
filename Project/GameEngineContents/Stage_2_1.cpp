@@ -5,7 +5,11 @@
 #include "Cannon.h"
 
 #include "PortalCollision.h"
+#include "GraphicWindow.h"
 
+#include <GameEngineCore/GlobalVignette.h>
+#include <GameEngineCore/GlobalOverlay.h>
+#include <GameEngineCore/GlobalBloom.h>
 Stage_2_1::Stage_2_1()
 	: MainPlayer_(nullptr)
 	, CannonObj_(nullptr)
@@ -104,6 +108,16 @@ void Stage_2_1::PlayLevelStartEvent()
 
 	CannonObj_ = CreateActor<Cannon>();
 	CannonObj_->GetTransform().SetWorldPosition({-606.f, 0.f, -1111.f});
+
+	std::shared_ptr<GlobalOverlay> GlobalOverlay_ = GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalOverlay>();
+	GraphicWindow::Main_->SetOverlay(GlobalOverlay_);
+
+	std::shared_ptr<GlobalBloom> GlobalBloom_ = GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalBloom>();
+	GraphicWindow::Main_->SetBloom(GlobalBloom_);
+
+	std::shared_ptr<GlobalVignette> GlobalVignette_ = GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalVignette>();
+	GraphicWindow::Main_->SetVignette(GlobalVignette_);
+
 
 	return;
 }
