@@ -18,7 +18,8 @@ enum class CollisionOrder
 	Object_Sink,
 
 	// Collision 물리 충돌용
-	Floor,			// 바닥 콜리전
+	Lift,	
+	Floor,// 바닥 콜리전
 	DeadZone,		// 플레이어가 닿으면 죽는 콜리전 ex) 물, 허공
 	Map_Object,
 	Map_Potal,

@@ -4,6 +4,7 @@
 #include "CounterTop.h"
 #include "Cannon.h"
 #include "Button.h"
+#include "Lift.h"
 #include <math.h>
 
 
@@ -501,11 +502,27 @@ void Player::Update(float _DeltaTime)
 	StateManager.Update(_DeltaTime);
 	PNumSgtringUpdate();
 	CustomKeyCheck();
+	LiftFloorCheck();
 
 	if (IsPotal_ != true)
 	{
-		//DashCheck(_DeltaTime);
-		Gravity();
+		DashCheck(_DeltaTime);
+		
+		if (IsLift() == false)
+		{
+			Gravity();
+		}
+		else if (IsLift() == true)
+		{
+			GetTransform().SetLocalPosition(
+				float4
+				{
+					GetTransform().GetWorldPosition().x,
+					GetCurLift()->GetTransform().GetWorldPosition().y,
+					GetTransform().GetWorldPosition().z,
+				}
+			);
+		}
 	}
 
 	CameraMove(_DeltaTime);

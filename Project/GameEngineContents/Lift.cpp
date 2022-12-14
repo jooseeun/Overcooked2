@@ -18,6 +18,7 @@ void Lift::Start()
 	GamePlayFloor::Start();
 
 	GetCollisionObject()->GetTransform().SetLocalPosition({ GetTransform().GetWorldPosition()});
+	GetCollisionObject()->ChangeOrder(CollisionOrder::Lift);
 }
 
 void Lift::Update(float _DeltaTime)

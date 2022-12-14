@@ -2,6 +2,7 @@
 #include "GamePlayPhysics.h"
 #include "Player.h"
 #include <GameEngineCore/GameEngineCollision.h>
+#include "Lift.h"
 
 GamePlayPhysics::GamePlayPhysics() 
 	:PhysicsCollision_(nullptr)
@@ -16,6 +17,7 @@ GamePlayPhysics::GamePlayPhysics()
 	, PhysicsBackCollision_(nullptr)
 	, PhysicsLeftCollision_(nullptr)
 	, PhysicsRightCollision_(nullptr)
+	, IsLift_(false)
 
 {
 }
@@ -26,12 +28,33 @@ GamePlayPhysics::~GamePlayPhysics()
 
 void GamePlayPhysics::Gravity()// 중력함수 -> Update 해주면 됨
 {
+
 	if (PhysicsGravityCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Floor, CollisionType::CT_OBB) == false)
 	{
+		LiftFloorCheck();
 		GetTransform().SetWorldDownMove(500.0f, GameEngineTime::GetDeltaTime());
+
+	}
+
+
+}
+void GamePlayPhysics::LiftFloorCheck()
+{
+	if (PhysicsGravityCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Lift, CollisionType::CT_OBB,
+		std::bind(&GamePlayPhysics::LiftCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
+	{
+		IsLift_ = false;
+
 	}
 }
+CollisionReturn GamePlayPhysics::LiftCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
+{
 
+	IsLift_ = true;
+	CurLift_ = _Other->GetParent()->CastThis<Lift>();
+
+	return CollisionReturn::ContinueCheck;
+}
 void GamePlayPhysics::ColCheckPlayer()//플레이어한테 차이거나 하면은 밀리는 함수 임시생성한것
 {
 	PhysicsCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Character, CollisionType::CT_OBB,

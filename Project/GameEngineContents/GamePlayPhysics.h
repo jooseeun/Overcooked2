@@ -3,6 +3,7 @@
 
 // 설명 :
 class GameEngineCollision;
+class Lift;
 class GamePlayPhysics : public GameEngineActor
 {
 public:
@@ -69,21 +70,31 @@ public:
 	{
 		CurMass_ = _Mass;
 	}
+	inline bool IsLift() 
+	{
+		return IsLift_;
+	}
+	inline std::shared_ptr<Lift> GetCurLift()
+	{
+		return CurLift_;
+	}
 
 	inline float GetCurMass() const
 	{
 		return CurMass_;
 	}
+
 	CollisionReturn PullPlayer(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 	void Throw(float4 _Vector);
 protected:
 
 	void Gravity(); // 중력함수 -> Update에서 일단 하는중
-
+	void LiftFloorCheck();
 	bool StaticObjectCollisionCheck(); // 맵 오브젝트, 테이블 등등이랑 충돌하면 true 반환함수
 
 	void ColCheckPlayer(); //플레이어한테 차이거나 하면은 밀리는 함수
 	CollisionReturn MoveFromPlayer(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
+	CollisionReturn LiftCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 
 	void CalculateKineticEnergy();
 	void CalculateKineticEnergyMass();
@@ -96,7 +107,9 @@ private:
 	float ThrowTime_;
 	float UpTime_;
 	bool IsThrow_;
+	bool IsLift_;
 
+	std::shared_ptr<Lift> CurLift_;
 	std::shared_ptr<GameEngineCollision> PhysicsCollision_;
 	std::shared_ptr<GameEngineCollision> PhysicsGravityCollision_;
 
