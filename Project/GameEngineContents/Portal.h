@@ -26,6 +26,6 @@ protected:
 private:
 	std::shared_ptr<GameEngineFBXStaticRenderer> BlendRenderer_;
 	RenderOption RenderOptionMyInst;
-
+	RenderOption RenderOptionSwirl;
 };
 
