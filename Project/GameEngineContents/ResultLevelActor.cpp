@@ -51,10 +51,13 @@ void ResultLevelActor::UIStart()
 	//중앙 결과창 렌더러
 	{
 		std::weak_ptr<OverCookedUIRenderer> Renderer = CreateUIRenderer("UI_ResultsTicketsStandard_01.png");
-		Renderer.lock()->GetTransform().SetLocalPosition({ 0,80,0 });
+		Renderer.lock()->GetTransform().SetLocalPosition({ 0,80,950 });
 	}
 
-	CreateUIRenderer("UI_PauseScreen_Backdrop_01.png");
+	{
+		std::weak_ptr<OverCookedUIRenderer> Renderer = CreateUIRenderer("UI_PauseScreen_Backdrop_01.png");
+		Renderer.lock()->GetTransform().SetLocalPosition({ 0,0,900 });
+	}
 
 	//좌측 하단 조작키 알려주는 배너
 	std::weak_ptr<OverCookedUIRenderer> ControlBg = CreateUIRenderer("control_bg.png");
@@ -65,16 +68,28 @@ void ResultLevelActor::UIStart()
 
 	//마스크 렌더러
 	{
-		std::shared_ptr<OverCookedUIRenderer> NewRenderer = CreateUIRenderer("screen_bg_overlay_01.png");
-		NewRenderer->SetMaskTexture("UI_PauseScreen_Backdrop_01.png");
-		NewRenderer->SetSamplerWrap();
-		NewRenderer->StartDown(0.2f);
+		{
+			std::shared_ptr<OverCookedUIRenderer> NewRenderer = CreateUIRenderer("screen_bg_overlay_01.png");
+			NewRenderer->SetMaskTexture("UI_PauseScreen_Backdrop_01.png");
+			NewRenderer->SetSamplerWrap();
+			NewRenderer->StartDown(0.2f);
+			NewRenderer->GetTransform().SetLocalPosition({ 0,0,500 });
+		}
+		{
+			std::shared_ptr<OverCookedUIRenderer> NewRenderer = CreateUIRenderer("screen_bg_overlay_02.png");
+			NewRenderer->SetMaskTexture("UI_PauseScreen_Backdrop_01.png");
+			NewRenderer->SetSamplerWrap();
+			NewRenderer->StartDown(0.1f);
+			NewRenderer->GetTransform().SetLocalPosition({ 0,0,500 });
+		}
 	}
+
+	//플레이어 아이콘
 	{
-		std::shared_ptr<OverCookedUIRenderer> NewRenderer = CreateUIRenderer("screen_bg_overlay_02.png");
-		NewRenderer->SetMaskTexture("UI_PauseScreen_Backdrop_01.png");
-		NewRenderer->SetSamplerWrap();
-		NewRenderer->StartDown(0.1f);
+		CreatePlayerIcon(0, "LoveSushi");
+		CreatePlayerIcon(1, "AS40");
+		CreatePlayerIcon(2, "NiceRice");
+		CreatePlayerIcon(3, "HelpMe");
 	}
 
 	//스테이지 정보 Get
@@ -109,77 +124,124 @@ void ResultLevelActor::UIStart()
 		}
 	}
 
-	//어니언킹
+	//메쉬
 	{
-		OnionKing_ = CreateComponent<GameEngineFBXAnimationRenderer>();
-		OnionKing_.lock()->ChangeCamera(CAMERAORDER::UICAMERA);
-
-		OnionKing_.lock()->SetFBXMeshExceptionMesh("m_onion_king_01.fbx", "TextureAnimation", 7);
-
-		OnionKing_.lock()->CreateFBXAnimation("Phase0_0",
-			GameEngineRenderingEvent("m_onion_king_01.fbx", 0.035f, true), 0);
-		OnionKing_.lock()->CreateFBXAnimation("Phase1_0",
-			GameEngineRenderingEvent("m_onion_king_01.fbx", 0.035f, true), 1);
-		OnionKing_.lock()->CreateFBXAnimation("Phase1_1",
-			GameEngineRenderingEvent("m_onion_king_01.fbx", 0.035f, true), 2);
-		OnionKing_.lock()->CreateFBXAnimation("Phase2_0",
-			GameEngineRenderingEvent("m_onion_king_01.fbx", 0.035f, true), 3);
-		OnionKing_.lock()->CreateFBXAnimation("Phase2_1",
-			GameEngineRenderingEvent("m_onion_king_01.fbx", 0.035f, false), 5);
-
-		OnionKing_.lock()->ChangeAnimation("Phase2_1");
-		OnionKing_.lock()->GetTransform().SetLocalScale({ 200,200,200 });
-		OnionKing_.lock()->GetTransform().SetLocalPosition({ 380.f,-68.f,0.f });
-		OnionKing_.lock()->GetTransform().SetLocalRotation({ 0,180,0 });
-
-		//ResistDebug("OnionKing", OnionKing_.lock()->GetTransform());
-	}
-
-	//어니언킹 애니메이션 바인딩
-	{
-		OnionKing_.lock()->AnimationBindTime("Phase2_0", [&](const GameEngineRenderingEvent& _Info, float _Time)
-			{
-				if (_Info.PlayTime >= 2.35f)
-				{
-					OnionKing_.lock()->ChangeAnimation("Phase2_0");
-					OnionKing_.lock()->GetCurAnim()->bOnceEnd = false;
-					OnionKing_.lock()->GetCurAnim()->Reset();
-				}
-			});
-
-		OnionKing_.lock()->AnimationBindTime("Phase2_1", [&](const GameEngineRenderingEvent& _Info, float _Time)
-			{
-				if (_Info.PlayTime >= 0.8f)
-				{
-					OnionKing_.lock()->ChangeAnimation("Phase2_1");
-					OnionKing_.lock()->GetCurAnim()->bOnceEnd = false;
-					OnionKing_.lock()->GetCurAnim()->Reset();
-				}
-			});
-	}
-
-	//케빈
-	{
+		//어니언킹
 		{
-			Kevin_ = CreateComponent<GameEngineFBXAnimationRenderer>();
-			Kevin_.lock()->ChangeCamera(CAMERAORDER::UICAMERA);
-			Kevin_.lock()->SetFBXMesh("m_kevin_01.fbx", "TextureAnimation");
-			Kevin_.lock()->CreateFBXAnimation("kPhase0_0", GameEngineRenderingEvent("m_kevin_01.fbx", 0.035f, true), 5);
-			Kevin_.lock()->CreateFBXAnimation("kPhase1_0", GameEngineRenderingEvent("m_kevin_01.fbx", 0.035f, true), 4);
-			Kevin_.lock()->CreateFBXAnimation("kPhase2_0", GameEngineRenderingEvent("m_kevin_01.fbx", 0.035f, true), 2);
-			Kevin_.lock()->CreateFBXAnimation("kPhase2_1", GameEngineRenderingEvent("m_kevin_01.fbx", 0.035f, true), 6);
-			Kevin_.lock()->ChangeAnimation("kPhase2_1");
-			Kevin_.lock()->GetTransform().SetLocalScale({ 80,80,80 });
-			Kevin_.lock()->GetTransform().SetLocalPosition({ -370.f,-48.f,0.f });
-			Kevin_.lock()->GetTransform().SetLocalRotation({ 0,180,0 });
+			OnionKing_ = CreateComponent<GameEngineFBXAnimationRenderer>();
+			OnionKing_.lock()->ChangeCamera(CAMERAORDER::UICAMERA);
 
-			ResistDebug("Kevin", Kevin_.lock()->GetTransform());
+			OnionKing_.lock()->SetFBXMeshExceptionMesh("m_onion_king_01.fbx", "TextureAnimation", 7);
+
+			OnionKing_.lock()->CreateFBXAnimation("Phase0_0",
+				GameEngineRenderingEvent("m_onion_king_01.fbx", 0.035f, true), 0);
+			OnionKing_.lock()->CreateFBXAnimation("Phase1_0",
+				GameEngineRenderingEvent("m_onion_king_01.fbx", 0.035f, true), 1);
+			OnionKing_.lock()->CreateFBXAnimation("Phase1_1",
+				GameEngineRenderingEvent("m_onion_king_01.fbx", 0.035f, true), 2);
+			OnionKing_.lock()->CreateFBXAnimation("Phase2_0",
+				GameEngineRenderingEvent("m_onion_king_01.fbx", 0.035f, true), 3);
+			OnionKing_.lock()->CreateFBXAnimation("Phase2_1",
+				GameEngineRenderingEvent("m_onion_king_01.fbx", 0.035f, false), 5);
+
+			OnionKing_.lock()->ChangeAnimation("Phase2_1");
+			OnionKing_.lock()->GetTransform().SetLocalScale({ 200,200,200 });
+			OnionKing_.lock()->GetTransform().SetLocalPosition({ 380.f,-68.f,0.f });
+			OnionKing_.lock()->GetTransform().SetLocalRotation({ 0,180,0 });
+
+			//ResistDebug("OnionKing", OnionKing_.lock()->GetTransform());
+		}
+
+		//어니언킹 애니메이션 바인딩
+		{
+			OnionKing_.lock()->AnimationBindTime("Phase2_0", [&](const GameEngineRenderingEvent& _Info, float _Time)
+				{
+					if (_Info.PlayTime >= 2.35f)
+					{
+						OnionKing_.lock()->ChangeAnimation("Phase2_0");
+						OnionKing_.lock()->GetCurAnim()->bOnceEnd = false;
+						OnionKing_.lock()->GetCurAnim()->Reset();
+					}
+				});
+
+			OnionKing_.lock()->AnimationBindTime("Phase2_1", [&](const GameEngineRenderingEvent& _Info, float _Time)
+				{
+					if (_Info.PlayTime >= 0.8f)
+					{
+						OnionKing_.lock()->ChangeAnimation("Phase2_1");
+						OnionKing_.lock()->GetCurAnim()->bOnceEnd = false;
+						OnionKing_.lock()->GetCurAnim()->Reset();
+					}
+				});
+		}
+
+		//케빈
+		{
+			{
+				Kevin_ = CreateComponent<GameEngineFBXAnimationRenderer>();
+				Kevin_.lock()->ChangeCamera(CAMERAORDER::UICAMERA);
+				Kevin_.lock()->SetFBXMesh("m_kevin_01.fbx", "TextureAnimation");
+				Kevin_.lock()->CreateFBXAnimation("kPhase0_0", GameEngineRenderingEvent("m_kevin_01.fbx", 0.035f, true), 3);
+				Kevin_.lock()->CreateFBXAnimation("kPhase1_0", GameEngineRenderingEvent("m_kevin_01.fbx", 0.035f, true), 4);
+				Kevin_.lock()->CreateFBXAnimation("kPhase2_0", GameEngineRenderingEvent("m_kevin_01.fbx", 0.035f, true), 2);
+				Kevin_.lock()->CreateFBXAnimation("kPhase2_1", GameEngineRenderingEvent("m_kevin_01.fbx", 0.035f, true), 6);
+				Kevin_.lock()->ChangeAnimation("kPhase2_1");
+				Kevin_.lock()->GetTransform().SetLocalScale({ 80,80,80 });
+				Kevin_.lock()->GetTransform().SetLocalPosition({ -370.f,-48.f,50.f });
+				Kevin_.lock()->GetTransform().SetLocalRotation({ 0,140,0 });
+
+				ResistDebug("Kevin", Kevin_.lock()->GetTransform());
+			}
+		}
+
+		//케빈 애니메이션 바인딩 GlobalGameData::DebugValue1_.x
+		{
+			Kevin_.lock()->AnimationBindTime("kPhase0_0", [&](const GameEngineRenderingEvent& _Info, float _Time)
+				{
+					if (_Info.PlayTime >= 1.4f)
+					{
+						Kevin_.lock()->ChangeAnimation("kPhase0_0");
+						Kevin_.lock()->GetCurAnim()->bOnceEnd = false;
+						Kevin_.lock()->GetCurAnim()->Reset();
+					}
+				});
+
+			Kevin_.lock()->AnimationBindTime("kPhase1_0", [&](const GameEngineRenderingEvent& _Info, float _Time)
+				{
+					if (_Info.PlayTime >= 1.6)
+					{
+						Kevin_.lock()->ChangeAnimation("kPhase1_0");
+						Kevin_.lock()->GetCurAnim()->bOnceEnd = false;
+						Kevin_.lock()->GetCurAnim()->Reset();
+					}
+				});
+
+			Kevin_.lock()->AnimationBindTime("kPhase2_0", [&](const GameEngineRenderingEvent& _Info, float _Time)
+				{
+					if (_Info.PlayTime >= 0.95f)
+					{
+						Kevin_.lock()->ChangeAnimation("kPhase2_0");
+						Kevin_.lock()->GetCurAnim()->bOnceEnd = false;
+						Kevin_.lock()->GetCurAnim()->Reset();
+					}
+				});
+
+			Kevin_.lock()->AnimationBindTime("kPhase2_1", [&](const GameEngineRenderingEvent& _Info, float _Time)
+				{
+					if (_Info.PlayTime >= 0.8f)
+					{
+						Kevin_.lock()->ChangeAnimation("kPhase2_1");
+						Kevin_.lock()->GetCurAnim()->bOnceEnd = false;
+						Kevin_.lock()->GetCurAnim()->Reset();
+					}
+				});
 		}
 	}
 }
 
 void ResultLevelActor::UIUpdate(float _DeltaTime)
 {
+	UpdatePlayerIcon(_DeltaTime);
 }
 
 void ResultLevelActor::UIEnd()

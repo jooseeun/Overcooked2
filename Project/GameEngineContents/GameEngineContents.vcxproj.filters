@@ -305,6 +305,9 @@
     <ClInclude Include="Food_Ingredients_Rice.h">
       <Filter>Contents\Object\Food</Filter>
     </ClInclude>
+    <ClInclude Include="GameScore.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -610,6 +613,9 @@
     </ClCompile>
     <ClCompile Include="Food_Ingredients_Rice.cpp">
       <Filter>Contents\Object\Food</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScore.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -198,6 +198,14 @@ bool RecipeManager::HandOver(FoodType _Type)
 		}
 	}
 
+	//std::weak_ptr< Recipe> NewRecipe = std::dynamic_pointer_cast<Recipe>(_Iter);
+
+	//검색한 음식이 없다면 false
+	if (Vector.size() == 0)
+	{
+		return false;
+	}
+
 	std::list<Recipe>::iterator MostLeftIter = Vector[0];
 	for (int i = 0; i < Vector.size(); i++)
 	{

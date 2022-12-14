@@ -17,6 +17,7 @@ struct RecipeSetData
 	std::vector<float4> IngredientPos;
 };
 
+class GameScore;
 class RecipeManager;
 class Recipe
 {
@@ -92,6 +93,7 @@ private:
 	std::vector< std::weak_ptr<OverCookedUIRenderer>> CookeryRenderer_;
 };
 
+class GameScore;
 class InGameUIActor;
 class RecipeManager
 {
@@ -135,6 +137,7 @@ protected:
 	void UIUpdate(float _DeltaTime) override;
 
 	void UpdateTime(float _DeltaTime);
+	void UpdateScore(float _DeltaTime);
 
 	void LevelStartEvent() override;
 
