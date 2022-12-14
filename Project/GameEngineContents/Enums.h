@@ -79,18 +79,18 @@ enum class ToolInfo
 enum class FoodType
 {
 	None,
-	CucumberSushi,
-	FishSushi,
-	FishandCucumberSushi,
-	FishSushimi,
-	PrawnSushimi,
-	PlainBurger,
-	CheeseBurger,
-	CheeseBurgerLettuceTomato,
-	PrawnDumpling,
-	SteamedFish,
-	MeatDumpling,
-	CarrotDumpling
+	CucumberSushi,              // 오이 + 김 + 밥
+	FishSushi,                  // 김 + 밥 + 회
+	FishandCucumberSushi,       // 오이 + 김 + 밥 + 회
+	FishSushimi,                // 회
+	PrawnSushimi,               // 대하
+	PlainBurger,                // 빵 + 고기
+	CheeseBurger,               // 빵 + 고기 + 치즈
+	CheeseBurgerLettuceTomato,  // 빵 + 고기 + 양배추 + 토마토
+	PrawnDumpling,              // 새우 + 밀가루
+	SteamedFish,                // 물고기(찜)
+	MeatDumpling,               // 고기 + 밀가루
+	CarrotDumpling              // 당근 + 밀가루
 };
 
 enum class IngredientType

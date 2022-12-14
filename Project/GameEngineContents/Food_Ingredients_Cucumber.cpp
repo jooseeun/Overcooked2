@@ -33,6 +33,6 @@ void Food_Ingredients_Cucumber::TrimmingPlatting()
 	ChangeFBXMesh();
 	MeshName_ = "t_ingredients_cucumber_trimming.FBX";
 	GetFBXMesh()->SetFBXMesh(MeshName_, "Texture");
-	//GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
+	GetFBXMesh()->GetTransform().SetWorldScale({ 10	, 10, 10 });
 	//GetFBXMesh()->GetTransform().SetLocalRotation({ 0,-90,0 });
 }

@@ -17,6 +17,8 @@ void Equipment_Pot::Start()
 
 	GetFBXMesh()->SetFBXMesh("m_sk_pot_01.fbx", "Texture");
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
+
+	GetCombinFood()->Start(1, shared_from_this());
 }
 
 bool Equipment_Pot::AutoTrim(float _DeltaTime, ObjectToolType _Tool)
@@ -39,7 +41,6 @@ HoldDownEnum Equipment_Pot::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 {
 	if ((*_Moveable) != nullptr)
 	{
-
 		if (Rice_ == nullptr)
 		{
 			std::shared_ptr<Food_Ingredients_Rice> Rice = (*_Moveable)->CastThis<Food_Ingredients_Rice>();
@@ -69,10 +70,7 @@ HoldDownEnum Equipment_Pot::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 			default:
 				break;
 			}
-
 		}
-
-		
 	}
 	else
 	{

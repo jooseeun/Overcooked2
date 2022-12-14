@@ -17,15 +17,111 @@ enum class ObjectBowlType
 	Steamer
 };
 
+enum class NoneFoodType
+{
+	None,
+	Seaweed_Prawn,              // ªıøÏ + ±Ë µÈæÓ∞£ ∏µÁ ¿Á∑·
+	Prawn_Rice,					// ªıøÏ + π‰
+	Prawn_Cucumber,				// ªıøÏ + ø¿¿Ã
+	Prawn_Rice_Cucumber,		// ªıøÏ + π‰ + ø¿¿Ã
+
+
+	Seaweed_Cucumber,			// ±Ë + ø¿¿Ã
+	Seaweed_Fish,				// ±Ë + »∏
+	Seaweed_Fish_Cucumber,		// ±Ë + »∏ + ø¿¿Ã
+	Seaweed_Rice,				// ±Ë + π‰
+	Seaweed,
+
+	Rice_Cucumber,				// π‰ + ø¿¿Ã
+	Rice_Fish,					// π‰ + »∏
+	Rice_Cucumber_Fish,			// π‰ + ø¿¿Ã + »∏
+	Rice,
+
+	Cucumber_Fish,				// ø¿¿Ã + »∏
+	Cucumber,
+
+
+	Bread_Meat_Cheese_Lettuce,
+	Bread,
+
+	Meat_Cheese,
+	Meat_Lettuce,
+	Meat_Cheese_Lettuce,
+	Meat,
+
+	Lettuce_Cheese,
+	Lettuce_Tomato,
+	Lettuce,
+
+	Cheese,
+
+	Tomato,
+
+};
+
 struct CombinFood
 {
-
-	void Start(int _Index, std::shared_ptr<GameEngineUpdateObject> _Object, bool _bool)
+	void Start(int _Index, std::shared_ptr<GameEngineUpdateObject> _Object)
 	{
 		Moveable_ = _Object->CastThis<GamePlayMoveable>();
 		for (size_t i = 0; i < _Index; i++)
 		{
 			Food_Current_.push_back(IngredientType::None);
+		}
+		RefreshThumbnailAndRenderer();
+
+		if (Static_NoneType_.empty())
+		{
+			Static_NoneType_[NoneFoodType::Seaweed_Prawn].push_back(IngredientType::Seaweed);
+			Static_NoneType_[NoneFoodType::Seaweed_Prawn].push_back(IngredientType::Prawn);
+			Static_NoneType_[NoneFoodType::Prawn_Rice].push_back(IngredientType::Prawn);
+			Static_NoneType_[NoneFoodType::Prawn_Rice].push_back(IngredientType::Rice);
+			Static_NoneType_[NoneFoodType::Prawn_Cucumber].push_back(IngredientType::Cucumber);
+			Static_NoneType_[NoneFoodType::Prawn_Cucumber].push_back(IngredientType::Prawn);
+			Static_NoneType_[NoneFoodType::Prawn_Rice_Cucumber].push_back(IngredientType::Prawn);
+			Static_NoneType_[NoneFoodType::Prawn_Rice_Cucumber].push_back(IngredientType::Cucumber);
+			Static_NoneType_[NoneFoodType::Prawn_Rice_Cucumber].push_back(IngredientType::Rice);
+			Static_NoneType_[NoneFoodType::Seaweed_Cucumber].push_back(IngredientType::Seaweed);
+			Static_NoneType_[NoneFoodType::Seaweed_Cucumber].push_back(IngredientType::Cucumber);
+			Static_NoneType_[NoneFoodType::Seaweed_Fish].push_back(IngredientType::Seaweed);
+			Static_NoneType_[NoneFoodType::Seaweed_Fish].push_back(IngredientType::Seaweed);
+			Static_NoneType_[NoneFoodType::Seaweed_Fish_Cucumber].push_back(IngredientType::Fish);
+			Static_NoneType_[NoneFoodType::Seaweed_Fish_Cucumber].push_back(IngredientType::Seaweed);
+			Static_NoneType_[NoneFoodType::Seaweed_Fish_Cucumber].push_back(IngredientType::Cucumber);
+			Static_NoneType_[NoneFoodType::Seaweed_Rice].push_back(IngredientType::Seaweed);
+			Static_NoneType_[NoneFoodType::Seaweed_Rice].push_back(IngredientType::Rice);
+			Static_NoneType_[NoneFoodType::Seaweed].push_back(IngredientType::Seaweed);
+			Static_NoneType_[NoneFoodType::Rice_Cucumber].push_back(IngredientType::Rice);
+			Static_NoneType_[NoneFoodType::Rice_Cucumber].push_back(IngredientType::Cucumber);
+			Static_NoneType_[NoneFoodType::Rice_Fish].push_back(IngredientType::Rice);
+			Static_NoneType_[NoneFoodType::Rice_Fish].push_back(IngredientType::Fish);
+			Static_NoneType_[NoneFoodType::Rice_Cucumber_Fish].push_back(IngredientType::Rice);
+			Static_NoneType_[NoneFoodType::Rice_Cucumber_Fish].push_back(IngredientType::Cucumber);
+			Static_NoneType_[NoneFoodType::Rice_Cucumber_Fish].push_back(IngredientType::Fish);
+			Static_NoneType_[NoneFoodType::Rice].push_back(IngredientType::Rice);
+			Static_NoneType_[NoneFoodType::Cucumber_Fish].push_back(IngredientType::Cucumber);
+			Static_NoneType_[NoneFoodType::Cucumber_Fish].push_back(IngredientType::Fish);
+			Static_NoneType_[NoneFoodType::Cucumber].push_back(IngredientType::Cucumber);
+			Static_NoneType_[NoneFoodType::Bread_Meat_Cheese_Lettuce].push_back(IngredientType::Bread);
+			Static_NoneType_[NoneFoodType::Bread_Meat_Cheese_Lettuce].push_back(IngredientType::Cheese);
+			Static_NoneType_[NoneFoodType::Bread_Meat_Cheese_Lettuce].push_back(IngredientType::Meat);
+			Static_NoneType_[NoneFoodType::Bread_Meat_Cheese_Lettuce].push_back(IngredientType::Lettuce);
+			Static_NoneType_[NoneFoodType::Bread].push_back(IngredientType::Bread);
+			Static_NoneType_[NoneFoodType::Meat_Cheese].push_back(IngredientType::Meat);
+			Static_NoneType_[NoneFoodType::Meat_Cheese].push_back(IngredientType::Cheese);
+			Static_NoneType_[NoneFoodType::Meat_Lettuce].push_back(IngredientType::Meat);
+			Static_NoneType_[NoneFoodType::Meat_Lettuce].push_back(IngredientType::Lettuce);
+			Static_NoneType_[NoneFoodType::Meat_Cheese_Lettuce].push_back(IngredientType::Meat);
+			Static_NoneType_[NoneFoodType::Meat_Cheese_Lettuce].push_back(IngredientType::Cheese);
+			Static_NoneType_[NoneFoodType::Meat_Cheese_Lettuce].push_back(IngredientType::Lettuce);
+			Static_NoneType_[NoneFoodType::Meat].push_back(IngredientType::Meat);
+			Static_NoneType_[NoneFoodType::Lettuce_Cheese].push_back(IngredientType::Lettuce);
+			Static_NoneType_[NoneFoodType::Lettuce_Cheese].push_back(IngredientType::Cheese);
+			Static_NoneType_[NoneFoodType::Lettuce_Tomato].push_back(IngredientType::Lettuce);
+			Static_NoneType_[NoneFoodType::Lettuce_Tomato].push_back(IngredientType::Tomato);
+			Static_NoneType_[NoneFoodType::Lettuce].push_back(IngredientType::Lettuce);
+			Static_NoneType_[NoneFoodType::Cheese].push_back(IngredientType::Cheese);
+			Static_NoneType_[NoneFoodType::Tomato].push_back(IngredientType::Tomato);
 		}
 	}
 
@@ -62,7 +158,19 @@ struct CombinFood
 	}
 
 	void RefreshThumbnailAndRenderer()
-	{
+	{	
+		for (size_t i = 0; i < Food_Thumbnail_.size(); i++)
+		{
+			Food_Thumbnail_[i].lock()->Death();
+			Food_Thumbnail_[i].lock()->Off();
+		}
+		Food_Thumbnail_.clear();
+		for (size_t i = 0; i < Food_Current_.size(); i++)
+		{
+			Food_Thumbnail_.push_back(Moveable_.lock()->GetLevel()->CreateActor<FoodThumbnail>());
+			Food_Thumbnail_[i].lock()->LinkObject(Moveable_.lock(), float4::ZERO);
+		}
+		RefreshThumbnail();
 		RefreshFoodRenderer();
 	}
 	void RefreshFoodRenderer()
@@ -73,6 +181,7 @@ struct CombinFood
 			Renderer_->Off();
 		}
 		Renderer_ = Moveable_.lock()->CreateComponent<GameEngineFBXStaticRenderer>();
+
 		switch (GetFoodType())
 		{
 		case FoodType::CucumberSushi:
@@ -108,8 +217,16 @@ struct CombinFood
 		case FoodType::CarrotDumpling:
 			break;
 		default:
+			{
+
+			}
 			break;
 		}
+	}
+
+	NoneFoodType GetNoneFoodClass()
+	{
+
 	}
 
 	FoodType GetFoodType()
@@ -182,6 +299,45 @@ struct CombinFood
 		Renderer_.reset();
 	}
 
+	void RefreshThumbnail()
+	{
+		RefreshOffset();
+		for (size_t i = 0; i < Food_Thumbnail_.size(); i++)
+		{
+			Food_Thumbnail_[i].lock()->SetThumbnail(Food_Current_[i]);
+		}
+	}
+
+	void RefreshOffset()
+	{
+		switch (Food_Thumbnail_.size())
+		{
+		case 0:
+			return;
+			break;
+		case 1:
+			Food_Thumbnail_[0].lock()->SetOffset({ 0, 50, 0 });
+			break;
+		case 2:
+			Food_Thumbnail_[0].lock()->SetOffset({ -20, 50, 0 });
+			Food_Thumbnail_[1].lock()->SetOffset({ 20, 50, 0 });
+			break;
+		case 3:
+			Food_Thumbnail_[0].lock()->SetOffset({ -20, 70, 0 });
+			Food_Thumbnail_[1].lock()->SetOffset({ 20, 70, 0 });
+			Food_Thumbnail_[2].lock()->SetOffset({ -20, 30, 0 });
+			break;
+		case 4:
+			Food_Thumbnail_[0].lock()->SetOffset({ -20, 70, 0 });
+			Food_Thumbnail_[1].lock()->SetOffset({ 20, 70, 0 });
+			Food_Thumbnail_[2].lock()->SetOffset({ -20, 30, 0 });
+			Food_Thumbnail_[3].lock()->SetOffset({ 20, 30, 0 });
+			break;
+		default:
+			break;
+		}
+	}
+
 	//CombinFood& operator=(const CombinFood& _Other)
 	//{
 	//	Renderer_->Death();
@@ -206,7 +362,7 @@ struct CombinFood
 	//	Renderer_.lock()->GetTransform().SetLocalPosition(float4::ZERO);
 	//}
 
-
+	static std::map<NoneFoodType, std::vector<IngredientType>> Static_NoneType_;
 	std::vector<IngredientType> Food_Current_;
 	std::vector<std::weak_ptr<FoodThumbnail>> Food_Thumbnail_;
 	std::shared_ptr<GameEngineFBXStaticRenderer> Renderer_;

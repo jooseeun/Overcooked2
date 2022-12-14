@@ -2,6 +2,8 @@
 #include "GamePlayBowl.h"
 #include "GamePlayFood.h"
 
+std::map<NoneFoodType, std::vector<IngredientType>> CombinFood::Static_NoneType_;
+
 GamePlayBowl::GamePlayBowl() 
 	: Enum_ObjectBowlType_(ObjectBowlType::None)
 	, CombinFood_(nullptr)

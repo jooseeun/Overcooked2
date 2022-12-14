@@ -23,7 +23,7 @@ void Equipment_Plate::Start()
 	GetCollisionObject()->GetTransform().SetWorldPosition({ 0, -25, 0});
 	GetCollisionObject()->GetTransform().SetLocalScale({ 100, 25, 100 });
 
-	GetCombinFood()->Start(1, shared_from_this(), false);
+	GetCombinFood()->Start(0, shared_from_this());
 	GetCookingBar()->SetOver(false);
 	SetDirty();
 }
