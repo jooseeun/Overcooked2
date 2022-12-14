@@ -1215,4 +1215,5 @@ CollisionReturn Player::EnterCannon(std::shared_ptr<GameEngineCollision> _This, 
 CollisionReturn Player::PushButton(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 {
 	_Other->GetParent()->CastThis<Button>()->SetButtonPressed();
+	return CollisionReturn::ContinueCheck;
 }
