@@ -3,6 +3,7 @@
 #include "GamePlayStaticObject.h"
 #include "CounterTop.h"
 #include "Cannon.h"
+#include "Button.h"
 #include <math.h>
 
 
@@ -490,7 +491,7 @@ void Player::Update(float _DeltaTime)
 	if (IsSingleMode == true)
 	{
 		std::shared_ptr<Player> MainPlayer2 = GetLevel()->CreateActor<Player>();
-		MainPlayer2->GetTransform().SetLocalPosition({ -1000, 500, 200 });
+		MainPlayer2->GetTransform().SetWorldPosition({ -900.00, 90.0, -1111.00 });
 		MainPlayer2->PlayerPNum = 2;
 
 		IsSingleMode = false;
@@ -1208,4 +1209,9 @@ CollisionReturn Player::EnterCannon(std::shared_ptr<GameEngineCollision> _This, 
 	GetTransform().SetWorldRotation({270, 0, 90 });
 	IsPotal_ = true;
 	return CollisionReturn::ContinueCheck;
+}
+
+CollisionReturn Player::PushButton(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
+{
+	_Other->GetParent()->CastThis<Button>()->SetButtonPressed();
 }

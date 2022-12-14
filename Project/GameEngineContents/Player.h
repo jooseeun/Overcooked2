@@ -199,6 +199,7 @@ private:
 	CollisionReturn InteractTableCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 
 	CollisionReturn EnterCannon(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
+	CollisionReturn PushButton(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 
 	std::shared_ptr<GameEngineActor> CurrentHoldingObject_;
 	std::shared_ptr<GameEngineCollision> TableCollision_;

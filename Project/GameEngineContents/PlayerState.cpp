@@ -3,7 +3,6 @@
 #include "FoodBox.h"
 #include "TrashCan.h"
 #include "Equipment_Plate.h"
-#include "Cannon.h"
 
 #include <math.h>
 
@@ -35,14 +34,20 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 		}
 	}
 
-
+	
 	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerHold" + PNumString))
 	{
 		if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Cannon, CollisionType::CT_OBB,
 			std::bind(&Player::EnterCannon, this, std::placeholders::_1, std::placeholders::_2)) == true)
 		{
 			StateManager.ChangeState("CannonInter");
+			return;
 
+		}
+		else if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Button, CollisionType::CT_OBB,
+			std::bind(&Player::PushButton, this, std::placeholders::_1, std::placeholders::_2)) == true)
+		{
+			return;
 		}
 		//설거지상호작용
 		//else if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Sink, CollisionType::CT_OBB,
@@ -53,6 +58,7 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 		else
 		{
 			StateManager.ChangeState("HoldUp");
+			return;
 		}
 	}
 
