@@ -68,6 +68,12 @@
       <Filter>Object</Filter>
     </FxCompile>
     <FxCompile Include="DeferredHeader.fx" />
+    <FxCompile Include="CalDeferredLight.hlsl">
+      <Filter>Deferred</Filter>
+    </FxCompile>
+    <FxCompile Include="CalDeferredMerge.hlsl">
+      <Filter>Deferred</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Debug">
@@ -78,6 +84,9 @@
     </Filter>
     <Filter Include="TargetEffect">
       <UniqueIdentifier>{ae7b6a6e-95f0-4707-af5c-a8e2aed6810a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Deferred">
+      <UniqueIdentifier>{1731cdd3-6346-4c71-9168-107e3fd87ee9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

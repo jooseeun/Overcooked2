@@ -21,8 +21,10 @@ void GameEngineBlur::EffectInit()
 	CopyTarget = std::make_shared<GameEngineRenderTarget>();
 	CopyTarget->CreateRenderTargetTexture(GameEngineWindow::GetScale(), DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, float4::ZERO);
 
-	EffectSet.SetMaterial("Blur");
-	EffectSet.SetMesh("FullRect");
+	EffectSet = std::make_shared<GameEngineRenderUnit>();
+
+	EffectSet->SetMaterial("Blur");
+	EffectSet->SetMesh("FullRect");
 
 	// EffetSet
 }
@@ -31,7 +33,7 @@ void GameEngineBlur::Effect(std::shared_ptr<GameEngineRenderTarget> _Target)
 {
 	CopyTarget->Copy(_Target);
 
-	EffectSet.ShaderResources.SetTexture("Tex", CopyTarget->GetRenderTargetTexture(0));
+	EffectSet->ShaderResources.SetTexture("Tex", CopyTarget->GetRenderTargetTexture(0));
 	_Target->Clear();
 	_Target->Setting();
 	_Target->Effect(EffectSet);

@@ -82,7 +82,7 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const st
 		Unit.resize(FBXMesh->GetRenderUnitCount());
 		for (size_t i = 0; i < Unit.size(); i++)
 		{
-			int Count = FBXMesh->GetSubSetCount(i);
+			size_t Count = FBXMesh->GetSubSetCount(i);
 
 			Unit[i].resize(Count);
 			for (size_t j = 0; j < Count; j++)

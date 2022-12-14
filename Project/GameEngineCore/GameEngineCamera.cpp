@@ -31,6 +31,12 @@ GameEngineCamera::GameEngineCamera()
 
 	AllRenderUnit_.insert(std::make_pair(RENDERINGPATHORDER::FORWARD, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>()));
 	AllRenderUnit_.insert(std::make_pair(RENDERINGPATHORDER::DEFERRED, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>()));
+
+	LightUnit = std::make_shared<GameEngineRenderUnit>();
+
+	LightUnit->SetMesh("FullRect");
+	LightUnit->SetMaterial("CalDeferredLight");
+	LightUnit->ShaderResources.SetConstantBufferLink("LightDatas", &LightDataObject, sizeof(LightDatas));
 }
 
 GameEngineCamera::~GameEngineCamera()
@@ -91,6 +97,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 	// 포워드 타겟이 세팅되고
 	CameraForwardRenderTarget->Clear();
 	CameraForwardRenderTarget->Setting();
+	CurTarget = CameraForwardRenderTarget;
 
 	// 행렬 연산 먼저하고
 	for (std::pair<const int, std::list<std::shared_ptr<GameEngineRenderer>>>& Group : AllRenderer_)
@@ -114,27 +121,6 @@ void GameEngineCamera::Render(float _DeltaTime)
 			Renderer->GetTransform().CalculateWorldViewProjection();
 		}
 	}
-
-	//// 포워드
-	//{
-	//	for (std::pair<const int, std::list<std::shared_ptr<GameEngineRenderer>>>& Group : AllRenderer_)
-	//	{
-	//		float ScaleTime = GameEngineTime::GetInst()->GetDeltaTime(Group.first);
-
-	//		std::list<std::shared_ptr<GameEngineRenderer>>& RenderList = Group.second;
-	//		RenderList.sort(ZSort);
-
-	//		for (std::shared_ptr<GameEngineRenderer>& Renderer : Group.second)
-	//		{
-	//			if (false == Renderer->IsUpdate())
-	//			{
-	//				continue;
-	//			}
-	//			// 인스턴싱 정보 수집
-	//			Renderer->Render(ScaleTime);
-	//		}
-	//	}
-	//}
 
 	{
 		std::map<RENDERINGPATHORDER, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>::iterator ForwardIter
@@ -179,28 +165,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 	// 포워드 타겟이 세팅되고
 	CameraDeferredGBufferRenderTarget->Clear();
 	CameraDeferredGBufferRenderTarget->Setting();
-
-	//// 이제부터는 디퍼드 랜더링
-	//{
-	//	for (std::pair<const int, std::list<std::shared_ptr<GameEngineRenderer>>>& Group : AllRenderer_)
-	//	{
-	//		float ScaleTime = GameEngineTime::GetInst()->GetDeltaTime(Group.first);
-
-	//		std::list<std::shared_ptr<GameEngineRenderer>>& RenderList = Group.second;
-	//		RenderList.sort(ZSort);
-
-	//		for (std::shared_ptr<GameEngineRenderer>& Renderer : Group.second)
-	//		{
-	//			if (false == Renderer->IsUpdate())
-	//			{
-	//				continue;
-	//			}
-	//			// 인스턴싱 정보 수집
-	//			Renderer->Render(ScaleTime);
-	//		}
-	//	}
-	//}
-
+	CurTarget = CameraDeferredGBufferRenderTarget;
 
 	{
 		std::map<RENDERINGPATHORDER, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>::iterator ForwardIter
@@ -229,6 +194,8 @@ void GameEngineCamera::Render(float _DeltaTime)
 			}
 		}
 	}
+
+	CameraDeferredLightRenderTarget->Effect(LightUnit);
 
 	CameraRenderTarget->Clear();
 	CameraRenderTarget->Merge(CameraForwardRenderTarget);
@@ -264,7 +231,20 @@ void GameEngineCamera::Start()
 	// 노말 2
 	CameraDeferredGBufferRenderTarget->CreateRenderTargetTexture(GameEngineWindow::GetScale(), DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, float4::ZERO);
 
+	LightUnit->ShaderResources.SetTexture("PositionTex", CameraDeferredGBufferRenderTarget->GetRenderTargetTexture(1));
+	LightUnit->ShaderResources.SetTexture("NormalTex", CameraDeferredGBufferRenderTarget->GetRenderTargetTexture(2));
+
 	CameraDeferredGBufferRenderTarget->SettingDepthTexture(GameEngineDevice::GetBackBuffer()->GetDepthTexture());
+
+	// 라이트 타겟
+	CameraDeferredLightRenderTarget = GameEngineRenderTarget::Create();
+	// 디퓨즈라이트
+	CameraDeferredLightRenderTarget->CreateRenderTargetTexture(GameEngineWindow::GetScale(), DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, float4::ZERO);
+	// 스펙큘러
+	CameraDeferredLightRenderTarget->CreateRenderTargetTexture(GameEngineWindow::GetScale(), DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, float4::ZERO);
+	// 앰비언트
+	CameraDeferredLightRenderTarget->CreateRenderTargetTexture(GameEngineWindow::GetScale(), DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, float4::ZERO);
+
 
 	CameraDeferredRenderTarget = GameEngineRenderTarget::Create();
 
@@ -287,9 +267,12 @@ void GameEngineCamera::PushRenderUnit(std::shared_ptr < GameEngineRenderUnit> _R
 
 	RENDERINGPATHORDER Path = RENDERINGPATHORDER::FORWARD;
 
-	if (true == _RenderUnit->GetMaterial()->GetPixelShader()->GetIsDeferred())
+	if (nullptr != _RenderUnit->GetMaterial())
 	{
-		Path = RENDERINGPATHORDER::DEFERRED;
+		if (true == _RenderUnit->GetMaterial()->GetPixelShader()->GetIsDeferred())
+		{
+			Path = RENDERINGPATHORDER::DEFERRED;
+		}
 	}
 
 	AllRenderUnit_[Path][_RenderUnit->GetRenderer()->RenderingOrder].push_back(_RenderUnit);
@@ -321,15 +304,40 @@ void GameEngineCamera::PushLight(std::shared_ptr<class GameEngineLight> _Light)
 
 void GameEngineCamera::Release(float _DelataTime)
 {
+	// 렌더유닛 릴리즈
+	for (size_t i = 0; i < static_cast<size_t>(RENDERINGPATHORDER::MAX); i++)
+	{
+		std::map<RENDERINGPATHORDER, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>::iterator ForwardIter
+			= AllRenderUnit_.find(static_cast<RENDERINGPATHORDER>(i));
+
+		std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& OrderMap = ForwardIter->second;
+		for (std::pair<const int, std::list<std::shared_ptr<GameEngineRenderUnit>>>& Group : OrderMap)
+		{
+			std::list<std::shared_ptr<GameEngineRenderUnit>>& List = Group.second;
+			std::list<std::shared_ptr<GameEngineRenderUnit>>::iterator GroupStart = List.begin();
+			std::list<std::shared_ptr<GameEngineRenderUnit>>::iterator GroupEnd = List.end();
+			for (; GroupStart != GroupEnd; )
+			{
+				if (true == (*GroupStart)->IsDeath())
+				{
+					GroupStart = List.erase(GroupStart);
+				}
+				else
+				{
+					++GroupStart;
+				}
+			}
+		}
+	}
+
+	// 렌더러 릴리즈
 	std::map<int, std::list<std::shared_ptr<GameEngineRenderer>>>::iterator StartGroupIter = AllRenderer_.begin();
 	std::map<int, std::list<std::shared_ptr<GameEngineRenderer>>>::iterator EndGroupIter = AllRenderer_.end();
-
 	for (; StartGroupIter != EndGroupIter; ++StartGroupIter)
 	{
 		std::list<std::shared_ptr<GameEngineRenderer>>& Group = StartGroupIter->second;
 		std::list<std::shared_ptr<GameEngineRenderer>>::iterator GroupStart = Group.begin();
 		std::list<std::shared_ptr<GameEngineRenderer>>::iterator GroupEnd = Group.end();
-
 		for (; GroupStart != GroupEnd; )
 		{
 			(*GroupStart)->ReleaseUpdate(_DelataTime);
@@ -341,7 +349,6 @@ void GameEngineCamera::Release(float _DelataTime)
 			{
 				++GroupStart;
 			}
-
 		}
 	}
 }

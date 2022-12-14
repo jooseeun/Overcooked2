@@ -54,14 +54,19 @@ public:
 		return Mode;
 	}
 
-	inline std::shared_ptr < GameEngineRenderTarget> GetCameraRenderTarget()
+	inline std::shared_ptr<GameEngineRenderTarget> GetCameraRenderTarget()
 	{
 		return CameraRenderTarget;
 	}
 
-	inline std::shared_ptr < GameEngineRenderTarget> GetCameraDeferredGBufferRenderTarget()
+	inline std::shared_ptr<GameEngineRenderTarget> GetCameraDeferredGBufferRenderTarget()
 	{
 		return CameraDeferredGBufferRenderTarget;
+	}
+
+	inline std::shared_ptr<GameEngineRenderTarget> GetCameraDeferredLightRenderTarget()
+	{
+		return CameraDeferredLightRenderTarget;
 	}
 
 	void SetCameraOrder(CAMERAORDER _Order);
@@ -106,6 +111,11 @@ public:
 		return Size;
 	}
 
+	inline std::shared_ptr<class GameEngineRenderTarget> GetCurTarget()
+	{
+		return CurTarget;
+	}
+
 	GameEngineInstancing& GetInstancing(const std::string& _Name);
 	float4 GetWorldPositionToScreenPosition(const float4& _Pos);
 	void PushLight(std::shared_ptr<class GameEngineLight> _Light);
@@ -128,11 +138,17 @@ private:
 
 	void OverRenderer(std::shared_ptr < GameEngineCamera> _NextOver);
 
+	std::shared_ptr<class GameEngineRenderTarget> CurTarget;
+
 	std::shared_ptr<GameEngineRenderTarget> CameraRenderTarget;
 
 	std::shared_ptr<GameEngineRenderTarget> CameraForwardRenderTarget;
 
-	std::shared_ptr<GameEngineRenderTarget> CameraDeferredGBufferRenderTarget;
+	std::shared_ptr<GameEngineRenderUnit> LightUnit;
+
+	std::shared_ptr<class GameEngineRenderTarget> CameraDeferredGBufferRenderTarget;
+
+	std::shared_ptr<class GameEngineRenderTarget> CameraDeferredLightRenderTarget;
 
 	std::shared_ptr<GameEngineRenderTarget> CameraDeferredRenderTarget;
 

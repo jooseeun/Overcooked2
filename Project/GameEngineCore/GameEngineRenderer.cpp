@@ -23,6 +23,8 @@ GameEngineRenderUnit::GameEngineRenderUnit()
 	, Topology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 	, InputLayOut(nullptr)
 	, IsOn(true)
+	, Mesh(nullptr)
+	, RenderFunction(nullptr)
 {
 	SetMesh("rect");
 }
@@ -108,10 +110,10 @@ void GameEngineRenderUnit::PushCamera()
 		MsgBoxAssert("부모랜더러가 세팅되지 않은 상태에서 카메라에 들어가려고 했습니다.");
 	}
 
-	if (nullptr == Material)
-	{
-		MsgBoxAssert("메테리얼이 세팅되지 않은 상태에서 카메라에 들어가려고 했습니다.");
-	}
+	//if (nullptr == Material)
+	//{
+	//	MsgBoxAssert("메테리얼이 세팅되지 않은 상태에서 카메라에 들어가려고 했습니다.");
+	//}
 
 	GameEngineCamera* Camera = ParentRenderer->GetCamera();
 
@@ -183,6 +185,14 @@ void GameEngineRenderUnit::Render(float _DeltaTime)
 	if (false == IsOn)
 	{
 		return;
+	}
+
+	if (nullptr != RenderFunction)
+	{
+		if (false == RenderFunction(_DeltaTime))
+		{
+			return;
+		}
 	}
 
 	if (nullptr == Material)

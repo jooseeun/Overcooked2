@@ -6,13 +6,13 @@
 #include "GameEngineShaderResourcesHelper.h"
 #include "GameEngineMesh.h"
 
-struct RenderOption 
+struct RenderOption
 {
-    float DeltaTime = 0.0f;
-    float SumDeltaTime = 0.0f;
+	float DeltaTime = 0.0f;
+	float SumDeltaTime = 0.0f;
 	int IsAnimation = 0;
 	int dummy = 0;
-	float4 UV = {0, 0, 0};
+	float4 UV = { 0, 0, 0 };
 	float Random = 0.0f;
 };
 
@@ -36,19 +36,91 @@ struct PixelData
 	}
 };
 
+// 설명 :
+class GameEngineMaterial;
+class GameEngineShaderResourcesHelper;
+class GameEngineRenderer
+	: public GameEngineTransformComponent
+{
+	friend class GameEngineLevel;
+	friend class GameEngineCamera;
 
-// 랜더타겟이 세팅되어 있다면 이녀석으로 그릴수가 있다.
+public:
+	RenderOption RenderOptionInst;
+
+	// constrcuter destructer
+	GameEngineRenderer();
+	~GameEngineRenderer();
+
+	// delete Function
+	GameEngineRenderer(const GameEngineRenderer& _Other) = delete;
+	GameEngineRenderer(GameEngineRenderer&& _Other) noexcept = delete;
+	GameEngineRenderer& operator=(const GameEngineRenderer& _Other) = delete;
+	GameEngineRenderer& operator=(GameEngineRenderer&& _Other) noexcept = delete;
+
+	// float4x4 ViewPort;
+	void ChangeCamera(CAMERAORDER _Order);
+
+	inline int GetRenderingOrder()
+	{
+		return RenderingOrder;
+	}
+
+	void SetRenderingOrder(int _Order);
+
+	inline virtual void InstancingOn()
+	{
+		IsInstancing_ = true;
+	};
+
+	GameEngineCamera* GetCamera()
+	{
+		return Camera;
+	}
+
+	void PushRendererToMainCamera();
+
+	void PushRendererToUICamera();
+
+	PixelData& GetPixelData()
+	{
+		return PixelDataInst;
+	}
+
+protected:
+	virtual void Start();
+	virtual void Update(float _DeltaTime) {}
+	virtual void End() {}
+
+	class GameEngineCamera* Camera;
+	std::vector<std::shared_ptr<GameEngineRenderUnit>> Units;
+
+	PixelData PixelDataInst;
+
+
+private:
+	CAMERAORDER CameraOrder;
+	int RenderingOrder;
+	bool IsInstancing_;
+
+	virtual void Render(float _DeltaTime) = 0;
+
+};
 
 class GameEngineRenderUnit : public std::enable_shared_from_this<GameEngineRenderUnit>
 {
 public:
 	GameEngineRenderUnit();
-
 	GameEngineRenderUnit(const GameEngineRenderUnit& _Render);
 
 	inline bool GetIsOn()
 	{
-		return IsOn;
+		return IsOn && ParentRenderer->IsUpdate();
+	}
+
+	inline bool IsDeath()
+	{
+		return ParentRenderer->IsDeath();
 	}
 
 	inline void On()
@@ -78,9 +150,9 @@ public:
 
 	void Render(float _DeltaTime);
 
-	void RenderInstancing(float _DeltaTime, size_t _RanderingCount, std::shared_ptr<GameEngineInstancingBuffer> _Buffer);
-
 	void SetRenderer(std::shared_ptr < GameEngineRenderer> _Renderer);
+
+	void RenderInstancing(float _DeltaTime, size_t _RanderingCount, std::shared_ptr<GameEngineInstancingBuffer> _Buffer);
 
 	std::shared_ptr<GameEngineMesh> GetMesh();
 
@@ -92,83 +164,15 @@ public:
 
 	GameEngineShaderResourcesHelper ShaderResources;
 
+	std::function<bool(float)> RenderFunction;
+
 private:
 	bool IsOn;
+
 	GameEngineRenderer* ParentRenderer;
 	std::shared_ptr<GameEngineMesh> Mesh; // 이 메쉬를
 	std::shared_ptr<GameEngineMaterial> Material; // 이 설정으로
-	std::shared_ptr<GameEngineInputLayOut> InputLayOut;
+	std::shared_ptr<GameEngineInputLayOut> InputLayOut; // 인풋어셈블러1 세팅
 	D3D11_PRIMITIVE_TOPOLOGY Topology;// 이렇게 그린다.
-};
-
-// 설명 :
-class GameEngineMaterial;
-class GameEngineShaderResourcesHelper;
-class GameEngineRenderer 
-	: public GameEngineTransformComponent
-{
-	friend class GameEngineLevel;
-	friend class GameEngineCamera;
-
-public:
-	RenderOption RenderOptionInst;
-
-	// constrcuter destructer
-	GameEngineRenderer();
-	~GameEngineRenderer();
-
-	// delete Function
-	GameEngineRenderer(const GameEngineRenderer& _Other) = delete;
-	GameEngineRenderer(GameEngineRenderer&& _Other) noexcept = delete;
-	GameEngineRenderer& operator=(const GameEngineRenderer& _Other) = delete;
-	GameEngineRenderer& operator=(GameEngineRenderer&& _Other) noexcept = delete;
-
-	// float4x4 ViewPort;
-	void ChangeCamera(CAMERAORDER _Order);
-
-    inline int GetRenderingOrder() 
-    {
-        return RenderingOrder;
-    }
-
-    void SetRenderingOrder(int _Order);
-
-	inline virtual void InstancingOn()
-	{
-		IsInstancing_ = true;
-	};
-
-	GameEngineCamera* GetCamera()
-	{
-		return Camera;
-	}
-
-	void PushRendererToMainCamera();
-
-	void PushRendererToUICamera();
-
-	PixelData& GetPixelData()
-	{
-		return PixelDataInst;
-	}
-	
-protected:
-	virtual void Start();
-	virtual void Update(float _DeltaTime) {}
-	virtual void End() {}
-
-	class GameEngineCamera* Camera;
-	std::vector<std::shared_ptr<GameEngineRenderUnit>> Units;
-
-	PixelData PixelDataInst;
-
-
-private:
-	CAMERAORDER CameraOrder;
-    int RenderingOrder;
-	bool IsInstancing_;
-
-	virtual void Render(float _DeltaTime) = 0;
 
 };
-

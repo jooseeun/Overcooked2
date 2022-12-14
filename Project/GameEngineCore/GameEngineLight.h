@@ -5,7 +5,13 @@ class GameEngineLight;
 struct LightData
 {
 	friend GameEngineLight;
+
 	float4 LightColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
+	float4 AmbientLight = float4(0.1f, 0.1f, 0.1f, 1.0f);
+	float DifLightPower = 1.0f;
+	float SpcLightPower = 1.0f;
+	float AmbLightPower = 1.0f;
+	float SpcPow = 50.0f;
 
 private:
 	float4 LightPos;
@@ -15,6 +21,8 @@ private:
 	float4 ViewLightPos;
 	float4 ViewLightDir;
 	float4 ViewLightRevDir;
+
+	float4 CameraPosition;
 };
 
 struct LightDatas

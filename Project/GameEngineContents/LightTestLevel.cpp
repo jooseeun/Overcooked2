@@ -1,7 +1,14 @@
 #include "PreCompile.h"
 #include "LightTestLevel.h"
-#include <GameEngineCore/GameEngineLight.h>
+
+#include <GameEngineCore/GameEngineCameraActor.h>
+#include <GameEngineCore/GameEngineInstancing.h>
+#include <GameEngineBase/GameEngineInput.h>
 #include "GameEngineStatusWindow.h"
+#include <GameEngineCore/GameEngineLight.h>
+
+#include <GameEngineCore/GameEngineBlur.h>
+#include "GamePacket.h"
 
 LightTestLevel::LightTestLevel()
 {
@@ -14,17 +21,15 @@ LightTestLevel::~LightTestLevel()
 void LightTestLevel::Start()
 {
 	GetMainCamera()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
+	GetMainCamera()->GetCameraRenderTarget()->AddEffect<GameEngineBlur>();
 
-	LightObject = CreateActor<GameEngineLight>();
-	LightObject->GetTransform().SetWorldRotation({ 0.0f, 45.0f, 0.0f });
-	GetMainCamera()->PushLight(LightObject);
-
-	GameEngineStatusWindow::AddDebugRenderTarget("GBuffer", GetMainCamera()->GetCameraDeferredGBufferRenderTarget());
+	GameEngineStatusWindow::AddDebugRenderTarget("GBuffer", GetMainCamera()->GetCameraDeferredLightRenderTarget());
 
 	{
-		std::shared_ptr<GameEngineLight> Light = CreateActor<GameEngineLight>();
-		// Light->GetTransform().SetWorldRotation({0.0f, 90.0f, 0.0f});
-		GetMainCamera()->PushLight(Light);
+		LightObject = CreateActor<GameEngineLight>();
+		LightObject->GetTransform().SetWorldRotation({ 0.0f, 45.0f, 0.0f });
+		GetMainCamera()->PushLight(LightObject);
+		LightObject->GetLightData().DifLightPower = 0.5f;
 	}
 
 	if (false == GameEngineInput::GetInst()->IsKey("FreeCameaOnOff"))
@@ -35,10 +40,16 @@ void LightTestLevel::Start()
 	if (false == GameEngineInput::GetInst()->IsKey("LightYRot"))
 	{
 		GameEngineInput::GetInst()->CreateKey("LightYRot", 'F');
+		GameEngineInput::GetInst()->CreateKey("LightPowUp", VK_NUMPAD1);
+		GameEngineInput::GetInst()->CreateKey("LightPowDown", VK_NUMPAD2);
 	}
 }
 
-void LightTestLevel::Update(float _Delat)
+void LightTestLevel::LevelStartEvent()
+{
+}
+
+void LightTestLevel::Update(float _DeltaTime)
 {
 	if (GameEngineInput::GetInst()->IsDownKey("FreeCameaOnOff"))
 	{
@@ -49,9 +60,14 @@ void LightTestLevel::Update(float _Delat)
 	{
 		LightObject->GetTransform().SetAddWorldRotation(float4(0.0f, 1.0f, 0.0f));
 	}
-}
 
-void LightTestLevel::LevelStartEvent()
-{
-	//std::shared_ptr<Player> MainPlayer = CreateActor<Player>(OBJECTORDER::Player);
+	if (GameEngineInput::GetInst()->IsPressKey("LightPowUp"))
+	{
+		LightObject->GetLightData().SpcPow += _DeltaTime * 10.0f;
+	}
+
+	if (GameEngineInput::GetInst()->IsPressKey("LightPowDown"))
+	{
+		LightObject->GetLightData().SpcPow -= _DeltaTime * 10.0f;
+	}
 }
