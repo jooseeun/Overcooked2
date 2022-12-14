@@ -50,11 +50,7 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 			return;
 		}
 		//설거지상호작용
-		//else if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Sink, CollisionType::CT_OBB,
-		//	std::bind(&Player::EnterCannon, this, std::placeholders::_1, std::placeholders::_2)) == true)
-		//{
-		//	StateManager.ChangeState("DishWash");
-		//}
+
 		else
 		{
 			StateManager.ChangeState("HoldUp");
@@ -67,8 +63,17 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		if (CurrentHoldingObject_ == nullptr) // 손에 아무것도 없을때
 		{
-			Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
-				std::bind(&Player::TableSliceCheck, this, std::placeholders::_1, std::placeholders::_2)); // 도마 검사
+			if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Sink, CollisionType::CT_OBB) == true)
+			{
+				CurStateType_ = PlayerCurStateType::Sink;
+				StateManager.ChangeState("DishWash");
+			}
+			else
+			{
+				Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
+					std::bind(&Player::TableSliceCheck, this, std::placeholders::_1, std::placeholders::_2));
+			}
+
 		}
 	}
 }
@@ -332,13 +337,12 @@ void Player::DishWashStart(const StateInfo& _Info) // 설거지하는 도중 이동하면 �
 void Player::DishWashUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	ColCheckPlayer();
-	if (false == GameEngineInput::GetInst()->IsPressKey("PlayerLeft" + PNumString) &&
-		false == GameEngineInput::GetInst()->IsPressKey("PlayerRight" + PNumString) &&
-		false == GameEngineInput::GetInst()->IsPressKey("PlayerFront" + PNumString) &&
-		false == GameEngineInput::GetInst()->IsPressKey("PlayerBack" + PNumString))
+	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft" + PNumString) ||
+		true == GameEngineInput::GetInst()->IsPressKey("PlayerRight" + PNumString) ||
+		true == GameEngineInput::GetInst()->IsPressKey("PlayerFront" + PNumString) ||
+		true == GameEngineInput::GetInst()->IsPressKey("PlayerBack" + PNumString))
 	{
-
-		StateManager.ChangeState("Idle");
+		StateManager.ChangeState("Move");
 		return;
 	}
 

@@ -1187,6 +1187,7 @@ CollisionReturn Player::TableSliceCheck(std::shared_ptr<GameEngineCollision> _Th
 	return CollisionReturn::ContinueCheck;
 }
 
+
 CollisionReturn Player::InteractTableCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 {
 	if (_Other != TableCollision_)

@@ -41,6 +41,8 @@ enum class PlayerDir
 enum class PlayerCurStateType // 플레이어가 무슨상태인지
 {
 	Idle,
+	Sink,
+	Cannon,
 	HoldUp,
 	HoldDown,
 	Slice,
