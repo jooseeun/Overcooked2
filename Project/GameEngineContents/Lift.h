@@ -1,6 +1,13 @@
 #pragma once
 #include "GamePlayMapObject.h"
 
+enum class LIFTSTATE
+{
+	UP,
+	WAIT,
+	DOWN
+};
+
 // 설명 :
 class Lift : public GamePlayFloor
 {
@@ -15,11 +22,16 @@ public:
 	Lift& operator=(const Lift& _Other) = delete;
 	Lift& operator=(Lift&& _Other) noexcept = delete;
 
-protected:
+protected:    
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
 private:
+	float MoveTime_; //리프트 이동 간격 시간
+	float WaitingTime_; //리프트 고점까지 올라간 후 대기 시간
 
+	float Speed_;
+
+	LIFTSTATE LiftState_;
 };
 
