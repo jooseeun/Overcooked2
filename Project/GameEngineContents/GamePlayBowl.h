@@ -21,10 +21,13 @@ enum class NoneFoodType
 {
 	None,
 	Seaweed_Prawn,              // 새우 + 김 들어간 모든 재료
+	Seaweed_Prawn_Rice,
+	Seaweed_Prawn_Rice_Cucumber,
 	Prawn_Rice,					// 새우 + 밥
 	Prawn_Cucumber,				// 새우 + 오이
 	Prawn_Rice_Cucumber,		// 새우 + 밥 + 오이
-
+	Prawn_Rice_Cucumber_Fish,		// 새우 + 밥 + 오이 + 회
+	Prawn_Rice_Fish,
 
 	Seaweed_Cucumber,			// 김 + 오이
 	Seaweed_Fish,				// 김 + 회
@@ -61,8 +64,9 @@ enum class NoneFoodType
 
 struct CombinFood
 {
-	void Start(int _Index, std::shared_ptr<GameEngineUpdateObject> _Object)
+	void Start(int _Index, std::shared_ptr<GameEngineUpdateObject> _Object, const float4& _Pos = float4::ZERO)
 	{
+		RendererPos_ = _Pos;
 		Moveable_ = _Object->CastThis<GamePlayMoveable>();
 		for (size_t i = 0; i < _Index; i++)
 		{
@@ -74,6 +78,13 @@ struct CombinFood
 		{
 			Static_NoneType_[NoneFoodType::Seaweed_Prawn].push_back(IngredientType::Seaweed);
 			Static_NoneType_[NoneFoodType::Seaweed_Prawn].push_back(IngredientType::Prawn);
+			Static_NoneType_[NoneFoodType::Seaweed_Prawn_Rice].push_back(IngredientType::Seaweed);
+			Static_NoneType_[NoneFoodType::Seaweed_Prawn_Rice].push_back(IngredientType::Prawn);
+			Static_NoneType_[NoneFoodType::Seaweed_Prawn_Rice].push_back(IngredientType::Rice);
+			Static_NoneType_[NoneFoodType::Seaweed_Prawn_Rice_Cucumber].push_back(IngredientType::Prawn);
+			Static_NoneType_[NoneFoodType::Seaweed_Prawn_Rice_Cucumber].push_back(IngredientType::Rice);
+			Static_NoneType_[NoneFoodType::Seaweed_Prawn_Rice_Cucumber].push_back(IngredientType::Seaweed);
+			Static_NoneType_[NoneFoodType::Seaweed_Prawn_Rice_Cucumber].push_back(IngredientType::Cucumber);
 			Static_NoneType_[NoneFoodType::Prawn_Rice].push_back(IngredientType::Prawn);
 			Static_NoneType_[NoneFoodType::Prawn_Rice].push_back(IngredientType::Rice);
 			Static_NoneType_[NoneFoodType::Prawn_Cucumber].push_back(IngredientType::Cucumber);
@@ -81,10 +92,17 @@ struct CombinFood
 			Static_NoneType_[NoneFoodType::Prawn_Rice_Cucumber].push_back(IngredientType::Prawn);
 			Static_NoneType_[NoneFoodType::Prawn_Rice_Cucumber].push_back(IngredientType::Cucumber);
 			Static_NoneType_[NoneFoodType::Prawn_Rice_Cucumber].push_back(IngredientType::Rice);
+			Static_NoneType_[NoneFoodType::Prawn_Rice_Cucumber_Fish].push_back(IngredientType::Prawn);
+			Static_NoneType_[NoneFoodType::Prawn_Rice_Cucumber_Fish].push_back(IngredientType::Cucumber);
+			Static_NoneType_[NoneFoodType::Prawn_Rice_Cucumber_Fish].push_back(IngredientType::Rice);
+			Static_NoneType_[NoneFoodType::Prawn_Rice_Cucumber_Fish].push_back(IngredientType::Fish);
+			Static_NoneType_[NoneFoodType::Prawn_Rice_Fish].push_back(IngredientType::Prawn);
+			Static_NoneType_[NoneFoodType::Prawn_Rice_Fish].push_back(IngredientType::Rice);
+			Static_NoneType_[NoneFoodType::Prawn_Rice_Fish].push_back(IngredientType::Fish);
 			Static_NoneType_[NoneFoodType::Seaweed_Cucumber].push_back(IngredientType::Seaweed);
 			Static_NoneType_[NoneFoodType::Seaweed_Cucumber].push_back(IngredientType::Cucumber);
 			Static_NoneType_[NoneFoodType::Seaweed_Fish].push_back(IngredientType::Seaweed);
-			Static_NoneType_[NoneFoodType::Seaweed_Fish].push_back(IngredientType::Seaweed);
+			Static_NoneType_[NoneFoodType::Seaweed_Fish].push_back(IngredientType::Fish);
 			Static_NoneType_[NoneFoodType::Seaweed_Fish_Cucumber].push_back(IngredientType::Fish);
 			Static_NoneType_[NoneFoodType::Seaweed_Fish_Cucumber].push_back(IngredientType::Seaweed);
 			Static_NoneType_[NoneFoodType::Seaweed_Fish_Cucumber].push_back(IngredientType::Cucumber);
@@ -102,6 +120,7 @@ struct CombinFood
 			Static_NoneType_[NoneFoodType::Cucumber_Fish].push_back(IngredientType::Cucumber);
 			Static_NoneType_[NoneFoodType::Cucumber_Fish].push_back(IngredientType::Fish);
 			Static_NoneType_[NoneFoodType::Cucumber].push_back(IngredientType::Cucumber);
+
 			Static_NoneType_[NoneFoodType::Bread_Meat_Cheese_Lettuce].push_back(IngredientType::Bread);
 			Static_NoneType_[NoneFoodType::Bread_Meat_Cheese_Lettuce].push_back(IngredientType::Cheese);
 			Static_NoneType_[NoneFoodType::Bread_Meat_Cheese_Lettuce].push_back(IngredientType::Meat);
@@ -217,26 +236,168 @@ struct CombinFood
 		case FoodType::CarrotDumpling:
 			break;
 		default:
+			Renderer_->GetTransform().SetWorldScale({ 100,100,100 });
+			switch (GetNoneFoodClass())
 			{
+			case NoneFoodType::None:
+				break;
+			case NoneFoodType::Seaweed_Prawn:
+			case NoneFoodType::Seaweed_Prawn_Rice:
+			case NoneFoodType::Seaweed_Prawn_Rice_Cucumber:
+			{
+				Renderer_->SetFBXMesh("m_plated_sushi_wrong_01.FBX", "Texture");
+			}
+				break;
+			case NoneFoodType::Prawn_Rice:
+			case NoneFoodType::Prawn_Cucumber:
+			{
+				Renderer_->SetFBXMesh("m_plated_sushi_wrong_02.FBX", "Texture");
+			}
+				break;
+			case NoneFoodType::Prawn_Rice_Cucumber:
+			{
+				Renderer_->SetFBXMesh("m_plated_sushi_wrong_04.FBX", "Texture");
+			}
+				break;
+			case NoneFoodType::Prawn_Rice_Cucumber_Fish:
+			{
+				Renderer_->SetFBXMesh("m_plated_sushi_wrong_04.FBX", "Texture");
+			}
+			break;
+			case NoneFoodType::Prawn_Rice_Fish:
+			{
+				Renderer_->SetFBXMesh("m_plated_sushi_wrong_05.FBX", "Texture");
+			}
+			break;
+			case NoneFoodType::Seaweed_Cucumber:			
+				Renderer_->SetFBXMesh("m_plated_seaweed_cucumber_01.FBX", "Texture");
+				break;
+			case NoneFoodType::Seaweed_Fish:
+				Renderer_->SetFBXMesh("m_plated_seaweed_fish_01.FBX", "Texture");
+				break;
+			case NoneFoodType::Seaweed_Fish_Cucumber:
+				Renderer_->SetFBXMesh("m_plated_seaweed_fish_cucumber_01.FBX", "Texture");
+				break;
+			case NoneFoodType::Seaweed_Rice:
+				Renderer_->SetFBXMesh("m_plated_seaweed_rice_01.FBX", "Texture");
+				break;
+			case NoneFoodType::Seaweed:
+				Renderer_->SetFBXMesh("t_ingredients_seaweed_plated.FBX", "Texture");
+				Renderer_->GetTransform().SetWorldScale({ 1,1,1 });
+				break;
+			case NoneFoodType::Rice_Cucumber:
+				Renderer_->SetFBXMesh("m_plated_rice_cucumber_01.FBX", "Texture");
+				break;
+			case NoneFoodType::Rice_Fish:
+				Renderer_->SetFBXMesh("m_plated_rice_fish_01.FBX", "Texture");
+				break;
+			case NoneFoodType::Rice_Cucumber_Fish:
+				Renderer_->SetFBXMesh("m_plated_rice_fish_cucumber_01.FBX", "Texture");
+				break;
+			case NoneFoodType::Rice:
+				Renderer_->SetFBXMesh("t_ingredients_rice_plated.FBX", "Texture");
+				Renderer_->GetTransform().SetWorldScale({ 1,1,1 });
+				break;
+			case NoneFoodType::Cucumber_Fish:
+				break;
+			case NoneFoodType::Cucumber:
+				Renderer_->SetFBXMesh("m_plated_sushi_cucumber_01.FBX", "Texture");
+				Renderer_->GetTransform().SetWorldScale({ 1,1,1 });
+				break;
 
+
+			case NoneFoodType::Bread_Meat_Cheese_Lettuce:
+				break;
+			case NoneFoodType::Bread:
+				break;
+			case NoneFoodType::Meat_Cheese:
+				break;
+			case NoneFoodType::Meat_Lettuce:
+				break;
+			case NoneFoodType::Meat_Cheese_Lettuce:
+				break;
+			case NoneFoodType::Meat:
+				break;
+			case NoneFoodType::Lettuce_Cheese:
+				break;
+			case NoneFoodType::Lettuce_Tomato:
+				break;
+			case NoneFoodType::Lettuce:
+				break;
+			case NoneFoodType::Cheese:
+				break;
+			case NoneFoodType::Tomato:
+				break;
+			default:
+				break;
 			}
 			break;
 		}
+		Renderer_->GetTransform().SetLocalPosition(RendererPos_);
 	}
 
 	NoneFoodType GetNoneFoodClass()
 	{
+		for (std::pair<const NoneFoodType, std::vector<IngredientType>>& map : Static_NoneType_)
+		{
+			std::vector<IngredientType> Food_Current = Food_Current_;
+			bool IsThat = false;
+			int Index = 0;
+			if (Food_Current.size() != map.second.size())
+			{
+				continue;
+			}
 
+			for (auto vector : map.second)
+			{
+				IsThat = false;
+				for (size_t i = 0; i < Food_Current_.size(); i++)
+				{
+					if (Food_Current_[i] == IngredientType::None)
+					{
+						continue;
+					}
+					if (vector == Food_Current_[i])
+					{
+						Index++;
+						IsThat = true;
+						Food_Current[i] = IngredientType::None;
+						break;
+					}
+
+				}
+
+				if (IsThat == false)
+				{
+					break;
+				}
+
+			}
+
+			for (size_t i = 0; i < Food_Current.size(); i++)
+			{
+				if (Food_Current[i] != IngredientType::None)
+				{
+					continue;
+				}
+			}
+
+			if (Index == map.second.size() && IsThat == true)
+			{
+				return map.first;
+			}
+		}
+		return NoneFoodType::None;
 	}
 
 	FoodType GetFoodType()
 	{
 		const StageData& StageData_ = GlobalGameData::GetCurStageRef();
 		std::vector<IngredientType> Data;
-		std::vector<IngredientType> Food_Current = Food_Current_;
 		for (size_t i = 0; i < StageData_.StageRecipe.size(); i++)
 		{
 			Data = GlobalGameData::GetFoodData(StageData_.StageRecipe[i]).Ingredient;
+			std::vector<IngredientType> Food_Current = Food_Current_;
 			bool IsThat = false;
 			int Index = 0;
 			for (size_t j = 0; j < Data.size(); j++)
@@ -367,6 +528,7 @@ struct CombinFood
 	std::vector<std::weak_ptr<FoodThumbnail>> Food_Thumbnail_;
 	std::shared_ptr<GameEngineFBXStaticRenderer> Renderer_;
 	std::weak_ptr<GamePlayMoveable> Moveable_;
+	float4 RendererPos_;
 };
 
 class GamePlayBowl : public GamePlayEquipment

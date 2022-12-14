@@ -23,9 +23,9 @@ void Equipment_Plate::Start()
 	GetCollisionObject()->GetTransform().SetWorldPosition({ 0, -25, 0});
 	GetCollisionObject()->GetTransform().SetLocalScale({ 100, 25, 100 });
 
-	GetCombinFood()->Start(0, shared_from_this());
+	GetCombinFood()->Start(0, shared_from_this(), {0 , 15, 0});
 	GetCookingBar()->SetOver(false);
-	SetDirty();
+	//SetDirty();
 }
 
 void Equipment_Plate::SetDirty()
@@ -74,6 +74,14 @@ HoldDownEnum Equipment_Plate::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveabl
 				{
 					if (FoodData_.Ingredient[j] == Food.lock()->GetObjectFoodClass())
 					{
+						for (size_t i = 0; i < GetCombinFood()->Food_Current_.size(); i++)
+						{
+							if (GetCombinFood()->Food_Current_[i] == Food.lock()->GetObjectFoodClass())
+							{
+								return HoldDownEnum::Nothing;
+							}
+						}   // 중복 방지 함수
+
 						if (Food.lock()->GetPlatting())
 						{
 							GetCombinFood()->PushFood(Food.lock()->GetObjectFoodClass());

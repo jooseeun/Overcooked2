@@ -41,7 +41,7 @@ void Sink::Start()
 	GetCollisionObject()->GetTransform().SetWorldMove({ -60, 25, -10 });
 
 	Collision_Sink_ = CreateComponent<GameEngineCollision>();
-	Collision_Sink_->GetTransform().SetWorldScale(GetCollisionObject()->GetTransform().GetWorldScale());
+	Collision_Sink_->GetTransform().SetWorldScale(GetCollisionObject()->GetTransform().GetWorldScale() * 0.8f);
 	Collision_Sink_->ChangeOrder(CollisionOrder::Object_Sink);
 
 	SetStuff(GetLevel()->CreateActor<Tool_Sink>());

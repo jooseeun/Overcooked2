@@ -74,15 +74,8 @@ HoldDownEnum Equipment_Pot::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 	}
 	else
 	{
-		if (Rice_ != nullptr)
-		{
-			if ((*_Moveable) == nullptr)
-			{
-				Rice_->GetFBXMesh()->On();
-				(*_Moveable) = CastThis<GamePlayMoveable>();
-				return HoldDownEnum::HoldDown;
-			}
-		}
+		(*_Moveable) = CastThis<GamePlayMoveable>();
+		return HoldDownEnum::HoldDown;
 	}
 	return HoldDownEnum::Nothing;
 }

@@ -18,7 +18,7 @@ void Food_Ingredients_Rice::Start()
 
 	MeshName_ = "m_ingredients_rice_01.FBX";
 	GetFBXMesh()->SetFBXMesh(MeshName_, "Texture");
-	//GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
+	GetFBXMesh()->GetTransform().SetWorldScale({ 0.95f, 0.95f, 0.95f });
 
 	SetTrim();
 }
