@@ -90,6 +90,7 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const st
 				Unit[i][j] = std::make_shared<GameEngineRenderUnit>();
 			}
 		}
+		PixelDatas.resize(FBXMesh->GetRenderUnitCount());
 	}
 	
 	std::shared_ptr<GameEngineRenderUnit> RenderUnit = Unit[Index][_SubSetIndex];
@@ -109,6 +110,9 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const st
 			RenderUnit->ShaderResources.SetTexture("DiffuseTexture", MatData.DifTextureName);
 		}
 	}
+
+	RenderUnit->SetRenderer(std::dynamic_pointer_cast<GameEngineRenderer>(shared_from_this()));
+	RenderUnit->ShaderResources.SetConstantBufferLink("PixelData", &(PixelDatas[Index]), sizeof(PixelData));
 
 	return RenderUnit;
 }
