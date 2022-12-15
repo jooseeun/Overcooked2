@@ -56,6 +56,15 @@ void Tool_PlateReturn::Update(float Delta)
 		StartIter->second -= Delta;
 		if (StartIter->second < 0)
 		{
+			if (Tool_Sink::GetInst() != nullptr)
+			{
+				StartIter->first->SetDirty();
+			}
+			else
+			{
+				StartIter->first->SetClean();
+			}
+
 			if (GetCurrentMoveable() == nullptr)
 			{
 				SetMoveable(StartIter->first);

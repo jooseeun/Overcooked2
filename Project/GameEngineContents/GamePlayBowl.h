@@ -200,32 +200,39 @@ struct CombinFood
 			Renderer_->Off();
 		}
 		Renderer_ = Moveable_.lock()->CreateComponent<GameEngineFBXStaticRenderer>();
-
+		Renderer_->GetTransform().SetWorldScale({ 100,100,100 });
 		switch (GetFoodType())
 		{
 		case FoodType::CucumberSushi:
+			Renderer_->SetFBXMesh("m_recipe_sushi_03.FBX", "Texture");
 			break;
 		case FoodType::FishSushi:
+			Renderer_->SetFBXMesh("m_recipe_sushi_01 #133833.FBX", "Texture");
 			break;
 		case FoodType::FishandCucumberSushi:
+			Renderer_->SetFBXMesh("m_recipe_sushi_04.FBX", "Texture");
 			break;
 		case FoodType::FishSushimi:
 		{
 			Renderer_->SetFBXMesh("Sushi_Roll_Salmon.FBX", "Texture");
-			Renderer_->GetTransform().SetLocalRotation({ 0,-90,0 });
+			Renderer_->GetTransform().SetWorldScale({ 1,1,1 });
 		}
 			break;
 		case FoodType::PrawnSushimi:
 		{
 			Renderer_->SetFBXMesh("Prawn_Sushimi.FBX", "Texture");
-			Renderer_->GetTransform().SetLocalRotation({ 0,-90,0 });
+			Renderer_->GetTransform().SetWorldScale({ 1,1,1 });
+			//Renderer_->GetTransform().SetLocalRotation({ 0,-90,0 });
 		}
 			break;
 		case FoodType::PlainBurger:
+			Renderer_->SetFBXMesh("m_recipe_plainburger_01.FBX", "Texture");
 			break;
 		case FoodType::CheeseBurger:
+			Renderer_->SetFBXMesh("m_recipe_cheeseburger_01.FBX", "Texture");
 			break;
 		case FoodType::CheeseBurgerLettuceTomato:
+			Renderer_->SetFBXMesh("m_recipe_lettuce_tomato_burger_01.FBX", "Texture");
 			break;
 		case FoodType::PrawnDumpling:
 			break;
@@ -236,7 +243,6 @@ struct CombinFood
 		case FoodType::CarrotDumpling:
 			break;
 		default:
-			Renderer_->GetTransform().SetWorldScale({ 100,100,100 });
 			switch (GetNoneFoodClass())
 			{
 			case NoneFoodType::None:
