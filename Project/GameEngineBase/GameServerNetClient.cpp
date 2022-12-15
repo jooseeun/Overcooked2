@@ -80,10 +80,10 @@ void GameServerNetClient::RecvThreadFunction(GameEngineThread* _Thread)
 		memcpy_s(&PacketType, sizeof(int), Ser.GetDataPtr(), sizeof(int));
 		memcpy_s(&PacketSize, sizeof(int), Ser.GetDataPtr() + 4, sizeof(int));
 
-		if (PacketSize == 0)
-		{
-			continue;
-		}
+		//if (PacketSize == 0)
+		//{
+		//	continue;
+		//}
 
 		std::shared_ptr<GameServerPacket> Packet = Dis.PacketReturnCallBack(PacketType, PacketSize, Ser);
 		//GameEngineDebug::OutPutString("Recv Client : " + std::to_string(PacketType) + ", " + std::to_string(PacketSize) + ", " + std::to_string(Packet->GetMaster()));

@@ -116,10 +116,10 @@ void GameServerNetServer::UserFunction(GameEngineThread* Thread, SOCKET _Socket)
 		memcpy_s(&PacketSize, sizeof(int), Ser.GetDataPtr() + 4, sizeof(int));
 
 
-		if (PacketSize == 0)
-		{
-			continue;
-		}
+		//if (PacketSize == 0)
+		//{
+		//	continue;
+		//}
 
 		std::shared_ptr<GameServerPacket> Packet = Dis.PacketReturnCallBack(PacketType, PacketSize, Ser);
 

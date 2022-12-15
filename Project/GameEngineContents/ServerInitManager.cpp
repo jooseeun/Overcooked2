@@ -115,13 +115,13 @@ void ServerInitManager::StartInit()
 	};
 
 	Net->Dis.AddHandler(ContentsPacketType::ObjectUpdate, std::bind(&ServerInitManager::ObjectUpdatePacketProcess, this, std::placeholders::_1));
-	Net->Dis.AddHandler(ContentsPacketType::Ignore, std::bind(&ServerInitManager::Ignore, this, std::placeholders::_1));
+	//Net->Dis.AddHandler(ContentsPacketType::Ignore, std::bind(&ServerInitManager::Ignore, this, std::placeholders::_1));
 	Net->Dis.AddHandler(ContentsPacketType::None, std::bind(&ServerInitManager::Ignore, this, std::placeholders::_1));
 
 	if (true == Net->GetIsHost())
 	{
 		// 내가 서버일때만 등록해야하는 패킷
-		Net->Dis.AddHandler(ContentsPacketType::ClinetInit, std::bind(&ServerInitManager::Ignore, this, std::placeholders::_1));
+		//Net->Dis.AddHandler(ContentsPacketType::ClinetInit, std::bind(&ServerInitManager::Ignore, this, std::placeholders::_1));
 	}
 	else
 	{
