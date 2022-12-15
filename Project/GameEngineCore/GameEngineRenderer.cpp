@@ -44,14 +44,14 @@ GameEngineRenderUnit::GameEngineRenderUnit(const GameEngineRenderUnit& _Render)
 	ShaderResources.ResourcesCheck(Material);
 }
 
-void GameEngineRenderUnit::EngineShaderResourcesSetting(std::shared_ptr<GameEngineRenderer> _Renderer)
+void GameEngineRenderUnit::EngineShaderResourcesSetting(GameEngineRenderer* _Renderer)
 {
 	if (nullptr == _Renderer)
 	{
 		return;
 	}
 
-	ParentRenderer = _Renderer.get();
+	ParentRenderer = _Renderer;
 	
 	GameEngineCamera* Camera = ParentRenderer->GetCamera();
 	if (true == ShaderResources.IsConstantBuffer("LightDatas"))
@@ -141,11 +141,12 @@ void GameEngineRenderUnit::SetMaterial(const std::string& _Name)
 	}
 
 	ShaderResources.ResourcesCheck(Material);
+	EngineShaderResourcesSetting(ParentRenderer);
 }
 
-void GameEngineRenderUnit::SetRenderer(std::shared_ptr<GameEngineRenderer> _Renderer)
+void GameEngineRenderUnit::SetRenderer(GameEngineRenderer* _Renderer)
 {
-	ParentRenderer = _Renderer.get();
+	ParentRenderer = _Renderer;
 
 	EngineShaderResourcesSetting(_Renderer);
 }
@@ -287,4 +288,15 @@ void GameEngineRenderer::PushRendererToUICamera()
 void GameEngineRenderer::ChangeCamera(CAMERAORDER _Order)
 {
 	GetActor()->GetLevel()->PushRenderer(std::dynamic_pointer_cast<GameEngineRenderer>(shared_from_this()), _Order);
+}
+
+std::shared_ptr<GameEngineRenderUnit> GameEngineRenderer::CreateRenderUnit()
+{
+	std::shared_ptr<GameEngineRenderUnit> Unit = std::make_shared<GameEngineRenderUnit>();
+
+	Unit->SetRenderer(this);
+
+	Units.push_back(Unit);
+
+	return Unit;
 }

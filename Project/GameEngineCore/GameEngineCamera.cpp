@@ -258,7 +258,7 @@ void GameEngineCamera::PushRenderer(std::shared_ptr<GameEngineRenderer> _Rendere
 	AllRenderer_[_Renderer->RenderingOrder].push_back(_Renderer);
 }
 
-void GameEngineCamera::PushRenderUnit(std::shared_ptr < GameEngineRenderUnit> _RenderUnit)
+void GameEngineCamera::PushRenderUnit(std::shared_ptr<GameEngineRenderUnit> _RenderUnit)
 {
 	if (nullptr == _RenderUnit)
 	{
@@ -274,6 +274,8 @@ void GameEngineCamera::PushRenderUnit(std::shared_ptr < GameEngineRenderUnit> _R
 			Path = RENDERINGPATHORDER::DEFERRED;
 		}
 	}
+
+	_RenderUnit->SetPath(Path);
 
 	AllRenderUnit_[Path][_RenderUnit->GetRenderer()->RenderingOrder].push_back(_RenderUnit);
 }
@@ -433,9 +435,47 @@ void GameEngineCamera::OverRenderer(std::shared_ptr < GameEngineCamera> _NextCam
 		return;
 	}
 
+	// 렌더유닛 이동
+	for (size_t i = 0; i < static_cast<size_t>(RENDERINGPATHORDER::MAX); i++)
+	{
+		std::map<RENDERINGPATHORDER, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>::iterator ForwardIter
+			= AllRenderUnit_.find(static_cast<RENDERINGPATHORDER>(i));
+
+		std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& OrderMap = ForwardIter->second;
+		std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>::iterator OrderStartIter = OrderMap.begin();
+		std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>::iterator OrderEndIter = OrderMap.end();
+
+		for (std::pair<const int, std::list<std::shared_ptr<GameEngineRenderUnit>>>& Group : OrderMap)
+		{
+			std::list<std::shared_ptr<GameEngineRenderUnit>>& List = Group.second;
+			std::list<std::shared_ptr<GameEngineRenderUnit>>::iterator GroupStart = List.begin();
+			std::list<std::shared_ptr<GameEngineRenderUnit>>::iterator GroupEnd = List.end();
+
+			for (; GroupStart != GroupEnd; )
+			{
+				std::shared_ptr<GameEngineRenderUnit> Unit = (*GroupStart);
+				if (nullptr == Unit->GetRenderer())
+				{
+					MsgBoxAssert("랜더러가 존재하지 않는 유니트 입니다.");
+				}
+
+				std::shared_ptr<GameEngineActor> Root = Unit->GetRenderer()->GetRoot<GameEngineActor>();
+				if (true == Root->IsLevelOver)
+				{
+					_NextCamera->AllRenderUnit_[static_cast<RENDERINGPATHORDER>(i)][OrderStartIter->first].push_back(*GroupStart);
+					GroupStart = List.erase(GroupStart);
+				}
+				else
+				{
+					++GroupStart;
+				}
+			}
+		}
+	}
+
+	// 렌더러 이동
 	std::map<int, std::list<std::shared_ptr<GameEngineRenderer>>>::iterator StartGroupIter = AllRenderer_.begin();
 	std::map<int, std::list<std::shared_ptr<GameEngineRenderer>>>::iterator EndGroupIter = AllRenderer_.end();
-
 	for (; StartGroupIter != EndGroupIter; ++StartGroupIter)
 	{
 		std::list<std::shared_ptr<GameEngineRenderer>>& Group = StartGroupIter->second;
@@ -445,7 +485,6 @@ void GameEngineCamera::OverRenderer(std::shared_ptr < GameEngineCamera> _NextCam
 		for (; GroupStart != GroupEnd; )
 		{
 			std::shared_ptr<GameEngineActor> Root = (*GroupStart)->GetRoot<GameEngineActor>();
-
 			if (true == Root->IsLevelOver)
 			{
 				_NextCamera->AllRenderer_[StartGroupIter->first].push_back(*GroupStart);
@@ -455,7 +494,6 @@ void GameEngineCamera::OverRenderer(std::shared_ptr < GameEngineCamera> _NextCam
 			{
 				++GroupStart;
 			}
-
 		}
 	}
 }

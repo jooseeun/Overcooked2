@@ -87,7 +87,7 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const st
 			Unit[i].resize(Count);
 			for (size_t j = 0; j < Count; j++)
 			{
-				Unit[i][j] = std::make_shared<GameEngineRenderUnit>();
+				Unit[i][j] = CreateRenderUnit();
 			}
 		}
 		PixelDatas.resize(FBXMesh->GetRenderUnitCount());
@@ -95,7 +95,6 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const st
 	
 	std::shared_ptr<GameEngineRenderUnit> RenderUnit = Unit[Index][_SubSetIndex];
 	RenderUnit->SetMaterial(_Material);
-	RenderUnit->SetRenderer(std::dynamic_pointer_cast<GameEngineRenderer>(shared_from_this()));
 	RenderUnit->PushCamera();
 
 	std::shared_ptr <GameEngineMesh> FbxMesh = FBXMesh->GetGameEngineMesh(Index, _SubSetIndex);
@@ -111,7 +110,6 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const st
 		}
 	}
 
-	RenderUnit->SetRenderer(std::dynamic_pointer_cast<GameEngineRenderer>(shared_from_this()));
 	RenderUnit->ShaderResources.SetConstantBufferLink("PixelData", &(PixelDatas[Index]), sizeof(PixelData));
 
 	return RenderUnit;
@@ -141,8 +139,6 @@ void GameEngineFBXRenderer::ChangeLoadMaterial()
 					RenderUnit->ShaderResources.SetTexture("DiffuseTexture", MatData.DifTextureName);
 				}
 			}
-
-			RenderUnit->SetRenderer(std::dynamic_pointer_cast<GameEngineRenderer>(shared_from_this()));
 		}
 	}
 }
@@ -168,7 +164,6 @@ void GameEngineFBXRenderer::SetSubMaterial(int _Index, const std::string& _Mater
 			}
 		}
 
-		RenderUnit[i]->SetRenderer(std::dynamic_pointer_cast<GameEngineRenderer>(shared_from_this()));
 		RenderUnit[i]->ShaderResources.SetConstantBufferLink("PixelData", &(PixelDatas[_Index]), sizeof(PixelData));
 	}
 	

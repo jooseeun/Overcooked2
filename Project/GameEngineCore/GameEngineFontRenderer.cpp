@@ -36,9 +36,8 @@ void GameEngineFontRenderer::Start()
 
 	PushRendererToMainCamera();
 
-	FontUnit = std::make_shared<GameEngineRenderUnit>();
+	FontUnit = CreateRenderUnit();
 	FontUnit->RenderFunction = std::bind(&GameEngineFontRenderer::FontDraw, this, std::placeholders::_1);
-	FontUnit->SetRenderer(std::dynamic_pointer_cast<GameEngineRenderer>(shared_from_this()));
 	FontUnit->PushCamera();
 }
 
