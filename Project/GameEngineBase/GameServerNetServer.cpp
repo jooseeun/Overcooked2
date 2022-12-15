@@ -96,39 +96,62 @@ void GameServerNetServer::AcceptFunction(GameEngineThread* Thread)
 void GameServerNetServer::UserFunction(GameEngineThread* Thread, SOCKET _Socket)
 {
 	char Packet[1024] = { 0 };
+	std::vector<char> PacketVector;
 
 	while (true)
 	{
 		int Result = recv(_Socket, Packet, sizeof(Packet), 0);
 
+		//if (Result == 1024)
+		//{
+		//	MsgBoxAssert("최대치가 왔습니다.");
+		//}
+
 		if (-1 == Result)
 		{
-			// MsgBoxAssert("네트워크 에러");
+			MsgBoxAssert("네트워크 에러");
 			return;
 		}
 
-		GameServerSerializer Ser = GameServerSerializer(Packet, 1024);
+		size_t PrevSize = PacketVector.size();
 
-		int PacketType;
-		int PacketSize;
+		PacketVector.resize(PacketVector.size() + Result);
 
-		memcpy_s(&PacketType, sizeof(int), Ser.GetDataPtr(), sizeof(int));
-		memcpy_s(&PacketSize, sizeof(int), Ser.GetDataPtr() + 4, sizeof(int));
+		memcpy_s(&PacketVector[PrevSize], PacketVector.size() - PrevSize, Packet, Result);
 
+		while (true)
+		{
+			if (8 >= PacketVector.size())
+			{
+				break;
+			}
 
-		//if (PacketSize == 0)
-		//{
-		//	continue;
-		//}
+			int PacketType;
+			int PacketSize;
+			memcpy_s(&PacketType, sizeof(int), &PacketVector[0], sizeof(int));
+			memcpy_s(&PacketSize, sizeof(int), &PacketVector[4], sizeof(int));
 
-		std::shared_ptr<GameServerPacket> Packet = Dis.PacketReturnCallBack(PacketType, PacketSize, Ser);
+			if (PacketVector.size() < PacketSize)
+			{
+				break;
+			}
 
-		Packet->SetMaster(_Socket);
-		GameEngineDebug::OutPutString("Recv Server : " + std::to_string(PacketType) + ", " + std::to_string(PacketSize) + ", " + std::to_string(_Socket));
+			GameServerSerializer Ser = GameServerSerializer(&PacketVector[0], PacketSize);
 
-		Dis.ProcessPacket(Packet);
+			std::shared_ptr<GameServerPacket> Packet = Dis.PacketReturnCallBack(PacketType, PacketSize, Ser);
+			Packet->SetMaster(_Socket);
+			Dis.ProcessPacket(Packet);
+
+			if (PacketVector.size() > PacketSize)
+			{
+				memcpy_s(&PacketVector[0], PacketVector.size(), &PacketVector[PacketSize], PacketVector.size() - PacketSize);
+			}
+
+			PacketVector.resize(PacketVector.size() - PacketSize);
+		}
 	}
 }
+
 
 int GameServerNetServer::SendPacket(std::shared_ptr<GameServerPacket> _Packet)
 {
