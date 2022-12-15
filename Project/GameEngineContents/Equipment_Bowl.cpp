@@ -15,7 +15,7 @@ void Equipment_Bowl::Start()
 	GamePlayBowl::SetToolInfoType(ToolInfo::Bowl);
 
 	GetFBXMesh()->SetFBXMesh("Bowl_Static.fbx", "Texture");
-	GetFBXMesh()->GetTransform().SetWorldScale({ 1, 1, 1 });
+	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 
 	//GetAnimationFBXMesh()->SetFBXMesh("m_cakemixer_Bowl_01.fbx", "TextureAnimation");
 	//GetAnimationFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });

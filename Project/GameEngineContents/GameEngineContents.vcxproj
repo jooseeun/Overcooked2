@@ -202,6 +202,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Food_Ingredients_Carrot.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Food_Ingredients_Cheese.h">
       <SubType>
       </SubType>
@@ -211,6 +215,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Food_Ingredients_Fish.h" />
+    <ClInclude Include="Food_Ingredients_Flour.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Food_Ingredients_Lettuce.h">
       <SubType>
       </SubType>
@@ -485,6 +493,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Food_Ingredients_Carrot.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Food_Ingredients_Cheese.cpp">
       <SubType>
       </SubType>
@@ -494,6 +506,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Food_Ingredients_Fish.cpp" />
+    <ClCompile Include="Food_Ingredients_Flour.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Food_Ingredients_Lettuce.cpp">
       <SubType>
       </SubType>

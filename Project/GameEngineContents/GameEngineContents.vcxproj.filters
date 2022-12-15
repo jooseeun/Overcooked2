@@ -308,6 +308,12 @@
     <ClInclude Include="GameScore.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="Food_Ingredients_Carrot.h">
+      <Filter>Contents\Object\Food</Filter>
+    </ClInclude>
+    <ClInclude Include="Food_Ingredients_Flour.h">
+      <Filter>Contents\Object\Food</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -616,6 +622,12 @@
     </ClCompile>
     <ClCompile Include="GameScore.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Food_Ingredients_Carrot.cpp">
+      <Filter>Contents\Object\Food</Filter>
+    </ClCompile>
+    <ClCompile Include="Food_Ingredients_Flour.cpp">
+      <Filter>Contents\Object\Food</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

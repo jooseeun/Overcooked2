@@ -69,10 +69,31 @@ void GamePlayFood::SetObjectFoodClass(IngredientType _Class)
 					{
 						SetCookingType(CookingType::Default);
 					}
+					return;
 				}
 				else
 				{
-					SetCookingType(CookingType::Default);
+					if (Data.CommonCookery[0] == ToolInfo::FryingPan)
+					{
+						SetCookingType(CookingType::Pried);
+					}
+					else if (Data.CommonCookery[0] == ToolInfo::Steamer)
+					{
+						SetCookingType(CookingType::Steam);
+					}
+					else if (Data.CommonCookery[0] == ToolInfo::Mixer)
+					{
+						SetCookingType(CookingType::Mixer);
+					}
+					else if (Data.CommonCookery[0] == ToolInfo::Pot)
+					{
+						SetCookingType(CookingType::Boil);
+					}
+					else
+					{
+						SetCookingType(CookingType::Default);
+					}
+					return;
 				}
 			}
 		}
@@ -105,6 +126,7 @@ std::shared_ptr<GamePlayFood> GamePlayFood::GetIngredientClass(IngredientType _T
 		Moveable = (GEngine::GetCurrentLevel()->CreateActor<Food_Ingredients_Rice>());
 		break;
 	case IngredientType::Flour:
+		Moveable = (GEngine::GetCurrentLevel()->CreateActor<Food_Ingredients_Flour>());
 		break;
 	case IngredientType::Bread:
 		Moveable = (GEngine::GetCurrentLevel()->CreateActor<Food_Ingredients_Bread>());
@@ -126,6 +148,7 @@ std::shared_ptr<GamePlayFood> GamePlayFood::GetIngredientClass(IngredientType _T
 		Moveable = (GEngine::GetCurrentLevel()->CreateActor<Food_Ingredients_Cheese>());
 		break;
 	case IngredientType::Carrot:
+		Moveable = (GEngine::GetCurrentLevel()->CreateActor<Food_Ingredients_Carrot>());
 		break;
 	case IngredientType::Chocolate:
 		break;
@@ -180,4 +203,27 @@ HoldDownEnum GamePlayFood::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 	}
 
 	return HoldDownEnum::Nothing;
+}
+
+bool GamePlayFood::ReadMapFoodData(std::shared_ptr<GamePlayFood> _Food)
+{
+	const StageData& Data = GlobalGameData::GetCurStageRef();
+	FoodData FoodData_;
+
+	for (size_t i = 0; i < Data.StageRecipe.size(); i++)
+	{
+		FoodData_ = GlobalGameData::GetFoodData(Data.StageRecipe[i]);
+		for (size_t j = 0; j < FoodData_.Ingredient.size(); j++)
+		{
+			if (FoodData_.Ingredient[j] == _Food->GetObjectFoodClass())
+			{
+				if (_Food->GetPlatting())
+				{
+					return true;
+				}
+			}
+		}
+	}
+
+	return false;
 }

@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "Tool_Mixer.h"
+#include "Equipment_Bowl.h"
 
 Tool_Mixer::Tool_Mixer() 
 {
@@ -25,5 +26,7 @@ void Tool_Mixer::Start()
 
 	GetAnimationFBXMesh()->CreateFBXAnimation("Idle", GameEngineRenderingEvent("m_cakemixer_Body_01.fbx", 0.01f, true));
 	GetAnimationFBXMesh()->ChangeAnimation("Idle");
+
+	SetMoveable(GetLevel()->CreateActor<Equipment_Bowl>());
 }
 

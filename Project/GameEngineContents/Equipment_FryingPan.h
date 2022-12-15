@@ -18,5 +18,19 @@ public:
 protected:
 	void Start() override;
 private:
+	bool AutoTrim(float _DeltaTime, ObjectToolType _Tool) override;
+	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable) override;
+
+	std::shared_ptr<GamePlayFood> FryFood_;
+	inline void SetFryFood(std::shared_ptr<GamePlayFood> _Food)
+	{
+		FryFood_ = _Food;
+		if (FryFood_ != nullptr)
+		{
+			FryFood_->SetParent(shared_from_this());
+			FryFood_->GetTransform().SetLocalPosition({ 0,0,0 });
+			FryFood_->GetCollisionObject()->Off();
+		}
+	}
 };
 

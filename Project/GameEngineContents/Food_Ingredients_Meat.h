@@ -19,6 +19,9 @@ protected:
 	void Start() override;
 
 private:
-	void FinishTrimmingFirst() final;
+	void FinishTrimmingFirst() override;
+	
+	void TrimmingPlatting() override;
+	void TrimmingPried() override;
 };
 

@@ -24,7 +24,7 @@ void Food_Ingredients_Fish::Start()
 
 void Food_Ingredients_Fish::FinishTrimmingFirst()
 {	
-	Function_TrimmingType_();
+
 }
 
 void Food_Ingredients_Fish::TrimmingPlatting()

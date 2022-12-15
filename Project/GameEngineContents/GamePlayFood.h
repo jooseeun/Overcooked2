@@ -183,6 +183,7 @@ public:
 	}
 
 	static std::shared_ptr<GamePlayFood> GetIngredientClass(IngredientType _Type);
+	static bool ReadMapFoodData(std::shared_ptr<GamePlayFood> _Food);
 
 	inline const std::string& GetMeshName() const
 	{
@@ -264,6 +265,7 @@ private:
 
 	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable) override;
 
+	void FinishTrimmingFirst() override { Function_TrimmingType_(); }
 
 	virtual void TrimmingPlatting() {};
 	virtual void TrimmingPried() {};

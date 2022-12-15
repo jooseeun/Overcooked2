@@ -81,20 +81,20 @@ HoldDownEnum GamePlayTool::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 			{
 			case HoldDownEnum::Nothing:
 			{
-				std::shared_ptr<GamePlayMoveable> Moveable = (shared_from_this()->CastThis<GamePlayMoveable>());
-				switch ((*_Moveable)->PickUp(&Moveable))
-				{
-				case HoldDownEnum::HoldUp:
-					if (Moveable == nullptr)
-					{
-						ReSetCurrentMoveable();
-					}
-					return HoldDownEnum::HoldDown;
-					break;
-				case HoldDownEnum::Nothing:
-				default:
-					break;
-				}
+				//std::shared_ptr<GamePlayMoveable> Moveable = (shared_from_this()->CastThis<GamePlayMoveable>());
+				//switch ((*_Moveable)->PickUp(&Moveable))
+				//{
+				//case HoldDownEnum::HoldUp:
+				//	if (Moveable == nullptr)
+				//	{
+				//		ReSetCurrentMoveable();
+				//	}
+				//	return HoldDownEnum::HoldDown;
+				//	break;
+				//case HoldDownEnum::Nothing:
+				//default:
+				//	break;
+				//}
 			}
 				break;
 			case HoldDownEnum::HoldDown:

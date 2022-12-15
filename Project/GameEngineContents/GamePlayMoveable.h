@@ -90,12 +90,12 @@ protected:
 	{
 		Enum_HoldType_ = _Type;
 	}
+	bool TrimmingFirstTime_;
 
 
 private:
 	ObjectMoveableType Enum_ObjectMoveableType_;
 	float CookingGage_;
-	bool TrimmingFirstTime_;
 	PlayerHoldType Enum_HoldType_;
 	std::shared_ptr<CookingBar> CookingBar_;
 

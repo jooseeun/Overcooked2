@@ -37,8 +37,8 @@ bool GamePlayMoveable::Input_Manual(std::shared_ptr<Player> _Player, float _Delt
 		if (TrimmingFirstTime_ == false)
 		{
 			// 플레이어, UI에게 끝났다고 신호
-			FinishTrimmingFirst();
 			TrimmingFirstTime_ = true;
+			FinishTrimmingFirst();
 		}
 		else
 		{

@@ -9,5 +9,8 @@
 #include "Food_Ingredients_Seaweed.h"
 #include "Food_Ingredients_Cucumber.h"
 #include "Food_Ingredients_Rice.h"
+#include "Food_Ingredients_Carrot.h"
+#include "Food_Ingredients_Flour.h"
+
 //#include "Food_Ingredients_.h"
 //#include "Food_Ingredients_.h"
