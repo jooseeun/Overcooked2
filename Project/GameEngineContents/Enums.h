@@ -18,7 +18,7 @@ enum class CollisionOrder
 	Object_Sink,
 
 	// Collision 물리 충돌용
-	Lift,	
+	Lift,
 	Floor,// 바닥 콜리전
 	DeadZone,		// 플레이어가 닿으면 죽는 콜리전 ex) 물, 허공
 	Map_Object,
@@ -76,6 +76,7 @@ enum class ToolInfo
 	Bowl,
 	Steamer,
 	Mixer,
+	OvenPot,
 	Max
 };
 
@@ -93,7 +94,10 @@ enum class FoodType
 	PrawnDumpling,              // 새우 + 밀가루
 	SteamedFish,                // 물고기(찜)
 	MeatDumpling,               // 고기 + 밀가루
-	CarrotDumpling              // 당근 + 밀가루
+	CarrotDumpling,             // 당근 + 밀가루
+	StrawberryPancake,			// 밀가루 + 달걀 + 딸기
+	BlueberryPancake,			// 밀가루 + 달걀 + 블루베리
+	ChrismasPuddingOrange		// 밀가루 + 달걀 + 건조과일 + 오렌지
 };
 
 enum class IngredientType
@@ -126,7 +130,7 @@ enum class IngredientType
 	Orange,
 	DriedFruit,
 	Strawberry,
-	Blueberry,
+	Blueberry
 
 	//Cucumber, //오이
 };
