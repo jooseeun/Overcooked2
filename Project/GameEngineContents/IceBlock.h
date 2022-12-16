@@ -43,6 +43,7 @@ public:
 
 	void RotateIce(float _DeltaTime);
 
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -52,15 +53,12 @@ protected:
 private:
 	IceBlockType IceBlockType_;
 	float4 MoveDir_;
+	float4 MaxAngle_;
 
 	float RandomX_;
 	float RandomY_;
-	float Angle_;
-	float MaxAngle_;
-	float AngleDir_;
 
 	bool IsMovable_;
 	bool IsDirChange_;
-	bool IsLeft_;
 };
 

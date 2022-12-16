@@ -131,7 +131,7 @@ void FoodBox::SetFoodType(IngredientType _Type)
 	case IngredientType::Orange:
 		Renderer_->SetTexture("t_sk_crate_lid_images_dlc03.png", 1);
 		break;
-	case IngredientType::Nuts:
+	case IngredientType::DriedFruit:
 		Renderer_->SetTexture("t_sk_crate_lid_images_dlc03.png", 0);
 		break;
 	case IngredientType::Strawberry:
