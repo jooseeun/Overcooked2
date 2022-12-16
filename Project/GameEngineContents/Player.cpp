@@ -1204,6 +1204,17 @@ CollisionReturn Player::TableSliceCheck(std::shared_ptr<GameEngineCollision> _Th
 	return CollisionReturn::ContinueCheck;
 }
 
+CollisionReturn Player::TableSinkCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
+{
+	CurStateType_ = PlayerCurStateType::DishWash;
+	if (SetPlayerState_Return::Using ==
+		_Other->GetParent()->CastThis<GamePlayStaticObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_))
+	{
+		StateManager.ChangeState("DishWash");
+	}
+
+	return CollisionReturn::ContinueCheck;
+}
 
 CollisionReturn Player::InteractTableCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 {
