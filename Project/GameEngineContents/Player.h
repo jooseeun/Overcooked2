@@ -176,7 +176,7 @@ public:
 	}
 
 private:
-
+	bool PlayerMoveCollisionCheck(std::shared_ptr<GameEngineCollision> _Col);
 	void DetachPlayerHoldingToGround();
 	void CustomKeyCheck();
 
@@ -188,8 +188,6 @@ private:
 
 
 	//충돌함수
-	CollisionReturn GravityColCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
-	CollisionReturn MoveColCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 
 	CollisionReturn TableHoldUpCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 	CollisionReturn GroundHoldUpCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);

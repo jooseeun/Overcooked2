@@ -101,9 +101,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (MoveAngle() == true)
 	{
 		// 플레이어 벽 출돌 체크
-		if (PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == false &&
-			PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
-				std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false
+		if (PlayerMoveCollisionCheck(PlayerForwardCollision_) == true
 			&& PlayerCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Character, CollisionType::CT_OBB,
 				std::bind(&GamePlayPhysics::PullPlayer, this, std::placeholders::_1, std::placeholders::_2))==false)
 		{
@@ -118,9 +116,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	else
 	{
-		if (PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == false &&
-			PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
-				std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false
+		if (PlayerMoveCollisionCheck(PlayerForwardCollision_) == true
 			&& PlayerCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Character, CollisionType::CT_OBB,
 				std::bind(&GamePlayPhysics::PullPlayer, this, std::placeholders::_1, std::placeholders::_2)) == false)
 		{
@@ -238,9 +234,7 @@ void Player::HoldUpUpdate(float _DeltaTime, const StateInfo& _Info)
 		if (MoveAngle() == true)
 		{
 			// 플레이어 벽 출돌 체크
-			if (PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == false &&
-				PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
-					std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false
+			if (PlayerMoveCollisionCheck(PlayerForwardCollision_) == true
 				&& PlayerCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Character, CollisionType::CT_OBB,
 					std::bind(&GamePlayPhysics::PullPlayer, this, std::placeholders::_1, std::placeholders::_2)) == false)
 			{
@@ -255,9 +249,7 @@ void Player::HoldUpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 		else
 		{
-			if (PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == false &&
-				PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
-					std::bind(&Player::MoveColCheck, this, std::placeholders::_1, std::placeholders::_2)) == false
+			if (PlayerMoveCollisionCheck(PlayerForwardCollision_) == true
 				&& PlayerCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Character, CollisionType::CT_OBB,
 					std::bind(&GamePlayPhysics::PullPlayer, this, std::placeholders::_1, std::placeholders::_2)) == false)
 			{
@@ -332,6 +324,12 @@ void Player::DishWashStart(const StateInfo& _Info) // 설거지하는 도중 이동하면 �
 }
 void Player::DishWashUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Sink, CollisionType::CT_OBB,
+		std::bind(&Player::TableSinkCheck, this, std::placeholders::_1, std::placeholders::_2));
+
+	Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Sink, CollisionType::CT_OBB,
+		std::bind(&Player::InteractTableCheck, this, std::placeholders::_1, std::placeholders::_2));
+
 	ColCheckPlayer();
 	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft" + PNumString) ||
 		true == GameEngineInput::GetInst()->IsPressKey("PlayerRight" + PNumString) ||

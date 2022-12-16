@@ -19,6 +19,12 @@ void Lift::Start()
 
 	GetCollisionObject()->GetTransform().SetLocalPosition({ GetTransform().GetWorldPosition()});
 	GetCollisionObject()->ChangeOrder(CollisionOrder::Lift);
+
+	
+	std::shared_ptr<GameEngineCollision> PlusCol = CreateComponent<GameEngineCollision>();
+	PlusCol->GetTransform().SetLocalScale({ 307.00,194.00,100.00 });
+	PlusCol->GetTransform().SetLocalPosition( GetTransform().GetWorldPosition() - float4{0,0,-100 });
+	PlusCol->ChangeOrder(CollisionOrder::Map_Object);
 }
 
 void Lift::Update(float _DeltaTime)
