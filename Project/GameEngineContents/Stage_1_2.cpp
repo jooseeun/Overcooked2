@@ -74,8 +74,11 @@ void Stage_1_2::PlayLevelStartEvent()
 	GlobalIOManager::Load(IOType::UnsortMap, 1);
 	DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
 
-	std::shared_ptr<Player> MainPlayer = CreateActor<Player>();
-	MainPlayer->GetTransform().SetLocalPosition({ -1500, 500, 0 });
+	std::shared_ptr<Player> MainPlayer_ = CreateActor<Player>();
+	MainPlayer_->GetTransform().SetLocalPosition({ -1500, 500, -500 });
+	MainPlayer_->SetResponePos({ -1500, 500, -500 });
+	MainPlayer_->SetCurFrontDir();
+
 
 	std::shared_ptr<Bird_Flying> Pigeon_ = CreateActor<Bird_Flying>();
 	Pigeon_->GetTransform().SetLocalPosition({ -700, 800, -500 });

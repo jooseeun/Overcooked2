@@ -94,7 +94,7 @@ void Player::Start()
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "WalkHolding",
 			GameEngineRenderingEvent(PlayerName_[i] + "_WalkHolding.FBX", 0.035f, true));
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "CarDeath",
-			GameEngineRenderingEvent(PlayerName_[i] + "_CarDeath.FBX", 0.035f, true));
+			GameEngineRenderingEvent(PlayerName_[i] + "_CarDeath.FBX", 0.035f, false));
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Death",
 			GameEngineRenderingEvent(PlayerName_[i] + "_Death.FBX", 0.035f, true));
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Drowning",
@@ -288,6 +288,11 @@ void Player::Start()
 		, std::bind(&Player::DrowningUpdate, this, std::placeholders::_1, std::placeholders::_2)
 		, std::bind(&Player::DrowningStart, this, std::placeholders::_1)
 	);
+	StateManager.CreateStateMember("CarDeath"
+		, std::bind(&Player::CarDeathUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::CarDeathStart, this, std::placeholders::_1)
+	);
+
 	StateManager.ChangeState("Idle");
 	ChangePlayerColor();
 
@@ -489,6 +494,15 @@ void Player::Update(float _DeltaTime)
 			StateManager.ChangeState("Drowning");
 		}
 	}
+
+	if (PlayerCameraCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::MoveCar, CollisionType::CT_OBB) == true)
+	{
+		if (StateManager.GetCurStateStateName() != "CarDeath")
+		{
+			StateManager.ChangeState("CarDeath");
+		}
+	}
+
 	if (IsSingleMode == true)
 	{
 		std::shared_ptr<Player> MainPlayer2 = GetLevel()->CreateActor<Player>();

@@ -479,3 +479,31 @@ void Player::CannonFlyUpdate(float _DeltaTime, const StateInfo& _Info)
 	GetTransform().SetWorldMove(Vec * 700.0f * GameEngineTime::GetDeltaTime());
 
 }
+
+void Player::CarDeathStart(const StateInfo& _Info)
+{
+	IdleRendererON();
+	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "CarDeath");
+	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
+	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
+	PlayerIdleRenderer_[PlayerCustomNum]->GetCurAnim()->bOnceEnd = false;
+
+	DeathTime_ = 5.0f;
+}
+void Player::CarDeathUpdate(float _DeltaTime, const StateInfo& _Info)
+{
+	DeathTime_ -= 1.0f * _DeltaTime;
+	if (DeathTime_ < 3.0f)
+	{
+		PlayerIdleRenderer_[PlayerCustomNum]->Off();
+	}
+
+	if (DeathTime_ <= 0.0f)
+	{
+		CurrentHoldingDetach();
+		GetTransform().SetWorldPosition(ResponePos_);
+		PlayerIdleRenderer_[PlayerCustomNum]->On();
+		StateManager.ChangeState("Idle");
+
+	}
+}

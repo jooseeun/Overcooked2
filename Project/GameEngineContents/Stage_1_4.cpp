@@ -74,8 +74,9 @@ void Stage_1_4::PlayLevelStartEvent()
 	GetMainCameraActorTransform().SetLocalRotation({ 60, 180, 0 });
 	GetMainCameraActorTransform().SetLocalPosition({ -1173  , 3300   , 2500 });
 
-	std::shared_ptr<Player> MainPlayer = CreateActor<Player>();
-	MainPlayer->GetTransform().SetLocalPosition({ -1000, 1000, 1000 });
+	std::shared_ptr<Player> MainPlayer_ = CreateActor<Player>();
+	MainPlayer_->GetTransform().SetLocalPosition({ -1000, 1000, 1000 });
+	MainPlayer_->SetCurFrontDir();
 
 	std::shared_ptr<GlobalOverlay> GlobalOverlay_ = GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalOverlay>();
 	GraphicWindow::Main_->SetOverlay(GlobalOverlay_);
@@ -89,30 +90,30 @@ void Stage_1_4::PlayLevelStartEvent()
 
 	std::shared_ptr<PortalCollision> Blue1 = CreateActor<PortalCollision>();
 	Blue1->SetPotalType(MapObjType::Portal_Blue);
-	Blue1->GetTransform().SetWorldPosition({ -370.00,1.00,310.00 });
+	Blue1->GetTransform().SetWorldPosition({ -370.00,1.00,250.00 });
 	std::shared_ptr<PortalCollision> Blue2 = CreateActor<PortalCollision>();
 	Blue2->SetPotalType(MapObjType::Portal_Blue);
-	Blue2->GetTransform().SetWorldPosition({ -963.00,180.00,289.00 });
+	Blue2->GetTransform().SetWorldPosition({ -963.00,180.00,229.00 });
 
 	std::shared_ptr<PortalCollision> Puple1 = CreateActor<PortalCollision>();
 	Puple1->SetPotalType(MapObjType::Portal_Blue);
-	Puple1->GetTransform().SetWorldPosition({ -1471.00,180.00,289.00 });
+	Puple1->GetTransform().SetWorldPosition({ -1471.00,180.00,229.00 });
 	std::shared_ptr<PortalCollision> Puple2 = CreateActor<PortalCollision>();
 	Puple2->SetPotalType(MapObjType::Portal_Blue);
 	Puple2->GetTransform().SetWorldPosition({ -2057.00,1.00,310.00 });
 
 
 	Blue1->SetNextPotal(Blue2);
-	Blue1->SetNextPos({ -963.00, 180.00, 289.00 });
+	Blue1->SetNextPos({ -963.00, 180.00, 229.00 });
 
 	Blue2->SetNextPotal(Blue1);
-	Blue2->SetNextPos({ -370.00,1.00,310.00 });
+	Blue2->SetNextPos({ -370.00,1.00,250.00 });
 
 	Puple1->SetNextPotal(Puple2);
-	Puple1->SetNextPos({ -2057.00,1.00,310.00 });
+	Puple1->SetNextPos({ -2057.00,1.00,250.00 });
 
 	Puple2->SetNextPotal(Puple1);
-	Puple2->SetNextPos({ -1471.00,180.00,289.00 });
+	Puple2->SetNextPos({ -1471.00,180.00,229.00 });
 
 	return;
 }

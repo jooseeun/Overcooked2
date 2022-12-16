@@ -97,8 +97,9 @@ void Stage_1_1::PlayLevelStartEvent()
 	MainWater->GetTransform().SetLocalPosition({ -1400, 500, 200 });
 	MainWater->GetTransform().SetWorldScale({ 800, 800, 800 });
 
-	std::shared_ptr<Player> MainPlayer = CreateActor<Player>();
-	MainPlayer->GetTransform().SetLocalPosition({ -1400, 500, 200 });
+	std::shared_ptr<Player> MainPlayer_ = CreateActor<Player>();
+	MainPlayer_->GetTransform().SetLocalPosition({ -1400, 500, 200 });
+	MainPlayer_->SetCurFrontDir();
 
 	std::shared_ptr<GlobalMouseInput> Mouse = CreateActor<GlobalMouseInput>();
 

@@ -73,8 +73,9 @@ void Stage_1_3::PlayLevelStartEvent()
 	GetMainCameraActorTransform().SetLocalRotation({ 60, 180, 0 });
 	GetMainCameraActorTransform().SetLocalPosition({ -2606 , 1950  , 1000 });
 
-	std::shared_ptr<Player> MainPlayer = CreateActor<Player>();
-	MainPlayer->GetTransform().SetLocalPosition({ -2006, 500, 0 });
+	std::shared_ptr<Player> MainPlayer_ = CreateActor<Player>();
+	MainPlayer_->GetTransform().SetLocalPosition({ -2006, 500, 0 });
+	MainPlayer_->SetCurFrontDir();
 
 	std::shared_ptr<GlobalOverlay> GlobalOverlay_ = GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalOverlay>();
 	GraphicWindow::Main_->SetOverlay(GlobalOverlay_);

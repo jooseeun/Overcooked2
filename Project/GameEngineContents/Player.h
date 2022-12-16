@@ -64,6 +64,9 @@ protected:
 	void CannonFlyStart(const StateInfo& _Info);
 	void CannonFlyUpdate(float _DeltaTime, const StateInfo& _Info);
 
+	void CarDeathStart(const StateInfo& _Info);
+	void CarDeathUpdate(float _DeltaTime, const StateInfo& _Info);
+
 	void DashCheck(float _DeltaTime);
 	void PlayerDirCheck();
 	bool MoveAngle();
