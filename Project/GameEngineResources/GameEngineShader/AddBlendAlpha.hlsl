@@ -27,7 +27,6 @@ Output AddBlendAlpha_VS(Input _Input)
 
 cbuffer PixelData : register(b0)
 {
-
     float4 MulColor;
     float4 PlusColor;
     float4 Slice;
@@ -47,7 +46,16 @@ float4 AddBlendAlpha_PS(Output _Input) : SV_Target0
     {
         clip(-1);
     }
-    
-    Result.a = 0.25f;
+
+    if (true == AlphaFlag)
+    {
+        Result.a = 1.0f;
+    }
+
+    else
+    {
+        Result.a = 0.25f;
+    }
+
     return Result;
 }
