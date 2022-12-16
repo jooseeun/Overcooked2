@@ -119,18 +119,32 @@ void GameEngineLevel::ActorLevelEndEvent()
 
 void GameEngineLevel::PushRenderer(std::shared_ptr<GameEngineRenderer> _Renderer, int _CameraOrder)
 {
-	// 기존 자신이 있던 자리에서 지우고
-
 	std::shared_ptr<GameEngineCamera> PrevCamera = Cameras[static_cast<UINT>(_Renderer->CameraOrder)];
 
 	PrevCamera->AllRenderer_[_Renderer->GetRenderingOrder()].remove(_Renderer);
 
+	std::list<std::shared_ptr<GameEngineRenderUnit>>& Units = _Renderer->GetUnits();
+
+	for (std::shared_ptr<GameEngineRenderUnit> Unit : Units)
+	{
+		std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& Group = PrevCamera->AllRenderUnit_[Unit->GetPath()];
+		int Order = _Renderer->RenderingOrder;
+		std::list<std::shared_ptr<class GameEngineRenderUnit>>& List = Group[Order];
+		List.remove(Unit);
+	}
+
 	_Renderer->CameraOrder = static_cast<CAMERAORDER>(_CameraOrder);
 
 	std::shared_ptr<GameEngineCamera> NextCamera = Cameras[_CameraOrder];
-	// 다른 카메라로 들어갈수도 있습니다.
-	Cameras[_CameraOrder]->PushRenderer(_Renderer);
-	_Renderer->Camera = NextCamera;
+
+	NextCamera->PushRenderer(_Renderer);
+
+	for (std::shared_ptr<GameEngineRenderUnit> Unit : Units)
+	{
+		NextCamera->PushRenderUnit(Unit);
+	}
+
+	_Renderer->Camera = NextCamera.get();
 }
 
 void GameEngineLevel::PushCamera(std::shared_ptr<GameEngineCamera> _Camera, int _CameraOrder)

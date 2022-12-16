@@ -21,9 +21,9 @@ void TestPortal::Start()
 	Test_->GetTransform().SetLocalScale({ 100,100,100 });
 	Test_->GetTransform().SetWorldPosition({-5000, -900, 0});
 
-	std::vector<std::vector<GameEngineRenderUnit>> Unit_ = Test_ ->GetAllRenderUnit();
+	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>> Unit_ = Test_->GetAllRenderUnit();
 
-	Unit_[0][0].GetCloneMaterial()->SetOutputMergerBlend("AddBlend");
+	Unit_[0][0]->GetCloneMaterial()->SetOutputMergerBlend("AddBlend");
 
 	//Test_->SetFBXMesh("ms_pfx_Teleport_1.FBX");
 

@@ -27,7 +27,7 @@ public:
 
 protected:
 	std::shared_ptr<GameEngineRenderTarget> CopyTarget;
-	GameEngineRenderUnit EffectSet;
+	std::shared_ptr<GameEngineRenderUnit> EffectSet;
 
 	OverlayColorData OverlayColorData_;
 

@@ -104,13 +104,13 @@ void FBXRendererAnimation::Update(float _DeltaTime)
 
 	float CurChangeTimer = 1 - ParentRenderer->IsChangeTimer_ * 5.0f;
 
-	std::vector<std::vector<GameEngineRenderUnit>>& Units = ParentRenderer->GetAllRenderUnit();
+	std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>>& Units = ParentRenderer->GetAllRenderUnit();
 
 	for (size_t UnitSetIndex = 0; UnitSetIndex < Units.size(); ++UnitSetIndex)
 	{
 		for (size_t RenderUnitIndex = 0; RenderUnitIndex < Units[UnitSetIndex].size(); ++RenderUnitIndex)
 		{
-			GameEngineRenderUnit& Render = Units[UnitSetIndex][RenderUnitIndex];
+			std::shared_ptr<GameEngineRenderUnit>& Render = Units[UnitSetIndex][RenderUnitIndex];
 
 			std::map<size_t, std::vector<float4x4>>::iterator MatrixIter = ParentRenderer->AnimationBoneMatrixs.find(UnitSetIndex);
 
@@ -200,7 +200,7 @@ void GameEngineFBXAnimationRenderer::SetFBXMesh(const std::string& _Name, const 
 	GameEngineFBXRenderer::SetFBXMesh(_Name, _Material);
 }
 
-GameEngineRenderUnit* GameEngineFBXAnimationRenderer::SetFBXMesh(const std::string& _Name, std::string _Material, size_t _MeshIndex, size_t _SubSetIndex /*= 0*/)
+std::shared_ptr<GameEngineRenderUnit> GameEngineFBXAnimationRenderer::SetFBXMesh(const std::string& _Name, std::string _Material, size_t _MeshIndex, size_t _SubSetIndex /*= 0*/)
 {
 	std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Find(_Material);
 
@@ -236,8 +236,7 @@ GameEngineRenderUnit* GameEngineFBXAnimationRenderer::SetFBXMesh(const std::stri
 
 	FindFBXMesh->GetMeshInfosCount();
 
-	// 텍스처 세팅은 부모님이 맡아서 처리해주고
-	GameEngineRenderUnit* Unit = GameEngineFBXRenderer::SetFBXMesh(_Name, _Material, _MeshIndex, _SubSetIndex);
+	std::shared_ptr<GameEngineRenderUnit> Unit = GameEngineFBXRenderer::SetFBXMesh(_Name, _Material, _MeshIndex, _SubSetIndex);
 
 	if (nullptr == Unit)
 	{

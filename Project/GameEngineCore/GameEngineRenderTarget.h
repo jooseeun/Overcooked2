@@ -78,7 +78,7 @@ public:
 
 	void SettingDepthTexture(std::shared_ptr<GameEngineTexture> _Texture);
 
-	void Clear();
+	void Clear(bool _IsDepthClear = true);
 
 	void Setting();
 
@@ -91,13 +91,13 @@ public:
 
 	std::shared_ptr < GameEngineTexture> GetRenderTargetTexture(size_t _Index);
 
-	void Copy(std::shared_ptr < GameEngineRenderTarget> _Other, int _Index = 0);
+	void Copy(std::shared_ptr<GameEngineRenderTarget> _Other, int _Index = 0);
 
-	void Merge(std::shared_ptr < GameEngineRenderTarget> _Other, int _Index = 0);
+	void Merge(std::shared_ptr<GameEngineRenderTarget> _Other, int _Index = 0);
 	
 	// void Effect(GameEngineMaterial* _Other, GameEngineShaderResourcesHelper* _ShaderResourcesHelper);
 
-	void Effect(class GameEngineRenderUnit& _RenderSet);
+	void Effect(std::shared_ptr<GameEngineRenderUnit> _RenderSet);
 
 	void EffectProcess();
 
@@ -108,14 +108,9 @@ protected:
 	std::vector<ID3D11ShaderResourceView*> ShaderResourceViews;
 	std::vector<float4> ClearColors;
 
-	// std::vector<ID3D11RenderTargetView*> RenderTargetViews;
-
 	ID3D11DepthStencilView* DepthStencilView;
 
-	GameEngineRenderUnit MergeUnit;
-
-	//GameEngineShaderResourcesHelper MergeShaderResourcesHelper;
-	//GameEngineMaterial* MergePipeLine;
+	std::shared_ptr<GameEngineRenderUnit> MergeUnit;
 
 	std::shared_ptr<GameEngineTexture> DepthTexture;
 
