@@ -193,7 +193,7 @@ Type:FoodBox_Winter;
 Pos:-1460.00,0.00,-745.00;
 Rot:0.00,270.00,0.00;
 Scale:1.00,1.00,1.00;
-Index:19.00,0.00,0.00;
+Index:27.00,0.00,0.00;
 }
 
 { 
@@ -216,7 +216,7 @@ Index:9.00,0.00,0.00;
 
 { 
 Name:;
-Type:CounterMixer_Winter;
+Type:Mixer_Winter;
 Pos:-850.00,0.00,-501.00;
 Rot:0.00,-90.00,0.00;
 Scale:1.00,1.00,1.00;
@@ -225,7 +225,7 @@ Index:0.00,0.00,0.00;
 
 { 
 Name:;
-Type:CounterMixer_Winter;
+Type:Mixer_Winter;
 Pos:-1094.00,0.00,-501.00;
 Rot:0.00,-90.00,0.00;
 Scale:1.00,1.00,1.00;
@@ -234,7 +234,7 @@ Index:0.00,0.00,0.00;
 
 { 
 Name:;
-Type:CounterMixer_Winter;
+Type:Mixer_Winter;
 Pos:-1338.00,0.00,-501.00;
 Rot:0.00,-90.00,0.00;
 Scale:1.00,1.00,1.00;
@@ -310,7 +310,7 @@ Type:Cooker;
 Pos:-2216.00,0.00,-508.00;
 Rot:0.00,0.00,0.00;
 Scale:1.00,1.00,1.00;
-Index:0.00,3.00,1.00;
+Index:0.00,0.00,1.00;
 }
 
 { 
@@ -337,6 +337,6 @@ Type:Cooker;
 Pos:-2582.00,0.00,-508.00;
 Rot:0.00,0.00,0.00;
 Scale:1.00,1.00,1.00;
-Index:0.00,3.00,1.00;
+Index:0.00,0.00,1.00;
 }
 

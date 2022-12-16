@@ -23,7 +23,7 @@
 #include "Tool_CuttingBoard.h"
 #include "Equipment_Bowl.h"
 #include "Equipment_Steamer.h"
-#include "Tool_Mixer.h"
+#include "Mixer.h"
 
 #include "Npc.h"
 #include "Car.h"
@@ -311,26 +311,26 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 			Object.lock()->SetStaticObjectType(MapObjType::CounterTop_Winter);
 		}
 		break;
-		case MapObjType::CounterMixer_Kevin:
+		case MapObjType::Mixer_Kevin:
 		{
-			CurActor_ = _Level->CreateActor<CounterTop>();
-			std::weak_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurActor_.lock());
+			CurActor_ = _Level->CreateActor<Mixer>();
+			std::weak_ptr<Mixer> Object = std::dynamic_pointer_cast<Mixer>(CurActor_.lock());
 
-			Object.lock()->SetCounterTopType(CounterTopType::Mixer_Kevin);
-			Object.lock()->SetConterTopMesh(CounterTopType::Mixer_Kevin);
+			Object.lock()->SetMixerType(MixerType::Mixer_Kevin);
+			Object.lock()->SetMixerMesh(MixerType::Mixer_Kevin);
 
-			Object.lock()->SetStaticObjectType(MapObjType::CounterMixer_Kevin);
+			Object.lock()->SetStaticObjectType(MapObjType::Mixer_Kevin);
 		}
 		break;
-		case MapObjType::CounterMixer_Winter:
+		case MapObjType::Mixer_Winter:
 		{
-			CurActor_ = _Level->CreateActor<CounterTop>();
-			std::weak_ptr<CounterTop> Object = std::dynamic_pointer_cast<CounterTop>(CurActor_.lock());
+			CurActor_ = _Level->CreateActor<Mixer>();
+			std::weak_ptr<Mixer> Object = std::dynamic_pointer_cast<Mixer>(CurActor_.lock());
 
-			Object.lock()->SetCounterTopType(CounterTopType::Mixer_Winter);
-			Object.lock()->SetConterTopMesh(CounterTopType::Mixer_Winter);
+			Object.lock()->SetMixerType(MixerType::Mixer_Winter);
+			Object.lock()->SetMixerMesh(MixerType::Mixer_Winter);
 
-			Object.lock()->SetStaticObjectType(MapObjType::CounterMixer_Winter);
+			Object.lock()->SetStaticObjectType(MapObjType::Mixer_Winter);
 		}
 		break;
 		case MapObjType::Cooker:

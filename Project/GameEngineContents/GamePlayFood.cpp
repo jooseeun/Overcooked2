@@ -150,7 +150,7 @@ std::shared_ptr<GamePlayFood> GamePlayFood::GetIngredientClass(IngredientType _T
 	case IngredientType::Carrot:
 		Moveable = (GEngine::GetCurrentLevel()->CreateActor<Food_Ingredients_Carrot>());
 		break;
-	case IngredientType::Chocolate:
+	case IngredientType::Blueberry:
 		break;
 	case IngredientType::Honey:
 		break;

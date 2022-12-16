@@ -401,7 +401,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Tool_Mixer.h">
+    <ClInclude Include="Mixer.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -700,7 +700,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Tool_Mixer.cpp">
+    <ClCompile Include="Mixer.cpp">
       <SubType>
       </SubType>
     </ClCompile>

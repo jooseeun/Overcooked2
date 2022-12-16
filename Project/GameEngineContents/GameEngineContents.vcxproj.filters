@@ -233,9 +233,6 @@
     <ClInclude Include="Stage_2_1.h">
       <Filter>Level\Stage</Filter>
     </ClInclude>
-    <ClInclude Include="Tool_Mixer.h">
-      <Filter>Contents\Object\Tool</Filter>
-    </ClInclude>
     <ClInclude Include="GamePlayPhysics.h">
       <Filter>Contents\Physics</Filter>
     </ClInclude>
@@ -313,6 +310,9 @@
     </ClInclude>
     <ClInclude Include="Food_Ingredients_Flour.h">
       <Filter>Contents\Object\Food</Filter>
+    </ClInclude>
+    <ClInclude Include="Mixer.h">
+      <Filter>Contents\Object\StaticMesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -548,9 +548,6 @@
     <ClCompile Include="Recipe.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="Tool_Mixer.cpp">
-      <Filter>Contents\Object\Tool</Filter>
-    </ClCompile>
     <ClCompile Include="GamePlayPhysics.cpp">
       <Filter>Contents\Physics</Filter>
     </ClCompile>
@@ -628,6 +625,9 @@
     </ClCompile>
     <ClCompile Include="Food_Ingredients_Flour.cpp">
       <Filter>Contents\Object\Food</Filter>
+    </ClCompile>
+    <ClCompile Include="Mixer.cpp">
+      <Filter>Contents\Object\StaticMesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
