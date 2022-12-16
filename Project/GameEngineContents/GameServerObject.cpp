@@ -41,25 +41,25 @@ void GameServerObject::ClientInit(ServerObjectType _Type, int _ID)
 
 void GameServerObject::PushPacket(std::shared_ptr<GameServerPacket> _Packet)
 {
-	//std::lock_guard<std::mutex> LockInst(Lock_);
+	std::lock_guard L(PacketLock);
 	PacketList.push_back(_Packet);
 }
 
 bool GameServerObject::IsPacketEmpty()
 {
-	//std::lock_guard<std::mutex> LockInst(Lock_);
+	std::lock_guard L(PacketLock);
 	bool Check = PacketList.empty();
 	return Check;
 }
 
 std::shared_ptr<GameServerPacket> GameServerObject::PopPacket()
 {
-	//std::lock_guard<std::mutex> LockInst(Lock_);
 	if (PacketList.empty())
 	{
 		return nullptr;
 	}
 
+	std::lock_guard L(PacketLock);
 	std::shared_ptr<GameServerPacket> Packet = PacketList.front();
 	PacketList.pop_front();
 	return Packet;

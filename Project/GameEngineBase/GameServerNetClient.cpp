@@ -61,33 +61,55 @@ int GameServerNetClient::SendPacket(std::shared_ptr<GameServerPacket> _Packet)
 void GameServerNetClient::RecvThreadFunction(GameEngineThread* _Thread)
 {
 	char Packet[1024] = { 0 };
+	std::vector<char> PacketVector;
 
 	while (true)
 	{
 		int Result = recv(SessionSocket, Packet, sizeof(Packet), 0);
-
 		if (-1 == Result)
 		{
-			// MsgBoxAssert("네트워크 에러");
+			//MsgBoxAssert("네트워크 에러");
 			return;
 		}
 
-		GameServerSerializer Ser = GameServerSerializer(Packet, 1024);
+		size_t PrevSize = PacketVector.size();
 
-		int PacketType;
-		int PacketSize;
+		PacketVector.resize(PacketVector.size() + Result);
 
-		memcpy_s(&PacketType, sizeof(int), Ser.GetDataPtr(), sizeof(int));
-		memcpy_s(&PacketSize, sizeof(int), Ser.GetDataPtr() + 4, sizeof(int));
+		memcpy_s(&PacketVector[PrevSize], PacketVector.size() - PrevSize, Packet, Result);
 
-		//if (PacketSize == 0)
-		//{
-		//	continue;
-		//}
+		while (true)
+		{
+			if (8 >= PacketVector.size())
+			{
+				break;
+			}
 
-		std::shared_ptr<GameServerPacket> Packet = Dis.PacketReturnCallBack(PacketType, PacketSize, Ser);
-		GameEngineDebug::OutPutString("Recv Client : " + std::to_string(PacketType) + ", " + std::to_string(PacketSize) + ", " + std::to_string(Packet->GetMaster()));
+			int PacketType;
+			int PacketSize;
 
-		Dis.ProcessPacket(Packet);
+			memcpy_s(&PacketType, sizeof(int), &PacketVector[0], sizeof(int));
+			memcpy_s(&PacketSize, sizeof(int), &PacketVector[4], sizeof(int));
+
+			if (PacketVector.size() < PacketSize)
+			{
+				break;
+			}
+
+			GameServerSerializer Ser = GameServerSerializer(&PacketVector[0], PacketSize);
+
+			std::shared_ptr<GameServerPacket> Packet = Dis.PacketReturnCallBack(PacketType, PacketSize, Ser);
+
+			Packet->SetMaster(SessionSocket);
+
+			Dis.ProcessPacket(Packet);
+
+			if (PacketVector.size() > PacketSize)
+			{
+				memcpy_s(&PacketVector[0], PacketVector.size(), &PacketVector[PacketSize], PacketVector.size() - PacketSize);
+			}
+
+			PacketVector.resize(PacketVector.size() - PacketSize);
+		}
 	}
 }

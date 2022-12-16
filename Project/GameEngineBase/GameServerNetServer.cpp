@@ -102,14 +102,9 @@ void GameServerNetServer::UserFunction(GameEngineThread* Thread, SOCKET _Socket)
 	{
 		int Result = recv(_Socket, Packet, sizeof(Packet), 0);
 
-		//if (Result == 1024)
-		//{
-		//	MsgBoxAssert("최대치가 왔습니다.");
-		//}
-
 		if (-1 == Result)
 		{
-			MsgBoxAssert("네트워크 에러");
+			//MsgBoxAssert("네트워크 에러");
 			return;
 		}
 
