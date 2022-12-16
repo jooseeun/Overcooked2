@@ -391,7 +391,7 @@ void Player::DrowningUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 	if (DeathTime_ <= 0.0f)
 	{
-		CurrentHoldingDetach();
+		DetachPlayerHolding();
 		GetTransform().SetWorldPosition(ResponePos_);
 		StateManager.ChangeState("Idle");
 		
@@ -500,7 +500,7 @@ void Player::CarDeathUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (DeathTime_ <= 0.0f)
 	{
-		CurrentHoldingDetach();
+		DetachPlayerHolding();
 		GetTransform().SetWorldPosition(ResponePos_);
 		PlayerIdleRenderer_[PlayerCustomNum]->On();
 		StateManager.ChangeState("Idle");
