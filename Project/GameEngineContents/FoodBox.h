@@ -12,9 +12,10 @@ enum class FoodBoxType
 };
 
 //음식 스폰 박스
+class FoodBox;
 class Tool_FoodBox : public GamePlayTool
 {
-	friend class FoodBox;
+	friend FoodBox;
 public:
 	// constrcuter destructer
 	Tool_FoodBox();
@@ -30,7 +31,12 @@ protected:
 	void Start() override;
 
 private:
+	inline void SetFoodBox(std::shared_ptr<FoodBox> _Box)
+	{
+		Box_ = _Box;
+	}
 
+	std::weak_ptr<FoodBox> Box_;
 	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable) override;
 	IngredientType Type_;
 

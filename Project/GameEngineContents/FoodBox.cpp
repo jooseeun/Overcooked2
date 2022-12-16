@@ -167,7 +167,9 @@ void FoodBox::Start()
 	Renderer_->GetTransform().SetWorldScale({ 60, 60 });
 	Renderer_->GetTransform().PixLocalNegativeX();
 
-	SetStuff(GetLevel()->CreateActor<Tool_FoodBox>());
+	std::shared_ptr<Tool_FoodBox> FoodBoxTool = GetLevel()->CreateActor<Tool_FoodBox>();
+	SetStuff(FoodBoxTool);
+	FoodBoxTool->SetFoodBox(CastThis<FoodBox>());
 }
 
 void FoodBox::Update(float _DeltaTime)
@@ -224,6 +226,7 @@ HoldDownEnum Tool_FoodBox::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 	case HoldDownEnum::Nothing:
 	{
 		(*_Moveable) = GamePlayFood::GetIngredientClass(Type_);
+		Box_.lock()->SwitchIsInteraction();
 		return HoldDownEnum::HoldDown;
 	}
 		break;

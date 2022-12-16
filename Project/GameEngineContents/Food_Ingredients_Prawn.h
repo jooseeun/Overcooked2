@@ -22,7 +22,7 @@ protected:
 	void Start() override;
 
 private:
-	void FinishTrimmingFirst() override;
+	void TrimmingPlatting() override;
 
 };
 

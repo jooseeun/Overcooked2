@@ -20,7 +20,7 @@ void Food_Ingredients_Prawn::Start()
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 }
 
-void Food_Ingredients_Prawn::FinishTrimmingFirst()
+void Food_Ingredients_Prawn::TrimmingPlatting()
 {
 	SetTrim();
 	SetPlatting();
@@ -30,4 +30,3 @@ void Food_Ingredients_Prawn::FinishTrimmingFirst()
 	GetFBXMesh()->SetFBXMesh(MeshName_, "Texture");
 	GetFBXMesh()->GetTransform().SetLocalRotation({ 0,-90,0 });
 }
-

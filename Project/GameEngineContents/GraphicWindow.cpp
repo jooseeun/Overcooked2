@@ -25,7 +25,7 @@ ImVec4 GraphicWindow::OverlayColor_ = { 0.586f, 0.617f, 0.672f, 1.0f };
 
 bool GraphicWindow::OverlayOnOff_ = true;
 bool GraphicWindow::VignetteOnOff_ = true;
-bool GraphicWindow::BloomOnOff_ = true;
+bool GraphicWindow::BloomOnOff_ = false;
 
 GraphicWindow::GraphicWindow() 
 {

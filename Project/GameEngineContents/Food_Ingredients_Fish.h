@@ -19,7 +19,7 @@ protected:
 	void Start() override;
 
 private:
-	void FinishTrimmingFirst() final;
+	//void FinishTrimmingFirst() final;
 
 	void TrimmingPlatting() override;
 	void TrimmingSteam() override;

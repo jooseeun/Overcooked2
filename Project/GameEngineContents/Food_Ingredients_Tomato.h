@@ -19,7 +19,7 @@ protected:
 	void Start() override;
 	//void Update(float _DeltaTime)override;
 private:
-	void FinishTrimmingFirst() final;
+	void TrimmingPlatting() final;
 
 };
 

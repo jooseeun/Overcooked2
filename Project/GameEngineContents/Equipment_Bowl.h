@@ -20,6 +20,9 @@ protected:
 	void Update(float _DeltaTime) override;
 
 private:
+	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable) override;
+	bool AutoTrim(float _DeltaTime, ObjectToolType _Tool) override;
+	void FinishTrimmingFirst() final;
 
 };
 

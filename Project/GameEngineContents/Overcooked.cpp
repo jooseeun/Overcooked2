@@ -371,6 +371,8 @@ void Overcooked::InputMake()
 
 		//GameEngineInput::GetInst()->CreateKey("PlayerSlice", VK_CONTROL);
 	}
+
+	GameEngineInput::GetInst()->CreateKey("Contents_Debug", 'B');
 }
 
 void Overcooked::LoadStage(std::string_view _StageName)

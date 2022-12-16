@@ -19,9 +19,10 @@ void Food_Ingredients_Cheese::Start()
 	//GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 }
 
-void Food_Ingredients_Cheese::FinishTrimmingFirst()
+void Food_Ingredients_Cheese::TrimmingPlatting()
 {
 	SetTrim();
+	SetPlatting();
 
 	ChangeFBXMesh();
 	MeshName_ = "m_ingredients_cheese_sliced_01.FBX";

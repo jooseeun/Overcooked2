@@ -18,6 +18,8 @@ void Mixer::Start()
 	GetCollisionObject()->GetTransform().SetWorldScale({ 120, 50, 120 });
 	GetCollisionObject()->GetTransform().SetWorldMove({ 0, 25, 0 });
 
+
+	SetStuff(GetLevel()->CreateActor<Tool_Mixer>());
 }
 
 void Mixer::SetMixerMesh(MixerType _Type)
@@ -61,3 +63,13 @@ void Tool_Mixer::Start()
 	SetMoveable(GetLevel()->CreateActor<Equipment_Bowl>());
 }
 
+void Tool_Mixer::Update(float _DeltaTime)
+{
+	if (GetCurrentMoveable() != nullptr)
+	{
+		if (GetCurrentMoveable()->AutoTrim(_DeltaTime, GetObjectToolType()))
+		{
+			//불 붙히는 애니메이션
+		}
+	}
+}

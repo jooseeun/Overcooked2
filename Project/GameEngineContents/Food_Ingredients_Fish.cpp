@@ -22,11 +22,6 @@ void Food_Ingredients_Fish::Start()
 
 }
 
-void Food_Ingredients_Fish::FinishTrimmingFirst()
-{	
-
-}
-
 void Food_Ingredients_Fish::TrimmingPlatting()
 {
 	SetTrim();

@@ -19,9 +19,10 @@ void Food_Ingredients_Lettuce::Start()
 	//GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 }
 
-void Food_Ingredients_Lettuce::FinishTrimmingFirst()
+void Food_Ingredients_Lettuce::TrimmingPlatting()
 {
 	SetTrim();
+	SetPlatting();
 
 	ChangeFBXMesh();
 	MeshName_ = "m_ingredients_lettuce_sliced_01.FBX";

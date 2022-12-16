@@ -20,10 +20,6 @@ void Food_Ingredients_Cucumber::Start()
 
 }
 
-void Food_Ingredients_Cucumber::FinishTrimmingFirst()
-{
-	Function_TrimmingType_();
-}
 
 void Food_Ingredients_Cucumber::TrimmingPlatting()
 {

@@ -163,6 +163,7 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 		}
 	}
 		break;
+	case PlayerCurStateType::DishWash:
 	case PlayerCurStateType::Slice:
 	{
 		if (Stuff_Current_ == nullptr)
