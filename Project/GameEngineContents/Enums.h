@@ -123,6 +123,7 @@ enum class IngredientType
 	Orange,
 	Nuts,
 	Strawberry,
+	Blueberry,
 
 	//Cucumber, //ø¿¿Ã
 };

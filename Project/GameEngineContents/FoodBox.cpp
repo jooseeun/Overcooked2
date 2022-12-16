@@ -137,6 +137,9 @@ void FoodBox::SetFoodType(IngredientType _Type)
 	case IngredientType::Strawberry:
 		Renderer_->SetTexture("t_sk_crate_lid_images_dlc02.png", 2);
 		break;
+	case IngredientType::Blueberry:
+		Renderer_->SetTexture("t_sk_crate_lid_images_dlc08.png", 11);
+		break;
 	default:
 		break;
 	}

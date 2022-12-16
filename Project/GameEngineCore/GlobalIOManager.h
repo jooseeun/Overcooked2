@@ -16,8 +16,8 @@ enum class MapObjType
 	CounterTop_NoEdge,
 	CounterTop_WiZard,  //마법사 스테이지 전용 조리대
 	CounterTop_Winter,
-	CounterMixer_Kevin,
-	CounterMixer_Winter,
+	Mixer_Kevin,
+	Mixer_Winter,
 	Cooker,			//가스레인지
 	TrashCan,			//쓰레기통
 	Sink,				//싱크대

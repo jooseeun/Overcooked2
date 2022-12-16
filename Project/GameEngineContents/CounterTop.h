@@ -8,8 +8,6 @@ enum class CounterTopType
 	NoEdge,
 	Wizard,
 	Winter,
-	Mixer_Kevin,
-	Mixer_Winter,
 };
 
 // Á¶¸®´ë
