@@ -294,6 +294,12 @@ void EngineRenderingPipeLine()
 	}
 
 	{
+		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("CalDeferredMerge");
+		NewPipe->SetVertexShader("CalDeferredMerge.hlsl");
+		NewPipe->SetPixelShader("CalDeferredMerge.hlsl");
+	}
+
+	{
 		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("CalDeferredLight");
 		NewPipe->SetVertexShader("CalDeferredLight.hlsl");
 		NewPipe->SetPixelShader("CalDeferredLight.hlsl");

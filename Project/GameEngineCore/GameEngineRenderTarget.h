@@ -78,7 +78,7 @@ public:
 
 	void SettingDepthTexture(std::shared_ptr<GameEngineTexture> _Texture);
 
-	void Clear();
+	void Clear(bool _IsDepthClear = true);
 
 	void Setting();
 
