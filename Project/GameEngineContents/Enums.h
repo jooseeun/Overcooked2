@@ -121,7 +121,7 @@ enum class IngredientType
 	Prawn,
 	Cucumber, //ø¿¿Ã
 	Orange,
-	Nuts,
+	DriedFruit,
 	Strawberry,
 	Blueberry,
 

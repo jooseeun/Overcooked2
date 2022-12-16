@@ -11,6 +11,7 @@
 #include "GameEngineIndexBuffer.h"
 #include "GameEngineMesh.h"
 #include "GameEngineCamera.h"
+#include "GameEnginePixelShader.h"
 
 #include "GameEngineInputLayOut.h"
 
@@ -22,6 +23,9 @@ GameEngineRenderUnit::GameEngineRenderUnit()
 	, Topology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 	, InputLayOut(nullptr)
 	, IsOn(true)
+	, Mesh(nullptr)
+	, RenderFunction(nullptr)
+	, Path(RENDERINGPATHORDER::FORWARD)
 {
 	SetMesh("rect");
 }
@@ -41,7 +45,7 @@ GameEngineRenderUnit::GameEngineRenderUnit(const GameEngineRenderUnit& _Render)
 	ShaderResources.ResourcesCheck(Material);
 }
 
-void GameEngineRenderUnit::EngineShaderResourcesSetting(std::shared_ptr<GameEngineRenderer> _Renderer)
+void GameEngineRenderUnit::EngineShaderResourcesSetting(GameEngineRenderer* _Renderer)
 {
 	if (nullptr == _Renderer)
 	{
@@ -49,8 +53,8 @@ void GameEngineRenderUnit::EngineShaderResourcesSetting(std::shared_ptr<GameEngi
 	}
 
 	ParentRenderer = _Renderer;
-	
-	std::shared_ptr<GameEngineCamera> Camera = ParentRenderer.lock()->GetCamera();
+
+	GameEngineCamera* Camera = ParentRenderer->GetCamera();
 	if (true == ShaderResources.IsConstantBuffer("LightDatas"))
 	{
 		ShaderResources.SetConstantBufferLink("LightDatas", &Camera->LightDataObject, sizeof(LightDatas));
@@ -59,12 +63,12 @@ void GameEngineRenderUnit::EngineShaderResourcesSetting(std::shared_ptr<GameEngi
 	//// 랜더러 쪽으로 빠져야 한다.
 	if (true == ShaderResources.IsConstantBuffer("TRANSFORMDATA"))
 	{
-		ShaderResources.SetConstantBufferLink("TRANSFORMDATA", &ParentRenderer.lock()->GetTransformData(), sizeof(TransformData));
+		ShaderResources.SetConstantBufferLink("TRANSFORMDATA", &ParentRenderer->GetTransformData(), sizeof(TransformData));
 	}
 
 	if (true == ShaderResources.IsConstantBuffer("RENDEROPTION"))
 	{
-		ShaderResources.SetConstantBufferLink("RENDEROPTION", &ParentRenderer.lock()->RenderOptionInst, sizeof(RenderOption));
+		ShaderResources.SetConstantBufferLink("RENDEROPTION", &ParentRenderer->RenderOptionInst, sizeof(RenderOption));
 	}
 }
 
@@ -100,6 +104,28 @@ void GameEngineRenderUnit::SetMesh(std::shared_ptr<GameEngineMesh> _Mesh)
 	}
 }
 
+void GameEngineRenderUnit::PushCamera()
+{
+	if (nullptr == ParentRenderer)
+	{
+		MsgBoxAssert("부모랜더러가 세팅되지 않은 상태에서 카메라에 들어가려고 했습니다.");
+	}
+
+	//if (nullptr == Material)
+	//{
+	//	MsgBoxAssert("메테리얼이 세팅되지 않은 상태에서 카메라에 들어가려고 했습니다.");
+	//}
+
+	GameEngineCamera* Camera = ParentRenderer->GetCamera();
+
+	if (nullptr == Camera)
+	{
+		MsgBoxAssert("카메라가 세팅되지 않은 랜더러입니다.");
+	}
+
+	Camera->PushRenderUnit(shared_from_this());
+}
+
 void GameEngineRenderUnit::SetMaterial(const std::string& _Name)
 {
 	Material = GameEngineMaterial::Find(_Name);
@@ -116,13 +142,14 @@ void GameEngineRenderUnit::SetMaterial(const std::string& _Name)
 	}
 
 	ShaderResources.ResourcesCheck(Material);
+	EngineShaderResourcesSetting(ParentRenderer);
 }
 
-void GameEngineRenderUnit::SetRenderer(std::shared_ptr<GameEngineRenderer> _Renderer)
+void GameEngineRenderUnit::SetRenderer(GameEngineRenderer* _Renderer)
 {
 	ParentRenderer = _Renderer;
 
-	EngineShaderResourcesSetting(ParentRenderer.lock());
+	EngineShaderResourcesSetting(_Renderer);
 }
 
 std::shared_ptr<GameEngineMesh> GameEngineRenderUnit::GetMesh()
@@ -160,6 +187,14 @@ void GameEngineRenderUnit::Render(float _DeltaTime)
 	if (false == IsOn)
 	{
 		return;
+	}
+
+	if (nullptr != RenderFunction)
+	{
+		if (false == RenderFunction(_DeltaTime))
+		{
+			return;
+		}
 	}
 
 	if (nullptr == Material)
@@ -243,7 +278,7 @@ void GameEngineRenderer::PushRendererToMainCamera()
 
 void GameEngineRenderer::SetRenderingOrder(int _Order)
 {
-	Camera.lock()->ChangeRenderingOrder(std::dynamic_pointer_cast<GameEngineRenderer>(shared_from_this()), _Order);
+	Camera->ChangeRenderingOrder(std::dynamic_pointer_cast<GameEngineRenderer>(shared_from_this()), _Order);
 }
 
 void GameEngineRenderer::PushRendererToUICamera()
@@ -254,4 +289,15 @@ void GameEngineRenderer::PushRendererToUICamera()
 void GameEngineRenderer::ChangeCamera(CAMERAORDER _Order)
 {
 	GetActor()->GetLevel()->PushRenderer(std::dynamic_pointer_cast<GameEngineRenderer>(shared_from_this()), _Order);
+}
+
+std::shared_ptr<GameEngineRenderUnit> GameEngineRenderer::CreateRenderUnit()
+{
+	std::shared_ptr<GameEngineRenderUnit> Unit = std::make_shared<GameEngineRenderUnit>();
+
+	Unit->SetRenderer(this);
+
+	Units.push_back(Unit);
+
+	return Unit;
 }

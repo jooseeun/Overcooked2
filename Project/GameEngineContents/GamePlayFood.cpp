@@ -167,7 +167,7 @@ std::shared_ptr<GamePlayFood> GamePlayFood::GetIngredientClass(IngredientType _T
 		break;
 	case IngredientType::Orange:
 		break;
-	case IngredientType::Nuts:
+	case IngredientType::DriedFruit:
 		break;
 	case IngredientType::Strawberry:
 		break;

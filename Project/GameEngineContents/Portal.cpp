@@ -17,8 +17,8 @@ void Portal::SetPortalMesh(MapObjType _PortalType)
 	{
 		GetFBXMesh()->SetFBXMesh("Portal_Blue2.fbx", "Texture");
 		GetFBXMesh()->SetSubMaterial(2, "Swirl");
-		std::vector<std::vector<GameEngineRenderUnit>>& Unit = GetFBXMesh()->GetAllRenderUnit();
-		Unit[2][0].ShaderResources.SetTexture("Tex", "t_pfx_portal_d.png");
+		std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>>& Unit = GetFBXMesh()->GetAllRenderUnit();
+		Unit[2][0]->ShaderResources.SetTexture("Tex", "t_pfx_portal_d.png");
 		//BlendRenderer_->SetFBXMesh("Portal_Blue2.fbx", "Texture", 1);
 	}
 		break;
@@ -26,8 +26,8 @@ void Portal::SetPortalMesh(MapObjType _PortalType)
 	{
 		GetFBXMesh()->SetFBXMesh("Portal_Purple2.fbx", "Texture");
 		GetFBXMesh()->SetSubMaterial(2, "Swirl");
-		std::vector<std::vector<GameEngineRenderUnit>>& Unit = GetFBXMesh()->GetAllRenderUnit();
-		Unit[2][0].ShaderResources.SetTexture("Tex", "t_pfx_portal_2_d.png");
+		std::vector<std::vector<std::shared_ptr<GameEngineRenderUnit>>>& Unit = GetFBXMesh()->GetAllRenderUnit();
+		Unit[2][0]->ShaderResources.SetTexture("Tex", "t_pfx_portal_2_d.png");
 		//BlendRenderer_->SetFBXMesh("Portal_Purple2.fbx", "Texture", 1);
 	}
 		break;

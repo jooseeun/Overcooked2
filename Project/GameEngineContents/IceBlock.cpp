@@ -6,11 +6,7 @@ IceBlock::IceBlock()
 	, RandomX_(0.f)
 	, RandomY_(0.f)
 	, IsMovable_(true)
-	, Angle_(0.f)
-	, MaxAngle_(50.f)
-	, IsDirChange_(false)
-	, AngleDir_(20.f)
-	, IsLeft_(false)
+	, MaxAngle_(0.f)
 {
 }
 
@@ -47,6 +43,7 @@ void IceBlock::SetIceBlockMesh(IceBlockType _Type)
 		break;
 	case IceBlockType::Ice11:
 		Name = "p_dlc09_iceblock_02 (11)1.fbx";
+		GetFBXMesh()->GetTransform().SetWorldRotation({ 90, 0, 0 });
 		break;
 	default:
 		break;
@@ -66,7 +63,7 @@ void IceBlock::Start()
 
 void IceBlock::Update(float _DeltaTime)
 {
-	Move(_DeltaTime);
+	//Move(_DeltaTime);
 	RotateIce(_DeltaTime);
 }
 
@@ -89,21 +86,6 @@ void IceBlock::Move(float _DeltaTime)
 
 void IceBlock::RotateIce(float _DeltaTime)
 {
-	//// 최대 각도에 이르기 전
-	//if (MaxAngle_ >= Angle_ && false == IsDirChange_)
-	//{
-	//	IsDirChange_ = true;
-	//}
 
-	//// 최대 각도
-	//if (true == IsDirChange_)
-	//{
-	//	AngleDir_ *= -1;
-	//	MaxAngle_ *= -1;
-	//	IsDirChange_ = false;
-	//}
-
-	//Angle_ += AngleDir_ * _DeltaTime;
-	//GetTransform().SetAddWorldRotation(float4{ Angle_, 0.f, 0.f } *_DeltaTime);
 
 }
