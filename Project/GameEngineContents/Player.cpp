@@ -1138,6 +1138,10 @@ CollisionReturn Player::TableHoldUpCheck(std::shared_ptr<GameEngineCollision> _T
 }
 CollisionReturn Player::GroundHoldUpCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 { //바닥에 있는 오브젝트 집기
+	if (CurrentHoldingObject_ != nullptr)
+	{
+		return CollisionReturn::ContinueCheck;
+	}
 
 	SetPlayerHolding(_Other->GetActor());
 	IdleRendererON();
