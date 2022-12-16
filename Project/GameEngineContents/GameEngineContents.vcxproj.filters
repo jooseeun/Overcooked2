@@ -314,6 +314,9 @@
     <ClInclude Include="Mixer.h">
       <Filter>Contents\Object\StaticMesh</Filter>
     </ClInclude>
+    <ClInclude Include="MoveCar.h">
+      <Filter>Contents\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -628,6 +631,9 @@
     </ClCompile>
     <ClCompile Include="Mixer.cpp">
       <Filter>Contents\Object\StaticMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveCar.cpp">
+      <Filter>Contents\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

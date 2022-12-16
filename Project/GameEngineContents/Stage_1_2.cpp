@@ -2,6 +2,7 @@
 #include "Stage_1_2.h"
 #include "Player.h"
 #include "Bird_Flying.h"
+#include "MoveCar.h"
 
 #include "GraphicWindow.h"
 #include <GameEngineCore/GlobalVignette.h>
@@ -79,7 +80,7 @@ void Stage_1_2::PlayLevelStartEvent()
 	std::shared_ptr<Bird_Flying> Pigeon_ = CreateActor<Bird_Flying>();
 	Pigeon_->GetTransform().SetLocalPosition({ -700, 800, -500 });
 	Pigeon_->GetTransform().SetLocalRotation({0, 10, 0});
-	Pigeon_->GetTransform().PixLocalNegativeX();
+	Pigeon_->GetTransform().PixLocalNegativeX();	
 	Pigeon_->SetStartPosition(Pigeon_->GetTransform().GetLocalPosition());
 
 	std::shared_ptr<GlobalOverlay> GlobalOverlay_ = GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalOverlay>();
@@ -93,5 +94,25 @@ void Stage_1_2::PlayLevelStartEvent()
 
 	GetMainCameraActorTransform().SetLocalRotation({ 60, 180, 0 });
 	GetMainCameraActorTransform().SetLocalPosition({ -2509, 2500 , 950 });
+
+	{
+		std::shared_ptr<MoveCar> Car = CreateActor<MoveCar>();
+		Car->GetTransform().SetWorldPosition({-2900.f, 0.f, 1000.f});
+		Car->SetStartPos(Car->GetTransform().GetWorldPosition());
+		Car->SetEndPos({ -2500.f, 0.f, -3000.f });
+		Car->SetStartTime(20.f);
+		Car->SetCarMesh("Car_Green.fbx");
+	}
+
+	{
+		std::shared_ptr<MoveCar> Car = CreateActor<MoveCar>();
+		Car->GetTransform().SetWorldPosition({ -2500.f, 0.f, -3000.f });
+		Car->SetStartPos(Car->GetTransform().GetWorldPosition());
+		Car->GetTransform().SetWorldRotation({0.f, 180.f, 0.f});
+		Car->SetEndPos({ -2900.f, 0.f, 1000.f });
+		Car->SetStartTime(25.f);
+		Car->SetCarMesh("Car_Blue.fbx");
+	}
+	
 	return;
 }

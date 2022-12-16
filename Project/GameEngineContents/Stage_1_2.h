@@ -1,6 +1,7 @@
 #pragma once
 #include "GamePlayLevel.h"
 
+class DownCar;
 class Stage_1_2 : public GamePlayLevel
 {
 public:

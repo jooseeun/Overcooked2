@@ -339,6 +339,10 @@
     <ClInclude Include="MeshSelectWindow.h" />
     <ClInclude Include="MeshToolLevel.h" />
     <ClInclude Include="MouseInputWindow.h" />
+    <ClInclude Include="MoveCar.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Npc.h">
       <SubType>
       </SubType>
@@ -630,6 +634,10 @@
     <ClCompile Include="MeshSelectWindow.cpp" />
     <ClCompile Include="MeshToolLevel.cpp" />
     <ClCompile Include="MouseInputWindow.cpp" />
+    <ClCompile Include="MoveCar.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Npc.cpp">
       <SubType>
       </SubType>

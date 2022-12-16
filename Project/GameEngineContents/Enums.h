@@ -25,6 +25,8 @@ enum class CollisionOrder
 	Map_Potal,
 	Map_Cannon,
 	Map_Button,
+
+	MoveCar
 };
 
 enum class PlayerDir
