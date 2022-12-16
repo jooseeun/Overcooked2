@@ -133,7 +133,18 @@ void RecipeManager::CreateRecipe(FoodType _Type)
 			for (int i = 0; i < NewRecipe.Data_.Ingredient.size(); i++)
 			{
 				std::weak_ptr<OverCookedUIRenderer> NewRenderer;
-				NewRenderer = ParentActor_.lock()->CreateUIRenderer("Recipe_Background2.png");
+				if (NewRecipe.Data_.Ingredient.size() <= 2)
+				{
+					NewRenderer = ParentActor_.lock()->CreateUIRenderer("Recipe_Background2.png");
+				}
+				else if (NewRecipe.Data_.Ingredient.size() == 3)
+				{
+					NewRenderer = ParentActor_.lock()->CreateUIRenderer("Recipe_Background3.png");
+				}
+				else if (NewRecipe.Data_.Ingredient.size() == 4)
+				{
+					NewRenderer = ParentActor_.lock()->CreateUIRenderer("Recipe_Background4.png");
+				}
 				NewRenderer.lock()->GetTransform().SetParentTransform(NewRecipe.BottomParentRenderer_.lock()->GetTransform());
 				float4 Pos = { 0,-22.5f,0 };
 				NewRenderer.lock()->GetTransform().SetLocalPosition(Pos);
@@ -141,12 +152,15 @@ void RecipeManager::CreateRecipe(FoodType _Type)
 			}
 
 			//Cookery
+			std::vector<float4> Arr;
+			Arr.push_back({ -22.5,0,0 });
+			Arr.push_back({ 22.5,0,0 });
 			for (int i = 0; i < NewRecipe.Data_.CommonCookery.size(); i++)
 			{
 				std::weak_ptr<OverCookedUIRenderer> NewRenderer = ParentActor_.lock()->CreateUIRenderer(EnumToString(NewRecipe.Data_.CommonCookery[i]), 0.38f);
 				NewRenderer.lock()->GetTransform().SetParentTransform(NewRecipe.BottomParentRenderer_.lock()->GetTransform());
 				float ScaleX = NewRenderer.lock()->GetTransform().GetWorldScale().x;
-				float4 Pos = Data.IngredientPos[i];
+				float4 Pos = Arr[i];
 				Pos.y -= 42.f;
 				NewRenderer.lock()->GetTransform().SetLocalPosition(Pos);
 				NewRecipe.CookeryRenderer_.push_back(NewRenderer);

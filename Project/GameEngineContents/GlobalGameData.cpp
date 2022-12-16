@@ -72,9 +72,9 @@ InitGlobalGameData::InitGlobalGameData()
 
 		{
 			std::vector<FoodType> StageRecipe;
-			StageRecipe.push_back(FoodType::PlainBurger);
-			StageRecipe.push_back(FoodType::CheeseBurger);
-			StageRecipe.push_back(FoodType::CheeseBurgerLettuceTomato);
+			StageRecipe.push_back(FoodType::StrawberryPancake);
+			StageRecipe.push_back(FoodType::BlueberryPancake);
+			StageRecipe.push_back(FoodType::ChrismasPuddingOrange);
 			GlobalGameData::AllStageData_.insert(std::make_pair("2-1",
 				CreateStageData("2-1", Thema::WizardKitchen, StageRecipe)));
 		}
@@ -298,6 +298,62 @@ InitGlobalGameData::InitGlobalGameData()
 					CreateFoodData(_Type, _Ingredient, _Cookery, 80.f)));
 			}
 		}
+
+		//ÆÒÄÉÀÌÅ©
+		{
+			//µþ±â ÆÒÄÉÀÌÅ©
+			{
+				FoodType _Type;
+				std::vector<IngredientType> _Ingredient;
+				std::vector<ToolInfo> _Cookery;
+
+				_Type = FoodType::StrawberryPancake;
+				_Ingredient.push_back(IngredientType::Flour);
+				_Ingredient.push_back(IngredientType::Egg);
+				_Ingredient.push_back(IngredientType::Strawberry);
+
+				_Cookery.push_back(ToolInfo::Mixer);
+				_Cookery.push_back(ToolInfo::FryingPan);
+
+				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
+					CreateFoodData(_Type, _Ingredient, _Cookery, 55.f, true)));
+			}
+			//ºí·çº£¸® ÆÒÄÉÀÌÅ©
+			{
+				FoodType _Type;
+				std::vector<IngredientType> _Ingredient;
+				std::vector<ToolInfo> _Cookery;
+
+				_Type = FoodType::BlueberryPancake;
+				_Ingredient.push_back(IngredientType::Flour);
+				_Ingredient.push_back(IngredientType::Egg);
+				_Ingredient.push_back(IngredientType::Blueberry);
+
+				_Cookery.push_back(ToolInfo::Mixer);
+				_Cookery.push_back(ToolInfo::FryingPan);
+
+				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
+					CreateFoodData(_Type, _Ingredient, _Cookery, 55.f, true)));
+			}
+			//ÇªµùÇªµù
+			{
+				FoodType _Type;
+				std::vector<IngredientType> _Ingredient;
+				std::vector<ToolInfo> _Cookery;
+
+				_Type = FoodType::ChrismasPuddingOrange;
+				_Ingredient.push_back(IngredientType::Flour);
+				_Ingredient.push_back(IngredientType::Egg);
+				_Ingredient.push_back(IngredientType::DriedFruit);
+				_Ingredient.push_back(IngredientType::Orange);
+
+				_Cookery.push_back(ToolInfo::Mixer);
+				_Cookery.push_back(ToolInfo::FryingPan);
+
+				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
+					CreateFoodData(_Type, _Ingredient, _Cookery, 55.f, true)));
+			}
+		}
 	}
 }
 
@@ -324,7 +380,7 @@ FoodData InitGlobalGameData::CreateFoodData(FoodType _Type, std::vector<Ingredie
 		NewFoodData.CommonCookery = _Cookery;
 	}
 	NewFoodData.WaitingTime = _WaitingTime;
-	if (_Ingredient.size() != _Cookery.size())
+	if (_Ingredient.size() != _Cookery.size() && IsCommonCookery == false)
 	{
 		MsgBoxAssert("IngredientÀÇ Size¿Í CookeryÀÇ Size°¡ ´Ù¸¨´Ï´Ù.");
 	}
@@ -376,6 +432,15 @@ std::string UI_Utility::EnumToString(FoodType _Type)
 	case FoodType::SteamedFish:
 		FileName = "ui_SteamedFish.png";
 		break;
+	case FoodType::StrawberryPancake:
+		FileName = "ui_StrawberryPancake.png";
+		break;
+	case FoodType::BlueberryPancake:
+		FileName = "ui_Pancake_Blueberry_01.png";
+		break;
+	case FoodType::ChrismasPuddingOrange:
+		FileName = "ChrismasPuddingOrange.png";
+		break;
 	default:
 		break;
 	}
@@ -410,8 +475,12 @@ std::string UI_Utility::EnumToString(ToolInfo _Type)
 	case ToolInfo::Mixer:
 		FileName = "Mixer.png";
 		break;
+	case ToolInfo::OvenPot:
+		FileName = "OvenPot.png";
+		break;
 	case ToolInfo::Max:
 		break;
+
 	default:
 		break;
 	}
@@ -498,6 +567,17 @@ std::string UI_Utility::EnumToString(IngredientType _Type)
 		break;
 	case IngredientType::Cucumber:
 		FileName = "Cucumber_Icon.png";
+		break;
+	case IngredientType::Strawberry:
+		FileName = "Strawberry_Icon.png";
+	case IngredientType::DriedFruit:
+		FileName = "DriedFruit_Icon.png";
+		break;
+	case IngredientType::Blueberry:
+		FileName = "Blueberry_Icon.png";
+		break;
+	case IngredientType::Orange:
+		FileName = "Orange_Icon.png";
 		break;
 	default:
 		break;
