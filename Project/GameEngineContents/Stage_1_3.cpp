@@ -71,10 +71,10 @@ void Stage_1_3::PlayLevelStartEvent()
 	GlobalIOManager::Load(IOType::UnsortMap, 2);
 	DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
 	GetMainCameraActorTransform().SetLocalRotation({ 60, 180, 0 });
-	GetMainCameraActorTransform().SetLocalPosition({ -2606 , 1900  , 900 });
+	GetMainCameraActorTransform().SetLocalPosition({ -2606 , 1950  , 1000 });
 
 	std::shared_ptr<Player> MainPlayer = CreateActor<Player>();
-	MainPlayer->GetTransform().SetLocalPosition({ -2606, 500, 0 });
+	MainPlayer->GetTransform().SetLocalPosition({ -2006, 500, 0 });
 
 	std::shared_ptr<GlobalOverlay> GlobalOverlay_ = GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalOverlay>();
 	GraphicWindow::Main_->SetOverlay(GlobalOverlay_);
