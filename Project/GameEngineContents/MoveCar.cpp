@@ -1,0 +1,68 @@
+#include "PreCompile.h"
+#include "MoveCar.h"
+
+MoveCar::MoveCar()
+{
+}
+
+MoveCar::~MoveCar()
+{
+}
+
+void MoveCar::Start()
+{
+	GamePlayObject::Start();
+
+	GetCollisionObject()->GetTransform().SetWorldScale({ 150.f, 80.f, 300.f });			// 원래 크기는 0.01
+	GetCollisionObject()->SetDebugSetting(CollisionType::CT_AABB, { 0, 0.8f, 0.8f, 0.5f });
+	GetCollisionObject()->ChangeOrder(CollisionOrder::MoveCar);
+}
+
+void MoveCar::Update(float _DeltaTime)
+{
+	if (false == IsMove_)
+	{
+		StackTime_ += _DeltaTime;
+
+		if (StackTime_ >= StartTime_)
+		{
+			IsMove_ = true;
+		}
+	}
+
+	if (true == IsMove_)
+	{
+		switch (State_)
+		{
+		case MOVECARSTATE::WAIT:
+			TimeInterval_ += _DeltaTime;
+
+			if (5.f <= TimeInterval_)
+			{
+				TimeInterval_ = 0.f;
+				State_ = MOVECARSTATE::DRIVE;
+			}
+			break;
+		case MOVECARSTATE::DRIVE:
+			GetTransform().SetWorldMove(GetTransform().GetLocalBackVector() * 1300.f * _DeltaTime);
+
+			if (0 >= EndPos_.z
+				&& GetTransform().GetWorldPosition().z <= EndPos_.z)
+			{
+				State_ = MOVECARSTATE::ARRIVAL;
+			}
+
+			else if (0 <= EndPos_.z
+				&& GetTransform().GetWorldPosition().z >= EndPos_.z)
+			{
+				State_ = MOVECARSTATE::ARRIVAL;
+			}
+			break;
+		case MOVECARSTATE::ARRIVAL:
+			GetTransform().SetWorldPosition(StartPos_);
+			State_ = MOVECARSTATE::WAIT;
+			break;
+		}
+	}
+}
+
