@@ -53,12 +53,13 @@ protected:
 private:
 	IceBlockType IceBlockType_;
 	float4 MoveDir_;
-	float4 MaxAngle_;
-
-	float RandomX_;
-	float RandomY_;
+	float4 MoveAngle_;
+	float MoveAngleTypeIce11_;
+	float4 RandomSpeed_;
+	float4 RandomPos_;
+	float RandomMaxAngle_;
 
 	bool IsMovable_;
-	bool IsDirChange_;
+	bool IsMaxAngle;
 };
 
