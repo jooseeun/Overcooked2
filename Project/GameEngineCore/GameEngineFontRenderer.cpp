@@ -78,6 +78,6 @@ bool GameEngineFontRenderer::FontDraw(float _DeltaTime)
 	}
 	Font->FontDraw(Text, FontSize, Pos, Color, static_cast<int>(LR) | static_cast<int>(TB));
 	GameEngineMaterial::AllShaderReset();
-	Camera->GetCameraRenderTarget()->Merge(FontTarget);
+	Camera->GetCurTarget()->Merge(FontTarget);
 	return false;
 }

@@ -18,7 +18,7 @@ GameEngineCamera::GameEngineCamera()
 {
 	Size = GameEngineWindow::GetInst()->GetScale();
 	Mode = CAMERAPROJECTIONMODE::PersPective;
-	Near = 100.0f;
+	Near = 0.1f;
 	Far = 5000.0f;
 	Fov = 60.0f;
 
@@ -130,10 +130,6 @@ void GameEngineCamera::Render(float _DeltaTime)
 			= AllRenderUnit_.find(RENDERINGPATHORDER::FORWARD);
 
 		std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& OrderMap = ForwardIter->second;
-
-		std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>::iterator OrderStartIter = OrderMap.begin();
-		std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>::iterator OrderEndIter = OrderMap.end();
-
 		for (std::pair<const int, std::list<std::shared_ptr<GameEngineRenderUnit>>>& Group : OrderMap)
 		{
 			float ScaleTime = GameEngineTime::GetInst()->GetDeltaTime(Group.first);
@@ -141,7 +137,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 			std::list<std::shared_ptr<GameEngineRenderUnit>>& RenderList = Group.second;
 			RenderList.sort(ZSortUnit);
 
-			for (std::shared_ptr<GameEngineRenderUnit>& Unit : Group.second)
+			for (std::shared_ptr<GameEngineRenderUnit>& Unit : RenderList)
 			{
 				if (false == Unit->GetIsOn())
 				{
@@ -150,6 +146,8 @@ void GameEngineCamera::Render(float _DeltaTime)
 				// 인스턴싱 정보 수집
 				Unit->Render(ScaleTime);
 			}
+
+			int a = 0;
 		}
 	}
 
@@ -186,7 +184,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 			std::list<std::shared_ptr<GameEngineRenderUnit>>& RenderList = Group.second;
 			RenderList.sort(ZSortUnit);
 
-			for (std::shared_ptr<GameEngineRenderUnit>& Unit : Group.second)
+			for (std::shared_ptr<GameEngineRenderUnit>& Unit : RenderList)
 			{
 				if (false == Unit->GetIsOn())
 				{

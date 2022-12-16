@@ -25,6 +25,7 @@ GameEngineRenderUnit::GameEngineRenderUnit()
 	, IsOn(true)
 	, Mesh(nullptr)
 	, RenderFunction(nullptr)
+	, Path(RENDERINGPATHORDER::FORWARD)
 {
 	SetMesh("rect");
 }
@@ -52,7 +53,7 @@ void GameEngineRenderUnit::EngineShaderResourcesSetting(GameEngineRenderer* _Ren
 	}
 
 	ParentRenderer = _Renderer;
-	
+
 	GameEngineCamera* Camera = ParentRenderer->GetCamera();
 	if (true == ShaderResources.IsConstantBuffer("LightDatas"))
 	{
