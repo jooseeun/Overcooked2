@@ -418,7 +418,7 @@ void Player::CannonInterUpdate(float _DeltaTime, const StateInfo& _Info)
 
 
 	
-	GetTransform().SetWorldRotation({ 270, 0, CannonZAngle_ });
+	GetTransform().SetWorldRotation({ CannonZAngle_, 90,0  });
 
 	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerDash" + PNumString))
 	{

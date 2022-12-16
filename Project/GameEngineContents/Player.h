@@ -188,8 +188,9 @@ private:
 	void ChopRendererON();
 	void WashRendererON();
 
-
-
+	void DeathCheck();
+	void GravityCheck(float _DeltaTime);
+	void IcePlatformCheck(float _DeltaTime);
 	//충돌함수
 
 	CollisionReturn TableHoldUpCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);

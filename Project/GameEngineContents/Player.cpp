@@ -477,16 +477,8 @@ void  Player::LevelStartEvent()
 		}
 	}
 	}
-
-
-void Player::Update(float _DeltaTime)
+void Player::DeathCheck()
 {
-	if (true == GameEngineInput::GetInst()->IsDownKey("IsSingleMode"))
-	{
-		IsSingleMode = true;
-	}
-	
-
 	if (PlayerCameraCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::DeadZone, CollisionType::CT_OBB) == true)
 	{
 		if (StateManager.GetCurStateStateName() != "Drowning")
@@ -502,7 +494,15 @@ void Player::Update(float _DeltaTime)
 			StateManager.ChangeState("CarDeath");
 		}
 	}
+}
 
+void Player::Update(float _DeltaTime)
+{
+	if (true == GameEngineInput::GetInst()->IsDownKey("IsSingleMode"))
+	{
+		IsSingleMode = true;
+	}
+	
 	if (IsSingleMode == true)
 	{
 		std::shared_ptr<Player> MainPlayer2 = GetLevel()->CreateActor<Player>();
@@ -512,16 +512,22 @@ void Player::Update(float _DeltaTime)
 		IsSingleMode = false;
 	}
 
-
+	DeathCheck();
 	StateManager.Update(_DeltaTime);
 	PNumSgtringUpdate();
 	CustomKeyCheck();
 	LiftFloorCheck();
+	IcePlatformCheck(_DeltaTime);
+	GravityCheck(_DeltaTime);
 
+	CameraMove(_DeltaTime);
+}
+void Player::GravityCheck(float _DeltaTime)
+{
 	if (IsPotal_ != true)
 	{
 		DashCheck(_DeltaTime);
-		
+
 		if (IsLift() == false)
 		{
 			Gravity();
@@ -532,16 +538,22 @@ void Player::Update(float _DeltaTime)
 				float4
 				{
 					GetTransform().GetWorldPosition().x,
-					GetCurLift()->GetTransform().GetWorldPosition().y+10,
+					GetCurLift()->GetTransform().GetWorldPosition().y + 10,
 					GetTransform().GetWorldPosition().z,
 				}
 			);
 		}
 	}
-
-	CameraMove(_DeltaTime);
 }
 
+void Player::IcePlatformCheck(float _DeltaTime)
+{
+	if (PlayerFloorCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_IcePlatform, CollisionType::CT_OBB) == true)
+	{
+		GetTransform().SetWorldMove({ float4{0.f, 0.f, 230.f} * _DeltaTime });
+	}
+
+}
 void Player::CameraMove(float _DeltaTime)
 {
 	if (PlayerCameraCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB) == true)
