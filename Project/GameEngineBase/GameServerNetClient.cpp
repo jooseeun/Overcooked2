@@ -103,6 +103,7 @@ void GameServerNetClient::RecvThreadFunction(GameEngineThread* _Thread)
 			Packet->SetMaster(SessionSocket);
 
 			Dis.ProcessPacket(Packet);
+			GameEngineDebug::OutPutString("Recv Client : " + std::to_string(PacketType) + ", " + std::to_string(PacketSize));
 
 			if (PacketVector.size() > PacketSize)
 			{

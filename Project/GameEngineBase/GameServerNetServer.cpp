@@ -137,6 +137,8 @@ void GameServerNetServer::UserFunction(GameEngineThread* Thread, SOCKET _Socket)
 			Packet->SetMaster(_Socket);
 			Dis.ProcessPacket(Packet);
 
+			GameEngineDebug::OutPutString("Recv Server : " + std::to_string(PacketType) + ", " + std::to_string(PacketSize));
+
 			if (PacketVector.size() > PacketSize)
 			{
 				memcpy_s(&PacketVector[0], PacketVector.size(), &PacketVector[PacketSize], PacketVector.size() - PacketSize);
