@@ -66,6 +66,7 @@ HoldDownEnum Tool_TrashCan::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 			SetMoveable((*_Moveable));
 			(*_Moveable) = nullptr;
 			Delay_ = 0;
+			return HoldDownEnum::HoldUp;
 		}
 		else if((*_Moveable)->CastThis<GamePlayBowl>() != nullptr)
 		{

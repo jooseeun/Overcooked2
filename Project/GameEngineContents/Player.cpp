@@ -521,6 +521,12 @@ void Player::Update(float _DeltaTime)
 	GravityCheck(_DeltaTime);
 
 	CameraMove(_DeltaTime);
+
+	if (GameEngineInput::GetInst()->IsPressKey("Contents_Debug"))
+	{
+		GetTransform().SetWorldUpMove(1000, _DeltaTime);
+	}
+	
 }
 void Player::GravityCheck(float _DeltaTime)
 {

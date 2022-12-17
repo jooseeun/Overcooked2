@@ -26,7 +26,7 @@ void Equipment_Plate::Start()
 
 	GetCombinFood()->Start(0, shared_from_this(), {0 , 15, 0});
 	GetCookingBar()->SetOver(false);
-	SetDirty();
+	//SetDirty();
 }
 
 void Equipment_Plate::SetDirty()
