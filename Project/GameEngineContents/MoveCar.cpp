@@ -2,6 +2,13 @@
 #include "MoveCar.h"
 
 MoveCar::MoveCar()
+	: State_(MOVECARSTATE::WAIT)
+	, TimeInterval_(0.f)
+	, StartPos_(float4::ZERO)
+	, EndPos_(float4::ZERO)
+	, IsMove_(false)
+	, StartTime_(0.f)
+	, StackTime_(0.f)
 {
 }
 
@@ -13,7 +20,8 @@ void MoveCar::Start()
 {
 	GamePlayObject::Start();
 
-	GetCollisionObject()->GetTransform().SetWorldScale({ 150.f, 80.f, 300.f });			// 원래 크기는 0.01
+	GetCollisionObject()->GetTransform().SetWorldScale({ 170.f, 80.f, 300.f }); // 원래 크기는 0.01
+	GetCollisionObject()->GetTransform().SetLocalMove({ 0.f, 80.f });
 	GetCollisionObject()->SetDebugSetting(CollisionType::CT_AABB, { 0, 0.8f, 0.8f, 0.5f });
 	GetCollisionObject()->ChangeOrder(CollisionOrder::MoveCar);
 }
@@ -26,6 +34,7 @@ void MoveCar::Update(float _DeltaTime)
 
 		if (StackTime_ >= StartTime_)
 		{
+			StartTime_ = 0.f;
 			IsMove_ = true;
 		}
 	}

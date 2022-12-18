@@ -22,7 +22,7 @@ public:
 	void SetCarMesh(const std::string& _Name)
 	{
 		GetFBXMesh()->SetFBXMesh(_Name);
-		GetFBXMesh()->GetTransform().SetWorldScale({ 80.f, 80.f, 80.f });
+		GetFBXMesh()->GetTransform().SetWorldScale({ 90.f, 90.f, 90.f });
 	}
 
 	void SetTimeInterval(float _Interval)
