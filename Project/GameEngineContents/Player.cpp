@@ -1283,7 +1283,6 @@ CollisionReturn Player::PushButton(std::shared_ptr<GameEngineCollision> _This, s
 
 //////// ¼­¹ö 
 
-
 void Player::ServerStart()
 {
 	if (false == OnePlayerInit)

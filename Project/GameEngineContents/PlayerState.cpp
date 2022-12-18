@@ -199,6 +199,17 @@ void Player::HoldUpStart(const StateInfo& _Info)
 void Player::HoldUpUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 
+	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerHold" + PNumString))
+	{
+		if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Cannon, CollisionType::CT_OBB,
+			std::bind(&Player::EnterCannon, this, std::placeholders::_1, std::placeholders::_2)) == true)
+		{
+			StateManager.ChangeState("CannonInter");
+			return;
+
+		}
+	}
+
 	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerInteract" + PNumString)) //컨트롤키
 	{
 		if (CurHoldType_ == PlayerHoldType::CanThrow)
