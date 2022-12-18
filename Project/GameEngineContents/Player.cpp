@@ -7,13 +7,17 @@
 #include "Lift.h"
 #include <math.h>
 
-
 //player key
 //이동 - 방향키
 //다지기/던지기 - 왼쪽 CTRL
 //잡기/놓기 - SPACEBAR
 //대쉬 - 왼쪽 ALT
 //감정표현 - E
+
+std::shared_ptr<Player> Player::MyPlayer = nullptr;
+bool Player::OnePlayerInit = false;
+int Player::MaxPlayerCount_ = 0;
+int Player::PlayerCount_ = 0;
 
 Player::Player()
 	:Speed_(650.0f)
@@ -57,16 +61,23 @@ Player::Player()
 	, CannonFlyPos_()
 	, IsCannon_(false)
 	, IsCannonFly_(false)
+	, IsPlayerble(false)
 {
 
 }
 
 Player::~Player()
 {
+	++PlayerCount_;
 }
 
 void Player::Start()
 {
+	if (MyPlayer == nullptr)
+	{
+		MyPlayer = std::dynamic_pointer_cast<Player>(shared_from_this());
+	}
+
 	GetTransform().SetLocalScale({ 1, 1, 1 });
 
 
@@ -476,7 +487,8 @@ void  Player::LevelStartEvent()
 
 		}
 	}
-	}
+	ServerStart();
+}
 void Player::DeathCheck()
 {
 	if (PlayerCameraCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::DeadZone, CollisionType::CT_OBB) == true)
@@ -505,13 +517,19 @@ void Player::Update(float _DeltaTime)
 	
 	if (IsSingleMode == true)
 	{
-		std::shared_ptr<Player> MainPlayer2 = GetLevel()->CreateActor<Player>();
-		MainPlayer2->GetTransform().SetWorldPosition({ -900.00, 90.0, -1111.00 });
-		MainPlayer2->PlayerPNum = 2;
+		//std::shared_ptr<Player> MainPlayer2 = GetLevel()->CreateActor<Player>();
+		//MainPlayer2->GetTransform().SetWorldPosition({ -900.00, 90.0, -1111.00 });
+		//MainPlayer2->PlayerPNum = 2;
 
 		IsSingleMode = false;
 	}
 
+	if (MyPlayer != shared_from_this())
+	{
+		return;
+	}
+
+	ServerUpdate(_DeltaTime);
 	DeathCheck();
 	StateManager.Update(_DeltaTime);
 	PNumSgtringUpdate();
@@ -1261,4 +1279,71 @@ CollisionReturn Player::PushButton(std::shared_ptr<GameEngineCollision> _This, s
 {
 	_Other->GetParent()->CastThis<Button>()->SetButtonPressed();
 	return CollisionReturn::ContinueCheck;
+}
+
+//////// 서버 
+
+
+void Player::ServerStart()
+{
+	if (false == OnePlayerInit)
+	{
+		IsPlayerble = true;
+		OnePlayerInit = true;
+	}
+}
+
+void Player::ServerUpdate(float _DeltaTime)
+{
+	if (false == GetIsNetInit())
+	{
+		return;
+	}
+
+	if (true == IsPlayerble)
+	{
+		ServerInitManager* CurManager = dynamic_cast<ServerInitManager*>(GetLevel());
+		if (CurManager == nullptr)
+		{
+			return;
+		}
+
+		std::shared_ptr<ObjectUpdatePacket> Packet = std::make_shared<ObjectUpdatePacket>();
+		Packet->ObjectID = GetNetID();
+		Packet->Type = ServerObjectType::Player;
+		Packet->State = ServerObjectBaseState::Base;
+		Packet->Pos = GetTransform().GetWorldPosition();
+		Packet->Rot = GetTransform().GetWorldRotation();
+		Packet->Scale = GetTransform().GetWorldScale();
+		Packet->Animation = "Test";
+		CurManager->Net->SendPacket(Packet);
+
+		if (Player::MaxPlayerCount_ < Packet->ObjectID)
+		{
+			Player::MaxPlayerCount_ = Packet->ObjectID;
+		}
+		return;
+	}
+
+	while (false == IsPacketEmpty())
+	{
+		std::shared_ptr<GameServerPacket> Packet = PopPacket();
+
+		ContentsPacketType PacketType = Packet->GetPacketIDToEnum<ContentsPacketType>();
+
+		switch (PacketType)
+		{
+		case ContentsPacketType::ObjectUpdate:
+		{
+			std::shared_ptr<ObjectUpdatePacket> ObjectUpdate = std::dynamic_pointer_cast<ObjectUpdatePacket>(Packet);
+			GetTransform().SetWorldPosition(ObjectUpdate->Pos);
+			GetTransform().SetWorldRotation(ObjectUpdate->Rot);
+			break;
+		}
+		case ContentsPacketType::ClinetInit:
+		default:
+			MsgBoxAssert("처리할수 없는 패킷이 날아왔습니다.");
+			break;
+		}
+	}
 }

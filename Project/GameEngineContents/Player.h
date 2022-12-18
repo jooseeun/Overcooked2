@@ -4,6 +4,7 @@
 #include <GameEngineCore/GameEngineFBXAnimationRenderer.h>
 #include <GameEngineCore/GameEngineStateManager.h>
 #include "GamePlayPhysics.h"
+#include "GameServerObject.h"
 #include "Cannon.h"
 
 // 설명 :
@@ -12,7 +13,7 @@ class GameEngineFBXStaticRenderer;
 class GameEngineCollision;
 class GamePlayMoveable;
 class GamePlayStaticObject;
-class Player : public GamePlayPhysics
+class Player : public GamePlayPhysics, public GameServerObject
 {
 public:
 	// constrcuter destructer
@@ -253,5 +254,27 @@ private:
 
 
 	GameEngineStateManager StateManager;
+
+	//////// 서버 
+private:
+	static std::shared_ptr<Player> MyPlayer;
+	static bool OnePlayerInit;
+	bool IsPlayerble;
+
+	void ServerStart();
+	void ServerUpdate(float _DeltaTime);
+
+public:
+	static int MaxPlayerCount_;
+	static int PlayerCount_;
+	static std::shared_ptr<Player> GetMyPlayer()
+	{
+		return MyPlayer;
+	}
+
+	static void SetMyPlayer(std::shared_ptr<Player> _Player)
+	{
+		MyPlayer = _Player;
+	}
 };
 
