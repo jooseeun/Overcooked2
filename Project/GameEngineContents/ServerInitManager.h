@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngineBase/GameServerNetServer.h>
 #include <GameEngineBase/GameServerNetClient.h>
+#include <functional>
 
 // Ό³Έν :
 class ServerInitManager
@@ -20,9 +21,11 @@ public:
 
 	void ObjectUpdatePacketProcess(std::shared_ptr<GameServerPacket> _Packet);
 	void ClientInitPacketProcess(std::shared_ptr<GameServerPacket> _Packet);
+	void Ignore(std::shared_ptr<GameServerPacket> _Packet);
 
 protected:
 	void StartInit();
+	void Update(float _Delta);
 
 private:
 	bool IsLevelFirst_ = true;

@@ -4,8 +4,28 @@
 
 enum class ContentsPacketType
 {
+	None,
 	ObjectUpdate, // 오브젝트 업데이트
 	ClinetInit, // 클라이언트가 들어오면 서버가 보내줄 패킷.
+	Ignore,
+};
+
+class IgnorePacket : public GameServerPacket
+{
+public:
+	IgnorePacket()
+	{
+		SetPacketID(ContentsPacketType::Ignore);
+	}
+
+	virtual void Serialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::Serialize(_Ser);
+	}
+	virtual void DeSerialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::DeSerialize(_Ser);
+	}
 };
 
 class ClientInitPacket : public GameServerPacket

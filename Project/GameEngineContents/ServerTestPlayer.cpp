@@ -11,14 +11,12 @@
 #include <GameEngineCore/GameEngineFont.h>
 #include <GameEngineBase/GameEngineRandom.h>
 
-
 bool ServerTestPlayer::OnePlayerInit = false;
 
 ServerTestPlayer* ServerTestPlayer::MainPlayer = nullptr;
 
 ServerTestPlayer::ServerTestPlayer()
-	: Renderer(nullptr)
-	, IsPlayerble(false)
+	: IsPlayerble(false)
 {
 	MainPlayer = this;
 }
@@ -26,7 +24,6 @@ ServerTestPlayer::ServerTestPlayer()
 ServerTestPlayer::~ServerTestPlayer()
 {
 }
-
 
 void ServerTestPlayer::Start()
 {
@@ -58,11 +55,6 @@ void ServerTestPlayer::Update(float _DeltaTime)
 		return;
 	}
 
-	if (true == GetLevel()->GetMainCameraActor()->IsFreeCameraMode())
-	{
-		return;
-	}
-
 	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft"))
 	{
 		GetTransform().SetWorldMove(GetTransform().GetLeftVector() * -100 * _DeltaTime);
@@ -89,10 +81,12 @@ void ServerTestPlayer::Update(float _DeltaTime)
 		Packet->State = ServerObjectBaseState::Base;
 		Packet->Pos = GetTransform().GetWorldPosition();
 		Packet->Rot = GetTransform().GetWorldRotation();
+		Packet->Scale = GetTransform().GetWorldScale();
+		Packet->Animation = "Test";
+
 		ServerTestLevel::Net->SendPacket(Packet);
 		return;
 	}
-
 
 	while (false == IsPacketEmpty())
 	{

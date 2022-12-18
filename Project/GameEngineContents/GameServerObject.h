@@ -2,6 +2,7 @@
 #include <atomic>
 #include <list>
 #include "ServerInitManager.h"
+#include <mutex>
 
 enum class ServerObjectBaseState
 {
@@ -74,6 +75,7 @@ protected:
 
 private:
 	std::list<std::shared_ptr<GameServerPacket>> PacketList;
+	std::mutex Lock_;
 	bool IsNetInit;
 	ServerObjectType ServerType;
 	int ID;

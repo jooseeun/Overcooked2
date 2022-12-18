@@ -64,13 +64,13 @@ public:
 	template<typename T>
 	void WriteEnum(const T _Value)
 	{
-		Write(reinterpret_cast<const void*>(&_Value), static_cast<unsigned int>(sizeof(T)));
+		Write(reinterpret_cast<const void*>(&_Value), sizeof(T));
 	}
 
 	template<typename T>
 	void WriteUserData(const T _Value)
 	{
-		Write(reinterpret_cast<const void*>(&_Value), static_cast<unsigned int>(sizeof(T)));
+		Write(reinterpret_cast<const void*>(&_Value), sizeof(T));
 	}
 
 
@@ -84,13 +84,13 @@ public:
 	template<typename T>
 	void ReadEnum(T& _Value)
 	{
-		Read(reinterpret_cast<void*>(&_Value), static_cast<unsigned int>(sizeof(T)));
+		Read(reinterpret_cast<void*>(&_Value), sizeof(T));
 	}
 
 	template<typename T>
 	void ReadUserData(T& _Value)
 	{
-		Read(reinterpret_cast<void*>(&_Value), static_cast<unsigned int>(sizeof(T)));
+		Read(reinterpret_cast<void*>(&_Value), sizeof(T));
 	}
 
 protected:

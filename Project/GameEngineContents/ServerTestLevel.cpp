@@ -76,94 +76,65 @@ void ServerTestLevel::ClientInitPacketProcess(std::shared_ptr<GameServerPacket> 
 
 void ServerTestLevel::LevelStartEvent()
 {
+	if (nullptr == ServerTestPlayer::GetMainPlayer())
 	{
-		if (nullptr == ServerTestPlayer::GetMainPlayer())
+		MainPlayer = CreateActor<ServerTestPlayer>();
+		MainPlayer->SetLevelOverOn();
+	}
+
+	if (true == GameEngineStatusWindow::IsHost)
+	{
+		Server.Accept(30001);
+		Net = &Server;
+
+		Server.AcceptCallBack = [&](SOCKET _User)
 		{
-			MainPlayer = CreateActor<ServerTestPlayer>();
-			MainPlayer->SetLevelOverOn();
-		}
+			std::shared_ptr<ClientInitPacket> Packet = std::make_shared<ClientInitPacket>();
 
+			Packet->ObjectID = GameServerObject::GetServerID();
 
-		if (true == GameEngineStatusWindow::IsHost)
-		{
-
-			Server.Accept(30001);
-			Net = &Server;
-
-			Server.AcceptCallBack = [&](SOCKET _User)
-			{
-				std::shared_ptr<ClientInitPacket> Packet = std::make_shared<ClientInitPacket>();
-
-				Packet->ObjectID = GameServerObject::GetServerID();
-
-				Server.NetSendPacket(_User, Packet);
-			};
-
-			MainPlayer->ServerInit(ServerObjectType::Player);
-		}
-		else
-		{
-			// "127.0.0.1" 인터넷 통신 규약의 약속으로
-			// 이 번호는 localhost
-			// 나한테 접속하겠다.
-			// Client.Connect("127.0.0.1", 30222);
-
-			Client.Connect("127.0.0.1", 30001);
-			Net = &Client;
-		}
-
-		Net->Dis.PacketReturnCallBack = [=](int _PacketType, int _PacketSize, GameServerSerializer& Data)
-		{
-			ContentsPacketType Type = static_cast<ContentsPacketType>(_PacketType);
-
-			std::shared_ptr<GameServerPacket> NewPacket;
-
-			switch (Type)
-			{
-			case ContentsPacketType::ObjectUpdate:
-				NewPacket = std::make_shared<ObjectUpdatePacket>();
-				break;
-			case ContentsPacketType::ClinetInit:
-				NewPacket = std::make_shared<ClientInitPacket>();
-				break;
-			default:
-				int a = 0;
-
-				break;
-			}
-
-			NewPacket->DeSerializePacket(Data);
-
-			return NewPacket;
+			Server.NetSendPacket(_User, Packet);
 		};
 
-		// std::function<void(std::shared_ptr<GameServerPacket>)> CallBack = std::bind(&ServerLevel::ObjectUpdatePacketProcess, this,std::placeholders::_1);
-
-		// 공통 패킷
-		Net->Dis.AddHandler(ContentsPacketType::ObjectUpdate, std::bind(&ServerTestLevel::ObjectUpdatePacketProcess, this, std::placeholders::_1));
-
-		if (true == Net->GetIsHost())
-		{
-			// 내가 서버일때만 등록해야하는 패킷
-		}
-		else
-		{
-			// 내가 클라이언트 일때만 등록해야하는 패킷
-			Net->Dis.AddHandler(ContentsPacketType::ClinetInit, std::bind(&ServerTestLevel::ClientInitPacketProcess, this, std::placeholders::_1));
-		}
-
-
+		MainPlayer->ServerInit(ServerObjectType::Player);
 	}
-}
-
-
-void ServerTestLevel::Update(float _DeltaTime)
-{
-	if (GameEngineInput::GetInst()->IsDownKey("FreeCameaOnOff"))
+	else
 	{
-		GetMainCameraActor()->FreeCameraModeOnOff();
+		Client.Connect("127.0.0.1", 30001);
+		Net = &Client;
+	}
+
+	Net->Dis.PacketReturnCallBack = [=](int _PacketType, int _PacketSize, GameServerSerializer& Data)
+	{
+		std::shared_ptr<GameServerPacket> NewPacket;
+		ContentsPacketType Type = static_cast<ContentsPacketType>(_PacketType);
+		switch (Type)
+		{
+		case ContentsPacketType::ObjectUpdate:
+			NewPacket = std::make_shared<ObjectUpdatePacket>();
+			break;
+		case ContentsPacketType::ClinetInit:
+			NewPacket = std::make_shared<ClientInitPacket>();
+			break;
+		default:
+			NewPacket = std::make_shared<IgnorePacket>();
+			break;
+		}
+
+		NewPacket->DeSerializePacket(Data);
+
+		return NewPacket;
+	};
+
+	Net->Dis.AddHandler(ContentsPacketType::ObjectUpdate, std::bind(&ServerTestLevel::ObjectUpdatePacketProcess, this, std::placeholders::_1));
+
+	if (true == Net->GetIsHost())
+	{
+		// 내가 서버일때만 등록해야하는 패킷
+	}
+	else
+	{
+		// 내가 클라이언트 일때만 등록해야하는 패킷
+		Net->Dis.AddHandler(ContentsPacketType::ClinetInit, std::bind(&ServerTestLevel::ClientInitPacketProcess, this, std::placeholders::_1));
 	}
 }
-void ServerTestLevel::End() {}
-
-

@@ -34,7 +34,8 @@ public:
 	{
 		if (PacketProcessMap.end() == PacketProcessMap.find(_Packet->GetPacketID()))
 		{
-			MsgBoxAssert("처리 방식을 결정하지 않은 패킷입니다");
+			return;
+			//MsgBoxAssert("처리 방식을 결정하지 않은 패킷입니다");
 		}
 
 		PacketProcessMap[_Packet->GetPacketID()](_Packet);
