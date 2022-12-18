@@ -491,12 +491,6 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 				CurActor_.lock()->SetStuff(Steamer.lock());
 			}
 			break;
-			case ToolInfo::Mixer:
-			{
-				std::weak_ptr<Tool_Mixer> Mixer = _Level->CreateActor<Tool_Mixer>();
-				CurActor_.lock()->SetStuff(Mixer.lock());
-			}
-			break;
 			}
 
 			CurActor_.lock()->SetParent(Origins_[Order].lock());

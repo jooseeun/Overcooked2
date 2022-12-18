@@ -914,16 +914,7 @@ void MapEditorWindow::SortToolTab()
 						SortActorList_[ActorIndex].lock()->SetStuff(Steamer);
 					}
 					break;
-					case ToolInfo::Mixer:
-					{
-						std::shared_ptr<Tool_Mixer> Mixer = CurLevel_->CreateActor<Tool_Mixer>();
-						SortActorList_[ActorIndex].lock()->SetStuff(Mixer);
 					}
-					break;
-					}
-
-					//float4 ToolPos = SortActorList_[ActorIndex].lock()->GetToolPos();
-					//SortActorList_[ActorIndex].lock()->GetStuff()->GetTransform().SetWorldPosition(ToolPos);
 				}
 			}
 		}

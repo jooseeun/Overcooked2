@@ -14,19 +14,8 @@ void Equipment_Bowl::Start()
 	GamePlayBowl::Start();
 	GamePlayBowl::SetToolInfoType(ToolInfo::Bowl);
 
-	GetFBXMesh()->SetFBXMesh("Bowl_Static.fbx", "Texture");
-	GetFBXMesh()->GetTransform().SetWorldScale({ 1000, 1000, 1000 });
-
-	//GetAnimationFBXMesh()->SetFBXMesh("m_cakemixer_Bowl_01.fbx", "TextureAnimation");
-	//GetAnimationFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
-
-	//GameEngineRenderingEvent Event;
-	//Event.ResourcesName = "m_cakemixer_Bowl_01.FBX";
-	//Event.Loop = true;
-	//Event.Inter = 0.1f;
-	//GetAnimationFBXMesh()->CreateFBXAnimation("Idle", Event, 1);
-
-	//GetAnimationFBXMesh()->ChangeAnimation("Idle");
+	GetFBXMesh()->SetFBXMesh("Bowl.fbx", "Texture");
+	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 
 	CreateFoodThumbnail(1);
 }
