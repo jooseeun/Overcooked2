@@ -317,6 +317,9 @@
     <ClInclude Include="MoveCar.h">
       <Filter>Contents\Object</Filter>
     </ClInclude>
+    <ClInclude Include="GlobalBloomActor.h">
+      <Filter>Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -634,6 +637,9 @@
     </ClCompile>
     <ClCompile Include="MoveCar.cpp">
       <Filter>Contents\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalBloomActor.cpp">
+      <Filter>Global</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

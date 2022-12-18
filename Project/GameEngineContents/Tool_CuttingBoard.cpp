@@ -108,62 +108,62 @@ void Tool_CuttingBoard::Start()
 	return UsingDownEnum::Nothing;
 };
 
- HoldDownEnum GamePlayTool::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
- {
-	 if ((*_Moveable) != nullptr)
-	 {
-		 if (Moveable_Current_ != nullptr)
-		 {
-			 switch (Moveable_Current_->PickUp(_Moveable))
-			 {
-			 case HoldDownEnum::Nothing:
-			 {
-				 //std::shared_ptr<GamePlayMoveable> Moveable = (shared_from_this()->CastThis<GamePlayMoveable>());
-				 //switch ((*_Moveable)->PickUp(&Moveable))
-				 //{
-				 //case HoldDownEnum::HoldUp:
-				 //	if (Moveable == nullptr)
-				 //	{
-				 //		ReSetCurrentMoveable();
-				 //	}
-				 //	return HoldDownEnum::HoldDown;
-				 //	break;
-				 //case HoldDownEnum::Nothing:
-				 //default:
-				 //	break;
-				 //}
-			 }
-			 break;
-			 case HoldDownEnum::HoldDown:
-				 ReSetCurrentMoveable();
-				 return HoldDownEnum::HoldDown;
-				 break;
-			 case HoldDownEnum::HoldUp:
-				 return HoldDownEnum::HoldUp;
-				 break;
-			 default:
-				 break;
-			 }
-		 }
-		 else
-		 {
-			 SetMoveable(*_Moveable);
-			 (*_Moveable) = nullptr;
-			 return HoldDownEnum::HoldUp;
-		 }
-	 }
-	 else
-	 {
-		 if (Moveable_Current_ != nullptr)
-		 {
-			 (*_Moveable) = Moveable_Current_;
-			 ReSetCurrentMoveable();
-			 return HoldDownEnum::HoldDown;
-		 }
-	 }
-
-	 return HoldDownEnum::Nothing;
- }
+ //HoldDownEnum GamePlayTool::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
+ //{
+//	 if ((*_Moveable) != nullptr)
+//	 {
+//		 if (Moveable_Current_ != nullptr)
+//		 {
+//			 switch (Moveable_Current_->PickUp(_Moveable))
+//			 {
+//			 case HoldDownEnum::Nothing:
+//			 {
+//				 //std::shared_ptr<GamePlayMoveable> Moveable = (shared_from_this()->CastThis<GamePlayMoveable>());
+//				 //switch ((*_Moveable)->PickUp(&Moveable))
+//				 //{
+//				 //case HoldDownEnum::HoldUp:
+//				 //	if (Moveable == nullptr)
+//				 //	{
+//				 //		ReSetCurrentMoveable();
+//				 //	}
+//				 //	return HoldDownEnum::HoldDown;
+//				 //	break;
+//				 //case HoldDownEnum::Nothing:
+//				 //default:
+//				 //	break;
+//				 //}
+//			 }
+//			 break;
+//			 case HoldDownEnum::HoldDown:
+//				 ReSetCurrentMoveable();
+//				 return HoldDownEnum::HoldDown;
+//				 break;
+//			 case HoldDownEnum::HoldUp:
+//				 return HoldDownEnum::HoldUp;
+//				 break;
+//			 default:
+//				 break;
+//			 }
+//		 }
+//		 else
+//		 {
+//			 SetMoveable(*_Moveable);
+//			 (*_Moveable) = nullptr;
+//			 return HoldDownEnum::HoldUp;
+//		 }
+//	 }
+//	 else
+//	 {
+//		 if (Moveable_Current_ != nullptr)
+//		 {
+//			 (*_Moveable) = Moveable_Current_;
+//			 ReSetCurrentMoveable();
+//			 return HoldDownEnum::HoldDown;
+//		 }
+//	 }
+ //
+//	 return HoldDownEnum::Nothing;
+ //}
 
 
  //HoldDownEnum Tool_CuttingBoard::PickUp(std::shared_ptr<GamePlayMoveable> _Moveable)
