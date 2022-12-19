@@ -58,9 +58,11 @@ private:
 	bool IsInteraction_;
 	bool IsMoveDone_;
 	bool IsRotateDone_;
+	bool IsChangeRot_;
 	float Angle_;
-	float CurPosX_;
-	float CurPosY_;
+
+	float4 CookingAngle_;
+	float4 RandomAngle_;
 	float4 CurPos_;
 	float4 OpenPos_;
 	float4 ToolPos_;

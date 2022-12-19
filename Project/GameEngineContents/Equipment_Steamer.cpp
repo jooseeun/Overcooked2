@@ -10,6 +10,8 @@ Equipment_Steamer::Equipment_Steamer()
 	, IsMoveDone_(false)
 	, ToolPos_(0.f)
 	, IsRotateDone_(false)
+	, IsChangeRot_(false)
+	, CookingAngle_(0.f)
 {
 }
 
@@ -151,6 +153,35 @@ void Equipment_Steamer::CookingUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (true == IsInteraction_)
 	{
 		StateManager.ChangeState("Open");
+	}
+
+
+	if (false == IsChangeRot_)
+	{
+		if (3.f >= CookingAngle_.y)
+		{
+			CookingAngle_ = 3.f;
+			IsChangeRot_ = true;
+			RandomAngle_.x = GameEngineRandom::MainRandom.RandomFloat(60.f, 100.f);
+			RandomAngle_.y = GameEngineRandom::MainRandom.RandomFloat(40.f, 150.f);
+		}
+
+		CookingAngle_.x -= _DeltaTime * RandomAngle_.x;
+		CookingAngle_.y -= _DeltaTime * RandomAngle_.y;
+		LidRenderer_->GetTransform().SetLocalRotation({ CookingAngle_.x, CookingAngle_.y, 0.f });
+	}
+	if (true == IsChangeRot_)
+	{
+		if (10.f <= CookingAngle_.y)
+		{
+			IsChangeRot_ = false;
+			RandomAngle_.x = GameEngineRandom::MainRandom.RandomFloat(60.f, 100.f);
+			RandomAngle_.y = GameEngineRandom::MainRandom.RandomFloat(40.f, 150.f);
+		}
+
+		CookingAngle_.x += _DeltaTime * RandomAngle_.x;
+		CookingAngle_.y += _DeltaTime * RandomAngle_.y;
+		LidRenderer_->GetTransform().SetLocalRotation({ CookingAngle_.x, CookingAngle_.y, 0.f });
 	}
 }
 
