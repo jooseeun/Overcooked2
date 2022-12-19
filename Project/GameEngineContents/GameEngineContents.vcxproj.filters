@@ -320,6 +320,9 @@
     <ClInclude Include="GlobalBloomActor.h">
       <Filter>Global</Filter>
     </ClInclude>
+    <ClInclude Include="LightMap.h">
+      <Filter>Light</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -641,6 +644,9 @@
     <ClCompile Include="GlobalBloomActor.cpp">
       <Filter>Global</Filter>
     </ClCompile>
+    <ClCompile Include="LightMap.cpp">
+      <Filter>Light</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Contents">
@@ -708,6 +714,9 @@
     </Filter>
     <Filter Include="Contents\Physics">
       <UniqueIdentifier>{59141447-38d7-453b-bba0-eba1e810ea63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Light">
+      <UniqueIdentifier>{28c55263-4a83-43bf-8f11-b791f6b9085c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

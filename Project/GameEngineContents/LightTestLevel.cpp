@@ -9,6 +9,7 @@
 
 #include <GameEngineCore/GameEngineBlur.h>
 #include "GamePacket.h"
+#include "LightMap.h"
 
 LightTestLevel::LightTestLevel()
 {
@@ -47,6 +48,8 @@ void LightTestLevel::Start()
 
 void LightTestLevel::LevelStartEvent()
 {
+	std::shared_ptr<LightMap> Map = CreateActor<LightMap>();
+	Map->GetTransform().SetLocalPosition({ 0.0f, -300.0f, 0.0f });
 }
 
 void LightTestLevel::Update(float _DeltaTime)
