@@ -587,6 +587,18 @@ struct CombinFood
 		}
 	}
 
+	void Move(std::shared_ptr<CombinFood> _Food)
+	{
+		Food_Current_ = _Food->Food_Current_;
+		RefreshThumbnailAndRenderer();
+
+		_Food->Clear();
+	}
+
+	void Switching(std::shared_ptr<CombinFood> _Food)
+	{
+
+	}
 
 	static std::map<NoneFoodType, std::vector<IngredientType>> Static_NoneType_;
 	std::vector<IngredientType> Food_Current_;

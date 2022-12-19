@@ -58,6 +58,8 @@ void Equipment_Steamer::Start()
 	); 
 
 	StateManager.ChangeState("Idle");
+
+	GetCombinFood()->Start(2, shared_from_this());
 }
 
 void Equipment_Steamer::Update(float _DeltaTime)
