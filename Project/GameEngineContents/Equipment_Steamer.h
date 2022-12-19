@@ -56,10 +56,14 @@ private:
 	GameEngineStateManager StateManager;
 
 	bool IsInteraction_;
-	bool IsOpen_;
+	bool IsMoveDone_;
+	bool IsRotateDone_;
 	float Angle_;
+	float CurPosX_;
+	float CurPosY_;
 	float4 CurPos_;
 	float4 OpenPos_;
+	float4 ToolPos_;
 
 	std::shared_ptr<GameEngineActor> Lid_;
 	std::shared_ptr<GameEngineFBXStaticRenderer> LidRenderer_;

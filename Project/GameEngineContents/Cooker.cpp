@@ -25,7 +25,7 @@ void Cooker::Start()
 	ToolPos_ = {0.f, 85.f, 25.f};
 	SetToolPos(ToolPos_);
 
-	//SetStuff(GetLevel()->CreateActor<Tool_Cooker>());
+	SetStuff(GetLevel()->CreateActor<Tool_Cooker>());
 }
 
 
