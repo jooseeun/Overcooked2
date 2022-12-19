@@ -8,6 +8,7 @@ struct FoodData
 	std::vector<ToolInfo> Cookery;
 	std::vector<ToolInfo> CommonCookery;
 	float WaitingTime = 0.f;
+	int Score = 10;
 };
 
 struct RecipeSetData
@@ -52,6 +53,8 @@ public:
 	void OpenRecipe();
 
 	float GetLeftTime();
+
+	std::vector<int> GetScore();
 private:
 	void Update(float _DeltaTime);
 
@@ -105,7 +108,7 @@ public:
 	{
 		return static_cast<int>(Recipes_.size());
 	}
-	void Init(std::weak_ptr<InGameUIActor> _ParentActor_);
+	void Init(std::weak_ptr<InGameUIActor> _ParentActor_, std::function<void(int, int)> _Function); //¾Õint : À½½Ä Score, µÞ int : ÆÁ Á¡¼ö
 	void CreateRecipe(FoodType _Type);
 	bool HandOver(FoodType _Type);
 	//void DeleteRecipe(std::list<Recipe>::iterator _Iter);
@@ -118,6 +121,8 @@ private:
 
 	std::list<Recipe> Recipes_;
 	std::weak_ptr<InGameUIActor> ParentActor_;
+
+	std::function<void(int, int)> HandOverScore_;
 };
 
 class InGameUIActor : public UIActor
@@ -144,6 +149,8 @@ protected:
 	void CreateRandomRecipe();
 
 	bool HandOverFood(FoodType _Type);
+
+	void HandOverScore(int _FoodScore, int _FoodTips);
 
 	RecipeManager RecipeManager_;
 private:

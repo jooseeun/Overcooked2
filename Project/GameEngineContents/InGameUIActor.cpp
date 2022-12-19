@@ -5,6 +5,7 @@
 
 #include "GlobalGameData.h"
 #include "UIDebugGUI.h"
+#include "FadeFont.h"
 
 using namespace ContentsUtility;
 
@@ -76,10 +77,10 @@ void InGameUIActor::UIStart()
 		//ResistDebug("Score", ScoreUIInst_.Score->GetTransform());
 	}
 
-	NotDeleteRecipe_Timer_.StartTimer(10.f);
+	NotDeleteRecipe_Timer_.StartTimer(16.f);
 	NotDeleteRecipe_Timer_.SetTimeOverFunc(std::bind(&InGameUIActor::CreateRandomRecipe, this));
 	//레시피 매니저
-	RecipeManager_.Init(std::dynamic_pointer_cast<InGameUIActor>(shared_from_this()));
+	RecipeManager_.Init(std::dynamic_pointer_cast<InGameUIActor>(shared_from_this()), std::bind(&InGameUIActor::HandOverScore, this, std::placeholders::_1, std::placeholders::_2));
 	RecipeManager_.DebugFunction();
 	//	RecipeManager_.CreateRecipe(FoodType::FishSushimi);
 	//RecipeManager_.CreateRecipe(FoodType::PlainBurger);
@@ -231,14 +232,14 @@ void InGameUIActor::UpdateScore(float _DeltaTime)
 		{
 			float FontSize = GameEngineMath::Lerp(30.f, 35.f, GetScoreIter_);
 			ScoreUIInst_.Score->SetSize(FontSize);
-			float4 Color = float4::Lerp({ 1.0f,1.0f,1.0f,1.0f }, { 111.f / 256.f,59.f / 256.f,42.f / 256.f }, GetScoreIter_);
+			float4 Color = float4::Lerp({ 1.0f,1.0f,1.0f,1.0f }, { 0.f / 256.f,256.f / 256.f,0.f / 256.f }, GetScoreIter_);
 			ScoreUIInst_.Score->SetColor(Color);
 		}
 		else if (GetScoreIter_ >= 1.f && GetScoreIter_ < 2.f)
 		{
 			float FontSize = GameEngineMath::Lerp(35.f, 30.f, GetScoreIter_ - 1);
 			ScoreUIInst_.Score->SetSize(FontSize);
-			float4 Color = float4::Lerp({ 111.f / 256.f,59.f / 256.f,42.f / 256.f }, { 1.0f,1.0f,1.0f,1.0f }, GetScoreIter_ - 1);
+			float4 Color = float4::Lerp({ 0.f / 256.f,256.f / 256.f,0.f / 256.f }, { 1.0f,1.0f,1.0f,1.0f }, GetScoreIter_ - 1);
 			ScoreUIInst_.Score->SetColor(Color);
 		}
 		else
@@ -278,4 +279,26 @@ bool InGameUIActor::HandOverFood(FoodType _Type)
 		return true;
 	}
 	return false;
+}
+
+void InGameUIActor::HandOverScore(int _FoodScore, int _FoodTips)
+{
+	//딸배점수 추가
+
+	GlobalGameData::AddScore(_FoodScore, _FoodTips);
+	int TotalScore = _FoodScore + _FoodTips;
+
+	std::weak_ptr<FadeFont> ScoreFont = GetLevel()->CreateActor<FadeFont>();
+	ScoreFont.lock()->GetTransform().SetWorldPosition({ -520.f,-190.f });
+	ScoreFont.lock()->Init("+" + std::to_string(TotalScore), { 0.f / 256.f,256.f / 256.f,0.f / 256.f }, 42.f);
+
+	//팁 점수 폰트 출력
+	{
+		std::weak_ptr<FadeFont> TipsFont = GetLevel()->CreateActor<FadeFont>();
+		TipsFont.lock()->GetTransform().SetWorldPosition(GlobalGameData::GetCurStage().StageHandOverUIPos);
+		//TipsFont.lock()->Debug();
+		//ResistDebug("Tips", TipsFont.lock()->GetTransform());
+
+		TipsFont.lock()->Init("+" + std::to_string(_FoodTips) + " 팁!", { 0.f / 256.f,256.f / 256.f,0.f / 256.f }, 32.f);
+	}
 }

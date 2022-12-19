@@ -14,6 +14,11 @@ bool GlobalGameData::IsGameStart_ = false;
 ContentsUtility::Timer GlobalGameData::LeftTime_;;
 
 int GlobalGameData::Score_ = 0;
+int GlobalGameData::DeliveredScore_ = 0;
+int GlobalGameData::DeliveredCount_ = 0;
+int GlobalGameData::Tips_ = 0;
+int GlobalGameData::FailScore_ = 0;
+int GlobalGameData::FailCount_ = 0;
 int GlobalGameData::PlayerCount_ = 1;
 
 GlobalGameData::GlobalGameData()
@@ -37,7 +42,7 @@ InitGlobalGameData::InitGlobalGameData()
 			StageRecipe.push_back(FoodType::FishSushimi);
 			StageRecipe.push_back(FoodType::PrawnSushimi);
 			GlobalGameData::AllStageData_.insert(std::make_pair("1-1",
-				CreateStageData("1-1", Thema::SushiCity, StageRecipe)));
+				CreateStageData("1-1", Thema::SushiCity, StageRecipe, { 370,150 })));
 		}
 
 		{
@@ -48,7 +53,7 @@ InitGlobalGameData::InitGlobalGameData()
 			StageRecipe.push_back(FoodType::FishSushi);
 			StageRecipe.push_back(FoodType::FishandCucumberSushi);
 			GlobalGameData::AllStageData_.insert(std::make_pair("1-2",
-				CreateStageData("1-2", Thema::SushiCity, StageRecipe)));
+				CreateStageData("1-2", Thema::SushiCity, StageRecipe, { 520.f,170.f })));
 		}
 
 		{
@@ -98,7 +103,7 @@ InitGlobalGameData::InitGlobalGameData()
 				_Cookery.push_back(ToolInfo::FryingPan);
 
 				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-					CreateFoodData(_Type, _Ingredient, _Cookery, 30.f)));
+					CreateFoodData(_Type, _Ingredient, _Cookery, 80, 30.f)));
 			}
 
 			//치즈버거
@@ -117,7 +122,7 @@ InitGlobalGameData::InitGlobalGameData()
 				_Cookery.push_back(ToolInfo::None);
 
 				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-					CreateFoodData(_Type, _Ingredient, _Cookery, 50.f)));
+					CreateFoodData(_Type, _Ingredient, _Cookery, 100, 50.f)));
 			}
 
 			//치즈버거양배추토마토
@@ -138,7 +143,7 @@ InitGlobalGameData::InitGlobalGameData()
 				_Cookery.push_back(ToolInfo::FryingPan);
 
 				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-					CreateFoodData(_Type, _Ingredient, _Cookery, 80.f)));
+					CreateFoodData(_Type, _Ingredient, _Cookery, 130, 80.f)));
 			}
 		}
 		//만두들
@@ -155,7 +160,7 @@ InitGlobalGameData::InitGlobalGameData()
 				_Cookery.push_back(ToolInfo::Steamer);
 
 				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-					CreateFoodData(_Type, _Ingredient, _Cookery, 45.f)));
+					CreateFoodData(_Type, _Ingredient, _Cookery, 60, 45.f)));
 			}
 			//당근 만두
 			{
@@ -171,7 +176,7 @@ InitGlobalGameData::InitGlobalGameData()
 				_Cookery.push_back(ToolInfo::Steamer);
 
 				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-					CreateFoodData(_Type, _Ingredient, _Cookery, 55.f, true)));
+					CreateFoodData(_Type, _Ingredient, _Cookery, 80, 55.f, true)));
 			}
 			//고기 만두
 			{
@@ -187,7 +192,7 @@ InitGlobalGameData::InitGlobalGameData()
 				_Cookery.push_back(ToolInfo::Steamer);
 
 				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-					CreateFoodData(_Type, _Ingredient, _Cookery, 55.f, true)));
+					CreateFoodData(_Type, _Ingredient, _Cookery, 90, 55.f, true)));
 			}
 			//새우 만두
 			{
@@ -203,7 +208,7 @@ InitGlobalGameData::InitGlobalGameData()
 				_Cookery.push_back(ToolInfo::Steamer);
 
 				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-					CreateFoodData(_Type, _Ingredient, _Cookery, 55.f, true)));
+					CreateFoodData(_Type, _Ingredient, _Cookery, 90, 55.f, true)));
 			}
 		}
 
@@ -221,7 +226,7 @@ InitGlobalGameData::InitGlobalGameData()
 				_Cookery.push_back(ToolInfo::None);
 
 				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-					CreateFoodData(_Type, _Ingredient, _Cookery, 40.f)));
+					CreateFoodData(_Type, _Ingredient, _Cookery, 30, 40.f)));
 			}
 			//새우
 			{
@@ -235,7 +240,7 @@ InitGlobalGameData::InitGlobalGameData()
 				_Cookery.push_back(ToolInfo::None);
 
 				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-					CreateFoodData(_Type, _Ingredient, _Cookery, 37.f)));
+					CreateFoodData(_Type, _Ingredient, _Cookery, 30, 37.f)));
 			}
 		}
 
@@ -257,7 +262,7 @@ InitGlobalGameData::InitGlobalGameData()
 				_Cookery.push_back(ToolInfo::None);
 
 				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-					CreateFoodData(_Type, _Ingredient, _Cookery, 65.f)));
+					CreateFoodData(_Type, _Ingredient, _Cookery, 70, 65.f)));
 			}
 			//오이김밥
 			{
@@ -275,7 +280,7 @@ InitGlobalGameData::InitGlobalGameData()
 				_Cookery.push_back(ToolInfo::None);
 
 				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-					CreateFoodData(_Type, _Ingredient, _Cookery, 65.f)));
+					CreateFoodData(_Type, _Ingredient, _Cookery, 70, 65.f)));
 			}
 			//생선오이김밥
 			{
@@ -295,7 +300,7 @@ InitGlobalGameData::InitGlobalGameData()
 				_Cookery.push_back(ToolInfo::None);
 
 				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-					CreateFoodData(_Type, _Ingredient, _Cookery, 80.f)));
+					CreateFoodData(_Type, _Ingredient, _Cookery, 90, 80.f)));
 			}
 		}
 
@@ -316,7 +321,7 @@ InitGlobalGameData::InitGlobalGameData()
 				_Cookery.push_back(ToolInfo::FryingPan);
 
 				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-					CreateFoodData(_Type, _Ingredient, _Cookery, 55.f, true)));
+					CreateFoodData(_Type, _Ingredient, _Cookery, 80, 75.f, true)));
 			}
 			//블루베리 팬케이크
 			{
@@ -333,7 +338,7 @@ InitGlobalGameData::InitGlobalGameData()
 				_Cookery.push_back(ToolInfo::FryingPan);
 
 				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-					CreateFoodData(_Type, _Ingredient, _Cookery, 55.f, true)));
+					CreateFoodData(_Type, _Ingredient, _Cookery, 80, 80.f, true)));
 			}
 			//푸딩푸딩
 			{
@@ -351,26 +356,28 @@ InitGlobalGameData::InitGlobalGameData()
 				_Cookery.push_back(ToolInfo::FryingPan);
 
 				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-					CreateFoodData(_Type, _Ingredient, _Cookery, 55.f, true)));
+					CreateFoodData(_Type, _Ingredient, _Cookery, 120, 105.f, true)));
 			}
 		}
 	}
 }
 
-StageData InitGlobalGameData::CreateStageData(std::string_view _StageName, Thema _StageThema, std::vector<FoodType> _StageRecipe)
+StageData InitGlobalGameData::CreateStageData(std::string_view _StageName, Thema _StageThema, std::vector<FoodType> _StageRecipe, const float4 _StageHandOverUIPos)
 {
 	StageData NewData;
 	NewData.StageName = _StageName;
 	NewData.StageThema = _StageThema;
 	NewData.StageRecipe = _StageRecipe;
+	NewData.StageHandOverUIPos = _StageHandOverUIPos;
 	return NewData;
 }
 
-FoodData InitGlobalGameData::CreateFoodData(FoodType _Type, std::vector<IngredientType>& _Ingredient, std::vector<ToolInfo>& _Cookery, float _WaitingTime, bool IsCommonCookery)
+FoodData InitGlobalGameData::CreateFoodData(FoodType _Type, std::vector<IngredientType>& _Ingredient, std::vector<ToolInfo>& _Cookery, int _Score, float _WaitingTime, bool IsCommonCookery)
 {
 	FoodData NewFoodData;
 	NewFoodData.Type = _Type;
 	NewFoodData.Ingredient = _Ingredient;
+	NewFoodData.Score = _Score;
 	if (IsCommonCookery == false)
 	{
 		NewFoodData.Cookery = _Cookery;

@@ -323,6 +323,9 @@
     <ClInclude Include="LightMap.h">
       <Filter>Light</Filter>
     </ClInclude>
+    <ClInclude Include="FadeFont.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -646,6 +649,9 @@
     </ClCompile>
     <ClCompile Include="LightMap.cpp">
       <Filter>Light</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeFont.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1163,7 +1163,7 @@ void MapEditorWindow::SortToolTab()
 		CurStaticMesh_.lock()->SetParent(Origins_[OriginIndex].lock());
 
 		CurStaticMesh_.lock()->GetTransform().SetWorldPosition(Origins_[OriginIndex].lock()->GetTransform().GetWorldPosition());
-		CurStaticMesh_.lock()->GetTransform().SetWorldMove({ Index[0] * (-INTERVAL) + (-61.f), 0.f, Index[1] * INTERVAL });
+		CurStaticMesh_.lock()->GetTransform().SetWorldMove({ Index[0] * (-INTERVAL), 0.f, Index[1] * INTERVAL});
 
 		SortActorList_.push_back(CurStaticMesh_);
 		Origins_[OriginIndex].lock()->GetStaticMeshInfo().push_back(CurStaticMesh_);
