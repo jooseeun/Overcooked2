@@ -35,6 +35,7 @@
 #include "IcePlatform.h"
 
 #include "LoadingData.h"
+#include "GlobalGameData.h"
 
 namespace
 {
@@ -329,29 +330,36 @@ void MapEditorWindow::ShowLevelSelectTable()
 				case 0:
 					LoadingData::GetFunc("1-" + std::to_string(LevelIndex_ + 1))();
 					LevelActor_.lock()->SetLevelMesh("1_1.FBX");
+					GlobalGameData::SetCurStage("1-1");
 					break;
 
 				case 1:
 					LoadingData::GetFunc("1-" + std::to_string(LevelIndex_ + 1))();
 					LevelActor_.lock()->SetLevelMesh("1_2.FBX");
+					GlobalGameData::SetCurStage("1-2");
+
 					break;
 
 				case 2:
 					LoadingData::GetFunc("1-" + std::to_string(LevelIndex_ + 1))();
 					LevelActor_.lock()->SetLevelMesh("1_3.FBX");
+					GlobalGameData::SetCurStage("1-3");
 					break;
 
 				case 3:
 					LoadingData::GetFunc("1-" + std::to_string(LevelIndex_ + 1))();
 					LevelActor_.lock()->SetLevelMesh("1_4.FBX");
+					GlobalGameData::SetCurStage("1-4");
 					break;
 
 				case 4:
 					LoadingData::GetFunc("2-1")();
 					LevelActor_.lock()->SetLevelMesh("2_1.FBX");
+					GlobalGameData::SetCurStage("2-1");
 					break;
 				default:
 					LevelActor_.lock()->SetLevelMesh("1_1.FBX");
+					GlobalGameData::SetCurStage("1-1");
 					break;
 				}
 			}
@@ -941,8 +949,8 @@ void MapEditorWindow::SortToolTab()
 			if (true == IsFoods_[i])
 			{
 				std::dynamic_pointer_cast<FoodBox>(SortActorList_[ActorIndex].lock())->SetFoodType(static_cast<IngredientType>(i - 1));
-		/*		std::weak_ptr<FoodBox> Food = std::dynamic_pointer_cast<FoodBox>(SortActorList_[ActorIndex].lock());
-				Food.lock()->SetFoodType(static_cast<IngredientType>(i - 1));*/
+				/*		std::weak_ptr<FoodBox> Food = std::dynamic_pointer_cast<FoodBox>(SortActorList_[ActorIndex].lock());
+						Food.lock()->SetFoodType(static_cast<IngredientType>(i - 1));*/
 			}
 		}
 	}
@@ -1143,7 +1151,7 @@ void MapEditorWindow::SortToolTab()
 		CurStaticMesh_.lock()->SetParent(Origins_[OriginIndex].lock());
 
 		CurStaticMesh_.lock()->GetTransform().SetWorldPosition(Origins_[OriginIndex].lock()->GetTransform().GetWorldPosition());
-		CurStaticMesh_.lock()->GetTransform().SetWorldMove({ Index[0] * (-INTERVAL) + (-61.f), 0.f, Index[1] * INTERVAL});
+		CurStaticMesh_.lock()->GetTransform().SetWorldMove({ Index[0] * (-INTERVAL) + (-61.f), 0.f, Index[1] * INTERVAL });
 
 		SortActorList_.push_back(CurStaticMesh_);
 		Origins_[OriginIndex].lock()->GetStaticMeshInfo().push_back(CurStaticMesh_);
