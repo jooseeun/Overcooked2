@@ -374,6 +374,7 @@ void Overcooked::InputMake()
 	}
 
 	GameEngineInput::GetInst()->CreateKey("Contents_Debug", 'B');
+	GameEngineInput::GetInst()->CreateKey("SteamerTest", VK_NUMPAD9);
 }
 
 void Overcooked::LoadStage(std::string_view _StageName)

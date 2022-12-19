@@ -4,9 +4,9 @@
 enum class SteamerState
 {
 	Idle, 
-	CookStart,
 	Cooking,
-	CookDone,
+	Open,
+	Close,
 	Max,
 };
 
@@ -25,14 +25,14 @@ public:
 	Equipment_Steamer& operator=(Equipment_Steamer&& _Other) noexcept = delete;
 
 public:
-	inline SteamerState GetSteamerState()
-	{
-		return SteamerState_;
-	}
-
 	inline void SetSteamerState(SteamerState _SteamerState)
 	{
 		SteamerState_ = _SteamerState;
+	}
+
+	inline void SwitchInteraction()
+	{
+		IsInteraction_ = !IsInteraction_;
 	}
 
 protected:
@@ -42,14 +42,14 @@ protected:
 	void IdleStart(const StateInfo& _Info);
 	void IdleUpdate(float _DeltaTime, const StateInfo& _Info);
 
-	void CookStartStart(const StateInfo& _Info);
-	void CookStartUpdate(float _DeltaTime, const StateInfo& _Info);
+	void OpenStart(const StateInfo& _Info);
+	void OpenUpdate(float _DeltaTime, const StateInfo& _Info);
 
 	void CookingStart(const StateInfo& _Info);
 	void CookingUpdate(float _DeltaTime, const StateInfo& _Info);
 
-	void CookDoneStart(const StateInfo& _Info);
-	void CookDoneUpdate(float _DeltaTime, const StateInfo& _Info);
+	void CloseStart(const StateInfo& _Info);
+	void CloseUpdate(float _DeltaTime, const StateInfo& _Info);
 
 private:
 	SteamerState SteamerState_;
@@ -58,10 +58,10 @@ private:
 	bool IsInteraction_;
 	bool IsOpen_;
 	float Angle_;
+	float4 CurPos_;
+	float4 OpenPos_;
 
 	std::shared_ptr<GameEngineActor> Lid_;
-
-	// 
-
+	std::shared_ptr<GameEngineFBXStaticRenderer> LidRenderer_;
 };
 
