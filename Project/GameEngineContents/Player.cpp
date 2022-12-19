@@ -91,6 +91,19 @@ void Player::Start()
 		PlayerName_[5] = "Panda";
 
 	}
+	{
+		std::shared_ptr <GameEngineDefaultRenderer> Renderer = CreateComponent<GameEngineDefaultRenderer>();
+
+		Renderer->SetMesh("Box");
+		Renderer->SetMaterial("Color");
+		Renderer->GetTransform().SetLocalScale({ 100.0f, 100.0f, 100.0f });
+
+		if (true == Renderer->GetRenderUnit()->ShaderResources.IsConstantBuffer("ResultColor"))
+		{
+			Renderer->GetRenderUnit()->ShaderResources.SetConstantBufferNew("ResultColor", float4(1.0f, 0.0f, 0.0f, 1.0f));
+		}
+	}
+
 
 	for (int i = 0; i < 6; i++)
 	{
@@ -254,57 +267,65 @@ void Player::Start()
 	PlayerCameraCollision_->ChangeOrder(CollisionOrder::Max);
 	PlayerCameraCollision_->GetTransform().SetLocalScale({ 200,200,200 });
 	PlayerCameraCollision_->GetTransform().SetLocalPosition({ 0,0,0 });
+	if (false == OnePlayerInit)
+	{
 
-	StateManager.CreateStateMember("Idle"
-		, std::bind(&Player::IdleUpdate, this, std::placeholders::_1, std::placeholders::_2)
-		, std::bind(&Player::IdleStart, this, std::placeholders::_1)
-	);
-	StateManager.CreateStateMember("Move"
-		, std::bind(&Player::MoveUpdate, this, std::placeholders::_1, std::placeholders::_2)
-		, std::bind(&Player::MoveStart, this, std::placeholders::_1)
-	);
-	StateManager.CreateStateMember("Throw"
-		, std::bind(&Player::ThrowUpdate, this, std::placeholders::_1, std::placeholders::_2)
-		, std::bind(&Player::ThrowStart, this, std::placeholders::_1)
-	);
-	StateManager.CreateStateMember("HoldUp"
-		, std::bind(&Player::HoldUpUpdate, this, std::placeholders::_1, std::placeholders::_2)
-		, std::bind(&Player::HoldUpStart, this, std::placeholders::_1)
-	);
-	StateManager.CreateStateMember("HoldDown"
-		, std::bind(&Player::HoldDownUpdate, this, std::placeholders::_1, std::placeholders::_2)
-		, std::bind(&Player::HoldDownStart, this, std::placeholders::_1)
-	);
-	StateManager.CreateStateMember("Slice"
-		, std::bind(&Player::SliceUpdate, this, std::placeholders::_1, std::placeholders::_2)
-		, std::bind(&Player::SliceStart, this, std::placeholders::_1)
-	);
-	StateManager.CreateStateMember("DishWash"
-		, std::bind(&Player::DishWashUpdate, this, std::placeholders::_1, std::placeholders::_2)
-		, std::bind(&Player::DishWashStart, this, std::placeholders::_1)
-	);
-	StateManager.CreateStateMember("FireOff"
-		, std::bind(&Player::FireOffUpdate, this, std::placeholders::_1, std::placeholders::_2)
-		, std::bind(&Player::FireOffStart, this, std::placeholders::_1)
-	);
-	StateManager.CreateStateMember("CannonInter"
-		, std::bind(&Player::CannonInterUpdate, this, std::placeholders::_1, std::placeholders::_2)
-		, std::bind(&Player::CannonInterStart, this, std::placeholders::_1)
-	);
-	StateManager.CreateStateMember("CannonFly"
-		, std::bind(&Player::CannonFlyUpdate, this, std::placeholders::_1, std::placeholders::_2)
-		, std::bind(&Player::CannonFlyStart, this, std::placeholders::_1)
-	);
-	StateManager.CreateStateMember("Drowning"
-		, std::bind(&Player::DrowningUpdate, this, std::placeholders::_1, std::placeholders::_2)
-		, std::bind(&Player::DrowningStart, this, std::placeholders::_1)
-	);
-	StateManager.CreateStateMember("CarDeath"
-		, std::bind(&Player::CarDeathUpdate, this, std::placeholders::_1, std::placeholders::_2)
-		, std::bind(&Player::CarDeathStart, this, std::placeholders::_1)
-	);
+		StateManager.CreateStateMember("Idle"
+			, std::bind(&Player::IdleUpdate, this, std::placeholders::_1, std::placeholders::_2)
+			, std::bind(&Player::IdleStart, this, std::placeholders::_1)
+		);
+		StateManager.CreateStateMember("Move"
+			, std::bind(&Player::MoveUpdate, this, std::placeholders::_1, std::placeholders::_2)
+			, std::bind(&Player::MoveStart, this, std::placeholders::_1)
+		);
+		StateManager.CreateStateMember("Throw"
+			, std::bind(&Player::ThrowUpdate, this, std::placeholders::_1, std::placeholders::_2)
+			, std::bind(&Player::ThrowStart, this, std::placeholders::_1)
+		);
+		StateManager.CreateStateMember("HoldUp"
+			, std::bind(&Player::HoldUpUpdate, this, std::placeholders::_1, std::placeholders::_2)
+			, std::bind(&Player::HoldUpStart, this, std::placeholders::_1)
+		);
+		StateManager.CreateStateMember("HoldDown"
+			, std::bind(&Player::HoldDownUpdate, this, std::placeholders::_1, std::placeholders::_2)
+			, std::bind(&Player::HoldDownStart, this, std::placeholders::_1)
+		);
+		StateManager.CreateStateMember("Slice"
+			, std::bind(&Player::SliceUpdate, this, std::placeholders::_1, std::placeholders::_2)
+			, std::bind(&Player::SliceStart, this, std::placeholders::_1)
+		);
+		StateManager.CreateStateMember("DishWash"
+			, std::bind(&Player::DishWashUpdate, this, std::placeholders::_1, std::placeholders::_2)
+			, std::bind(&Player::DishWashStart, this, std::placeholders::_1)
+		);
+		StateManager.CreateStateMember("FireOff"
+			, std::bind(&Player::FireOffUpdate, this, std::placeholders::_1, std::placeholders::_2)
+			, std::bind(&Player::FireOffStart, this, std::placeholders::_1)
+		);
+		StateManager.CreateStateMember("CannonInter"
+			, std::bind(&Player::CannonInterUpdate, this, std::placeholders::_1, std::placeholders::_2)
+			, std::bind(&Player::CannonInterStart, this, std::placeholders::_1)
+		);
+		StateManager.CreateStateMember("CannonFly"
+			, std::bind(&Player::CannonFlyUpdate, this, std::placeholders::_1, std::placeholders::_2)
+			, std::bind(&Player::CannonFlyStart, this, std::placeholders::_1)
+		);
+		StateManager.CreateStateMember("Drowning"
+			, std::bind(&Player::DrowningUpdate, this, std::placeholders::_1, std::placeholders::_2)
+			, std::bind(&Player::DrowningStart, this, std::placeholders::_1)
+		);
+		StateManager.CreateStateMember("CarDeath"
+			, std::bind(&Player::CarDeathUpdate, this, std::placeholders::_1, std::placeholders::_2)
+			, std::bind(&Player::CarDeathStart, this, std::placeholders::_1)
+		);
 
-	StateManager.ChangeState("Idle");
+		StateManager.ChangeState("Idle");
+
+		IsPlayerble = true;
+		OnePlayerInit = true;
+	
+	}
+	
 	ChangePlayerColor();
 
 
@@ -1285,11 +1306,11 @@ CollisionReturn Player::PushButton(std::shared_ptr<GameEngineCollision> _This, s
 
 void Player::ServerStart()
 {
-	if (false == OnePlayerInit)
-	{
-		IsPlayerble = true;
-		OnePlayerInit = true;
-	}
+	//if (false == OnePlayerInit)
+	//{
+	//	IsPlayerble = true;
+	//	OnePlayerInit = true;
+	//}
 }
 
 void Player::ServerUpdate(float _DeltaTime)
@@ -1311,10 +1332,10 @@ void Player::ServerUpdate(float _DeltaTime)
 		Packet->ObjectID = GetNetID();
 		Packet->Type = ServerObjectType::Player;
 		Packet->State = ServerObjectBaseState::Base;
-		Packet->Pos = GetTransform().GetWorldPosition();
+		Packet->Pos = float4{ -1400, 500, 200 };
 		Packet->Rot = GetTransform().GetWorldRotation();
-		Packet->Scale = GetTransform().GetWorldScale();
-		Packet->Animation = "Test";
+		Packet->Scale = float4{100,100,100};
+		//Packet->Animation = CurAniName_;
 		CurManager->Net->SendPacket(Packet);
 
 		if (Player::MaxPlayerCount_ < Packet->ObjectID)

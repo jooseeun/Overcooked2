@@ -168,7 +168,7 @@ public:
 
 
 
-
+	std::string CurAniName_;
 	std::string PNumString;
 	std::string IsHolding_;
 	
@@ -211,7 +211,7 @@ private:
 
 private:
 	float4 CannonFlyPos_;
-
+	
 	void CameraMove(float _DeltaTime);
 	bool IsCameraMove_;
 	bool IsThrow_;
