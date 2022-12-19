@@ -40,7 +40,8 @@ void GamePlayLevel::LevelStartEvent()
 	//남은시간 초기화
 	GlobalGameData::GetLeftTimeRef().StartTimer(GlobalGameData::GetMaxTime());
 	//남은 스코어 초기화
-	GlobalGameData::SetScore(0);
+	//GlobalGameData::SetScore(0);
+	GlobalGameData::ResetScore();
 	//현재 스테이지로 셋팅
 	GlobalGameData::SetCurStage(GetName());
 	//아직 게임시작하지 않은 상태

@@ -18,9 +18,10 @@ RecipeManager::~RecipeManager()
 	Recipes_.clear();
 }
 
-void RecipeManager::Init(std::weak_ptr<InGameUIActor> _ParentActor_)
+void RecipeManager::Init(std::weak_ptr<InGameUIActor> _ParentActor_, std::function<void(int, int)> _Function)
 {
 	ParentActor_ = _ParentActor_;
+	HandOverScore_ = _Function;
 }
 
 void RecipeManager::CreateRecipe(FoodType _Type)
@@ -230,6 +231,9 @@ bool RecipeManager::HandOver(FoodType _Type)
 	}
 
 	MostLeftIter->IsHandOver_ = true;
+	std::vector<int> ScoreVector = MostLeftIter->GetScore();
+	HandOverScore_(ScoreVector[0], ScoreVector[1]);
+	//퍼센트 기반 팁점수, 기본점수 > 필요한건
 	return true;
 
 	//_Iter->ParentRenderer_.lock()->Death();
@@ -535,6 +539,17 @@ void Recipe::OpenRecipe()
 float Recipe::GetLeftTime()
 {
 	return GlobalTimer_.GetCurTime();
+}
+
+std::vector<int> Recipe::GetScore()
+{
+	std::vector<int> Vector;
+	Vector.push_back(Data_.Score);
+
+	int Tips = static_cast<int>((GlobalTimer_.GetCurTime() / GlobalTimer_.Default_Time_) * Data_.Score);
+	Vector.push_back(Tips);
+
+	return Vector;
 }
 
 void Recipe::Update(float _DeltaTime)

@@ -14,14 +14,15 @@ struct StageData
 	std::string StageName; //1-1, 1-2
 	Thema StageThema;
 	std::vector<FoodType> StageRecipe; //해당 스테이지에 나오는 음식들
+	float4 StageHandOverUIPos; //음식을 제출하는 위치 >UI에서
 };
 class InitGlobalGameData
 {
 public:
 	InitGlobalGameData();
 private:
-	StageData CreateStageData(std::string_view _StageName, Thema _StageThema, std::vector<FoodType> _StageRecipe);
-	FoodData CreateFoodData(FoodType _Type, std::vector<IngredientType>& _Ingredient, std::vector<ToolInfo>& _Cookery, float _WaitingTime, bool IsCommonCookery = false);
+	StageData CreateStageData(std::string_view _StageName, Thema _StageThema, std::vector<FoodType> _StageRecipe, const float4 _StageHandOverUIPos = { 0,0 });
+	FoodData CreateFoodData(FoodType _Type, std::vector<IngredientType>& _Ingredient, std::vector<ToolInfo>& _Cookery, int _Score, float _WaitingTime, bool IsCommonCookery = false);
 };
 
 struct FoodData;
@@ -83,9 +84,28 @@ public:
 		}
 	}
 
+	static void AddScore(int _FoodScore, int _Tips)
+	{
+		DeliveredScore_ += _FoodScore;
+		DeliveredCount_++;
+		Tips_ += _Tips;
+
+		Score_ += _FoodScore + _Tips;
+	}
+
 	static void SetScore(int _Value)
 	{
 		Score_ = _Value;
+	}
+
+	static void ResetScore()
+	{
+		Score_ = 0;
+		DeliveredScore_ = 0;
+		DeliveredCount_ = 0;
+		Tips_ = 0;
+		FailScore_ = 0;
+		FailCount_ = 0;
 	}
 
 	static FoodData GetFoodData(FoodType _Type)
@@ -117,7 +137,13 @@ private:
 
 	static ContentsUtility::Timer LeftTime_;
 
+	//점수관련
 	static int Score_;
+	static int DeliveredScore_;
+	static int DeliveredCount_;
+	static int Tips_;
+	static int FailScore_;
+	static int FailCount_;
 
 	static int PlayerCount_;
 
