@@ -26,10 +26,10 @@ void ServerInitManager::ObjectUpdatePacketProcess(std::shared_ptr<GameServerPack
 	{
 		if (ServerObjectType::Player == Packet->Type)
 		{
-			//if (Player::MaxPlayerCount_ < Packet->ObjectID)
-			//{
-			//	Player::MaxPlayerCount_ = Packet->ObjectID;
-			//}
+			if (Player::MaxPlayerCount_ < Packet->ObjectID)
+			{
+				Player::MaxPlayerCount_ = Packet->ObjectID;
+			}
 		}
 
 		return;
@@ -55,7 +55,7 @@ void ServerInitManager::ClientInitPacketProcess(std::shared_ptr<GameServerPacket
 		MsgBoxAssert("호스트인데 클라이언트용 패킷을 받았습니다.");
 	}
 
-	//Player::GetMyPlayer()->ClientInit(ServerObjectType::Player, Packet->ObjectID);
+	Player::GetMyPlayer()->ClientInit(ServerObjectType::Player, Packet->ObjectID);
 }
 
 void ServerInitManager::Ignore(std::shared_ptr<GameServerPacket> _Packet)
@@ -65,12 +65,6 @@ void ServerInitManager::Ignore(std::shared_ptr<GameServerPacket> _Packet)
 
 void ServerInitManager::StartInit()
 {
-	//if (nullptr == Player::GetMyPlayer())
-	//{
-	//	Player::SetMyPlayer(GEngine::GetCurrentLevel()->CreateActor<Player>());
-	//	Player::GetMyPlayer()->SetLevelOverOn();
-	//}
-
 	if (true == GameEngineStatusWindow::IsHost)
 	{
 		Server.Accept(30001);
@@ -85,7 +79,7 @@ void ServerInitManager::StartInit()
 			Server.NetSendPacket(_User, Packet);
 		};
 
-		//Player::GetMyPlayer()->CastThis<GameServerObject>()->ServerInit(ServerObjectType::Player);
+		Player::GetMyPlayer()->CastThis<GameServerObject>()->ServerInit(ServerObjectType::Player);
 	}
 	else
 	{
@@ -115,7 +109,7 @@ void ServerInitManager::StartInit()
 	};
 
 	Net->Dis.AddHandler(ContentsPacketType::ObjectUpdate, std::bind(&ServerInitManager::ObjectUpdatePacketProcess, this, std::placeholders::_1));
-	//Net->Dis.AddHandler(ContentsPacketType::Ignore, std::bind(&ServerInitManager::Ignore, this, std::placeholders::_1));
+	Net->Dis.AddHandler(ContentsPacketType::Ignore, std::bind(&ServerInitManager::Ignore, this, std::placeholders::_1));
 	Net->Dis.AddHandler(ContentsPacketType::None, std::bind(&ServerInitManager::Ignore, this, std::placeholders::_1));
 
 	if (true == Net->GetIsHost())
@@ -137,16 +131,16 @@ void ServerInitManager::Update(float _Delta)
 		return;
 	}
 
-	//if (Player::MaxPlayerCount_ > Player::PlayerCount_)
-	//{
-	//	for (int i = 0; i < Player::MaxPlayerCount_; i++)
-	//	{
-	//		if (nullptr == GameServerObject::GetServerObject(i + 1))
-	//		{
-	//			std::shared_ptr<Player> NewPlayer = GEngine::GetCurrentLevel()->CreateActor<Player>();
-	//			NewPlayer->ClientInit(ServerObjectType::Player, i + 1);
-	//			NewPlayer->GetTransform().SetLocalPosition({ -1400, 500, 200 });
-	//		}
-	//	}
-	//}
+	if (Player::MaxPlayerCount_ > Player::PlayerCount_)
+	{
+		for (int i = 0; i < Player::MaxPlayerCount_; i++)
+		{
+			if (nullptr == GameServerObject::GetServerObject(i + 1))
+			{
+				std::shared_ptr<Player> NewPlayer = GEngine::GetCurrentLevel()->CreateActor<Player>();
+				NewPlayer->ClientInit(ServerObjectType::Player, i + 1);
+				NewPlayer->GetTransform().SetLocalPosition({ -1400, 500, 200 });
+			}
+		}
+	}
 }
