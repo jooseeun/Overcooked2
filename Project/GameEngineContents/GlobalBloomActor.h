@@ -21,6 +21,7 @@ protected:
 
 private:
 	std::shared_ptr<GameEngineTextureRenderer> BloomEffectRenderer_;
+	PixelData PixelData_;
 
 };
 

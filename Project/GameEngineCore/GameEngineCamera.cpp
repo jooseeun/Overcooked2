@@ -122,22 +122,23 @@ void GameEngineCamera::Render(float _DeltaTime)
 			Renderer->GetTransform().SetView(View);
 			Renderer->GetTransform().SetProjection(Projection);
 			Renderer->GetTransform().CalculateWorldViewProjection();
-			Renderer->Render(_DeltaTime);
+
+			//Renderer->Render(_DeltaTime);
 		}
 	}
 
 	{
 		std::map<RENDERINGPATHORDER, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>::iterator ForwardIter
 			= AllRenderUnit_.find(RENDERINGPATHORDER::FORWARD);
-
+	
 		std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& OrderMap = ForwardIter->second;
 		for (std::pair<const int, std::list<std::shared_ptr<GameEngineRenderUnit>>>& Group : OrderMap)
 		{
 			float ScaleTime = GameEngineTime::GetInst()->GetDeltaTime(Group.first);
-
+	
 			std::list<std::shared_ptr<GameEngineRenderUnit>>& RenderList = Group.second;
 			RenderList.sort(ZSortUnit);
-
+	
 			for (std::shared_ptr<GameEngineRenderUnit>& Unit : RenderList)
 			{
 				if (false == Unit->GetIsOn())
@@ -147,44 +148,44 @@ void GameEngineCamera::Render(float _DeltaTime)
 				// 인스턴싱 정보 수집
 				Unit->Render(ScaleTime);
 			}
-
+	
 			int a = 0;
 		}
 	}
-
+	
 	//// 포워드 인스턴싱을 랜더링
 	{
 		// 쉐이더 리소스 세팅이 다른애들이 있으면
 		std::unordered_map<std::string, GameEngineInstancing>::iterator StartIter = InstancingMap.begin();
 		std::unordered_map<std::string, GameEngineInstancing>::iterator EndIter = InstancingMap.end();
-
+	
 		for (; StartIter != EndIter; ++StartIter)
 		{
 			StartIter->second.RenderInstancing(_DeltaTime);
 		}
 	}
-
+	
 	// 포워드 타겟이 세팅되고
 	CameraDeferredGBufferRenderTarget->Clear(false);
 	CameraDeferredGBufferRenderTarget->Setting();
 	CurTarget = CameraDeferredGBufferRenderTarget;
-
+	
 	{
 		std::map<RENDERINGPATHORDER, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>::iterator ForwardIter
 			= AllRenderUnit_.find(RENDERINGPATHORDER::DEFERRED);
-
+	
 		std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& OrderMap = ForwardIter->second;
-
+	
 		std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>::iterator OrderStartIter = OrderMap.begin();
 		std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>::iterator OrderEndIter = OrderMap.end();
-
+	
 		for (std::pair<const int, std::list<std::shared_ptr<GameEngineRenderUnit>>>& Group : OrderMap)
 		{
 			float ScaleTime = GameEngineTime::GetInst()->GetDeltaTime(Group.first);
-
+	
 			std::list<std::shared_ptr<GameEngineRenderUnit>>& RenderList = Group.second;
 			RenderList.sort(ZSortUnit);
-
+	
 			for (std::shared_ptr<GameEngineRenderUnit>& Unit : RenderList)
 			{
 				if (false == Unit->GetIsOn())
@@ -196,11 +197,11 @@ void GameEngineCamera::Render(float _DeltaTime)
 			}
 		}
 	}
-
+	
 	CameraDeferredLightRenderTarget->Clear();
 	CameraDeferredLightRenderTarget->Effect(DeferredCalLightUnit);
-
-
+	
+	
 	CameraDeferredRenderTarget->Clear();
 	CameraDeferredRenderTarget->Effect(DeferredMergeUnit);
 

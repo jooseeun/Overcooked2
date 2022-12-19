@@ -16,7 +16,7 @@
 #include <GameEngineCore/GlobalVignette.h>
 #include <GameEngineCore/GlobalOverlay.h>
 #include <GameEngineCore/GlobalBloom.h>
-#include "WaterTest.h"
+#include "GlobalBloomActor.h"
 
 Stage_1_1::Stage_1_1()
 {
@@ -91,9 +91,9 @@ void Stage_1_1::PlayLevelStartEvent()
 	GlobalIOManager::Load(IOType::UnsortMap, 0);
 	DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
 
-	std::shared_ptr<WaterTest> MainWater = CreateActor<WaterTest>();
-	MainWater->GetTransform().SetLocalPosition({ -1400, 500, 200 });
-	MainWater->GetTransform().SetWorldScale({ 800, 800, 800 });
+	std::shared_ptr<GlobalBloomActor> BloomActor = CreateActor<GlobalBloomActor>();
+	BloomActor->GetTransform().SetLocalPosition({ -1400, 500, 200 });
+	BloomActor->GetTransform().SetWorldScale(float4::ONE * 500);
 
 	std::shared_ptr<Player> MainPlayer_ = CreateActor<Player>();
 	MainPlayer_->GetTransform().SetLocalPosition({ -1400, 500, 200 });

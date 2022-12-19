@@ -42,16 +42,10 @@ float4 AddBlendAlpha_PS(Output _Input) : SV_Target0
 {
     float4 Result = (DiffuseTexture.Sample(LINEARWRAP, _Input.Tex.xy + UV.xy) * MulColor) + PlusColor;
 
-    if (Result.r + Result.b < 1.0f)
-    {
-        clip(-1);
-    }
-
-    if (true == AlphaFlag)
+    if (0 != AlphaFlag)
     {
         Result.a = 1.0f;
     }
-
     else
     {
         Result.a = 0.25f;
