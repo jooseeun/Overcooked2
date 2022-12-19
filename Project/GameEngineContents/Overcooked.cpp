@@ -19,6 +19,7 @@
 
 #include "MeshToolLevel.h"
 #include "ServerTestLevel.h"
+#include "RendererTestLevel.h"
 
 #include <GameEngineCore/GameEngineBlend.h>
 
@@ -93,6 +94,7 @@ void Overcooked::Start()
 	CreateLevel<MeshToolLevel>("MeshToolLevel");
 	CreateLevel<TitleLevel>("TitleLevel");
 	CreateLevel<ResultLevel>("ResultLevel");
+	CreateLevel<RendererTestLevel>("RendererTestLevel");
 
 	CreateLevel<ServerTestLevel>("ServerTestLevel");
 
@@ -210,6 +212,22 @@ void Overcooked::End()
 
 void Overcooked::MeshLoad()
 {
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		Dir.Move("ContentsResources");
+		Dir.Move("Mesh");
+		Dir.Move("Level");
+		Dir.Move("1_1");
+
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("1_1.FBX"));
+		}
+	}
+
+	LoadStage("1_1\\SortObject");
+
 	//std::vector<std::string_view> TmpMeshs;
 	//TmpMeshs.push_back("Object\\StaticObject\\CounterTop\\m_sk_countertop_01.FBX");
 	//TmpMeshs.push_back("Object\\StaticObject\\CounterTop_Corner\\m_lorry_countertop_corner_01.FBX");
@@ -391,6 +409,7 @@ void Overcooked::LoadStage(std::string_view _StageName)
 
 void Overcooked::LoadCommonResource()
 {
+
 
 	//{
 	//	GameEngineDirectory Dir;

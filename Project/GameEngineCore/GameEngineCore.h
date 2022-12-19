@@ -50,6 +50,7 @@ public:
 	{
 		return AllLevels;
 	}
+	static class GameEngineLevel* FindLevel(const std::string& _Name);
 
 protected:
 	virtual std::string GetWindowTitle() { return "MainWindow"; }
@@ -63,7 +64,6 @@ protected:
 	GameEngineCore();
 	~GameEngineCore();
 
-	static class GameEngineLevel* FindLevel(const std::string& _Name);
 
 	template<typename LevelType>
 	static GameEngineLevel* CreateLevel(const std::string& _Name)

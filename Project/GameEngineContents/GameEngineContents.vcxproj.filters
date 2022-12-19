@@ -326,6 +326,9 @@
     <ClInclude Include="FadeFont.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="RendererTestLevel.h">
+      <Filter>Level\Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -652,6 +655,9 @@
     </ClCompile>
     <ClCompile Include="FadeFont.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="RendererTestLevel.cpp">
+      <Filter>Level\Stage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
