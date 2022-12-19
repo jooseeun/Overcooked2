@@ -98,6 +98,7 @@ void Overcooked::Start()
 
 	ChangeLevel("SelectStage");
 
+
 	GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
 
 	GameEngineInput::GetInst()->CreateKey("SubTest", 'K');
