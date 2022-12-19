@@ -122,6 +122,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 			Renderer->GetTransform().SetView(View);
 			Renderer->GetTransform().SetProjection(Projection);
 			Renderer->GetTransform().CalculateWorldViewProjection();
+			Renderer->Render(_DeltaTime);
 		}
 	}
 

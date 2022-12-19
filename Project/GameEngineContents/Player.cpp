@@ -148,7 +148,7 @@ void Player::Start()
 		PlayerIdleRenderer_[i]->GetTransform().SetLocalScale({ 100,100,100 });
 
 		PlayerWalkRenderer_[i] = CreateComponent<GameEngineFBXAnimationRenderer>();
-		PlayerWalkRenderer_[i]->SetFBXMesh(PlayerName_[i] + "_Walk.FBX", "TextureAnimation");
+		PlayerWalkRenderer_[i]->SetFBXMesh(PlayerName_[i] + "_Walk.FBX", "LightObject");
 		PlayerWalkRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Walk",
 			GameEngineRenderingEvent(PlayerName_[i] + "_Walk.FBX", 0.035f, true)); // Idle ȣȯ x
 		PlayerWalkRenderer_[i]->ChangeAnimation(PlayerName_[i] + "Walk");
@@ -157,7 +157,7 @@ void Player::Start()
 
 
 		PlayerWashRenderer_[i] = CreateComponent<GameEngineFBXAnimationRenderer>();
-		PlayerWashRenderer_[i]->SetFBXMesh(PlayerName_[i] + "_Wash.FBX", "TextureAnimation");
+		PlayerWashRenderer_[i]->SetFBXMesh(PlayerName_[i] + "_Wash.FBX", "LightObject");
 		PlayerWashRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Wash",
 			GameEngineRenderingEvent(PlayerName_[i] + "_Wash.FBX", 0.035f, true)); // Idle ȣȯ x
 		PlayerWashRenderer_[i]->ChangeAnimation(PlayerName_[i] + "Wash");
@@ -166,7 +166,7 @@ void Player::Start()
 		PlayerWashRenderer_[i]->Off();
 
 		PlayerChopRenderer_[i] = CreateComponent<GameEngineFBXAnimationRenderer>();
-		PlayerChopRenderer_[i]->SetFBXMesh(PlayerName_[i] + "_Chop.FBX", "TextureAnimation");
+		PlayerChopRenderer_[i]->SetFBXMesh(PlayerName_[i] + "_Chop.FBX", "LightObject");
 		PlayerChopRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "Chop",
 			GameEngineRenderingEvent(PlayerName_[i] + "_Chop.FBX", 0.02f, true)); // Idle ȣȯ x
 		PlayerChopRenderer_[i]->ChangeAnimation(PlayerName_[i] + "Chop");

@@ -115,6 +115,10 @@ void Stage_1_1::PlayLevelStartEvent()
 	std::shared_ptr<GlobalVignette> GlobalVignette_ = GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalVignette>();
 	GraphicWindow::Main_->SetVignette(GlobalVignette_);
 
+	LightObject_ = CreateActor<GameEngineLight>();
+	LightObject_->GetTransform().SetWorldRotation({ 0.0f, 45.0f, 0.0f });
+	GetMainCamera()->PushLight(LightObject_);
+
 	//테스트용 - 동원
 	//std::shared_ptr NewFoodThumbNail = CreateActor<FoodThumbnail>();
 	//NewFoodThumbNail->LinkObject(MainPlayer, { 0,100, 0 });

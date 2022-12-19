@@ -129,6 +129,12 @@ void Overcooked::LoadMaterial()
 	}
 
 	{
+		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("LightObject");
+		NewPipe->SetVertexShader("Light.hlsl");
+		NewPipe->SetPixelShader("Light.hlsl");
+	}
+
+	{
 		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("ObjectHighlight");
 		NewPipe->SetVertexShader("ObjectHighlight.hlsl");
 		NewPipe->SetPixelShader("ObjectHighlight.hlsl");
