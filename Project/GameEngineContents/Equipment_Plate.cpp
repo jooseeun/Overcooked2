@@ -63,19 +63,21 @@ HoldDownEnum Equipment_Plate::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveabl
 			return HoldDownEnum::Nothing;
 		}
 		std::weak_ptr<GamePlayFood> Food = (*_Moveable)->CastThis<GamePlayFood>();
-		if (Food.lock() != nullptr &&
-			Food.lock()->GetPlatting())
+		if (Food.lock() != nullptr)
 		{
-			if (GetCombinFood()->AddFood(Food.lock()->GetObjectFoodClass()))
+			if (Food.lock()->GetPlatting())
 			{
-				(*_Moveable)->Death();
-				(*_Moveable)->Off();
-				(*_Moveable) = nullptr;
-				return HoldDownEnum::HoldUp;
-			}
-			else
-			{
-				return HoldDownEnum::Nothing;
+				if (GetCombinFood()->AddFood(Food.lock()->GetObjectFoodClass()))
+				{
+					(*_Moveable)->Death();
+					(*_Moveable)->Off();
+					(*_Moveable) = nullptr;
+					return HoldDownEnum::HoldUp;
+				}
+				else
+				{
+					return HoldDownEnum::Nothing;
+				}
 			}
 		}
 		else

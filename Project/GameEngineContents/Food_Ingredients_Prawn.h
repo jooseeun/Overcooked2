@@ -23,6 +23,6 @@ protected:
 
 private:
 	void TrimmingPlatting() override;
-
+	void TrimmingMixer() override;
 };
 
