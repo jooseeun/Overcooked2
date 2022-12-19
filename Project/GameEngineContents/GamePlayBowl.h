@@ -44,6 +44,12 @@ enum class NoneFoodType
 	Cucumber,
 
 
+	Flour_Flour,
+	Flour_Carrot,
+	Flour_Meat,
+	Flour,
+
+
 	Bread_Meat_Cheese_Lettuce,
 	Bread,
 
@@ -66,8 +72,13 @@ struct CombinFood
 {
 	void Start(int _Index, std::shared_ptr<GameEngineUpdateObject> _Object, const float4& _Pos = float4::ZERO)
 	{
+		NoneThumbnailMode_ = true;
 		RendererPos_ = _Pos;
 		Moveable_ = _Object->CastThis<GamePlayMoveable>();
+		if (_Index == 0)
+		{
+			NoneThumbnailMode_ = false;
+		}
 		for (size_t i = 0; i < _Index; i++)
 		{
 			Food_Current_.push_back(IngredientType::None);
@@ -121,6 +132,17 @@ struct CombinFood
 			Static_NoneType_[NoneFoodType::Cucumber_Fish].push_back(IngredientType::Fish);
 			Static_NoneType_[NoneFoodType::Cucumber].push_back(IngredientType::Cucumber);
 
+
+			Static_NoneType_[NoneFoodType::Flour].push_back(IngredientType::Flour);
+			Static_NoneType_[NoneFoodType::Flour_Flour].push_back(IngredientType::Flour);
+			Static_NoneType_[NoneFoodType::Flour_Flour].push_back(IngredientType::Flour);
+			Static_NoneType_[NoneFoodType::Flour_Carrot].push_back(IngredientType::Flour);
+			Static_NoneType_[NoneFoodType::Flour_Carrot].push_back(IngredientType::Carrot);
+			Static_NoneType_[NoneFoodType::Flour_Meat].push_back(IngredientType::Flour);
+			Static_NoneType_[NoneFoodType::Flour_Meat].push_back(IngredientType::Meat);
+
+
+
 			Static_NoneType_[NoneFoodType::Bread_Meat_Cheese_Lettuce].push_back(IngredientType::Bread);
 			Static_NoneType_[NoneFoodType::Bread_Meat_Cheese_Lettuce].push_back(IngredientType::Cheese);
 			Static_NoneType_[NoneFoodType::Bread_Meat_Cheese_Lettuce].push_back(IngredientType::Meat);
@@ -146,40 +168,59 @@ struct CombinFood
 
 	bool AddFood(IngredientType _Type)
 	{
-
-		//for (size_t i = 0; i < Food_Current_.size(); i++)
-		//{
-		//	if (Food_Current_[i] == _Type)
-		//	{
-		//		return false;
-		//	}// 중복 방지 함수
-
-		//	//if (Food_Current_[i] == IngredientType::None)
-		//	//{
-		//	//	Food_Current_[i] = _Type;
-		//	//	RefreshThumbnailAndRenderer();
-		//	//	return true;
-		//	//}
-		//}
-
-		Food_Current_.push_back(_Type);
-
-		std::weak_ptr<GameEngineFBXStaticRenderer> Renderer = Renderer_;
-		Renderer_.reset();
-
-		if (!RefreshFoodRenderer())
+		if (NoneThumbnailMode_ == false)
 		{
-			Food_Current_.pop_back();
-			Renderer_->Death();
-			Renderer_->Off();
-			Renderer_ = Renderer.lock();
-			return false;
+			Food_Current_.push_back(_Type);
+
+			std::weak_ptr<GameEngineFBXStaticRenderer> Renderer = Renderer_;
+			Renderer_.reset();
+
+			if (!RefreshFoodRenderer())
+			{
+				Food_Current_.pop_back();
+				Renderer_->Death();
+				Renderer_->Off();
+				Renderer_ = Renderer.lock();
+				return false;
+			}
+			else
+			{
+				std::shared_ptr<FoodThumbnail> Thumbnail = Moveable_.lock()->GetLevel()->CreateActor<FoodThumbnail>();
+				Thumbnail->LinkObject(Moveable_.lock()->CastThis<GameEngineActor>(), float4::ZERO);
+				Food_Thumbnail_.push_back(Thumbnail);
+				RefreshThumbnail();
+				return true;
+			}
 		}
 		else
 		{
-			RefreshThumbnail();
-			return true;
+			for (size_t i = 0; i < Food_Current_.size(); i++)
+			{
+				if (Food_Current_[i] == IngredientType::None)
+				{
+					Food_Current_[i] = _Type;
+
+					std::weak_ptr<GameEngineFBXStaticRenderer> Renderer = Renderer_;
+					Renderer_.reset();
+
+					if (!RefreshFoodRenderer())
+					{
+						Food_Current_[i] = IngredientType::None;
+						Renderer_->Death();
+						Renderer_->Off();
+						Renderer_ = Renderer.lock();
+						return false;
+					}
+					else
+					{
+						RefreshThumbnail();
+						return true;
+					}
+				}
+			}
+			return false;
 		}
+
 	}
 
 	//void PushFood(IngredientType _Type)
@@ -354,6 +395,11 @@ struct CombinFood
 				Renderer_->SetFBXMesh("m_plated_tomato_01.FBX", "Texture");
 				Renderer_->GetTransform().SetWorldScale({ 1,1,1 });
 				break;
+			case NoneFoodType::Flour_Flour:
+			case NoneFoodType::Flour_Carrot:
+			case NoneFoodType::Flour_Meat:
+			case NoneFoodType::Flour:
+				break;
 			default:
 				return false;
 				break;
@@ -394,7 +440,6 @@ struct CombinFood
 					}
 
 				}
-
 				if (IsThat == false)
 				{
 					break;
@@ -475,14 +520,29 @@ struct CombinFood
 
 	void Clear()
 	{
-		Food_Current_.clear();
-		for (size_t i = 0; i < Food_Thumbnail_.size(); i++)
+		if (!NoneThumbnailMode_)
 		{
-			Food_Thumbnail_[i].lock()->Death();
-			Food_Thumbnail_[i].lock()->Off();
-			Food_Thumbnail_[i].reset();
+			for (size_t i = 0; i < Food_Thumbnail_.size(); i++)
+			{
+				Food_Thumbnail_[i].lock()->Death();
+				Food_Thumbnail_[i].lock()->Off();
+				Food_Thumbnail_[i].reset();
+			}
+			Food_Thumbnail_.clear();
+			Food_Current_.clear();
 		}
-		Food_Thumbnail_.clear();
+		else
+		{
+			for (size_t i = 0; i < Food_Current_.size(); i++)
+			{
+				Food_Current_[i] = IngredientType::None;
+			}
+			for (size_t i = 0; i < Food_Thumbnail_.size(); i++)
+			{
+				Food_Thumbnail_[i].lock()->SetThumbnail(IngredientType::None);
+			}
+		}
+
 		Renderer_->Death();
 		Renderer_->Off();
 		Renderer_.reset();
@@ -527,6 +587,18 @@ struct CombinFood
 		}
 	}
 
+	void Move(std::shared_ptr<CombinFood> _Food)
+	{
+		Food_Current_ = _Food->Food_Current_;
+		RefreshThumbnailAndRenderer();
+
+		_Food->Clear();
+	}
+
+	void Switching(std::shared_ptr<CombinFood> _Food)
+	{
+
+	}
 
 	static std::map<NoneFoodType, std::vector<IngredientType>> Static_NoneType_;
 	std::vector<IngredientType> Food_Current_;
@@ -534,6 +606,7 @@ struct CombinFood
 	std::shared_ptr<GameEngineFBXStaticRenderer> Renderer_;
 	std::weak_ptr<GamePlayMoveable> Moveable_;
 	float4 RendererPos_;
+	bool NoneThumbnailMode_;
 };
 
 class GamePlayBowl : public GamePlayEquipment
@@ -583,93 +656,93 @@ private:
 	// FoodThumbnail
 protected:
 
-	std::vector<IngredientType> FoodThumbnail_IngredientType;
-	std::vector<std::shared_ptr<FoodThumbnail>> FoodThumbnail_;
+	//std::vector<IngredientType> FoodThumbnail_IngredientType;
+	//std::vector<std::shared_ptr<FoodThumbnail>> FoodThumbnail_;
 
-	void CreateFoodThumbnail(unsigned int _Index)
-	{
-		for (size_t i = 0; i < FoodThumbnail_.size(); i++)
-		{
-			FoodThumbnail_[i]->Death();
-			FoodThumbnail_[i]->Off();
-		}
-		FoodThumbnail_.clear();
-		std::shared_ptr<FoodThumbnail> Thumbnail = nullptr;
-		for (size_t i = 0; i < _Index; i++)
-		{
-			FoodThumbnail_IngredientType.push_back(IngredientType::None);
-			Thumbnail = GetLevel()->CreateActor<FoodThumbnail>();
-			Thumbnail->LinkObject(CastThis<GameEngineActor>(), float4::ZERO);
-			FoodThumbnail_.push_back(Thumbnail);
-		}
-	}
+	//void CreateFoodThumbnail(unsigned int _Index)
+	//{
+	//	for (size_t i = 0; i < FoodThumbnail_.size(); i++)
+	//	{
+	//		FoodThumbnail_[i]->Death();
+	//		FoodThumbnail_[i]->Off();
+	//	}
+	//	FoodThumbnail_.clear();
+	//	std::shared_ptr<FoodThumbnail> Thumbnail = nullptr;
+	//	for (size_t i = 0; i < _Index; i++)
+	//	{
+	//		FoodThumbnail_IngredientType.push_back(IngredientType::None);
+	//		Thumbnail = GetLevel()->CreateActor<FoodThumbnail>();
+	//		Thumbnail->LinkObject(CastThis<GameEngineActor>(), float4::ZERO);
+	//		FoodThumbnail_.push_back(Thumbnail);
+	//	}
+	//}
 
-	bool PushFoodThumbnail(IngredientType _Type)
-	{
-		for (size_t i = 0; i < FoodThumbnail_IngredientType.size(); i++)
-		{
-			if (FoodThumbnail_IngredientType[i] == IngredientType::None)
-			{
-				FoodThumbnail_IngredientType[i] = _Type;
-				RefreshThumbnail();
-				return true;
-			}
-		}
+	//bool PushFoodThumbnail(IngredientType _Type)
+	//{
+	//	for (size_t i = 0; i < FoodThumbnail_IngredientType.size(); i++)
+	//	{
+	//		if (FoodThumbnail_IngredientType[i] == IngredientType::None)
+	//		{
+	//			FoodThumbnail_IngredientType[i] = _Type;
+	//			RefreshThumbnail();
+	//			return true;
+	//		}
+	//	}
 
-		if (FoodThumbnail_IngredientType.size() < 4)
-		{
-			FoodThumbnail_IngredientType.push_back(_Type);
-			std::shared_ptr<FoodThumbnail> Thumbnail = nullptr;
-			Thumbnail = GetLevel()->CreateActor<FoodThumbnail>();
-			Thumbnail->LinkObject(CastThis<GameEngineActor>(), float4::ZERO);
-			FoodThumbnail_.push_back(Thumbnail);
-			RefreshThumbnail();
-			return true;
-		}
-		return false;
-	}
-
-
+	//	if (FoodThumbnail_IngredientType.size() < 4)
+	//	{
+	//		FoodThumbnail_IngredientType.push_back(_Type);
+	//		std::shared_ptr<FoodThumbnail> Thumbnail = nullptr;
+	//		Thumbnail = GetLevel()->CreateActor<FoodThumbnail>();
+	//		Thumbnail->LinkObject(CastThis<GameEngineActor>(), float4::ZERO);
+	//		FoodThumbnail_.push_back(Thumbnail);
+	//		RefreshThumbnail();
+	//		return true;
+	//	}
+	//	return false;
+	//}
 
 
-	void RefreshThumbnail()
-	{
-		RefreshOffset();
-		for (size_t i = 0; i < FoodThumbnail_IngredientType.size(); i++)
-		{
-			FoodThumbnail_[i]->SetThumbnail(FoodThumbnail_IngredientType[i]);
-		}
-	}
 
-	void RefreshOffset()
-	{
-		switch (FoodThumbnail_.size())
-		{
-		case 0:
-			return;
-			break;
-		case 1:
-			FoodThumbnail_[0]->SetOffset({ 0, 50, 0 });
-			break;
-		case 2:
-			FoodThumbnail_[0]->SetOffset({ -20, 50, 0 });
-			FoodThumbnail_[1]->SetOffset({ 20, 50, 0 });
-			break;
-		case 3:
-			FoodThumbnail_[0]->SetOffset({ -20, 70, 0 });
-			FoodThumbnail_[1]->SetOffset({ 20, 70, 0 });
-			FoodThumbnail_[2]->SetOffset({ -20, 30, 0 });
-			break;
-		case 4:
-			FoodThumbnail_[0]->SetOffset({ -20, 70, 0 });
-			FoodThumbnail_[1]->SetOffset({ 20, 70, 0 });
-			FoodThumbnail_[2]->SetOffset({ -20, 30, 0 });
-			FoodThumbnail_[3]->SetOffset({ 20, 30, 0 });
-			break;
-		default:
-			break;
-		}
-	}
+
+	//void RefreshThumbnail()
+	//{
+	//	RefreshOffset();
+	//	for (size_t i = 0; i < FoodThumbnail_IngredientType.size(); i++)
+	//	{
+	//		FoodThumbnail_[i]->SetThumbnail(FoodThumbnail_IngredientType[i]);
+	//	}
+	//}
+
+	//void RefreshOffset()
+	//{
+	//	switch (FoodThumbnail_.size())
+	//	{
+	//	case 0:
+	//		return;
+	//		break;
+	//	case 1:
+	//		FoodThumbnail_[0]->SetOffset({ 0, 50, 0 });
+	//		break;
+	//	case 2:
+	//		FoodThumbnail_[0]->SetOffset({ -20, 50, 0 });
+	//		FoodThumbnail_[1]->SetOffset({ 20, 50, 0 });
+	//		break;
+	//	case 3:
+	//		FoodThumbnail_[0]->SetOffset({ -20, 70, 0 });
+	//		FoodThumbnail_[1]->SetOffset({ 20, 70, 0 });
+	//		FoodThumbnail_[2]->SetOffset({ -20, 30, 0 });
+	//		break;
+	//	case 4:
+	//		FoodThumbnail_[0]->SetOffset({ -20, 70, 0 });
+	//		FoodThumbnail_[1]->SetOffset({ 20, 70, 0 });
+	//		FoodThumbnail_[2]->SetOffset({ -20, 30, 0 });
+	//		FoodThumbnail_[3]->SetOffset({ 20, 30, 0 });
+	//		break;
+	//	default:
+	//		break;
+	//	}
+	//}
 
 };
 

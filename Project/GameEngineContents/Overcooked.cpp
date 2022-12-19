@@ -129,6 +129,12 @@ void Overcooked::LoadMaterial()
 	}
 
 	{
+		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("LightObject");
+		NewPipe->SetVertexShader("Light.hlsl");
+		NewPipe->SetPixelShader("Light.hlsl");
+	}
+
+	{
 		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("ObjectHighlight");
 		NewPipe->SetVertexShader("ObjectHighlight.hlsl");
 		NewPipe->SetPixelShader("ObjectHighlight.hlsl");
@@ -374,6 +380,7 @@ void Overcooked::InputMake()
 	}
 
 	GameEngineInput::GetInst()->CreateKey("Contents_Debug", 'B');
+	GameEngineInput::GetInst()->CreateKey("SteamerTest", VK_NUMPAD9);
 }
 
 void Overcooked::LoadStage(std::string_view _StageName)

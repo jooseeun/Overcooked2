@@ -22,7 +22,7 @@ void Cooker::Start()
 	GetFBXMesh()->SetSubMaterial(1, "AddBlendAlpha");
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 	GetFBXMesh()->GetTransform().SetWorldMove({ 0, 0, 0 });
-	ToolPos_ = {0.f, 60.f, 0.f};
+	ToolPos_ = {0.f, 85.f, 25.f};
 	SetToolPos(ToolPos_);
 
 	SetStuff(GetLevel()->CreateActor<Tool_Cooker>());

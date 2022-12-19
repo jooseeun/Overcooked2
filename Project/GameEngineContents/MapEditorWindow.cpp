@@ -846,20 +846,32 @@ void MapEditorWindow::SortToolTab()
 
 	if (0 < SortActorList_.size())
 	{
-		if (nullptr != SortActorList_[ActorIndex].lock()->GetStuff())
+		if (nullptr != SortActorList_[ActorIndex].lock()->GetStuff() && (SortActorList_[ActorIndex].lock()->GetStuff()->GetToolInfoType() == ToolInfo::CuttingBoard || SortActorList_[ActorIndex].lock()->GetMoveable() != nullptr))
 		{
 			auto CurType = magic_enum::enum_name(SortActorList_[ActorIndex].lock()->GetStuff()->GetToolInfoType());
 
-			if (SortActorList_[ActorIndex].lock()->GetStuff()->GetToolInfoType() != ToolInfo::None)
+			if (SortActorList_[ActorIndex].lock()->GetStuff()->GetToolInfoType() == ToolInfo::None)
+			{
+				CurType = magic_enum::enum_name(SortActorList_[ActorIndex].lock()->GetMoveable()->GetToolInfoType());
+			}
+
+			if (SortActorList_[ActorIndex].lock()->GetStuff()->GetToolInfoType() == ToolInfo::CuttingBoard || SortActorList_[ActorIndex].lock()->GetMoveable()->GetToolInfoType() != ToolInfo::None)
 			{
 				for (size_t i = 0; i < ToolNames.size(); ++i)
 				{
 					if (ToolNames[i] == CurType)
 					{
 						if (false == IsChecks_[i])
-						{
-							SortActorList_[ActorIndex].lock()->GetStuff()->Death();
-							SortActorList_[ActorIndex].lock()->ReSetStuff();
+						{	
+							if (SortActorList_[ActorIndex].lock()->GetStuff()->GetToolInfoType() == ToolInfo::CuttingBoard)
+							{
+								SortActorList_[ActorIndex].lock()->GetStuff()->Death();
+								SortActorList_[ActorIndex].lock()->ReSetStuff();
+							}
+							else
+							{
+								SortActorList_[ActorIndex].lock()->GetMoveable_TakeOut()->Death();
+							}
 						}
 
 						continue;
@@ -883,25 +895,25 @@ void MapEditorWindow::SortToolTab()
 					{
 						//ºÎ¸ð·Î µÐ´Ù
 						std::shared_ptr<Equipment_Plate> Plate = CurLevel_->CreateActor<Equipment_Plate>();
-						SortActorList_[ActorIndex].lock()->SetStuff(Plate);
+						SortActorList_[ActorIndex].lock()->SetMoveable(Plate);
 					}
 					break;
 					case ToolInfo::FireExtinguisher:
 					{
 						std::shared_ptr<Equipment_FireExtinguisher> FireExtinguisher = CurLevel_->CreateActor<Equipment_FireExtinguisher>();
-						SortActorList_[ActorIndex].lock()->SetStuff(FireExtinguisher);
+						SortActorList_[ActorIndex].lock()->SetMoveable(FireExtinguisher);
 					}
 					break;
 					case ToolInfo::FryingPan:
 					{
 						std::shared_ptr<Equipment_FryingPan> FryingPan = CurLevel_->CreateActor<Equipment_FryingPan>();
-						SortActorList_[ActorIndex].lock()->SetStuff(FryingPan);
+						SortActorList_[ActorIndex].lock()->SetMoveable(FryingPan);
 					}
 					break;
 					case ToolInfo::Pot:
 					{
 						std::shared_ptr<Equipment_Pot> Pot = CurLevel_->CreateActor<Equipment_Pot>();
-						SortActorList_[ActorIndex].lock()->SetStuff(Pot);
+						SortActorList_[ActorIndex].lock()->SetMoveable(Pot);
 					}
 					break;
 					case ToolInfo::CuttingBoard:
@@ -913,13 +925,13 @@ void MapEditorWindow::SortToolTab()
 					case ToolInfo::Bowl:
 					{
 						std::shared_ptr<Equipment_Bowl> Bowl = CurLevel_->CreateActor<Equipment_Bowl>();
-						SortActorList_[ActorIndex].lock()->SetStuff(Bowl);
+						SortActorList_[ActorIndex].lock()->SetMoveable(Bowl);
 					}
 					break;
 					case ToolInfo::Steamer:
 					{
 						std::shared_ptr<Equipment_Steamer> Steamer = CurLevel_->CreateActor<Equipment_Steamer>();
-						SortActorList_[ActorIndex].lock()->SetStuff(Steamer);
+						SortActorList_[ActorIndex].lock()->SetMoveable(Steamer);
 					}
 					break;
 					}
@@ -1151,7 +1163,7 @@ void MapEditorWindow::SortToolTab()
 		CurStaticMesh_.lock()->SetParent(Origins_[OriginIndex].lock());
 
 		CurStaticMesh_.lock()->GetTransform().SetWorldPosition(Origins_[OriginIndex].lock()->GetTransform().GetWorldPosition());
-		CurStaticMesh_.lock()->GetTransform().SetWorldMove({ Index[0] * (-INTERVAL) + (-61.f), 0.f, Index[1] * INTERVAL });
+		CurStaticMesh_.lock()->GetTransform().SetWorldMove({ Index[0] * (-INTERVAL), 0.f, Index[1] * INTERVAL});
 
 		SortActorList_.push_back(CurStaticMesh_);
 		Origins_[OriginIndex].lock()->GetStaticMeshInfo().push_back(CurStaticMesh_);

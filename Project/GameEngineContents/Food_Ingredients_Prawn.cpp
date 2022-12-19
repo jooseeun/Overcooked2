@@ -30,3 +30,13 @@ void Food_Ingredients_Prawn::TrimmingPlatting()
 	GetFBXMesh()->SetFBXMesh(MeshName_, "Texture");
 	GetFBXMesh()->GetTransform().SetLocalRotation({ 0,-90,0 });
 }
+
+void Food_Ingredients_Prawn::TrimmingMixer()
+{
+	SetTrim();
+
+	ChangeFBXMesh();
+	MeshName_ = "Prawn_Sushimi.FBX";
+	GetFBXMesh()->SetFBXMesh(MeshName_, "Texture");
+	GetFBXMesh()->GetTransform().SetLocalRotation({ 0,-90,0 });
+}

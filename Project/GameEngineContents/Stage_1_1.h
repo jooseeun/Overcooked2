@@ -21,4 +21,6 @@ protected:
 	void PlayLevelStartEvent() override;
 private:
 	bool IsLevelFirst_ = true;
+
+	std::shared_ptr<GameEngineLight> LightObject_;
 };

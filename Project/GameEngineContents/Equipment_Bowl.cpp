@@ -17,7 +17,8 @@ void Equipment_Bowl::Start()
 	GetFBXMesh()->SetFBXMesh("Bowl.fbx", "Texture");
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 
-	CreateFoodThumbnail(1);
+	GetCombinFood()->Start(2, shared_from_this());
+	//CreateFoodThumbnail(2);
 }
 
 void Equipment_Bowl::Update(float _DeltaTime)
@@ -29,7 +30,7 @@ bool Equipment_Bowl::AutoTrim(float _DeltaTime, ObjectToolType _Tool)
 {
 	if (_Tool == ObjectToolType::Mixer)
 	{
-		if (FoodThumbnail_IngredientType[0] != IngredientType::None)
+		if (!GetCombinFood()->IsClear())
 		{
 			if (Input_Auto(_DeltaTime, 12.f))
 			{
@@ -62,20 +63,13 @@ HoldDownEnum Equipment_Bowl::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable
 			{
 				if (Food->GetCookingType() == CookingType::Mixer)
 				{
-					if (FoodThumbnail_IngredientType.size() < 2)
+					if (GetCombinFood()->AddFood(Food->GetObjectFoodClass()))
 					{
-						if (PushFoodThumbnail(Food->GetObjectFoodClass()))
-						{
-							(*_Moveable)->Death();
-							(*_Moveable)->Off();
-							(*_Moveable) = nullptr;
+						(*_Moveable)->Death();
+						(*_Moveable)->Off();
+						(*_Moveable) = nullptr;
 
-							return HoldDownEnum::HoldUp;
-						}
-					}
-					else
-					{
-						return HoldDownEnum::Nothing;
+						return HoldDownEnum::HoldUp;
 					}
 				}
 			}

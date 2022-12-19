@@ -11,7 +11,7 @@ GamePlayBowl::GamePlayBowl()
 }
 
 GamePlayBowl::~GamePlayBowl() 
-{
+{	
 }
 
 void GamePlayBowl::Start()
