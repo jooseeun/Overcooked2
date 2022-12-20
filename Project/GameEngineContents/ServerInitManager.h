@@ -3,12 +3,14 @@
 #include <GameEngineBase/GameServerNetClient.h>
 #include <functional>
 
+
 // Ό³Έν :
 class ServerInitManager
 {
 public:
 	static GameServerNet* Net;
-	
+	static std::string IP;
+
 	// constrcuter destructer
 	ServerInitManager();
 	~ServerInitManager();

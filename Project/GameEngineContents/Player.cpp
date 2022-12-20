@@ -63,12 +63,11 @@ Player::Player()
 	, IsCannonFly_(false)
 	, IsPlayerble(false)
 {
-
+	++PlayerCount_;
 }
 
 Player::~Player()
 {
-	++PlayerCount_;
 }
 
 void Player::Start()
@@ -545,12 +544,13 @@ void Player::Update(float _DeltaTime)
 		IsSingleMode = false;
 	}
 
+	ServerUpdate(_DeltaTime);
+
 	if (MyPlayer != shared_from_this())
 	{
 		return;
 	}
 
-	ServerUpdate(_DeltaTime);
 	DeathCheck();
 	StateManager.Update(_DeltaTime);
 	PNumSgtringUpdate();
@@ -1306,11 +1306,11 @@ CollisionReturn Player::PushButton(std::shared_ptr<GameEngineCollision> _This, s
 
 void Player::ServerStart()
 {
-	//if (false == OnePlayerInit)
-	//{
-	//	IsPlayerble = true;
-	//	OnePlayerInit = true;
-	//}
+	if (false == OnePlayerInit)
+	{
+		IsPlayerble = true;
+		OnePlayerInit = true;
+	}
 }
 
 void Player::ServerUpdate(float _DeltaTime)
@@ -1332,10 +1332,10 @@ void Player::ServerUpdate(float _DeltaTime)
 		Packet->ObjectID = GetNetID();
 		Packet->Type = ServerObjectType::Player;
 		Packet->State = ServerObjectBaseState::Base;
-		Packet->Pos = float4{ -1400, 500, 200 };
+		Packet->Pos = GetTransform().GetWorldPosition();
 		Packet->Rot = GetTransform().GetWorldRotation();
-		Packet->Scale = float4{100,100,100};
-		//Packet->Animation = CurAniName_;
+		Packet->Scale = GetTransform().GetWorldScale();
+		Packet->Animation = "Test";
 		CurManager->Net->SendPacket(Packet);
 
 		if (Player::MaxPlayerCount_ < Packet->ObjectID)

@@ -5,6 +5,7 @@
 #include "Player.h"
 
 GameServerNet* ServerInitManager::Net;
+std::string ServerInitManager::IP = "127.0.0.1";
 GameServerNetServer ServerInitManager::Server;
 GameServerNetClient ServerInitManager::Client;
 
@@ -67,7 +68,7 @@ void ServerInitManager::StartInit()
 {
 	if (true == GameEngineStatusWindow::IsHost)
 	{
-		Server.Accept(31109);
+		Server.Accept(30001);
 		Net = &Server;
 
 		Server.AcceptCallBack = [&](SOCKET _User)
@@ -83,7 +84,7 @@ void ServerInitManager::StartInit()
 	}
 	else
 	{
-		Client.Connect("10.0.4.63", 31109);
+		Client.Connect(IP, 30001);
 		Net = &Client;
 	}
 

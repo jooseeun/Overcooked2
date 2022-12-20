@@ -62,6 +62,8 @@ void Stage_1_1::PlayLevelUpdate(float _DeltaTime)
 
 		GameEngineDebug::OutPutString(std::to_string(SubsetDebugIndex_));
 	}
+
+	ServerInitManager::Update(_DeltaTime);
 }
 
 void Stage_1_1::End()
