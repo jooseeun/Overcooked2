@@ -18,6 +18,6 @@ protected:
 	void End() override;
 
 private:
-
+	std::shared_ptr<GameEngineFBXAnimationRenderer> KevinRenderer_;
 };
 

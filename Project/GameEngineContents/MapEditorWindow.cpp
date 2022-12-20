@@ -390,7 +390,7 @@ void MapEditorWindow::UnSortToolTab()
 		UnSortActorList_.clear();
 	}
 
-	// 만들 수 있는 오브젝트 리스트ds
+	// 만들 수 있는 오브젝트 리스트
 	ImGui::BeginChild("ActorNameGroup", ImVec2(250, 250), true);
 	ImGui::Text("ActorNameList");
 	ImGui::BeginChild("AllUnSortActorName", ImVec2(230, 230), true);
