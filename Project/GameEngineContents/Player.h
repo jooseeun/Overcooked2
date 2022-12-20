@@ -259,7 +259,6 @@ private:
 private:
 	static std::shared_ptr<Player> MyPlayer;
 
-	void ServerStart();
 	void ServerUpdate(float _DeltaTime);
 
 public:

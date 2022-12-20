@@ -501,7 +501,6 @@ void  Player::LevelStartEvent()
 
 		}
 	}
-	ServerStart();
 }
 void Player::DeathCheck()
 {
@@ -1297,10 +1296,6 @@ CollisionReturn Player::PushButton(std::shared_ptr<GameEngineCollision> _This, s
 }
 
 //////// ¼­¹ö 
-
-void Player::ServerStart()
-{
-}
 
 void Player::ServerUpdate(float _DeltaTime)
 {

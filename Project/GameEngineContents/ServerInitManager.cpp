@@ -147,6 +147,7 @@ void ServerInitManager::Update(float _Delta)
 				std::shared_ptr<Player> NewPlayer = GEngine::GetCurrentLevel()->CreateActor<Player>();
 				NewPlayer->ClientInit(ServerObjectType::Player, i + 1);
 				NewPlayer->GetTransform().SetLocalPosition({ -1400, 500, 200 });
+				NewPlayer->SetLevelOverOn();
 			}
 		}
 	}
