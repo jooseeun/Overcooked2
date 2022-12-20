@@ -8,6 +8,7 @@
 #include "Cannon.h"
 
 // 설명 :
+class GameEngineDefaultRenderer;
 class GameEngineFBXAnimationRenderer;
 class GameEngineFBXStaticRenderer;
 class GameEngineCollision;
@@ -86,7 +87,6 @@ public:
 
 public:
 	
-
 	inline void SetPlayerHolding(std::shared_ptr<GameEngineUpdateObject> _CurrentHoldingObject_) // 플레이어 손에 올리는 함수 엑터를 손에올려줍니다
 	{
 		CurrentHoldingObject_ = _CurrentHoldingObject_->CastThis<GameEngineActor>();
@@ -223,8 +223,13 @@ private:
 	PlayerDir CurDir_;
 	PlayerHoldType CurHoldType_;
 	PlayerCurStateType CurStateType_;
+
 	int PlayerPNum;
+	int ServerRenderStateNum_;
+	int PlayerCustomNum;
+	int ServerCustomNum;
 	float DashTime_;
+
 	bool FireOff_;
 	bool IsSlice_;
 	bool IsSink_;
@@ -237,7 +242,7 @@ private:
 	std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerChopRenderer_[6];
 	std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerWashRenderer_[6];
 
-	int PlayerCustomNum;
+
 	std::string PlayerName_[6];
 
 	std::shared_ptr<GameEngineCollision> PlayerFloorCollision_;
