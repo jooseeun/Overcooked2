@@ -10,7 +10,7 @@ GlobalBloomActor::~GlobalBloomActor()
 }
 
 void GlobalBloomActor::SetColor(float4 _Color)
-{
+{			
 	PixelData_.MulColor = _Color;
 }
 
@@ -21,6 +21,8 @@ void GlobalBloomActor::Start()
 	BloomEffectRenderer_->SetMaterial("AddBlendAlpha");
 	BloomEffectRenderer_->SetTexture("BloomEffect.png");
 	BloomEffectRenderer_->GetShaderResources().SetConstantBufferLink("PixelData", &PixelData_, sizeof(PixelData));
+
+	std::shared_ptr<GameEngineCollision> Test = CreateComponent<GameEngineCollision>();
 }
 
 void GlobalBloomActor::Update(float _Delta)
