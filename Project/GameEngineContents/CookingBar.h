@@ -28,6 +28,7 @@ public:
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
+	void UpdateBar(float _DeltaTime);
 	void ChaseTarget();
 	void End() override;
 
@@ -35,11 +36,18 @@ private:
 	std::weak_ptr<OverCookedUIRenderer> Background_;
 	std::weak_ptr<OverCookedUIRenderer> Foreground_;
 
+	std::weak_ptr<OverCookedUIRenderer> Icon_;
+
 	std::weak_ptr<GameEngineActor> ChaseActor_;
 
 	float4 Offset_ = { 0,0,0 };
 
+	float IterTime_ = 0.f;
+
 	float* UpdateValue_ = nullptr;
 
 	bool IsOver_ = false;
+
+	float PrevValue_ = 0.f;
+	bool IsUpdating_ = true;
 };

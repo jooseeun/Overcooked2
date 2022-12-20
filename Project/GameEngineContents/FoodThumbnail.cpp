@@ -30,7 +30,7 @@ void FoodThumbnail::Start()
 	SingleThumbnail_.lock()->SetScaleRatio(0.30f);
 	SingleThumbnail_.lock()->ScaleToTexture();
 	SingleThumbnail_.lock()->ChangeCamera(CAMERAORDER::USER7);
-	//SingleThumbnail_->Off();
+	SingleThumbnail_.lock()->Off();
 }
 
 void FoodThumbnail::Update(float _DeltaTime)
@@ -55,6 +55,7 @@ void FoodThumbnail::Update(float _DeltaTime)
 	WantPos.y = WantPos.y - WantPos.y * -0.02f;
 	WantPos += Offset_;
 	GetTransform().SetLocalPosition(WantPos);
+	SingleThumbnail_.lock()->On();
 }
 
 void FoodThumbnail::End()
