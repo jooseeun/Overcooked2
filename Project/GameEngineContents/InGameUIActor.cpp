@@ -80,8 +80,10 @@ void InGameUIActor::UIStart()
 	NotDeleteRecipe_Timer_.StartTimer(16.f);
 	NotDeleteRecipe_Timer_.SetTimeOverFunc(std::bind(&InGameUIActor::CreateRandomRecipe, this));
 	//레시피 매니저
-	RecipeManager_.Init(std::dynamic_pointer_cast<InGameUIActor>(shared_from_this()), std::bind(&InGameUIActor::HandOverScore, this, std::placeholders::_1, std::placeholders::_2));
-	RecipeManager_.DebugFunction();
+	RecipeManager_.Init(std::dynamic_pointer_cast<InGameUIActor>(shared_from_this()),
+		std::bind(&InGameUIActor::HandOverScore, this, std::placeholders::_1, std::placeholders::_2),
+		std::bind(&InGameUIActor::FailScore, this, std::placeholders::_1));
+	//RecipeManager_.DebugFunction();
 	//	RecipeManager_.CreateRecipe(FoodType::FishSushimi);
 	//RecipeManager_.CreateRecipe(FoodType::PlainBurger);
 	//RecipeManager_.CreateRecipe(FoodType::CarrotDumpling);
@@ -95,6 +97,11 @@ void InGameUIActor::UIUpdate(float _DeltaTime)
 	if (GlobalGameData::IsGameStart() == false)
 	{
 		return;
+	}
+
+	if (GlobalGameData::GetLeftTimeRef().IsTimeOver() == true)
+	{
+		//GEngine::ChangeLevel("ResultLevel");
 	}
 	UpdateScore(_DeltaTime);
 
@@ -284,7 +291,6 @@ bool InGameUIActor::HandOverFood(FoodType _Type)
 void InGameUIActor::HandOverScore(int _FoodScore, int _FoodTips)
 {
 	//딸배점수 추가
-
 	GlobalGameData::AddScore(_FoodScore, _FoodTips);
 	int TotalScore = _FoodScore + _FoodTips;
 
@@ -301,4 +307,15 @@ void InGameUIActor::HandOverScore(int _FoodScore, int _FoodTips)
 
 		TipsFont.lock()->Init("+" + std::to_string(_FoodTips) + " 팁!", { 0.f / 256.f,256.f / 256.f,0.f / 256.f }, 32.f);
 	}
+}
+
+void InGameUIActor::FailScore(int _FoodScore)//양수를 넣어주세요
+{
+	//실패점수 추가
+	GlobalGameData::AddScore(-_FoodScore);
+	int TotalScore = _FoodScore;
+
+	std::weak_ptr<FadeFont> ScoreFont = GetLevel()->CreateActor<FadeFont>();
+	ScoreFont.lock()->GetTransform().SetWorldPosition({ -520.f,-190.f });
+	ScoreFont.lock()->Init("-" + std::to_string(TotalScore), { 256.f / 256.f,0.f / 256.f,0.f / 256.f }, 42.f);
 }

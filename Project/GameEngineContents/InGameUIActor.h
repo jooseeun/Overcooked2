@@ -64,6 +64,7 @@ private:
 	//»ö±ò°ü·Ã
 	float Timeout_IterTime_ = 0.f;
 	bool IsTimeOut_;
+	bool FailFlag_ = false;
 
 	bool IsHandOver_ = false;
 	float HandOver_IterTime_ = 0.f;
@@ -108,7 +109,7 @@ public:
 	{
 		return static_cast<int>(Recipes_.size());
 	}
-	void Init(std::weak_ptr<InGameUIActor> _ParentActor_, std::function<void(int, int)> _Function); //¾Õint : À½½Ä Score, µÞ int : ÆÁ Á¡¼ö
+	void Init(std::weak_ptr<InGameUIActor> _ParentActor_, std::function<void(int, int)> _HandOverFunction, std::function<void(int)> _FailFunction); //¾Õint : À½½Ä Score, µÞ int : ÆÁ Á¡¼ö
 	void CreateRecipe(FoodType _Type);
 	bool HandOver(FoodType _Type);
 	//void DeleteRecipe(std::list<Recipe>::iterator _Iter);
@@ -123,6 +124,7 @@ private:
 	std::weak_ptr<InGameUIActor> ParentActor_;
 
 	std::function<void(int, int)> HandOverScore_;
+	std::function<void(int)> FailScore_;
 };
 
 class InGameUIActor : public UIActor
@@ -151,6 +153,8 @@ protected:
 	bool HandOverFood(FoodType _Type);
 
 	void HandOverScore(int _FoodScore, int _FoodTips);
+
+	void FailScore(int _FoodScore);
 
 	RecipeManager RecipeManager_;
 private:

@@ -18,10 +18,11 @@ RecipeManager::~RecipeManager()
 	Recipes_.clear();
 }
 
-void RecipeManager::Init(std::weak_ptr<InGameUIActor> _ParentActor_, std::function<void(int, int)> _Function)
+void RecipeManager::Init(std::weak_ptr<InGameUIActor> _ParentActor_, std::function<void(int, int)> _Function, std::function<void(int)> _FailFunction)
 {
 	ParentActor_ = _ParentActor_;
 	HandOverScore_ = _Function;
+	FailScore_ = _FailFunction;
 }
 
 void RecipeManager::CreateRecipe(FoodType _Type)
@@ -409,6 +410,11 @@ void RecipeManager::Update(float _DeltaTime)
 		for (; StartIter != EndIter; StartIter++)
 		{
 			StartIter->Update(_DeltaTime);
+			if (StartIter->GlobalTimer_.IsTimeOver() == true && StartIter->FailFlag_ == false)
+			{
+				FailScore_(StartIter->Data_.Score);
+				StartIter->FailFlag_ = true;
+			}
 		}
 	}
 
@@ -632,6 +638,7 @@ void Recipe::Update(float _DeltaTime)
 		}
 		else//시간이 다됬으면
 		{
+			FailFlag_ = false;
 			Timeout_IterTime_ = 0.f;
 			_MulColor.y = 1.f;
 			_MulColor.z = 1.f;

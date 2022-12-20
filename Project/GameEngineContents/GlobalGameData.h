@@ -78,6 +78,11 @@ public:
 	static void AddScore(int _Value)
 	{
 		Score_ += _Value;
+		if (_Value < 0)
+		{
+			FailCount_++;
+			FailScore_ += -_Value;
+		}
 		if (Score_ <= 0)
 		{
 			Score_ = 0;
