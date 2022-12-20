@@ -19,7 +19,7 @@ protected:
 	void End() override;
 
 	void PlayLevelStartEvent() override;
-private:
+private:	
 	bool IsLevelFirst_ = true;
 
 	std::shared_ptr<GameEngineLight> LightObject_;

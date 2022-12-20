@@ -19,5 +19,7 @@ protected:
 
 private:
 	std::shared_ptr<GameEngineFBXAnimationRenderer> KevinRenderer_;
+	std::shared_ptr<LevelActor> LevelActor_;
+	int SubsetDebugIndex_ = 0;
 };
 

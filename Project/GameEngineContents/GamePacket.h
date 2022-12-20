@@ -60,6 +60,8 @@ public:
 	float4 Rot;
 	float4 Scale;
 	std::string Animation;
+	int PlayerNum;
+	int RendererState;
 
 	ObjectUpdatePacket()
 	{
@@ -76,6 +78,8 @@ public:
 		_Ser << Rot;
 		_Ser << Scale;
 		_Ser << Animation;
+		_Ser << PlayerNum;
+		_Ser << RendererState;
 	}
 	virtual void DeSerialize(GameServerSerializer& _Ser)
 	{
@@ -86,6 +90,8 @@ public:
 		_Ser >> Pos;
 		_Ser >> Rot;
 		_Ser >> Scale;
-		_Ser >> Animation;
+		_Ser << Animation;
+		_Ser >> PlayerNum;
+		_Ser >> RendererState;
 	}
 };

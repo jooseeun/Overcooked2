@@ -34,7 +34,7 @@ Player::Player()
 	, PlayerBackCollision_(nullptr)
 	, PlayerCollision_(nullptr)
 	, PlayerCameraCollision_(nullptr)
-	, PlayerCustomNum(5)
+	, PlayerCustomNum(0)
 	, PlayerIdleRenderer_()
 	, PlayerWalkRenderer_()
 	, PlayerChopRenderer_()
@@ -43,7 +43,7 @@ Player::Player()
 	, CurrentHoldingObject_(nullptr)
 	, FireOff_(false)
 	, PlayerName_()
-	, PlayerPNum(1)
+	, PlayerPNum(0)
 	, IsSlice_(false)
 	, DashTime_(0.0f)
 	, IsSingleMode(false)
@@ -62,6 +62,8 @@ Player::Player()
 	, IsCannon_(false)
 	, IsCannonFly_(false)
 	, IsPlayerble(false)
+	, ServerRenderStateNum_(0)
+	, ServerCustomNum(0)
 {
 	++PlayerCount_;
 }
@@ -90,18 +92,7 @@ void Player::Start()
 		PlayerName_[5] = "Panda";
 
 	}
-	{
-		std::shared_ptr <GameEngineDefaultRenderer> Renderer = CreateComponent<GameEngineDefaultRenderer>();
 
-		Renderer->SetMesh("Box");
-		Renderer->SetMaterial("Color");
-		Renderer->GetTransform().SetLocalScale({ 100.0f, 100.0f, 100.0f });
-
-		if (true == Renderer->GetRenderUnit()->ShaderResources.IsConstantBuffer("ResultColor"))
-		{
-			Renderer->GetRenderUnit()->ShaderResources.SetConstantBufferNew("ResultColor", float4(1.0f, 0.0f, 0.0f, 1.0f));
-		}
-	}
 
 
 	for (int i = 0; i < 6; i++)
@@ -324,7 +315,11 @@ void Player::Start()
 		OnePlayerInit = true;
 	
 	}
-	
+	ServerCustomNum = PlayerCustomNum;
+	PlayerIdleRenderer_[PlayerCustomNum]->On();
+	PlayerWalkRenderer_[PlayerCustomNum]->On();
+	PlayerChopRenderer_[PlayerCustomNum]->On();
+	PlayerWashRenderer_[PlayerCustomNum]->On();
 	ChangePlayerColor();
 
 
@@ -332,6 +327,7 @@ void Player::Start()
 }
 void Player::IdleRendererON()
 {
+	ServerRenderStateNum_ = 0;
 	PlayerIdleRenderer_[PlayerCustomNum]->On();
 	PlayerWalkRenderer_[PlayerCustomNum]->Off();
 	PlayerChopRenderer_[PlayerCustomNum]->Off();
@@ -339,6 +335,7 @@ void Player::IdleRendererON()
 }
 void Player::WalkRendererON()
 {
+	ServerRenderStateNum_ = 1;
 	PlayerIdleRenderer_[PlayerCustomNum]->Off();
 	PlayerWalkRenderer_[PlayerCustomNum]->On();
 	PlayerChopRenderer_[PlayerCustomNum]->Off();
@@ -346,6 +343,7 @@ void Player::WalkRendererON()
 }
 void Player::ChopRendererON()
 {
+	ServerRenderStateNum_ = 2;
 	PlayerIdleRenderer_[PlayerCustomNum]->Off();
 	PlayerWalkRenderer_[PlayerCustomNum]->Off();
 	PlayerChopRenderer_[PlayerCustomNum]->On();
@@ -353,6 +351,7 @@ void Player::ChopRendererON()
 }
 void Player::WashRendererON()
 {
+	ServerRenderStateNum_ = 3;
 	PlayerIdleRenderer_[PlayerCustomNum]->Off();
 	PlayerWalkRenderer_[PlayerCustomNum]->Off();
 	PlayerChopRenderer_[PlayerCustomNum]->Off();
@@ -375,6 +374,7 @@ void Player::ChangePlayer()
 	PlayerWalkRenderer_[PlayerCustomNum]->Off();
 	PlayerChopRenderer_[PlayerCustomNum]->Off();
 	PlayerWashRenderer_[PlayerCustomNum]->Off();
+
 
 	ChangePlayerColor();
 
@@ -532,6 +532,7 @@ void Player::Update(float _DeltaTime)
 {
 	if (true == GameEngineInput::GetInst()->IsDownKey("IsSingleMode"))
 	{
+
 		IsSingleMode = true;
 	}
 	
@@ -1335,7 +1336,16 @@ void Player::ServerUpdate(float _DeltaTime)
 		Packet->Pos = GetTransform().GetWorldPosition();
 		Packet->Rot = GetTransform().GetWorldRotation();
 		Packet->Scale = GetTransform().GetWorldScale();
-		Packet->Animation = "Test";
+		Packet->RendererState = ServerRenderStateNum_;
+		if (ServerCustomNum != PlayerCustomNum)
+		{
+			Packet->PlayerNum = ServerCustomNum;
+			ServerCustomNum = PlayerCustomNum;
+		}
+		else
+		{
+			Packet->PlayerNum = 100;
+		}
 		CurManager->Net->SendPacket(Packet);
 
 		if (Player::MaxPlayerCount_ < Packet->ObjectID)
@@ -1358,6 +1368,50 @@ void Player::ServerUpdate(float _DeltaTime)
 			std::shared_ptr<ObjectUpdatePacket> ObjectUpdate = std::dynamic_pointer_cast<ObjectUpdatePacket>(Packet);
 			GetTransform().SetWorldPosition(ObjectUpdate->Pos);
 			GetTransform().SetWorldRotation(ObjectUpdate->Rot);
+
+			{ // 캐릭터 업데이트
+				if (ObjectUpdate->PlayerNum < 6)
+				{
+					for (int i = 0; i < 6; i++)
+					{
+						if (i != ObjectUpdate->PlayerNum)
+						{
+							PlayerIdleRenderer_[i]->Off();
+							PlayerWalkRenderer_[i]->Off();
+							PlayerWashRenderer_[i]->Off();
+							PlayerChopRenderer_[i]->Off();
+						}
+
+					}
+					PlayerIdleRenderer_[ObjectUpdate->PlayerNum]->On();
+					PlayerWalkRenderer_[ObjectUpdate->PlayerNum]->On();
+					PlayerWashRenderer_[ObjectUpdate->PlayerNum]->On();
+					PlayerChopRenderer_[ObjectUpdate->PlayerNum]->On();
+				}
+			}
+	
+			{// 렌더러 업데이트
+				if (ObjectUpdate->RendererState == 0)
+				{
+					IdleRendererON();
+				}
+				else if(ObjectUpdate->RendererState == 1)
+				{
+
+					WalkRendererON();
+				}
+				else if (ObjectUpdate->RendererState == 2)
+				{
+
+					ChopRendererON();
+				}
+				else if (ObjectUpdate->RendererState == 3)
+				{
+
+					WashRendererON();
+				}
+
+			}
 			break;
 		}
 		case ContentsPacketType::ClinetInit:
