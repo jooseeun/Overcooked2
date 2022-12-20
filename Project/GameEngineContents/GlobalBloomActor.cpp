@@ -9,6 +9,11 @@ GlobalBloomActor::~GlobalBloomActor()
 {
 }
 
+void GlobalBloomActor::SetColor(float4 _Color)
+{
+	PixelData_.MulColor = _Color;
+}
+
 void GlobalBloomActor::Start()
 {
 	BloomEffectRenderer_ = CreateComponent<GameEngineTextureRenderer>();

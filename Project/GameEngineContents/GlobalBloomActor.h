@@ -15,6 +15,8 @@ public:
 	GlobalBloomActor& operator=(const GlobalBloomActor& _Other) = delete;
 	GlobalBloomActor& operator=(GlobalBloomActor&& _Other) noexcept = delete;
 
+	void SetColor(float4 _Color);
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;

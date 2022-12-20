@@ -94,6 +94,7 @@ void Stage_1_1::PlayLevelStartEvent()
 	std::shared_ptr<GlobalBloomActor> BloomActor = CreateActor<GlobalBloomActor>();
 	BloomActor->GetTransform().SetLocalPosition({ -1400, 500, 200 });
 	BloomActor->GetTransform().SetWorldScale(float4::ONE * 500);
+	BloomActor->SetColor({1, 0, 0, 1});
 
 	std::shared_ptr<Player> MainPlayer_ = CreateActor<Player>();
 	MainPlayer_->GetTransform().SetLocalPosition({ -1400, 500, 200 });

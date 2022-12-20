@@ -83,7 +83,7 @@ void ServerInitManager::StartInit()
 	}
 	else
 	{
-		Client.Connect("127.0.0.1", 30001);
+		Client.Connect("123.142.84.195", 30001);
 		Net = &Client;
 	}
 
