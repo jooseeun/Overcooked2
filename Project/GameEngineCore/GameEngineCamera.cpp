@@ -10,6 +10,7 @@
 #include "GameEngineStructuredBuffer.h"
 #include "GameEnginePixelShader.h"
 #include <GameEngineBase/GameEngineWindow.h>
+#include "GameEngineShaderResourcesHelper.h"
 
 GameEngineCamera::GameEngineCamera()
 	: CameraRenderTarget(nullptr)
@@ -40,6 +41,11 @@ GameEngineCamera::GameEngineCamera()
 	DeferredMergeUnit = std::make_shared<GameEngineRenderUnit>();
 	DeferredMergeUnit->SetMesh("FullRect");
 	DeferredMergeUnit->SetMaterial("CalDeferredMerge");
+
+	ShadowRenderUnit = std::make_shared<GameEngineRenderUnit>();
+	ShadowRenderUnit->SetMaterial("Shadow");
+	ShadowRenderUnit->ShaderResources.SetConstantBufferLink("TransformData", ShadowTrans);
+
 }
 
 GameEngineCamera::~GameEngineCamera()
@@ -194,6 +200,44 @@ void GameEngineCamera::Render(float _DeltaTime)
 				}
 				// 인스턴싱 정보 수집
 				Unit->Render(ScaleTime);
+			}
+		}
+	}
+
+
+	{
+		std::map<RENDERINGPATHORDER, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>::iterator ForwardIter
+			= AllRenderUnit_.find(RENDERINGPATHORDER::DEFERRED);
+
+		for (std::shared_ptr<class GameEngineLight> Light : AllLight)
+		{
+			Light->ShadowTargetSetting();
+
+			std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& OrderMap = ForwardIter->second;
+
+			std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>::iterator OrderStartIter = OrderMap.begin();
+			std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>::iterator OrderEndIter = OrderMap.end();
+
+			for (std::pair<const int, std::list<std::shared_ptr<GameEngineRenderUnit>>>& Group : OrderMap)
+			{
+				float ScaleTime = GameEngineTime::GetInst()->GetDeltaTime(Group.first);
+
+				std::list<std::shared_ptr<GameEngineRenderUnit>>& RenderList = Group.second;
+				RenderList.sort(ZSortUnit);
+
+				for (std::shared_ptr<GameEngineRenderUnit>& Unit : Group.second)
+				{
+					if (false == Unit->GetIsOn())
+					{
+						continue;
+					}
+
+					ShadowRenderUnit->SetMesh(Unit->GetMesh());
+
+					ShadowTrans = Unit->GetRenderer()->GetTransform().GetTransformData();
+
+					ShadowRenderUnit->Render(ScaleTime);
+				}
 			}
 		}
 	}
@@ -427,7 +471,6 @@ float4 GameEngineCamera::GetMouseWorldPosition()
 	return Pos;
 }
 
-
 float4 GameEngineCamera::GetMouseWorldPositionToActor()
 {
 	return GetTransform().GetWorldPosition() + GetMouseWorldPosition();
@@ -435,14 +478,27 @@ float4 GameEngineCamera::GetMouseWorldPositionToActor()
 
 void GameEngineCamera::ChangeRenderingOrder(std::shared_ptr<GameEngineRenderer> _Renderer, int _ChangeOrder)
 {
-	// 0번째에서 삭제되고
 	AllRenderer_[_Renderer->GetRenderingOrder()].remove(_Renderer);
 
-	_Renderer->RenderingOrder = _ChangeOrder;
+	std::list<std::shared_ptr<GameEngineRenderUnit>>& Units = _Renderer->GetUnits();
+	for (std::shared_ptr<GameEngineRenderUnit> Unit : Units)
+	{
+		std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& Group = AllRenderUnit_[Unit->GetPath()];
+		int Order = _Renderer->RenderingOrder;
+		std::list<std::shared_ptr<class GameEngineRenderUnit>>& List = Group[Order];
+		List.remove(Unit);
+	}
 
-	// 10000번째로 이동한다.
+	_Renderer->RenderingOrder = _ChangeOrder;
+		
+	for (std::shared_ptr<GameEngineRenderUnit> Unit : Units)
+	{
+		AllRenderUnit_[Unit->GetPath()][_ChangeOrder].push_back(Unit);
+	}
+
 	AllRenderer_[_Renderer->GetRenderingOrder()].push_back(_Renderer);
 }
+
 
 void GameEngineCamera::OverRenderer(std::shared_ptr < GameEngineCamera> _NextCamera)
 {

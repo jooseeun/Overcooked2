@@ -356,6 +356,20 @@ bool GameEngineShaderResourcesHelper::IsConstantBuffer(const std::string& _Name)
 	return false;
 }
 
+GameEngineConstantBufferSetter* GameEngineShaderResourcesHelper::GetConstantsBuffer(const std::string& _Name)
+{
+	std::string Key = GameEngineString::ToUpperReturn(_Name);
+
+	std::multimap<std::string, GameEngineConstantBufferSetter>::iterator Find = ConstantBufferSettingMap.find(Key);
+
+	if (ConstantBufferSettingMap.end() != Find)
+	{
+		return &Find->second;
+	}
+
+	return &Find->second;
+}
+
 bool GameEngineShaderResourcesHelper::IsStructuredBuffer(const std::string& _Name)
 {
 	std::string Key = GameEngineString::ToUpperReturn(_Name);

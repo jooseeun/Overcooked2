@@ -12,7 +12,6 @@ GlobalBloomActor::~GlobalBloomActor()
 void GlobalBloomActor::Start()
 {
 	BloomEffectRenderer_ = CreateComponent<GameEngineTextureRenderer>();
-	BloomEffectRenderer_->SetOrder(99);
 	BloomEffectRenderer_->SetRenderingOrder(99);
 	BloomEffectRenderer_->SetMaterial("AddBlendAlpha");
 	BloomEffectRenderer_->SetTexture("BloomEffect.png");

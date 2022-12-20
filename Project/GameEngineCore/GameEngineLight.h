@@ -62,6 +62,7 @@ public:
 
 	void Start() override;
 	void Update(float _DeltaTime) override;
+	void ShadowTargetSetting();
 
 protected:
 

@@ -39,6 +39,12 @@ void GameEngineLight::Update(float _DeltaTime)
 	Data.LightProjectionMatrix.OrthographicLH(Data.LightTargetSizeX, Data.LightTargetSizeY, Data.LightNear, Data.LightFar);
 }
 
+void GameEngineLight::ShadowTargetSetting()
+{
+	ShadowTarget->Clear();
+	ShadowTarget->Setting();
+}
+
 void GameEngineLight::LightDataUpdate(GameEngineCamera* _Camera)
 {
 	GetTransform().SetView(_Camera->GetViewMatrix());

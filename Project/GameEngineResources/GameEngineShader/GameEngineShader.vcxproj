@@ -137,6 +137,7 @@
     <FxCompile Include="Debug3D.hlsl" />
     <FxCompile Include="DeferredColor.hlsl" />
     <FxCompile Include="DeferredHeader.fx" />
+    <FxCompile Include="DeferredTextureAnimation.hlsl" />
     <FxCompile Include="Glass.hlsl" />
     <FxCompile Include="JBMWater.hlsl" />
     <FxCompile Include="Light.hlsl" />
@@ -145,6 +146,7 @@
     <FxCompile Include="Overlay.hlsl" />
     <FxCompile Include="Portal.hlsl" />
     <FxCompile Include="RenderOption.fx" />
+    <FxCompile Include="Shadow.hlsl" />
     <FxCompile Include="Swirl.hlsl" />
     <FxCompile Include="TargetMerge.hlsl" />
     <FxCompile Include="Texture.hlsl" />
