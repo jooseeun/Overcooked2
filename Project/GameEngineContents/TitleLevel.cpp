@@ -17,8 +17,8 @@ void TitleLevel::Start()
 
 	std::shared_ptr<GlobalMouseInput> Mouse = CreateActor<GlobalMouseInput>();
 
-	std::shared_ptr<TitleVan> TitleVan_ = CreateActor<TitleVan>();
-	TitleVan_->GetTransform().SetLocalPosition({ 0, 0, 0});
+	//std::shared_ptr<TitleVan> TitleVan_ = CreateActor<TitleVan>();
+	//TitleVan_->GetTransform().SetLocalPosition({ 0, 0, 0});
 
 	{
 		std::shared_ptr<GamePlayMapObject> Kevin = CreateActor<GamePlayMapObject>();
@@ -45,11 +45,20 @@ void TitleLevel::Start()
 	GetMainCameraActorTransform().SetLocalRotation({ 0, -158, 0});
 	GetMainCameraActorTransform().SetLocalPosition({ 659, 21, 1402});
 
-	CreateActor<LevelActor>()->SetLevelMesh("TitleLevel.FBX");
+	LevelActor_ = CreateActor<LevelActor>();	
+	LevelActor_->SetLevelMesh("TitleLevel.FBX");
+	LevelActor_->GetRenderer()->SetSubMaterial(19, "TextureAlpha");
+	LevelActor_->GetRenderer()->SetSubMaterial(16, "TextureAlpha");
 
 	std::shared_ptr<GameEngineFBXStaticRenderer> SkyPlane = CreateActor<GameEngineActor>()->CreateComponent<GameEngineFBXStaticRenderer>();
 	SkyPlane->SetFBXMesh("m_menu_bg_sky.fbx", "TextureSkybox");
 	SkyPlane->GetTransform().SetWorldScale({ 50.f , 50.f , 50.f });
+
+	{
+		std::shared_ptr<GameEngineFBXStaticRenderer> SkyPlane = CreateActor<GameEngineActor>()->CreateComponent<GameEngineFBXStaticRenderer>();
+		SkyPlane->SetFBXMesh("Food Truck.fbx", "Texture");
+	}
+
 }
 
 void TitleLevel::Update(float _DeltaTime)
@@ -58,6 +67,14 @@ void TitleLevel::Update(float _DeltaTime)
 	{
 		GetMainCameraActor()->FreeCameraModeOnOff();
 		GetUICameraActor()->FreeCameraModeOnOff();
+	}
+
+	if (true == GameEngineInput::GetInst()->IsDownKey("SubTest"))
+	{
+		SubsetDebugIndex_++;
+		LevelActor_->GetRenderer()->SetSubMaterial(SubsetDebugIndex_, "Glass");
+
+		GameEngineDebug::OutPutString(std::to_string(SubsetDebugIndex_));
 	}
 }
 
