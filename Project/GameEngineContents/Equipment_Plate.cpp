@@ -18,6 +18,7 @@ void Equipment_Plate::Start()
 	GamePlayBowl::Start();
 	GamePlayBowl::SetToolInfoType(ToolInfo::Plate);
 	GamePlayEquipment::SetObjectEquipmentType(ObjectEquipmentType::Dish);
+	GamePlayBowl::SetObjectBowlType(ObjectBowlType::Plate);
 
 	GetFBXMesh()->SetFBXMesh("m_sk_plate_02.fbx", "Texture");
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });

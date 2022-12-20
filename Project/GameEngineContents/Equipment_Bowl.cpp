@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "Equipment_Bowl.h"
+#include "Equipment_Steamer.h"
 
 Equipment_Bowl::Equipment_Bowl() 
 {
@@ -13,17 +14,19 @@ void Equipment_Bowl::Start()
 {
 	GamePlayBowl::Start();
 	GamePlayBowl::SetToolInfoType(ToolInfo::Bowl);
+	GamePlayBowl::SetObjectBowlType(ObjectBowlType::Bowl);
 
 	GetFBXMesh()->SetFBXMesh("Bowl.fbx", "Texture");
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 
 	GetCombinFood()->Start(2, shared_from_this());
-	//CreateFoodThumbnail(2);
 }
 
 void Equipment_Bowl::Update(float _DeltaTime)
 {
+	//GetTransform().SetWorldRotation(float4::ZERO);
 
+	//GameEngineDebug::OutPutString(std::to_string(GetTransform().GetLocalPosition().x) + " + "  + std::to_string(GetTransform().GetLocalPosition().y) + " + " + std::to_string(GetTransform().GetLocalPosition().z));
 }
 
 bool Equipment_Bowl::AutoTrim(float _DeltaTime, ObjectToolType _Tool)
@@ -63,7 +66,7 @@ HoldDownEnum Equipment_Bowl::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable
 			{
 				if (Food->GetCookingType() == CookingType::Mixer)
 				{
-					if (GetCombinFood()->AddFood(Food->GetObjectFoodClass()))
+					if (GetCombinFood()->PushFood(Food->GetObjectFoodClass()))
 					{
 						(*_Moveable)->Death();
 						(*_Moveable)->Off();
@@ -74,14 +77,24 @@ HoldDownEnum Equipment_Bowl::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable
 				}
 			}
 		}
-		else
+		else if(!GetCombinFood()->IsClear())
 		{
-			//if ((*_Moveable)->CastThis<Equipment_FryingPan>() != nullptr)
-			//{
-			//	std::weak_ptr<GamePlayFood> Index = (*_Moveable)->CastThis<Equipment_FryingPan>()->FryFood_;
-			//	(*_Moveable)->CastThis<Equipment_FryingPan>()->SetFryFood(FryFood_);
-			//	SetFryFood(Index.lock());
-			//}
+			std::shared_ptr<GamePlayBowl> Bowl = (*_Moveable)->CastThis<GamePlayBowl>();
+			if (Bowl != nullptr)
+			{
+				if (Bowl->GetObjectBowlType() == ObjectBowlType::Bowl)
+				{
+					GetCombinFood()->Switching(Bowl->GetCombinFood());
+					(*_Moveable)->SwitchingCookingGage((*_Moveable));
+				}
+				else if (Bowl->GetObjectBowlType() == ObjectBowlType::Steamer)
+				{
+					if (Bowl->GetCombinFood()->GetTrim())
+					{
+						(*_Moveable)->CastThis<Equipment_Steamer>()->BowltoSteamer(CastThis<Equipment_Bowl>());
+					}
+				}
+			}
 		}
 	}
 	return HoldDownEnum::Nothing;

@@ -13,6 +13,7 @@ enum class SteamerState
 // Ό³Έν :
 class Equipment_Steamer : public GamePlayBowl
 {
+	friend class Equipment_Bowl;
 public:
 	// constrcuter destructer
 	Equipment_Steamer();
@@ -69,5 +70,13 @@ private:
 
 	std::shared_ptr<GameEngineActor> Lid_;
 	std::shared_ptr<GameEngineFBXStaticRenderer> LidRenderer_;
+
+
+
+
+	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable) override;
+	bool AutoTrim(float _DeltaTime, ObjectToolType _Tool) override;
+	// Bowl to Steamer
+	bool BowltoSteamer(std::shared_ptr<Equipment_Bowl> _Bowl);
 };
 

@@ -23,6 +23,7 @@ enum class ObjectToolType;
 class GamePlayMoveable : public GamePlayStuff
 {
 	friend class GamePlayTool;
+	friend struct CombinFood;
 public:
 	// constrcuter destructer
 	GamePlayMoveable();
@@ -58,6 +59,13 @@ public:
 	{
 		return CookingGage_;
 	}
+	inline void SwitchingCookingGage(std::shared_ptr<GamePlayMoveable> _Moveable)
+	{
+		float CookingGage = CookingGage_;
+		CookingGage_ = _Moveable->CookingGage_;
+		_Moveable->CookingGage_ = CookingGage;
+	}
+
 	inline std::shared_ptr<CookingBar> GetCookingBar()
 	{
 		return CookingBar_;

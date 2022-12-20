@@ -166,6 +166,32 @@ struct CombinFood
 		}
 	}
 
+	bool PushFood(IngredientType _Type)
+	{
+		if (NoneThumbnailMode_ == false)
+		{
+			Food_Current_.push_back(_Type);
+			std::shared_ptr<FoodThumbnail> Thumbnail = Moveable_.lock()->GetLevel()->CreateActor<FoodThumbnail>();
+			Thumbnail->LinkObject(Moveable_.lock()->CastThis<GameEngineActor>(), float4::ZERO);
+			Food_Thumbnail_.push_back(Thumbnail);
+			RefreshThumbnail();
+			return true;
+		}
+		else
+		{
+			for (size_t i = 0; i < Food_Current_.size(); i++)
+			{
+				if (Food_Current_[i] == IngredientType::None)
+				{
+					Food_Current_[i] = _Type;
+					RefreshThumbnail();
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+
 	bool AddFood(IngredientType _Type)
 	{
 		if (NoneThumbnailMode_ == false)
@@ -288,12 +314,16 @@ struct CombinFood
 			Renderer_->SetFBXMesh("m_recipe_lettuce_tomato_burger_01.FBX", "Texture");
 			break;
 		case FoodType::PrawnDumpling:
+			Renderer_->SetFBXMesh("m_recipe_dimsum_03.FBX", "Texture");
 			break;
 		case FoodType::SteamedFish:
+			//Renderer_->SetFBXMesh("m_recipe_lettuce_tomato_burger_01.FBX", "Texture");
 			break;
 		case FoodType::MeatDumpling:
+			Renderer_->SetFBXMesh("m_recipe_dimsum_01.FBX", "Texture");
 			break;
 		case FoodType::CarrotDumpling:
+			Renderer_->SetFBXMesh("m_recipe_dimsum_02.FBX", "Texture");
 			break;
 		default:
 			switch (GetNoneFoodClass())
@@ -597,7 +627,23 @@ struct CombinFood
 
 	void Switching(std::shared_ptr<CombinFood> _Food)
 	{
+		std::vector<IngredientType> Food_Current = Food_Current_;
+		Clear();
+		Food_Current_ = _Food->Food_Current_;
+		RefreshThumbnailAndRenderer();
 
+		_Food->Clear();
+		_Food->Food_Current_ = Food_Current;
+		_Food->RefreshThumbnailAndRenderer();
+	}
+
+	inline bool GetTrim()
+	{
+		if (Moveable_.lock()->CookingGage_ >= 100.f && Moveable_.lock()->CookingGage_ < 200.f)
+		{
+			return true;
+		}
+		return false;
 	}
 
 	static std::map<NoneFoodType, std::vector<IngredientType>> Static_NoneType_;

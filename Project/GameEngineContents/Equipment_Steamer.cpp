@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "Equipment_Steamer.h"
+#include "Equipment_Bowl.h"
 
 Equipment_Steamer::Equipment_Steamer() 
 	: Angle_(0.f)
@@ -229,4 +230,78 @@ void Equipment_Steamer::CloseUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		LidRenderer_->GetTransform().SetLocalPosition({ CurPos_ });
 	}
+}
+
+bool Equipment_Steamer::AutoTrim(float _DeltaTime, ObjectToolType _Tool)
+{
+	if (_Tool == ObjectToolType::Cooker)
+	{
+		if (!GetCombinFood()->IsClear())
+		{
+			if (Input_Auto(_DeltaTime, 12.f))
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+
+}
+
+HoldDownEnum Equipment_Steamer::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
+{
+	if ((*_Moveable) == nullptr)
+	{
+		(*_Moveable) = CastThis<GamePlayMoveable>();
+		return HoldDownEnum::HoldDown;
+	}
+	else
+	{
+		std::shared_ptr<GamePlayBowl> Bowl = (*_Moveable)->CastThis<GamePlayBowl>();
+		if (GetCombinFood()->IsClear())
+		{
+			if (Bowl != nullptr)
+			{
+				if (Bowl->GetObjectBowlType() == ObjectBowlType::Bowl)
+				{
+					if (Bowl->GetCombinFood()->GetTrim() && Bowl->GetCombinFood()->GetFoodType() != FoodType::None)
+					{
+						BowltoSteamer((*_Moveable)->CastThis<Equipment_Bowl>());
+					}
+				}
+				else if (Bowl->GetObjectBowlType() == ObjectBowlType::Steamer)
+				{
+					GetCombinFood()->Switching(Bowl->GetCombinFood());
+					(*_Moveable)->SwitchingCookingGage((*_Moveable));
+				}
+			}
+		}
+		else
+		{
+			if (Bowl->GetObjectBowlType() == ObjectBowlType::Plate)
+			{
+				if (GetCombinFood()->GetTrim())
+				{
+					Bowl->GetCombinFood()->Move(GetCombinFood());
+					Bowl->GetCombinFood()->RefreshThumbnailAndRenderer();
+					ReSetCookingGage();
+				}
+			}
+		}
+	}
+}
+
+bool Equipment_Steamer::BowltoSteamer(std::shared_ptr<Equipment_Bowl> _Bowl)
+{
+	if (GetCombinFood()->IsClear())
+	{
+		_Bowl->ReSetCookingGage();
+		GetCombinFood()->Move(_Bowl->GetCombinFood());
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+
 }
