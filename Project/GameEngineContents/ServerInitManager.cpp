@@ -67,7 +67,7 @@ void ServerInitManager::StartInit()
 {
 	if (true == GameEngineStatusWindow::IsHost)
 	{
-		Server.Accept(30001);
+		Server.Accept(31109);
 		Net = &Server;
 
 		Server.AcceptCallBack = [&](SOCKET _User)
@@ -83,7 +83,7 @@ void ServerInitManager::StartInit()
 	}
 	else
 	{
-		Client.Connect("123.142.84.195", 30001);
+		Client.Connect("10.0.4.63", 31109);
 		Net = &Client;
 	}
 
