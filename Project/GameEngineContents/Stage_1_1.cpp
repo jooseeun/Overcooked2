@@ -62,8 +62,6 @@ void Stage_1_1::PlayLevelUpdate(float _DeltaTime)
 
 		GameEngineDebug::OutPutString(std::to_string(SubsetDebugIndex_));
 	}
-
-	ServerInitManager::Update(_DeltaTime);
 }
 
 void Stage_1_1::End()
@@ -73,6 +71,12 @@ void Stage_1_1::End()
 
 void Stage_1_1::PlayLevelStartEvent()
 {
+	if (nullptr != Player::GetMyPlayer())
+	{
+		Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1400, 500, 200 });
+		Player::GetMyPlayer()->SetCurFrontDir();
+	}
+
 	if (IsLevelFirst_ == false)
 	{
 		return;
@@ -98,11 +102,9 @@ void Stage_1_1::PlayLevelStartEvent()
 	BloomActor->GetTransform().SetWorldScale(float4::ONE * 500);
 	BloomActor->SetColor({1, 0, 0, 1});
 
-	std::shared_ptr<Player> MainPlayer_ = CreateActor<Player>();
-	MainPlayer_->GetTransform().SetLocalPosition({ -1400, 500, 200 });
-	MainPlayer_->SetCurFrontDir();
-
-	ServerInitManager::StartInit();
+	//std::shared_ptr<Player> MainPlayer_ = CreateActor<Player>();
+	//MainPlayer_->GetTransform().SetLocalPosition({ -1400, 500, 200 });
+	//MainPlayer_->SetCurFrontDir();
 
 	std::shared_ptr<GlobalMouseInput> Mouse = CreateActor<GlobalMouseInput>();
 

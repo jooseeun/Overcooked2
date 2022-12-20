@@ -266,9 +266,6 @@
     <ClInclude Include="PortalCollision.h">
       <Filter>Contents\Object\MapObject</Filter>
     </ClInclude>
-    <ClInclude Include="ServerInitManager.h">
-      <Filter>Level</Filter>
-    </ClInclude>
     <ClInclude Include="LightTestLevel.h">
       <Filter>Level</Filter>
     </ClInclude>
@@ -326,8 +323,8 @@
     <ClInclude Include="FadeFont.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="RendererTestLevel.h">
-      <Filter>Level\Stage</Filter>
+    <ClInclude Include="ServerInitManager.h">
+      <Filter>Global</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -596,9 +593,6 @@
     <ClCompile Include="PortalCollision.cpp">
       <Filter>Contents\Object\MapObject</Filter>
     </ClCompile>
-    <ClCompile Include="ServerInitManager.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
     <ClCompile Include="LightTestLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
@@ -656,8 +650,8 @@
     <ClCompile Include="FadeFont.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="RendererTestLevel.cpp">
-      <Filter>Level\Stage</Filter>
+    <ClCompile Include="ServerInitManager.cpp">
+      <Filter>Global</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

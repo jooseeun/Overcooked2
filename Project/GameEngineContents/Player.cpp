@@ -15,7 +15,6 @@
 //감정표현 - E
 
 std::shared_ptr<Player> Player::MyPlayer = nullptr;
-bool Player::OnePlayerInit = false;
 int Player::MaxPlayerCount_ = 0;
 int Player::PlayerCount_ = 0;
 
@@ -61,7 +60,6 @@ Player::Player()
 	, CannonFlyPos_()
 	, IsCannon_(false)
 	, IsCannonFly_(false)
-	, IsPlayerble(false)
 {
 	++PlayerCount_;
 }
@@ -266,9 +264,8 @@ void Player::Start()
 	PlayerCameraCollision_->ChangeOrder(CollisionOrder::Max);
 	PlayerCameraCollision_->GetTransform().SetLocalScale({ 200,200,200 });
 	PlayerCameraCollision_->GetTransform().SetLocalPosition({ 0,0,0 });
-	if (false == OnePlayerInit)
+	if (true)
 	{
-
 		StateManager.CreateStateMember("Idle"
 			, std::bind(&Player::IdleUpdate, this, std::placeholders::_1, std::placeholders::_2)
 			, std::bind(&Player::IdleStart, this, std::placeholders::_1)
@@ -320,9 +317,6 @@ void Player::Start()
 
 		StateManager.ChangeState("Idle");
 
-		IsPlayerble = true;
-		OnePlayerInit = true;
-	
 	}
 	
 	ChangePlayerColor();
@@ -1306,11 +1300,6 @@ CollisionReturn Player::PushButton(std::shared_ptr<GameEngineCollision> _This, s
 
 void Player::ServerStart()
 {
-	if (false == OnePlayerInit)
-	{
-		IsPlayerble = true;
-		OnePlayerInit = true;
-	}
 }
 
 void Player::ServerUpdate(float _DeltaTime)
@@ -1320,10 +1309,9 @@ void Player::ServerUpdate(float _DeltaTime)
 		return;
 	}
 
-	if (true == IsPlayerble)
+	if (shared_from_this() == MyPlayer)
 	{
-		ServerInitManager* CurManager = dynamic_cast<ServerInitManager*>(GetLevel());
-		if (CurManager == nullptr)
+		if (nullptr == ServerInitManager::Net)
 		{
 			return;
 		}
@@ -1336,7 +1324,7 @@ void Player::ServerUpdate(float _DeltaTime)
 		Packet->Rot = GetTransform().GetWorldRotation();
 		Packet->Scale = GetTransform().GetWorldScale();
 		Packet->Animation = "Test";
-		CurManager->Net->SendPacket(Packet);
+		ServerInitManager::Net->SendPacket(Packet);
 
 		if (Player::MaxPlayerCount_ < Packet->ObjectID)
 		{

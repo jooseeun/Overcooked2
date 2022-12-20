@@ -66,6 +66,12 @@ void ServerInitManager::Ignore(std::shared_ptr<GameServerPacket> _Packet)
 
 void ServerInitManager::StartInit()
 {
+	if (Player::GetMyPlayer() == nullptr)
+	{
+		GEngine::GetCurrentLevel()->CreateActor<Player>();
+		Player::GetMyPlayer()->SetLevelOverOn();
+	}
+
 	if (true == GameEngineStatusWindow::IsHost)
 	{
 		Server.Accept(30001);
@@ -109,19 +115,19 @@ void ServerInitManager::StartInit()
 		return NewPacket;
 	};
 
-	Net->Dis.AddHandler(ContentsPacketType::ObjectUpdate, std::bind(&ServerInitManager::ObjectUpdatePacketProcess, this, std::placeholders::_1));
-	Net->Dis.AddHandler(ContentsPacketType::Ignore, std::bind(&ServerInitManager::Ignore, this, std::placeholders::_1));
-	Net->Dis.AddHandler(ContentsPacketType::None, std::bind(&ServerInitManager::Ignore, this, std::placeholders::_1));
+	Net->Dis.AddHandler(ContentsPacketType::ObjectUpdate, std::bind(&ServerInitManager::ObjectUpdatePacketProcess, std::placeholders::_1));
+	Net->Dis.AddHandler(ContentsPacketType::Ignore, std::bind(&ServerInitManager::Ignore, std::placeholders::_1));
+	Net->Dis.AddHandler(ContentsPacketType::None, std::bind(&ServerInitManager::Ignore, std::placeholders::_1));
 
 	if (true == Net->GetIsHost())
 	{
 		// 내가 서버일때만 등록해야하는 패킷
-		//Net->Dis.AddHandler(ContentsPacketType::ClinetInit, std::bind(&ServerInitManager::Ignore, this, std::placeholders::_1));
+		//Net->Dis.AddHandler(ContentsPacketType::ClinetInit, std::bind(&ServerInitManager::Ignore, std::placeholders::_1));
 	}
 	else
 	{
 		// 내가 클라이언트 일때만 등록해야하는 패킷
-		Net->Dis.AddHandler(ContentsPacketType::ClinetInit, std::bind(&ServerInitManager::ClientInitPacketProcess, this, std::placeholders::_1));
+		Net->Dis.AddHandler(ContentsPacketType::ClinetInit, std::bind(&ServerInitManager::ClientInitPacketProcess, std::placeholders::_1));
 	}
 }
 

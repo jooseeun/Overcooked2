@@ -14,7 +14,6 @@ TitleLevel::~TitleLevel()
 
 void TitleLevel::Start()
 {
-
 	std::shared_ptr<GlobalMouseInput> Mouse = CreateActor<GlobalMouseInput>();
 
 	std::shared_ptr<TitleVan> TitleVan_ = CreateActor<TitleVan>();
@@ -50,6 +49,7 @@ void TitleLevel::Start()
 	std::shared_ptr<GameEngineFBXStaticRenderer> SkyPlane = CreateActor<GameEngineActor>()->CreateComponent<GameEngineFBXStaticRenderer>();
 	SkyPlane->SetFBXMesh("m_menu_bg_sky.fbx", "TextureSkybox");
 	SkyPlane->GetTransform().SetWorldScale({ 50.f , 50.f , 50.f });
+
 }
 
 void TitleLevel::Update(float _DeltaTime)
@@ -63,4 +63,9 @@ void TitleLevel::Update(float _DeltaTime)
 
 void TitleLevel::End()
 {
+}
+
+void TitleLevel::LevelStartEvent()
+{
+	ServerInitManager::StartInit();
 }
