@@ -829,6 +829,15 @@ void MapEditorWindow::SortToolTab()
 					{
 						IsChecks_[j] = true;
 					}
+					else if (nullptr != SortActorList_[ActorIndex].lock()->GetMoveable())
+					{
+						CurType = magic_enum::enum_name(SortActorList_[ActorIndex].lock()->GetMoveable()->GetToolInfoType());
+
+						if (ToolNames[j] == CurType.data())
+						{
+							IsChecks_[j] = true;
+						}
+					}
 
 					std::weak_ptr<FoodBox> Food = std::dynamic_pointer_cast<FoodBox>(SortActorList_[ActorIndex].lock());
 
