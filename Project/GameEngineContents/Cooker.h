@@ -22,10 +22,17 @@ public:
 		return ToolPos_;
 	};
 
+	inline void SettingToolType(ToolInfo _MyTool)
+	{
+		MyTool_ = _MyTool;
+	}
+
+	void SettingToolPos(ToolInfo _MyTool_);
+
 protected:
 	void Start() override;
 private:
-
+	ToolInfo MyTool_;
 };
 
 
