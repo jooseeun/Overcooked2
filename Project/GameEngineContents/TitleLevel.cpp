@@ -14,7 +14,6 @@ TitleLevel::~TitleLevel()
 
 void TitleLevel::Start()
 {
-
 	std::shared_ptr<GlobalMouseInput> Mouse = CreateActor<GlobalMouseInput>();
 
 	//std::shared_ptr<TitleVan> TitleVan_ = CreateActor<TitleVan>();
@@ -80,4 +79,9 @@ void TitleLevel::Update(float _DeltaTime)
 
 void TitleLevel::End()
 {
+}
+
+void TitleLevel::LevelStartEvent()
+{
+	ServerInitManager::StartInit();
 }

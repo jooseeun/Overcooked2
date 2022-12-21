@@ -21,17 +21,14 @@ public:
 	ServerInitManager& operator=(const ServerInitManager& _Other) = delete;
 	ServerInitManager& operator=(ServerInitManager&& _Other) noexcept = delete;
 
-	void ObjectUpdatePacketProcess(std::shared_ptr<GameServerPacket> _Packet);
-	void ClientInitPacketProcess(std::shared_ptr<GameServerPacket> _Packet);
-	void Ignore(std::shared_ptr<GameServerPacket> _Packet);
+	static void ObjectUpdatePacketProcess(std::shared_ptr<GameServerPacket> _Packet);
+	static void ClientInitPacketProcess(std::shared_ptr<GameServerPacket> _Packet);
+	static void Ignore(std::shared_ptr<GameServerPacket> _Packet);
 
-protected:
-	void StartInit();
-	void Update(float _Delta);
+	static void StartInit();
+	static void Update(float _Delta);
 
 private:
-	bool IsLevelFirst_ = true;
-
 	static GameServerNetServer Server;
 	static GameServerNetClient Client;
 
