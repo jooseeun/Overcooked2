@@ -61,14 +61,14 @@ void Stage_2_1::PlayLevelStartEvent()
 
 	{
 		std::shared_ptr<GameEngineTextureRenderer> Water = WaterActor_->CreateComponent<GameEngineTextureRenderer>();
-		Water->SetMaterial("JBMWater");
+		Water->SetMaterial("Water");
 		Water->SetTexture("Icy_Water.png");
 		Water->GetShaderResources().SetConstantBufferLink("RENDEROPTION", &WaterRenderOption1_, sizeof(RenderOption));
 	}
 
 	{
 		std::shared_ptr<GameEngineTextureRenderer> Water = WaterActor_->CreateComponent<GameEngineTextureRenderer>();
-		Water->SetMaterial("JBMWater");
+		Water->SetMaterial("Water");
 		Water->SetTexture("water2.png");
 		Water->GetShaderResources().SetConstantBufferLink("RENDEROPTION", &WaterRenderOption2_, sizeof(RenderOption));
 	}

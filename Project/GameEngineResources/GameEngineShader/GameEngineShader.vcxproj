@@ -140,7 +140,7 @@
     <FxCompile Include="DeferredHeader.fx" />
     <FxCompile Include="DeferredTextureAnimation.hlsl" />
     <FxCompile Include="Glass.hlsl" />
-    <FxCompile Include="JBMWater.hlsl" />
+    <FxCompile Include="Water.hlsl" />
     <FxCompile Include="Light.hlsl" />
     <FxCompile Include="LightHeader.fx" />
     <FxCompile Include="ObjectHighlight.hlsl" />

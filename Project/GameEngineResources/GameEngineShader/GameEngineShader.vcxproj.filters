@@ -33,7 +33,7 @@
     <FxCompile Include="Vignette.hlsl">
       <Filter>TargetEffect</Filter>
     </FxCompile>
-    <FxCompile Include="JBMWater.hlsl">
+    <FxCompile Include="Water.hlsl">
       <Filter>Object</Filter>
     </FxCompile>
     <FxCompile Include="Overlay.hlsl">
