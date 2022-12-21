@@ -5,14 +5,13 @@
 
 Cannon::Cannon() 
 	: CurState_(CannonState::Max)
-	, ShootAngle_(-250.f)
 	, MaxAngle_(-40.f)
+	, ReadyAngle_(-32.f)
 	, CurAngle_(0.f)
-	, IsShoot_(false)
 	, IsCounterReaction_(false)
 	, IsMoveDone_(false)
 	, ReactCount_(0)
-	, Power_(0.f)
+	, IsDownMove_(false)
 {
 }
 
@@ -48,17 +47,13 @@ void Cannon::Start()
 		, std::bind(&Cannon::ReadyUpdate, this, std::placeholders::_1, std::placeholders::_2)
 		, std::bind(&Cannon::ReadyStart, this, std::placeholders::_1)
 	);
-	StateManager.CreateStateMember("ReadyToIdle"
-		, std::bind(&Cannon::ReadyToIdleUpdate, this, std::placeholders::_1, std::placeholders::_2)
-		, std::bind(&Cannon::ReadyToIdleStart, this, std::placeholders::_1)
-	);
 	StateManager.CreateStateMember("Shoot"
 		, std::bind(&Cannon::ShootUpdate, this, std::placeholders::_1, std::placeholders::_2)
 		, std::bind(&Cannon::ShootStart, this, std::placeholders::_1)
 	);
-	StateManager.CreateStateMember("ShootToIdle"
-		, std::bind(&Cannon::ShootToIdleUpdate, this, std::placeholders::_1, std::placeholders::_2)
-		, std::bind(&Cannon::ShootToIdleStart, this, std::placeholders::_1)
+	StateManager.CreateStateMember("Down"
+		, std::bind(&Cannon::DownUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Cannon::DownStart, this, std::placeholders::_1)
 	);
 
 	StateManager.ChangeState("Idle");
@@ -66,15 +61,6 @@ void Cannon::Start()
 
 void Cannon::Update(float _DeltaTime)
 {
-	// Idle 상태에서 플레이어와 충돌 + 키 입력 시 => Ready
-	// Button => On
-
-	// Ready 상태에서 버튼과 플레이어 충돌 + 키 입력 시 => Shoot
-	// Button => Off
-
-	// Shoot 끝난 후 => Idle
-
-	CurAngle_ = Mesh_Object_->GetTransform().GetWorldRotation().z;
 	if (Player_ != nullptr)
 	{
 		Player_->CannonZAngle_ = CurAngle_; 
@@ -91,7 +77,6 @@ void Cannon::IdleStart(const StateInfo& _Info)
 	{
 		return;
 	}
-	CurAngle_ = 0.f;
 	CurState_ = CannonState::Idle;
 }
 
@@ -101,8 +86,6 @@ void Cannon::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		return;
 	}
-
-	Mesh_Object_->GetTransform().SetWorldRotation(CurAngle_);
 
 	if (true == Player_->IsCannon_)
 	{
@@ -116,6 +99,7 @@ void Cannon::ReadyStart(const StateInfo& _Info)
 	Button_->IsReady_ = true;
 	IsMoveDone_ = false;
 	IsCounterReaction_ = false;
+	CurAngle_ = 0.f;
 }
 
 void Cannon::ReadyUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -124,72 +108,45 @@ void Cannon::ReadyUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (false == Player_->IsCannon_)
 	{
 		ResetPlayer();
-		StateManager.ChangeState("ReadyToIdle");
+		StateManager.ChangeState("Down");
 	}
 	// 버튼이 눌렸다
 	else if (true == Button_->CheckButtonPressedState() && true == Player_->IsCannon_)
 	{
 		StateManager.ChangeState("Shoot");
 	}
-	//else if (_Info.StateTime > 2.f && true == Player_->IsCannon_)
-	//{
-	//	StateManager.ChangeState("Shoot");
-	//}
+	else if (true == GameEngineInput::GetInst()->IsDownKey("MapObjectTest") && true == Player_->IsCannon_)	/// 테스트 //
+	{
+		StateManager.ChangeState("Shoot");
+	}
 
 	if (true == IsMoveDone_)
 	{
 		return;
 	}
 
-	if (CurAngle_ <= MaxAngle_)
+	if (false == IsCounterReaction_)
 	{
-		IsCounterReaction_ = true;
+		if (MaxAngle_ >= CurAngle_)
+		{
+			CurAngle_ = MaxAngle_;
+			IsCounterReaction_ = true;
+		}
+
+		CurAngle_ -= _DeltaTime * 250.f;
+		Mesh_Object_->GetTransform().SetLocalRotation({ 0.f, 0.f, CurAngle_ });
 	}
-	if (CurAngle_ > MaxAngle_ && false == IsCounterReaction_)
+	else
 	{
-		Mesh_Object_->GetTransform().SetAddWorldRotation(float4{ 0.f, 0.f, ShootAngle_ } *_DeltaTime);
-	}
-	else if (true == IsCounterReaction_)
-	{
-		if (CurAngle_ >= MaxAngle_ + 8.f)
+		if (ReadyAngle_ <= CurAngle_)
 		{
 			IsCounterReaction_ = false;
 			IsMoveDone_ = true;
 		}
-		Mesh_Object_->GetTransform().SetAddWorldRotation(float4{ 0.f, 0.f, 100.f } *_DeltaTime);
+
+		CurAngle_ += _DeltaTime * 100.f;
+		Mesh_Object_->GetTransform().SetLocalRotation({ 0.f, 0.f, CurAngle_ });
 	}
-}
-
-void Cannon::ReadyToIdleStart(const StateInfo& _Info)
-{
-	CurState_ = CannonState::ReadyToIdle;
-	Button_->IsReady_ = false;
-	IsMoveDone_ = false;
-	IsCounterReaction_ = false;
-	//ReactCount_ = 3;
-	//Power_ = 70.f;
-}
-
-void Cannon::ReadyToIdleUpdate(float _DeltaTime, const StateInfo& _Info)
-{
-	//if (CurAngle_ >= 0.f)
-	//{
-	//	StateManager.ChangeState("Idle");
-	//}
-	//else
-	//{
-	//	Mesh_Object_->GetTransform().SetAddWorldRotation(float4{ 0.f, 0.f, -ShootAngle_ } * _DeltaTime);
-	//}
-
-	if (nullptr != Player_)
-	{
-		if (true == Player_->IsCannon_)
-		{
-			StateManager.ChangeState("Ready");
-		}
-	}
-
-	CounterReaction(_DeltaTime);
 }
 
 void Cannon::ShootStart(const StateInfo& _Info)
@@ -199,90 +156,109 @@ void Cannon::ShootStart(const StateInfo& _Info)
 	Player_->IsCannonFly_ = true;
 	Button_->IsReady_ = false;
 	Button_->SetButtonUnPressed();
+	ReactCount_ = 2;
 }
 
 void Cannon::ShootUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	if (_Info.StateTime > 2.f)
 	{
-		StateManager.ChangeState("ShootToIdle");
+		StateManager.ChangeState("Down");
+	}
+
+	if (_Info.StateTime > 0.4f)
+	{
+		if (0 != ReactCount_)
+		{
+			if (false == IsCounterReaction_)
+			{
+				if (ReadyAngle_ + 7.f <= CurAngle_)
+				{
+					IsCounterReaction_ = true;
+				}
+
+				CurAngle_ += _DeltaTime * 100.f;
+				Mesh_Object_->GetTransform().SetLocalRotation({ 0.f, 0.f, CurAngle_ });
+			}
+			else
+			{
+				if (ReadyAngle_ >= CurAngle_)
+				{
+					ReactCount_ -= 1;
+					IsCounterReaction_ = false;
+				}
+
+				CurAngle_ -= _DeltaTime * 100.f;
+				Mesh_Object_->GetTransform().SetLocalRotation({ 0.f, 0.f, CurAngle_ });
+			}
+		}
 	}
 }
 
-void Cannon::ShootToIdleStart(const StateInfo& _Info)
+void Cannon::DownStart(const StateInfo& _Info)
 {
-	CurState_ = CannonState::ShootToIdle;
+	CurState_ = CannonState::Down;
 	IsMoveDone_ = false;
 	IsCounterReaction_ = false;
-	//ReactCount_ = 3;
-	//Power_ = 70.f;
+	IsDownMove_ = true;
+	ReactCount_ = 1;
 }
 
-void Cannon::ShootToIdleUpdate(float _DeltaTime, const StateInfo& _Info)
+void Cannon::DownUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	//if (CurAngle_ >= 0.f)
-	//{
-	//	StateManager.ChangeState("Idle");
-	//}
-	//else
-	//{
-	//	Mesh_Object_->GetTransform().SetAddWorldRotation(float4{ 0.f, 0.f, -ShootAngle_ } *_DeltaTime);
-	//}
-
-	CounterReaction(_DeltaTime);
-}
-
-void Cannon::CounterReaction(float _DeltaTime)
-{
-	//if (ReactCount_ == 0)
-	//{
-	//	StateManager.ChangeState("Idle");
-	//}
-
-	//if (CurAngle_ > MaxAngle_ && false == IsCounterReaction_)
-	//{
-	//	if (CurAngle_ >= 0.f)
-	//	{
-	//		IsCounterReaction_ = true;
-	//	}
-
-	//	Mesh_Object_->GetTransform().SetAddWorldRotation(float4{ 0.f, 0.f, -ShootAngle_ } *_DeltaTime);
-	//}
-	//else if (true == IsCounterReaction_)
-	//{
-	//	Power_ += 300.f * _DeltaTime;
-	//	if (CurAngle_ <= 0.f && CurAngle_ >= -10.f)
-	//	{
-	//		Mesh_Object_->GetTransform().SetAddWorldRotation(float4{ 0.f, 0.f, Power_ } *_DeltaTime);
-	//	}
-	//	else if (CurAngle_ >= 2.f)
-	//	{
-	//		Mesh_Object_->GetTransform().SetAddWorldRotation(float4{ 0.f, 0.f, -Power_ } *_DeltaTime);
-	//		ReactCount_ -= 1;
-	//	}
-	//}
+	if (nullptr != Player_)
+	{
+		if (true == Player_->IsCannon_)
+		{
+			StateManager.ChangeState("Ready");
+		}
+	}
 
 	if (true == IsMoveDone_)
 	{
 		StateManager.ChangeState("Idle");
 		return;
 	}
-
-	if (CurAngle_ >= 0.f)
+	
+	if (true == IsDownMove_)
 	{
-		IsCounterReaction_ = true;
-	}
-	if (true == IsCounterReaction_)
-	{
-		if (CurAngle_ >= 0.f)
+		if (0.f <= CurAngle_)
 		{
-			IsCounterReaction_ = false;
-			IsMoveDone_ = true;
+			IsDownMove_ = false;
 		}
-		Mesh_Object_->GetTransform().SetAddWorldRotation(float4{ 0.f, 0.f, -100.f } *_DeltaTime);
+
+		CurAngle_ += _DeltaTime * 220.f;
+		Mesh_Object_->GetTransform().SetLocalRotation({ 0.f, 0.f, CurAngle_ });
 	}
 	else
 	{
-		Mesh_Object_->GetTransform().SetAddWorldRotation(float4{ 0.f, 0.f, -ShootAngle_ } *_DeltaTime);
+		if (0 == ReactCount_)
+		{
+			IsMoveDone_ = true;
+		}
+
+		if (false == IsCounterReaction_)
+		{
+			if (-7.f >= CurAngle_)
+			{
+				IsCounterReaction_ = true;
+			}
+
+			CurAngle_ -= _DeltaTime * 100.f;
+			Mesh_Object_->GetTransform().SetLocalRotation({ 0.f, 0.f, CurAngle_ });
+		}
+		else
+		{
+			if (0.f <= CurAngle_)
+			{
+				CurAngle_ = 0.f;
+				ReactCount_ -= 1;
+				IsCounterReaction_ = false;
+			}
+
+			CurAngle_ += _DeltaTime * 100.f;
+			Mesh_Object_->GetTransform().SetLocalRotation({ 0.f, 0.f, CurAngle_ });
+		}
 	}
+
 }

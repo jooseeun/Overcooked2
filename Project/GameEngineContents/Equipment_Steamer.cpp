@@ -66,7 +66,7 @@ void Equipment_Steamer::Update(float _DeltaTime)
 {
 	StateManager.Update(_DeltaTime);
 
-	if (true == GameEngineInput::GetInst()->IsDownKey("SteamerTest"))
+	if (true == GameEngineInput::GetInst()->IsDownKey("MapObjectTest"))
 	{
 		IsInteraction_ = true;
 	}

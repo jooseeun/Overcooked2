@@ -4,9 +4,8 @@ enum class CannonState
 {
 	Idle,
 	Ready,
-	ReadyToIdle,
 	Shoot,
-	ShootToIdle,
+	Down,
 	Max,
 };
 
@@ -69,16 +68,11 @@ protected:
 	void ReadyStart(const StateInfo& _Info);
 	void ReadyUpdate(float _DeltaTime, const StateInfo& _Info);
 
-	void ReadyToIdleStart(const StateInfo& _Info);
-	void ReadyToIdleUpdate(float _DeltaTime, const StateInfo& _Info);
-
 	void ShootStart(const StateInfo& _Info);
 	void ShootUpdate(float _DeltaTime, const StateInfo& _Info);
 
-	void ShootToIdleStart(const StateInfo& _Info);
-	void ShootToIdleUpdate(float _DeltaTime, const StateInfo& _Info);
-
-	void CounterReaction(float _DeltaTime);
+	void DownStart(const StateInfo& _Info);
+	void DownUpdate(float _DeltaTime, const StateInfo& _Info);
 
 	std::shared_ptr<GameEngineFBXStaticRenderer> Mesh_Object_;
 	std::shared_ptr<GameEngineCollision> Collision_Object_;
@@ -92,13 +86,12 @@ private:
 	CannonState CurState_;
 	GameEngineStateManager StateManager;
 
-	bool IsShoot_;
 	bool IsCounterReaction_;
 	bool IsMoveDone_;
+	bool IsDownMove_;
 	float CurAngle_;
-	float ShootAngle_;
+	float ReadyAngle_;
 	float MaxAngle_;
-	float Power_;
 
 	int ReactCount_;
 };
