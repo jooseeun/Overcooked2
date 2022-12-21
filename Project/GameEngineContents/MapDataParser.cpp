@@ -452,25 +452,30 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 			{
 				//ºÎ¸ð·Î µÐ´Ù
 				std::weak_ptr<Equipment_Plate> Plate = _Level->CreateActor<Equipment_Plate>();
-				CurActor_.lock()->SetStuff(Plate.lock());
+				CurActor_.lock()->SetMoveable(Plate.lock());
 			}
 			break;
 			case ToolInfo::FireExtinguisher:
 			{
 				std::weak_ptr<Equipment_FireExtinguisher> FireExtinguisher = _Level->CreateActor<Equipment_FireExtinguisher>();
-				CurActor_.lock()->SetStuff(FireExtinguisher.lock());
+				CurActor_.lock()->SetMoveable(FireExtinguisher.lock());
 			}
 			break;
 			case ToolInfo::FryingPan:
 			{
 				std::weak_ptr<Equipment_FryingPan> FryingPan = _Level->CreateActor<Equipment_FryingPan>();
-				CurActor_.lock()->SetStuff(FryingPan.lock());
+				CurActor_.lock()->SetMoveable(FryingPan.lock());
+				if (nullptr != std::dynamic_pointer_cast<Cooker>(CurActor_.lock()))
+				{
+					std::dynamic_pointer_cast<Cooker>(CurActor_.lock())->SettingToolType(ToolInfo::FryingPan);
+					std::dynamic_pointer_cast<Cooker>(CurActor_.lock())->SettingToolPos(ToolInfo::FryingPan);
+				}
 			}
 			break;
 			case ToolInfo::Pot:
 			{
 				std::weak_ptr<Equipment_Pot> Pot = _Level->CreateActor<Equipment_Pot>();
-				CurActor_.lock()->SetStuff(Pot.lock());
+				CurActor_.lock()->SetMoveable(Pot.lock());
 			}
 			break;
 			case ToolInfo::CuttingBoard:
@@ -482,13 +487,18 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 			case ToolInfo::Bowl:
 			{
 				std::weak_ptr<Equipment_Bowl> Bowl = _Level->CreateActor<Equipment_Bowl>();
-				CurActor_.lock()->SetStuff(Bowl.lock());
+				CurActor_.lock()->SetMoveable(Bowl.lock());
 			}
 			break;
 			case ToolInfo::Steamer:
 			{
 				std::weak_ptr<Equipment_Steamer> Steamer = _Level->CreateActor<Equipment_Steamer>();
-				CurActor_.lock()->SetStuff(Steamer.lock());
+				CurActor_.lock()->SetMoveable(Steamer.lock());
+				if (nullptr != std::dynamic_pointer_cast<Cooker>(CurActor_.lock()))
+				{
+					std::dynamic_pointer_cast<Cooker>(CurActor_.lock())->SettingToolType(ToolInfo::Steamer);
+					std::dynamic_pointer_cast<Cooker>(CurActor_.lock())->SettingToolPos(ToolInfo::Steamer);
+				}
 			}
 			break;
 			}

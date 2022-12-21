@@ -1335,7 +1335,9 @@ void Player::ServerUpdate(float _DeltaTime)
 		Packet->Pos = GetTransform().GetWorldPosition();
 		Packet->Rot = GetTransform().GetWorldRotation();
 		Packet->Scale = GetTransform().GetWorldScale();
+		Packet->Animation = CurAniName_;
 		Packet->RendererState = ServerRenderStateNum_;
+
 		if (ServerCustomNum != PlayerCustomNum)
 		{
 			Packet->PlayerNum = ServerCustomNum;
@@ -1393,6 +1395,9 @@ void Player::ServerUpdate(float _DeltaTime)
 				if (ObjectUpdate->RendererState == 0)
 				{
 					IdleRendererON();
+					PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(ObjectUpdate->Animation);
+					PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
+					PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 				}
 				else if(ObjectUpdate->RendererState == 1)
 				{
@@ -1401,7 +1406,6 @@ void Player::ServerUpdate(float _DeltaTime)
 				}
 				else if (ObjectUpdate->RendererState == 2)
 				{
-
 					ChopRendererON();
 				}
 				else if (ObjectUpdate->RendererState == 3)

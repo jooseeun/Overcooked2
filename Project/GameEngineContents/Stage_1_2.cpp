@@ -79,6 +79,13 @@ void Stage_1_2::PlayLevelStartEvent()
 	MainPlayer_->SetResponePos({ -1500, 500, -500 });
 	MainPlayer_->SetCurFrontDir();
 
+	{
+		std::shared_ptr<GlobalBloomActor> BloomActor = CreateActor<GlobalBloomActor>();
+		BloomActor->GetTransform().SetLocalPosition({ -3750.f, 300.f, -700.f });
+		BloomActor->GetTransform().SetLocalRotation({0.f, 90.f});
+		BloomActor->GetTransform().SetWorldScale({ 2500, 450 });
+		BloomActor->SetColor({ 0.12f, 0.f, 1.f, 1.f });
+	}
 
 	std::shared_ptr<Bird_Flying> Pigeon_ = CreateActor<Bird_Flying>();
 	Pigeon_->GetTransform().SetLocalPosition({ -700, 800, -500 });

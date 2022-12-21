@@ -9,7 +9,6 @@ Equipment_Steamer::Equipment_Steamer()
 	, OpenPos_(0, 30, -20)
 	, CurPos_(0.f)
 	, IsMoveDone_(false)
-	, ToolPos_(0.f)
 	, IsRotateDone_(false)
 	, IsChangeRot_(false)
 	, CookingAngle_(0.f)
@@ -38,8 +37,6 @@ void Equipment_Steamer::Start()
 	GetFBXMesh()->SetFBXMesh("Steamer3.FBX", "Texture", 1);
 	GetFBXMesh()->GetTransform().SetWorldScale({ 1.5, 1.5, 1.5 });
 	GetCollisionObject()->GetTransform().SetLocalScale({ 100 , 100, 100 });
-
-	ToolPos_ = { 0.f, 85.f, 25.f };
 
 	StateManager.CreateStateMember("Idle"
 		, std::bind(&Equipment_Steamer::IdleUpdate, this, std::placeholders::_1, std::placeholders::_2)
@@ -70,7 +67,7 @@ void Equipment_Steamer::Update(float _DeltaTime)
 {
 	StateManager.Update(_DeltaTime);
 
-	if (true == GameEngineInput::GetInst()->IsDownKey("SteamerTest"))
+	if (true == GameEngineInput::GetInst()->IsDownKey("MapObjectTest"))
 	{
 		IsInteraction_ = true;
 	}

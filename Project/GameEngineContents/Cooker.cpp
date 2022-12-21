@@ -10,6 +10,21 @@ Cooker::~Cooker()
 {
 }
 
+void Cooker::SettingToolPos(ToolInfo _MyTool)
+{
+	//if (_MyTool == ToolInfo::FryingPan)
+	//{
+	//	ToolPos_ = { 0.f, 60.f, 0.f };
+	//}
+	//else if (_MyTool == ToolInfo::Steamer)
+	//{
+	//	ToolPos_ = { 0.f, 85.f, 25.f };
+	//}
+
+	//SetToolPos(ToolPos_);
+	//SetStuff(GetLevel()->CreateActor<Tool_Cooker>());
+}
+
 void Cooker::Start()
 {
 	GamePlayStaticObject::Start();
@@ -20,12 +35,14 @@ void Cooker::Start()
 	GetFBXMesh()->SetFBXMesh("m_sk_cooker_01.fbx", "Texture");
 	GetFBXMesh()->GetPixelDatas(1).AlphaFlag = true;
 	GetFBXMesh()->SetSubMaterial(1, "AddBlendAlpha");
+	GetFBXMesh()->GetAllRenderUnit()[0][0]->GetRenderer()->SetRenderingOrder(99);
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 	GetFBXMesh()->GetTransform().SetWorldMove({ 0, 0, 0 });
-	ToolPos_ = {0.f, 85.f, 25.f};
+	ToolPos_ = { 0.f, 85.f, 25.f };
 	SetToolPos(ToolPos_);
 
 	SetStuff(GetLevel()->CreateActor<Tool_Cooker>());
+
 }
 
 

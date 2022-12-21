@@ -18,21 +18,24 @@ GlobalMouseInput::~GlobalMouseInput()
 
 void GlobalMouseInput::Start()
 {
-	MouseWindow_ = MapEditorGUI::CreateGUIWindow<MouseInputWindow>("MouseInput", nullptr);
-	MouseWindow_->Off();
+	if (MouseInputWindow::Main_ == nullptr)
+	{
+		MouseInputWindow::Main_ = MapEditorGUI::CreateGUIWindow<MouseInputWindow>("MouseInput", nullptr);
+	}
+	MouseWindow_ = MouseInputWindow::Main_;
 
 	Collision_ = CreateComponent<GameEngineCollision>();
 	Collision_->GetTransform().SetWorldScale({ 0.1f, 0.1f, 10000 });
 	Collision_->ChangeOrder(CollisionOrder::Mouse);
 	Collision_->SetDebugSetting(CollisionType::CT_AABB, { 1.0f, 1.0f, 0.0f, 0.1f });
-	
+
 	StartCollision_ = CreateComponent<GameEngineCollision>();
 	StartCollision_->GetTransform().SetWorldScale({ 0.1f, 0.1f, 0.1f });
 	StartCollision_->GetTransform().SetWorldScale({ 10, 10, 10 });
 	StartCollision_->ChangeOrder(CollisionOrder::Max);
 	StartCollision_->SetDebugSetting(CollisionType::CT_AABB, { 1.0f, 1.0f, 0.0f, 0.5f });
 	StartCollision_->Off();
-	
+
 	GoalCollision_ = CreateComponent<GameEngineCollision>();
 	GoalCollision_->GetTransform().SetWorldScale({ 10, 10, 10 });
 	GoalCollision_->ChangeOrder(CollisionOrder::Max);

@@ -6,6 +6,8 @@ class GlobalMouseInput;
 class MouseInputWindow : public GameEngineGUIWindow
 {
 public:
+	static std::shared_ptr<MouseInputWindow> Main_;
+
 	// constrcuter destructer
 	MouseInputWindow();
 	~MouseInputWindow();

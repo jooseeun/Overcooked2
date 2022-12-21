@@ -62,6 +62,8 @@ void SelectStageLevel::LevelStartEvent()
 	if (SelectStageActor_.lock() == nullptr)
 	{
 		SelectStageActor_ = CreateActor<SelectStageUIActor>();
+		SelectStageActor_.lock()->StartFadeIn();
+		//UIActor_->Reset();
 	}
 }
 

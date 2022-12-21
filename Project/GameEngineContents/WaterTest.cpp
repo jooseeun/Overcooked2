@@ -24,7 +24,7 @@ void WaterTest::Start()
 	{
 		Renderer2_ = CreateComponent<GameEngineTextureRenderer>();
 		Renderer2_->GetTransform().SetWorldScale({ 800, 800, 1 });
-		Renderer2_->SetMaterial("JBMWater");
+		Renderer2_->SetMaterial("Water");
 		Renderer2_->SetMesh("FullRect");
 		Renderer2_->SetTexture("water2.png");
 		Renderer2_->SetRenderingOrder(999);
@@ -34,7 +34,7 @@ void WaterTest::Start()
 	{
 		Renderer3_ = CreateComponent<GameEngineTextureRenderer>();
 		Renderer3_->GetTransform().SetWorldScale({ 800, 800, 1 });
-		Renderer3_->SetMaterial("JBMWater");
+		Renderer3_->SetMaterial("Water");
 		Renderer3_->SetMesh("FullRect");
 		Renderer3_->SetTexture("water3.png");
 		Renderer3_->SetRenderingOrder(999);

@@ -57,9 +57,12 @@
 #include "MapEditorGUI.h"
 #include "MapEditorWindow.h"
 #include "LevelActor.h"
+#include "GlobalBloomActor.h"
 #include "GamePlayObject.h"
 #include "GamePlayMapObject.h"
 #include "GamePlayFloor.h"
 #include "Enums.h"
 #include "GlobalMouseInput.h"
 #include "GamePacket.h"
+
+

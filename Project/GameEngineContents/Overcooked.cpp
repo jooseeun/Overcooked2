@@ -154,9 +154,9 @@ void Overcooked::LoadMaterial()
 	}
 
 	{
-		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("JBMWater");
-		NewPipe->SetVertexShader("JBMWater.hlsl");
-		NewPipe->SetPixelShader("JBMWater.hlsl");
+		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("Water");
+		NewPipe->SetVertexShader("Water.hlsl");
+		NewPipe->SetPixelShader("Water.hlsl");
 	}
 
 	{
@@ -383,7 +383,7 @@ void Overcooked::InputMake()
 	}
 
 	GameEngineInput::GetInst()->CreateKey("Contents_Debug", 'B');
-	GameEngineInput::GetInst()->CreateKey("SteamerTest", VK_NUMPAD9);
+	GameEngineInput::GetInst()->CreateKey("MapObjectTest", VK_NUMPAD9);
 }
 
 void Overcooked::LoadStage(std::string_view _StageName)

@@ -66,7 +66,6 @@ private:
 	float4 RandomAngle_;
 	float4 CurPos_;
 	float4 OpenPos_;
-	float4 ToolPos_;
 
 	std::shared_ptr<GameEngineActor> Lid_;
 	std::shared_ptr<GameEngineFBXStaticRenderer> LidRenderer_;

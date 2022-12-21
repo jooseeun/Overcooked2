@@ -16,8 +16,8 @@ void TitleLevel::Start()
 {
 	std::shared_ptr<GlobalMouseInput> Mouse = CreateActor<GlobalMouseInput>();
 
-	//std::shared_ptr<TitleVan> TitleVan_ = CreateActor<TitleVan>();
-	//TitleVan_->GetTransform().SetLocalPosition({ 0, 0, 0});
+	std::shared_ptr<TitleVan> TitleVan_ = CreateActor<TitleVan>();
+	TitleVan_->GetTransform().SetLocalPosition({ 0, 0, 0});
 
 	{
 		std::shared_ptr<GamePlayMapObject> Kevin = CreateActor<GamePlayMapObject>();
@@ -52,12 +52,6 @@ void TitleLevel::Start()
 	std::shared_ptr<GameEngineFBXStaticRenderer> SkyPlane = CreateActor<GameEngineActor>()->CreateComponent<GameEngineFBXStaticRenderer>();
 	SkyPlane->SetFBXMesh("m_menu_bg_sky.fbx", "TextureSkybox");
 	SkyPlane->GetTransform().SetWorldScale({ 50.f , 50.f , 50.f });
-
-	{
-		std::shared_ptr<GameEngineFBXStaticRenderer> SkyPlane = CreateActor<GameEngineActor>()->CreateComponent<GameEngineFBXStaticRenderer>();
-		SkyPlane->SetFBXMesh("Food Truck.fbx", "Texture");
-	}
-
 }
 
 void TitleLevel::Update(float _DeltaTime)

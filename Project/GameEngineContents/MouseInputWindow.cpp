@@ -2,6 +2,8 @@
 #include "MouseInputWindow.h"
 #include "GlobalMouseInput.h"
 
+std::shared_ptr<MouseInputWindow> MouseInputWindow::Main_ = nullptr;
+
 MouseInputWindow::MouseInputWindow()
 	: Input_(nullptr)
 	, InputTransform_(nullptr)
@@ -33,19 +35,6 @@ void MouseInputWindow::Initialize(GameEngineLevel* _Level)
 
 void MouseInputWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
-	if (nullptr == Input_)
-	{
-		Off();
-		return;
-	}
-
-	InputTransform_ = Input_->GetNearTransform();
-	if (nullptr == InputTransform_)
-	{
-		Off();
-		return;
-	}
-
 	if (true == ImGui::Button("UI"))
 	{
 		Input_->SetIsUI(true);
@@ -54,6 +43,17 @@ void MouseInputWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	if (true == ImGui::Button("Obj"))
 	{
 		Input_->SetIsUI(false);
+	}
+
+	if (nullptr == Input_)
+	{
+		return;
+	}
+
+	InputTransform_ = Input_->GetNearTransform();
+	if (nullptr == InputTransform_)
+	{
+		return;
 	}
 
 	if (true == ImGui::Button("Change Value"))
