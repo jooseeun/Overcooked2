@@ -1,5 +1,9 @@
 #include "LightHeader.fx"
 
+// SV_POSITION 시맨틱
+// 그래픽카드에게 이녀석은 이런 부류니까 니가 자동으로 처리하는 녀석이 있으면 하고.
+
+
 struct Input
 {
     float4 Pos : POSITION;
@@ -12,9 +16,11 @@ struct Output
     float4 Tex : TEXCOORD;
 };
 
+
+// 그래픽카드에서 이뤄지는것.
 Output CalDeferredLight_VS(Input _Input)
 {
-    Output NewOutPut = (Output)0;
+    Output NewOutPut = (Output) 0;
     NewOutPut.Pos = _Input.Pos;
     NewOutPut.Tex = _Input.Tex;
     return NewOutPut;
@@ -22,7 +28,9 @@ Output CalDeferredLight_VS(Input _Input)
 
 Texture2D PositionTex : register(t0);
 Texture2D NormalTex : register(t1);
+Texture2D ShadowTex : register(t2);
 SamplerState POINTWRAP : register(s0);
+SamplerState LINEARWRAP : register(s1);
 
 struct LightOutPut
 {
@@ -35,20 +43,20 @@ LightOutPut CalDeferredLight_PS(Output _Input)
 {
     float4 Position = PositionTex.Sample(POINTWRAP, _Input.Tex.xy);
     float4 Normal = NormalTex.Sample(POINTWRAP, _Input.Tex.xy);
-
+    
     if (Position.a <= 0.0f)
     {
         clip(-1);
     }
-
+    
     Normal.w = 0.0f;
-
-    LightOutPut Out = (LightOutPut)0.0f;
-
+    
+    LightOutPut Out = (LightOutPut) 0.0f;
+    
     Out.DifLight = CalDiffuseLights(Normal);
     Out.SpcLight = CalSpacularLight(Position, Normal);
     Out.AmbLight = CalAmbientLight();
-
+    
     int Count = 0;
     
     for (int i = 0; i < LightCount; ++i)
@@ -86,6 +94,8 @@ LightOutPut CalDeferredLight_PS(Output _Input)
                 0.001f < ShadowUv.y && 0.999f > ShadowUv.y
                 )
             {
+                // Texture2DArray.Sample
+                
                 float fShadowDepth = ShadowTex.Sample(LINEARWRAP, float2(ShadowUv.x, ShadowUv.y)).r;
                 
                 if (0.0f < fShadowDepth && fDepth > fShadowDepth + 0.001f)
