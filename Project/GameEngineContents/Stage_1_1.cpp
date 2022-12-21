@@ -16,7 +16,6 @@
 #include <GameEngineCore/GlobalVignette.h>
 #include <GameEngineCore/GlobalOverlay.h>
 #include <GameEngineCore/GlobalBloom.h>
-#include "GlobalBloomActor.h"
 
 Stage_1_1::Stage_1_1()
 {
@@ -103,16 +102,11 @@ void Stage_1_1::PlayLevelStartEvent()
 	GlobalIOManager::Load(IOType::UnsortMap, 0);
 	DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
 
-	std::shared_ptr<GlobalBloomActor> BloomActor = CreateActor<GlobalBloomActor>();
-	BloomActor->GetTransform().SetLocalPosition({ -1400, 500, 200 });
-	BloomActor->GetTransform().SetWorldScale(float4::ONE * 500);
-	BloomActor->SetColor({1, 0, 0, 1});
-
 	{
 		std::shared_ptr<GlobalBloomActor> BloomActor = CreateActor<GlobalBloomActor>();
-		BloomActor->GetTransform().SetLocalPosition({ -1650, 500, -150 });
-		BloomActor->GetTransform().SetWorldScale(float4::ONE * 500);
-		BloomActor->SetColor({ 0.4f, 0, 1.f, 1 });
+		BloomActor->GetTransform().SetLocalPosition({ -1650, 300, -120 });
+		BloomActor->GetTransform().SetWorldScale({ 450, 2000 });
+		BloomActor->SetColor({ 0.12f, 0.f, 1.f, 1.f });
 	}
 
 	ServerInitManager::StartInit();
