@@ -1,6 +1,7 @@
 #include "TransformHeader.fx"
 #include "LightHeader.fx"
 #include "DeferredHeader.fx"
+#include "AnimationHeader.fx"
 
 struct Input
 {
@@ -18,29 +19,6 @@ struct Output
     float4 VIEWNORMAL : NORMAL;
     float4 TEXCOORD : TEXCOORD;
 };
-
-struct AniMat
-{
-    float4x4 Mat;
-};
-
-StructuredBuffer<AniMat> ArrAniMationMatrix : register(t11);
-
-void Skinning(inout float4 _Pos, inout float4 _Weight, inout int4 _Index, StructuredBuffer<AniMat> _ArrMatrix)
-{
-    float4 CalPos = (float4)0.0f;
-    _Pos.w = 1.0f;
-    // 1로 맞추려는 행동.
-    // _Weight[3] = 1.0f - _Weight[0] - _Weight[1] - _Weight[2];
-
-    for (int i = 0; i < 4; ++i)
-    {
-        AniMat Mat = _ArrMatrix[_Index[i]];
-        CalPos += _Weight[i] * mul(_Pos, Mat.Mat);
-    }
-
-    _Pos = CalPos;
-}
 
 Output TextureAnimation_VS(Input _Input)
 {

@@ -479,7 +479,6 @@ void Player::ChangePlayerColor() // 플레이어 팀 색 바꾸는 함수
 	}
 }
 
-
 void Player::CustomKeyCheck()
 {
 	if (true == GameEngineInput::GetInst()->IsDownKey("ChangePlayerCustom" + PNumString))
@@ -1323,8 +1322,8 @@ void Player::ServerUpdate(float _DeltaTime)
 
 	if (true == IsPlayerble)
 	{
-		ServerInitManager* CurManager = dynamic_cast<ServerInitManager*>(GetLevel());
-		if (CurManager == nullptr)
+
+		if (nullptr == ServerInitManager::Net)
 		{
 			return;
 		}
@@ -1346,7 +1345,7 @@ void Player::ServerUpdate(float _DeltaTime)
 		{
 			Packet->PlayerNum = 100;
 		}
-		CurManager->Net->SendPacket(Packet);
+		ServerInitManager::Net->SendPacket(Packet);
 
 		if (Player::MaxPlayerCount_ < Packet->ObjectID)
 		{
