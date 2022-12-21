@@ -19,9 +19,9 @@
 
 #include "MeshToolLevel.h"
 #include "ServerTestLevel.h"
-#include "RendererTestLevel.h"
 
 #include <GameEngineCore/GameEngineBlend.h>
+#include "ServerInitManager.h"
 
 Overcooked::Overcooked()
 {
@@ -94,7 +94,6 @@ void Overcooked::Start()
 	CreateLevel<MeshToolLevel>("MeshToolLevel");
 	CreateLevel<TitleLevel>("TitleLevel");
 	CreateLevel<ResultLevel>("ResultLevel");
-	CreateLevel<RendererTestLevel>("RendererTestLevel");
 
 	CreateLevel<ServerTestLevel>("ServerTestLevel");
 
@@ -204,6 +203,7 @@ void Overcooked::LoadMaterial()
 
 void Overcooked::Update(float _DeltaTime)
 {
+	ServerInitManager::Update(_DeltaTime);
 }
 
 void Overcooked::End()
@@ -212,28 +212,13 @@ void Overcooked::End()
 
 void Overcooked::MeshLoad()
 {
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExitsChildDirectory("ContentsResources");
-		Dir.Move("ContentsResources");
-		Dir.Move("Mesh");
-		Dir.Move("Level");
-		Dir.Move("1_1");
-
-		{
-			GameEngineDirectory MeshDir = Dir;
-			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("1_1.FBX"));
-		}
-	}
-
-	LoadStage("1_1\\SortObject");
-
 	//std::vector<std::string_view> TmpMeshs;
 	//TmpMeshs.push_back("Object\\StaticObject\\CounterTop\\m_sk_countertop_01.FBX");
 	//TmpMeshs.push_back("Object\\StaticObject\\CounterTop_Corner\\m_lorry_countertop_corner_01.FBX");
 	//GameEngineFBXMesh::LoadAll(TmpMeshs);
 
 	//std::vector<std::weak_ptr<GameEngineFBXMesh>> Test = GameEngineFBXMesh::LoadLevel("Level");
+	LoadCommonResource();
 
 	GameEngineFBXMesh::LoadLevel("Level\\Title");
 
