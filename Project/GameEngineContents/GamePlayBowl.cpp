@@ -18,6 +18,48 @@ void GamePlayBowl::Start()
 {
 	GamePlayEquipment::Start();
 	GamePlayEquipment::SetObjectEquipmentType(ObjectEquipmentType::Bowl);
+
+	//{
+	//	const StageData& StageData_ = GlobalGameData::GetCurStageRef();
+	//	std::vector<IngredientType> Data;
+	//	for (size_t i = 0; i < StageData_.StageRecipe.size(); i++)
+	//	{
+	//		Data = GlobalGameData::GetFoodData(StageData_.StageRecipe[i]).Ingredient;
+	//		std::vector<IngredientType> Food_Current = Food_Current_;
+	//		bool IsThat = false;
+	//		int Index = 0;
+	//		for (size_t j = 0; j < Data.size(); j++)
+	//		{
+	//			IsThat = false;
+	//			for (size_t k = 0; k < Food_Current.size(); k++)
+	//			{
+	//				if (Food_Current[k] == IngredientType::None)
+	//				{
+	//					continue;
+	//				}
+	//				if (Data[j] == Food_Current[k])
+	//				{
+	//					Index++;
+	//					IsThat = true;
+	//					Data[j] = IngredientType::None;
+	//					Food_Current[k] = IngredientType::None;
+	//					break;
+	//				}
+	//			}
+
+	//			if (IsThat == false)
+	//			{
+	//				break;
+	//			}
+	//		}
+
+	//		if (Index == Data.size() && IsThat == true)
+	//		{
+	//			return StageData_.StageRecipe[i];
+	//		}
+	//	}
+	//}
+
 }
 
 

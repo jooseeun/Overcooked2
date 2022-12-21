@@ -289,6 +289,7 @@ HoldDownEnum Equipment_Steamer::PickUp(std::shared_ptr<GamePlayMoveable>* _Movea
 			}
 		}
 	}
+	return HoldDownEnum::Nothing;
 }
 
 bool Equipment_Steamer::BowltoSteamer(std::shared_ptr<Equipment_Bowl> _Bowl)

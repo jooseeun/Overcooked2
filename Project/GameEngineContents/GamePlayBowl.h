@@ -79,7 +79,15 @@ struct CombinFood
 		{
 			NoneThumbnailMode_ = false;
 		}
-		for (size_t i = 0; i < _Index; i++)
+		else
+		{
+			Food_NoneThumbnail_ = (Moveable_.lock()->GetLevel()->CreateActor<FoodThumbnail>());
+			Food_NoneThumbnail_.lock()->LinkObject(Moveable_.lock(), float4::ZERO);
+			Food_NoneThumbnail_.lock()->SetThumbnail(IngredientType::None);
+			Food_NoneThumbnail_.lock()->SetOffset({ 0, 50, 0 });
+		}
+		size_t stack =  static_cast<size_t>(_Index)- Food_Current_.size();
+		for (size_t i = 0; i < stack; i++)
 		{
 			Food_Current_.push_back(IngredientType::None);
 		}
@@ -267,6 +275,7 @@ struct CombinFood
 		{
 			Food_Thumbnail_.push_back(Moveable_.lock()->GetLevel()->CreateActor<FoodThumbnail>());
 			Food_Thumbnail_[i].lock()->LinkObject(Moveable_.lock(), float4::ZERO);
+			Food_Thumbnail_[i].lock()->Off();
 		}
 		RefreshThumbnail();
 		RefreshFoodRenderer();
@@ -550,6 +559,7 @@ struct CombinFood
 
 	void Clear()
 	{
+		//NoneThumbnailMode_ = false;
 		if (!NoneThumbnailMode_)
 		{
 			for (size_t i = 0; i < Food_Thumbnail_.size(); i++)
@@ -570,6 +580,7 @@ struct CombinFood
 			for (size_t i = 0; i < Food_Thumbnail_.size(); i++)
 			{
 				Food_Thumbnail_[i].lock()->SetThumbnail(IngredientType::None);
+				Food_Thumbnail_[i].lock()->Off();
 			}
 		}
 
@@ -580,10 +591,24 @@ struct CombinFood
 
 	void RefreshThumbnail()
 	{
+		if (NoneThumbnailMode_ == true)
+		{
+			if (IsClear())
+			{
+				Food_NoneThumbnail_.lock()->On();
+				return;
+			}
+			else
+			{
+				Food_NoneThumbnail_.lock()->Off();
+			}
+		}
+
 		RefreshOffset();
 		for (size_t i = 0; i < Food_Thumbnail_.size(); i++)
 		{
 			Food_Thumbnail_[i].lock()->SetThumbnail(Food_Current_[i]);
+			Food_Thumbnail_[i].lock()->On();
 		}
 	}
 
@@ -649,6 +674,7 @@ struct CombinFood
 	static std::map<NoneFoodType, std::vector<IngredientType>> Static_NoneType_;
 	std::vector<IngredientType> Food_Current_;
 	std::vector<std::weak_ptr<FoodThumbnail>> Food_Thumbnail_;
+	std::weak_ptr<FoodThumbnail> Food_NoneThumbnail_;
 	std::shared_ptr<GameEngineFBXStaticRenderer> Renderer_;
 	std::weak_ptr<GamePlayMoveable> Moveable_;
 	float4 RendererPos_;
