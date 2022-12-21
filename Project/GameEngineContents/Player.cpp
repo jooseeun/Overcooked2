@@ -479,7 +479,6 @@ void Player::ChangePlayerColor() // 플레이어 팀 색 바꾸는 함수
 	}
 }
 
-
 void Player::CustomKeyCheck()
 {
 	if (true == GameEngineInput::GetInst()->IsDownKey("ChangePlayerCustom" + PNumString))

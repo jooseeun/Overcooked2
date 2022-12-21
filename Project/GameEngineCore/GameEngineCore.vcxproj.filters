@@ -201,6 +201,9 @@
     <ClInclude Include="GameEngineLight.h">
       <Filter>Object</Filter>
     </ClInclude>
+    <ClInclude Include="ShaderStruct.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineActor.cpp">
@@ -392,6 +395,9 @@
     </ClCompile>
     <ClCompile Include="GameEngineLight.cpp">
       <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderStruct.cpp">
+      <Filter>Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

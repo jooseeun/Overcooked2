@@ -1,5 +1,7 @@
 #include "LightHeader.fx"
 #include "TransformHeader.fx"
+#include "RenderOption.fx"
+#include "AnimationHeader.fx"
 
 struct Input
 {
@@ -14,13 +16,21 @@ struct Output
     float4 VPPOSITION : TEXCOORD;
 };
 
+
 Output Shadow_VS(Input _Input)
 {
-    Output NewOutPut = (Output)0;
-
-    NewOutPut.POSITION = mul(_Input.POSITION, WorldViewProjection);
+    Output NewOutPut = (Output) 0;
+    
+    if (0 != IsAnimation)
+    {
+        NewOutPut.POSITION = _Input.POSITION;
+        Skinning(NewOutPut.POSITION, _Input.WEIGHT, _Input.INDICES, ArrAniMationMatrix);
+        NewOutPut.POSITION.w = 1.0f;
+    }
+    
+    NewOutPut.POSITION = mul(NewOutPut.POSITION, WorldViewProjection);
     NewOutPut.VPPOSITION = mul(_Input.POSITION, WorldViewProjection);
-
+    
     return NewOutPut;
 }
 

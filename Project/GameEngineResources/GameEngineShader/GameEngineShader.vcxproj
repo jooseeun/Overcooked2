@@ -129,6 +129,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <FxCompile Include="AddBlendAlpha.hlsl" />
+    <FxCompile Include="AnimationHeader.fx" />
     <FxCompile Include="Bloom.hlsl" />
     <FxCompile Include="Blur.hlsl" />
     <FxCompile Include="CalDeferredLight.hlsl" />
@@ -146,7 +147,8 @@
     <FxCompile Include="Overlay.hlsl" />
     <FxCompile Include="Portal.hlsl" />
     <FxCompile Include="RenderOption.fx" />
-    <FxCompile Include="Shadow.hlsl" />
+    <FxCompile Include="ShadowStatic.hlsl" />
+    <FxCompile Include="ShadowAnimation.hlsl" />
     <FxCompile Include="Swirl.hlsl" />
     <FxCompile Include="TargetMerge.hlsl" />
     <FxCompile Include="Texture.hlsl" />

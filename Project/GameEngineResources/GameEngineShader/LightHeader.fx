@@ -1,7 +1,11 @@
 struct LightData
 {
     float4x4 LightViewMatrix;
+	float4x4 LightViewInverseMatrix;
     float4x4 LightProjectionMatrix;
+    float4x4 LightProjectionInverseMatrix;
+    float4x4 LightViewProjectionMatrix;
+    float4x4 CameraViewInverseMatrix;
     float LightNear;
     float LightFar;
 
@@ -27,7 +31,7 @@ struct LightData
 cbuffer LightDatas : register(b13)
 {
     int LightCount;
-    LightData Lights[128];
+    LightData Lights[64];
 };
 
 float4 CalDiffuseLight(float4 _ViewNormal, LightData _LightData)
