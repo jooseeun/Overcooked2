@@ -100,7 +100,7 @@ void Stage_1_4::PlayLevelStartEvent()
 	Puple1->GetTransform().SetWorldPosition({ -1471.00,180.00,229.00 });
 	std::shared_ptr<PortalCollision> Puple2 = CreateActor<PortalCollision>();
 	Puple2->SetPotalType(MapObjType::Portal_Blue);
-	Puple2->GetTransform().SetWorldPosition({ -2057.00,1.00,310.00 });
+	Puple2->GetTransform().SetWorldPosition({ -2057.00,1.00,250.00 });
 
 
 	Blue1->SetNextPotal(Blue2);
