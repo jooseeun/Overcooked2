@@ -35,6 +35,7 @@ void Cooker::Start()
 	GetFBXMesh()->SetFBXMesh("m_sk_cooker_01.fbx", "Texture");
 	GetFBXMesh()->GetPixelDatas(1).AlphaFlag = true;
 	GetFBXMesh()->SetSubMaterial(1, "AddBlendAlpha");
+	GetFBXMesh()->GetAllRenderUnit()[0][0]->GetRenderer()->SetRenderingOrder(99);
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 	GetFBXMesh()->GetTransform().SetWorldMove({ 0, 0, 0 });
 	ToolPos_ = { 0.f, 85.f, 25.f };
