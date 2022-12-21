@@ -11,6 +11,10 @@
 #include "Food_Ingredients_Rice.h"
 #include "Food_Ingredients_Carrot.h"
 #include "Food_Ingredients_Flour.h"
-
+#include "Food_Ingredients_Egg.h"
+#include "Food_Ingredients_Orange.h"
+#include "Food_Ingredients_DriedFruit.h"
+#include "Food_Ingredients_Blueberry.h"
+#include "Food_Ingredients_Strawberry.h"
 //#include "Food_Ingredients_.h"
 //#include "Food_Ingredients_.h"

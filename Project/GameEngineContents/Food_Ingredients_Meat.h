@@ -23,5 +23,6 @@ private:
 	
 	void TrimmingPlatting() override;
 	void TrimmingPried() override;
+//	void TrimmingMixer() override;
 };
 

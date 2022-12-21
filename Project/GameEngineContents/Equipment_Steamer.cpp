@@ -24,6 +24,7 @@ void Equipment_Steamer::Start()
 {
 	GamePlayBowl::Start();
 	GamePlayBowl::SetToolInfoType(ToolInfo::Steamer);
+	GamePlayBowl::SetObjectBowlType(ObjectBowlType::Bowl);
 
 	Lid_ = GetLevel()->CreateActor<GameEngineActor>();
 	Lid_->SetParent(shared_from_this());

@@ -19,7 +19,7 @@ void Equipment_Bowl::Start()
 	GetFBXMesh()->SetFBXMesh("Bowl.fbx", "Texture");
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 
-	GetCombinFood()->Start(2, shared_from_this());
+//	GetCombinFood()->Start(2, shared_from_this());
 }
 
 void Equipment_Bowl::Update(float _DeltaTime)

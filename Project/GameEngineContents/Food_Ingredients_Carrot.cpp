@@ -27,5 +27,5 @@ void Food_Ingredients_Carrot::TrimmingMixer()
 	ChangeFBXMesh();
 	MeshName_ = "m_ingredients_Carrot_01_Trim.FBX";
 	GetFBXMesh()->SetFBXMesh(MeshName_, "Texture");
-	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100 , 100 });
+	//GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100 , 100 });
 }

@@ -70,3 +70,14 @@ void Food_Ingredients_Meat::TrimmingPried()
 	GetFBXMesh()->SetFBXMesh(MeshName_, "Texture");
 	GetFBXMesh()->GetTransform().SetLocalRotation({ 0,-90,0 });
 }
+
+//void Food_Ingredients_Meat::TrimmingMixer()
+//{
+//	SetPlatting();
+//
+//	ChangeFBXMesh();
+//	MeshName_ = "m_prep_meat_burger_02.FBX";
+//	GetFBXMesh()->SetFBXMesh(MeshName_, "Texture");
+//	GetFBXMesh()->GetTransform().SetLocalRotation({ 0,-90,0 });
+//}
+//

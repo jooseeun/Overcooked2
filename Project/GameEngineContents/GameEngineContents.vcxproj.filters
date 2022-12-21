@@ -326,6 +326,21 @@
     <ClInclude Include="ServerInitManager.h">
       <Filter>Global</Filter>
     </ClInclude>
+    <ClInclude Include="Food_Ingredients_Egg.h">
+      <Filter>Contents\Object\Food</Filter>
+    </ClInclude>
+    <ClInclude Include="Food_Ingredients_Orange.h">
+      <Filter>Contents\Object\Food</Filter>
+    </ClInclude>
+    <ClInclude Include="Food_Ingredients_DriedFruit.h">
+      <Filter>Contents\Object\Food</Filter>
+    </ClInclude>
+    <ClInclude Include="Food_Ingredients_Blueberry.h">
+      <Filter>Contents\Object\Food</Filter>
+    </ClInclude>
+    <ClInclude Include="Food_Ingredients_Strawberry.h">
+      <Filter>Contents\Object\Food</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -652,6 +667,21 @@
     </ClCompile>
     <ClCompile Include="ServerInitManager.cpp">
       <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="Food_Ingredients_Egg.cpp">
+      <Filter>Contents\Object\Food</Filter>
+    </ClCompile>
+    <ClCompile Include="Food_Ingredients_Orange.cpp">
+      <Filter>Contents\Object\Food</Filter>
+    </ClCompile>
+    <ClCompile Include="Food_Ingredients_DriedFruit.cpp">
+      <Filter>Contents\Object\Food</Filter>
+    </ClCompile>
+    <ClCompile Include="Food_Ingredients_Blueberry.cpp">
+      <Filter>Contents\Object\Food</Filter>
+    </ClCompile>
+    <ClCompile Include="Food_Ingredients_Strawberry.cpp">
+      <Filter>Contents\Object\Food</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

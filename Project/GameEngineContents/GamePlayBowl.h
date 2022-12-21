@@ -719,7 +719,92 @@ protected:
 	inline void SetObjectBowlType(ObjectBowlType _Type)
 	{
 		Enum_ObjectBowlType_ = _Type;
+		int index = 0; int max = 0;
+		const std::vector<FoodType>& FoodType__ = GlobalGameData::GetCurStageRef().StageRecipe;
+		for (size_t i = 0; i < FoodType__.size(); i++)
+		{
+			index = 0;
+			const FoodData& Data = GlobalGameData::GetFoodData(FoodType__[i]);
+
+			for (size_t j = 0; j < Data.Ingredient.size(); j++)
+			{
+				if (!Data.Cookery.empty())
+				{
+					if (ConvertToolinfo(Data.Cookery[j]) == Enum_ObjectBowlType_)
+					{
+						index++;
+					}
+
+				}
+				else
+				{
+					for (size_t k = 0; k < Data.CommonCookery.size(); k++)
+					{
+						if (ConvertToolinfo(Data.CommonCookery[k]) == Enum_ObjectBowlType_)
+						{
+							index++;
+							break;
+						}
+					}
+
+				}
+			}
+			if (max < index)
+			{
+				max = index;
+			}
+		}
+		GetCombinFood()->Start(max, shared_from_this());
 	}
+	static ToolInfo ConvertBowlObject(ObjectBowlType _Type)
+	{
+		switch (_Type)
+		{
+		case ObjectBowlType::Bowl:
+			return ToolInfo::Mixer;
+			break;
+		case ObjectBowlType::Pod:
+			return ToolInfo::Pot;
+			break;
+		case ObjectBowlType::Plate:
+			return ToolInfo::Plate;
+			break;
+		case ObjectBowlType::FryingPan:
+			return ToolInfo::FryingPan;
+			break;
+		case ObjectBowlType::Steamer:
+			return ToolInfo::Steamer;
+			break;
+		default:
+			return ToolInfo::None;
+			break;
+		}
+	}
+	static ObjectBowlType ConvertToolinfo(ToolInfo _Type)
+	{
+		switch (_Type)
+		{
+		case ToolInfo::Mixer:
+			return ObjectBowlType::Bowl;
+			break;
+		case ToolInfo::Pot:
+			return ObjectBowlType::Pod;
+			break;
+		case ToolInfo::Plate:
+			return ObjectBowlType::Plate;
+			break;
+		case ToolInfo::FryingPan:
+			return ObjectBowlType::FryingPan;
+			break;
+		case ToolInfo::Steamer:
+			return ObjectBowlType::Steamer;
+			break;
+		default:
+			return ObjectBowlType::None;
+			break;
+		}
+	}
+
 private:
 	ObjectBowlType Enum_ObjectBowlType_;
 	std::shared_ptr<CombinFood> CombinFood_;

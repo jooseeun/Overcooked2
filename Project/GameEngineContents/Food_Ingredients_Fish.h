@@ -22,6 +22,6 @@ private:
 	//void FinishTrimmingFirst() final;
 
 	void TrimmingPlatting() override;
-	void TrimmingSteam() override;
+	void TrimmingMixer() override;
 };
 

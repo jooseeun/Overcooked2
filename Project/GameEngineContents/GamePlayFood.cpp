@@ -139,6 +139,7 @@ std::shared_ptr<GamePlayFood> GamePlayFood::GetIngredientClass(IngredientType _T
 	case IngredientType::DumplingSkin:
 		break;
 	case IngredientType::Egg:
+		Moveable = (GEngine::GetCurrentLevel()->CreateActor<Food_Ingredients_Egg>());
 		break;
 	case IngredientType::Chicken:
 		break;
@@ -151,6 +152,7 @@ std::shared_ptr<GamePlayFood> GamePlayFood::GetIngredientClass(IngredientType _T
 		Moveable = (GEngine::GetCurrentLevel()->CreateActor<Food_Ingredients_Carrot>());
 		break;
 	case IngredientType::Blueberry:
+		Moveable = (GEngine::GetCurrentLevel()->CreateActor<Food_Ingredients_Blueberry>());
 		break;
 	case IngredientType::Honey:
 		break;
@@ -166,10 +168,13 @@ std::shared_ptr<GamePlayFood> GamePlayFood::GetIngredientClass(IngredientType _T
 		Moveable = (GEngine::GetCurrentLevel()->CreateActor<Food_Ingredients_Cucumber>());
 		break;
 	case IngredientType::Orange:
+		Moveable = (GEngine::GetCurrentLevel()->CreateActor<Food_Ingredients_Orange>());
 		break;
 	case IngredientType::DriedFruit:
+		Moveable = (GEngine::GetCurrentLevel()->CreateActor<Food_Ingredients_DriedFruit>());
 		break;
 	case IngredientType::Strawberry:
+		Moveable = (GEngine::GetCurrentLevel()->CreateActor<Food_Ingredients_Strawberry>());
 		break;
 	default:
 		break;
