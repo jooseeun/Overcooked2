@@ -25,10 +25,12 @@ private:
 	FoodData CreateFoodData(FoodType _Type, std::vector<IngredientType>& _Ingredient, std::vector<ToolInfo>& _Cookery, int _Score, float _WaitingTime, bool IsCommonCookery = false);
 };
 
+class ResultLevelActor;
 struct FoodData;
 class GlobalGameData
 {
 	friend InitGlobalGameData;
+	friend ResultLevelActor;
 private:
 	GlobalGameData();
 	~GlobalGameData();
@@ -67,7 +69,7 @@ public:
 
 	static float GetMaxTime()
 	{
-		return 240.f;
+		return 120.f;
 	}
 
 	static int GetScore()

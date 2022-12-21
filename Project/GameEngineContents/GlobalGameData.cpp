@@ -2,6 +2,7 @@
 #include "GlobalGameData.h"
 #include "InGameUIActor.h"
 #include "UIDebugGUI.h"
+#include "ResultLevelActor.h"
 
 std::string GlobalGameData::CurStage_ = "";
 
@@ -226,7 +227,7 @@ InitGlobalGameData::InitGlobalGameData()
 				_Cookery.push_back(ToolInfo::None);
 
 				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-					CreateFoodData(_Type, _Ingredient, _Cookery, 30, 40.f)));
+					CreateFoodData(_Type, _Ingredient, _Cookery, 100, 40.f)));
 			}
 			//»õ¿ì
 			{
@@ -240,7 +241,7 @@ InitGlobalGameData::InitGlobalGameData()
 				_Cookery.push_back(ToolInfo::None);
 
 				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-					CreateFoodData(_Type, _Ingredient, _Cookery, 30, 37.f)));
+					CreateFoodData(_Type, _Ingredient, _Cookery, 150, 37.f)));
 			}
 		}
 

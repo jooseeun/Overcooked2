@@ -101,7 +101,7 @@ void InGameUIActor::UIUpdate(float _DeltaTime)
 
 	if (GlobalGameData::GetLeftTimeRef().IsTimeOver() == true)
 	{
-		//GEngine::ChangeLevel("ResultLevel");
+		GEngine::ChangeLevel("ResultLevel");
 	}
 	UpdateScore(_DeltaTime);
 

@@ -45,7 +45,7 @@ private:
 	std::shared_ptr<GameEngineFontRenderer> HighestScoreRenderer_;
 
 	//Star & Score
-	std::vector<int> Score_ = { 350,650,950 };
+	std::vector<int> Score_ = { 300,600,900 };
 	void CreateStarNScoreRenderer(const float4& _Pos, int _Score);
 	std::vector< std::shared_ptr<OverCookedUIRenderer>> StarRenderer_;
 	std::vector< std::shared_ptr<GameEngineFontRenderer>> ScoreRenderer_;
