@@ -90,7 +90,7 @@ public:
 		_Ser >> Pos;
 		_Ser >> Rot;
 		_Ser >> Scale;
-		_Ser << Animation;
+		_Ser >> Animation;
 		_Ser >> PlayerNum;
 		_Ser >> RendererState;
 	}
