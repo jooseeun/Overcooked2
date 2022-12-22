@@ -8,7 +8,8 @@ enum class ObjectMoveableType
 {
 	None,
 	Food,
-	Equipment
+	Equipment,
+	Bowl
 };
 enum class CookedStat
 {

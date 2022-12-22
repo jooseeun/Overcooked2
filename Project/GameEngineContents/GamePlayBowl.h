@@ -681,7 +681,7 @@ struct CombinFood
 	bool NoneThumbnailMode_;
 };
 
-class GamePlayBowl : public GamePlayEquipment
+class GamePlayBowl : public GamePlayMoveable
 {
 public:
 	// constrcuter destructer

@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "Equipment_FryingPan.h"
+#include "Equipment_Plate.h"
 
 Equipment_FryingPan::Equipment_FryingPan() 
 	: FryFood_(nullptr)
@@ -66,7 +67,7 @@ HoldDownEnum Equipment_FryingPan::PickUp(std::shared_ptr<GamePlayMoveable>* _Mov
 				}
 				else
 				{
-					if ((*_Moveable)->CastThis<GamePlayEquipment>()->GetObjectEquipmentType() == ObjectEquipmentType::Dish)
+					if ((*_Moveable)->CastThis<Equipment_Plate>() != nullptr)
 					{
 						switch ((*_Moveable)->PickUp(&Food))
 						{

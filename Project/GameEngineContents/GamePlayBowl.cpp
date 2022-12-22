@@ -16,8 +16,8 @@ GamePlayBowl::~GamePlayBowl()
 
 void GamePlayBowl::Start()
 {
-	GamePlayEquipment::Start();
-	GamePlayEquipment::SetObjectEquipmentType(ObjectEquipmentType::Bowl);
+	GamePlayMoveable::Start();
+	GamePlayMoveable::SetObjectMoveableType(ObjectMoveableType::Bowl);
 
 }
 

@@ -6,8 +6,6 @@
 enum class ObjectEquipmentType
 {
 	None,
-	Dish,
-	Bowl,
 	Using
 };
 class GamePlayFood;

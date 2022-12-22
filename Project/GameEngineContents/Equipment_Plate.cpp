@@ -17,7 +17,6 @@ void Equipment_Plate::Start()
 {
 	GamePlayBowl::Start();
 	GamePlayBowl::SetToolInfoType(ToolInfo::Plate);
-	GamePlayEquipment::SetObjectEquipmentType(ObjectEquipmentType::Dish);
 	GamePlayBowl::SetObjectBowlType(ObjectBowlType::Plate);
 
 	GetFBXMesh()->SetFBXMesh("m_sk_plate_02.fbx", "Texture");
@@ -83,12 +82,12 @@ HoldDownEnum Equipment_Plate::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveabl
 		}
 		else
 		{
-			if ((*_Moveable)->CastThis<GamePlayEquipment>()->GetObjectEquipmentType() == ObjectEquipmentType::Bowl)
+			if ((*_Moveable)->CastThis<GamePlayBowl>() != nullptr)
 			{
 				std::shared_ptr<GamePlayMoveable> Moveable = CastThis<GamePlayMoveable>();
 				(*_Moveable)->PickUp(&Moveable);
 			}
-			else if((*_Moveable)->CastThis<GamePlayEquipment>()->GetObjectEquipmentType() == ObjectEquipmentType::Dish)
+			else if((*_Moveable)->CastThis<Equipment_Plate>() != nullptr)
 			{
 
 			}
