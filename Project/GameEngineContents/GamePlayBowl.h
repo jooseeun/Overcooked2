@@ -222,6 +222,12 @@ public:
 			{
 				std::shared_ptr<FoodThumbnail> Thumbnail = Moveable_.lock()->GetLevel()->CreateActor<FoodThumbnail>();
 				Thumbnail->LinkObject(Moveable_.lock()->CastThis<GameEngineActor>(), float4::ZERO);
+				if (Renderer.lock() != nullptr)
+				{
+					Renderer.lock()->Death();
+					Renderer.lock()->Off();
+				}
+
 				Food_Thumbnail_.push_back(Thumbnail);
 				RefreshThumbnail();
 				return true;
@@ -654,6 +660,7 @@ public:
 		Food_Current_ = _Food->Food_Current_;
 		CookType_ = _Food->CookType_;
 		RefreshThumbnailAndRenderer();
+		_Food->Moveable_.lock()->ReSetCookingGage();
 
 		_Food->Clear();
 	}
@@ -664,6 +671,10 @@ public:
 		Clear();
 		Food_Current_ = _Food->Food_Current_;
 		RefreshThumbnailAndRenderer();
+
+		float Gage = _Food->Moveable_.lock()->GetCookingGage();
+		_Food->Moveable_.lock()->CookingGage_ = Moveable_.lock()->CookingGage_;
+		Moveable_.lock()->CookingGage_ = Gage;
 
 		_Food->Clear();
 		_Food->Food_Current_ = Food_Current;

@@ -17,6 +17,7 @@ void Equipment_Plate::Start()
 {
 	GamePlayBowl::Start();
 	GamePlayBowl::SetToolInfoType(ToolInfo::Plate);
+	GamePlayMoveable::SetObjectMoveableType(ObjectMoveableType::Dish);
 	GamePlayBowl::SetObjectBowlType(ObjectBowlType::Plate);
 
 	GetFBXMesh()->SetFBXMesh("m_sk_plate_02.fbx", "Texture");

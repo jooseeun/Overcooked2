@@ -18,6 +18,7 @@ void GamePlayBowl::Start()
 {
 	GamePlayMoveable::Start();
 	GamePlayMoveable::SetObjectMoveableType(ObjectMoveableType::Bowl);
+	GamePlayMoveable::SetHoldType(PlayerHoldType::NotThrow);
 
 }
 

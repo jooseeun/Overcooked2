@@ -38,17 +38,50 @@ bool Equipment_FryingPan::AutoTrim(float _DeltaTime, ObjectToolType _Tool)
 
 HoldDownEnum Equipment_FryingPan::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 {
-	//if ((*_Moveable) != nullptr)
-	//{
-	//	if ((*_Moveable)->GetObjectMoveableType() == ObjectMoveableType::Food)
-	//	{
+	if ((*_Moveable) != nullptr)
+	{
+		if ((*_Moveable)->GetObjectMoveableType() == ObjectMoveableType::Food)
+		{
+			if ((*_Moveable)->CastThis<GamePlayFood>()->GetCookingType() == CookingType::Pried)
+			{
+				if (GetCombinFood()->AddFood((*_Moveable)->CastThis<GamePlayFood>()->GetObjectFoodClass()))
+				{
+					(*_Moveable)->Death();
+					(*_Moveable)->Off();
+					(*_Moveable) = nullptr;
+					return HoldDownEnum::HoldUp;
+				}
+			}
 
-	//	}
-	//	else if((*_Moveable)->Equi)
-	//	{
-
-	//	}
-
+		}
+		else if ((*_Moveable)->GetObjectMoveableType() == ObjectMoveableType::Bowl)
+		{
+			std::weak_ptr<GamePlayBowl> Bowl = (*_Moveable)->CastThis<GamePlayBowl>();
+			if (Bowl.lock()->GetCombinFood()->GetFoodType() != FoodType::None)
+			{
+				BowltoFryingPan(Bowl.lock());
+			}
+		}
+		else if ((*_Moveable)->GetObjectMoveableType() == ObjectMoveableType::Dish && GetCombinFood()->GetTrim())
+		{
+			(*_Moveable)->CastThis<GamePlayBowl>()->GetCombinFood()->Move(GetCombinFood());
+			//switch ((*_Moveable)->PickUp(&Food))
+			//{
+			//case HoldDownEnum::HoldDown:
+			//	MsgBoxAssert("Equipment_FryingPan Error")
+			//		break;
+			//case HoldDownEnum::HoldUp:
+			//	FryFood_.reset();
+			//default:
+			//	break;
+			//}
+		}
+	}
+	else
+	{
+		(*_Moveable) = CastThis<GamePlayMoveable>();
+		return HoldDownEnum::HoldDown;
+	}
 	//	std::shared_ptr<GamePlayMoveable> Food;
 	//	if ((*_Moveable)->GetObjectMoveableType() == ObjectMoveableType::Food)
 	//	{
@@ -67,16 +100,7 @@ HoldDownEnum Equipment_FryingPan::PickUp(std::shared_ptr<GamePlayMoveable>* _Mov
 	//	{
 	//		if ((*_Moveable)->CastThis<GamePlayEquipment>()->GetObjectEquipmentType() == ObjectEquipmentType::Dish)
 	//		{
-	//			switch ((*_Moveable)->PickUp(&Food))
-	//			{
-	//			case HoldDownEnum::HoldDown:
-	//				MsgBoxAssert("Equipment_FryingPan Error")
-	//					break;
-	//			case HoldDownEnum::HoldUp:
-	//				FryFood_.reset();
-	//			default:
-	//				break;
-	//			}
+
 	//		}
 	//		else if ((*_Moveable)->CastThis<Equipment_FryingPan>() != nullptr)
 	//		{
