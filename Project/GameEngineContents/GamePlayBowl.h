@@ -68,8 +68,9 @@ enum class NoneFoodType
 
 };
 
-struct CombinFood
+class CombinFood
 {
+public:
 	void Start(int _Index, std::shared_ptr<GameEngineUpdateObject> _Object, const float4& _Pos = float4::ZERO)
 	{
 		NoneThumbnailMode_ = true;
@@ -446,6 +447,11 @@ struct CombinFood
 			break;
 		}
 		Renderer_->GetTransform().SetLocalPosition(RendererPos_);
+
+		if (NoneThumbnailMode_ == true)
+		{
+			Renderer_->Off();
+		}
 		return true;
 	}
 
@@ -587,6 +593,7 @@ struct CombinFood
 		Renderer_->Death();
 		Renderer_->Off();
 		Renderer_.reset();
+		CookType_ = ToolInfo::None;
 	}
 
 	void RefreshThumbnail()
@@ -645,6 +652,7 @@ struct CombinFood
 	void Move(std::shared_ptr<CombinFood> _Food)
 	{
 		Food_Current_ = _Food->Food_Current_;
+		CookType_ = _Food->CookType_;
 		RefreshThumbnailAndRenderer();
 
 		_Food->Clear();
@@ -671,12 +679,30 @@ struct CombinFood
 		return false;
 	}
 
+	inline ToolInfo GetCookType() const
+	{
+		return CookType_;
+	}
+
+	inline void SetCookType(ToolInfo _Type)
+	{
+		CookType_ = _Type;
+	}
+
+	FoodData GetFoodData()
+	{
+		return GlobalGameData::GetFoodData(GetFoodType());
+	}
+
 	static std::map<NoneFoodType, std::vector<IngredientType>> Static_NoneType_;
+private:
 	std::vector<IngredientType> Food_Current_;
 	std::vector<std::weak_ptr<FoodThumbnail>> Food_Thumbnail_;
 	std::weak_ptr<FoodThumbnail> Food_NoneThumbnail_;
 	std::shared_ptr<GameEngineFBXStaticRenderer> Renderer_;
 	std::weak_ptr<GamePlayMoveable> Moveable_;
+
+	ToolInfo CookType_ = ToolInfo::None;
 	float4 RendererPos_;
 	bool NoneThumbnailMode_;
 };

@@ -1,5 +1,6 @@
 #pragma once
 #include "GamePlayStaticObject.h"
+#include "GamePlayTool.h"
 // Ό³Έν :
 class Oven : public GamePlayStaticObject
 {
@@ -45,3 +46,23 @@ private:
 	bool IsTakeOut_;
 };
 
+class Tool_Oven : public GamePlayTool
+{
+public:
+	// constrcuter destructer
+	Tool_Oven();
+	~Tool_Oven();
+
+	// delete Function
+	Tool_Oven(const Tool_Oven& _Other) = delete;
+	Tool_Oven(Tool_Oven&& _Other) noexcept = delete;
+	Tool_Oven& operator=(const Tool_Oven& _Other) = delete;
+	Tool_Oven& operator=(Tool_Oven&& _Other) noexcept = delete;
+
+protected:
+	void Start() override;
+	void Update(float _DeltaTime) override;
+
+private:
+	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable) override;
+};

@@ -62,7 +62,7 @@ void Tool_Mixer::Start()
 
 	//SetMoveablePos();
 
-	SetMoveable(GetLevel()->CreateActor<Equipment_Bowl>());
+	//SetMoveable(GetLevel()->CreateActor<Equipment_Bowl>());
 }
 
 void Tool_Mixer::Update(float _DeltaTime)

@@ -15,9 +15,9 @@ public:
 	Equipment_Bowl& operator=(const Equipment_Bowl& _Other) = delete;
 	Equipment_Bowl& operator=(Equipment_Bowl&& _Other) noexcept = delete;
 
+
 protected:
 	void Start() override;
-	void Update(float _DeltaTime) override;
 
 private:
 	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable) override;

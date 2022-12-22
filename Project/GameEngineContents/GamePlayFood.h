@@ -42,9 +42,10 @@ enum class CookingType
 	, Steam
 	, Mixer
 	, Boil
+	, Oven
 };
 
-
+class CombinFood;
 class GamePlayFood : public GamePlayMoveable
 {
 protected:
@@ -201,6 +202,10 @@ public:
 	{
 		return CookingType_;
 	}
+	inline std::shared_ptr<CombinFood> GetCombinFood()
+	{
+		return CombinFood_;
+	}
 	
 
 protected:
@@ -256,6 +261,7 @@ protected:
 	std::shared_ptr<FoodThumbnail> FoodThumbnail_; // ½æ³×ÀÏ
 
 	std::function<void()> Function_TrimmingType_;
+	std::shared_ptr<CombinFood> CombinFood_;
 
 private:
 	IngredientType Enum_IngredientType_;

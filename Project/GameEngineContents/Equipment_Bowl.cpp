@@ -2,7 +2,7 @@
 #include "Equipment_Bowl.h"
 #include "Equipment_Steamer.h"
 
-Equipment_Bowl::Equipment_Bowl() 
+Equipment_Bowl::Equipment_Bowl()
 {
 }
 
@@ -22,12 +22,12 @@ void Equipment_Bowl::Start()
 //	GetCombinFood()->Start(2, shared_from_this());
 }
 
-void Equipment_Bowl::Update(float _DeltaTime)
-{
-	//GetTransform().SetWorldRotation(float4::ZERO);
-
-	//GameEngineDebug::OutPutString(std::to_string(GetTransform().GetLocalPosition().x) + " + "  + std::to_string(GetTransform().GetLocalPosition().y) + " + " + std::to_string(GetTransform().GetLocalPosition().z));
-}
+//void Equipment_Bowl::Update(float _DeltaTime)
+//{
+//	//GetTransform().SetWorldRotation(float4::ZERO);
+//
+//	//GameEngineDebug::OutPutString(std::to_string(GetTransform().GetLocalPosition().x) + " + "  + std::to_string(GetTransform().GetLocalPosition().y) + " + " + std::to_string(GetTransform().GetLocalPosition().z));
+//}
 
 bool Equipment_Bowl::AutoTrim(float _DeltaTime, ObjectToolType _Tool)
 {
@@ -37,6 +37,18 @@ bool Equipment_Bowl::AutoTrim(float _DeltaTime, ObjectToolType _Tool)
 		{
 			if (Input_Auto(_DeltaTime, 12.f))
 			{
+				GetCombinFood()->SetCookType(ToolInfo::Mixer);
+				return true;
+			}
+		}
+	}
+	else if (_Tool == ObjectToolType::Oven)
+	{
+		if (!GetCombinFood()->IsClear())
+		{
+			if (Input_Auto(_DeltaTime, 12.f))
+			{
+				GetCombinFood()->SetCookType(ToolInfo::OvenPot);
 				return true;
 			}
 		}
@@ -77,7 +89,7 @@ HoldDownEnum Equipment_Bowl::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable
 				}
 			}
 		}
-		else if(!GetCombinFood()->IsClear())
+		else if (!GetCombinFood()->IsClear())
 		{
 			std::shared_ptr<GamePlayBowl> Bowl = (*_Moveable)->CastThis<GamePlayBowl>();
 			if (Bowl != nullptr)
@@ -96,6 +108,7 @@ HoldDownEnum Equipment_Bowl::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable
 				}
 			}
 		}
+
 	}
 	return HoldDownEnum::Nothing;
 }

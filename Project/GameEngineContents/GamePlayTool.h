@@ -22,7 +22,7 @@ enum class ObjectToolType
 	, Servicehatch //
 	, Rail		   //
 	, Dispenser	   //
-
+	, Oven
 };
 class Player;
 class GamePlayTool : public GamePlayStuff

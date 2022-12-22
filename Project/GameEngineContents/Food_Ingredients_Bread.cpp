@@ -1,5 +1,7 @@
 #include "PreCompile.h"
 #include "Food_Ingredients_Bread.h"
+#include "GamePlayBowl.h"
+
 
 Food_Ingredients_Bread::Food_Ingredients_Bread() 
 {
@@ -20,4 +22,10 @@ void Food_Ingredients_Bread::Start()
 
 	SetTrim();
 	SetPlatting();
+
+	CombinFood_ = std::make_shared<CombinFood>();
+	CombinFood_->Start(0, shared_from_this());
+	CombinFood_->PushFood(IngredientType::Bread);
+	FoodThumbnail_->Death();
+	FoodThumbnail_->Off();
 }

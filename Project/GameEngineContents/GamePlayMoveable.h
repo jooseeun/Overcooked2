@@ -24,7 +24,7 @@ enum class ObjectToolType;
 class GamePlayMoveable : public GamePlayStuff
 {
 	friend class GamePlayTool;
-	friend struct CombinFood;
+	friend class CombinFood;
 public:
 	// constrcuter destructer
 	GamePlayMoveable();
