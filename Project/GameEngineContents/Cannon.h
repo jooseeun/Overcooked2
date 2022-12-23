@@ -87,11 +87,13 @@ private:
 	GameEngineStateManager StateManager;
 
 	bool IsCounterReaction_;
+	bool IsCounterReactionPos_;
 	bool IsMoveDone_;
 	bool IsDownMove_;
 	float CurAngle_;
 	float ReadyAngle_;
 	float MaxAngle_;
+	float CurPos_;
 
 	int ReactCount_;
 };

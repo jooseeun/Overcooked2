@@ -12,6 +12,8 @@ Cannon::Cannon()
 	, IsMoveDone_(false)
 	, ReactCount_(0)
 	, IsDownMove_(false)
+	, CurPos_(0.f)
+	, IsCounterReactionPos_(false)
 {
 }
 
@@ -166,8 +168,29 @@ void Cannon::ShootUpdate(float _DeltaTime, const StateInfo& _Info)
 		StateManager.ChangeState("Down");
 	}
 
+	if (_Info.StateTime < 0.6f)
+	{
+		if (false == IsCounterReactionPos_)
+		{
+			if (CurPos_ <= -20.f)
+			{
+				IsCounterReactionPos_ = true;
+			}
+			CurPos_ -= _DeltaTime * 250.f;
+				Mesh_Object_->GetTransform().SetLocalPosition({ CurPos_, Mesh_Object_->GetTransform().GetLocalPosition().y, Mesh_Object_->GetTransform().GetLocalPosition().z });
+		}
+		else
+		{
+			if (CurPos_ >= 10.f)
+			{
+				CurPos_ = 20.f;
+				IsCounterReactionPos_ = false;
+			}
+			CurPos_ += _DeltaTime * 250.f;
+			Mesh_Object_->GetTransform().SetLocalPosition({ CurPos_, Mesh_Object_->GetTransform().GetLocalPosition().y, Mesh_Object_->GetTransform().GetLocalPosition().z });
+		}
 
-
+	}
 	// ¹Ýµ¿
 	if (_Info.StateTime > 0.4f)
 	{
@@ -203,6 +226,7 @@ void Cannon::DownStart(const StateInfo& _Info)
 	CurState_ = CannonState::Down;
 	IsMoveDone_ = false;
 	IsCounterReaction_ = false;
+	IsCounterReactionPos_ = false;
 	IsDownMove_ = true;
 	ReactCount_ = 1;
 }
