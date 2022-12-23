@@ -100,7 +100,7 @@ public:
 class ChangeLevelPacket : public GameServerPacket
 {
 public:
-	int LevelID;
+	std::string LevelName;
 
 	ChangeLevelPacket()
 	{
@@ -110,11 +110,11 @@ public:
 	virtual void Serialize(GameServerSerializer& _Ser)
 	{
 		GameServerPacket::Serialize(_Ser);
-		_Ser << LevelID;
+		_Ser << LevelName;
 	}
 	virtual void DeSerialize(GameServerSerializer& _Ser)
 	{
 		GameServerPacket::DeSerialize(_Ser);
-		_Ser >> LevelID;
+		_Ser >> LevelName;
 	}
 };

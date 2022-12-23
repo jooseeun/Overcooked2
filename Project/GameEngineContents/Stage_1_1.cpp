@@ -109,8 +109,6 @@ void Stage_1_1::PlayLevelStartEvent()
 		BloomActor->SetColor({ 0.12f, 0.f, 1.f, 1.f });
 	}
 
-	ServerInitManager::StartInit();
-
 	std::shared_ptr<GlobalMouseInput> Mouse = CreateActor<GlobalMouseInput>();
 
 	GetMainCameraActorTransform().SetLocalRotation({ 60, 180, 0 });

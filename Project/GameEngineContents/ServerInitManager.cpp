@@ -64,6 +64,18 @@ void ServerInitManager::Ignore(std::shared_ptr<GameServerPacket> _Packet)
 	return;
 }
 
+void ServerInitManager::ChangeLevelPacketProcess(std::shared_ptr<GameServerPacket> _Packet)
+{
+	std::shared_ptr<ChangeLevelPacket> Packet = std::dynamic_pointer_cast<ChangeLevelPacket>(_Packet);
+	std::string& NextLevelName = Packet->LevelName;
+	GEngine::ChangeLevel(NextLevelName);
+
+	//if (true == Net->GetIsHost())
+	//{
+	//	Net->SendPacket(Packet);
+	//}
+}
+
 void ServerInitManager::StartInit()
 {
 	if (Player::GetMyPlayer() == nullptr)
@@ -106,6 +118,9 @@ void ServerInitManager::StartInit()
 		case ContentsPacketType::ClinetInit:
 			NewPacket = std::make_shared<ClientInitPacket>();
 			break;
+		case ContentsPacketType::ChangeLevel:
+			NewPacket = std::make_shared<ChangeLevelPacket>();
+			break;
 		default:
 			NewPacket = std::make_shared<IgnorePacket>();
 			break;
@@ -128,6 +143,7 @@ void ServerInitManager::StartInit()
 	{
 		// 내가 클라이언트 일때만 등록해야하는 패킷
 		Net->Dis.AddHandler(ContentsPacketType::ClinetInit, std::bind(&ServerInitManager::ClientInitPacketProcess, std::placeholders::_1));
+		Net->Dis.AddHandler(ContentsPacketType::ChangeLevel, std::bind(&ServerInitManager::ChangeLevelPacketProcess, std::placeholders::_1));
 	}
 }
 
