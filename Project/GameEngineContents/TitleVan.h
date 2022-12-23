@@ -1,8 +1,23 @@
 #pragma once
 #include "GamePlayObject.h"
 
-// 설명 :
 class GameEngineFBXAnimationRenderer;
+class VanSign : public GamePlayObject
+{
+public:
+	// constrcuter destructer
+	VanSign();
+	~VanSign();
+
+protected:
+	void Start() override;
+	void Update(float _DeltaTime) override;
+
+private:
+	std::shared_ptr<GameEngineFBXStaticRenderer> SignRenderer_;
+};
+
+// 설명 :
 class TitleVan : public GamePlayObject
 {
 public:
@@ -20,8 +35,10 @@ protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
-
 private:
-	std::shared_ptr<GameEngineFBXStaticRenderer> Van_;
+	std::shared_ptr<VanSign> Sign_;
+	std::shared_ptr<GameEngineFBXStaticRenderer> Renderer_;
+
+	bool IsSignUp_;
 };
 

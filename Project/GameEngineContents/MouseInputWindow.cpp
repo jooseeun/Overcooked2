@@ -41,7 +41,7 @@ void MouseInputWindow::Initialize(GameEngineLevel* _Level)
 
 void MouseInputWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
-	if (nullptr != Input_)
+	if (nullptr == Input_)
 	{
 		return;
 	}
