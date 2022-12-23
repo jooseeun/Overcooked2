@@ -62,11 +62,14 @@ void GamePlayLevel::LevelStartEvent()
 	//최초에는 무조건 LoadingLvel로 가서 해당 레벨의 리소스를 로드합니다.
 	GEngine::ChangeLevel("LoadingLevel");
 
-	if (ServerInitManager::Net->GetIsHost())
+	if (nullptr != ServerInitManager::Net)
 	{
-		std::shared_ptr<ChangeLevelPacket> Packet = std::make_shared<ChangeLevelPacket>();
-		Packet->LevelName = GetName();
-		ServerInitManager::Net->SendPacket(Packet);
+		if (ServerInitManager::Net->GetIsHost())
+		{
+			std::shared_ptr<ChangeLevelPacket> Packet = std::make_shared<ChangeLevelPacket>();
+			Packet->LevelName = GetName();
+			ServerInitManager::Net->SendPacket(Packet);
+		}
 	}
 
 	return;
