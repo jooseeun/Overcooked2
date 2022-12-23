@@ -37,7 +37,7 @@ public:
 	GamePlayObject& operator=(const GamePlayObject& _Other) = delete;
 	GamePlayObject& operator=(GamePlayObject&& _Other) noexcept = delete;
 
-	virtual SetPlayerState_Return SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type) {
+	virtual SetPlayerState_Return SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type, std::shared_ptr<GamePlayMoveable> _Moveable = nullptr) {
 		MsgBoxAssert("아직 설정되지 않았습니다");
 		return SetPlayerState_Return::Nothing;
 	};
@@ -68,7 +68,7 @@ public:
 
 protected:
 	void Start() override;
-	void Update(float _DeltaTime) override;
+	//void Update(float _DeltaTime) override;
 	void End() override {};
 
 	void OnEvent() override {};

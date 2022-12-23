@@ -27,6 +27,34 @@ void GamePlayMoveable::Start()
 	CookingBar_->LinkObject(CastThis<GameEngineActor>(), {0,-40,0}, &CookingGage_, true);
 
 }
+void GamePlayMoveable::Update(float _DeltaTime)
+{
+	if (GetParent() == nullptr)
+	{
+		GameEngineDebug::OutPutString(std::to_string(GetTransform().GetLocalPosition().x) + " + "  + std::to_string(GetTransform().GetLocalPosition().y) + " + " + std::to_string(GetTransform().GetLocalPosition().z));
+
+		if (GetCollisionObject()->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject_1, CollisionType::CT_OBB,
+			[](std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
+			{
+				std::shared_ptr StaticObject = _Other->GetParent<GamePlayStaticObject>();
+				if (StaticObject != nullptr)
+				{
+					if (StaticObject->SetPlayerState(nullptr, PlayerCurStateType::HoldDown, _This->GetParent<GamePlayMoveable>()) == SetPlayerState_Return::Using)
+					{
+						return CollisionReturn::Break;
+					}
+				}
+			
+				return CollisionReturn::ContinueCheck;
+			}
+		))
+		{
+			return;
+		}
+		Gravity();
+	}
+}
+
 
 bool GamePlayMoveable::Input_Manual(std::shared_ptr<Player> _Player, float _Delta, float _MaxTime)
 {

@@ -183,7 +183,9 @@ public:
 			std::shared_ptr<FoodThumbnail> Thumbnail = Moveable_.lock()->GetLevel()->CreateActor<FoodThumbnail>();
 			Thumbnail->LinkObject(Moveable_.lock()->CastThis<GameEngineActor>(), float4::ZERO);
 			Food_Thumbnail_.push_back(Thumbnail);
-			RefreshThumbnail();
+			RefreshThumbnailAndRenderer();
+			Renderer_->Off();
+			Moveable_.lock()->CookingGageHalf();
 			return true;
 		}
 		else
@@ -194,6 +196,7 @@ public:
 				{
 					Food_Current_[i] = _Type;
 					RefreshThumbnail();
+					Moveable_.lock()->CookingGageHalf();
 					return true;
 				}
 			}
@@ -230,6 +233,7 @@ public:
 
 				Food_Thumbnail_.push_back(Thumbnail);
 				RefreshThumbnail();
+				Moveable_.lock()->CookingGageHalf();
 				return true;
 			}
 		}
@@ -255,6 +259,7 @@ public:
 					else
 					{
 						RefreshThumbnail();
+						Moveable_.lock()->CookingGageHalf();
 						return true;
 					}
 				}
@@ -784,11 +789,11 @@ protected:
 					{
 						if (ConvertToolinfo(Data.CommonCookery[k]) == Enum_ObjectBowlType_)
 						{
-							index++;
+							index = static_cast<int>(Data.Ingredient.size());
 							break;
 						}
 					}
-
+					break;
 				}
 			}
 			if (max < index)
@@ -798,34 +803,35 @@ protected:
 		}
 		GetCombinFood()->Start(max, shared_from_this());
 	}
-	static ToolInfo ConvertBowlObject(ObjectBowlType _Type)
-	{
-		switch (_Type)
-		{
-		case ObjectBowlType::Bowl:
-			return ToolInfo::Mixer;
-			break;
-		case ObjectBowlType::Pod:
-			return ToolInfo::Pot;
-			break;
-		case ObjectBowlType::Plate:
-			return ToolInfo::Plate;
-			break;
-		case ObjectBowlType::FryingPan:
-			return ToolInfo::FryingPan;
-			break;
-		case ObjectBowlType::Steamer:
-			return ToolInfo::Steamer;
-			break;
-		default:
-			return ToolInfo::None;
-			break;
-		}
-	}
+	//static ToolInfo ConvertBowlObject(ObjectBowlType _Type)
+	//{
+	//	switch (_Type)
+	//	{
+	//	case ObjectBowlType::Bowl:
+	//		return ToolInfo::Mixer;
+	//		break;
+	//	case ObjectBowlType::Pod:
+	//		return ToolInfo::Pot;
+	//		break;
+	//	case ObjectBowlType::Plate:
+	//		return ToolInfo::Plate;
+	//		break;
+	//	case ObjectBowlType::FryingPan:
+	//		return ToolInfo::FryingPan;
+	//		break;
+	//	case ObjectBowlType::Steamer:
+	//		return ToolInfo::Steamer;
+	//		break;
+	//	default:
+	//		return ToolInfo::None;
+	//		break;
+	//	}
+	//}
 	static ObjectBowlType ConvertToolinfo(ToolInfo _Type)
 	{
 		switch (_Type)
 		{
+		case ToolInfo::OvenPot:
 		case ToolInfo::Mixer:
 			return ObjectBowlType::Bowl;
 			break;
@@ -854,6 +860,28 @@ private:
 
 	// FoodThumbnail
 protected:
+
+	virtual void BowltoBowl(std::shared_ptr<GamePlayBowl> _Bowl)
+	{
+		FoodData Data = _Bowl->GetCombinFood()->GetFoodData();
+		ToolInfo ToolBefore = ToolInfo::None;
+		for (size_t i = 0; i < Data.CommonCookery.size(); i++)
+		{
+			if (_Bowl->GetCombinFood()->GetCookType() == ToolBefore)
+			{
+				GetCombinFood()->Move(_Bowl->GetCombinFood());
+			}
+			else
+			{
+				ToolBefore = Data.CommonCookery[i];
+			}
+		}
+	}
+
+	inline void ChangeSameBowl(std::shared_ptr<GamePlayBowl> _Bowl)
+	{
+		GetCombinFood()->Switching(_Bowl->GetCombinFood());
+	}
 
 	//std::vector<IngredientType> FoodThumbnail_IngredientType;
 	//std::vector<std::shared_ptr<FoodThumbnail>> FoodThumbnail_;

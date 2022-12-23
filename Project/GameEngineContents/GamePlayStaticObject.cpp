@@ -47,12 +47,16 @@ void GamePlayStaticObject::SetHighlightEffectOn()
 	}
 }
 
-SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type)
+SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type, std::shared_ptr<GamePlayMoveable> _Moveable)
 {
 	switch (_Type)
 	{
 	case PlayerCurStateType::HoldUp:
 	{
+		if (_Player == nullptr)
+		{
+			return SetPlayerState_Return::Nothing;
+		}
 		if (Stuff_Current_ == nullptr)
 		{
 			return SetPlayerState_Return::Nothing;
@@ -104,14 +108,28 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 	}
 		break;
 	case PlayerCurStateType::HoldDown:	
-	{
-		if (_Player->GetPlayerHolding() == nullptr)
+	{		
+		if (_Player != nullptr && _Player->GetPlayerHolding() == nullptr)
 		{
 			return SetPlayerState_Return::Nothing;
 		}
 		else
 		{
-			std::shared_ptr<GamePlayMoveable> Moveable = _Player->GetPlayerHolding()->CastThis<GamePlayMoveable>();
+			std::shared_ptr<GamePlayMoveable> Moveable = nullptr;
+			if (_Player != nullptr)
+			{
+				Moveable = _Player->GetPlayerHolding()->CastThis<GamePlayMoveable>();
+			}
+			else if( _Moveable != nullptr)
+			{
+				Moveable = _Moveable;
+			}
+			else
+			{
+				MsgBoxAssert("SetPlayerState -> 둘다 null입니다")
+				return SetPlayerState_Return::Nothing;
+			}
+
 			if (Stuff_Current_ == nullptr)
 			{
 				std::shared_ptr<GamePlayMoveable> Empty = nullptr;
@@ -124,7 +142,11 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 					if (Empty != nullptr)
 					{
 						SetStuff(Empty);
-						_Player->CurrentHoldingNull();
+						if (_Player != nullptr)
+						{
+							_Player->CurrentHoldingNull();
+						}
+						
 						return SetPlayerState_Return::Using;
 					}
 					break;
@@ -149,7 +171,10 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 				case HoldDownEnum::HoldUp:
 					if (Moveable == nullptr)
 					{
-						_Player->CurrentHoldingNull();
+						if (_Player != nullptr)
+						{
+							_Player->CurrentHoldingNull();
+						}
 					}
 					return SetPlayerState_Return::Using;
 					break;
@@ -166,6 +191,10 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 	case PlayerCurStateType::DishWash:
 	case PlayerCurStateType::Slice:
 	{
+		if (_Player == nullptr)
+		{
+			return SetPlayerState_Return::Nothing;
+		}
 		if (Stuff_Current_ == nullptr)
 		{
 			if (_Player->GetPlayerHolding() == nullptr)
@@ -304,6 +333,7 @@ void GamePlayStaticObject::SetStuff(std::shared_ptr<GamePlayStuff> _Stuff)
 		Stuff_Current_->GetCollisionObject()->Off();
 		if (nullptr != _Stuff)
 		{
+			_Stuff->GetTransform().SetLocalRotation(float4::ZERO);
 			_Stuff->SetParent(std::dynamic_pointer_cast<GamePlayObject>(shared_from_this()));
 			_Stuff->GetTransform().SetLocalPosition(ToolPos_);
 		}

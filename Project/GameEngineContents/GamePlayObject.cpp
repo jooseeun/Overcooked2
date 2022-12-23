@@ -24,10 +24,3 @@ void GamePlayObject::Start()
 	SetGravityCollision(Collision_Object_);
 }
 
-void GamePlayObject::Update(float _DeltaTime)
-{
-	if (GetParent() == nullptr)
-	{
-		Gravity();
-	}
-}

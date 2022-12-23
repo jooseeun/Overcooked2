@@ -24,6 +24,8 @@ void GamePlayFood::Start()
 	GamePlayMoveable::Start();
 	GamePlayMoveable::SetObjectMoveableType(ObjectMoveableType::Food);
 	GamePlayMoveable::SetHoldType(PlayerHoldType::CanThrow);
+
+	GetCollisionObject()->GetTransform().SetWorldScale({100, 50, 100});
 	//CookingBar_->LinkObject(CastThis<GameEngineActor>(), { 0,25,0 }, &CookingGage_, false);
 	
 }

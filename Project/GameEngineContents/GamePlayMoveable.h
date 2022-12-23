@@ -77,11 +77,27 @@ public:
 		CookingGage_ = 0;
 	}
 
+	inline void CookingGageHalf()
+	{
+		float Gage = CookingGage_;
+		if (Gage >= 200.f)
+		{
+			return;
+		}
+		else if (100.f < Gage && 200.f > Gage)
+		{
+			Gage = 100.f;
+		}
+		CookingGage_ = Gage * 0.5f;
+	}
+
+
 	bool Input_Manual(std::shared_ptr<Player> _Player, float _Delta, float _MaxTime);
 	bool Input_Auto(float _Delta, float _MaxTime);
 	virtual bool AutoTrim(float _DeltaTim, ObjectToolType _Tool) { return false; }
 protected:
 	void Start() override;
+	void Update(float _DeltaTime) override;
 	//void Update(float _DeltaTime) final;
 	void End() override {};
 
