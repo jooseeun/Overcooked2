@@ -15,6 +15,11 @@ public:
 	GlobalMouseInput& operator=(const GlobalMouseInput& _Other) = delete;
 	GlobalMouseInput& operator=(GlobalMouseInput&& _Other) noexcept = delete;
 
+	inline void SetNearTransform(GameEngineTransform* _Transform)
+	{
+		NearTransform_ = _Transform;
+	}
+
 	inline GameEngineTransform* GetNearTransform()
 	{
 		return NearTransform_;

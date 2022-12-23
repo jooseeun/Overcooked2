@@ -18,7 +18,7 @@ RecipeManager::~RecipeManager()
 	Recipes_.clear();
 }
 
-void RecipeManager::Init(std::weak_ptr<InGameUIActor> _ParentActor_, std::function<void(int, int)> _Function, std::function<void(int)> _FailFunction)
+void RecipeManager::Init(std::weak_ptr<InGameUIActor> _ParentActor_, std::function<void(int, int, bool)> _Function, std::function<void(int)> _FailFunction)
 {
 	ParentActor_ = _ParentActor_;
 	HandOverScore_ = _Function;
@@ -233,7 +233,12 @@ bool RecipeManager::HandOver(FoodType _Type)
 
 	MostLeftIter->IsHandOver_ = true;
 	std::vector<int> ScoreVector = MostLeftIter->GetScore();
-	HandOverScore_(ScoreVector[0], ScoreVector[1]);
+	bool IsMostLeft = false;
+	if (Recipes_.begin() == MostLeftIter)
+	{
+		IsMostLeft = true;
+	}
+	HandOverScore_(ScoreVector[0], ScoreVector[1], IsMostLeft);
 	//퍼센트 기반 팁점수, 기본점수 > 필요한건
 	return true;
 

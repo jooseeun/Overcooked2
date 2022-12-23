@@ -20,6 +20,7 @@ int GlobalGameData::DeliveredCount_ = 0;
 int GlobalGameData::Tips_ = 0;
 int GlobalGameData::FailScore_ = 0;
 int GlobalGameData::FailCount_ = 0;
+int GlobalGameData::TipGaugeCount_ = 0;
 int GlobalGameData::PlayerCount_ = 1;
 
 GlobalGameData::GlobalGameData()
@@ -354,7 +355,7 @@ InitGlobalGameData::InitGlobalGameData()
 				_Ingredient.push_back(IngredientType::Orange);
 
 				_Cookery.push_back(ToolInfo::Mixer);
-				_Cookery.push_back(ToolInfo::FryingPan);
+				_Cookery.push_back(ToolInfo::OvenPot);
 
 				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
 					CreateFoodData(_Type, _Ingredient, _Cookery, 120, 105.f, true)));
@@ -578,6 +579,7 @@ std::string UI_Utility::EnumToString(IngredientType _Type)
 		break;
 	case IngredientType::Strawberry:
 		FileName = "Strawberry_Icon.png";
+		break;
 	case IngredientType::DriedFruit:
 		FileName = "DriedFruit_Icon.png";
 		break;

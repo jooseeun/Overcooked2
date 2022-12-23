@@ -23,6 +23,7 @@ void GlobalMouseInput::Start()
 		MouseInputWindow::Main_ = MapEditorGUI::CreateGUIWindow<MouseInputWindow>("MouseInput", nullptr);
 	}
 	MouseWindow_ = MouseInputWindow::Main_;
+	MouseWindow_->SetMouseInput(this);
 
 	Collision_ = CreateComponent<GameEngineCollision>();
 	Collision_->GetTransform().SetWorldScale({ 0.1f, 0.1f, 10000 });
@@ -131,7 +132,6 @@ CollisionReturn GlobalMouseInput::CollisionCheck(std::shared_ptr<GameEngineColli
 	{
 		NearTransform_ = OtherTransform;
 		MouseWindow_->SetMouseInput(this);
-		MouseWindow_->On();
 	}
 	else
 	{
@@ -154,7 +154,6 @@ CollisionReturn GlobalMouseInput::CollisionCheck(std::shared_ptr<GameEngineColli
 		{
 			NearTransform_ = OtherTransform;
 			MouseWindow_->SetMouseInput(this);
-			MouseWindow_->On();
 		}
 	}
 

@@ -18,6 +18,12 @@ MouseInputWindow::~MouseInputWindow()
 {
 }
 
+void MouseInputWindow::SetForceInput(GameEngineTransform* _Transform)
+{
+	Input_->SetNearTransform(_Transform);
+	InputTransform_ = _Transform;
+}
+
 void MouseInputWindow::SetMouseInput(GlobalMouseInput* _Input)
 {
 	if (true == IsChanging_)
@@ -35,6 +41,11 @@ void MouseInputWindow::Initialize(GameEngineLevel* _Level)
 
 void MouseInputWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
+	if (nullptr == Input_)
+	{
+		return;
+	}
+
 	if (true == ImGui::Button("UI"))
 	{
 		Input_->SetIsUI(true);
@@ -43,11 +54,6 @@ void MouseInputWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	if (true == ImGui::Button("Obj"))
 	{
 		Input_->SetIsUI(false);
-	}
-
-	if (nullptr == Input_)
-	{
-		return;
 	}
 
 	InputTransform_ = Input_->GetNearTransform();

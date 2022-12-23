@@ -18,6 +18,7 @@ public:
 	MouseInputWindow& operator=(const MouseInputWindow& _Other) = delete;
 	MouseInputWindow& operator=(MouseInputWindow&& _Other) noexcept = delete;
 
+	void SetForceInput(GameEngineTransform* _Transform);
 	void SetMouseInput(GlobalMouseInput* _Input);
 	void SetMouseRotate(float4 _Rot)
 	{

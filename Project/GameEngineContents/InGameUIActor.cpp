@@ -53,6 +53,10 @@ void InGameUIActor::UIStart()
 		ScoreUIInst_.BarBackground = CreateUIRenderer("coin_banner_bar_00.png", 0.78f);
 		ScoreUIInst_.BarBackground->GetTransform().SetLocalPosition({ -479.f,-316.f });
 
+		ScoreUIInst_.Bar = CreateUIRenderer("coin_banner_bar_00.png", 0.78f);
+		ScoreUIInst_.Bar->GetTransform().SetLocalPosition({ -479.f,-316.f });
+		ScoreUIInst_.Bar->UpdateColor({ 166.f / 256.f,198.f / 256.f,217.f / 256.f,0 }, { 1.f,1.f,1.f,0.5f });
+
 		ScoreUIInst_.Coin = CreateComponent<GameEngineUIRenderer>();
 		ScoreUIInst_.Coin->SetScaleRatio(1 / 1.5f);
 		ScoreUIInst_.Coin->SetScaleModeImage();
@@ -63,7 +67,7 @@ void InGameUIActor::UIStart()
 				ScoreUIInst_.Coin->ChangeFrameAnimation("CoinIdle");
 			});
 		ScoreUIInst_.Coin->ChangeFrameAnimation("CoinIdle");
-		ScoreUIInst_.Coin->GetTransform().SetLocalPosition({ -573.f,-300.f });
+		ScoreUIInst_.Coin->GetTransform().SetLocalPosition({ -573.f,-300.f,-10 });
 
 		ScoreUIInst_.Score = CreateComponent<GameEngineFontRenderer>();
 		ScoreUIInst_.Score->ChangeCamera(CAMERAORDER::UICAMERA);
@@ -74,14 +78,39 @@ void InGameUIActor::UIStart()
 		ScoreUIInst_.Score->SetAffectTransform(true);
 		ScoreUIInst_.Score->GetTransform().SetLocalMove({ -480,-266.f,-1 });
 
-		//ResistDebug("Score", ScoreUIInst_.Score->GetTransform());
+		//ScoreUIInst_.TipGaugeFontBackground->GetTransform().SetLocalMove({ -480,-266.f,-1 });
+
+		ScoreUIInst_.TipGaugeFontFrontground = CreateComponent<GameEngineFontRenderer>();
+		ScoreUIInst_.TipGaugeFontFrontground->ChangeCamera(CAMERAORDER::UICAMERA);
+		ScoreUIInst_.TipGaugeFontFrontground->SetText("팁 x 2", "Naughty Squirrel");
+		ScoreUIInst_.TipGaugeFontFrontground->SetColor({ 1.0f,1.0f,1.0f,1 });
+		ScoreUIInst_.TipGaugeFontFrontground->SetSize(13.f);
+		ScoreUIInst_.TipGaugeFontFrontground->SetLeftAndRightSort(LeftAndRightSort::CENTER);
+		ScoreUIInst_.TipGaugeFontFrontground->SetAffectTransform(true);
+		ScoreUIInst_.TipGaugeFontFrontground->GetTransform().SetLocalMove({ -480,-308.f,-1 });
+		ScoreUIInst_.TipGaugeFontFrontground->Off();
+
+		ScoreUIInst_.Fire = CreateComponent<GameEngineUIRenderer>();
+		ScoreUIInst_.Fire->SetScaleRatio(1.2f);
+		ScoreUIInst_.Fire->SetScaleModeImage();
+		GameEngineRenderingEvent NewEvent = GameEngineRenderingEvent("UI_FlameHUD_01.png", 0.03f, true);
+		NewEvent.Init(0, 58);
+		ScoreUIInst_.Fire->CreateFrameAnimationCutTexture("UIFire", NewEvent);
+		ScoreUIInst_.Fire->ChangeFrameAnimation("UIFire");
+		ScoreUIInst_.Fire->GetTransform().SetLocalPosition({ -460,-187 });
+		ScoreUIInst_.Fire->Off();
+		//ResistDebug("Fire", ScoreUIInst_.Fire->GetTransform());
+
+		//ScoreUIInst_.Fire->GetTransform().SetLocalPosition({ -573.f,-300.f });
+
+		//ResistDebug("ScoreUIInst_", ScoreUIInst_.TipGaugeFontFrontground->GetTransform());
 	}
 
 	NotDeleteRecipe_Timer_.StartTimer(16.f);
 	NotDeleteRecipe_Timer_.SetTimeOverFunc(std::bind(&InGameUIActor::CreateRandomRecipe, this));
 	//레시피 매니저
 	RecipeManager_.Init(std::dynamic_pointer_cast<InGameUIActor>(shared_from_this()),
-		std::bind(&InGameUIActor::HandOverScore, this, std::placeholders::_1, std::placeholders::_2),
+		std::bind(&InGameUIActor::HandOverScore, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3),
 		std::bind(&InGameUIActor::FailScore, this, std::placeholders::_1));
 	//RecipeManager_.DebugFunction();
 	//	RecipeManager_.CreateRecipe(FoodType::FishSushimi);
@@ -256,6 +285,34 @@ void InGameUIActor::UpdateScore(float _DeltaTime)
 			IsGetScore_ = false;
 		}
 	}
+
+	//ScoreBar
+	{
+		float Percentage = (static_cast<float>(GlobalGameData::GetTipGaugeCountRef()) / 4.f);
+		ScoreUIInst_.Bar->UpdateLeftToRight(Percentage);
+	}
+
+	//ScoreTip Font
+	{
+		if (GlobalGameData::GetTipGaugeCountRef() >= 2)
+		{
+			ScoreUIInst_.TipGaugeFontFrontground->SetText("팁 x " + std::to_string(GlobalGameData::GetTipGaugeCountRef()), "Naughty Squirrel");
+			ScoreUIInst_.TipGaugeFontFrontground->On();
+			if (GlobalGameData::GetTipGaugeCountRef() == 4)
+			{
+				ScoreUIInst_.Fire->On();
+			}
+			else
+			{
+				ScoreUIInst_.Fire->Off();
+			}
+		}
+		else
+		{
+			ScoreUIInst_.TipGaugeFontFrontground->Off();
+			ScoreUIInst_.Fire->Off();
+		}
+	}
 }
 
 void InGameUIActor::LevelStartEvent()
@@ -288,11 +345,20 @@ bool InGameUIActor::HandOverFood(FoodType _Type)
 	return false;
 }
 
-void InGameUIActor::HandOverScore(int _FoodScore, int _FoodTips)
+void InGameUIActor::HandOverScore(int _FoodScore, int _FoodTips, bool _IsLeft)
 {
 	//딸배점수 추가
-	GlobalGameData::AddScore(_FoodScore, _FoodTips);
-	int TotalScore = _FoodScore + _FoodTips;
+	int TotalTip;
+	if (GlobalGameData::GetTipGaugeCountRef() == 0)
+	{
+		TotalTip = _FoodTips;
+	}
+	else
+	{
+		TotalTip = _FoodTips * GlobalGameData::GetTipGaugeCountRef();
+	}
+	GlobalGameData::AddScore(_FoodScore, TotalTip);
+	int TotalScore = _FoodScore + TotalTip;
 
 	std::weak_ptr<FadeFont> ScoreFont = GetLevel()->CreateActor<FadeFont>();
 	ScoreFont.lock()->GetTransform().SetWorldPosition({ -520.f,-190.f });
@@ -305,12 +371,30 @@ void InGameUIActor::HandOverScore(int _FoodScore, int _FoodTips)
 		//TipsFont.lock()->Debug();
 		//ResistDebug("Tips", TipsFont.lock()->GetTransform());
 
-		TipsFont.lock()->Init("+" + std::to_string(_FoodTips) + " 팁!", { 0.f / 256.f,256.f / 256.f,0.f / 256.f }, 32.f);
+		TipsFont.lock()->Init("+" + std::to_string(TotalTip) + " 팁!", { 0.f / 256.f,256.f / 256.f,0.f / 256.f }, 32.f);
+	}
+
+	//가장 왼쪽꺼 제출하는 거면 팁게이지 증가
+	{
+		if (_IsLeft == true)
+		{
+			GlobalGameData::GetTipGaugeCountRef()++;
+			if (GlobalGameData::GetTipGaugeCountRef() > 4)
+			{
+				GlobalGameData::GetTipGaugeCountRef() = 4;
+			}
+		}
+		else
+		{
+			GlobalGameData::GetTipGaugeCountRef() = 0;
+		}
 	}
 }
 
 void InGameUIActor::FailScore(int _FoodScore)//양수를 넣어주세요
 {
+	//팁게이지 초기화
+	GlobalGameData::GetTipGaugeCountRef() = 0;
 	//실패점수 추가
 	GlobalGameData::AddScore(-_FoodScore);
 	int TotalScore = _FoodScore;

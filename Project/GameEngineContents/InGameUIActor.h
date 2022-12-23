@@ -109,7 +109,7 @@ public:
 	{
 		return static_cast<int>(Recipes_.size());
 	}
-	void Init(std::weak_ptr<InGameUIActor> _ParentActor_, std::function<void(int, int)> _HandOverFunction, std::function<void(int)> _FailFunction); //¾Õint : À½½Ä Score, µÞ int : ÆÁ Á¡¼ö
+	void Init(std::weak_ptr<InGameUIActor> _ParentActor_, std::function<void(int, int, bool)> _HandOverFunction, std::function<void(int)> _FailFunction); //¾Õint : À½½Ä Score, µÞ int : ÆÁ Á¡¼ö
 	void CreateRecipe(FoodType _Type);
 	bool HandOver(FoodType _Type);
 	//void DeleteRecipe(std::list<Recipe>::iterator _Iter);
@@ -123,7 +123,7 @@ private:
 	std::list<Recipe> Recipes_;
 	std::weak_ptr<InGameUIActor> ParentActor_;
 
-	std::function<void(int, int)> HandOverScore_;
+	std::function<void(int, int, bool)> HandOverScore_;
 	std::function<void(int)> FailScore_;
 };
 
@@ -152,7 +152,7 @@ protected:
 
 	bool HandOverFood(FoodType _Type);
 
-	void HandOverScore(int _FoodScore, int _FoodTips);
+	void HandOverScore(int _FoodScore, int _FoodTips, bool IsLeft);
 
 	void FailScore(int _FoodScore);
 
@@ -170,8 +170,12 @@ private:
 	struct ScoreUI
 	{
 		std::shared_ptr<OverCookedUIRenderer> Banner;
+		std::shared_ptr<OverCookedUIRenderer> Bar;
+		std::shared_ptr<GameEngineFontRenderer> TipGaugeFontFrontground;
+
 		std::shared_ptr<OverCookedUIRenderer> BarBackground;
 		std::shared_ptr<GameEngineUIRenderer> Coin;
+		std::shared_ptr<GameEngineUIRenderer> Fire;
 
 		std::shared_ptr<GameEngineFontRenderer> Score;
 	};
