@@ -166,6 +166,10 @@ void Cannon::ShootUpdate(float _DeltaTime, const StateInfo& _Info)
 		StateManager.ChangeState("Down");
 	}
 
+	// ¹Ýµ¿
+
+
+
 	if (_Info.StateTime > 0.4f)
 	{
 		if (0 != ReactCount_)

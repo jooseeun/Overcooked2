@@ -17,13 +17,13 @@ void Lift::Start()
 {
 	GamePlayFloor::Start();
 
-	GetCollisionObject()->GetTransform().SetLocalPosition({ GetTransform().GetWorldPosition()});
+	GetCollisionObject()->GetTransform().SetLocalMove({0, 0, 20});
 	GetCollisionObject()->ChangeOrder(CollisionOrder::Lift);
 
 	
 	std::shared_ptr<GameEngineCollision> PlusCol = CreateComponent<GameEngineCollision>();
-	PlusCol->GetTransform().SetLocalScale({ 307.00,194.00,100.00 });
-	PlusCol->GetTransform().SetLocalPosition( GetTransform().GetWorldPosition() - float4{0,0,-100 });
+	PlusCol->GetTransform().SetLocalScale({ 307.00,194.00,130.00 });
+	PlusCol->GetTransform().SetLocalPosition( GetTransform().GetWorldPosition() - float4{0,0,-130 });
 	PlusCol->ChangeOrder(CollisionOrder::Map_Object);
 }
 
@@ -38,7 +38,7 @@ void Lift::Update(float _DeltaTime)
 		{
 			GetTransform().SetWorldMove(float4::UP * Speed_ * _DeltaTime);
 
-			if (0.f <= GetTransform().GetWorldPosition().y)
+			if (10.f <= GetTransform().GetWorldPosition().y)
 			{
 				MoveTime_ = 0.f;
 				LiftState_ = LIFTSTATE::WAIT;

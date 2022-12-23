@@ -25,17 +25,6 @@ public:
 		IsInteraction_ = true;
 	}
 
-
-	inline void SwitchIsPut()
-	{
-		IsPut_ = !IsPut_;
-	}
-
-	inline void SwitchIsTakeOut_()
-	{
-		IsTakeOut_ = !IsTakeOut_;
-	}
-
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -47,9 +36,6 @@ private:
 	bool IsInteraction_;
 	bool IsCooking_;
 	float Angle_;
-
-	bool IsPut_;
-	bool IsTakeOut_;
 };
 
 class Tool_Oven : public GamePlayTool

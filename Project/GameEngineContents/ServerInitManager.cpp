@@ -5,7 +5,7 @@
 #include "Player.h"
 
 GameServerNet* ServerInitManager::Net;
-std::string ServerInitManager::IP = "127.0.0.1";
+std::string ServerInitManager::IP = "10.0.4.95";
 GameServerNetServer ServerInitManager::Server;
 GameServerNetClient ServerInitManager::Client;
 

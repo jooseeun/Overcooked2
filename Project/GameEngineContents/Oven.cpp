@@ -5,8 +5,6 @@
 Oven::Oven()
 	: Door_(nullptr)
 	, DoorRenderer_(nullptr)
-	//, IsPut_(true)
-	//, IsTakeOut_(false)
 	, IsCooking_(false)
 	, Angle_(0.f)
 	, IsInteraction_(false)
@@ -34,6 +32,7 @@ void Oven::Start()
 	// ¿Àºì
 	GetFBXMesh()->SetFBXMesh("Oven.fbx", "Texture");
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
+	GetCollisionObject()->GetTransform().SetWorldScale({ 100, 100, 100 });
 
 
 	std::shared_ptr<Tool_Oven> OvenTool = GetLevel()->CreateActor<Tool_Oven>();
