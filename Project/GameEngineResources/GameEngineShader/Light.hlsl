@@ -87,7 +87,7 @@ float4 Light_PS(Output _Input) : SV_Target0
     Data.LightRevDir = float4(-1.0f, 0.0f, 0.0f, 0.0f);
     Data.LightRevDir = mul(Data.LightRevDir, WorldView);
 
-    float4 DiffuseLight = CalDiffuseLights(_Input.NORMAL);
+    float4 DiffuseLight = CalDiffuseLights(_Input.VIEWPOS, _Input.NORMAL);
     float4 SpacularLight = CalSpacularLight(_Input.VIEWPOS, _Input.NORMAL);
     float4 AmbientLight = CalAmbientLight();
 

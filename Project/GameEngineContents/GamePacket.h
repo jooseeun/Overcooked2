@@ -6,7 +6,8 @@ enum class ContentsPacketType
 {
 	None,
 	ObjectUpdate, // 오브젝트 업데이트
-	ClinetInit, // 클라이언트가 들어오면 서버가 보내줄 패킷.
+	ClinetInit,   // 클라이언트가 들어오면 서버가 보내줄 패킷.
+	ChangeLevel,  // 레벨 변경 - 호스트만 전송
 	Ignore,
 };
 
@@ -93,5 +94,27 @@ public:
 		_Ser >> Animation;
 		_Ser >> PlayerNum;
 		_Ser >> RendererState;
+	}
+};
+
+class ChangeLevelPacket : public GameServerPacket
+{
+public:
+	int LevelID;
+
+	ChangeLevelPacket()
+	{
+		SetPacketID(ContentsPacketType::ChangeLevel);
+	}
+
+	virtual void Serialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::Serialize(_Ser);
+		_Ser << LevelID;
+	}
+	virtual void DeSerialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::DeSerialize(_Ser);
+		_Ser >> LevelID;
 	}
 };

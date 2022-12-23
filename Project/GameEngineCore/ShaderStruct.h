@@ -1,7 +1,6 @@
 #pragma once
 
-struct 
-
+struct RenderOption
 {
 	float DeltaTime = 0.0f;
 	float SumDeltaTime = 0.0f;
