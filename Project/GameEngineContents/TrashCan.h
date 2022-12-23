@@ -41,6 +41,7 @@ protected:
 	void Update(float _Delta) override;
 
 private:
+	std::shared_ptr<GamePlayFood> TrashFood_;
 	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable) override;
 	float Delay_;
 };

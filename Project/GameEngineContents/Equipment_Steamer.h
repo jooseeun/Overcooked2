@@ -31,9 +31,14 @@ public:
 		SteamerState_ = _SteamerState;
 	}
 
-	inline void SwitchInteraction()
+	inline void SwitchInteractionOff()
 	{
-		IsInteraction_ = !IsInteraction_;
+		IsInteraction_ = false;
+	}
+
+	inline void SwitchInteractionOn()
+	{
+		IsInteraction_ = true;
 	}
 
 protected:

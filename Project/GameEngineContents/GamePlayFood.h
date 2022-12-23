@@ -71,6 +71,12 @@ public:
 		return Enum_IngredientType_;
 	}
 
+	inline std::shared_ptr<FoodThumbnail> GetFoodThumbnail() const
+	{
+		return FoodThumbnail_;
+	}
+	 
+
 
 	static ReturnMix CheckCombine(IngredientType _A, IngredientType _B)
 	{

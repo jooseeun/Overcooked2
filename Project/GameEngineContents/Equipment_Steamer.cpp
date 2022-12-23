@@ -282,6 +282,7 @@ HoldDownEnum Equipment_Steamer::PickUp(std::shared_ptr<GamePlayMoveable>* _Movea
 				{
 					Bowl->GetCombinFood()->Move(GetCombinFood());
 					Bowl->GetCombinFood()->RefreshThumbnailAndRenderer();
+					SwitchInteractionOn();
 					ReSetCookingGage();
 				}
 			}
@@ -296,6 +297,7 @@ bool Equipment_Steamer::BowltoSteamer(std::shared_ptr<Equipment_Bowl> _Bowl)
 	{
 		_Bowl->ReSetCookingGage();
 		GetCombinFood()->Move(_Bowl->GetCombinFood());
+		SwitchInteractionOn();
 		return true;
 	}
 	else

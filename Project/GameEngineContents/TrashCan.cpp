@@ -26,7 +26,7 @@ void TrashCan::Start()
 // ----------------------Tool---------------------------
 
 Tool_TrashCan::Tool_TrashCan()
-	: Delay_(0)
+	: Delay_(1.f)
 {
 }
 
@@ -45,13 +45,22 @@ void Tool_TrashCan::Update(float _Delta)
 {
 	if (GetCurrentMoveable() != nullptr)
 	{
-		Delay_ += _Delta;
-		if (Delay_ > 1.f)
+		TrashFood_ = GetCurrentMoveable()->CastThis<GamePlayFood>();
+		TrashFood_->GetFoodThumbnail()->Off();
+	}
+
+	if (TrashFood_ != nullptr)
+	{
+		Delay_ -= _Delta;
+		TrashFood_->GetTransform().SetLocalScale({ Delay_ , Delay_ , Delay_ });
+		TrashFood_->GetTransform().SetLocalRotate({0, _Delta * 180.f, 0});
+		if (Delay_ < 0)
 		{
+			TrashFood_.reset();
 			GetCurrentMoveable()->Death();
 			GetCurrentMoveable()->Off();
 			ReSetCurrentMoveable();
-			Delay_ = 0;
+			Delay_ = 1.f;
 		}
 	}
 }
@@ -65,13 +74,13 @@ HoldDownEnum Tool_TrashCan::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 		{
 			SetMoveable((*_Moveable));
 			(*_Moveable) = nullptr;
-			Delay_ = 0;
+			Delay_ = 1.f;
 			return HoldDownEnum::HoldUp;
 		}
 		else if((*_Moveable)->CastThis<GamePlayBowl>() != nullptr)
 		{
 			//
-			(*_Moveable)->CastThis<GamePlayBowl>()->GetCombinFood();
+			(*_Moveable)->CastThis<GamePlayBowl>()->GetCombinFood()->Clear();
 		}
 	}
 	return HoldDownEnum::Nothing;

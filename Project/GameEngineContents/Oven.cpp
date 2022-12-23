@@ -35,7 +35,10 @@ void Oven::Start()
 	GetFBXMesh()->SetFBXMesh("Oven.fbx", "Texture");
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 
-	SetStuff(GetLevel()->CreateActor<Tool_Oven>());
+
+	std::shared_ptr<Tool_Oven> OvenTool = GetLevel()->CreateActor<Tool_Oven>();
+	SetStuff(OvenTool);
+	OvenTool->SetOven(CastThis<Oven>());
 }
 
 void Oven::Update(float _DeltaTime)
@@ -122,6 +125,8 @@ void Tool_Oven::Update(float _DeltaTime)
 	{
 		if (GetCurrentMoveable()->AutoTrim(_DeltaTime, GetObjectToolType()))
 		{
+			
+			return;
 			//불 붙히는 애니메이션
 		}
 	}
@@ -161,6 +166,7 @@ HoldDownEnum Tool_Oven::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 								}
 								SetMoveable((*_Moveable));
 								(*_Moveable) = nullptr;
+								Oven_->SwitchInteractionOn();
 								return HoldDownEnum::HoldUp;
 							}
 						}

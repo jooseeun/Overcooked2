@@ -80,7 +80,7 @@ public:
 		{
 			NoneThumbnailMode_ = false;
 		}
-		else
+		else if (Food_NoneThumbnail_.lock() == nullptr)
 		{
 			Food_NoneThumbnail_ = (Moveable_.lock()->GetLevel()->CreateActor<FoodThumbnail>());
 			Food_NoneThumbnail_.lock()->LinkObject(Moveable_.lock(), float4::ZERO);
@@ -595,10 +595,15 @@ public:
 				Food_Thumbnail_[i].lock()->Off();
 			}
 		}
+		RefreshThumbnail();
 
-		Renderer_->Death();
-		Renderer_->Off();
-		Renderer_.reset();
+		if (Renderer_ != nullptr)
+		{
+			Renderer_->Death();
+			Renderer_->Off();
+			Renderer_.reset();
+		}
+
 		CookType_ = ToolInfo::None;
 	}
 

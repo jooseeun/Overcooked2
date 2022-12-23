@@ -15,10 +15,16 @@ public:
 	Oven& operator=(const Oven& _Other) = delete;
 	Oven& operator=(Oven&& _Other) noexcept = delete;
 
-	inline void SwitchIsInteraction()
+	inline void SwitchInteractionOff()
 	{
-		IsInteraction_ = !IsInteraction_;
+		IsInteraction_ = false;
 	}
+
+	inline void SwitchInteractionOn()
+	{
+		IsInteraction_ = true;
+	}
+
 
 	inline void SwitchIsPut()
 	{
@@ -58,6 +64,11 @@ public:
 	Tool_Oven(Tool_Oven&& _Other) noexcept = delete;
 	Tool_Oven& operator=(const Tool_Oven& _Other) = delete;
 	Tool_Oven& operator=(Tool_Oven&& _Other) noexcept = delete;
+	inline void SetOven(std::shared_ptr<Oven> _Oven)
+	{
+		Oven_ = _Oven;
+	}
+
 
 protected:
 	void Start() override;
@@ -65,4 +76,5 @@ protected:
 
 private:
 	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable) override;
+	std::shared_ptr<Oven> Oven_;
 };

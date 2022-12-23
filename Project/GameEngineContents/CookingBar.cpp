@@ -69,6 +69,11 @@ void CookingBar::UpdateBar(float _DeltaTime)
 	{
 		Foreground_.lock()->Off();
 		Background_.lock()->Off();
+		Icon_.lock()->Off();
+		Icon_.lock()->SetTexture("CookingTick.png");
+		IterTime_ = 0.f;
+		float4 Color = { 1.f,1.f,1.f,IterTime_ };
+		Icon_.lock()->UpdateColor({ 0,0,0,0 }, Color);
 	}
 	else if (Value >= 1.0f)
 	{

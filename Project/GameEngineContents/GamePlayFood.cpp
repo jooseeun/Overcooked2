@@ -192,7 +192,7 @@ HoldDownEnum GamePlayFood::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 	}
 	else
 	{
-		if ((*_Moveable)->CastThis<Equipment_Plate>() != nullptr)
+		if ((*_Moveable)->GetObjectMoveableType() == ObjectMoveableType::Bowl || (*_Moveable)->GetObjectMoveableType() == ObjectMoveableType::Dish)
 		{
 			std::shared_ptr<GamePlayMoveable> Food = CastThis<GamePlayMoveable>();
 			switch ((*_Moveable)->PickUp(&Food))
@@ -204,7 +204,6 @@ HoldDownEnum GamePlayFood::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 				break;
 			}
 		}
-		//MsgBoxAssert("예외 처리 예정. 더빠른 처리를 원하면 컨텐츠 담당자를 닥달해주세요")
 	}
 
 	return HoldDownEnum::Nothing;
