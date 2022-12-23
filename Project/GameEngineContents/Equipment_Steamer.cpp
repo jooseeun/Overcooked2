@@ -43,9 +43,9 @@ void Equipment_Steamer::Start()
 		, std::bind(&Equipment_Steamer::IdleStart, this, std::placeholders::_1)
 	);
 
-	StateManager.CreateStateMember("Open"
-		, std::bind(&Equipment_Steamer::OpenUpdate, this, std::placeholders::_1, std::placeholders::_2)
-		, std::bind(&Equipment_Steamer::OpenStart, this, std::placeholders::_1)
+	StateManager.CreateStateMember("Opening"
+		, std::bind(&Equipment_Steamer::OpeningUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Equipment_Steamer::OpeningStart, this, std::placeholders::_1)
 	);
 
 	StateManager.CreateStateMember("Cooking"
@@ -53,10 +53,15 @@ void Equipment_Steamer::Start()
 		, std::bind(&Equipment_Steamer::CookingStart, this, std::placeholders::_1)
 	);
 
-	StateManager.CreateStateMember("Close"
-		, std::bind(&Equipment_Steamer::CloseUpdate, this, std::placeholders::_1, std::placeholders::_2)
-		, std::bind(&Equipment_Steamer::CloseStart, this, std::placeholders::_1)
+	StateManager.CreateStateMember("Closing"
+		, std::bind(&Equipment_Steamer::ClosingUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Equipment_Steamer::ClosingStart, this, std::placeholders::_1)
 	); 
+
+	StateManager.CreateStateMember("Closed"
+		, std::bind(&Equipment_Steamer::ClosedUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Equipment_Steamer::ClosedStart, this, std::placeholders::_1)
+	);
 
 	StateManager.ChangeState("Idle");
 
@@ -87,19 +92,19 @@ void Equipment_Steamer::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	if (true == IsInteraction_)
 	{
-		StateManager.ChangeState("Close");
+		StateManager.ChangeState("Closing");
 	}
 }
 
-void Equipment_Steamer::OpenStart(const StateInfo& _Info)
+void Equipment_Steamer::OpeningStart(const StateInfo& _Info)
 {
-	SetSteamerState(SteamerState::Open);
+	SetSteamerState(SteamerState::Opening);
 	IsInteraction_ = false;
 	IsMoveDone_ = false;
 	IsRotateDone_ = false;
 }
 
-void Equipment_Steamer::OpenUpdate(float _DeltaTime, const StateInfo& _Info)
+void Equipment_Steamer::OpeningUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	if (true == IsRotateDone_ && true == IsMoveDone_)
 	{
@@ -149,6 +154,7 @@ void Equipment_Steamer::CookingStart(const StateInfo& _Info)
 
 void Equipment_Steamer::CookingUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+
 	if (true == IsInteraction_)
 	{
 		StateManager.ChangeState("Open");
@@ -184,15 +190,15 @@ void Equipment_Steamer::CookingUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 }
 
-void Equipment_Steamer::CloseStart(const StateInfo& _Info)
+void Equipment_Steamer::ClosingStart(const StateInfo& _Info)
 {
-	SetSteamerState(SteamerState::Close);
+	SetSteamerState(SteamerState::Closing);
 	IsInteraction_ = false;
 	IsMoveDone_ = false;
 	IsRotateDone_ = false;
 }
 
-void Equipment_Steamer::CloseUpdate(float _DeltaTime, const StateInfo& _Info)
+void Equipment_Steamer::ClosingUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	if (true == IsRotateDone_ && true == IsMoveDone_)
 	{
@@ -229,6 +235,22 @@ void Equipment_Steamer::CloseUpdate(float _DeltaTime, const StateInfo& _Info)
 		LidRenderer_->GetTransform().SetLocalPosition({ CurPos_ });
 	}
 }
+
+void Equipment_Steamer::ClosedStart(const StateInfo& _Info)
+{
+	SetSteamerState(SteamerState::Closed);
+	IsInteraction_ = false;
+	IsMoveDone_ = false;
+	IsRotateDone_ = false;
+	CookingAngle_ = 0.f;
+	CurPos_ = 0.f;
+}
+
+void Equipment_Steamer::ClosedUpdate(float _DeltaTime, const StateInfo& _Info)
+{
+
+}
+
 
 bool Equipment_Steamer::AutoTrim(float _DeltaTime, ObjectToolType _Tool)
 {

@@ -3,10 +3,11 @@
 
 enum class SteamerState
 {
-	Idle, 
-	Cooking,
-	Open,
-	Close,
+	Idle,		// 음식 넣을 수 있는 상태 + 열려 있음
+	Cooking,	// 요리중
+	Opening,	// 뚜껑 닫히는 열리는 애니메이션
+	Closing,	// 뚜껑 닫히는 애니메이션
+	Closed,		// Cooker에서 떨어졌을 때, 뚜껑 닫힌 채로 멈춰있는 상태
 	Max,
 };
 
@@ -41,6 +42,11 @@ public:
 		IsInteraction_ = true;
 	}
 
+	inline void ChangeToClosedState()
+	{
+		StateManager.ChangeState("Closed");
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -48,14 +54,17 @@ protected:
 	void IdleStart(const StateInfo& _Info);
 	void IdleUpdate(float _DeltaTime, const StateInfo& _Info);
 
-	void OpenStart(const StateInfo& _Info);
-	void OpenUpdate(float _DeltaTime, const StateInfo& _Info);
+	void OpeningStart(const StateInfo& _Info);
+	void OpeningUpdate(float _DeltaTime, const StateInfo& _Info);
 
 	void CookingStart(const StateInfo& _Info);
 	void CookingUpdate(float _DeltaTime, const StateInfo& _Info);
 
-	void CloseStart(const StateInfo& _Info);
-	void CloseUpdate(float _DeltaTime, const StateInfo& _Info);
+	void ClosingStart(const StateInfo& _Info);
+	void ClosingUpdate(float _DeltaTime, const StateInfo& _Info);
+
+	void ClosedStart(const StateInfo& _Info);
+	void ClosedUpdate(float _DeltaTime, const StateInfo& _Info);
 
 private:
 	SteamerState SteamerState_;
