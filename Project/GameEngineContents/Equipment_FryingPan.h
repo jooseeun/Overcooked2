@@ -32,26 +32,7 @@ private:
 	//		FryFood_->GetCollisionObject()->Off();
 	//	}
 	//}
-	void BowltoFryingPan(std::shared_ptr<GamePlayBowl> _Bowl)
-	{
-		FoodData Data = _Bowl->GetCombinFood()->GetFoodData();
-		ToolInfo ToolBefore = ToolInfo::None;
-		for (size_t i = 0; i < Data.CommonCookery.size(); i++)
-		{
-			if (Data.CommonCookery[i] == ToolInfo::FryingPan)
-			{
-				if (_Bowl->GetCombinFood()->GetCookType() == ToolBefore)
-				{
-					GetCombinFood()->Move(_Bowl->GetCombinFood());
-					_Bowl->ReSetCookingGage();
-				}
-			}
-			else
-			{
-				ToolBefore = Data.CommonCookery[i];
-			}
-		}
-	}
+
 
 };
 

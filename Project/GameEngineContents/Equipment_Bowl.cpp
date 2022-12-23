@@ -26,7 +26,7 @@ void Equipment_Bowl::Start()
 //{
 //	//GetTransform().SetWorldRotation(float4::ZERO);
 //
-//	//GameEngineDebug::OutPutString(std::to_string(GetTransform().GetLocalPosition().x) + " + "  + std::to_string(GetTransform().GetLocalPosition().y) + " + " + std::to_string(GetTransform().GetLocalPosition().z));
+//	//GameEngineDebug::OutPutString(std::to_string(GetTransform().GetWorldRotation().x) + " + "  + std::to_string(GetTransform().GetWorldRotation().y) + " + " + std::to_string(GetTransform().GetWorldRotation().z));
 //}
 
 bool Equipment_Bowl::AutoTrim(float _DeltaTime, ObjectToolType _Tool)
@@ -54,7 +54,6 @@ bool Equipment_Bowl::AutoTrim(float _DeltaTime, ObjectToolType _Tool)
 		}
 	}
 	return false;
-
 }
 
 void Equipment_Bowl::FinishTrimmingFirst()

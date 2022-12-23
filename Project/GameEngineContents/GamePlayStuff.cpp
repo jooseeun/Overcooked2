@@ -20,7 +20,7 @@ void GamePlayStuff::Start()
 	GamePlayObject::SetObjectType(ObjectType::Stuff);
 }
 
-SetPlayerState_Return GamePlayStuff::SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type)
+SetPlayerState_Return GamePlayStuff::SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type, std::shared_ptr<GamePlayMoveable> _Moveable)
 {
 	switch (_Type)
 	{
