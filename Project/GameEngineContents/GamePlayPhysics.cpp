@@ -40,6 +40,7 @@ void GamePlayPhysics::Gravity()// 중력함수 -> Update 해주면 됨
 }
 void GamePlayPhysics::LiftFloorCheck()
 {
+
 	if (PhysicsGravityCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Lift, CollisionType::CT_OBB,
 		std::bind(&GamePlayPhysics::LiftCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
 	{
@@ -49,7 +50,11 @@ void GamePlayPhysics::LiftFloorCheck()
 }
 CollisionReturn GamePlayPhysics::LiftCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 {
-
+	if (PhysicsGravityCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true)
+	{
+		return CollisionReturn::ContinueCheck;
+	
+	}
 	IsLift_ = true;
 	CurLift_ = _Other->GetParent()->CastThis<Lift>();
 
