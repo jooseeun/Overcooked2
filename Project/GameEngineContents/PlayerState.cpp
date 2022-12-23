@@ -165,6 +165,7 @@ void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 		ThrowVec_ = GetTransform().GetBackVector();
 		CurrentHoldingObject_->CastThis<GamePlayPhysics>()->Throw(GetTransform().GetBackVector());
 		CurrentHoldingDetach();
+
 		IsThrow_ = true;
 	}
 	if (IsThrow_ == true)
@@ -176,7 +177,7 @@ void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 		else
 		{
 			CurrentHoldingNull();
-			//CurHoldType_ = PlayerHoldType::Max;
+			CurHoldType_ = PlayerHoldType::Max;
 			StateManager.ChangeState("Idle");
 		}
 	}
@@ -187,6 +188,12 @@ void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 void Player::HoldUpStart(const StateInfo& _Info)
 {
 	ColCheckPlayer();
+	if (IsThrowHolding_ == true && CurrentHoldingObject_!=nullptr)
+	{
+		IsHolding_ = "Holding";
+		CurStateType_ = PlayerCurStateType::HoldUp;
+		return;
+	}
 	if (CurrentHoldingObject_ == nullptr)
 	{
 		CurStateType_ = PlayerCurStateType::HoldUp;

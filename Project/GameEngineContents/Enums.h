@@ -11,6 +11,7 @@ enum class CollisionOrder
 	Object_StaticObject,
 	Object_Character,
 	Object_CharacterColCheck,
+	Object_CharacterCameraCheck,
 	Object_Character_Interact,
 	Object_Moveable,
 	Object_StaticObject_1,

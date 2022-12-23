@@ -32,7 +32,7 @@ void GamePlayPhysics::Gravity()// 중력함수 -> Update 해주면 됨
 	if (PhysicsGravityCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Floor, CollisionType::CT_OBB) == false)
 	{
 		LiftFloorCheck();
-		GetTransform().SetWorldDownMove(500.0f, GameEngineTime::GetDeltaTime());
+		GetTransform().SetWorldDownMove(700.0f, GameEngineTime::GetDeltaTime());
 
 	}
 
@@ -124,10 +124,15 @@ void GamePlayPhysics::Throw(float4 _Vector)
 	{
 		IsThrow_ = true;
 		UpTime_ = 0.3f;
-		ThrowTime_ = 0.6;
+		ThrowTime_ = 0.6f;
 	}
 	else
 	{
+
+		PhysicsGravityCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_CharacterCameraCheck, CollisionType::CT_OBB,
+			std::bind(&GamePlayPhysics::GetThrow, this, std::placeholders::_1, std::placeholders::_2));
+
+
 		ThrowTime_ -= 1.0f * GameEngineTime::GetDeltaTime();
 		if (ThrowTime_ < 0.0f)
 		{
@@ -137,14 +142,24 @@ void GamePlayPhysics::Throw(float4 _Vector)
 		if (UpTime_ > 0.0f)
 		{
 			UpTime_ -= 1.0f * GameEngineTime::GetDeltaTime();
-			GetTransform().SetWorldUpMove(300.0f, GameEngineTime::GetDeltaTime());
+			GetTransform().SetWorldUpMove(900.0f, GameEngineTime::GetDeltaTime());
 		}
 		
-		GetTransform().SetWorldMove(_Vector * GameEngineTime::GetDeltaTime() * 800.0f);
+		GetTransform().SetWorldMove(_Vector * GameEngineTime::GetDeltaTime() * 900.0f);
 	}
 	
 }
 
+CollisionReturn GamePlayPhysics::GetThrow(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
+{
+	if (_Other->GetParent()->CastThis<Player>()->ThrowHolding(_This->GetParent()) == true)
+	{
+		ThrowTime_ = -1.0f;
+		IsThrow_ = false;
+	}
+
+	return CollisionReturn::Break;
+}
 bool GamePlayPhysics::StaticObjectCollisionCheck() // 벽, 맵 오브젝트랑 충돌하면 true 반환, 충돌안하면 false 반환
 {
 	if (PhysicsCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true||
@@ -159,14 +174,14 @@ bool GamePlayPhysics::StaticObjectCollisionCheck() // 벽, 맵 오브젝트랑 충돌하면
 
 }
 
-void GamePlayPhysics::CalculateKineticEnergy() //운동에너지 계산 함수 -> 필요하면 Update에서 돌려주면 된다
-{ // 일단 질량을 WorldScale로 계산했는데 특수한 경우가 필요하면 CurMass로 질량설정해주면 된다.
-	CurKineticEnergy_ = 0.5 * CurSpeed_ * (pow((double)GetTransform().GetWorldScale().x, 2) +
+void GamePlayPhysics::CalculateKineticEnergy() 
+{
+	CurKineticEnergy_ = 0.5f * CurSpeed_ * (pow((double)GetTransform().GetWorldScale().x, 2) +
 		pow((double)GetTransform().GetWorldScale().y, 2) + pow((double)GetTransform().GetWorldScale().z, 2));
 }
 
 
-void GamePlayPhysics::CalculateKineticEnergyMass() //운동에너지 계산 함수 질량을 따로 두었다면 이 함수 사용하면 된다.
+void GamePlayPhysics::CalculateKineticEnergyMass() 
 {
-	CurKineticEnergy_ = 0.5 * CurSpeed_ * pow(CurMass_,2);
+	CurKineticEnergy_ = 0.5f * CurSpeed_ * pow(CurMass_,2);
 }

@@ -62,6 +62,7 @@ Player::Player()
 	, IsPlayerble(false)
 	, ServerRenderStateNum_(0)
 	, ServerCustomNum(0)
+	, IsThrowHolding_(false)
 {
 	++PlayerCount_;
 }
@@ -250,9 +251,10 @@ void Player::Start()
 	Collision_Interact_->ChangeOrder(CollisionOrder::Object_Character_Interact);
 	Collision_Interact_->GetTransform().SetLocalScale({ 50,100,200});
 	Collision_Interact_->GetTransform().SetLocalPosition({ 0,0,-60 });
+	Collision_Interact_->SetDebugSetting(CollisionType::CT_AABB, { 0,1.0f,0 });
 
 	PlayerCameraCollision_ = CreateComponent<GameEngineCollision>();
-	PlayerCameraCollision_->ChangeOrder(CollisionOrder::Max);
+	PlayerCameraCollision_->ChangeOrder(CollisionOrder::Object_CharacterCameraCheck);
 	PlayerCameraCollision_->GetTransform().SetLocalScale({ 200,200,200 });
 	PlayerCameraCollision_->GetTransform().SetLocalPosition({ 0,0,0 });
 	if (false == OnePlayerInit)
@@ -552,7 +554,10 @@ void Player::Update(float _DeltaTime)
 	{
 		GetTransform().SetWorldUpMove(1000, _DeltaTime);
 	}
-	
+	if (IsThrowHolding_ == true)
+	{
+		StateManager.ChangeState("HoldUp");
+	}
 }
 void Player::GravityCheck(float _DeltaTime)
 {
@@ -1157,6 +1162,23 @@ void Player::DetachPlayerHoldingToGround() // 플레이어 손에든 함수 바닥에 떨어뜨
 	}
 
 }
+
+
+bool Player::ThrowHolding(std::shared_ptr<GameEngineUpdateObject> _HoldingObject)
+{
+	if (CurrentHoldingObject_ != nullptr)
+	{
+		IsThrowHolding_ = false;
+		return false;
+	}
+
+	SetPlayerHolding(_HoldingObject);
+	IdleRendererON();
+	IsThrowHolding_ = true;
+	return true;
+
+}
+
 //////////////////////충돌 함수
 
 

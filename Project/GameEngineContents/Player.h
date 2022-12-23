@@ -167,6 +167,9 @@ public:
 	float CannonZAngle_;
 	int PlayerPNum;
 
+	int IsThrowHolding_;
+	bool ThrowHolding(std::shared_ptr<GameEngineUpdateObject> _HoldingObject);
+
 
 	std::string CurAniName_;
 	std::string IsHolding_;
@@ -205,6 +208,7 @@ private:
 	CollisionReturn PushButton(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 
 	std::shared_ptr<GameEngineActor> CurrentHoldingObject_;
+	std::shared_ptr<GameEngineActor> CurrentThrowObject_;
 	std::shared_ptr<GameEngineCollision> TableCollision_;
 	std::shared_ptr<GameEngineCollision> Collision_Interact_; // 상호작용 콜리전
 
