@@ -67,7 +67,6 @@ void Overcooked::Start()
 	//	GameEngineBlend::Create("AddBlend", Desc);
 	//}
 
-
 	//LoadingData::AddFunc("1-2", std::bind(&Overcooked::dfsdf, this, ));
 
 	//LoadingInfo::AddFunc("Stage1_1", std::bind(&Overcooked::InitResourceStage1_1, this));
@@ -98,7 +97,6 @@ void Overcooked::Start()
 	CreateLevel<ServerTestLevel>("ServerTestLevel");
 
 	ChangeLevel("SelectStage");
-
 
 	GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
 
@@ -164,7 +162,6 @@ void Overcooked::LoadMaterial()
 		NewPipe->SetVertexShader("Swirl.hlsl");
 		NewPipe->SetPixelShader("Swirl.hlsl");
 	}
-
 
 	{
 		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("Bloom");
@@ -253,7 +250,7 @@ void Overcooked::TextureLoad()
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExitsChildDirectory("ContentsResources");
 		Dir.Move("ContentsResources");
-		Dir.Move("Texture"); 
+		Dir.Move("Texture");
 		Dir.Move("UI");
 
 		std::vector<GameEngineFile> Textures = Dir.GetAllFile();
@@ -333,6 +330,8 @@ void Overcooked::TextureLoad()
 			GameEngineFolderTexture::Load(Dir.GetFullPath());
 		}
 
+		//Fire FolderTexutre
+		GameEngineTexture::Cut("UI_FlameHUD_01.png", 8, 8);
 		GameEngineFont::Load("Naughty Squirrel");
 	}
 }
@@ -378,8 +377,6 @@ void Overcooked::LoadStage(std::string_view _StageName)
 
 void Overcooked::LoadCommonResource()
 {
-
-
 	//{
 	//	GameEngineDirectory Dir;
 	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
@@ -610,7 +607,7 @@ void Overcooked::LoadCommonResource()
 			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Buck_Wash.FBX"));
 		}
 
-//
+		//
 		{
 			GameEngineDirectory MeshDir = Dir;
 			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Buck_CannonEnterHolding.FBX"));
@@ -925,7 +922,6 @@ void Overcooked::LoadCommonResource()
 			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Dora_CannonLandingIdle.FBX"));
 			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Dora_CannonLandingIdle.FBX"));
 		}
-
 	}
 	{
 		GameEngineDirectory Dir;
@@ -1058,8 +1054,6 @@ void Overcooked::LoadCommonResource()
 			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Eagle_CannonLandingIdle.FBX"));
 			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Eagle_CannonLandingIdle.FBX"));
 		}
-
-
 	}
 	{
 		GameEngineDirectory Dir;
@@ -1192,6 +1186,5 @@ void Overcooked::LoadCommonResource()
 			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("Panda_CannonLandingIdle.FBX"));
 			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Panda_CannonLandingIdle.FBX"));
 		}
-
 	}
 }

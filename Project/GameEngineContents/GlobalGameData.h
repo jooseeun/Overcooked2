@@ -113,6 +113,7 @@ public:
 		Tips_ = 0;
 		FailScore_ = 0;
 		FailCount_ = 0;
+		TipGaugeCount_ = 0;
 	}
 
 	static FoodData GetFoodData(FoodType _Type)
@@ -134,6 +135,11 @@ public:
 	{
 		return PlayerCount_;
 	}
+
+	static int& GetTipGaugeCountRef()
+	{
+		return TipGaugeCount_;
+	}
 private:
 	static bool IsGameStart_;
 	static std::string CurStage_;
@@ -151,6 +157,7 @@ private:
 	static int Tips_;
 	static int FailScore_;
 	static int FailCount_;
+	static int TipGaugeCount_;
 
 	static int PlayerCount_;
 
