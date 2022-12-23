@@ -1,6 +1,13 @@
 #pragma once
 #include "GamePlayMapObject.h"
 
+enum class LIGHTCOLOR
+{
+	GREEN,
+	YELLOW,
+	RED
+};
+
 // Ό³Έν :
 class TrafficLight : public GamePlayMapObject
 {
@@ -20,6 +27,7 @@ protected:
 	void Update(float _DeltaTime) override;
 
 private:
-
+	LIGHTCOLOR Color_;
+	float ChangeTime_;
 };
 

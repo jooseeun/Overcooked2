@@ -17,7 +17,8 @@ void TitleLevel::Start()
 	std::shared_ptr<GlobalMouseInput> Mouse = CreateActor<GlobalMouseInput>();
 
 	std::shared_ptr<TitleVan> TitleVan_ = CreateActor<TitleVan>();
-	TitleVan_->GetTransform().SetLocalPosition({ 0, 0, 0});
+	TitleVan_->GetTransform().SetLocalPosition({ 180, -10, 50 });
+	TitleVan_->GetTransform().SetLocalRotation({ 0, 10, 0 });
 
 	{
 		std::shared_ptr<GamePlayMapObject> Kevin = CreateActor<GamePlayMapObject>();
