@@ -208,9 +208,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 		}
 	}
 
-
 	{
-
 		for (std::shared_ptr<class GameEngineLight> Light : AllLight)
 		{
 			GameEngineDevice::GetContext()->RSSetViewports(1, &Light->GetViewPortDesc());
@@ -272,8 +270,12 @@ void GameEngineCamera::Render(float _DeltaTime)
 	GameEngineDevice::GetContext()->RSSetViewports(1, &ViewPortDesc);
 
 	CameraDeferredLightRenderTarget->Clear();
+
 	for (std::shared_ptr<class GameEngineLight> Light : AllLight)
 	{
+		LightDataObject.Count = 1;
+		LightDataObject.Lights[0] = Light->GetLightData();
+
 		DeferredCalLightUnit->ShaderResources.SetTexture("ShadowTex", Light->GetShadowTarget()->GetRenderTargetTexture(0));
 		CameraDeferredLightRenderTarget->Effect(DeferredCalLightUnit);
 	}

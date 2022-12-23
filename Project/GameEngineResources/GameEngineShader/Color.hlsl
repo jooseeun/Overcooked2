@@ -35,7 +35,7 @@ cbuffer ResultColor : register(b8)
 
 float4 Color_PS(Output _Input) : SV_Target0
 {
-    float4 DiffuseLight = CalDiffuseLights(_Input.Normal);
+    float4 DiffuseLight = CalDiffuseLights(_Input.ViewPos, _Input.Normal);
     
     float4 Result = Color * DiffuseLight;
     

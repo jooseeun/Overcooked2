@@ -110,6 +110,18 @@ std::shared_ptr<GameEngineRenderUnit> GameEngineFBXRenderer::SetFBXMesh(const st
 		}
 	}
 
+	if (RenderUnit->ShaderResources.IsTexture("NormalTexture"))
+	{
+		const FbxExMaterialSettingData& MatData = FBXMesh->GetMaterialSettingData(Index, _SubSetIndex);
+
+		if (nullptr != GameEngineTexture::Find(MatData.NorTextureName))
+		{
+			RenderUnit->ShaderResources.SetTexture("NormalTexture", MatData.NorTextureName);
+		}
+
+		RenderOptionInst.IsNormal = 1;
+	}
+
 	RenderUnit->ShaderResources.SetConstantBufferLink("PixelData", &(PixelDatas[Index]), sizeof(PixelData));
 
 	return RenderUnit;
