@@ -51,6 +51,34 @@ void Stage_1_3::PlayLevelStartEvent()
 
 	IsLevelFirst_ = false;
 
+	if (nullptr != Player::GetMyPlayer())
+	{
+		if (Player::GetMyPlayer()->PlayerPNum == 1)
+		{
+			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -2006, 500, 0 });
+		}
+		else if (Player::GetMyPlayer()->PlayerPNum == 2)
+		{
+			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -2006, 500, 0 });
+		}
+		else if (Player::GetMyPlayer()->PlayerPNum == 3)
+		{
+			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -2006, 500, 0 });
+		}
+		else if (Player::GetMyPlayer()->PlayerPNum == 4)
+		{
+			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -2006, 500, 0 });
+		}
+		Player::GetMyPlayer()->SetCurFrontDir();
+	}
+
+	else
+	{
+		std::shared_ptr<Player> MainPlayer_ = CreateActor<Player>();
+		MainPlayer_->GetTransform().SetLocalPosition({ -2006, 500, 0 });
+		MainPlayer_->SetCurFrontDir();
+	}
+
 	LevelActor_ = CreateActor<LevelActor>();
 	LevelActor_->SetLevelMesh("1_3.FBX");
 	LevelActor_->GetRenderer()->SetSubMaterial(1, "Glass");
@@ -67,9 +95,7 @@ void Stage_1_3::PlayLevelStartEvent()
 	GetMainCameraActorTransform().SetLocalRotation({ 60, 180, 0 });
 	GetMainCameraActorTransform().SetLocalPosition({ -2606 , 1950  , 1000 });
 
-	std::shared_ptr<Player> MainPlayer_ = CreateActor<Player>();
-	MainPlayer_->GetTransform().SetLocalPosition({ -2006, 500, 0 });
-	MainPlayer_->SetCurFrontDir();
+
 
 	std::shared_ptr<GlobalOverlay> GlobalOverlay_ = GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalOverlay>();
 	GraphicWindow::Main_->SetOverlay(GlobalOverlay_);

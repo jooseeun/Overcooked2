@@ -51,6 +51,39 @@ void Stage_1_2::End()
 
 void Stage_1_2::PlayLevelStartEvent()
 {
+	if (nullptr != Player::GetMyPlayer())
+	{
+		if (Player::GetMyPlayer()->PlayerPNum == 1)
+		{
+			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1500, 500, -500 });
+			Player::GetMyPlayer()->SetResponePos({ -1500, 500, -500 });
+		}
+		else if (Player::GetMyPlayer()->PlayerPNum == 2)
+		{
+			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1500, 500, -500 });
+			Player::GetMyPlayer()->SetResponePos({ -1500, 500, -500 });
+		}
+		else if (Player::GetMyPlayer()->PlayerPNum == 3)
+		{
+			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1500, 500, -500 });
+			Player::GetMyPlayer()->SetResponePos({ -1500, 500, -500 });
+		}
+		else if (Player::GetMyPlayer()->PlayerPNum == 4)
+		{
+			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1500, 500, -500 });
+			Player::GetMyPlayer()->SetResponePos({ -1500, 500, -500 });
+		}
+		Player::GetMyPlayer()->SetCurFrontDir();
+	}
+	else
+	{
+		std::shared_ptr<Player> MainPlayer_ = CreateActor<Player>();
+		MainPlayer_->GetTransform().SetLocalPosition({ -1500, 500, -500 });
+		MainPlayer_->SetResponePos({ -1500, 500, -500 });
+
+
+	}
+
 	if (IsLevelFirst_ == false)
 	{
 		return;
@@ -74,10 +107,7 @@ void Stage_1_2::PlayLevelStartEvent()
 	GlobalIOManager::Load(IOType::UnsortMap, 1);
 	DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
 
-	std::shared_ptr<Player> MainPlayer_ = CreateActor<Player>();
-	MainPlayer_->GetTransform().SetLocalPosition({ -1500, 500, -500 });
-	MainPlayer_->SetResponePos({ -1500, 500, -500 });
-	MainPlayer_->SetCurFrontDir();
+
 
 	{
 		std::shared_ptr<GlobalBloomActor> BloomActor = CreateActor<GlobalBloomActor>();

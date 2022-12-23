@@ -156,7 +156,7 @@ public:
 		CurAngle_ = 180.0f;
 	}
 
-	bool IsSingleMode;
+
 	bool IsPotal_;
 
 
@@ -165,14 +165,13 @@ public:
 	bool IsCannon_;
 	float FlyTime_;
 	float CannonZAngle_;
-
+	int PlayerPNum;
 
 
 	std::string CurAniName_;
-	std::string PNumString;
 	std::string IsHolding_;
 	
-	void PNumSgtringUpdate();
+
 
 	inline void SetResponePos(float4 _Pos)
 	{
@@ -224,7 +223,7 @@ private:
 	PlayerHoldType CurHoldType_;
 	PlayerCurStateType CurStateType_;
 
-	int PlayerPNum;
+
 	int ServerRenderStateNum_;
 	int PlayerCustomNum;
 	int ServerCustomNum;

@@ -46,8 +46,6 @@ Player::Player()
 	, PlayerPNum(0)
 	, IsSlice_(false)
 	, DashTime_(0.0f)
-	, IsSingleMode(false)
-	, PNumString("")
 	, CameraUpTime_(1.0f)
 	, IsCameraMove_(true)
 	, ThrowVec_()
@@ -481,11 +479,11 @@ void Player::ChangePlayerColor() // 플레이어 팀 색 바꾸는 함수
 
 void Player::CustomKeyCheck()
 {
-	if (true == GameEngineInput::GetInst()->IsDownKey("ChangePlayerCustom" + PNumString))
+	if (true == GameEngineInput::GetInst()->IsDownKey("ChangePlayerCustom"))
 	{
 		ChangePlayer();
 	}
-	if (true == GameEngineInput::GetInst()->IsDownKey("ChangePlayerNum" + PNumString))
+	if (true == GameEngineInput::GetInst()->IsDownKey("ChangePlayerNum"))
 	{
 		PlayerPNum += 1;
 		if (PlayerPNum == 5)
@@ -529,20 +527,6 @@ void Player::DeathCheck()
 
 void Player::Update(float _DeltaTime)
 {
-	if (true == GameEngineInput::GetInst()->IsDownKey("IsSingleMode"))
-	{
-
-		IsSingleMode = true;
-	}
-	
-	if (IsSingleMode == true)
-	{
-		//std::shared_ptr<Player> MainPlayer2 = GetLevel()->CreateActor<Player>();
-		//MainPlayer2->GetTransform().SetWorldPosition({ -900.00, 90.0, -1111.00 });
-		//MainPlayer2->PlayerPNum = 2;
-
-		IsSingleMode = false;
-	}
 
 	ServerUpdate(_DeltaTime);
 
@@ -553,13 +537,16 @@ void Player::Update(float _DeltaTime)
 
 	DeathCheck();
 	StateManager.Update(_DeltaTime);
-	PNumSgtringUpdate();
 	CustomKeyCheck();
 	LiftFloorCheck();
 	IcePlatformCheck(_DeltaTime);
 	GravityCheck(_DeltaTime);
 
-	CameraMove(_DeltaTime);
+	if (GetLevel()->GetName() != "TITLELEVEL")
+	{
+		CameraMove(_DeltaTime);
+
+	}
 
 	if (GameEngineInput::GetInst()->IsPressKey("Contents_Debug"))
 	{
@@ -639,25 +626,7 @@ void Player::CameraMove(float _DeltaTime)
 
 }
 
-void Player::PNumSgtringUpdate()
-{
-	if (PlayerPNum == 1)
-	{
-		PNumString = "";
-	}
-	else if (PlayerPNum == 2)
-	{
-		PNumString = "2";
-	}
-	else if (PlayerPNum == 3)
-	{
-		PNumString = "3";
-	}
-	else if (PlayerPNum == 4)
-	{
-		PNumString = "4";
-	}
-}
+
 
 
 bool Player::MoveAngle()
@@ -901,6 +870,10 @@ bool Player::MoveAngle()
 			return true;
 		}
 	}
+	else
+	{
+		return false;
+	}
 }
 bool Player::PlayerMoveCollisionCheck(std::shared_ptr<GameEngineCollision> _Col)
 {
@@ -914,7 +887,7 @@ bool Player::PlayerMoveCollisionCheck(std::shared_ptr<GameEngineCollision> _Col)
 	}
 	else
 	{
-		false;
+		return false;
 	}
 }
 
@@ -925,7 +898,7 @@ void Player::DashCheck(float _DeltaTime)
 		return;
 	}
 	DashTime_ -= 1.0f * _DeltaTime;
-	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerDash" + PNumString))
+	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerDash"))
 	{
 		if (DashTime_ < 0.0f)
 		{
@@ -936,10 +909,10 @@ void Player::DashCheck(float _DeltaTime)
 
 	if (DashTime_ > 0.0f)
 	{
-		if (false == GameEngineInput::GetInst()->IsPressKey("PlayerLeft" + PNumString) &&
-			false == GameEngineInput::GetInst()->IsPressKey("PlayerRight" + PNumString) &&
-			false == GameEngineInput::GetInst()->IsPressKey("PlayerFront" + PNumString) &&
-			false == GameEngineInput::GetInst()->IsPressKey("PlayerBack" + PNumString))
+		if (false == GameEngineInput::GetInst()->IsPressKey("PlayerLeft") &&
+			false == GameEngineInput::GetInst()->IsPressKey("PlayerRight") &&
+			false == GameEngineInput::GetInst()->IsPressKey("PlayerFront") &&
+			false == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
 		{
 			if (PlayerMoveCollisionCheck(PlayerForwardCollision_)==true)
 			{
@@ -973,58 +946,58 @@ void Player::DashCheck(float _DeltaTime)
 
 void Player::PlayerDirCheck() // 플레이어 방향 체크하고 회전시키는 함수
 {
-	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerFront" + PNumString))
+	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerFront"))
 	{
 		CurDir_ = PlayerDir::Front;
-		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft" + PNumString))
+		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft"))
 		{
 			CurDir_ = PlayerDir::FrontLeft;
 
 		}
-		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerRight" + PNumString))
+		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerRight"))
 		{
 			CurDir_ = PlayerDir::FrontRight;
 		}
 
 	}
 
-	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerBack" + PNumString))
+	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
 	{
 		CurDir_ = PlayerDir::Back;
-		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft" + PNumString))
+		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft"))
 		{
 			CurDir_ = PlayerDir::BackLeft;
 		}
-		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerRight" + PNumString))
+		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerRight"))
 		{
 			CurDir_ = PlayerDir::BackRight;
 		}
 
 	}
 
-	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft" + PNumString))
+	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft"))
 	{
 		CurDir_ = PlayerDir::Left;
-		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerFront" + PNumString))
+		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerFront"))
 		{
 			CurDir_ = PlayerDir::FrontLeft;
 		}
-		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerBack" + PNumString))
+		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
 		{
 			CurDir_ = PlayerDir::BackLeft;
 		}
 
 	}
 
-	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerRight" + PNumString))
+	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerRight"))
 	{
 
 		CurDir_ = PlayerDir::Right;
-		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerFront" + PNumString))
+		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerFront"))
 		{
 			CurDir_ = PlayerDir::FrontRight;
 		}
-		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerBack" + PNumString))
+		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
 		{
 			CurDir_ = PlayerDir::BackRight;
 		}
@@ -1310,6 +1283,13 @@ void Player::ServerStart()
 	{
 		IsPlayerble = true;
 		OnePlayerInit = true;
+
+	}
+
+	if (GetLevel()->GetName() == "TITLELEVEL")
+	{
+		PlayerPNum = GetNetID();
+		ChangePlayerColor();
 	}
 }
 
@@ -1322,6 +1302,7 @@ void Player::ServerUpdate(float _DeltaTime)
 
 	if (true == IsPlayerble)
 	{
+
 
 		if (nullptr == ServerInitManager::Net)
 		{
@@ -1367,6 +1348,8 @@ void Player::ServerUpdate(float _DeltaTime)
 		case ContentsPacketType::ObjectUpdate:
 		{
 			std::shared_ptr<ObjectUpdatePacket> ObjectUpdate = std::dynamic_pointer_cast<ObjectUpdatePacket>(Packet);
+			PlayerPNum = ObjectUpdate->ObjectID;
+			ChangePlayerColor();
 			GetTransform().SetWorldPosition(ObjectUpdate->Pos);
 			GetTransform().SetWorldRotation(ObjectUpdate->Rot);
 

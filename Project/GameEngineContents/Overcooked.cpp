@@ -363,24 +363,8 @@ void Overcooked::InputMake()
 		GameEngineInput::GetInst()->CreateKey("PlayerInteract", VK_CONTROL);
 		GameEngineInput::GetInst()->CreateKey("PlayerDeath", VK_NUMPAD0);
 
-		//GameEngineInput::GetInst()->CreateKey("PlayerSlice", VK_CONTROL);
 	}
 
-	if (false == GameEngineInput::GetInst()->IsKey("PlayerLeft2"))
-	{
-		GameEngineInput::GetInst()->CreateKey("IsSingleMode", VK_RSHIFT);
-		GameEngineInput::GetInst()->CreateKey("ChangePlayerCustom2", 'K');
-		GameEngineInput::GetInst()->CreateKey("ChangePlayerNum2", 'J');
-		GameEngineInput::GetInst()->CreateKey("PlayerLeft2", 'F');
-		GameEngineInput::GetInst()->CreateKey("PlayerRight2", 'H');
-		GameEngineInput::GetInst()->CreateKey("PlayerFront2", 'T');
-		GameEngineInput::GetInst()->CreateKey("PlayerBack2", 'G');
-		GameEngineInput::GetInst()->CreateKey("PlayerDash2", VK_TAB);
-		GameEngineInput::GetInst()->CreateKey("PlayerHold2", 'Z');
-		GameEngineInput::GetInst()->CreateKey("PlayerInteract2", VK_SHIFT);
-
-		//GameEngineInput::GetInst()->CreateKey("PlayerSlice", VK_CONTROL);
-	}
 
 	GameEngineInput::GetInst()->CreateKey("Contents_Debug", 'B');
 	GameEngineInput::GetInst()->CreateKey("MapObjectTest", VK_NUMPAD9);

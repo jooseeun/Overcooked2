@@ -42,8 +42,8 @@ void TitleLevel::Start()
 	}
 	
 
-	GetMainCameraActorTransform().SetLocalRotation({ 0, -158, 0});
-	GetMainCameraActorTransform().SetLocalPosition({ 659, 21, 1402});
+	GetMainCameraActorTransform().SetLocalRotation({ 0, -163, 0});
+	GetMainCameraActorTransform().SetLocalPosition({ 288.0f, 65.0f, 382.5f });
 
 	LevelActor_ = CreateActor<LevelActor>();	
 	LevelActor_->SetLevelMesh("TitleLevel.FBX");
@@ -53,6 +53,8 @@ void TitleLevel::Start()
 	std::shared_ptr<GameEngineFBXStaticRenderer> SkyPlane = CreateActor<GameEngineActor>()->CreateComponent<GameEngineFBXStaticRenderer>();
 	SkyPlane->SetFBXMesh("m_menu_bg_sky.fbx", "TextureSkybox");
 	SkyPlane->GetTransform().SetWorldScale({ 50.f , 50.f , 50.f });
+
+
 }
 
 void TitleLevel::Update(float _DeltaTime)
@@ -79,4 +81,9 @@ void TitleLevel::End()
 void TitleLevel::LevelStartEvent()
 {
 	ServerInitManager::StartInit();
+	if (nullptr != Player::GetMyPlayer())
+	{
+		Player::GetMyPlayer()->GetTransform().SetLocalPosition({ 0, -2000, 0 });
+		Player::GetMyPlayer()->SetCurFrontDir();
+	}
 }

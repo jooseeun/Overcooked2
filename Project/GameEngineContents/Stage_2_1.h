@@ -27,7 +27,6 @@ private:
 	RenderOption WaterRenderOption2_;
 
 	std::shared_ptr<GameEngineActor> WaterActor_;
-	std::shared_ptr<Player> MainPlayer_;
 	std::shared_ptr<Cannon> CannonObj_;
 	bool IsLevelFirst_ = true;
 };
