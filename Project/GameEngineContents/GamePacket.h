@@ -133,11 +133,9 @@ public:
 	virtual void Serialize(GameServerSerializer& _Ser)
 	{
 		GameServerPacket::Serialize(_Ser);
-		_Ser << LevelName;
 	}
 	virtual void DeSerialize(GameServerSerializer& _Ser)
 	{
 		GameServerPacket::DeSerialize(_Ser);
-		_Ser >> LevelName;
 	}
 };
