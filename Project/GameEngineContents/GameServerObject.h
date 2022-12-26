@@ -13,7 +13,7 @@ enum class ServerObjectBaseState
 enum class ServerObjectType
 {
 	Player,
-	Object
+	Object,
 	UI
 };
 
