@@ -96,7 +96,7 @@ void Overcooked::Start()
 
 	CreateLevel<ServerTestLevel>("ServerTestLevel");
 
-	ChangeLevel("SelectStage");
+	ChangeLevel("TitleLevel");
 
 	GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
 
@@ -246,6 +246,20 @@ void Overcooked::MeshLoad()
 
 void Overcooked::TextureLoad()
 {
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		Dir.Move("ContentsResources");
+		Dir.Move("Texture");
+		Dir.Move("Player");
+
+		std::vector<GameEngineFile> Textures = Dir.GetAllFile();
+
+		for (size_t i = 0; i < Textures.size(); i++)
+		{
+			GameEngineTexture::Load(Textures[i].GetFullPath());
+		}
+	}
 	{
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExitsChildDirectory("ContentsResources");

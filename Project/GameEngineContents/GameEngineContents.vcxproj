@@ -394,6 +394,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerRunningPuff.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Portal.h">
       <SubType>
       </SubType>
@@ -721,6 +725,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerRunningPuff.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PlayerState.cpp">
       <SubType>
       </SubType>

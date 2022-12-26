@@ -526,16 +526,29 @@ void Player::CarDeathStart(const StateInfo& _Info)
 void Player::CarDeathUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	DeathTime_ -= 1.0f * _DeltaTime;
-	if (DeathTime_ < 3.0f)
+
+	for (int i = 0; i < 5; i++)
 	{
-		PlayerIdleRenderer_[PlayerCustomNum]->Off();
+		PixelData& Renderer = PlayerIdleRenderer_[PlayerCustomNum]->GetPixelDatas(i);
+		if (Renderer.MulColor.a > 0.0f)
+		{
+			Renderer.AlphaColor.a -= 0.3f * _DeltaTime;
+			Renderer.MulColor.a -= 0.3f * _DeltaTime;
+		}
 	}
+
+
 
 	if (DeathTime_ <= 0.0f)
 	{
 		DetachPlayerHolding();
 		GetTransform().SetWorldPosition(ResponePos_);
-		PlayerIdleRenderer_[PlayerCustomNum]->On();
+		for (int i = 0; i < 5; i++)
+		{
+			PixelData& IdleRender = PlayerIdleRenderer_[PlayerCustomNum]->GetPixelDatas(i);
+			IdleRender.MulColor.a =1.0f;
+			IdleRender.AlphaColor.a = 1.0f;
+		}
 		StateManager.ChangeState("Idle");
 
 	}

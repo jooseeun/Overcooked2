@@ -393,7 +393,7 @@ void Player::ChangePlayerColor() // 플레이어 팀 색 바꾸는 함수
 
 	PixelData& ChopRender = PlayerChopRenderer_[PlayerCustomNum]->GetPixelDatas(0);
 	ChopRender.AlphaFlag = 1;
-	ChopRender.AlphaColor.a = 1.0f;
+	ChopRender.AlphaColor.a = 1.0f;	
 
 	PixelData& WashRender = PlayerWashRenderer_[PlayerCustomNum]->GetPixelDatas(0);
 	WashRender.AlphaFlag = 1;
@@ -416,7 +416,6 @@ void Player::ChangePlayerColor() // 플레이어 팀 색 바꾸는 함수
 		WashRender.AlphaColor.r = 1.0f;
 		WashRender.AlphaColor.g = 0.0f;
 		WashRender.AlphaColor.b = 0.0f;
-
 	}
 
 
@@ -437,6 +436,7 @@ void Player::ChangePlayerColor() // 플레이어 팀 색 바꾸는 함수
 		WashRender.AlphaColor.r = 0.0f;
 		WashRender.AlphaColor.g = 0.0f;
 		WashRender.AlphaColor.b = 1.0f;
+
 
 	}
 
