@@ -3,6 +3,7 @@
 #include "FoodBox.h"
 #include "TrashCan.h"
 #include "Equipment_Plate.h"
+#include "PlayerRunningPuff.h"
 
 #include <math.h>
 
@@ -86,6 +87,10 @@ void Player::MoveStart(const StateInfo& _Info)
 }
 void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+
+	std::shared_ptr<PlayerRunningPuff> PuffActor = GetLevel()->CreateActor<PlayerRunningPuff>();
+	PuffActor->SetParent(shared_from_this());
+	PuffActor->GetTransform().SetLocalPosition(float4{ 0.0f, 0.0f, 100.0f });
 
 	if (false == GameEngineInput::GetInst()->IsPressKey("PlayerLeft" ) &&
 		false == GameEngineInput::GetInst()->IsPressKey("PlayerRight") &&

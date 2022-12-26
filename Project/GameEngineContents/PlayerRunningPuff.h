@@ -2,7 +2,7 @@
 #include <GameEngineCore/GameEngineActor.h>
 
 // Ό³Έν :
-class GameEngineDefaultRenderer;
+class GameEngineTextureRenderer;
 class PlayerRunningPuff : public GameEngineActor
 {
 public:
@@ -21,6 +21,7 @@ protected:
 	void Update(float _DeltaTime);
 	void End() {}
 private:
-	std::shared_ptr< GameEngineDefaultRenderer> RunningPuffRenderer_;
+	std::shared_ptr< GameEngineTextureRenderer> RunningPuffRenderer_;
+	PixelData Renderer;
 };
 

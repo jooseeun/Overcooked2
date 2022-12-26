@@ -13,6 +13,7 @@
 #include "InGameUIActor.h"
 
 #include "GraphicWindow.h"
+#include "PlayerRunningPuff.h"
 #include <GameEngineCore/GlobalVignette.h>
 #include <GameEngineCore/GlobalOverlay.h>
 #include <GameEngineCore/GlobalBloom.h>
@@ -70,6 +71,9 @@ void Stage_1_1::End()
 
 void Stage_1_1::PlayLevelStartEvent()
 {
+
+
+
 	if (nullptr != Player::GetMyPlayer())
 	{
 		if (Player::GetMyPlayer()->PlayerPNum == 1)

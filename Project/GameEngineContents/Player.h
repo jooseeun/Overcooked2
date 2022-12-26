@@ -74,7 +74,6 @@ protected:
 	bool MoveAngle();
 
 	void MoveCollisionSideCheck(float _DeltaTime);
-	
 
 public:
 	inline std::shared_ptr<GameEngineCollision> GetInteractCollision() const
