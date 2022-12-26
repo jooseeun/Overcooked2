@@ -41,6 +41,10 @@ public:
 	inline void ReSetStuff()
 	{
 		Stuff_Current_.reset();
+		if (InteractPacket_ != nullptr)
+		{
+			InteractPacket_->HoldObjectID = -1;
+		}
 	}
 
 
@@ -111,6 +115,42 @@ public:
 
 
 	//
+
+private: 
+
+	void SendPacket(std::shared_ptr<ObjectUpdatePacket> Packet) override
+	{
+		if (Stuff_Current_ != nullptr)
+		{
+			Packet->HoldObjectID = Stuff_Current_->GetNetID();
+		}
+		else
+		{
+			Packet->HoldObjectID = -1;
+		}
+	}
+
+	void SetServerHoldObject(int _ServerID) override
+	{
+		if (-1 == _ServerID)
+		{
+			ReSetStuff();
+			return;
+		}
+
+		GamePlayStuff* Object = static_cast<GamePlayStuff*>(GameServerObject::GetServerObject(_ServerID));
+		if (Object != nullptr)
+		{
+			if (Stuff_Current_.get() != Object)
+			{
+				Stuff_Current_ = Object->shared_from_this()->CastThis<GamePlayStuff>();
+			}
+		}
+		else
+		{
+			MsgBoxAssert("GamePlayStaticObject_ServerHoldObject_Error")
+		}
+	}
 };
 
 

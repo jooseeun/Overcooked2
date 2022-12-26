@@ -66,6 +66,9 @@ public:
 	std::string Animation;
 	int PlayerNum;
 	int RendererState;
+	//
+	int HoldObjectID;
+	float CookingGage;
 
 	ObjectUpdatePacket()
 	{
