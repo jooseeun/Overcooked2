@@ -20,6 +20,7 @@ void LoadingLevel::Start()
 
 	std::shared_ptr<GlobalMouseInput> Mouse = CreateActor<GlobalMouseInput>();
 	Mouse->SetIsUI(true);
+
 }
 
 void LoadingLevel::Update(float _DeltaTime)
@@ -37,6 +38,7 @@ void LoadingLevel::End()
 
 void LoadingLevel::LevelStartEvent()
 {
+	GameBgmPlayer::BgmPlayer_->Stop();
 	UIDebugGUI::Main_->On();
 	UIActor_->StartFadeIn();
 	UIActor_->Reset();

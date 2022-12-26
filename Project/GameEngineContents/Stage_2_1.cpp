@@ -43,6 +43,8 @@ void Stage_2_1::End()
 
 void Stage_2_1::PlayLevelStartEvent()
 {
+	GameBgmPlayer::BgmPlayer_->ChangeBgm("DLC09_Fairground_Music.wav");
+
 	if (IsLevelFirst_ == false)
 	{
 		return;

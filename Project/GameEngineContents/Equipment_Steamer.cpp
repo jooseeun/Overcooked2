@@ -157,7 +157,7 @@ void Equipment_Steamer::CookingUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (true == IsInteraction_)
 	{
-		StateManager.ChangeState("Open");
+		StateManager.ChangeState("Opening");
 	}
 
 
