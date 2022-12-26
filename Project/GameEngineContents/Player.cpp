@@ -509,7 +509,10 @@ void  Player::LevelStartEvent()
 		}
 	}
 	ServerStart();
+
+
 }
+
 void Player::DeathCheck()
 {
 	if (PlayerCameraCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::DeadZone, CollisionType::CT_OBB) == true)
