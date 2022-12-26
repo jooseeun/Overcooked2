@@ -9,7 +9,7 @@ enum class ContentsPacketType
 	ClinetInit,   // 클라이언트가 들어오면 서버가 보내줄 패킷.
 	ChangeLevel,  // 레벨 변경 - 호스트만 전송
 	ReadyLevel,   // 레벨 변경이 완료됨 - 게스트만 전송
-	LevelStart,   // 레벨 시작 - 모든 게스트의 준비 신호를 받은후 호스트가 전송
+	StartLevel,   // 레벨 시작 - 모든 게스트의 준비 신호를 받은후 호스트가 전송
 	Ignore,
 };
 
@@ -121,13 +121,12 @@ public:
 	}
 };
 
-class LevelStartPacket : public GameServerPacket
+class StartLevelPacket : public GameServerPacket
 {
 public:
-
-	LevelStartPacket()
+	StartLevelPacket()
 	{
-		SetPacketID(ContentsPacketType::ChangeLevel);
+		SetPacketID(ContentsPacketType::StartLevel);
 	}
 
 	virtual void Serialize(GameServerSerializer& _Ser)

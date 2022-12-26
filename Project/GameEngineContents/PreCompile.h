@@ -62,7 +62,9 @@
 #include "GamePlayMapObject.h"
 #include "GamePlayFloor.h"
 #include "Enums.h"
+#include "MouseInputWindow.h"
 #include "GlobalMouseInput.h"
 #include "GamePacket.h"
+#include "ServerInitManager.h"
 
 

@@ -3,9 +3,10 @@
 #include "GameEngineStatusWindow.h"
 #include "GamePacket.h"
 #include "Player.h"
+#include "GlobalGameData.h"
 
 GameServerNet* ServerInitManager::Net;
-std::string ServerInitManager::IP = "10.0.4.95";
+std::string ServerInitManager::IP = "127.0.0.1";
 GameServerNetServer ServerInitManager::Server;
 GameServerNetClient ServerInitManager::Client;
 
@@ -69,11 +70,47 @@ void ServerInitManager::ChangeLevelPacketProcess(std::shared_ptr<GameServerPacke
 	std::shared_ptr<ChangeLevelPacket> Packet = std::dynamic_pointer_cast<ChangeLevelPacket>(_Packet);
 	std::string& NextLevelName = Packet->LevelName;
 	GEngine::ChangeLevel(NextLevelName);
+}
 
-	//if (true == Net->GetIsHost())
-	//{
-	//	Net->SendPacket(Packet);
-	//}
+void ServerInitManager::ReadyLevelPacketProcess(std::shared_ptr<GameServerPacket> _Packet)
+{
+	if (false == Net->GetIsHost())
+	{
+		return;
+	}
+
+	std::vector<SOCKET>& AllSockets = Server.GetUserSockets();
+	std::vector<bool>& AllReadys = Server.GetReadyLevels();
+	if (AllSockets.size() <= 0)
+	{
+		return;
+	}
+
+	for (size_t i = 0; i < AllSockets.size(); i++)
+	{
+		if (AllSockets[i] == _Packet->GetMaster())
+		{
+			AllReadys[i] = true;
+		}
+	}
+
+	for (size_t i = 0; i < AllReadys.size(); i++)
+	{
+		if (AllReadys[i] == false)
+		{
+			return;
+		}
+	}
+
+	std::shared_ptr<IgnorePacket> Packet = std::make_shared<IgnorePacket>();
+	Packet->SetPacketID(ContentsPacketType::StartLevel);
+	ServerInitManager::Net->SendPacket(Packet);
+}
+
+void ServerInitManager::StartLevelPacketProcess(std::shared_ptr<GameServerPacket> _Packet)
+{
+	// 여기에 UI 시작부터 추가하든 하면 됩니다
+	GlobalGameData::SetGameStart(true);
 }
 
 void ServerInitManager::StartInit()
@@ -121,6 +158,14 @@ void ServerInitManager::StartInit()
 		case ContentsPacketType::ChangeLevel:
 			NewPacket = std::make_shared<ChangeLevelPacket>();
 			break;
+		case ContentsPacketType::ReadyLevel:
+			NewPacket = std::make_shared<IgnorePacket>();
+			NewPacket->SetPacketID(ContentsPacketType::ReadyLevel);
+			break;
+		case ContentsPacketType::StartLevel:
+			NewPacket = std::make_shared<IgnorePacket>();
+			NewPacket->SetPacketID(ContentsPacketType::StartLevel);
+			break;
 		default:
 			NewPacket = std::make_shared<IgnorePacket>();
 			break;
@@ -133,11 +178,12 @@ void ServerInitManager::StartInit()
 	Net->Dis.AddHandler(ContentsPacketType::ObjectUpdate, std::bind(&ServerInitManager::ObjectUpdatePacketProcess, std::placeholders::_1));
 	Net->Dis.AddHandler(ContentsPacketType::Ignore, std::bind(&ServerInitManager::Ignore, std::placeholders::_1));
 	Net->Dis.AddHandler(ContentsPacketType::None, std::bind(&ServerInitManager::Ignore, std::placeholders::_1));
+	Net->Dis.AddHandler(ContentsPacketType::StartLevel, std::bind(&ServerInitManager::StartLevelPacketProcess, std::placeholders::_1));
 
 	if (true == Net->GetIsHost())
 	{
 		// 내가 서버일때만 등록해야하는 패킷
-		//Net->Dis.AddHandler(ContentsPacketType::ClinetInit, std::bind(&ServerInitManager::Ignore, std::placeholders::_1));
+		Net->Dis.AddHandler(ContentsPacketType::ReadyLevel, std::bind(&ServerInitManager::ReadyLevelPacketProcess, std::placeholders::_1));
 	}
 	else
 	{

@@ -33,9 +33,12 @@ GlobalGameData::~GlobalGameData()
 
 InitGlobalGameData::InitGlobalGameData()
 {
-	UIDebugGUI::Main_.get()->AddMutableValue("DebugValue1", &GlobalGameData::DebugValue1_);
-	UIDebugGUI::Main_.get()->AddMutableValue("DebugValue2", &GlobalGameData::DebugValue2_);
-	UIDebugGUI::Main_.get()->AddMutableValue("PlayerCount", &GlobalGameData::PlayerCount_);
+	if (nullptr != UIDebugGUI::Main_)
+	{
+		UIDebugGUI::Main_.get()->AddMutableValue("DebugValue1", &GlobalGameData::DebugValue1_);
+		UIDebugGUI::Main_.get()->AddMutableValue("DebugValue2", &GlobalGameData::DebugValue2_);
+		UIDebugGUI::Main_.get()->AddMutableValue("PlayerCount", &GlobalGameData::PlayerCount_);
+	}
 
 	//스테이지 데이터 Init
 	{

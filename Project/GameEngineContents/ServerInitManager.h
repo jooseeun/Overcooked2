@@ -25,6 +25,8 @@ public:
 	static void ClientInitPacketProcess(std::shared_ptr<GameServerPacket> _Packet);
 	static void Ignore(std::shared_ptr<GameServerPacket> _Packet);
 	static void ChangeLevelPacketProcess(std::shared_ptr<GameServerPacket> _Packet);
+	static void ReadyLevelPacketProcess(std::shared_ptr<GameServerPacket> _Packet);
+	static void StartLevelPacketProcess(std::shared_ptr<GameServerPacket> _Packet);
 
 	static void StartInit();
 	static void Update(float _Delta);

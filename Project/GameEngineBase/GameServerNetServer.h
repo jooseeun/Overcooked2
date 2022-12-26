@@ -27,6 +27,11 @@ public:
 		return UserSockets;
 	}
 
+	inline std::vector<bool>& GetReadyLevels()
+	{
+		return ReadyLevels;
+	}
+
 protected:
 
 private:
@@ -36,6 +41,7 @@ private:
 
 	GameEngineThread AcceptThread;
 
+	std::vector<bool> ReadyLevels;
 	std::vector<SOCKET> UserSockets;
 	std::vector<std::shared_ptr<GameEngineThread>> UserThreads;
 
