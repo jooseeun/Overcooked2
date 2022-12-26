@@ -107,8 +107,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		// 플레이어 벽 출돌 체크
 		if (PlayerMoveCollisionCheck(PlayerForwardCollision_) == true
-			&& PlayerCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Character, CollisionType::CT_OBB,
-				std::bind(&GamePlayPhysics::PullPlayer, this, std::placeholders::_1, std::placeholders::_2))==false)
+			&& PlayerCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Character, CollisionType::CT_OBB)==false)
 		{
 			GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * _DeltaTime);
 		}
@@ -122,8 +121,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	else
 	{
 		if (PlayerMoveCollisionCheck(PlayerForwardCollision_) == true
-			&& PlayerCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Character, CollisionType::CT_OBB,
-				std::bind(&GamePlayPhysics::PullPlayer, this, std::placeholders::_1, std::placeholders::_2)) == false)
+			&& PlayerCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Character, CollisionType::CT_OBB) == false)
 		{
 			GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * 0.5f * _DeltaTime);
 		}
@@ -260,10 +258,10 @@ void Player::HoldUpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 		if (MoveAngle() == true)
 		{
+
 			// 플레이어 벽 출돌 체크
 			if (PlayerMoveCollisionCheck(PlayerForwardCollision_) == true
-				&& PlayerCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Character, CollisionType::CT_OBB,
-					std::bind(&GamePlayPhysics::PullPlayer, this, std::placeholders::_1, std::placeholders::_2)) == false)
+				&& PlayerCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Character, CollisionType::CT_OBB) == false)
 			{
 				GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * _DeltaTime);
 			}
@@ -277,8 +275,7 @@ void Player::HoldUpUpdate(float _DeltaTime, const StateInfo& _Info)
 		else
 		{
 			if (PlayerMoveCollisionCheck(PlayerForwardCollision_) == true
-				&& PlayerCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Character, CollisionType::CT_OBB,
-					std::bind(&GamePlayPhysics::PullPlayer, this, std::placeholders::_1, std::placeholders::_2)) == false)
+				&& PlayerCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Character, CollisionType::CT_OBB) == false)
 			{
 				GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * 0.5f * _DeltaTime);
 			}
