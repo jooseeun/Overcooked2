@@ -102,6 +102,8 @@ void Cannon::ReadyStart(const StateInfo& _Info)
 	IsMoveDone_ = false;
 	IsCounterReaction_ = false;
 	CurAngle_ = 0.f;
+
+	GameEngineSound::SoundPlayOneShot("DLC_08_Cannon_Enter_01.wav");
 }
 
 void Cannon::ReadyUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -159,6 +161,9 @@ void Cannon::ShootStart(const StateInfo& _Info)
 	Button_->IsReady_ = false;
 	Button_->SetButtonUnPressed();
 	ReactCount_ = 2;
+
+	GameEngineSound::SoundPlayOneShot("DLC_08_Cannon_Fire_01.wav");
+	GameEngineSound::SoundPlayOneShot("DLC_08_Cannon_Crowd_03.wav");
 }
 
 void Cannon::ShootUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -229,6 +234,8 @@ void Cannon::DownStart(const StateInfo& _Info)
 	IsCounterReactionPos_ = false;
 	IsDownMove_ = true;
 	ReactCount_ = 1;
+
+	GameEngineSound::SoundPlayOneShot("DLC_08_Cannon_Rotate_Release.wav");
 }
 
 void Cannon::DownUpdate(float _DeltaTime, const StateInfo& _Info)

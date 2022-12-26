@@ -35,6 +35,8 @@ private:
 
 	bool IsInteraction_;
 	bool IsCooking_;
+	bool IsSound_;
+	bool IsSoundDone_;
 	float Angle_;
 };
 

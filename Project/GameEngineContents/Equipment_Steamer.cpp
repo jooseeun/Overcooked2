@@ -150,6 +150,8 @@ void Equipment_Steamer::CookingStart(const StateInfo& _Info)
 	IsInteraction_ = false;
 	IsMoveDone_ = false;
 	IsRotateDone_ = false;
+	
+	//GameEngineSound::SoundPlayControl("SteamerLoop.wav", 4);
 }
 
 void Equipment_Steamer::CookingUpdate(float _DeltaTime, const StateInfo& _Info)

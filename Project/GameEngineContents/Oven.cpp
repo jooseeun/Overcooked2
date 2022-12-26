@@ -8,6 +8,8 @@ Oven::Oven()
 	, IsCooking_(false)
 	, Angle_(0.f)
 	, IsInteraction_(false)
+	, IsSound_(false)
+	, IsSoundDone_(false)
 {
 }
 
@@ -42,15 +44,33 @@ void Oven::Start()
 
 void Oven::Update(float _DeltaTime)
 {
+	if (true == IsSound_ && false == IsSoundDone_)
+	{
+		IsSoundDone_ = true;
+		if (false == IsCooking_)
+		{
+			GameEngineSound::SoundPlayOneShot("OvenStop.wav");
+		}
+		else
+		{
+			GameEngineSound::SoundPlayOneShot("OvenStart.wav");
+		}
+	}
+
 	if (true == IsInteraction_)
 	{
 		// 요리중 X
 		if (false == IsCooking_)
 		{
+			if (false == IsSoundDone_)
+			{
+				IsSound_ = true;
+			}
 			if (0.f >= Angle_)
 			{
 				IsCooking_ = true;
 				IsInteraction_ = false;
+				IsSoundDone_ = false;
 			}
 
 			Angle_ -= _DeltaTime * 250.f;
@@ -60,41 +80,23 @@ void Oven::Update(float _DeltaTime)
 		// 요리중
 		if (true == IsCooking_)
 		{
+			if (false == IsSoundDone_)
+			{
+				IsSound_ = true;
+			}
+
 			if (170.f <= Angle_)
 			{
 				Angle_ = 170.f;
 				IsCooking_ = false;
 				IsInteraction_ = false;
+				IsSoundDone_ = false;
 			}
 
 			Angle_ += _DeltaTime * 250.f;
 			DoorRenderer_->GetTransform().SetLocalRotation({ Angle_, 0.f, 0.f });
 		}
 	}
-
-	//if (true == IsPut_)
-	//{
-	//	if (0.f >= Angle_)
-	//	{
-	//		IsPut_ = false;
-	//		IsTakeOut_ = true;
-	//	}
-
-	//	Angle_ -= _DeltaTime * 230.f;
-	//	DoorRenderer_->GetTransform().SetLocalRotation({ Angle_, 0.f, 0.f });
-	//}
-	//else if (true == IsTakeOut_)
-	//{
-	//	if (170.f <= Angle_)
-	//	{
-	//		Angle_ = 170.f;
-	//		IsTakeOut_ = false;
-	//		IsPut_ = true;
-	//	}
-
-	//	Angle_ += _DeltaTime * 230.f;
-	//	DoorRenderer_->GetTransform().SetLocalRotation({ Angle_, 0.f, 0.f });
-	//}
 }
 
 
