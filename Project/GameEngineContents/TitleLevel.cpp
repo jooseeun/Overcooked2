@@ -47,8 +47,8 @@ void TitleLevel::Start()
 
 	LevelActor_ = CreateActor<LevelActor>();	
 	LevelActor_->SetLevelMesh("TitleLevel.FBX");
-	LevelActor_->GetRenderer()->SetSubMaterial(19, "TextureAlpha");
-	LevelActor_->GetRenderer()->SetSubMaterial(16, "TextureAlpha");
+	LevelActor_->GetRenderer()->SetSubMaterial(14, "TextureAlpha");
+	LevelActor_->GetRenderer()->SetSubMaterial(17, "TextureAlpha");
 
 	std::shared_ptr<GameEngineFBXStaticRenderer> SkyPlane = CreateActor<GameEngineActor>()->CreateComponent<GameEngineFBXStaticRenderer>();
 	SkyPlane->SetFBXMesh("m_menu_bg_sky.fbx", "TextureSkybox");
