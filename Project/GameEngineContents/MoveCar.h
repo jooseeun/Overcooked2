@@ -25,11 +25,6 @@ public:
 		GetFBXMesh()->GetTransform().SetWorldScale({ 90.f, 90.f, 90.f });
 	}
 
-	void SetTimeInterval(float _Interval)
-	{
-		TimeInterval_ = _Interval;
-	}
-
 	void SetStartPos(float4 _Pos)
 	{
 		StartPos_ = _Pos;
@@ -52,6 +47,7 @@ protected:
 private:
 	MOVECARSTATE State_;
 
+	float StackInterval_;
 	float TimeInterval_;
 
 	float4 StartPos_;

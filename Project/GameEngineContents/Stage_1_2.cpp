@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Bird_Flying.h"
 #include "MoveCar.h"
+#include "TrafficLightBloom.h"
 
 #include "GraphicWindow.h"
 #include <GameEngineCore/GlobalVignette.h>
@@ -107,20 +108,38 @@ void Stage_1_2::PlayLevelStartEvent()
 	GlobalIOManager::Load(IOType::UnsortMap, 1);
 	DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
 
-
-
 	{
 		std::shared_ptr<GlobalBloomActor> BloomActor = CreateActor<GlobalBloomActor>();
 		BloomActor->GetTransform().SetLocalPosition({ -3750.f, 300.f, -700.f });
-		BloomActor->GetTransform().SetLocalRotation({0.f, 90.f});
+		BloomActor->GetTransform().SetLocalRotation({ 0.f, 90.f });
 		BloomActor->GetTransform().SetWorldScale({ 2500, 450 });
 		BloomActor->SetColor({ 0.12f, 0.f, 1.f, 1.f });
 	}
 
+	{
+		std::shared_ptr<GlobalBloomActor> BloomActor = CreateActor<GlobalBloomActor>();
+		BloomActor->GetTransform().SetLocalPosition({ -1000.f, 280.f, -1000.f });
+		BloomActor->GetTransform().SetWorldScale({ 1500, 450 });
+		BloomActor->GetTransform().SetLocalRotation({ -25.f, 0.f });
+		BloomActor->SetColor({ 1.0f, 0.f, 1.0f, 1.f });
+	}
+
+	{
+		std::shared_ptr<TrafficLightBloom> TrafficLight = CreateActor<TrafficLightBloom>();
+		TrafficLight->GetTransform().SetLocalPosition({ -2225.f, 260.f, -850.f });
+		TrafficLight->SetBloomActor();
+	}
+
+	{
+		std::shared_ptr<TrafficLightBloom> TrafficLight = CreateActor<TrafficLightBloom>();
+		TrafficLight->GetTransform().SetLocalPosition({ -3170.f, 260.f, -850.f });
+		TrafficLight->SetBloomActor();
+	}
+
 	std::shared_ptr<Bird_Flying> Pigeon_ = CreateActor<Bird_Flying>();
 	Pigeon_->GetTransform().SetLocalPosition({ -700, 800, -500 });
-	Pigeon_->GetTransform().SetLocalRotation({0, 10, 0});
-	Pigeon_->GetTransform().PixLocalNegativeX();	
+	Pigeon_->GetTransform().SetLocalRotation({ 0, 10, 0 });
+	Pigeon_->GetTransform().PixLocalNegativeX();
 	Pigeon_->SetStartPosition(Pigeon_->GetTransform().GetLocalPosition());
 
 	std::shared_ptr<GlobalOverlay> GlobalOverlay_ = GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalOverlay>();
@@ -137,22 +156,22 @@ void Stage_1_2::PlayLevelStartEvent()
 
 	{
 		std::shared_ptr<MoveCar> Car = CreateActor<MoveCar>();
-		Car->GetTransform().SetWorldPosition({-2900.f, 0.f, 1000.f});
+		Car->GetTransform().SetWorldPosition({ -2900.f, 0.f, 1000.f });
 		Car->SetStartPos(Car->GetTransform().GetWorldPosition());
-		Car->SetEndPos({ -2500.f, 0.f, -3000.f });
-		Car->SetStartTime(20.f);
+		Car->SetEndPos({ -2500.f, 0.f, -2800.f });
+		Car->SetStartTime(15.f);
 		Car->SetCarMesh("Car_Green.fbx");
 	}
 
 	{
 		std::shared_ptr<MoveCar> Car = CreateActor<MoveCar>();
-		Car->GetTransform().SetWorldPosition({ -2500.f, 0.f, -3000.f });
+		Car->GetTransform().SetWorldPosition({ -2500.f, 0.f, -2800.f });
 		Car->SetStartPos(Car->GetTransform().GetWorldPosition());
-		Car->GetTransform().SetWorldRotation({0.f, 180.f, 0.f});
+		Car->GetTransform().SetWorldRotation({ 0.f, 180.f, 0.f });
 		Car->SetEndPos({ -2900.f, 0.f, 1000.f });
-		Car->SetStartTime(25.f);
+		Car->SetStartTime(20.f);
 		Car->SetCarMesh("Car_Blue.fbx");
 	}
-	
+
 	return;
 }
