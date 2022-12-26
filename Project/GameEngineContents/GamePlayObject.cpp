@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "GamePlayObject.h"
 
+
+int GamePlayObject::ObjectNumber_ = 10000;
 GamePlayObject::GamePlayObject()
 	: Mesh_Object_(nullptr)
 	, Collision_Object_(nullptr)

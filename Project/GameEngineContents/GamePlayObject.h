@@ -30,6 +30,7 @@ protected:
 	GamePlayObject();
 
 public:
+	static int ObjectNumber_;
 	// constrcuter destructer
 	virtual ~GamePlayObject();
 

@@ -97,7 +97,7 @@ void Overcooked::Start()
 
 	CreateLevel<ServerTestLevel>("ServerTestLevel");
 
-	ChangeLevel("TitleLevel");
+	ChangeLevel("SelectStage");
 
 	GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
 
