@@ -117,6 +117,8 @@ void Stage_1_1::PlayLevelStartEvent()
 	GlobalIOManager::Load(IOType::UnsortMap, 0);
 	DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
 
+	GameBgmPlayer::BgmPlayer_->ChangeBgm("TheNeonCity.wav");
+
 	{
 		std::shared_ptr<GlobalBloomActor> BloomActor = CreateActor<GlobalBloomActor>();
 		BloomActor->GetTransform().SetLocalPosition({ -1650, 300, -120 });
@@ -152,3 +154,4 @@ void Stage_1_1::PlayLevelStartEvent()
 
 	return;
 }
+

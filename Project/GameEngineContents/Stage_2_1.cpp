@@ -114,6 +114,7 @@ void Stage_2_1::PlayLevelStartEvent()
 	GetMainCameraActorTransform().SetLocalRotation({ 60, 180, 0 });
 	GetMainCameraActorTransform().SetLocalPosition({ -1700, 3000, 750 });
 
+	GameBgmPlayer::BgmPlayer_->ChangeBgm("DLC09_Fairground_Music.wav");
 	
 	std::shared_ptr<IceBlock> Block = CreateActor <IceBlock>();
 	Block->GetTransform().SetWorldPosition({ -1383.f, 0.f, -2070.f });

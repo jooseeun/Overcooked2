@@ -21,7 +21,7 @@ protected:
 private:
 	void MeshLoad();
 	void TextureLoad();
-
+	void SoundLoad();
 	void InputMake();
 
 	void LoadStage(std::string_view _StageName);
