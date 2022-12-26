@@ -233,3 +233,4 @@ bool GamePlayFood::ReadMapFoodData(std::shared_ptr<GamePlayFood> _Food)
 
 	return false;
 }
+

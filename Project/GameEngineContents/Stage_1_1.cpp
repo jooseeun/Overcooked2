@@ -101,6 +101,8 @@ void Stage_1_1::PlayLevelStartEvent()
 		MainPlayer_->SetCurFrontDir();
 	}
 
+	GameBgmPlayer::BgmPlayer_->ChangeBgm("TheNeonCity.wav");
+
 	if (IsLevelFirst_ == false)
 	{
 		return;
@@ -120,6 +122,7 @@ void Stage_1_1::PlayLevelStartEvent()
 
 	GlobalIOManager::Load(IOType::UnsortMap, 0);
 	DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
+
 
 	{
 		std::shared_ptr<GlobalBloomActor> BloomActor = CreateActor<GlobalBloomActor>();
@@ -156,3 +159,4 @@ void Stage_1_1::PlayLevelStartEvent()
 
 	return;
 }
+

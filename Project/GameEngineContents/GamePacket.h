@@ -6,6 +6,7 @@ enum class ContentsPacketType
 {
 	None,
 	ObjectUpdate, // 오브젝트 업데이트
+	UIUpdate, // UI 업데이트
 	ClinetInit,   // 클라이언트가 들어오면 서버가 보내줄 패킷.
 	ChangeLevel,  // 레벨 변경 - 호스트만 전송
 	ReadyLevel,   // 레벨 변경이 완료됨 - 게스트만 전송
@@ -65,6 +66,9 @@ public:
 	std::string Animation;
 	int PlayerNum;
 	int RendererState;
+	//
+	int HoldObjectID;
+	float CookingGage;
 
 	ObjectUpdatePacket()
 	{
@@ -136,5 +140,27 @@ public:
 	virtual void DeSerialize(GameServerSerializer& _Ser)
 	{
 		GameServerPacket::DeSerialize(_Ser);
+	}
+};
+
+class UIDataPacket : public GameServerPacket
+{
+public:
+	int ObjectID = 0;
+	float LeftTime = 0.f;
+	UIDataPacket()
+	{
+		SetPacketID(ContentsPacketType::UIUpdate);
+	}
+
+	virtual void Serialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::Serialize(_Ser);
+		_Ser << LeftTime;
+	}
+	virtual void DeSerialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::DeSerialize(_Ser);
+		_Ser >> LeftTime;
 	}
 };

@@ -124,5 +124,43 @@ public:
 			Moveable_Current_->SetHighlightEffectOn();
 		}
 	}
+
+	// server
+	void SendDefaultPacket(std::shared_ptr<ObjectUpdatePacket> Packet) override;
+
+
+	void SendPacket(std::shared_ptr<ObjectUpdatePacket> Packet) override
+	{
+		if (Moveable_Current_ != nullptr)
+		{
+			Packet->HoldObjectID = Moveable_Current_->GetNetID();
+		}
+		else
+		{
+			Packet->HoldObjectID = -1;
+		}
+	}
+
+	void SetServerHoldObject(int _ServerID) override
+	{
+		if (-1 == _ServerID)
+		{
+			ReSetCurrentMoveable();
+			return;
+		}
+
+		GamePlayMoveable* Object = static_cast<GamePlayMoveable*>(GameServerObject::GetServerObject(_ServerID));
+		if (Object != nullptr)
+		{
+			if (Moveable_Current_.get() != Object)
+			{
+				Moveable_Current_ =  Object->shared_from_this()->CastThis<GamePlayMoveable>();
+			}
+		}
+		else
+		{
+			MsgBoxAssert("GamePlayMoveableObject_ServerHoldObject_Error")
+		}
+	}
 };
 

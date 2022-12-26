@@ -57,6 +57,8 @@ void SelectStageLevel::End()
 
 void SelectStageLevel::LevelStartEvent()
 {
+	GameBgmPlayer::BgmPlayer_->ChangeBgm("Lobby.wav");
+
 	UIDebugGUI::Main_->On();
 	GraphicWindow::Main_->On();
 	if (SelectStageActor_.lock() == nullptr)
@@ -69,6 +71,7 @@ void SelectStageLevel::LevelStartEvent()
 
 void SelectStageLevel::LevelEndEvent()
 {
+	GameBgmPlayer::BgmPlayer_->Stop();
 	UIDebugGUI::Main_->Off();
 	GraphicWindow::Main_->Off();
 	if (SelectStageActor_.lock() != nullptr)

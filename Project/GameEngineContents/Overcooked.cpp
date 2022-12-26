@@ -37,6 +37,7 @@ void Overcooked::Start()
 	MeshLoad();
 	InputMake();
 	LoadMaterial();
+	SoundLoad();
 
 	LoadingData::AddFunc("FirstLoad", std::bind(&Overcooked::LoadCommonResource, this));
 	//1-1 1-3
@@ -205,6 +206,7 @@ void Overcooked::Update(float _DeltaTime)
 
 void Overcooked::End()
 {
+	GameBgmPlayer::BgmPlayer_->Destroy();
 }
 
 void Overcooked::MeshLoad()
@@ -347,6 +349,26 @@ void Overcooked::TextureLoad()
 		//Fire FolderTexutre
 		GameEngineTexture::Cut("UI_FlameHUD_01.png", 8, 8);
 		GameEngineFont::Load("Naughty Squirrel");
+	}
+}
+
+void Overcooked::SoundLoad()
+{
+	GameEngineDirectory Dir;
+	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+	Dir.Move("ContentsResources");
+	Dir.Move("Sound");
+
+	std::vector<GameEngineDirectory> Folder = Dir.GetRecursiveAllDirectory();
+
+	for (auto& TmpDir : Folder)
+	{
+		std::vector<GameEngineFile> File = TmpDir.GetAllFile();
+
+		for (size_t i = 0; i < File.size(); i++)
+		{
+			GameEngineSound::LoadRessource(File[i].GetFullPath());
+		}
 	}
 }
 

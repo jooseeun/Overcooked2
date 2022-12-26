@@ -49,17 +49,29 @@ void GamePlayStaticObject::SetHighlightEffectOn()
 
 SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type, std::shared_ptr<GamePlayMoveable> _Moveable)
 {
+	std::shared_ptr<ObjectUpdatePacket> Packet = std::make_shared<ObjectUpdatePacket>();
+	Packet->ObjectID = GetNetID();
+	Packet->Type = ServerObjectType::Object;
+	Packet->State = IsDeath() ? ServerObjectBaseState::Base : ServerObjectBaseState::Death;
+	Packet->Pos = float4::ZERO;
+	Packet->Rot = float4::ZERO;
+	Packet->Scale = float4::ZERO;
+	Packet->CookingGage = -1;
+	Packet->HoldObjectID = -100;
+	InteractPacket_ = Packet;
+
+	SetPlayerState_Return ReturnValue = SetPlayerState_Return::Nothing;
 	switch (_Type)
 	{
 	case PlayerCurStateType::HoldUp:
 	{
 		if (_Player == nullptr)
 		{
-			return SetPlayerState_Return::Nothing;
+			break;
 		}
 		if (Stuff_Current_ == nullptr)
 		{
-			return SetPlayerState_Return::Nothing;
+			break;
 		}
 		else
 		{
@@ -80,10 +92,9 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 		
 					_Player->SetPlayerHolding(Moveable);
 					_Player->SetCurHoldType(Moveable->GetHoldType());
-					return SetPlayerState_Return::Using;
+					ReturnValue = SetPlayerState_Return::Using;
 					break;
 				default:
-					return SetPlayerState_Return::Nothing;
 					break;
 				}
 			}
@@ -95,12 +106,11 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 				{
 				case HoldDownEnum::HoldUp:
 					SetMoveable(Moveable);
-					return SetPlayerState_Return::Using;
+					ReturnValue = SetPlayerState_Return::Using;
 					break;
 				case HoldDownEnum::HoldDown:
 				case HoldDownEnum::Nothing:
 				default:
-					return SetPlayerState_Return::Nothing;
 					break;
 				}
 			}
@@ -111,7 +121,7 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 	{		
 		if (_Player != nullptr && _Player->GetPlayerHolding() == nullptr)
 		{
-			return SetPlayerState_Return::Nothing;
+			break;
 		}
 		else
 		{
@@ -127,7 +137,6 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 			else
 			{
 				MsgBoxAssert("SetPlayerState -> 둘다 null입니다")
-				return SetPlayerState_Return::Nothing;
 			}
 
 			if (Stuff_Current_ == nullptr)
@@ -135,8 +144,6 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 				std::shared_ptr<GamePlayMoveable> Empty = nullptr;
 				switch (Moveable->PickUp(&Empty))
 				{
-				case HoldDownEnum::Nothing:
-					return SetPlayerState_Return::Nothing;
 					break;
 				case HoldDownEnum::HoldDown:
 					if (Empty != nullptr)
@@ -147,14 +154,13 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 							_Player->CurrentHoldingNull();
 						}
 						
-						return SetPlayerState_Return::Using;
+						ReturnValue = SetPlayerState_Return::Using;
 					}
 					break;
 				case HoldDownEnum::HoldUp: // 그릇 전용?
 					if (Empty != nullptr)
 					{
 						SetStuff(Empty);
-						return SetPlayerState_Return::Nothing;
 					}
 					break;
 				default:
@@ -166,7 +172,6 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 				switch (GetStuff()->PickUp(&Moveable))
 				{
 				case HoldDownEnum::Nothing:
-					return SetPlayerState_Return::Nothing;
 					break;
 				case HoldDownEnum::HoldUp:
 					if (Moveable == nullptr)
@@ -176,10 +181,9 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 							_Player->CurrentHoldingNull();
 						}
 					}
-					return SetPlayerState_Return::Using;
+					ReturnValue = SetPlayerState_Return::Using;
 					break;
 				case HoldDownEnum::HoldDown:
-					return SetPlayerState_Return::Nothing;
 					break;
 				default:
 					break;
@@ -193,13 +197,13 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 	{
 		if (_Player == nullptr)
 		{
-			return SetPlayerState_Return::Nothing;
+			break;
 		}
 		if (Stuff_Current_ == nullptr)
 		{
 			if (_Player->GetPlayerHolding() == nullptr)
 			{
-				return SetPlayerState_Return::Nothing;
+				break;
 			}
 			else
 			{
@@ -211,10 +215,10 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 			switch (Stuff_Current_->UsingDown(_Player))
 			{
 			case UsingDownEnum::Nothing:
-				return SetPlayerState_Return::Nothing;
+				ReturnValue = SetPlayerState_Return::Nothing;
 				break;
 			case UsingDownEnum::Using:
-				return SetPlayerState_Return::Using;
+				ReturnValue = SetPlayerState_Return::Using;
 				break;
 			default:
 				break;
@@ -225,7 +229,43 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 	default:
 		break;
 	}
-	return SetPlayerState_Return::Nothing;
+
+	if (Stuff_Current_ != nullptr)
+	{
+		Packet->HoldObjectID = GetNetID();
+	}
+	else
+	{
+		Packet->HoldObjectID = -1;
+	}
+
+	if (InteractPacket_ != nullptr)
+	{
+		ServerInitManager::Net->SendPacket(InteractPacket_);
+		InteractPacket_.reset();
+	}
+
+	if (Stuff_Current_ != nullptr)
+	{
+		std::shared_ptr<ObjectUpdatePacket> StuffPacket = std::make_shared<ObjectUpdatePacket>();
+		Stuff_Current_->SendDefaultPacket(StuffPacket);
+		StuffPacket->Pos = float4::ZERO;
+		StuffPacket->Rot = float4::ZERO;
+		StuffPacket->Scale = float4::ZERO;
+		ServerInitManager::Net->SendPacket(StuffPacket);
+	}
+
+
+
+	if (ReturnValue == SetPlayerState_Return::Nothing)
+	{
+		return SetPlayerState_Return::Nothing;
+	}
+	else
+	{
+		return SetPlayerState_Return::Using;
+	}
+	
 }
 
 std::shared_ptr<GamePlayMoveable> GamePlayStaticObject::GetMoveable() const
@@ -339,3 +379,5 @@ void GamePlayStaticObject::SetStuff(std::shared_ptr<GamePlayStuff> _Stuff)
 		}
 	}
 }
+
+

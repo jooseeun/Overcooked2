@@ -344,6 +344,12 @@
     <ClInclude Include="PlayerRunningPuff.h">
       <Filter>Contents\Player</Filter>
     </ClInclude>
+    <ClInclude Include="TrafficLightBloom.h">
+      <Filter>Contents\Object\MapObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameBgmPlayer.h">
+      <Filter>Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -688,6 +694,12 @@
     </ClCompile>
     <ClCompile Include="PlayerRunningPuff.cpp">
       <Filter>Contents\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="TrafficLightBloom.cpp">
+      <Filter>Contents\Object\MapObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameBgmPlayer.cpp">
+      <Filter>Global</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

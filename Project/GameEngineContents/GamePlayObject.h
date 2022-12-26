@@ -3,6 +3,8 @@
 #include <GameEngineCore/GameEngineFBXStaticRenderer.h>
 #include <GameEngineCore/GameEngineCollision.h>
 #include "GamePlayPhysics.h"
+#include "GameServerObject.h"
+
 // Ό³Έν :
 enum class ObjectType
 {
@@ -19,10 +21,10 @@ enum class SetPlayerState_Return
 };
 
 
-
+class ObjectUpdatePacket;
 class GamePlayMoveable;
 class Player;
-class GamePlayObject : public GamePlayPhysics
+class GamePlayObject : public GamePlayPhysics, public GameServerObject
 {
 protected:
 	GamePlayObject();
@@ -124,6 +126,19 @@ public:
 	{
 		return BloomEffect_;
 	}
-	//
+protected:
+	// Sever
+	void ServerStart();
 
+	void ServerUpdate(float _DeltaTime);
+	
+	virtual void SendDefaultPacket(std::shared_ptr<ObjectUpdatePacket> Packet);
+
+	virtual void SendPacket(std::shared_ptr<ObjectUpdatePacket> Packet) {};
+
+
+	virtual void SetServerCookingGage(float _Time) {};
+	virtual void SetServerHoldObject(int _ServerID) {};
+
+	std::shared_ptr<ObjectUpdatePacket> InteractPacket_;
 };

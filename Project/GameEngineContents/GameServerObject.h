@@ -13,6 +13,8 @@ enum class ServerObjectBaseState
 enum class ServerObjectType
 {
 	Player,
+	Object,
+	UI
 };
 
 // Ό³Έν :
@@ -79,6 +81,4 @@ private:
 	bool IsNetInit;
 	ServerObjectType ServerType;
 	int ID;
-
 };
-

@@ -51,6 +51,7 @@ void Stage_1_4::End()
 
 void Stage_1_4::PlayLevelStartEvent()
 {
+	GameBgmPlayer::BgmPlayer_->ChangeBgm("Spellbound.wav");
 	if (IsLevelFirst_ == false)
 	{
 		return;
@@ -103,7 +104,6 @@ void Stage_1_4::PlayLevelStartEvent()
 	GetMainCameraActorTransform().SetLocalPosition({ -1173  , 3300   , 2500 });
 
 
-
 	std::shared_ptr<GlobalOverlay> GlobalOverlay_ = GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalOverlay>();
 	GraphicWindow::Main_->SetOverlay(GlobalOverlay_);
 
@@ -143,3 +143,4 @@ void Stage_1_4::PlayLevelStartEvent()
 
 	return;
 }
+

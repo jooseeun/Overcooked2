@@ -44,6 +44,7 @@ void Stage_1_3::End()
 
 void Stage_1_3::PlayLevelStartEvent()
 {
+	GameBgmPlayer::BgmPlayer_->ChangeBgm("CityLiving.wav");
 	if (IsLevelFirst_ == false)
 	{
 		return;
@@ -94,7 +95,6 @@ void Stage_1_3::PlayLevelStartEvent()
 	DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
 	GetMainCameraActorTransform().SetLocalRotation({ 60, 180, 0 });
 	GetMainCameraActorTransform().SetLocalPosition({ -2606 , 1950  , 1000 });
-
 
 
 	std::shared_ptr<GlobalOverlay> GlobalOverlay_ = GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalOverlay>();

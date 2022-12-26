@@ -285,5 +285,7 @@ private:
 	virtual void TrimmingSteam() {};
 	virtual void TrimmingBoil() {};
 
+
+
 };
 

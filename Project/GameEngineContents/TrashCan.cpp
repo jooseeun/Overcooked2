@@ -67,7 +67,7 @@ void Tool_TrashCan::Update(float _Delta)
 
 HoldDownEnum Tool_TrashCan::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 {
-	if (GetCurrentMoveable() == nullptr)
+	if (GetCurrentMoveable() == nullptr && (*_Moveable) != nullptr)
 	{
 		if ((*_Moveable) != nullptr &&
 			(*_Moveable)->GetObjectMoveableType() == ObjectMoveableType::Food)
