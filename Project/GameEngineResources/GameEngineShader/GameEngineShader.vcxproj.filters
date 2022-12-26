@@ -84,6 +84,9 @@
     <FxCompile Include="ShadowAnimation.hlsl">
       <Filter>Deferred</Filter>
     </FxCompile>
+    <FxCompile Include="CalVolumeDeferredLight.hlsl">
+      <Filter>Deferred</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Debug">

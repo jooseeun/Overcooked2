@@ -276,6 +276,20 @@ void GameEngineCamera::Render(float _DeltaTime)
 		LightDataObject.Count = 1;
 		LightDataObject.Lights[0] = Light->GetLightData();
 
+		switch (LightDataObject.Lights[0].LightType)
+		{
+		case 0: // dir
+			DeferredCalLightUnit->SetMesh("FullRect");
+			break;
+		case 1: // point
+			DeferredCalLightUnit->SetMesh("Sphere");
+			break;
+		case 2: // spot
+			break;
+		default:
+			break;
+		}
+
 		DeferredCalLightUnit->ShaderResources.SetTexture("ShadowTex", Light->GetShadowTarget()->GetRenderTargetTexture(0));
 		CameraDeferredLightRenderTarget->Effect(DeferredCalLightUnit);
 	}

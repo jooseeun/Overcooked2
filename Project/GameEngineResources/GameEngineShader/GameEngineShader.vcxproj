@@ -134,6 +134,7 @@
     <FxCompile Include="Blur.hlsl" />
     <FxCompile Include="CalDeferredLight.hlsl" />
     <FxCompile Include="CalDeferredMerge.hlsl" />
+    <FxCompile Include="CalVolumeDeferredLight.hlsl" />
     <FxCompile Include="Color.hlsl" />
     <FxCompile Include="Debug3D.hlsl" />
     <FxCompile Include="DeferredColor.hlsl" />

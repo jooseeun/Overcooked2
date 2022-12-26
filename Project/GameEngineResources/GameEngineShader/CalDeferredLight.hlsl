@@ -15,8 +15,17 @@ struct Output
 Output CalDeferredLight_VS(Input _Input)
 {
     Output NewOutPut = (Output)0;
-    NewOutPut.Pos = _Input.Pos;
-    NewOutPut.Tex = _Input.Tex;
+
+    if (0 == Lights[0].LightType)
+    {
+        NewOutPut.Pos = _Input.Pos;
+        NewOutPut.Tex = _Input.Tex;
+    }
+    else if (0 != Lights[0].LightType)
+    {
+        NewOutPut.Pos = _Input.Pos;
+        NewOutPut.Tex = _Input.Tex;
+    }
     return NewOutPut;
 }
 
