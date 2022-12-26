@@ -128,6 +128,8 @@ void InGameUIActor::UIUpdate(float _DeltaTime)
 		return;
 	}
 
+	ServerUpdate(_DeltaTime);
+
 	if (GlobalGameData::GetLeftTimeRef().IsTimeOver() == true)
 	{
 		GEngine::ChangeLevel("ResultLevel");
@@ -143,8 +145,9 @@ void InGameUIActor::UIUpdate(float _DeltaTime)
 void InGameUIActor::UpdateTime(float _DeltaTime)
 {
 	//UpdateTime
-	ContentsUtility::Timer& LeftTimer = GlobalGameData::GetLeftTimeRef();
-	NotDeleteRecipe_Timer_.Update(_DeltaTime);
+	ContentsUtility::Timer LeftTimer = GlobalGameData::GetLeftTimeRef();
+	//NotDeleteRecipe_Timer_.Update(_DeltaTime);
+	//LeftTimer.Update(_DeltaTime);
 	if (NotDeleteRecipe_Timer_.IsTimeOver() == true)
 	{
 		NotDeleteRecipe_Timer_.StartTimer();
@@ -157,14 +160,6 @@ void InGameUIActor::UpdateTime(float _DeltaTime)
 			CreateRandomRecipe();
 		}
 	}
-	////최초의 Update 전에 레시피 두개를 생성한다.
-	//if (LeftTimer.GetCurTime() >= LeftTimer.Default_Time_)
-	//{
-	//	//CreateRandomRecipe();
-	//	CreateRandomRecipe();
-	//}
-
-	LeftTimer.Update(_DeltaTime);
 
 	//TimeFont
 	TimerUIInst_.Time->SetText(std::to_string(LeftTimer.GetCurTime()), "Naughty Squirrel");
@@ -319,6 +314,23 @@ void InGameUIActor::LevelStartEvent()
 {
 	if (GlobalGameData::IsGameStart() == true)
 	{
+		ServerStart();
+		if (ServerInitManager::Net->GetIsHost() == true)
+		{
+			ServerInit(ServerObjectType::UI);
+		}
+		else
+		{
+			int i = 4000;
+			for (; ; i++)
+			{
+				if (GameServerObject::GetServerObject(i) == nullptr)
+				{
+					break;
+				}
+			}
+			ClientInit(ServerObjectType::UI, i);
+		}
 	}
 }
 
@@ -402,4 +414,54 @@ void InGameUIActor::FailScore(int _FoodScore)//양수를 넣어주세요
 	std::weak_ptr<FadeFont> ScoreFont = GetLevel()->CreateActor<FadeFont>();
 	ScoreFont.lock()->GetTransform().SetWorldPosition({ -520.f,-190.f });
 	ScoreFont.lock()->Init("-" + std::to_string(TotalScore), { 256.f / 256.f,0.f / 256.f,0.f / 256.f }, 42.f);
+}
+
+void InGameUIActor::ServerStart()
+{
+}
+
+void InGameUIActor::ServerUpdate(float _DeltaTime)
+{
+	if (nullptr == ServerInitManager::Net)
+	{
+		return;
+	}
+
+	//내가 호스트면 패킷 보내기
+	if (ServerInitManager::Net->GetIsHost() == true)
+	{
+		ContentsUtility::Timer& LeftTimer = GlobalGameData::GetLeftTimeRef();
+		NotDeleteRecipe_Timer_.Update(_DeltaTime);
+		LeftTimer.Update(_DeltaTime);
+
+		std::shared_ptr<UIDataPacket> Packet = std::make_shared<UIDataPacket>();
+		Packet->LeftTime = GlobalGameData::GetLeftTimeRef().GetCurTime();
+
+		ServerInitManager::Net->SendPacket(Packet);
+		return;
+	}
+	//내가 클라이언트면 패킷 받기
+	else
+	{
+		while (false == IsPacketEmpty())
+		{
+			std::shared_ptr<GameServerPacket> Packet = PopPacket();
+
+			ContentsPacketType PacketType = Packet->GetPacketIDToEnum<ContentsPacketType>();
+
+			switch (PacketType)
+			{
+			case ContentsPacketType::UIUpdate:
+			{
+				std::shared_ptr<UIDataPacket> UIUpdate = std::dynamic_pointer_cast<UIDataPacket>(Packet);
+				*(GlobalGameData::GetLeftTimeRef().GetCurTimeRef()) = UIUpdate->LeftTime;
+				break;
+			}
+			case ContentsPacketType::ClinetInit:
+			default:
+				MsgBoxAssert("처리할수 없는 패킷이 날아왔습니다.");
+				break;
+			}
+		}
+	}
 }

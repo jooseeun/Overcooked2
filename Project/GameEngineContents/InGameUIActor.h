@@ -127,7 +127,7 @@ private:
 	std::function<void(int)> FailScore_;
 };
 
-class InGameUIActor : public UIActor
+class InGameUIActor : public UIActor, public  GameServerObject
 {
 	friend GamePlayLevel;
 public:
@@ -192,4 +192,22 @@ private:
 	bool IsGetScore_ = false;
 
 	Timer NotDeleteRecipe_Timer_; // 10초동안 레시피가 사라지지 않는거 확인하는 타이머
+
+	//서버
+private:
+	void ServerStart();
+	void ServerUpdate(float _DeltaTime);
+
+	//public:
+	//	static int MaxPlayerCount_;
+	//	static int PlayerCount_;
+	//	static std::shared_ptr<Player> GetMyPlayer()
+	//	{
+	//		return MyPlayer;
+	//	}
+	//
+	//	static void SetMyPlayer(std::shared_ptr<Player> _Player)
+	//	{
+	//		MyPlayer = _Player;
+	//	}
 };

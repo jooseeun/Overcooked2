@@ -114,6 +114,29 @@ void ServerInitManager::StartLevelPacketProcess(std::shared_ptr<GameServerPacket
 	GlobalGameData::SetGameStart(true);
 }
 
+void ServerInitManager::UIDataPacketProcess(std::shared_ptr<GameServerPacket> _Packet)
+{
+	std::shared_ptr<UIDataPacket> Packet = std::dynamic_pointer_cast<UIDataPacket>(_Packet);
+
+	for (int i = 4000;; i++)
+	{
+		GameServerObject* FindObject = GameServerObject::GetServerObject(i);
+		if (FindObject == nullptr)
+		{
+			return;
+		}
+
+		FindObject->PushPacket(Packet);
+	}
+	//GameServerObject* FindObject = GameServerObject::GetServerObject(0);
+
+//	FindObject->PushPacket(_Packet);
+	//if (true == Net->GetIsHost())
+	//{
+	//	Net->SendPacket(Packet);
+	//}
+}
+
 void ServerInitManager::StartInit()
 {
 	if (Player::GetMyPlayer() == nullptr)
@@ -153,6 +176,9 @@ void ServerInitManager::StartInit()
 		case ContentsPacketType::ObjectUpdate:
 			NewPacket = std::make_shared<ObjectUpdatePacket>();
 			break;
+		case ContentsPacketType::UIUpdate:
+			NewPacket = std::make_shared<UIDataPacket>();
+			break;
 		case ContentsPacketType::ClinetInit:
 			NewPacket = std::make_shared<ClientInitPacket>();
 			break;
@@ -191,6 +217,7 @@ void ServerInitManager::StartInit()
 		// 내가 클라이언트 일때만 등록해야하는 패킷
 		Net->Dis.AddHandler(ContentsPacketType::ClinetInit, std::bind(&ServerInitManager::ClientInitPacketProcess, std::placeholders::_1));
 		Net->Dis.AddHandler(ContentsPacketType::ChangeLevel, std::bind(&ServerInitManager::ChangeLevelPacketProcess, std::placeholders::_1));
+		Net->Dis.AddHandler(ContentsPacketType::UIUpdate, std::bind(&ServerInitManager::UIDataPacketProcess, std::placeholders::_1));
 	}
 }
 

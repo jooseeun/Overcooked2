@@ -3,7 +3,6 @@
 #include <GameEngineBase/GameServerNetClient.h>
 #include <functional>
 
-
 // Ό³Έν :
 class ServerInitManager
 {
@@ -27,6 +26,7 @@ public:
 	static void ChangeLevelPacketProcess(std::shared_ptr<GameServerPacket> _Packet);
 	static void ReadyLevelPacketProcess(std::shared_ptr<GameServerPacket> _Packet);
 	static void StartLevelPacketProcess(std::shared_ptr<GameServerPacket> _Packet);
+	static void UIDataPacketProcess(std::shared_ptr<GameServerPacket> _Packet);
 
 	static void StartInit();
 	static void Update(float _Delta);
@@ -34,6 +34,4 @@ public:
 private:
 	static GameServerNetServer Server;
 	static GameServerNetClient Client;
-
 };
-
