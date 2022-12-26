@@ -531,10 +531,13 @@ void GameEngineCamera::ChangeRenderingOrder(std::shared_ptr<GameEngineRenderer> 
 	std::list<std::shared_ptr<GameEngineRenderUnit>>& Units = _Renderer->GetUnits();
 	for (std::shared_ptr<GameEngineRenderUnit> Unit : Units)
 	{
-		std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& Group = AllRenderUnit_[Unit->GetPath()];
-		int Order = _Renderer->RenderingOrder;
-		std::list<std::shared_ptr<class GameEngineRenderUnit>>& List = Group[Order];
-		List.remove(Unit);
+		for (size_t i = 0; i < static_cast<size_t>(RENDERINGPATHORDER::MAX); i++)
+		{
+			std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& Group = AllRenderUnit_[static_cast<RENDERINGPATHORDER>(i)];
+			int Order = _Renderer->RenderingOrder;
+			std::list<std::shared_ptr<class GameEngineRenderUnit>>& List = Group[Order];
+			List.remove(Unit);
+		}
 	}
 
 	_Renderer->RenderingOrder = _ChangeOrder;
