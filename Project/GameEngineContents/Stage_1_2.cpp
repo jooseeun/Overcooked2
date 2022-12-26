@@ -84,6 +84,7 @@ void Stage_1_2::PlayLevelStartEvent()
 
 
 	}
+	GameBgmPlayer::BgmPlayer_->ChangeBgm("TheNeonCity.wav");
 
 	if (IsLevelFirst_ == false)
 	{
@@ -108,7 +109,6 @@ void Stage_1_2::PlayLevelStartEvent()
 	GlobalIOManager::Load(IOType::UnsortMap, 1);
 	DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
 
-	GameBgmPlayer::BgmPlayer_->ChangeBgm("TheNeonCity.wav");
 
 	{
 		std::shared_ptr<GlobalBloomActor> BloomActor = CreateActor<GlobalBloomActor>();
