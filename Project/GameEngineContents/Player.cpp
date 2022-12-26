@@ -5,7 +5,9 @@
 #include "Cannon.h"
 #include "Button.h"
 #include "Lift.h"
+#include "GamePlayMoveable.h"
 #include <math.h>
+
 
 //player key
 //이동 - 방향키
@@ -1210,6 +1212,7 @@ CollisionReturn Player::GroundHoldUpCheck(std::shared_ptr<GameEngineCollision> _
 	}
 
 	SetPlayerHolding(_Other->GetActor());
+	SetCurHoldType(CurrentHoldingObject_->CastThis<GamePlayMoveable>()->GetHoldType());
 	IdleRendererON();
 
 	return CollisionReturn::ContinueCheck;

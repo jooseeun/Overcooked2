@@ -64,7 +64,8 @@ void GamePlayPhysics::ColCheckPlayer()//플레이어한테 차이거나 하면은 밀리는 함수
 {
 	PhysicsCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Character, CollisionType::CT_OBB,
 		std::bind(&GamePlayPhysics::MoveFromPlayer, this, std::placeholders::_1, std::placeholders::_2));
-		
+	PhysicsCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Character, CollisionType::CT_OBB,
+		std::bind(&GamePlayPhysics::PullPlayer, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 CollisionReturn GamePlayPhysics::MoveFromPlayer(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
@@ -87,36 +88,72 @@ CollisionReturn GamePlayPhysics::MoveFromPlayer(std::shared_ptr<GameEngineCollis
 
 CollisionReturn GamePlayPhysics::PullPlayer(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 { // 내가 다른애를 미는거
-	float4  Vec = _Other->GetActor()->GetTransform().GetWorldPosition() - _This->GetActor()->GetTransform().GetWorldPosition();
-	Vec.Normalize3D();
-	Vec.y = 0;
-	float len = Vec.Length();
+	if (_This != _Other)
+	{
+		float4  Vec = _This->GetActor()->GetTransform().GetWorldPosition() - _Other->GetActor()->GetTransform().GetWorldPosition();
+		Vec.Normalize3D();
+		Vec.y = 0;
+		float len = Vec.Length();
 
-		if (_Other->GetParent()->CastThis<GamePlayPhysics>()->PhysicsLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
-			_Other->GetParent()->CastThis<GamePlayPhysics>()->PhysicsLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB) == true)
+		if (_This->GetParent()->CastThis<GamePlayPhysics>()->PhysicsLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
+			_This->GetParent()->CastThis<GamePlayPhysics>()->PhysicsLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB) == true)
 		{
-			_Other->GetActor()->GetTransform().SetWorldLeftMove(100.0f, GameEngineTime::GetDeltaTime());
+			_This->GetActor()->GetTransform().SetWorldLeftMove(400.0f, GameEngineTime::GetDeltaTime());
 
 		}
-		else if(_Other->GetParent()->CastThis< GamePlayPhysics>()->PhysicsRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
-			_Other->GetParent()->CastThis< GamePlayPhysics>()->PhysicsRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB) == true)
+		else if (_This->GetParent()->CastThis< GamePlayPhysics>()->PhysicsRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
+			_This->GetParent()->CastThis< GamePlayPhysics>()->PhysicsRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB) == true)
 		{
-			_Other->GetActor()->GetTransform().SetWorldRightMove(100.0f, GameEngineTime::GetDeltaTime());
+			_This->GetActor()->GetTransform().SetWorldRightMove(400.0f, GameEngineTime::GetDeltaTime());
 		}
-	
-		if (_Other->GetParent()->CastThis< GamePlayPhysics>()->PhysicsForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
-			_Other->GetParent()->CastThis< GamePlayPhysics>()->PhysicsForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB) == true)
+
+		if (_This->GetParent()->CastThis< GamePlayPhysics>()->PhysicsForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
+			_This->GetParent()->CastThis< GamePlayPhysics>()->PhysicsForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB) == true)
 		{
-			_Other->GetActor()->GetTransform().SetWorldForwardMove(100.0f, GameEngineTime::GetDeltaTime());
+			_This->GetActor()->GetTransform().SetWorldForwardMove(400.0f, GameEngineTime::GetDeltaTime());
 		}
-		else if (_Other->GetParent()->CastThis< GamePlayPhysics>()->PhysicsBackCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
-			_Other->GetParent()->CastThis< GamePlayPhysics>()->PhysicsBackCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB) == true)
+		else if (_This->GetParent()->CastThis< GamePlayPhysics>()->PhysicsBackCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
+			_This->GetParent()->CastThis< GamePlayPhysics>()->PhysicsBackCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB) == true)
 		{
-			_Other->GetActor()->GetTransform().SetWorldBackMove(100.0f, GameEngineTime::GetDeltaTime());
+			_This->GetActor()->GetTransform().SetWorldBackMove(400.0f, GameEngineTime::GetDeltaTime());
 		}
+	}
 
 	return CollisionReturn::ContinueCheck;
 }
+
+//CollisionReturn GamePlayPhysics::PullPlayer(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
+//{ // 내가 다른애를 미는거
+//	float4  Vec = _Other->GetActor()->GetTransform().GetWorldPosition() - _This->GetActor()->GetTransform().GetWorldPosition();
+//	Vec.Normalize3D();
+//	Vec.y = 0;
+//	float len = Vec.Length();
+//
+//		if (_Other->GetParent()->CastThis<GamePlayPhysics>()->PhysicsLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
+//			_Other->GetParent()->CastThis<GamePlayPhysics>()->PhysicsLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB) == true)
+//		{
+//			_Other->GetActor()->GetTransform().SetWorldLeftMove(1000.0f, GameEngineTime::GetDeltaTime());
+//
+//		}
+//		else if(_Other->GetParent()->CastThis< GamePlayPhysics>()->PhysicsRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
+//			_Other->GetParent()->CastThis< GamePlayPhysics>()->PhysicsRightCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB) == true)
+//		{
+//			_Other->GetActor()->GetTransform().SetWorldRightMove(1000.0f, GameEngineTime::GetDeltaTime());
+//		}
+//	
+//		if (_Other->GetParent()->CastThis< GamePlayPhysics>()->PhysicsForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
+//			_Other->GetParent()->CastThis< GamePlayPhysics>()->PhysicsForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB) == true)
+//		{
+//			_Other->GetActor()->GetTransform().SetWorldForwardMove(1000.0f, GameEngineTime::GetDeltaTime());
+//		}
+//		else if (_Other->GetParent()->CastThis< GamePlayPhysics>()->PhysicsBackCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
+//			_Other->GetParent()->CastThis< GamePlayPhysics>()->PhysicsBackCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB) == true)
+//		{
+//			_Other->GetActor()->GetTransform().SetWorldBackMove(1000.0f, GameEngineTime::GetDeltaTime());
+//		}
+//
+//	return CollisionReturn::ContinueCheck;
+//}
 
 void GamePlayPhysics::Throw(float4 _Vector) 
 {
