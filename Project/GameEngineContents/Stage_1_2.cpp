@@ -158,14 +158,14 @@ void Stage_1_2::PlayLevelStartEvent()
 		std::shared_ptr<MoveCar> Car = CreateActor<MoveCar>();
 		Car->GetTransform().SetWorldPosition({ -2900.f, 0.f, 1000.f });
 		Car->SetStartPos(Car->GetTransform().GetWorldPosition());
-		Car->SetEndPos({ -2500.f, 0.f, -2800.f });
+		Car->SetEndPos({ -2500.f, 0.f, -2700.f });
 		Car->SetStartTime(15.f);
 		Car->SetCarMesh("Car_Green.fbx");
 	}
 
 	{
 		std::shared_ptr<MoveCar> Car = CreateActor<MoveCar>();
-		Car->GetTransform().SetWorldPosition({ -2500.f, 0.f, -2800.f });
+		Car->GetTransform().SetWorldPosition({ -2500.f, 0.f, -2700.f });
 		Car->SetStartPos(Car->GetTransform().GetWorldPosition());
 		Car->GetTransform().SetWorldRotation({ 0.f, 180.f, 0.f });
 		Car->SetEndPos({ -2900.f, 0.f, 1000.f });
