@@ -89,6 +89,7 @@ void GameServerNetServer::AcceptFunction(GameEngineThread* Thread)
 		}
 
 		UserSockets.push_back(NewUser);
+		ReadyLevels.push_back(false);
 		NewThread->Start(ThreadName.str(), std::bind(&GameServerNetServer::UserFunction, this, NewThread.get(), NewUser));
 	}
 }
