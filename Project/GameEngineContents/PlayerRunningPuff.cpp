@@ -17,11 +17,10 @@ void PlayerRunningPuff::Start()
 	RunningPuffRenderer_ = CreateComponent<GameEngineTextureRenderer>();
 	RunningPuffRenderer_->SetOrder(10000000000000000);
 	RunningPuffRenderer_->SetPivot(PIVOTMODE::CENTER);
-	RunningPuffRenderer_->GetRenderUnit()->SetMaterial("AlphaBlend");
 	RunningPuffRenderer_->SetTexture("RunningPuff.png");
 	RunningPuffRenderer_->ScaleToTexture();
 	RunningPuffRenderer_->GetTransform().SetLocalPosition({ 0.0f ,50.0f,50.0f });
-	RunningPuffRenderer_->GetShaderResources().SetConstantBufferLink("PixelData", &Renderer, sizeof(PixelData));
+	//RunningPuffRenderer_->GetShaderResources().SetConstantBufferLink("PixelData", &Renderer, sizeof(PixelData));
 
 
 	Death(3.0f);
