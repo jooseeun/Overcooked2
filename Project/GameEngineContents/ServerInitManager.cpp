@@ -105,6 +105,7 @@ void ServerInitManager::ReadyLevelPacketProcess(std::shared_ptr<GameServerPacket
 	std::shared_ptr<IgnorePacket> Packet = std::make_shared<IgnorePacket>();
 	Packet->SetPacketID(ContentsPacketType::StartLevel);
 	ServerInitManager::Net->SendPacket(Packet);
+	GlobalGameData::SetGameStart(true);
 }
 
 void ServerInitManager::StartLevelPacketProcess(std::shared_ptr<GameServerPacket> _Packet)
