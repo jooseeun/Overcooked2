@@ -2,11 +2,11 @@
 #include "Cooker.h"
 #include "GamePlayBowl.h"
 
-Cooker::Cooker() 
+Cooker::Cooker()
 {
 }
 
-Cooker::~Cooker() 
+Cooker::~Cooker()
 {
 }
 
@@ -25,6 +25,16 @@ void Cooker::SettingToolPos(ToolInfo _MyTool)
 	//SetStuff(GetLevel()->CreateActor<Tool_Cooker>());
 }
 
+void Cooker::FireOn()
+{
+	GetFBXMesh()->GetPixelDatas(1).MulColor = float4{ 1.f, 1.f, 1.f, 1.f };
+}
+
+void Cooker::FireOff()
+{
+	GetFBXMesh()->GetPixelDatas(1).MulColor = float4{ 0.f,0.f ,0.f ,0.f };
+}
+
 void Cooker::Start()
 {
 	GamePlayStaticObject::Start();
@@ -40,9 +50,11 @@ void Cooker::Start()
 	GetFBXMesh()->GetTransform().SetWorldMove({ 0, 0, 0 });
 	ToolPos_ = { 0.f, 85.f, 25.f };
 	SetToolPos(ToolPos_);
-
+	
 	SetStuff(GetLevel()->CreateActor<Tool_Cooker>());
 
+	//불 끄고 시작
+	FireOff();
 }
 
 

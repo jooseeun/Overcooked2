@@ -29,6 +29,10 @@ public:
 
 	void SettingToolPos(ToolInfo _MyTool_);
 
+	void FireOn();
+
+	void FireOff();
+
 protected:
 	void Start() override;
 private:
