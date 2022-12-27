@@ -7,7 +7,6 @@ enum class ContentsPacketType
 	None,
 	ObjectUpdate, // 오브젝트 업데이트
 	ObjectStart,
-	UIUpdate, // UI 업데이트
 	LoadingData,  // 로딩레벨에서 사용하는 패킷 호스트, 클라 둘 다 사용
 	UIUpdate,     // UI 업데이트
 	ClinetInit,   // 클라이언트가 들어오면 서버가 보내줄 패킷.
