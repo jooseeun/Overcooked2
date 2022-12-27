@@ -46,7 +46,7 @@ void GamePlayObject::ServerStart()
 		std::shared_ptr<ObjectStartPacket> Packet = std::make_shared<ObjectStartPacket>();
 		SendObjectType(Packet);
 		if (Packet->MapObjData == MapObjType::Max && Packet->ToolData == ToolInfo::None
-&& Packet->IngredientData == IngredientType::None)
+		&& Packet->IngredientData == IngredientType::None)
 		{
 			return;
 		}

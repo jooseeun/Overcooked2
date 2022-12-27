@@ -196,13 +196,19 @@ private:
 				MsgBoxAssert("GamePlaystaticObject 서버 부모 설정 오류1")
 			}
 
-			
 		}
 		else
 		{
-			MsgBoxAssert("GamePlaystaticObject 서버 부모 설정 오류2")
+			GameServerObject* Server = GameServerObject::GetServerObject(GetNetID());
+			if (Server != nullptr)
+			{
+				SetServerHoldObject(GetNetID());
+			}
+			else
+			{
+				MsgBoxAssert("GamePlaystaticObject 서버 부모 설정 오류2")
+			}
 		}
-		
 	};
 
 	void SetServerHoldObject(int _ServerID) override
