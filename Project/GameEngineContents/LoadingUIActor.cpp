@@ -6,6 +6,8 @@
 #include "GamePlayLevel.h"
 
 #include "LoadingData.h"
+
+#define ServerLoadingStart 4010
 LoadingUIActor::LoadingUIActor()
 {
 }
@@ -142,11 +144,8 @@ void LoadingUIActor::UIUpdate(float _DeltaTime)
 		Ptr->SetIsLevelStart_False();
 		GEngine::ChangeLevel(StageName_);
 	}
-	////FadeIn & Out이 진행중이면 Info 업데이트를 하지 않는다.
-	//if (TransitionIcon_->IsFinishFadeIn_ == false && TransitionIcon_->IsUpdate() == true)
-	//{
-	//	return;
-	//}
+
+	UpdateServer();
 
 	StageData CurData = GlobalGameData::GetCurStageRef();
 
@@ -155,17 +154,113 @@ void LoadingUIActor::UIUpdate(float _DeltaTime)
 	RenderInfo(CurData);
 }
 
+void LoadingUIActor::UpdateServer()
+{
+	if (ServerInitManager::Net == nullptr)
+	{
+		return;
+	}
+
+	//시각적으로 보이는 로딩바 Update
+	if (ServerInitManager::Net->GetIsHost() == true)
+	{
+		RealAccTimeMap_[GetNetID()] = AccTime_;
+		while (false == IsPacketEmpty())
+		{
+			std::shared_ptr<GameServerPacket> Packet = PopPacket();
+
+			ContentsPacketType PacketType = Packet->GetPacketIDToEnum<ContentsPacketType>();
+
+			switch (PacketType)
+			{
+			case ContentsPacketType::LoadingData:
+			{
+				std::shared_ptr<LoadingDataPacket> DataPacket = std::dynamic_pointer_cast<LoadingDataPacket>(Packet);
+				float LoadingValue = DataPacket->LoadingReal;
+				RealAccTimeMap_[DataPacket->ObjectID] = LoadingValue;
+				break;
+			}
+			case ContentsPacketType::ClinetInit:
+			default:
+				MsgBoxAssert("처리할수 없는 패킷이 날아왔습니다.");
+				break;
+			}
+		}
+
+		float VisualValue = RealAccTimeMap_[GetNetID()];
+		for (auto i : RealAccTimeMap_)
+		{
+			if (i.second <= VisualValue)
+			{
+				VisualValue = i.second;
+			}
+		}
+
+		VisualAccTime_ = VisualValue;
+
+		//클라에게 Visual 값을 뿌리기
+		std::shared_ptr<LoadingDataPacket> Packet = std::make_shared<LoadingDataPacket>();
+		Packet->ObjectID = GetNetID();
+		Packet->LoadingVisual = VisualAccTime_;
+		ServerInitManager::Net->SendPacket(Packet);
+
+		//int UserCount = 0;
+		//for (int i = ServerLoadingStart + 1;; i++)
+		//{
+		//	if (GameServerObject::GetServerObject(i) == nullptr)
+		//	{
+		//		break;
+		//	}
+		//	else
+		//	{
+		//		UserCount++;
+		//	}
+		//}
+	}
+	// 클라는 호스트에게 자기의 진행상태를 보내
+	else
+	{
+		//자기 진행상태 패킷으로 보내기
+		std::shared_ptr<LoadingDataPacket> Packet = std::make_shared<LoadingDataPacket>();
+		Packet->ObjectID = GetNetID();
+		Packet->LoadingReal = AccTime_;
+		ServerInitManager::Net->SendPacket(Packet);
+
+		//호스트로부터 Visual 패킷 받기
+		while (false == IsPacketEmpty())
+		{
+			std::shared_ptr<GameServerPacket> Packet = PopPacket();
+
+			ContentsPacketType PacketType = Packet->GetPacketIDToEnum<ContentsPacketType>();
+
+			switch (PacketType)
+			{
+			case ContentsPacketType::LoadingData:
+			{
+				std::shared_ptr<LoadingDataPacket> DataPacket = std::dynamic_pointer_cast<LoadingDataPacket>(Packet);
+				VisualAccTime_ = DataPacket->LoadingVisual;
+				break;
+			}
+			case ContentsPacketType::ClinetInit:
+			default:
+				MsgBoxAssert("처리할수 없는 패킷이 날아왔습니다.");
+				break;
+			}
+		}
+	}
+}
+
 void LoadingUIActor::UpdateInfo(StageData& CurData, float _DeltaTime)
 {
 	//시간이 지나면 다음 레벨로 전이 & 일정시간 지나면 필요한 리소스 Load
 	AccTime_ += _DeltaTime;
 
-	if (AccTime_ > MaxAccTime_ * 0.5f && IsLoad_ == false)
+	if (VisualAccTime_ > MaxAccTime_ * 0.5f && IsLoad_ == false)
 	{
 		IsLoad_ = true;
 		StartLoad();
 	}
-	if (AccTime_ > MaxAccTime_ && TransitionIcon_->IsUpdate() == false)
+	if (VisualAccTime_ > MaxAccTime_ && TransitionIcon_->IsUpdate() == false)
 	{
 		//AccTime_ = 0.f;
 		StartFadeOut();
@@ -178,7 +273,7 @@ void LoadingUIActor::UpdateInfo(StageData& CurData, float _DeltaTime)
 void LoadingUIActor::RenderInfo(StageData& CurData)
 {
 	//로딩바 퍼센테이지  업데이트
-	LoadingFrontRenderer_->UpdateLeftToRight(AccTime_ / MaxAccTime_);
+	LoadingFrontRenderer_->UpdateLeftToRight(VisualAccTime_ / MaxAccTime_);
 
 	HighestScoreRenderer_->SetText("최고점수: " + std::to_string(HigestScore_), "Naughty Squirrel");
 
@@ -207,6 +302,31 @@ void LoadingUIActor::RenderInfo(StageData& CurData)
 
 void LoadingUIActor::UIEnd()
 {
+}
+
+void LoadingUIActor::LevelStartEvent()
+{
+	//서버쪽
+	{
+		int i = ServerLoadingStart;
+		if (ServerInitManager::Net->GetIsHost() == true)
+		{
+			i = ServerLoadingStart;
+			ClientInit(ServerObjectType::UI, i);
+		}
+		else
+		{
+			i = ServerLoadingStart + 1;
+			for (; ; i++)
+			{
+				if (GameServerObject::GetServerObject(i) == nullptr)
+				{
+					ClientInit(ServerObjectType::UI, i);
+					break;
+				}
+			}
+		}
+	}
 }
 
 void LoadingUIActor::CreateStarNScoreRenderer(const float4& _Pos, int _Score)

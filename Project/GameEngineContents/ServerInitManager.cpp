@@ -7,7 +7,7 @@
 #include "GamePlayObject.h"
 
 GameServerNet* ServerInitManager::Net;
-std::string ServerInitManager::IP = "10.0.4.95";
+std::string ServerInitManager::IP = "127.0.0.1";
 GameServerNetServer ServerInitManager::Server;
 GameServerNetClient ServerInitManager::Client;
 
@@ -34,7 +34,7 @@ void ServerInitManager::ObjectUpdatePacketProcess(std::shared_ptr<GameServerPack
 				Player::MaxPlayerCount_ = Packet->ObjectID;
 			}
 		}
-		else if(ServerObjectType::Object == Packet->Type)
+		else if (ServerObjectType::Object == Packet->Type)
 		{
 			Packet->ObjectID = GamePlayObject::ObjectNumber_++;
 		}
@@ -184,6 +184,9 @@ void ServerInitManager::StartInit()
 		case ContentsPacketType::UIUpdate:
 			NewPacket = std::make_shared<UIDataPacket>();
 			break;
+		case ContentsPacketType::LoadingData:
+			NewPacket = std::make_shared<LoadingDataPacket>();
+			break;
 		case ContentsPacketType::ClinetInit:
 			NewPacket = std::make_shared<ClientInitPacket>();
 			break;
@@ -211,6 +214,7 @@ void ServerInitManager::StartInit()
 	Net->Dis.AddHandler(ContentsPacketType::Ignore, std::bind(&ServerInitManager::Ignore, std::placeholders::_1));
 	Net->Dis.AddHandler(ContentsPacketType::None, std::bind(&ServerInitManager::Ignore, std::placeholders::_1));
 	Net->Dis.AddHandler(ContentsPacketType::StartLevel, std::bind(&ServerInitManager::StartLevelPacketProcess, std::placeholders::_1));
+	Net->Dis.AddHandler(ContentsPacketType::LoadingData, std::bind(&ServerInitManager::LoadingDataPacketProcess, std::placeholders::_1));
 
 	if (true == Net->GetIsHost())
 	{

@@ -6,7 +6,8 @@ enum class ContentsPacketType
 {
 	None,
 	ObjectUpdate, // 오브젝트 업데이트
-	UIUpdate, // UI 업데이트
+	LoadingData,  // 로딩레벨에서 사용하는 패킷 호스트, 클라 둘 다 사용
+	UIUpdate,     // UI 업데이트
 	ClinetInit,   // 클라이언트가 들어오면 서버가 보내줄 패킷.
 	ChangeLevel,  // 레벨 변경 - 호스트만 전송
 	ReadyLevel,   // 레벨 변경이 완료됨 - 게스트만 전송
@@ -162,5 +163,32 @@ public:
 	{
 		GameServerPacket::DeSerialize(_Ser);
 		_Ser >> LeftTime;
+	}
+};
+
+class LoadingDataPacket : public GameServerPacket
+{
+public:
+	int ObjectID;
+	float LoadingVisual; //호스트, 클라가 일관적으로 동일한 값
+	float LoadingReal;   // 이 값은 다를 수 있다.
+	LoadingDataPacket()
+	{
+		SetPacketID(ContentsPacketType::LoadingData);
+	}
+
+	virtual void Serialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::Serialize(_Ser);
+		_Ser << ObjectID;
+		_Ser << LoadingVisual;
+		_Ser << LoadingReal;
+	}
+	virtual void DeSerialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::DeSerialize(_Ser);
+		_Ser >> ObjectID;
+		_Ser >> LoadingVisual;
+		_Ser >> LoadingReal;
 	}
 };

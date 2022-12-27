@@ -3,7 +3,7 @@
 #include "GlobalGameData.h"
 
 class OverCookedUIRenderer;
-class LoadingUIActor : public UIActor
+class LoadingUIActor : public UIActor, GameServerObject
 {
 	struct LevelSelect
 	{
@@ -29,9 +29,13 @@ protected:
 	void UIStart() override;
 	void InitRenderer();
 	void UIUpdate(float _DeltaTime) override;
+	void UpdateServer();
 	void UpdateInfo(StageData& CurData, float _DeltaTime);
 	void RenderInfo(StageData& CurData);
 	void UIEnd() override;
+
+	void LevelStartEvent() override;
+
 private:
 	std::shared_ptr<OverCookedUIRenderer> EndBackground_;
 	std::shared_ptr<OverCookedUIRenderer> Background_;
@@ -60,7 +64,9 @@ private:
 
 	//Time
 	float AccTime_ = 0.f;
+	float VisualAccTime_ = 0.f;
 	float MaxAccTime_ = 4.0f;
+	std::map<int, float> RealAccTimeMap_;
 
 	//bool
 	bool IsLoadFirst_ = true;//최초의 로딩
