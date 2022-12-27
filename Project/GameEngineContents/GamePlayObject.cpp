@@ -66,14 +66,14 @@ void GamePlayObject::ServerStart()
 
 void GamePlayObject::ServerUpdate(float _DeltaTime)
 {
-	if (false == GetIsNetInit())
-	{
-		return;
-	}
 	if (InitFirst == false)
 	{
 		ServerStart();
 		InitFirst = true;
+	}
+	if (false == GetIsNetInit())
+	{
+		return;
 	}
 	/*
 
