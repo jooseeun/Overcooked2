@@ -84,13 +84,14 @@ void Player::MoveStart(const StateInfo& _Info)
 	PlayerWalkRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "Walk");
 	PlayerWalkRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 	PlayerWalkRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
+	std::shared_ptr<PlayerRunningPuff> PuffActor = GetLevel()->CreateActor<PlayerRunningPuff>();
+	PuffActor->SetParent(shared_from_this());
+	PuffActor->GetTransform().SetLocalPosition(float4{ 0.0f, 0.0f, 100.0f });
 }
 void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 
-	std::shared_ptr<PlayerRunningPuff> PuffActor = GetLevel()->CreateActor<PlayerRunningPuff>();
-	PuffActor->SetParent(shared_from_this());
-	PuffActor->GetTransform().SetLocalPosition(float4{ 0.0f, 0.0f, 100.0f });
+
 
 	if (false == GameEngineInput::GetInst()->IsPressKey("PlayerLeft" ) &&
 		false == GameEngineInput::GetInst()->IsPressKey("PlayerRight") &&

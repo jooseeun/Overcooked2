@@ -1403,28 +1403,31 @@ void Player::ServerUpdate(float _DeltaTime)
 			}
 	
 			{// 렌더러 업데이트
-				if (ObjectUpdate->RendererState == 0)
+				if (ObjectUpdate->Animation != "")
 				{
-					IdleRendererON();
-					PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(ObjectUpdate->Animation);
-					PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
-					PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
-				}
-				else if(ObjectUpdate->RendererState == 1)
-				{
+					if (ObjectUpdate->RendererState == 0)
+					{
+						IdleRendererON();
+						PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(ObjectUpdate->Animation);
+						PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
+						PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
+					}
+					else if (ObjectUpdate->RendererState == 1)
+					{
 
-					WalkRendererON();
-				}
-				else if (ObjectUpdate->RendererState == 2)
-				{
-					ChopRendererON();
-				}
-				else if (ObjectUpdate->RendererState == 3)
-				{
+						WalkRendererON();
+					}
+					else if (ObjectUpdate->RendererState == 2)
+					{
+						ChopRendererON();
+					}
+					else if (ObjectUpdate->RendererState == 3)
+					{
 
-					WashRendererON();
+						WashRendererON();
+					}
 				}
-
+				
 			}
 			break;
 		}

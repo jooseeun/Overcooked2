@@ -16,12 +16,14 @@ public:
 	PlayerRunningPuff& operator=(const PlayerRunningPuff& _Other) = delete;
 	PlayerRunningPuff& operator=(PlayerRunningPuff&& _Other) noexcept = delete;
 
+
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime);
 	void End() {}
 private:
 	std::shared_ptr< GameEngineTextureRenderer> RunningPuffRenderer_;
-	PixelData Renderer;
+	float ScaleRatio_;
 };
 
