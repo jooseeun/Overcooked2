@@ -117,6 +117,8 @@ void Stage_1_1::PlayLevelStartEvent()
 	LevelActor_->GetRenderer()->SetSubMaterial(33, "AddBlendAlpha");
 	LevelActor_->GetRenderer()->SetSubMaterial(16, "TextureAlpha");
 
+
+
 	GlobalIOManager::Load(IOType::SortMap, 0);
 	DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
 
@@ -131,6 +133,33 @@ void Stage_1_1::PlayLevelStartEvent()
 		BloomActor->SetColor({ 0.12f, 0.f, 1.f, 1.f });
 	}
 
+
+	{
+		std::shared_ptr<LevelActor> TestBeam = CreateActor<LevelActor>();
+		TestBeam->GetTransform().SetLocalPosition({ -1650, 200, -120 });
+		TestBeam->GetTransform().SetLocalScale({ 2,2,2});
+		TestBeam->GetRenderer()->SetFBXMesh("Beam2.FBX", "AddBlendAlpha");
+
+
+	}
+
+
+	{
+		std::shared_ptr<LevelActor> TestBeam = CreateActor<LevelActor>();
+		TestBeam->GetTransform().SetLocalPosition({ -1650, 200, -120 });
+		TestBeam->GetTransform().SetLocalScale({ 2,2,2 });
+		TestBeam->GetRenderer()->SetFBXMesh("Beam2.FBX", "AddBlendAlpha");
+
+	}
+
+	{
+		std::shared_ptr<LevelActor> TestBeam = CreateActor<LevelActor>();
+		TestBeam->GetTransform().SetLocalPosition({ -1650, 200, -120 });
+		TestBeam->GetTransform().SetLocalScale({ 2,2,2 });
+		TestBeam->GetRenderer()->SetFBXMesh("Beam2.FBX", "AddBlendAlpha");
+
+
+	}
 	std::shared_ptr<GlobalMouseInput> Mouse = CreateActor<GlobalMouseInput>();
 
 	GetMainCameraActorTransform().SetLocalRotation({ 60, 180, 0 });

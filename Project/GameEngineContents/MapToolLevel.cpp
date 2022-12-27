@@ -66,6 +66,7 @@ void MapToolLevel::Start()
 	Window_->GetAllUnSortActorName().push_back("m_city_liftplatform_01");
 	Window_->GetAllUnSortActorName().push_back("Portal_Blue");
 	Window_->GetAllUnSortActorName().push_back("Portal_Purple");
+	Window_->GetAllUnSortActorName().push_back("Beam2");
 
 	// 2-1
 	Window_->GetAllUnSortActorName().push_back("IcePlarform");
