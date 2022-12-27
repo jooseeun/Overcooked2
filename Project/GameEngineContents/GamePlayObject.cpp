@@ -28,6 +28,12 @@ void GamePlayObject::Start()
 	SetGravityCollision(Collision_Object_);
 }
 
+void GamePlayObject::Update(float _DeltaTime)
+{
+	ServerUpdate(_DeltaTime);
+}
+
+
 // Server
 
 void GamePlayObject::ServerStart()

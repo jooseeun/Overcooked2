@@ -29,6 +29,8 @@ void GamePlayMoveable::Start()
 }
 void GamePlayMoveable::Update(float _DeltaTime)
 {
+	GamePlayObject::Update(_DeltaTime);
+
 	if (GetParent() == nullptr)
 	{
 		GameEngineDebug::OutPutString(std::to_string(GetTransform().GetLocalPosition().x) + " + "  + std::to_string(GetTransform().GetLocalPosition().y) + " + " + std::to_string(GetTransform().GetLocalPosition().z));
