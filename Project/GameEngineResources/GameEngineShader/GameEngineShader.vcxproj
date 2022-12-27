@@ -139,6 +139,7 @@
     <FxCompile Include="Debug3D.hlsl" />
     <FxCompile Include="DeferredColor.hlsl" />
     <FxCompile Include="DeferredHeader.fx" />
+    <FxCompile Include="DeferredTexture.hlsl" />
     <FxCompile Include="DeferredTextureAnimation.hlsl" />
     <FxCompile Include="Glass.hlsl" />
     <FxCompile Include="Water.hlsl" />

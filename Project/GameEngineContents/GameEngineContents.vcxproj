@@ -831,6 +831,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="UIServer.cpp" />
     <ClCompile Include="WaterTest.cpp">
       <SubType>
       </SubType>

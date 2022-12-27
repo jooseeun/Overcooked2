@@ -317,7 +317,7 @@ void InGameUIActor::LevelStartEvent()
 		ServerStart();
 		if (ServerInitManager::Net->GetIsHost() == true)
 		{
-			ServerInit(ServerObjectType::UI);
+			ClientInit(ServerObjectType::UI, 3999);
 		}
 		else
 		{
@@ -326,10 +326,10 @@ void InGameUIActor::LevelStartEvent()
 			{
 				if (GameServerObject::GetServerObject(i) == nullptr)
 				{
+					ClientInit(ServerObjectType::UI, i);
 					break;
 				}
 			}
-			ClientInit(ServerObjectType::UI, i);
 		}
 	}
 }
@@ -433,10 +433,8 @@ void InGameUIActor::ServerUpdate(float _DeltaTime)
 		ContentsUtility::Timer& LeftTimer = GlobalGameData::GetLeftTimeRef();
 		NotDeleteRecipe_Timer_.Update(_DeltaTime);
 		LeftTimer.Update(_DeltaTime);
-
 		std::shared_ptr<UIDataPacket> Packet = std::make_shared<UIDataPacket>();
 		Packet->LeftTime = GlobalGameData::GetLeftTimeRef().GetCurTime();
-
 		ServerInitManager::Net->SendPacket(Packet);
 		return;
 	}

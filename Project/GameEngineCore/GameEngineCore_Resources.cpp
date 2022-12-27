@@ -331,6 +331,12 @@ void EngineRenderingPipeLine()
 	}
 
 	{
+		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("DeferredTexture");
+		NewPipe->SetVertexShader("DeferredTexture.hlsl");
+		NewPipe->SetPixelShader("DeferredTexture.hlsl");
+	}
+
+	{
 		std::shared_ptr<GameEngineMaterial> NewPipe = GameEngineMaterial::Create("DeferredTextureAnimation");
 		NewPipe->SetVertexShader("DeferredTextureAnimation.hlsl");
 		NewPipe->SetPixelShader("DeferredTextureAnimation.hlsl");

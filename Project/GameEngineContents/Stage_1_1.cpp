@@ -17,6 +17,7 @@
 #include <GameEngineCore/GlobalVignette.h>
 #include <GameEngineCore/GlobalOverlay.h>
 #include <GameEngineCore/GlobalBloom.h>
+#include "GameEngineStatusWindow.h"
 
 Stage_1_1::Stage_1_1()
 {
@@ -45,6 +46,7 @@ void Stage_1_1::PlayLevelStart()
 
 	//GetMainCameraActorTransform().SetLocalRotation({ 60, 180, 0 });
 	//GetMainCameraActorTransform().SetLocalPosition({ -1400, 2200, 1600 });
+	GameEngineStatusWindow::AddDebugRenderTarget("1", GetMainCamera()->GetCameraDeferredGBufferRenderTarget());
 }
 
 void Stage_1_1::PlayLevelUpdate(float _DeltaTime)
@@ -62,6 +64,7 @@ void Stage_1_1::PlayLevelUpdate(float _DeltaTime)
 
 		GameEngineDebug::OutPutString(std::to_string(SubsetDebugIndex_));
 	}
+
 }
 
 void Stage_1_1::End()
@@ -117,8 +120,12 @@ void Stage_1_1::PlayLevelStartEvent()
 	LevelActor_->GetRenderer()->SetSubMaterial(33, "AddBlendAlpha");
 	LevelActor_->GetRenderer()->SetSubMaterial(16, "TextureAlpha");
 
-	GlobalIOManager::Load(IOType::SortMap, 0);
-	DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
+
+	if (ServerInitManager::Net != nullptr && ServerInitManager::Net->GetIsHost())
+	{
+		GlobalIOManager::Load(IOType::SortMap, 0);
+		DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
+	}
 
 	GlobalIOManager::Load(IOType::UnsortMap, 0);
 	DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
@@ -131,6 +138,33 @@ void Stage_1_1::PlayLevelStartEvent()
 		BloomActor->SetColor({ 0.12f, 0.f, 1.f, 1.f });
 	}
 
+
+	{
+		std::shared_ptr<LevelActor> TestBeam = CreateActor<LevelActor>();
+		TestBeam->GetTransform().SetLocalPosition({ -1650, 200, -120 });
+		TestBeam->GetTransform().SetLocalScale({ 2,2,2});
+		TestBeam->GetRenderer()->SetFBXMesh("Beam2.FBX", "AddBlendAlpha");
+
+
+	}
+
+
+	{
+		std::shared_ptr<LevelActor> TestBeam = CreateActor<LevelActor>();
+		TestBeam->GetTransform().SetLocalPosition({ -1650, 200, -120 });
+		TestBeam->GetTransform().SetLocalScale({ 2,2,2 });
+		TestBeam->GetRenderer()->SetFBXMesh("Beam2.FBX", "AddBlendAlpha");
+
+	}
+
+	{
+		std::shared_ptr<LevelActor> TestBeam = CreateActor<LevelActor>();
+		TestBeam->GetTransform().SetLocalPosition({ -1650, 200, -120 });
+		TestBeam->GetTransform().SetLocalScale({ 2,2,2 });
+		TestBeam->GetRenderer()->SetFBXMesh("Beam2.FBX", "AddBlendAlpha");
+
+
+	}
 	std::shared_ptr<GlobalMouseInput> Mouse = CreateActor<GlobalMouseInput>();
 
 	GetMainCameraActorTransform().SetLocalRotation({ 60, 180, 0 });
@@ -147,6 +181,9 @@ void Stage_1_1::PlayLevelStartEvent()
 
 	LightObject_ = CreateActor<GameEngineLight>();
 	LightObject_->GetTransform().SetWorldRotation({ 0.0f, 45.0f, 0.0f });
+
+	LightObject_->GetLightData().DifLightPower = 0.1f;
+	LightObject_->GetLightData().AmbLightPower = 10.f;
 	GetMainCamera()->PushLight(LightObject_);
 
 	//테스트용 - 동원

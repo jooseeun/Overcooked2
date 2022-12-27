@@ -413,6 +413,7 @@ void Overcooked::LoadStage(std::string_view _StageName)
 
 void Overcooked::LoadCommonResource()
 {
+
 	//{
 	//	GameEngineDirectory Dir;
 	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");

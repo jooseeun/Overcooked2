@@ -117,6 +117,14 @@ public:
 	//
 
 private: 
+	void ChildServerStart() override
+	{
+		if (Stuff_Current_ != nullptr)
+		{
+			Stuff_Current_->ServerStart();
+		}
+	};
+
 
 	void SendPacket(std::shared_ptr<ObjectUpdatePacket> Packet) override
 	{
@@ -129,6 +137,73 @@ private:
 			Packet->HoldObjectID = -1;
 		}
 	}
+
+	void SendServerHoldObject(std::shared_ptr<ObjectStartPacket> Packet)  override
+	{
+		if (Stuff_Current_ != nullptr)
+		{
+			Packet->HoldObjectID = Stuff_Current_->GetNetID();
+		}
+		else
+		{
+			Packet->HoldObjectID = -1;
+		}
+	}
+
+	void SendObjectType(std::shared_ptr<ObjectStartPacket> Packet) override
+	{
+		//switch (MyType_)
+		//{
+		//case MapObjType::CounterTop:
+		//case MapObjType::CounterTop_Corner:
+		//case MapObjType::CounterTop_NoEdge:
+		//case MapObjType::CounterTop_WiZard:
+		//case MapObjType::CounterTop_Winter:
+		//case MapObjType::Mixer_Kevin:
+		//case MapObjType::Mixer_Winter:
+		//case MapObjType::Cooker:
+		//case MapObjType::TrashCan:
+		//case MapObjType::Sink:
+		//case MapObjType::Sink_Wizard:
+		//case MapObjType::Servicehatch:
+		//case MapObjType::PlateReturn:
+		//case MapObjType::FoodBox_Normal:
+		//case MapObjType::FoodBox_Winter:
+		//case MapObjType::Rail:
+		//case MapObjType::Dispenser_Type1:
+		//case MapObjType::Dispenser_Type2:
+		//case MapObjType::Cannon:
+		//case MapObjType::Button:
+		//case MapObjType::Oven:
+		//	break;
+		//default:
+		//	return;
+		//	break;
+		//}
+		Packet->MapObjData = MyType_;
+	}
+
+	void SetParentsServerHoldObject(int _ServerID) override
+	{ 
+		if (Stuff_Current_ != nullptr)
+		{
+			if (!GameServerObject::GetServerObject(Stuff_Current_->GetNetID()))
+			{
+				Stuff_Current_->ClientInit(ServerObjectType::Object, _ServerID);
+			}
+			else
+			{
+				MsgBoxAssert("GamePlaystaticObject 서버 부모 설정 오류1")
+			}
+
+			
+		}
+		else
+		{
+			MsgBoxAssert("GamePlaystaticObject 서버 부모 설정 오류2")
+		}
+		
+	};
 
 	void SetServerHoldObject(int _ServerID) override
 	{

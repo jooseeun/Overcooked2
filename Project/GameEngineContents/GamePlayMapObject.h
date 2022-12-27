@@ -1,6 +1,6 @@
 #pragma once
 #include "GamePlayObject.h"
-
+#include "GamePacket.h"
 // Ό³Έν :
 class GamePlayMapObject : public GamePlayObject
 {
@@ -37,6 +37,10 @@ protected:
 private:
 	MapObjType ObjType_;
 
+	void SendObjectType(std::shared_ptr<ObjectStartPacket> Packet) override
+	{
+		Packet->MapObjData = MapObjType::Max;
+	}
 
 };
 

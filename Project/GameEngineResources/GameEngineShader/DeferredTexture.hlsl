@@ -25,12 +25,12 @@ struct Output
     float4 VIEWBINORMAL : BINORMAL;
 };
 
-Output TextureAnimation_VS(Input _Input)
+Output DefferedTexture_VS(Input _Input)
 {
     Output NewOutPut = (Output)0;
 
     NewOutPut.POSITION = _Input.POSITION;
-    Skinning(NewOutPut.POSITION, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
+   // Skinning(NewOutPut.POSITION, _Input.BLENDWEIGHT, _Input.BLENDINDICES, ArrAniMationMatrix);
     NewOutPut.POSITION.w = 1.0f;
 
     //_Input.NORMAL.w = 0.0f;
@@ -76,9 +76,9 @@ Texture2D DiffuseTexture : register(t0);
 Texture2D NormalTexture : register(t1);
 SamplerState LINEARWRAP : register(s0);
 
-DeferredOutPut TextureAnimation_PS(Output _Input) : SV_Target0
+DeferredOutPut DefferedTexture_PS(Output _Input) : SV_Target0
 {
-    float4 Color = DiffuseTexture.Sample(LINEARWRAP, _Input.TEXCOORD.xy) * MulColor;
+    float4 Color = DiffuseTexture.Sample(LINEARWRAP, _Input.TEXCOORD.xy);
 
     if (Color.a <= 0.0f)
     {
@@ -94,7 +94,7 @@ DeferredOutPut TextureAnimation_PS(Output _Input) : SV_Target0
 
     if (0 != IsNormal)
     {
-        OutPut.Nor = BumpNormalCalculate(NormalTexture, LINEARWRAP, _Input.TEXCOORD, _Input.VIEWTANGENT, _Input.VIEWBINORMAL, _Input.VIEWNORMAL) ;
+        OutPut.Nor = BumpNormalCalculate(NormalTexture, LINEARWRAP, _Input.TEXCOORD, _Input.VIEWTANGENT, _Input.VIEWBINORMAL, _Input.VIEWNORMAL) * MulColor;
         OutPut.Nor.w = 1.0f;
     }
 

@@ -701,6 +701,9 @@
     <ClCompile Include="GameBgmPlayer.cpp">
       <Filter>Global</Filter>
     </ClCompile>
+    <ClCompile Include="UIServer.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Contents">

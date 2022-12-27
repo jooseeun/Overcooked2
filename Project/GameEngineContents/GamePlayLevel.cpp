@@ -79,7 +79,6 @@ void GamePlayLevel::LevelStartEvent()
 			ServerInitManager::Net->SendPacket(Packet);
 		}
 	}
-
 	return;
 }
 

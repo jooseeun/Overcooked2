@@ -92,4 +92,11 @@ private:
 	float Angle_;
 
 	FoodBoxType Type_;
+
+	void SendObjectType(std::shared_ptr<ObjectStartPacket> Packet) override
+	{
+		Packet->MapObjData = GetStaticObjectType();
+		Packet->IngredientData = GetStuff()->CastThis<Tool_FoodBox>()->Type_;
+	}
+
 };

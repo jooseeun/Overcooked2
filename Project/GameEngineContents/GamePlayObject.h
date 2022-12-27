@@ -22,7 +22,9 @@ enum class SetPlayerState_Return
 
 
 class ObjectUpdatePacket;
+class ObjectStartPacket;
 class GamePlayMoveable;
+class GamePlayStuff;
 class Player;
 class GamePlayObject : public GamePlayPhysics, public GameServerObject
 {
@@ -71,7 +73,7 @@ public:
 
 protected:
 	void Start() override;
-	//void Update(float _DeltaTime) override;
+	void Update(float _DeltaTime) override;
 	void End() override {};
 
 	void OnEvent() override {};
@@ -127,19 +129,25 @@ public:
 	{
 		return BloomEffect_;
 	}
-protected:
 	// Sever
+public:
+	virtual void SetParentsServerHoldObject(int _ServerID) { MsgBoxAssert("GamePlayObject 서버 부모 설정 오류") };
+protected:
 	void ServerStart();
+	virtual void ChildServerStart() {};
 
 	void ServerUpdate(float _DeltaTime);
 	
 	virtual void SendDefaultPacket(std::shared_ptr<ObjectUpdatePacket> Packet);
 
-	virtual void SendPacket(std::shared_ptr<ObjectUpdatePacket> Packet) {};
+	virtual void SendPacket(std::shared_ptr<ObjectUpdatePacket> Packet) {}
+;	virtual void SendServerHoldObject(std::shared_ptr<ObjectStartPacket> Packet) {};
+	virtual void SendObjectType(std::shared_ptr<ObjectStartPacket> Packet) {}
 
 
 	virtual void SetServerCookingGage(float _Time) {};
 	virtual void SetServerHoldObject(int _ServerID) {};
 
 	std::shared_ptr<ObjectUpdatePacket> InteractPacket_;
+	bool InitFirst;
 };

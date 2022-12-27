@@ -20,6 +20,8 @@ public:
 	ServerInitManager& operator=(const ServerInitManager& _Other) = delete;
 	ServerInitManager& operator=(ServerInitManager&& _Other) noexcept = delete;
 
+	
+	static void ObjectStartPacketProcess(std::shared_ptr<GameServerPacket> _Packet);
 	static void ObjectUpdatePacketProcess(std::shared_ptr<GameServerPacket> _Packet);
 	static void ClientInitPacketProcess(std::shared_ptr<GameServerPacket> _Packet);
 	static void Ignore(std::shared_ptr<GameServerPacket> _Packet);
@@ -27,6 +29,7 @@ public:
 	static void ReadyLevelPacketProcess(std::shared_ptr<GameServerPacket> _Packet);
 	static void StartLevelPacketProcess(std::shared_ptr<GameServerPacket> _Packet);
 	static void UIDataPacketProcess(std::shared_ptr<GameServerPacket> _Packet);
+	static void LoadingDataPacketProcess(std::shared_ptr<GameServerPacket> _Packet);
 
 	static void StartInit();
 	static void Update(float _Delta);

@@ -87,6 +87,9 @@
     <FxCompile Include="CalVolumeDeferredLight.hlsl">
       <Filter>Deferred</Filter>
     </FxCompile>
+    <FxCompile Include="DeferredTexture.hlsl">
+      <Filter>Object</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Debug">
