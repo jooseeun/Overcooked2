@@ -20,10 +20,10 @@ void GamePlayMapObject::Start()
 	GetCollisionObject()->GetTransform().SetWorldScale({ 50.f, 50.f, 50.f });				// 원래 크기는 0.01
 }
 
-void GamePlayMapObject::Update(float _DeltaTime)
-{
-
-}
+//void GamePlayMapObject::Update(float _DeltaTime)
+//{
+//
+//}
 
 void GamePlayMapObject::SetMapObjectMesh(const std::string& _Name, MapObjType _ObjType)
 {
