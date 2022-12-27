@@ -176,6 +176,9 @@ void Stage_1_1::PlayLevelStartEvent()
 
 	LightObject_ = CreateActor<GameEngineLight>();
 	LightObject_->GetTransform().SetWorldRotation({ 0.0f, 45.0f, 0.0f });
+
+	LightObject_->GetLightData().DifLightPower = 0.2f;
+	LightObject_->GetLightData().AmbLightPower = 10.f;
 	GetMainCamera()->PushLight(LightObject_);
 
 	//테스트용 - 동원
