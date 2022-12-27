@@ -183,8 +183,18 @@ void Player::Start()
 		PlayerChopRenderer_[i]->Off();
 
 
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		Dir.Move("ContentsResources");
+		Dir.Move("Mesh");
+		Dir.Move("Object");
+		Dir.Move("Player");
 
 
+
+		//PlayerIdleRenderer_[i]->GetFBXMesh()->GetFbxRenderUnit()[4].MaterialData[0].NorTexturePath = Dir.GetFullPath();
+		//PlayerIdleRenderer_[i]->GetFBXMesh()->GetFbxRenderUnit()[4].MaterialData[0].NorTextureName = "Hat_Fancy_n.png";
+		//PlayerIdleRenderer_[i]->SetFBXMesh(PlayerName_[i] + "_Idle.FBX", "DeferredTextureAnimation");
 
 
 	}	

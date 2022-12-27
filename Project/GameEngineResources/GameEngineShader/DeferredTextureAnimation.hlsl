@@ -78,7 +78,7 @@ SamplerState LINEARWRAP : register(s0);
 
 DeferredOutPut TextureAnimation_PS(Output _Input) : SV_Target0
 {
-    float4 Color = DiffuseTexture.Sample(LINEARWRAP, _Input.TEXCOORD.xy);
+    float4 Color = DiffuseTexture.Sample(LINEARWRAP, _Input.TEXCOORD.xy) * MulColor;
 
     if (Color.a <= 0.0f)
     {
@@ -94,7 +94,7 @@ DeferredOutPut TextureAnimation_PS(Output _Input) : SV_Target0
 
     if (0 != IsNormal)
     {
-        OutPut.Nor = BumpNormalCalculate(NormalTexture, LINEARWRAP, _Input.TEXCOORD, _Input.VIEWTANGENT, _Input.VIEWBINORMAL, _Input.VIEWNORMAL) * MulColor;
+        OutPut.Nor = BumpNormalCalculate(NormalTexture, LINEARWRAP, _Input.TEXCOORD, _Input.VIEWTANGENT, _Input.VIEWBINORMAL, _Input.VIEWNORMAL) ;
         OutPut.Nor.w = 1.0f;
     }
 

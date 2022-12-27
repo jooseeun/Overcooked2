@@ -17,6 +17,7 @@
 #include <GameEngineCore/GlobalVignette.h>
 #include <GameEngineCore/GlobalOverlay.h>
 #include <GameEngineCore/GlobalBloom.h>
+#include "GameEngineStatusWindow.h"
 
 Stage_1_1::Stage_1_1()
 {
@@ -45,6 +46,7 @@ void Stage_1_1::PlayLevelStart()
 
 	//GetMainCameraActorTransform().SetLocalRotation({ 60, 180, 0 });
 	//GetMainCameraActorTransform().SetLocalPosition({ -1400, 2200, 1600 });
+	GameEngineStatusWindow::AddDebugRenderTarget("1", GetMainCamera()->GetCameraDeferredGBufferRenderTarget());
 }
 
 void Stage_1_1::PlayLevelUpdate(float _DeltaTime)
@@ -62,6 +64,7 @@ void Stage_1_1::PlayLevelUpdate(float _DeltaTime)
 
 		GameEngineDebug::OutPutString(std::to_string(SubsetDebugIndex_));
 	}
+
 }
 
 void Stage_1_1::End()
@@ -179,7 +182,7 @@ void Stage_1_1::PlayLevelStartEvent()
 	LightObject_ = CreateActor<GameEngineLight>();
 	LightObject_->GetTransform().SetWorldRotation({ 0.0f, 45.0f, 0.0f });
 
-	LightObject_->GetLightData().DifLightPower = 0.2f;
+	LightObject_->GetLightData().DifLightPower = 0.1f;
 	LightObject_->GetLightData().AmbLightPower = 10.f;
 	GetMainCamera()->PushLight(LightObject_);
 
