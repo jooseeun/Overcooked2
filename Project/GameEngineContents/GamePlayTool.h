@@ -126,6 +126,15 @@ public:
 	}
 
 	// server
+	void ChildServerStart() override
+	{
+		if (Moveable_Current_ != nullptr)
+		{
+			Moveable_Current_->ServerStart();
+		}
+	};
+
+
 	void SendDefaultPacket(std::shared_ptr<ObjectUpdatePacket> Packet) override;
 
 
@@ -140,6 +149,45 @@ public:
 			Packet->HoldObjectID = -1;
 		}
 	}
+
+	void SendServerHoldObject(std::shared_ptr<ObjectStartPacket> Packet)  override
+	{
+		if (Moveable_Current_ != nullptr)
+		{
+			Packet->HoldObjectID = Moveable_Current_->GetNetID();
+		}
+		else
+		{
+			Packet->HoldObjectID = -1;
+		}
+	}
+
+	void SendObjectType(std::shared_ptr<ObjectStartPacket> Packet) override 
+	{
+		Packet->ToolData = GetToolInfoType();
+	}
+
+
+	void SetParentsServerHoldObject(int _ServerID) override
+	{
+		if (Moveable_Current_ != nullptr)
+		{
+			if (!GameServerObject::GetServerObject(Moveable_Current_->GetNetID()))
+			{
+				Moveable_Current_->ClientInit(ServerObjectType::Object, _ServerID);
+			}
+			else
+			{
+				MsgBoxAssert("GamePlayTool 서버 부모 설정 오류1")
+			}
+		
+		}
+		else
+		{
+			MsgBoxAssert("GamePlayTool 서버 부모 설정 오류2")
+		}
+
+	};
 
 	void SetServerHoldObject(int _ServerID) override
 	{

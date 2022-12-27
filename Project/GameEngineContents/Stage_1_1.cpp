@@ -118,9 +118,11 @@ void Stage_1_1::PlayLevelStartEvent()
 	LevelActor_->GetRenderer()->SetSubMaterial(16, "TextureAlpha");
 
 
-
-	GlobalIOManager::Load(IOType::SortMap, 0);
-	DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
+	if (ServerInitManager::Net != nullptr && ServerInitManager::Net->GetIsHost())
+	{
+		GlobalIOManager::Load(IOType::SortMap, 0);
+		DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
+	}
 
 	GlobalIOManager::Load(IOType::UnsortMap, 0);
 	DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);

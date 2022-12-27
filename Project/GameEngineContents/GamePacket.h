@@ -6,6 +6,8 @@ enum class ContentsPacketType
 {
 	None,
 	ObjectUpdate, // 오브젝트 업데이트
+	ObjectStart,
+	UIUpdate, // UI 업데이트
 	LoadingData,  // 로딩레벨에서 사용하는 패킷 호스트, 클라 둘 다 사용
 	UIUpdate,     // UI 업데이트
 	ClinetInit,   // 클라이언트가 들어오면 서버가 보내줄 패킷.
@@ -52,6 +54,50 @@ public:
 	{
 		GameServerPacket::DeSerialize(_Ser);
 		_Ser >> ObjectID;
+	}
+};
+
+class ObjectStartPacket : public GameServerPacket
+{
+public:
+	int ObjectID;
+	float4 Pos;
+	float4 Rot;
+	float4 Scale;
+	ServerObjectType Type;
+	int HoldObjectID;
+	ToolInfo ToolData = ToolInfo::None;
+	MapObjType MapObjData = MapObjType::Max;
+	IngredientType IngredientData = IngredientType::None;
+
+	ObjectStartPacket()
+	{
+		SetPacketID(ContentsPacketType::ObjectStart);
+	}
+
+	virtual void Serialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::Serialize(_Ser);
+		_Ser << ObjectID;
+		_Ser.WriteEnum(Type);
+		_Ser << Pos;
+		_Ser << Rot;
+		_Ser << Scale;
+		_Ser.WriteEnum(ToolData);
+		_Ser.WriteEnum(MapObjData);
+		_Ser.WriteEnum(IngredientData);
+	}
+	virtual void DeSerialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::DeSerialize(_Ser);
+		_Ser >> ObjectID;
+		_Ser.ReadEnum(Type);
+		_Ser >> Pos;
+		_Ser >> Rot;
+		_Ser >> Scale;
+		_Ser.ReadEnum(ToolData);
+		_Ser.ReadEnum(MapObjData);
+		_Ser.ReadEnum(IngredientData);
 	}
 };
 

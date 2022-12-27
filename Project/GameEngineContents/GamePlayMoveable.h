@@ -131,7 +131,6 @@ private:
 
 
 	// server
-
 	void SendPacket(std::shared_ptr<ObjectUpdatePacket> Packet) override;
 	void SetServerCookingGage(float _Time) override
 	{

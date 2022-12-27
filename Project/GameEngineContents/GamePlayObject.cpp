@@ -2,17 +2,19 @@
 #include "GamePlayObject.h"
 
 
-int GamePlayObject::ObjectNumber_ = 10000;
+int GamePlayObject::ObjectNumber_ = 100000;
 GamePlayObject::GamePlayObject()
 	: Mesh_Object_(nullptr)
 	, Collision_Object_(nullptr)
 	, Enum_ObjectType_(ObjectType::None)
 	, BloomEffect_(false)
+	, InitFirst(false)
 {
 }
 
 GamePlayObject::~GamePlayObject()
 {
+	Death();
 }
 
 void GamePlayObject::Start()
@@ -30,18 +32,30 @@ void GamePlayObject::Start()
 
 void GamePlayObject::ServerStart()
 {
-	//if (false == OnePlayerInit)
-	//{
-	//	IsPlayerble = true;
-	//	OnePlayerInit = true;
+	if (nullptr != ServerInitManager::Net)
+	{
+		//if (ServerInitManager::Net->GetIsHost())
+		//{
+		//	
+		std::shared_ptr<ObjectStartPacket> Packet = std::make_shared<ObjectStartPacket>();
+		SendObjectType(Packet);
+		if (Packet->MapObjData == MapObjType::Max && Packet->ToolData == ToolInfo::None
+&& Packet->IngredientData == IngredientType::None)
+		{
+			return;
+		}
+		SendServerHoldObject(Packet);
+		Packet->ObjectID = ObjectNumber_++;
+		Packet->Type = ServerObjectType::Object;
+		Packet->Pos = GetTransform().GetWorldPosition();
+		Packet->Rot = GetTransform().GetWorldRotation();
+		Packet->Scale = GetTransform().GetWorldScale();
+		Packet->HoldObjectID = -100;
 
-	//}
+		ServerInitManager::Net->SendPacket(Packet);
+		//}
+	}
 
-	//if (GetLevel()->GetName() == "TITLELEVEL")
-	//{
-	//	PlayerPNum = GetNetID();
-	//	ChangePlayerColor();
-	//}
 }
 
 void GamePlayObject::ServerUpdate(float _DeltaTime)
@@ -50,6 +64,12 @@ void GamePlayObject::ServerUpdate(float _DeltaTime)
 	{
 		return;
 	}
+	if (InitFirst == false)
+	{
+		ServerStart();
+		InitFirst = true;
+	}
+	/*
 
 	while (false == IsPacketEmpty())
 	{
@@ -113,7 +133,7 @@ void GamePlayObject::ServerUpdate(float _DeltaTime)
 	else
 	{
 		return;
-	}
+	}*/
 
 
 
