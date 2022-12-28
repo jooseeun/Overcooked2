@@ -287,7 +287,7 @@ void ServerInitManager::ObjectStartPacketProcess(std::shared_ptr<GameServerPacke
 			}
 			else if (Packet->IngredientData != IngredientType::None)
 			{
-
+				PlayObject = GamePlayFood::GetIngredientClass(Packet->IngredientData);
 			}
 			else
 			{
