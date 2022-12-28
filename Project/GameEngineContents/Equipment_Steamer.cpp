@@ -12,6 +12,7 @@ Equipment_Steamer::Equipment_Steamer()
 	, IsRotateDone_(false)
 	, IsChangeRot_(false)
 	, CookingAngle_(0.f)
+	, IsCookingSound_(false)
 {
 }
 
@@ -150,8 +151,7 @@ void Equipment_Steamer::CookingStart(const StateInfo& _Info)
 	IsInteraction_ = false;
 	IsMoveDone_ = false;
 	IsRotateDone_ = false;
-	
-	//GameEngineSound::SoundPlayControl("SteamerLoop.wav", 4);
+	GameEngineSound::SoundPlayControl("SteamerLoop.wav", 2);
 }
 
 void Equipment_Steamer::CookingUpdate(float _DeltaTime, const StateInfo& _Info)

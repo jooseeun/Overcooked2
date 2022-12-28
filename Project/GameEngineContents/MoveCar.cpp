@@ -9,6 +9,7 @@ MoveCar::MoveCar()
 	, IsMove_(false)
 	, StartTime_(0.f)
 	, StackTime_(0.f)
+	, IsSound_(false)
 {
 }
 
@@ -50,9 +51,15 @@ void MoveCar::Update(float _DeltaTime)
 			{
 				TimeInterval_ = 0.f;
 				State_ = MOVECARSTATE::DRIVE;
+				IsSound_ = true;
 			}
 			break;
 		case MOVECARSTATE::DRIVE:
+			if (true == IsSound_)
+			{
+				IsSound_ = false;
+				GameEngineSound::SoundPlayOneShot("FE_Traffic_Passby_01.wav");
+			}
 			GetTransform().SetWorldMove(GetTransform().GetLocalBackVector() * 1300.f * _DeltaTime);
 
 			if (0 >= EndPos_.z

@@ -54,6 +54,7 @@ private:
 	float4 EndPos_;
 
 	bool IsMove_;
+	bool IsSound_;
 
 	float StartTime_;
 	float StackTime_;

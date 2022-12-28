@@ -31,7 +31,7 @@ void Servicehatch::Start()
 
 void Servicehatch::Update(float _DeltaTime)
 {
-	RenderOptionMyInst.UV.x -= _DeltaTime * 0.5f;
+	RenderOptionMyInst.UV.x -= _DeltaTime * 0.1f;
 }
 
 

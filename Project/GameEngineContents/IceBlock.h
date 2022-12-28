@@ -61,5 +61,7 @@ private:
 
 	bool IsMovable_;
 	bool IsMaxAngle;
+
+	GameEngineSoundPlayer SoundPlayer_;
 };
 

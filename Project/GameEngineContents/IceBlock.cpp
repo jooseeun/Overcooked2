@@ -42,11 +42,13 @@ void IceBlock::SetIceBlockMesh(IceBlockType _Type)
 		Name = "p_dlc09_iceblock_02 (8)1.fbx";
 		break;
 	case IceBlockType::Ice10:
-		Name = "p_dlc09_iceblock_02 (10)1.fbx";
+		Name = "p_dlc09_iceblock_02o (10)1.fbx";
 		break;
 	case IceBlockType::Ice11:
 		Name = "p_dlc09_iceblock_02 (11)1.fbx";
 		GetFBXMesh()->GetTransform().SetWorldRotation({ 90, 0, 0 });
+		SoundPlayer_ = GameEngineSound::SoundPlayControl("AMB_Ice_Lake.wav", -1);
+		SoundPlayer_.Volume(0.2f); 
 		break;
 	default:
 		break;
@@ -66,10 +68,12 @@ void IceBlock::Start()
 	RandomSpeed_.y = GameEngineRandom::MainRandom.RandomFloat(10.f, 15.f);
 	RandomSpeed_.z = GameEngineRandom::MainRandom.RandomFloat(10.f, 15.f);
 	RandomMaxAngle_= GameEngineRandom::MainRandom.RandomFloat(25.f, 40.f);
+
 }
 
 void IceBlock::Update(float _DeltaTime)
 {
+	
 	Move(_DeltaTime);
 	RotateIce(_DeltaTime);
 }

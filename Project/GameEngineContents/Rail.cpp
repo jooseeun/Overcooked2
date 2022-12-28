@@ -27,7 +27,7 @@ void Rail::Start()
 
 void Rail::Update(float _Delta)
 {
-	RenderOptionMyInst.UV.x += _Delta;
+	RenderOptionMyInst.UV.x += _Delta * 0.3f;
 
 	//GetTransform().SetWorldRotation({ 0, 0, 0 });
 	//GameEngineDebug::OutPutString(std::to_string(GetTransform().GetWorldRotation().x) + ", " + std::to_string(GetTransform().GetWorldRotation().y) + ", " + std::to_string(GetTransform().GetWorldRotation().z));

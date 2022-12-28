@@ -238,7 +238,7 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 	{
 		Packet->HoldObjectID = -1;
 	}
-
+	 
 	if (InteractPacket_ != nullptr)
 	{
 		ServerInitManager::Net->SendPacket(InteractPacket_);

@@ -36,27 +36,6 @@ void Button::Start()
 
 void Button::Update(float _DeltaTime)
 {
-	// 캐논 Shoot => Off
-	// 캐논 Ready => On
-	//if (GetCannonState() == CannonState::Shoot || GetCannonState() == CannonState::Idle)
-	//{
-	//	if (false == IsReady_)
-	//	{
-	//		return;
-	//	}
-	//	IsReady_ = false;
-	//	Mesh_Object_->SetFBXMesh("ButtonOff2.fbx", "Texture");
-	//}
-	//else if (GetCannonState() == CannonState::Ready)
-	//{
-	//	if (true == IsReady_)
-	//	{
-	//		return;
-	//	}
-	//	IsReady_ = true;
-	//	Mesh_Object_->SetFBXMesh("ButtonOn2.fbx", "Texture");
-	//}
-
 	if (true == IsReady_)
 	{
 		ButtonRenderer_Off->Off();

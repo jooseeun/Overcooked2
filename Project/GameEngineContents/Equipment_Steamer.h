@@ -74,6 +74,7 @@ private:
 	bool IsMoveDone_;
 	bool IsRotateDone_;
 	bool IsChangeRot_;
+	bool IsCookingSound_;
 	float Angle_;
 
 	float4 CookingAngle_;
