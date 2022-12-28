@@ -126,29 +126,30 @@ private:
 	};
 
 
-	void SendPacket(std::shared_ptr<ObjectUpdatePacket> Packet) override
-	{
+	int GetChildNetID() override
+	{ 
 		if (Stuff_Current_ != nullptr)
 		{
-			Packet->HoldObjectID = Stuff_Current_->GetNetID();
+			return Stuff_Current_->GetNetID();
 		}
 		else
 		{
-			Packet->HoldObjectID = -1;
+			return -1;
 		}
-	}
+	};
 
-	void SendServerHoldObject(std::shared_ptr<ObjectStartPacket> Packet)  override
-	{
-		if (Stuff_Current_ != nullptr)
-		{
-			Packet->HoldObjectID = Stuff_Current_->GetNetID();
-		}
-		else
-		{
-			Packet->HoldObjectID = -1;
-		}
-	}
+	//void SendPacket(std::shared_ptr<ObjectUpdatePacket> Packet) override
+	//{
+	//	if (Stuff_Current_ != nullptr)
+	//	{
+	//		Packet->HoldObjectID = Stuff_Current_->GetNetID();
+	//	}
+	//	else
+	//	{
+	//		Packet->HoldObjectID = -1;
+	//	}
+	//}
+
 
 	void SendObjectType(std::shared_ptr<ObjectStartPacket> Packet) override
 	{

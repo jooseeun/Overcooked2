@@ -129,8 +129,3 @@ HoldDownEnum GamePlayTool::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 //		return HoldDownEnum::Nothing;
 //	}
 //};
-
-void GamePlayTool::SendDefaultPacket(std::shared_ptr<ObjectUpdatePacket> Packet) 
-{
-	SendPacket(Packet);
-};

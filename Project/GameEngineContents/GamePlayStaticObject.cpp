@@ -245,15 +245,15 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 		InteractPacket_.reset();
 	}
 
-	if (Stuff_Current_ != nullptr)
-	{
-		std::shared_ptr<ObjectUpdatePacket> StuffPacket = std::make_shared<ObjectUpdatePacket>();
-		Stuff_Current_->SendDefaultPacket(StuffPacket);
-		StuffPacket->Pos = float4::ZERO;
-		StuffPacket->Rot = float4::ZERO;
-		StuffPacket->Scale = float4::ZERO;
-		ServerInitManager::Net->SendPacket(StuffPacket);
-	}
+	//if (Stuff_Current_ != nullptr)
+	//{
+	//	std::shared_ptr<ObjectUpdatePacket> StuffPacket = std::make_shared<ObjectUpdatePacket>();
+	//	Stuff_Current_->SendDefaultPacket(StuffPacket);
+	//	StuffPacket->Pos = float4::ZERO;
+	//	StuffPacket->Rot = float4::ZERO;
+	//	StuffPacket->Scale = float4::ZERO;
+	//	ServerInitManager::Net->SendPacket(StuffPacket);
+	//}
 
 
 

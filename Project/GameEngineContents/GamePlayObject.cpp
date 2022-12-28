@@ -44,6 +44,7 @@ void GamePlayObject::ServerStart()
 		std::shared_ptr<ObjectStartPacket> Packet = std::make_shared<ObjectStartPacket>();
 		if (false == GetIsNetInit())
 		{
+			ChildServerStart();
 			GameServerObject* Object = GameServerObject::GetServerObject(GetNetID());
 			for (int i = ObjectNumber_; ; i++)
 			{
@@ -62,9 +63,7 @@ void GamePlayObject::ServerStart()
 				return; // 넘길 가치 없는 것들
 			}
 
-			Packet->HoldObjectID = -100;
-			SendServerHoldObject(Packet);
-
+			Packet->HoldObjectID = GetChildNetID();
 			Packet->ObjectID = ObjectNumber_++;
 			Packet->Type = ServerObjectType::Object;
 			Packet->Pos = GetTransform().GetWorldPosition();
@@ -74,10 +73,8 @@ void GamePlayObject::ServerStart()
 			ClientInit(ServerObjectType::Object, Packet->ObjectID);
 
 			ServerInitManager::Net->SendPacket(Packet);
+			InitFirst = true;
 		}
-	
-
-		//}
 	}
 
 }
@@ -163,15 +160,15 @@ void GamePlayObject::ServerUpdate(float _DeltaTime)
 
 }
 
-void GamePlayObject::SendDefaultPacket(std::shared_ptr<ObjectUpdatePacket> Packet)
-{
-	Packet->ObjectID = GetNetID();
-	Packet->Type = ServerObjectType::Object;
-	Packet->State = IsDeath() ? ServerObjectBaseState::Base : ServerObjectBaseState::Death;
-	Packet->Pos = GetTransform().GetWorldPosition();
-	Packet->Rot = GetTransform().GetWorldRotation();
-	Packet->Scale = GetTransform().GetWorldScale();
-	Packet->CookingGage = -1;
-	Packet->HoldObjectID = -100;
-	SendPacket(Packet);
-};
+//void GamePlayObject::SendDefaultPacket(std::shared_ptr<ObjectUpdatePacket> Packet)
+//{
+//	Packet->ObjectID = GetNetID();
+//	Packet->Type = ServerObjectType::Object;
+//	Packet->State = IsDeath() ? ServerObjectBaseState::Base : ServerObjectBaseState::Death;
+//	Packet->Pos = GetTransform().GetWorldPosition();
+//	Packet->Rot = GetTransform().GetWorldRotation();
+//	Packet->Scale = GetTransform().GetWorldScale();
+//	Packet->CookingGage = -1;
+//	Packet->HoldObjectID = -100;
+//	SendPacket(Packet);
+//};

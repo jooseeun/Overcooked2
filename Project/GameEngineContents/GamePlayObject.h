@@ -139,10 +139,11 @@ protected:
 
 	void ServerUpdate(float _DeltaTime);
 	
-	virtual void SendDefaultPacket(std::shared_ptr<ObjectUpdatePacket> Packet);
+	//virtual void SendDefaultPacket(std::shared_ptr<ObjectUpdatePacket> Packet);
 
-	virtual void SendPacket(std::shared_ptr<ObjectUpdatePacket> Packet) {}
-;	virtual void SendServerHoldObject(std::shared_ptr<ObjectStartPacket> Packet) {};
+	//virtual void SendPacket(std::shared_ptr<ObjectUpdatePacket> Packet) {}
+	virtual int GetChildNetID() { return -1000; };
+;	//virtual void SendServerHoldObject(std::shared_ptr<ObjectStartPacket> Packet) {};
 	virtual void SendObjectType(std::shared_ptr<ObjectStartPacket> Packet) {}
 
 

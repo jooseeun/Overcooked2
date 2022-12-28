@@ -144,7 +144,7 @@ bool GamePlayMoveable::Input_Auto(float _Delta, float _MaxTime)
 //}
 //
 
-void GamePlayMoveable::SendPacket(std::shared_ptr<ObjectUpdatePacket> Packet)
-{
-	Packet->CookingGage = CookingGage_;
-}
+//void GamePlayMoveable::SendPacket(std::shared_ptr<ObjectUpdatePacket> Packet)
+//{
+//	Packet->CookingGage = CookingGage_;
+//}
