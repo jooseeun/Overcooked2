@@ -31,6 +31,7 @@
 std::mutex ObjectManagerLock;
 
 GamePlayObjectManager* GamePlayObjectManager::Inst_ = nullptr;
+std::queue<std::shared_ptr<ObjectStartPacket>> GamePlayObjectManager::TemporaryPacket;
 
 GamePlayObjectManager::GamePlayObjectManager() 
 {
@@ -45,8 +46,20 @@ void GamePlayObjectManager::Start()
 
 }
 
+void GamePlayObjectManager::TemporaryPushData(std::shared_ptr<ObjectStartPacket> _Update)
+{
+	//std::lock_guard L(ObjectManagerLock);
+	TemporaryPacket.push(_Update);
+}
+
 void GamePlayObjectManager::Update(float _Time)
 {
+	while (!TemporaryPacket.empty())
+	{
+		QueueMapData_.push(TemporaryPacket.front());
+		TemporaryPacket.pop();
+	}
+
 	while (!QueueMapData_.empty())
 	{
 		PopData();
@@ -362,4 +375,5 @@ void GamePlayObjectManager::LevelStartEvent()
 void GamePlayObjectManager::LevelEndEvent()
 {
 	GamePlayObjectManager::Inst_ = nullptr;
+	TemporaryPacket = std::queue<std::shared_ptr<ObjectStartPacket>>(); // √ ±‚»≠
 }

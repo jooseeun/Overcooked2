@@ -23,6 +23,7 @@ public:
 
 	std::shared_ptr<GamePlayObject> PopData();
 	void PushData(std::shared_ptr<ObjectStartPacket> _Update);
+	static void TemporaryPushData(std::shared_ptr<ObjectStartPacket> _Update);
 
 	bool Isempty();
 
@@ -40,5 +41,7 @@ private:
 	std::queue<std::shared_ptr<ObjectStartPacket>> QueueMapData_;
 
 	static GamePlayObjectManager* Inst_;
+
+	static std::queue<std::shared_ptr<ObjectStartPacket>> TemporaryPacket; // 패킷 임시저장
 };
 

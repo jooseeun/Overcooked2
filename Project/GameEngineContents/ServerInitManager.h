@@ -21,6 +21,7 @@ public:
 	ServerInitManager& operator=(ServerInitManager&& _Other) noexcept = delete;
 
 	static void ObjectInteractUpdateProcess(std::shared_ptr<GameServerPacket> _Packet);
+
 	
 	static void ObjectStartPacketProcess(std::shared_ptr<GameServerPacket> _Packet);
 	static void ObjectUpdatePacketProcess(std::shared_ptr<GameServerPacket> _Packet);
