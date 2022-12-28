@@ -62,13 +62,14 @@ void GamePlayObject::ServerStart()
 				return; // 넘길 가치 없는 것들
 			}
 
+			Packet->HoldObjectID = -100;
 			SendServerHoldObject(Packet);
+
 			Packet->ObjectID = ObjectNumber_++;
 			Packet->Type = ServerObjectType::Object;
 			Packet->Pos = GetTransform().GetWorldPosition();
 			Packet->Rot = GetTransform().GetWorldRotation();
 			Packet->Scale = GetTransform().GetWorldScale();
-			Packet->HoldObjectID = -100;
 
 			ClientInit(ServerObjectType::Object, Packet->ObjectID);
 

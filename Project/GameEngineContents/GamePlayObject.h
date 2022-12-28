@@ -131,7 +131,8 @@ public:
 	}
 	// Sever
 public:
-	virtual void SetParentsServerHoldObject(int _ServerID) { MsgBoxAssert("GamePlayObject 서버 부모 설정 오류") };
+	virtual void SetParentsServerHoldObject(int _ServerID) { MsgBoxAssert("GamePlayObject SetParentsServerHoldObject 서버 부모 설정 오류") };
+	virtual void SetServerHoldObject(int _ServerID) { MsgBoxAssert("GamePlayObject SetServerHoldObject 서버 부모 설정 오류") };
 protected:
 	void ServerStart();
 	virtual void ChildServerStart() {};
@@ -146,7 +147,6 @@ protected:
 
 
 	virtual void SetServerCookingGage(float _Time) {};
-	virtual void SetServerHoldObject(int _ServerID) {};
 
 	std::shared_ptr<ObjectUpdatePacket> InteractPacket_;
 	bool InitFirst;

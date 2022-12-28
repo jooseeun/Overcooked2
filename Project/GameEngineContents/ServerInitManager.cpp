@@ -310,7 +310,12 @@ void ServerInitManager::ObjectStartPacketProcess(std::shared_ptr<GameServerPacke
 				GameServerObject* FindHoldObject = GameServerObject::GetServerObject(Packet->HoldObjectID);
 				if (FindHoldObject == nullptr)
 				{
+				//	MsgBoxAssert("ServerinitManager - HoldingObject가 서버에 등록되어 있지 않습니다");
 					PlayObject->shared_from_this()->CastThis<GamePlayObject>()->SetParentsServerHoldObject(Packet->HoldObjectID);
+				}
+				else
+				{
+					PlayObject->shared_from_this()->CastThis<GamePlayObject>()->SetServerHoldObject(Packet->HoldObjectID);
 				}
 			}
 		}
