@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "GamePlayObject.h"
+#include "Servicehatch.h"
 
 
 int GamePlayObject::ObjectNumber_ = 100000;
@@ -41,9 +42,9 @@ void GamePlayObject::ServerStart()
 	if (nullptr != ServerInitManager::Net)
 	{
 		std::shared_ptr<ObjectStartPacket> Packet = std::make_shared<ObjectStartPacket>();
-		GameServerObject* Object = GameServerObject::GetServerObject(GetNetID());
-		if (Object == nullptr)
+		if (false == GetIsNetInit())
 		{
+			GameServerObject* Object = GameServerObject::GetServerObject(GetNetID());
 			for (int i = ObjectNumber_; ; i++)
 			{
 				Object = GameServerObject::GetServerObject(i);
@@ -53,6 +54,7 @@ void GamePlayObject::ServerStart()
 					break;
 				}
 			}
+
 			SendObjectType(Packet);
 			if (Packet->MapObjData == MapObjType::Max && Packet->ToolData == ToolInfo::None
 				&& Packet->IngredientData == IngredientType::None)

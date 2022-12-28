@@ -105,5 +105,10 @@ private:
 
 private:
 	ToolInfo Enum_ToolInfo_;
+
+	void SendObjectType(std::shared_ptr<ObjectStartPacket> Packet) override
+	{
+		Packet->ToolData = Enum_ToolInfo_;
+	}
 };
 

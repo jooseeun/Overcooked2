@@ -174,6 +174,7 @@ void FoodBox::Start()
 
 void FoodBox::Update(float _DeltaTime)
 {
+	GamePlayObject::Update(_DeltaTime);
 	if (true == IsInteraction_)
 	{
 		if (false == IsOpen_)

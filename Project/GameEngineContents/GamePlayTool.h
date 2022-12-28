@@ -162,11 +162,6 @@ public:
 		}
 	}
 
-	void SendObjectType(std::shared_ptr<ObjectStartPacket> Packet) override 
-	{
-		Packet->ToolData = GetToolInfoType();
-	}
-
 
 	void SetParentsServerHoldObject(int _ServerID) override
 	{

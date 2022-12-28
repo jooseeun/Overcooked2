@@ -31,6 +31,7 @@ void Servicehatch::Start()
 
 void Servicehatch::Update(float _DeltaTime)
 {
+	GamePlayObject::Update(_DeltaTime);
 	RenderOptionMyInst.UV.x -= _DeltaTime * 0.1f;
 }
 
