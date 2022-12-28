@@ -149,6 +149,6 @@ protected:
 
 	virtual void SetServerCookingGage(float _Time) {};
 
-	std::shared_ptr<ObjectUpdatePacket> InteractPacket_;
+	//std::shared_ptr<ObjectUpdatePacket> InteractPacket_;
 	bool InitFirst;
 };

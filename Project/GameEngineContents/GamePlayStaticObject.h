@@ -41,10 +41,10 @@ public:
 	inline void ReSetStuff()
 	{
 		Stuff_Current_.reset();
-		if (InteractPacket_ != nullptr)
-		{
-			InteractPacket_->HoldObjectID = -1;
-		}
+		//if (InteractPacket_ != nullptr)
+		//{
+		//	InteractPacket_->HoldObjectID = -1;
+		//}
 	}
 
 

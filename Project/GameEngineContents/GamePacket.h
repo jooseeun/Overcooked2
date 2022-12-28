@@ -137,7 +137,7 @@ class ObjectUpdatePacket : public GameServerPacket
 public:
 	int ObjectID;
 	ServerObjectType Type;
-	ServerObjectBaseState State;
+	ServerObjectBaseState State = ServerObjectBaseState::Base;
 	float4 Pos;
 	float4 Rot;
 	float4 Scale;

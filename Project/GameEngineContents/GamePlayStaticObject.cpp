@@ -58,7 +58,6 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 	Packet->Scale = float4::ZERO;
 	Packet->CookingGage = -1;
 	Packet->HoldObjectID = -100;
-	InteractPacket_ = Packet;
 
 	SetPlayerState_Return ReturnValue = SetPlayerState_Return::Nothing;
 	switch (_Type)
@@ -230,20 +229,20 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 		break;
 	}
 
-	if (Stuff_Current_ != nullptr)
-	{
-		Packet->HoldObjectID = GetNetID();
-	}
-	else
-	{
-		Packet->HoldObjectID = -1;
-	}
-	 
-	if (InteractPacket_ != nullptr)
-	{
-		ServerInitManager::Net->SendPacket(InteractPacket_);
-		InteractPacket_.reset();
-	}
+	//if (Stuff_Current_ != nullptr)
+	//{
+	//	Packet->HoldObjectID = GetNetID();
+	//}
+	//else
+	//{
+	//	Packet->HoldObjectID = -1;
+	//}
+	// 
+	//if (InteractPacket_ != nullptr)
+	//{
+	//	ServerInitManager::Net->SendPacket(InteractPacket_);
+	//	InteractPacket_.reset();
+	//}
 
 	//if (Stuff_Current_ != nullptr)
 	//{
