@@ -29,8 +29,17 @@ void ServerInitManager::ObjectStartPacketProcess(std::shared_ptr<GameServerPacke
 	GameServerObject* FindObject = GameServerObject::GetServerObject(Packet->ObjectID);
 
 	if (nullptr == FindObject)
-	{
-		GamePlayObjectManager::GetInst()->PushData(Packet);
+
+	{	
+		if (GamePlayObjectManager::GetInst() != nullptr)
+		{
+			GamePlayObjectManager::GetInst()->PushData(Packet);
+		}
+		else
+		{
+			GamePlayObjectManager::TemporaryPushData(Packet);
+		}
+		
 		return;
 	}
 
