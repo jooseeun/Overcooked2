@@ -334,6 +334,29 @@ void ServerInitManager::ObjectStartPacketProcess(std::shared_ptr<GameServerPacke
 	}
 }
 
+void ServerInitManager::ObjectInteractUpdateProcess(std::shared_ptr<GameServerPacket> _Packet)
+{
+	std::shared_ptr<ObjectInteractUpdatePacket> Packet = std::dynamic_pointer_cast<ObjectInteractUpdatePacket>(_Packet);
+
+	GameServerObject* FindObject = GameServerObject::GetServerObject(Packet->ObjectID);
+	if (FindObject == nullptr)
+	{
+		MsgBoxAssert("아직 등록되지 않은 오브젝트입니다 - Serverinitmanager, ObjectInteractUpdateProcess()")
+	}
+	FindObject->PushPacket(_Packet);
+	FindObject = GameServerObject::GetServerObject(Packet->PlayerNum);
+	if (FindObject == nullptr)
+	{
+		MsgBoxAssert("아직 등록되지 않은 오브젝트입니다 - Serverinitmanager, ObjectInteractUpdateProcess()")
+	}
+	FindObject->PushPacket(_Packet);
+
+	if (true == Net->GetIsHost())
+	{
+		Net->SendPacket(Packet);
+	}
+}
+
 void ServerInitManager::ObjectUpdatePacketProcess(std::shared_ptr<GameServerPacket> _Packet)
 {
 	std::shared_ptr<ObjectUpdatePacket> Packet = std::dynamic_pointer_cast<ObjectUpdatePacket>(_Packet);
@@ -496,6 +519,10 @@ void ServerInitManager::StartInit()
 		case ContentsPacketType::ObjectStart:
 			NewPacket = std::make_shared<ObjectStartPacket>();
 			break;
+		case ContentsPacketType::ObjectInteractUpdate:
+			NewPacket = std::make_shared<ObjectInteractUpdatePacket>();
+			break;
+			
 		case ContentsPacketType::ObjectUpdate:
 			NewPacket = std::make_shared<ObjectUpdatePacket>();
 			break;
@@ -529,6 +556,7 @@ void ServerInitManager::StartInit()
 	};
 
 	Net->Dis.AddHandler(ContentsPacketType::ObjectStart, std::bind(&ServerInitManager::ObjectStartPacketProcess, std::placeholders::_1));
+	Net->Dis.AddHandler(ContentsPacketType::ObjectInteractUpdate, std::bind(&ServerInitManager::ObjectInteractUpdateProcess, std::placeholders::_1));
 	Net->Dis.AddHandler(ContentsPacketType::ObjectUpdate, std::bind(&ServerInitManager::ObjectUpdatePacketProcess, std::placeholders::_1));
 	Net->Dis.AddHandler(ContentsPacketType::Ignore, std::bind(&ServerInitManager::Ignore, std::placeholders::_1));
 	Net->Dis.AddHandler(ContentsPacketType::None, std::bind(&ServerInitManager::Ignore, std::placeholders::_1));

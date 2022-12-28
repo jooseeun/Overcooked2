@@ -7,6 +7,7 @@ enum class ContentsPacketType
 	None,
 	ObjectUpdate, // 오브젝트 업데이트
 	ObjectStart,
+	ObjectInteractUpdate,
 	LoadingData,  // 로딩레벨에서 사용하는 패킷 호스트, 클라 둘 다 사용
 	UIUpdate,     // UI 업데이트
 	ClinetInit,   // 클라이언트가 들어오면 서버가 보내줄 패킷.
@@ -60,11 +61,11 @@ class ObjectStartPacket : public GameServerPacket
 {
 public:
 	int ObjectID;
-	int HoldObjectID;
 	float4 Pos;
 	float4 Rot;
 	float4 Scale;
 	ServerObjectType Type;
+	int HoldObjectID;
 	ToolInfo ToolData = ToolInfo::None;
 	MapObjType MapObjData = MapObjType::Max;
 	IngredientType IngredientData = IngredientType::None;
@@ -78,7 +79,6 @@ public:
 	{
 		GameServerPacket::Serialize(_Ser);
 		_Ser << ObjectID;
-		_Ser << HoldObjectID;
 		_Ser.WriteEnum(Type);
 		_Ser << Pos;
 		_Ser << Rot;
@@ -91,7 +91,6 @@ public:
 	{
 		GameServerPacket::DeSerialize(_Ser);
 		_Ser >> ObjectID;
-		_Ser >> HoldObjectID;
 		_Ser.ReadEnum(Type);
 		_Ser >> Pos;
 		_Ser >> Rot;
@@ -99,6 +98,35 @@ public:
 		_Ser.ReadEnum(ToolData);
 		_Ser.ReadEnum(MapObjData);
 		_Ser.ReadEnum(IngredientData);
+	}
+};
+
+class ObjectInteractUpdatePacket : public GameServerPacket
+{
+public:
+	int ObjectID = -100;
+	int PlayerNum = -100;
+	PlayerCurStateType Type;
+	//
+
+	ObjectInteractUpdatePacket()
+	{
+		SetPacketID(ContentsPacketType::ObjectInteractUpdate);
+	}
+
+	virtual void Serialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::Serialize(_Ser);
+		_Ser.WriteEnum(Type);
+		_Ser << ObjectID;
+		_Ser << PlayerNum;
+	}
+	virtual void DeSerialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::DeSerialize(_Ser);
+		_Ser.ReadEnum(Type);
+		_Ser >> ObjectID;
+		_Ser >> PlayerNum;
 	}
 };
 

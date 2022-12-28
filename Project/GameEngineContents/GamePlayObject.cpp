@@ -45,10 +45,6 @@ void GamePlayObject::ServerStart()
 		if (false == GetIsNetInit())
 		{
 			ChildServerStart();    
-			if (CastThis<Equipment_Plate>() != nullptr)
-			{
-				int a = 0;
-			} 
 			GameServerObject* Object = GameServerObject::GetServerObject(GetNetID());
 			for (int i = ObjectNumber_; ; i++)
 			{
@@ -87,60 +83,78 @@ void GamePlayObject::ServerStart()
 
 void GamePlayObject::ServerUpdate(float _DeltaTime)
 {
-	if (InitFirst == false)
+	if (InitFirst == false && false == GetIsNetInit())
 	{
 		ServerStart();
 		InitFirst = true;
-	}
-	if (false == GetIsNetInit())
-	{
 		return;
+	}
+	else 
+	{
+		while (false == IsPacketEmpty())
+		{
+			std::shared_ptr<GameServerPacket> Packet = PopPacket();
+
+			ContentsPacketType PacketType = Packet->GetPacketIDToEnum<ContentsPacketType>();
+
+			switch (PacketType)
+			{
+			case ContentsPacketType::ObjectUpdate:
+			{
+				std::shared_ptr<ObjectUpdatePacket> ObjectUpdate = std::dynamic_pointer_cast<ObjectUpdatePacket>(Packet);
+				if (ObjectUpdate->State == ServerObjectBaseState::Death)
+				{
+					Death();
+					Off();
+					continue;
+				}
+				if (!ObjectUpdate->Pos.CompareInt3D(float4::ZERO))
+				{
+					GetTransform().SetWorldPosition(ObjectUpdate->Pos);
+					GetTransform().SetWorldRotation(ObjectUpdate->Rot);
+					GetTransform().SetWorldScale(ObjectUpdate->Scale);
+				}
+
+				{
+					if (0 <= ObjectUpdate->CookingGage)
+					{
+						SetServerCookingGage(ObjectUpdate->CookingGage);
+					}
+					if (-1 <= ObjectUpdate->HoldObjectID)
+					{
+						SetServerHoldObject(ObjectUpdate->HoldObjectID);
+					}
+				}
+				break;
+			}
+			case ContentsPacketType::ObjectInteractUpdate:
+			{
+				std::shared_ptr<ObjectInteractUpdatePacket> ObjectUpdate = std::dynamic_pointer_cast<ObjectInteractUpdatePacket>(Packet);
+				std::shared_ptr<GamePlayStaticObject> StaticObject = CastThis<GamePlayStaticObject>();
+
+				if (StaticObject == nullptr)
+				{
+					MsgBoxAssert("StaticObject가 아닙니다");
+				}
+				else
+				{ 
+					StaticObject->SetPlayerState(static_cast<Player*>(GameServerObject::GetServerObject(ObjectUpdate->PlayerNum))->shared_from_this()->CastThis<Player>(), ObjectUpdate->Type);
+				}
+			}
+			break;
+			default:
+				MsgBoxAssert("처리할수 없는 패킷이 날아왔습니다.");
+				break;
+			}
+		}
+
+		if (GetCollisionObject()->IsUpdate())
+		{
+			
+		}
 	}
 	/*
 
-	while (false == IsPacketEmpty())
-	{
-		std::shared_ptr<GameServerPacket> Packet = PopPacket();
-
-		ContentsPacketType PacketType = Packet->GetPacketIDToEnum<ContentsPacketType>();
-
-		switch (PacketType)
-		{
-		case ContentsPacketType::ObjectUpdate:
-		{
-			std::shared_ptr<ObjectUpdatePacket> ObjectUpdate = std::dynamic_pointer_cast<ObjectUpdatePacket>(Packet);
-			if (ObjectUpdate->State == ServerObjectBaseState::Death)
-			{
-				Death();
-				Off();
-				continue;
-			}
-			if (!ObjectUpdate->Pos.CompareInt3D(float4::ZERO))
-			{
-				GetTransform().SetWorldPosition(ObjectUpdate->Pos);
-				GetTransform().SetWorldRotation(ObjectUpdate->Rot);
-				GetTransform().SetWorldScale(ObjectUpdate->Scale);
-			}
-
-			{
-				if (0 <= ObjectUpdate->CookingGage)
-				{
-					SetServerCookingGage(ObjectUpdate->CookingGage);
-				}
-				if (-1 <= ObjectUpdate->HoldObjectID)
-				{
-					SetServerHoldObject(ObjectUpdate->HoldObjectID);
-				}
-			}
-
-			break;
-		}
-		case ContentsPacketType::ClinetInit:
-		default:
-			MsgBoxAssert("처리할수 없는 패킷이 날아왔습니다.");
-			break;
-		}
-	}
 	if (InteractPacket_ != nullptr)
 	{
 		ServerInitManager::Net->SendPacket(InteractPacket_);

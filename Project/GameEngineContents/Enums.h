@@ -101,6 +101,13 @@ enum class FoodType
 	ChrismasPuddingOrange		// 밀가루 + 달걀 + 건조과일 + 오렌지
 };
 
+enum class InteractionType
+{
+	None,
+	Carry,
+	Interaction
+};
+
 enum class IngredientType
 {
 	None = -1, //아무것도 아닌 상태 (+)
