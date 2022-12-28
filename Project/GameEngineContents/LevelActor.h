@@ -16,7 +16,7 @@ public:
 
 	void SetLevelMesh(std::string_view _Name)
 	{
-		Renderer_->SetFBXMesh(_Name.data(), "DeferredTexture");
+		Renderer_->SetFBXMesh(_Name.data(), "Texture");
 		Renderer_->GetTransform().SetWorldScale({ 40, 40, 40 });
 	};
 
