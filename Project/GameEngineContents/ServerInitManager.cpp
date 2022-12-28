@@ -60,12 +60,12 @@ void ServerInitManager::ObjectInteractUpdateProcess(std::shared_ptr<GameServerPa
 		MsgBoxAssert("아직 등록되지 않은 오브젝트입니다 - Serverinitmanager, ObjectInteractUpdateProcess()")
 	}
 	FindObject->PushPacket(_Packet);
-	FindObject = GameServerObject::GetServerObject(Packet->PlayerNum);
-	if (FindObject == nullptr)
-	{
-		MsgBoxAssert("아직 등록되지 않은 오브젝트입니다 - Serverinitmanager, ObjectInteractUpdateProcess()")
-	}
-	FindObject->PushPacket(_Packet);
+	//FindObject = GameServerObject::GetServerObject(Packet->PlayerNum);
+	//if (FindObject == nullptr)
+	//{
+	//	MsgBoxAssert("아직 등록되지 않은 오브젝트입니다 - Serverinitmanager, ObjectInteractUpdateProcess()")
+	//}
+	//FindObject->PushPacket(_Packet);
 
 	if (true == Net->GetIsHost())
 	{
