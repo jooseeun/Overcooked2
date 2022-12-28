@@ -42,7 +42,7 @@ void IceBlock::SetIceBlockMesh(IceBlockType _Type)
 		Name = "p_dlc09_iceblock_02 (8)1.fbx";
 		break;
 	case IceBlockType::Ice10:
-		Name = "p_dlc09_iceblock_02o (10)1.fbx";
+		Name = "p_dlc09_iceblock_02 (10)1.fbx";
 		break;
 	case IceBlockType::Ice11:
 		Name = "p_dlc09_iceblock_02 (11)1.fbx";

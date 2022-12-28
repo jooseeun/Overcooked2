@@ -30,13 +30,6 @@ void GamePlayMapObject::SetMapObjectMesh(const std::string& _Name, MapObjType _O
 	ObjType_ = _ObjType;
 	switch (ObjType_)
 	{
-	case MapObjType::StaticNoCollision:
-	{
-		GetFBXMesh()->GetTransform().SetWorldScale({ 100.f, 100.f, 100.f });
-		GetFBXMesh()->SetFBXMesh(_Name + ".fbx", "Texture");
-		GetCollisionObject()->Off();
-	}
-		break;
 	case MapObjType::Pigeon_Grounded:
 	{
 		GetAnimationFBXMesh()->GetTransform().SetWorldScale({ 150.f, 150.f, 150.f });
@@ -94,6 +87,13 @@ void GamePlayMapObject::SetMapObjectMesh(const std::string& _Name, MapObjType _O
 	case MapObjType::Lift:
 	{
 		GetFBXMesh()->SetFBXMesh(_Name + ".fbx", "Texture");
+	}
+	break;
+	case MapObjType::Beam:
+	{
+		GetFBXMesh()->SetFBXMesh(_Name + ".fbx", "AddBlendAlpha");
+		GetFBXMesh()->GetTransform().SetLocalScale({ 1.2f, 1.2f, 1.2f });
+		GetFBXMesh()->SetRenderingOrder(99);
 	}
 	break;
 	default:

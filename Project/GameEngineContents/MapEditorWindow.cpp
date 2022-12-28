@@ -226,7 +226,7 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 			UnSortToolTab();
 
 			//Sort 탭을 잘못 눌렀을 때 생성된 기준 엑터들 숨기기
-			if (0 < Origins_.size())
+			/*if (0 < Origins_.size())
 			{
 				std::vector<std::weak_ptr<GamePlayOriginObject>>::iterator StartIter = Origins_.begin();
 
@@ -234,7 +234,7 @@ void MapEditorWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				{
 					(*StartIter).lock()->Off();
 				}
-			}
+			}*/
 		}
 
 		//정렬된 오브젝트 배치
@@ -397,9 +397,9 @@ void MapEditorWindow::UnSortToolTab()
 	}
 
 	// 만들 수 있는 오브젝트 리스트
-	ImGui::BeginChild("ActorNameGroup", ImVec2(250, 250), true);
+	ImGui::BeginChild("ActorNameGroup", ImVec2(210, 210), true);
 	ImGui::Text("ActorNameList");
-	ImGui::BeginChild("AllUnSortActorName", ImVec2(230, 230), true);
+	ImGui::BeginChild("AllUnSortActorName", ImVec2(180, 180), true);
 
 	static int SelectNameIndex = 0;
 	for (int i = 0; i < AllUnSortActorName_.size(); ++i)
@@ -416,9 +416,9 @@ void MapEditorWindow::UnSortToolTab()
 	ImGui::SameLine();
 
 	// 현재 생성된 오브젝트 리스트
-	ImGui::BeginChild("ActorGroup", ImVec2(250, 250), true);
+	ImGui::BeginChild("ActorGroup", ImVec2(210, 210), true);
 	ImGui::Text("Created ActorList");
-	ImGui::BeginChild("UnSortActorList", ImVec2(230, 230), true);
+	ImGui::BeginChild("UnSortActorList", ImVec2(180, 180), true);
 
 	auto RendererType = magic_enum::enum_names<MapObjType>();
 	const size_t Size = RendererType.size();
@@ -439,7 +439,7 @@ void MapEditorWindow::UnSortToolTab()
 	ImGui::EndChild();
 	ImGui::EndTabItem();
 
-	ImGui::BeginChild("MapObjType", ImVec2(250, 230), true);
+	ImGui::BeginChild("MapObjType", ImVec2(210, 210), true);
 
 	for (size_t i = 0; i < RendererType.size(); ++i)
 	{
@@ -470,15 +470,6 @@ void MapEditorWindow::UnSortToolTab()
 	{
 		if (false != IsCheckType[i])
 		{
-			//	for (size_t j = 0; j < RendererType.size(); j++)
-				//{
-				//	if (false != IsCheckType[j] && i != j)
-				//	{
-				//		IsCheckType[j] = false;
-				//		break;
-				//	}
-				//}
-				// 체크박스 중 true인 애가 있다 -> 타입 지정
 			ObjectTypeIndex = static_cast<MapObjType>(i);
 		}
 	}
@@ -488,7 +479,7 @@ void MapEditorWindow::UnSortToolTab()
 	if (true == IsCandleCheckBox_)
 	{
 		ImGui::SameLine();
-		ImGui::BeginChild("CandleType", ImVec2(250, 250), true);
+		ImGui::BeginChild("CandleType", ImVec2(210, 210), true);
 
 		for (size_t i = 0; i < CandleMoveType.size(); ++i)
 		{
@@ -628,7 +619,7 @@ void MapEditorWindow::UnSortToolTab()
 			UnSortActorList_.push_back(Object);
 		}
 		break;
-		default:
+		default:	// 클래스 따로 만들지 않은 애들
 		{
 			std::weak_ptr<GamePlayMapObject> Object = CurLevel_->CreateActor<GamePlayMapObject>();
 			Object.lock()->GetTransform().SetWorldPosition({ 0.f, 0.f, 0.f });
@@ -664,12 +655,9 @@ void MapEditorWindow::UnSortToolTab()
 	if (false == UnSortActorList_.empty())
 	{
 		Position_ = UnSortActorList_[SelectIndex].lock()->GetTransform().GetWorldPosition();
-		float4 RendererPos = UnSortActorList_[SelectIndex].lock()->GetFBXMesh()->GetTransform().GetLocalPosition();
 		ImGui::Text("Position");
 		ImGui::DragFloat3("Drag Position", Position_.Arr1D);
 		ImGui::InputFloat3("Input Position", Position_.Arr1D);
-		ImGui::DragFloat3("Drag RendererPosition", RendererPos.Arr1D);
-		ImGui::InputFloat3("Input RendererPosition", RendererPos.Arr1D);
 
 		if (true == ImGui::Button("Position Reset"))
 		{
@@ -680,11 +668,9 @@ void MapEditorWindow::UnSortToolTab()
 			else
 			{
 				Position_ = { 0.f, 0.f, 0.f };
-				RendererPos = { 0.f, 0.f, 0.f };
 			}
 		}
 		UnSortActorList_[SelectIndex].lock()->GetTransform().SetWorldPosition(Position_);
-		UnSortActorList_[SelectIndex].lock()->GetFBXMesh()->GetTransform().SetLocalPosition(RendererPos);
 
 		Rotation_ = UnSortActorList_[SelectIndex].lock()->GetTransform().GetWorldRotation();
 		ImGui::Text("Rotation");
@@ -704,14 +690,12 @@ void MapEditorWindow::UnSortToolTab()
 		ImGui::Text("Collision Scale");
 		ImGui::DragFloat3("Drag Collision Scale", CollisionScale_.Arr1D);
 		ImGui::InputFloat3("Input Collision Scale", CollisionScale_.Arr1D);
-		ImGui::InputFloat3("Input Scale", Scale.Arr1D);
 
 		if (true == ImGui::Button("Collision Scale Reset"))
 		{
-			CollisionScale_ = { 1.f, 1.f, 1.f };
+			CollisionScale_ = { 50.f, 50.f, 50.f };
 		}
 		UnSortActorList_[SelectIndex].lock()->GetCollisionObject()->GetTransform().SetWorldScale(CollisionScale_);
-		UnSortActorList_[SelectIndex].lock()->GetTransform().SetWorldScale(Scale);
 	}
 }
 

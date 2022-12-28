@@ -51,6 +51,7 @@ void Tool_TrashCan::Update(float _Delta)
 
 	if (TrashFood_ != nullptr)
 	{
+		
 		Delay_ -= _Delta;
 		TrashFood_->GetTransform().SetLocalScale({ Delay_ , Delay_ , Delay_ });
 		TrashFood_->GetTransform().SetLocalRotate({0, _Delta * 180.f, 0});

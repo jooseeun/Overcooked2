@@ -33,7 +33,6 @@ enum class MapObjType
 	Button,
 	Oven,
 
-	StaticNoCollision,		// 애니메이션 X, 콜리전 X		ex) Grass, Bamboo
 	Pigeon_Grounded,		// 애니메이션 O, 콜리전 x		ex) Pigeon_Idle
 	Animation,				// 애니메이션 O				ex) Kevin
 	Npc,					// 애니메이션 O, 콜리전 O
@@ -49,6 +48,7 @@ enum class MapObjType
 	IceBlock,
 	IcePlatform,
 	Collision_DeadZone,
+	Beam,
 
 	Max,
 };

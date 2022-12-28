@@ -54,11 +54,9 @@ void MapToolLevel::Start()
 	Window_->GetAllUnSortActorName().push_back("Candle1Position");
 	Window_->GetAllUnSortActorName().push_back("Candle2Position");
 	Window_->GetAllUnSortActorName().push_back("Candle3Position");
-	Window_->GetAllUnSortActorName().push_back("exterior_grass_01");
 	Window_->GetAllUnSortActorName().push_back("m_kevin_01");
 	Window_->GetAllUnSortActorName().push_back("m_city_pigeon_01");
 	Window_->GetAllUnSortActorName().push_back("traffic_light_animated_01");
-	Window_->GetAllUnSortActorName().push_back("Bamboo2");
 	Window_->GetAllUnSortActorName().push_back("Car_Blue");
 	Window_->GetAllUnSortActorName().push_back("Car_Bluegreen");
 	Window_->GetAllUnSortActorName().push_back("Car_Green");
