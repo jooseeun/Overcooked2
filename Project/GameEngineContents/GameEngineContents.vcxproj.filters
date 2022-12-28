@@ -350,6 +350,9 @@
     <ClInclude Include="GameBgmPlayer.h">
       <Filter>Global</Filter>
     </ClInclude>
+    <ClInclude Include="GamePlayObjectManager.h">
+      <Filter>Contents\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -703,6 +706,9 @@
     </ClCompile>
     <ClCompile Include="UIServer.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePlayObjectManager.cpp">
+      <Filter>Contents\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

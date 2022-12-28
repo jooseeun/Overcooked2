@@ -8,6 +8,7 @@
 #include "GraphicWindow.h"
 
 GamePlayLevel::GamePlayLevel()
+	: ObjectManager_(nullptr)
 {
 }
 
@@ -23,6 +24,7 @@ bool GamePlayLevel::HandOverFood(FoodType _Type)
 void GamePlayLevel::Start()
 {
 	UIActor_ = CreateActor<InGameUIActor>();
+	ObjectManager_ = CreateActor<GamePlayObjectManager>();
 	PlayLevelStart();
 }
 
