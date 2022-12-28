@@ -37,7 +37,7 @@ protected:
 	void LevelEndEvent() override;
 
 private:
-	std::queue<std::pair<int, MapData>> QueueMapData_;
+	std::queue<std::shared_ptr<ObjectStartPacket>> QueueMapData_;
 
 	static GamePlayObjectManager* Inst_;
 };

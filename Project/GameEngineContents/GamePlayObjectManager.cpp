@@ -61,18 +61,17 @@ bool GamePlayObjectManager::Isempty()
 
 void GamePlayObjectManager::PushData(std::shared_ptr<ObjectStartPacket> _Update)
 {
+	//MapData Data;
+	//Data.MapObjType_ = _Update->MapObjData;
+	//Data.Pos_ = _Update->Pos;
+	//Data.Rot_ = _Update->Rot;
+	//Data.Scale_ = _Update->Scale;
+	//Data.Index_.x = static_cast<float>(_Update->ToolData);
+	//Data.Index_.y = static_cast<float>(_Update->IngredientData);
+	//Data.Index_.z = static_cast<float>(_Update->HoldObjectID);
+
 	std::lock_guard L(ObjectManagerLock);
-	MapData Data;
-
-	Data.MapObjType_ = _Update->MapObjData;
-	Data.Pos_ = _Update->Pos;
-	Data.Rot_ = _Update->Rot;
-	Data.Scale_ = _Update->Scale;
-	Data.Index_.x = static_cast<float>(_Update->ToolData);
-	Data.Index_.y = static_cast<float>(_Update->IngredientData);
-	Data.Index_.z = static_cast<float>(_Update->HoldObjectID);
-
-	QueueMapData_.push(std::pair<int, MapData>(_Update->ObjectID, Data));
+	QueueMapData_.push(_Update);
 }
 
 std::shared_ptr<GamePlayObject> GamePlayObjectManager::PopData()
@@ -82,16 +81,18 @@ std::shared_ptr<GamePlayObject> GamePlayObjectManager::PopData()
 		return nullptr;
 	}
 
-	std::lock_guard L(ObjectManagerLock);
-	int NetID = QueueMapData_.front().first;
-	MapData Data = QueueMapData_.front().second;
-
 	std::shared_ptr<GamePlayObject> PlayObject;
+	std::shared_ptr<ObjectStartPacket> Packet;
+	{
+		std::lock_guard L(ObjectManagerLock);
+		Packet = QueueMapData_.front();
+		QueueMapData_.pop();
+	}
 
-	if (Data.MapObjType_ != MapObjType::Max)
+	if (Packet->MapObjData != MapObjType::Max)
 	{
 		std::weak_ptr<GamePlayStaticObject> CurActor_;
-		switch (Data.MapObjType_)
+		switch (Packet->MapObjData)
 		{
 		case MapObjType::CounterTop:
 		{
@@ -205,7 +206,7 @@ std::shared_ptr<GamePlayObject> GamePlayObjectManager::PopData()
 
 			std::weak_ptr<FoodBox> Object = std::dynamic_pointer_cast<FoodBox>(CurActor_.lock());
 			Object.lock()->SetFoodBoxMesh(FoodBoxType::Normal);
-			Object.lock()->SetFoodType(static_cast<IngredientType>(Data.Index_.y));
+			Object.lock()->SetFoodType(static_cast<IngredientType>(Packet->IngredientData));
 		}
 		break;
 		case MapObjType::FoodBox_Winter:
@@ -215,7 +216,7 @@ std::shared_ptr<GamePlayObject> GamePlayObjectManager::PopData()
 
 			std::weak_ptr<FoodBox> Object = std::dynamic_pointer_cast<FoodBox>(CurActor_.lock());
 			Object.lock()->SetFoodBoxMesh(FoodBoxType::Winter);
-			Object.lock()->SetFoodType(static_cast<IngredientType>(Data.Index_.y));
+			Object.lock()->SetFoodType(static_cast<IngredientType>(Packet->IngredientData));
 		}
 		break;
 		case MapObjType::Sink_Wizard:
@@ -264,9 +265,9 @@ std::shared_ptr<GamePlayObject> GamePlayObjectManager::PopData()
 		}
 		PlayObject = CurActor_.lock();
 	}
-	else if (static_cast<ToolInfo>(Data.Index_.x) != ToolInfo::None)
+	else if (Packet->ToolData != ToolInfo::None)
 	{
-		switch (static_cast<ToolInfo>(Data.Index_.x))
+		switch (Packet->ToolData)
 		{
 		case ToolInfo::Plate:
 		{
@@ -314,37 +315,36 @@ std::shared_ptr<GamePlayObject> GamePlayObjectManager::PopData()
 		}
 
 	}
-	else if (static_cast<IngredientType>(Data.Index_.y) != IngredientType::None)
+	else if (Packet->IngredientData != IngredientType::None)
 	{
-		PlayObject = GamePlayFood::GetIngredientClass(static_cast<IngredientType>(Data.Index_.y));
+		PlayObject = GamePlayFood::GetIngredientClass(Packet->IngredientData);
 	}
 	else
 	{
 		MsgBoxAssert("ServerInitManager 처리할수 없는 Object 데이터")
 	}
-	PlayObject->ClientInit(ServerObjectType::Object, NetID);
+	PlayObject->ClientInit(ServerObjectType::Object, Packet->ObjectID);
 
-	PlayObject->GetTransform().SetWorldPosition(Data.Pos_);
-	PlayObject->GetTransform().SetWorldRotation(Data.Rot_);
-	PlayObject->GetTransform().SetWorldScale(Data.Scale_);
+	PlayObject->GetTransform().SetWorldPosition(Packet->Pos);
+	PlayObject->GetTransform().SetWorldRotation(Packet->Rot);
+	PlayObject->GetTransform().SetWorldScale(Packet->Scale);
 
-	GamePlayObject::ObjectNumber_ = ++NetID;
+	GamePlayObject::ObjectNumber_ = ++Packet->ObjectID;
 
-	int HoldObjectID = static_cast<int>(Data.Index_.z);
-	if (HoldObjectID >= 0)
+	if (Packet->HoldObjectID >= 0)
 	{
-		GameServerObject* FindHoldObject = GameServerObject::GetServerObject(HoldObjectID);
+		GameServerObject* FindHoldObject = GameServerObject::GetServerObject(Packet->HoldObjectID);
 		if (FindHoldObject == nullptr)
 		{
 			//	MsgBoxAssert("ServerinitManager - HoldingObject가 서버에 등록되어 있지 않습니다");
-			PlayObject->shared_from_this()->CastThis<GamePlayObject>()->SetParentsServerHoldObject(HoldObjectID);
+			PlayObject->shared_from_this()->CastThis<GamePlayObject>()->SetParentsServerHoldObject(Packet->HoldObjectID);
 		}
 		else
 		{
-			PlayObject->shared_from_this()->CastThis<GamePlayObject>()->SetServerHoldObject(HoldObjectID);
+			PlayObject->shared_from_this()->CastThis<GamePlayObject>()->SetServerHoldObject(Packet->HoldObjectID);
 		}
 	}
-	QueueMapData_.pop();
+
 
 	return PlayObject;
 }
