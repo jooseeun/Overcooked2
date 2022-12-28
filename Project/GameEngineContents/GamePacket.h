@@ -61,11 +61,11 @@ class ObjectStartPacket : public GameServerPacket
 {
 public:
 	int ObjectID;
+	int HoldObjectID;
 	float4 Pos;
 	float4 Rot;
 	float4 Scale;
 	ServerObjectType Type;
-	int HoldObjectID;
 	ToolInfo ToolData = ToolInfo::None;
 	MapObjType MapObjData = MapObjType::Max;
 	IngredientType IngredientData = IngredientType::None;
@@ -79,10 +79,11 @@ public:
 	{
 		GameServerPacket::Serialize(_Ser);
 		_Ser << ObjectID;
-		_Ser.WriteEnum(Type);
+		_Ser << HoldObjectID;
 		_Ser << Pos;
 		_Ser << Rot;
 		_Ser << Scale;
+		_Ser.WriteEnum(Type);
 		_Ser.WriteEnum(ToolData);
 		_Ser.WriteEnum(MapObjData);
 		_Ser.WriteEnum(IngredientData);
@@ -91,10 +92,11 @@ public:
 	{
 		GameServerPacket::DeSerialize(_Ser);
 		_Ser >> ObjectID;
-		_Ser.ReadEnum(Type);
+		_Ser >> HoldObjectID;
 		_Ser >> Pos;
 		_Ser >> Rot;
 		_Ser >> Scale;
+		_Ser.ReadEnum(Type);
 		_Ser.ReadEnum(ToolData);
 		_Ser.ReadEnum(MapObjData);
 		_Ser.ReadEnum(IngredientData);
