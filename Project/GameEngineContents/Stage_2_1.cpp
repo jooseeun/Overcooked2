@@ -87,6 +87,7 @@ void Stage_2_1::PlayLevelStartEvent()
 
 	LevelActor_ = CreateActor<LevelActor>();
 	LevelActor_->SetLevelMesh("2_1.FBX");
+	LevelActor_->GetTransform().SetWorldRotation({ 90.f, 0.f, 0.f });
 
 	WaterActor_ = CreateActor<GameEngineActor>();
 	WaterActor_->GetTransform().SetWorldScale({ 2000, 3000, 1 });

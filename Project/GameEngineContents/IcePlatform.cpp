@@ -14,7 +14,7 @@ void IcePlatform::Start()
 {
 	GamePlayFloor::Start();
 
-	GetFBXMesh()->SetFBXMesh("m_dlc09_iceplatform_0.fbx", "Texture");
+	GetFBXMesh()->SetFBXMesh("m_dlc09_iceplatform_01.fbx", "Texture");
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 
 	GetCollisionObject()->GetTransform().SetWorldScale({257.f, 200.f, 514.f});
