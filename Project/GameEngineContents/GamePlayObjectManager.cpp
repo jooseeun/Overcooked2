@@ -28,6 +28,8 @@
 #include "Equipment_Steamer.h"
 #include "Mixer.h"
 
+std::mutex ObjectManagerLock;
+
 GamePlayObjectManager* GamePlayObjectManager::Inst_ = nullptr;
 
 GamePlayObjectManager::GamePlayObjectManager() 
@@ -51,8 +53,36 @@ void GamePlayObjectManager::Update(float _Time)
 	}
 }
 
+bool GamePlayObjectManager::Isempty()
+{
+	std::lock_guard L(ObjectManagerLock);
+	return QueueMapData_.empty();
+}
+
+void GamePlayObjectManager::PushData(std::shared_ptr<ObjectStartPacket> _Update)
+{
+	std::lock_guard L(ObjectManagerLock);
+	MapData Data;
+
+	Data.MapObjType_ = _Update->MapObjData;
+	Data.Pos_ = _Update->Pos;
+	Data.Rot_ = _Update->Rot;
+	Data.Scale_ = _Update->Scale;
+	Data.Index_.x = static_cast<float>(_Update->ToolData);
+	Data.Index_.y = static_cast<float>(_Update->IngredientData);
+	Data.Index_.z = static_cast<float>(_Update->HoldObjectID);
+
+	QueueMapData_.push(std::pair<int, MapData>(_Update->ObjectID, Data));
+}
+
 std::shared_ptr<GamePlayObject> GamePlayObjectManager::PopData()
 {
+	if (QueueMapData_.empty())
+	{
+		return nullptr;
+	}
+
+	std::lock_guard L(ObjectManagerLock);
 	int NetID = QueueMapData_.front().first;
 	MapData Data = QueueMapData_.front().second;
 
@@ -317,6 +347,11 @@ std::shared_ptr<GamePlayObject> GamePlayObjectManager::PopData()
 	QueueMapData_.pop();
 
 	return PlayObject;
+}
+
+GamePlayObjectManager* GamePlayObjectManager::GetInst()
+{
+	return Inst_;
 }
 
 void GamePlayObjectManager::LevelStartEvent()

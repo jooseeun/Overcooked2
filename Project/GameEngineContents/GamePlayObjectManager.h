@@ -18,31 +18,14 @@ public:
 	GamePlayObjectManager& operator=(const GamePlayObjectManager& _Other) = delete;
 	GamePlayObjectManager& operator=(GamePlayObjectManager&& _Other) noexcept = delete;
 
-	static inline GamePlayObjectManager* GetInst()
-	{
-		return Inst_;
-	}
+	static GamePlayObjectManager* GetInst();
+
 
 	std::shared_ptr<GamePlayObject> PopData();
-	void PushData(std::shared_ptr<ObjectStartPacket> _Update)
-	{
-		MapData Data;
+	void PushData(std::shared_ptr<ObjectStartPacket> _Update);
 
-		Data.MapObjType_ = _Update->MapObjData;
-		Data.Pos_ = _Update->Pos;
-		Data.Rot_ = _Update->Rot;
-		Data.Scale_ = _Update->Scale;
-		Data.Index_.x = static_cast<float>(_Update->ToolData);
-		Data.Index_.y = static_cast<float>(_Update->IngredientData);
-		Data.Index_.z = static_cast<float>(_Update->HoldObjectID);
+	bool Isempty();
 
-		QueueMapData_.push(std::pair<int, MapData>(_Update->ObjectID, Data));
-	}
-
-	inline bool Isempty()
-	{
-		return QueueMapData_.empty();
-	}
 
 
 
