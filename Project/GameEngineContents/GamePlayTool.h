@@ -176,16 +176,7 @@ public:
 		}
 		else
 		{
-			GameServerObject* Server = GameServerObject::GetServerObject(GetNetID());
-			if (Server != nullptr)
-			{
-				SetServerHoldObject(GetNetID());
-			}
-			else
-			{
-				MsgBoxAssert("GamePlayTool 서버 부모 설정 오류2")
-
-			}
+			SetServerHoldObject(GetNetID());
 		}
 
 	};
@@ -203,7 +194,7 @@ public:
 		{
 			if (Moveable_Current_.get() != Object)
 			{
-				Moveable_Current_ =  Object->shared_from_this()->CastThis<GamePlayMoveable>();
+				SetMoveable(Object->shared_from_this()->CastThis<GamePlayMoveable>());
 			}
 		}
 		else
@@ -211,5 +202,6 @@ public:
 			MsgBoxAssert("GamePlayMoveableObject_ServerHoldObject_Error")
 		}
 	}
+
 };
 

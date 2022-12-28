@@ -200,15 +200,7 @@ private:
 		}
 		else
 		{
-			GameServerObject* Server = GameServerObject::GetServerObject(GetNetID());
-			if (Server != nullptr)
-			{
-				SetServerHoldObject(GetNetID());
-			}
-			else
-			{
-				MsgBoxAssert("GamePlaystaticObject 서버 부모 설정 오류2")
-			}
+			SetServerHoldObject(GetNetID());
 		}
 	};
 
@@ -225,7 +217,7 @@ private:
 		{
 			if (Stuff_Current_.get() != Object)
 			{
-				Stuff_Current_ = Object->shared_from_this()->CastThis<GamePlayStuff>();
+				SetStuff(Object->shared_from_this()->CastThis<GamePlayStuff>());
 			}
 		}
 		else
