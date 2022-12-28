@@ -60,11 +60,11 @@ class ObjectStartPacket : public GameServerPacket
 {
 public:
 	int ObjectID;
+	int HoldObjectID;
 	float4 Pos;
 	float4 Rot;
 	float4 Scale;
 	ServerObjectType Type;
-	int HoldObjectID;
 	ToolInfo ToolData = ToolInfo::None;
 	MapObjType MapObjData = MapObjType::Max;
 	IngredientType IngredientData = IngredientType::None;
@@ -78,6 +78,7 @@ public:
 	{
 		GameServerPacket::Serialize(_Ser);
 		_Ser << ObjectID;
+		_Ser << HoldObjectID;
 		_Ser.WriteEnum(Type);
 		_Ser << Pos;
 		_Ser << Rot;
@@ -90,6 +91,7 @@ public:
 	{
 		GameServerPacket::DeSerialize(_Ser);
 		_Ser >> ObjectID;
+		_Ser >> HoldObjectID;
 		_Ser.ReadEnum(Type);
 		_Ser >> Pos;
 		_Ser >> Rot;
