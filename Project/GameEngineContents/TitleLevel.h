@@ -22,5 +22,13 @@ private:
 	std::shared_ptr<GameEngineFBXAnimationRenderer> KevinRenderer_;
 	std::shared_ptr<LevelActor> LevelActor_;
 	int SubsetDebugIndex_ = 0;
+
+	RenderOption SkyRenderOption_;
+
+	std::shared_ptr<GameEngineActor> Shutter_;
+	std::shared_ptr<GameEngineFBXStaticRenderer> ShutterRenderer_;
+
+	std::shared_ptr<GameEngineFBXStaticRenderer> PoleRenderer_;
+	
 };
 
