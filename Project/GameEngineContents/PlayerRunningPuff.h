@@ -2,7 +2,7 @@
 #include <GameEngineCore/GameEngineActor.h>
 
 // Ό³Έν :
-class GameEngineTextureRenderer;
+class GameEngineFBXStaticRenderer;
 class PlayerRunningPuff : public GameEngineActor
 {
 public:
@@ -16,14 +16,19 @@ public:
 	PlayerRunningPuff& operator=(const PlayerRunningPuff& _Other) = delete;
 	PlayerRunningPuff& operator=(PlayerRunningPuff&& _Other) noexcept = delete;
 
-
+	void inline SetScale(float _Scale)
+	{
+		Scale_ = _Scale;
+		RunningPuffRenderer_->GetTransform().SetLocalScale(RunningPuffRenderer_->GetTransform().GetLocalScale() * Scale_);
+	}
 
 protected:
 	void Start() override;
 	void Update(float _DeltaTime);
 	void End() {}
 private:
-	std::shared_ptr< GameEngineTextureRenderer> RunningPuffRenderer_;
-	float ScaleRatio_;
+	std::shared_ptr< GameEngineFBXStaticRenderer> RunningPuffRenderer_;
+	float Scale_;
+	float4 OriginalScale_;
 };
 

@@ -97,7 +97,7 @@ void Overcooked::Start()
 
 	CreateLevel<ServerTestLevel>("ServerTestLevel");
 
-	ChangeLevel("SelectStage");
+	ChangeLevel("TitleLevel");
 
 	GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
 
@@ -1224,4 +1224,25 @@ void Overcooked::LoadCommonResource()
 			std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(MeshDir.PlusFilePath("Panda_CannonLandingIdle.FBX"));
 		}
 	}
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		Dir.Move("ContentsResources");
+		Dir.Move("Mesh");
+		Dir.Move("Object");
+		Dir.Move("Player");
+		Dir.Move("RunPuff");
+		{
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("RunPuff.FBX"));
+			std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+
+		}
+		{			
+			GameEngineDirectory MeshDir = Dir;
+			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("RunPuff2.FBX"));
+			std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
+
+		}
+}
 }

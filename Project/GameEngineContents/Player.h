@@ -205,9 +205,15 @@ private:
 
 	CollisionReturn EnterCannon(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 	CollisionReturn PushButton(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
+	CollisionReturn HighlihgtMoveAbleCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
+	CollisionReturn HighlihgtStaticCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 
 	std::shared_ptr<GameEngineActor> CurrentHoldingObject_;
 	std::shared_ptr<GameEngineActor> CurrentThrowObject_;
+
+	std::shared_ptr<GameEngineCollision> HighLightMoveAbleObject_;
+	std::shared_ptr<GameEngineCollision> HighLightStaticObject_;
+
 	std::shared_ptr<GameEngineCollision> TableCollision_;
 	std::shared_ptr<GameEngineCollision> Collision_Interact_; // 상호작용 콜리전
 

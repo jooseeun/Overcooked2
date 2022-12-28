@@ -1,0 +1,7 @@
+{ 
+MeshName:RUNPUFF2.FBX;
+MeshInfoCount:1;
+Path:;
+Mat:RUNNINGPUFF_GRAY.PNG;
+}
+

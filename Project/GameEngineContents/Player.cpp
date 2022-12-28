@@ -573,6 +573,32 @@ void Player::Update(float _DeltaTime)
 	{
 		StateManager.ChangeState("HoldUp");
 	}
+
+	{
+		if(Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Moveable, CollisionType::CT_OBB,
+			std::bind(&Player::HighlihgtMoveAbleCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
+		{
+			if (HighLightMoveAbleObject_ != nullptr)
+			{
+				HighLightMoveAbleObject_->GetParent()->CastThis< GamePlayMoveable>()->SetHighlightEffectOff();
+				HighLightMoveAbleObject_ = nullptr;
+
+			}
+		}
+		if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
+			std::bind(&Player::HighlihgtStaticCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
+		{
+			if (HighLightStaticObject_ != nullptr)
+			{
+				HighLightStaticObject_->GetParent()->CastThis< GamePlayStaticObject>()->SetHighlightEffectOff();
+				HighLightStaticObject_ = nullptr;
+
+			}
+		}
+
+		
+
+	}
 }
 void Player::GravityCheck(float _DeltaTime)
 {
@@ -1197,8 +1223,49 @@ bool Player::ThrowHolding(std::shared_ptr<GameEngineUpdateObject> _HoldingObject
 //////////////////////충돌 함수
 
 
+CollisionReturn Player::HighlihgtMoveAbleCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
+{
 
 
+	if (HighLightMoveAbleObject_ != nullptr&& HighLightMoveAbleObject_!= _Other)
+	{
+		HighLightMoveAbleObject_->GetParent()->CastThis< GamePlayMoveable>()->SetHighlightEffectOff();
+		HighLightMoveAbleObject_ = nullptr;
+
+	}
+	HighLightMoveAbleObject_ = _Other;
+
+	if (CurrentHoldingObject_ != nullptr && HighLightMoveAbleObject_ != nullptr)
+	{
+		if (HighLightMoveAbleObject_->GetParent()->CastThis<GameEngineActor>() == CurrentHoldingObject_)
+		{
+			HighLightMoveAbleObject_->GetParent()->CastThis< GamePlayMoveable>()->SetHighlightEffectOff();
+			HighLightMoveAbleObject_ = nullptr;
+
+			return CollisionReturn::Break;
+		}
+
+	}
+
+	HighLightMoveAbleObject_->GetParent()->CastThis< GamePlayMoveable>()->SetHighlightEffectOn();
+
+
+
+	return CollisionReturn::Break;
+}
+CollisionReturn Player::HighlihgtStaticCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
+{
+	if (HighLightStaticObject_ != nullptr && HighLightStaticObject_ != _Other)
+	{
+		HighLightStaticObject_->GetParent()->CastThis< GamePlayStaticObject>()->SetHighlightEffectOff();
+		HighLightStaticObject_ = nullptr;
+
+	}
+	HighLightStaticObject_ = _Other;
+	HighLightStaticObject_->GetParent()->CastThis< GamePlayStaticObject>()->SetHighlightEffectOn();
+
+	return CollisionReturn::Break;
+}
 CollisionReturn Player::TableHoldUpCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 {
 	//테이블에게 알려주기

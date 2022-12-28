@@ -1,26 +1,34 @@
 #include "PreCompile.h"
 #include "PlayerRunningPuff.h"
 
-PlayerRunningPuff::PlayerRunningPuff() 
+PlayerRunningPuff::PlayerRunningPuff()
 	:RunningPuffRenderer_(nullptr)
+	, Scale_(0.5f)
 {
 }
 
-PlayerRunningPuff::~PlayerRunningPuff() 
+PlayerRunningPuff::~PlayerRunningPuff()
 {
+
 }
 
 void PlayerRunningPuff::Start()
 {
 	GetTransform().SetLocalScale({ 1, 1, 1 });
-	RunningPuffRenderer_ = CreateComponent<GameEngineTextureRenderer>();
-	RunningPuffRenderer_->SetPivot(PIVOTMODE::CENTER);
-	RunningPuffRenderer_->SetTexture("RunningPuff_gray.png");
-	RunningPuffRenderer_->SetRenderingOrder(99);
-	RunningPuffRenderer_->GetPixelData().MulColor.a = 0.8f;
 
+	RunningPuffRenderer_ = CreateComponent<GameEngineFBXStaticRenderer>();
 
-	Death(2.0f);
+	RunningPuffRenderer_->SetFBXMesh("RunPuff.fbx", "Texture");
+	RunningPuffRenderer_->GetTransform().SetLocalRotation({ 80,120,0 });
+	OriginalScale_ = RunningPuffRenderer_->GetTransform().GetLocalScale();
+	RunningPuffRenderer_->GetTransform().SetLocalScale(RunningPuffRenderer_->GetTransform().GetLocalScale()* Scale_);
+	//RunningPuffRenderer_->SetRenderingOrder(99);
+	//RunningPuffRenderer_->GetPixelData().MulColor.a = 0.8f;
+	PixelData& Renderer = RunningPuffRenderer_->GetPixelDatas(0);
+	Renderer.MulColor.a -= 0.3f;
+	
+	float DeathTime = GameEngineRandom::MainRandom.RandomFloat(1.0f, 3.0f);
+	Death(DeathTime);
 }
 void PlayerRunningPuff::Update(float _DeltaTime)
 {
