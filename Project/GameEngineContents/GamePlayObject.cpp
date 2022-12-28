@@ -40,25 +40,40 @@ void GamePlayObject::ServerStart()
 {
 	if (nullptr != ServerInitManager::Net)
 	{
-		//if (ServerInitManager::Net->GetIsHost())
-		//{
-		//	
 		std::shared_ptr<ObjectStartPacket> Packet = std::make_shared<ObjectStartPacket>();
-		SendObjectType(Packet);
-		if (Packet->MapObjData == MapObjType::Max && Packet->ToolData == ToolInfo::None
-		&& Packet->IngredientData == IngredientType::None)
+		GameServerObject* Object = GameServerObject::GetServerObject(GetNetID());
+		if (Object == nullptr)
 		{
-			return;
-		}
-		SendServerHoldObject(Packet);
-		Packet->ObjectID = ObjectNumber_++;
-		Packet->Type = ServerObjectType::Object;
-		Packet->Pos = GetTransform().GetWorldPosition();
-		Packet->Rot = GetTransform().GetWorldRotation();
-		Packet->Scale = GetTransform().GetWorldScale();
-		Packet->HoldObjectID = -100;
+			for (int i = ObjectNumber_; ; i++)
+			{
+				Object = GameServerObject::GetServerObject(i);
+				if (Object == nullptr)
+				{
+					ObjectNumber_ = i;
+					break;
+				}
+			}
+			SendObjectType(Packet);
+			if (Packet->MapObjData == MapObjType::Max && Packet->ToolData == ToolInfo::None
+				&& Packet->IngredientData == IngredientType::None)
+			{
+				return; // 넘길 가치 없는 것들
+			}
 
-		ServerInitManager::Net->SendPacket(Packet);
+			SendServerHoldObject(Packet);
+			Packet->ObjectID = ObjectNumber_++;
+			Packet->Type = ServerObjectType::Object;
+			Packet->Pos = GetTransform().GetWorldPosition();
+			Packet->Rot = GetTransform().GetWorldRotation();
+			Packet->Scale = GetTransform().GetWorldScale();
+			Packet->HoldObjectID = -100;
+
+			ClientInit(ServerObjectType::Object, Packet->ObjectID);
+
+			ServerInitManager::Net->SendPacket(Packet);
+		}
+	
+
 		//}
 	}
 
