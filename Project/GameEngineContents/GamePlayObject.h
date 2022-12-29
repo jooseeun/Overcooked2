@@ -130,9 +130,13 @@ public:
 	}
 	// Sever
 public:
-	void DontWantSend()
+	inline void DontWantSend()
 	{
 		InitFirst = true;
+	}
+	inline void WantSend()
+	{
+		InitFirst = false;
 	}
 	static inline int FindEmptyServerNumber()
 	{

@@ -125,15 +125,17 @@ void GamePlayObjectManager::PopObjectParentsSetData()
 	}
 
 	GameServerObject* FindHoldObject = GameServerObject::GetServerObject(Packet->ChildID);
-	if (FindHoldObject != nullptr)
-	{
-		return;
-	}
+	//if (FindHoldObject != nullptr)
+	//{
+	//	return;
+	//}
 
 	FindHoldObject = GameServerObject::GetServerObject(Packet->ParentsID);
 	if (FindHoldObject == nullptr)
 	{
 		MsgBoxAssert("GamePlayObjectManager::PopObjectParentsSetData() - FindHoldObject 부모가 nullptr입니다")
+
+		return;
 	}
 
 	switch (FindHoldObject->GetServerType())
@@ -161,16 +163,30 @@ void GamePlayObjectManager::PopObjectParentsSetData()
 		{
 			if (Object->CastThis<GamePlayStaticObject>()->GetStuff() == nullptr)
 			{
-				TemporaryPushData(Packet);
-				return;
+				if (GameServerObject::GetServerObject(Packet->ChildID) == nullptr)
+				{
+					TemporaryPushData(Packet);
+					return;
+				}
+				else
+				{
+					Object->SetParentsServerHoldObject(Packet->ChildID);
+				}
 			}
 		}
 		else
 		{
 			if (Object->CastThis<GamePlayTool>()->GetCurrentMoveable() == nullptr)
 			{
-				TemporaryPushData(Packet);
-				return;
+				if (GameServerObject::GetServerObject(Packet->ChildID) == nullptr)
+				{
+					TemporaryPushData(Packet);
+					return;
+				}
+				else
+				{
+					Object->SetParentsServerHoldObject(Packet->ChildID);
+				}
 			}
 		}
 		Object->SetParentsServerHoldObject(Packet->ChildID);
@@ -439,6 +455,11 @@ std::shared_ptr<GamePlayObject> GamePlayObjectManager::PopMapDataData()
 	else if (Packet->IngredientData != IngredientType::None)
 	{
 		PlayObject = GamePlayFood::GetIngredientClass(Packet->IngredientData);
+	}
+	else if(Packet->ObjectToolData != ObjectToolType::None)
+	{
+		TemporaryPushData(Packet);
+		return nullptr;
 	}
 	else
 	{

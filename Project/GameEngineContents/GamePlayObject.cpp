@@ -45,16 +45,21 @@ void GamePlayObject::ServerStart()
 		{
 			std::shared_ptr<ObjectStartPacket> Packet = std::make_shared<ObjectStartPacket>();
 			ChildServerStart();    
-		
+			Packet->ObjectToolData = ObjectToolType::None;
 			SendObjectType(Packet);
 			if (Packet->MapObjData == MapObjType::Max && Packet->ToolData == ToolInfo::None
-				&& Packet->IngredientData == IngredientType::None)
+				&& Packet->IngredientData == IngredientType::None && Packet->ObjectToolData == ObjectToolType::None)
 			{
 				InitFirst = true;
 				return; // 넘길 가치 없는 것들
 			}
 
 			Packet->HoldObjectID = GetChildNetID();
+
+			if (Packet->HoldObjectID >= 0)
+			{
+				int a = 0;
+			}
 
 			FindEmptyServerNumber();
 			Packet->ObjectID = ObjectNumberInServer_++;
@@ -124,9 +129,16 @@ void GamePlayObject::ServerUpdate(float _DeltaTime)
 				std::shared_ptr<ObjectInteractUpdatePacket> ObjectUpdate = std::dynamic_pointer_cast<ObjectInteractUpdatePacket>(Packet);
 				{ 
 					GameServerObject* ServerObject = GameServerObject::GetServerObject(ObjectUpdate->PlayerNum);
+					if (Player::GetMyPlayer()->shared_from_this()->CastThis<Player>()->GetNetID() == ObjectUpdate->SendPacktPlayer)
+					{
+						return;
+					}
+
 					Player* Player_ = static_cast<Player*>(ServerObject);
+
 					if (Player_ != nullptr)
 					{
+
 						SetPlayerState(Player_->shared_from_this()->CastThis<Player>(), ObjectUpdate->Type, nullptr, true);
 					}
 					else

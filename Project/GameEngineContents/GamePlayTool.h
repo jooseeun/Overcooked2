@@ -126,16 +126,21 @@ public:
 	}
 
 	// server
-	void ChildServerStart() override
+	inline void ChildServerStart() override
 	{
 		if (Moveable_Current_ != nullptr)
 		{
 			Moveable_Current_->ServerStart();
+			//ServerStart();
 		}
 	};
 
+	inline void SendObjectType(std::shared_ptr<ObjectStartPacket> Packet) override
+	{
+		Packet->ObjectToolData = GetObjectToolType();
+	}
 
-	int GetChildNetID() override
+	inline int GetChildNetID() override
 	{
 		if (Moveable_Current_ != nullptr)
 		{
@@ -188,12 +193,22 @@ public:
 			return;
 		}
 
-		GamePlayMoveable* Object = static_cast<GamePlayMoveable*>(GameServerObject::GetServerObject(_ServerID));
+
+		{
+			//GamePlayObject* Object1 = (GamePlayObject*)(GameServerObject::GetServerObject(_ServerID));
+
+			if (GameServerObject::GetServerObject(_ServerID) == GameServerObject::GetServerObject(GetNetID()))
+			{
+				int a = 0;
+			}
+		}
+
+		GamePlayMoveable* Object = (GamePlayMoveable*)(GameServerObject::GetServerObject(_ServerID));
 		if (Object != nullptr)
 		{
 			if (Moveable_Current_.get() != Object)
 			{
-				SetMoveable(Object->shared_from_this()->CastThis<GamePlayMoveable>());
+				SetMoveable(Object->shared_from_this());
 			}
 		}
 		else

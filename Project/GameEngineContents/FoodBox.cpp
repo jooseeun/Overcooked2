@@ -227,6 +227,16 @@ HoldDownEnum Tool_FoodBox::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 	case HoldDownEnum::Nothing:
 	{
 		(*_Moveable) = GamePlayFood::GetIngredientClass(Type_);
+
+		if (nullptr != ServerInitManager::Net)
+		{
+			(*_Moveable)->DontWantSend();
+			if (ServerInitManager::Net->GetIsHost())
+			{
+				(*_Moveable)->ClientInit(ServerObjectType::Object, GamePlayObject::FindEmptyServerNumber());
+			}
+		}
+
 		Box_.lock()->SwitchIsInteraction();
 		return HoldDownEnum::HoldDown;
 	}

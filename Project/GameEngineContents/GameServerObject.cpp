@@ -32,12 +32,19 @@ void GameServerObject::ServerInit(ServerObjectType _Type)
 
 void GameServerObject::ClientInit(ServerObjectType _Type, int _ID)
 {
-	ServerType = _Type;
-	ID = _ID;
+	if (IsNetInit == false)
+	{
+		ServerType = _Type;
+		ID = _ID;
 
-	IsNetInit = true;
+		IsNetInit = true;
 
-	AllServerActor.insert(std::make_pair(ID, this));
+		AllServerActor.insert(std::make_pair(ID, this));
+	}
+	else
+	{
+		int a = 0;
+	}
 }
 
 void GameServerObject::PushPacket(std::shared_ptr<GameServerPacket> _Packet)

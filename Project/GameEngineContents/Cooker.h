@@ -43,6 +43,7 @@ private:
 // Ό³Έν :
 class Tool_Cooker : public GamePlayTool
 {
+	friend Cooker;
 public:
 	// constrcuter destructer
 	Tool_Cooker();
@@ -61,6 +62,6 @@ protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 private:
-
+	std::weak_ptr<Cooker> Cooker_;
 };
 

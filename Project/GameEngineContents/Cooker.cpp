@@ -51,7 +51,11 @@ void Cooker::Start()
 	ToolPos_ = { 0.f, 85.f, 25.f };
 	SetToolPos(ToolPos_);
 	
-	SetStuff(GetLevel()->CreateActor<Tool_Cooker>());
+	{
+		std::shared_ptr<Tool_Cooker> Cookers = GetLevel()->CreateActor<Tool_Cooker>();
+		SetStuff(Cookers);
+		Cookers->Cooker_ = CastThis<Cooker>();
+	}
 
 	//불 끄고 시작
 	FireOff();
@@ -79,11 +83,17 @@ void Tool_Cooker::Start()
 
 void Tool_Cooker::Update(float _DeltaTime)
 {
+
 	if (GetCurrentMoveable() != nullptr)
 	{
 		if (GetCurrentMoveable()->AutoTrim(_DeltaTime, GetObjectToolType()))
 		{
+			Cooker_.lock()->FireOn();
 			//불 붙히는 애니메이션
+		}
+		else
+		{
+			Cooker_.lock()->FireOff();
 		}
 	}
 }

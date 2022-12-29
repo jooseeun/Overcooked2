@@ -19,6 +19,7 @@ enum class ContentsPacketType
 	Ignore,
 };
 
+enum class ObjectToolType;
 class IgnorePacket : public GameServerPacket
 {
 public:
@@ -112,8 +113,8 @@ public:
 class ObjectStartPacket : public GameServerPacket
 {
 public:
-	int ObjectID;
-	int HoldObjectID;
+	int ObjectID = -1000;
+	int HoldObjectID = -1000;
 	float4 Pos;
 	float4 Rot;
 	float4 Scale;
@@ -121,6 +122,7 @@ public:
 	ToolInfo ToolData = ToolInfo::None;
 	MapObjType MapObjData = MapObjType::Max;
 	IngredientType IngredientData = IngredientType::None;
+	ObjectToolType ObjectToolData;
 
 	ObjectStartPacket()
 	{
@@ -139,6 +141,7 @@ public:
 		_Ser.WriteEnum(ToolData);
 		_Ser.WriteEnum(MapObjData);
 		_Ser.WriteEnum(IngredientData);
+		_Ser.WriteEnum(ObjectToolData);
 	}
 	virtual void DeSerialize(GameServerSerializer& _Ser)
 	{
@@ -152,6 +155,7 @@ public:
 		_Ser.ReadEnum(ToolData);
 		_Ser.ReadEnum(MapObjData);
 		_Ser.ReadEnum(IngredientData);
+		_Ser.ReadEnum(ObjectToolData);
 	}
 };
 
@@ -160,6 +164,7 @@ class ObjectInteractUpdatePacket : public GameServerPacket
 public:
 	int ObjectID = -100;
 	int PlayerNum = -100;
+	int SendPacktPlayer = -100;
 	PlayerCurStateType Type;
 	//
 
@@ -174,6 +179,7 @@ public:
 		_Ser.WriteEnum(Type);
 		_Ser << ObjectID;
 		_Ser << PlayerNum;
+		_Ser << SendPacktPlayer;
 	}
 	virtual void DeSerialize(GameServerSerializer& _Ser)
 	{
@@ -181,6 +187,7 @@ public:
 		_Ser.ReadEnum(Type);
 		_Ser >> ObjectID;
 		_Ser >> PlayerNum;
+		_Ser >> SendPacktPlayer;
 	}
 };
 

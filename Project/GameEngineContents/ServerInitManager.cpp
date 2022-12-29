@@ -40,7 +40,6 @@ void ServerInitManager::ObjectStartPacketProcess(std::shared_ptr<GameServerPacke
 	GameServerObject* FindObject = GameServerObject::GetServerObject(Packet->ObjectID);
 
 	if (nullptr == FindObject)
-
 	{	
 		if (GamePlayObjectManager::GetInst() != nullptr)
 		{
@@ -68,7 +67,8 @@ void ServerInitManager::ObjectParentsSetPacketProcess(std::shared_ptr<GameServer
 	GameServerObject* FindObject = GameServerObject::GetServerObject(Packet->ParentsID);
 	if (FindObject == nullptr)
 	{
-		MsgBoxAssert("아직 등록되지 않은 오브젝트입니다 - Serverinitmanager, ObjectParentsSetPacketProcess()")
+		//MsgBoxAssert("아직 등록되지 않은 오브젝트입니다 - Serverinitmanager, ObjectParentsSetPacketProcess()")
+		return;
 	}
 
 	if (GamePlayObjectManager::GetInst() != nullptr)
