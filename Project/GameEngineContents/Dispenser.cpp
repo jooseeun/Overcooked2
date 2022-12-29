@@ -89,7 +89,7 @@ void Tool_Dispenser::Update(float _Delta)
 
 	if (Front_StaticObject_.lock() != nullptr)
 	{
-		if (ServerInitManager::Net && ServerInitManager::Net->GetIsHost())
+		if (ServerInitManager::Net == nullptr || ServerInitManager::Net->GetIsHost())
 		{
 			Delay_ += _Delta;
 			if (Front_StaticObject_.lock()->GetMoveable() == nullptr && Delay_ > 3.f)
