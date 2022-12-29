@@ -27,6 +27,7 @@ void Rail::Start()
 
 void Rail::Update(float _Delta)
 {
+	GamePlayObject::Update(_Delta);
 	RenderOptionMyInst.UV.x += _Delta * 0.3f;
 
 	//GetTransform().SetWorldRotation({ 0, 0, 0 });
