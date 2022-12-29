@@ -86,7 +86,7 @@ void GamePlayObjectManager::Update(float _Time)
 	}
 	while (!QueueObjectParentsSet_.empty())
 	{
-		PopMapDataData();
+		PopObjectParentsSetData();
 	}
 }
 
