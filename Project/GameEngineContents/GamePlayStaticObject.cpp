@@ -47,7 +47,7 @@ void GamePlayStaticObject::SetHighlightEffectOn()
 	}
 }
 
-SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type, std::shared_ptr<GamePlayMoveable> _Moveable)
+SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type, std::shared_ptr<GamePlayMoveable> _Moveable, bool _FromNet)
 {
 	//std::shared_ptr<ObjectUpdatePacket> Packet = std::make_shared<ObjectUpdatePacket>();
 	//Packet->ObjectID = GetNetID();
@@ -62,19 +62,22 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 
 	if (nullptr != ServerInitManager::Net)
 	{
-		std::shared_ptr<ObjectInteractUpdatePacket> Packet = std::make_shared<ObjectInteractUpdatePacket>();
-		if (_Player != nullptr)
+		if (_FromNet == false || ServerInitManager::Net->GetIsHost())
 		{
-			Packet->PlayerNum = _Player->GetNetID();
-		}
-		else
-		{
-			Packet->PlayerNum = _Moveable->GetNetID();
-		}
+			std::shared_ptr<ObjectInteractUpdatePacket> Packet = std::make_shared<ObjectInteractUpdatePacket>();
+			if (_Player != nullptr)
+			{
+				Packet->PlayerNum = _Player->GetNetID();
+			}
+			else
+			{
+				Packet->PlayerNum = _Moveable->GetNetID();
+			}
 
-		Packet->Type = _Type;
-		Packet->ObjectID = GetNetID();
-		ServerInitManager::Net->SendPacket(Packet);
+			Packet->Type = _Type;
+			Packet->ObjectID = GetNetID();
+			ServerInitManager::Net->SendPacket(Packet);
+		}
 	}
 	
 

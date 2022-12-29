@@ -33,7 +33,7 @@ void ServerInitManager::ObjectStartPacketProcess(std::shared_ptr<GameServerPacke
 	{	
 		if (GamePlayObjectManager::GetInst() != nullptr)
 		{
-			GamePlayObjectManager::GetInst()->PushData(Packet);
+			GamePlayObjectManager::GetInst()->PushMapData(Packet);
 		}
 		else
 		{
@@ -60,7 +60,14 @@ void ServerInitManager::ObjectParentsSetPacketProcess(std::shared_ptr<GameServer
 		MsgBoxAssert("아직 등록되지 않은 오브젝트입니다 - Serverinitmanager, ObjectParentsSetPacketProcess()")
 	}
 
-	FindObject->PushPacket(_Packet);
+	if (GamePlayObjectManager::GetInst() != nullptr)
+	{
+		GamePlayObjectManager::GetInst()->PushParentsSetData(Packet);
+	}
+	else
+	{
+		GamePlayObjectManager::TemporaryPushData(Packet);
+	}
 }
 
 

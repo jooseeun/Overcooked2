@@ -122,23 +122,16 @@ void GamePlayObject::ServerUpdate(float _DeltaTime)
 			case ContentsPacketType::ObjectInteractUpdate:
 			{
 				std::shared_ptr<ObjectInteractUpdatePacket> ObjectUpdate = std::dynamic_pointer_cast<ObjectInteractUpdatePacket>(Packet);
-				std::shared_ptr<GamePlayStaticObject> StaticObject = CastThis<GamePlayStaticObject>();
-
-				if (StaticObject == nullptr)
-				{
-					MsgBoxAssert("StaticObject°¡ ¾Æ´Õ´Ï´Ù");
-				}
-				else
 				{ 
 					GameServerObject* ServerObject = GameServerObject::GetServerObject(ObjectUpdate->PlayerNum);
 					Player* Player_ = static_cast<Player*>(ServerObject);
 					if (Player_ != nullptr)
 					{
-						StaticObject->SetPlayerState(Player_->shared_from_this()->CastThis<Player>(), ObjectUpdate->Type);
+						SetPlayerState(Player_->shared_from_this()->CastThis<Player>(), ObjectUpdate->Type, nullptr, true);
 					}
 					else
 					{
-						StaticObject->SetPlayerState(nullptr, ObjectUpdate->Type, static_cast<GamePlayMoveable*>(ServerObject)->shared_from_this()->CastThis<GamePlayMoveable>());
+						SetPlayerState(nullptr, ObjectUpdate->Type, static_cast<GamePlayMoveable*>(ServerObject)->shared_from_this()->CastThis<GamePlayMoveable>(), true);
 					}
 				}
 			}

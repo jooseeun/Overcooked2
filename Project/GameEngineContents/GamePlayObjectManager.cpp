@@ -97,10 +97,16 @@ bool GamePlayObjectManager::Isempty()
 }
 
 
-void GamePlayObjectManager::PushData(std::shared_ptr<ObjectStartPacket> _Update)
+void GamePlayObjectManager::PushMapData(std::shared_ptr<ObjectStartPacket> _Update)
 {
 	std::lock_guard L(ObjectManagerLock);
 	QueueMapData_.push(_Update);
+}
+
+void GamePlayObjectManager::PushParentsSetData(std::shared_ptr<ObjectParentsSetPacket> _Packet)
+{
+	std::lock_guard L(ObjectManagerLock);
+	QueueObjectParentsSet_.push(_Packet);
 }
 
 void GamePlayObjectManager::PopObjectParentsSetData()
