@@ -94,9 +94,11 @@ void Stage_1_4::PlayLevelStartEvent()
 	LevelActor_->GetRenderer()->SetSubConstantBufferLink(38, "PixelData", &WallColor_, sizeof(WallColor));
 
 	CreateActor<TestPortal>();
-
-	GlobalIOManager::Load(IOType::SortMap, 3);
-	DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
+	if (ServerInitManager::Net != nullptr && ServerInitManager::Net->GetIsHost())
+	{
+		GlobalIOManager::Load(IOType::SortMap, 3);
+		DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
+	}
 
 	GlobalIOManager::Load(IOType::UnsortMap, 3);
 	DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);

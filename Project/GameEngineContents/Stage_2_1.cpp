@@ -107,8 +107,12 @@ void Stage_2_1::PlayLevelStartEvent()
 		Water->GetShaderResources().SetConstantBufferLink("RENDEROPTION", &WaterRenderOption2_, sizeof(RenderOption));
 	}
 
-	GlobalIOManager::Load(IOType::SortMap, 4);
-	DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
+
+	if (ServerInitManager::Net != nullptr && ServerInitManager::Net->GetIsHost())
+	{
+		GlobalIOManager::Load(IOType::SortMap, 4);
+		DataParser_.SortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
+	}
 
 	GlobalIOManager::Load(IOType::UnsortMap, 4);
 	DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
