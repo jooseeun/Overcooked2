@@ -181,6 +181,19 @@ std::shared_ptr<GamePlayFood> GamePlayFood::GetIngredientClass(IngredientType _T
 	default:
 		break;
 	}
+
+	if (nullptr != ServerInitManager::Net)
+	{
+		Moveable->DontWantSend();
+		if (ServerInitManager::Net->GetIsHost())
+		{
+			Moveable->ClientInit(ServerObjectType::Object, GamePlayObject::FindEmptyServerNumber());
+		}
+	}
+
+
+	
+
 	return Moveable;
 }
 

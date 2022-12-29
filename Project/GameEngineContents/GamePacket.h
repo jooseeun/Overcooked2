@@ -7,6 +7,7 @@ enum class ContentsPacketType
 	None,
 	ObjectUpdate, // 오브젝트 업데이트
 	ObjectStart,
+	ObjectParentsSet,
 	ObjectInteractUpdate,
 	LoadingData,  // 로딩레벨에서 사용하는 패킷 호스트, 클라 둘 다 사용
 	UIUpdate,     // UI 업데이트
@@ -32,6 +33,30 @@ public:
 	virtual void DeSerialize(GameServerSerializer& _Ser)
 	{
 		GameServerPacket::DeSerialize(_Ser);
+	}
+};
+
+class ObjectParentsSetPacket : public GameServerPacket
+{
+public:
+	int ParentsID = -10000;
+	int ChildID = -10000;
+	ObjectParentsSetPacket()
+	{
+		SetPacketID(ContentsPacketType::ObjectParentsSet);
+	}
+
+	virtual void Serialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::Serialize(_Ser);
+		_Ser << ParentsID;
+		_Ser << ChildID;
+	}
+	virtual void DeSerialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::DeSerialize(_Ser);
+		_Ser >> ParentsID;
+		_Ser >> ChildID;
 	}
 };
 

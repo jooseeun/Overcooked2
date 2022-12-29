@@ -32,7 +32,6 @@ protected:
 	GamePlayObject();
 
 public:
-	static int ObjectNumber_;
 	// constrcuter destructer
 	virtual ~GamePlayObject();
 
@@ -131,6 +130,24 @@ public:
 	}
 	// Sever
 public:
+	void DontWantSend()
+	{
+		InitFirst = true;
+	}
+	static inline int FindEmptyServerNumber()
+	{
+		GameServerObject* Object = nullptr;
+		for (int i = ObjectNumberInServer_; ; i++)
+		{
+			Object = GameServerObject::GetServerObject(i);
+			if (Object == nullptr)
+			{
+				ObjectNumberInServer_ = i;
+				return ObjectNumberInServer_;
+			}
+		}
+	}
+
 	virtual void SetParentsServerHoldObject(int _ServerID) { MsgBoxAssert("GamePlayObject SetParentsServerHoldObject 서버 부모 설정 오류") };
 	virtual void SetServerHoldObject(int _ServerID) { MsgBoxAssert("GamePlayObject SetServerHoldObject 서버 부모 설정 오류") };
 protected:
@@ -139,11 +156,12 @@ protected:
 
 	void ServerUpdate(float _DeltaTime);
 	
-	//virtual void SendDefaultPacket(std::shared_ptr<ObjectUpdatePacket> Packet);
+
+	//void SendParentObject();
+
 
 	//virtual void SendPacket(std::shared_ptr<ObjectUpdatePacket> Packet) {}
 	virtual int GetChildNetID() { return -1000; };
-;	//virtual void SendServerHoldObject(std::shared_ptr<ObjectStartPacket> Packet) {};
 	virtual void SendObjectType(std::shared_ptr<ObjectStartPacket> Packet) {}
 
 
@@ -151,4 +169,7 @@ protected:
 
 	//std::shared_ptr<ObjectUpdatePacket> InteractPacket_;
 	bool InitFirst;
+
+
+	static int ObjectNumberInServer_;
 };

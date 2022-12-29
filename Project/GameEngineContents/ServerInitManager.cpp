@@ -50,6 +50,20 @@ void ServerInitManager::ObjectStartPacketProcess(std::shared_ptr<GameServerPacke
 	}
 }
 
+
+void ServerInitManager::ObjectParentsSetPacketProcess(std::shared_ptr<GameServerPacket> _Packet)
+{
+	std::shared_ptr<ObjectParentsSetPacket> Packet = std::dynamic_pointer_cast<ObjectParentsSetPacket>(_Packet);
+	GameServerObject* FindObject = GameServerObject::GetServerObject(Packet->ParentsID);
+	if (FindObject == nullptr)
+	{
+		MsgBoxAssert("아직 등록되지 않은 오브젝트입니다 - Serverinitmanager, ObjectParentsSetPacketProcess()")
+	}
+
+	FindObject->PushPacket(_Packet);
+}
+
+
 void ServerInitManager::ObjectInteractUpdateProcess(std::shared_ptr<GameServerPacket> _Packet)
 {
 	std::shared_ptr<ObjectInteractUpdatePacket> Packet = std::dynamic_pointer_cast<ObjectInteractUpdatePacket>(_Packet);
@@ -87,10 +101,6 @@ void ServerInitManager::ObjectUpdatePacketProcess(std::shared_ptr<GameServerPack
 			{
 				Player::MaxPlayerCount_ = Packet->ObjectID;
 			}
-		}
-		else if (ServerObjectType::Object == Packet->Type)
-		{
-			Packet->ObjectID = GamePlayObject::ObjectNumber_++;
 		}
 
 		return;
@@ -232,6 +242,9 @@ void ServerInitManager::StartInit()
 		ContentsPacketType Type = static_cast<ContentsPacketType>(_PacketType);
 		switch (Type)
 		{
+		case ContentsPacketType::ObjectParentsSet:
+			NewPacket = std::make_shared<ObjectParentsSetPacket>();
+			break;
 		case ContentsPacketType::ObjectStart:
 			NewPacket = std::make_shared<ObjectStartPacket>();
 			break;
@@ -287,6 +300,9 @@ void ServerInitManager::StartInit()
 	else
 	{
 		// 내가 클라이언트 일때만 등록해야하는 패킷
+
+		
+		Net->Dis.AddHandler(ContentsPacketType::ObjectParentsSet, std::bind(&ServerInitManager::ObjectParentsSetPacketProcess, std::placeholders::_1));
 		Net->Dis.AddHandler(ContentsPacketType::ClinetInit, std::bind(&ServerInitManager::ClientInitPacketProcess, std::placeholders::_1));
 		Net->Dis.AddHandler(ContentsPacketType::ChangeLevel, std::bind(&ServerInitManager::ChangeLevelPacketProcess, std::placeholders::_1));
 		Net->Dis.AddHandler(ContentsPacketType::UIUpdate, std::bind(&ServerInitManager::UIDataPacketProcess, std::placeholders::_1));

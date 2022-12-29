@@ -283,18 +283,5 @@ public:
 	{
 		MyPlayer = _Player;
 	}
-
-	void SendServer_Interact(PlayerCurStateType _Type, std::shared_ptr<GameEngineUpdateObject> _StaticObject)
-	{
-		if (nullptr != ServerInitManager::Net)
-		{
-			std::shared_ptr<ObjectInteractUpdatePacket> Packet = std::make_shared<ObjectInteractUpdatePacket>();
-			Packet->PlayerNum = GetNetID();
-			Packet->Type = _Type;
-			Packet->ObjectID = _StaticObject->CastThis<GamePlayObject>()->GetNetID();
-			ServerInitManager::Net->SendPacket(Packet);
-			return;
-		}
-	}
 };
 

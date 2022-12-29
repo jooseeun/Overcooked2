@@ -3,7 +3,7 @@
 #include "Equipment_Plate.h"
 
 
-int GamePlayObject::ObjectNumber_ = 100000;
+int GamePlayObject::ObjectNumberInServer_ = 100000;
 GamePlayObject::GamePlayObject()
 	: Mesh_Object_(nullptr)
 	, Collision_Object_(nullptr)
@@ -45,28 +45,20 @@ void GamePlayObject::ServerStart()
 		if (false == GetIsNetInit())
 		{
 			ChildServerStart();    
-			GameServerObject* Object = GameServerObject::GetServerObject(GetNetID());
-			for (int i = ObjectNumber_; ; i++)
-			{
-				Object = GameServerObject::GetServerObject(i);
-				if (Object == nullptr)
-				{
-					ObjectNumber_ = i;
-					break;
-				}
-			}
-
-	
-
+		
 			SendObjectType(Packet);
 			if (Packet->MapObjData == MapObjType::Max && Packet->ToolData == ToolInfo::None
 				&& Packet->IngredientData == IngredientType::None)
 			{
+				InitFirst = true;
 				return; // 넘길 가치 없는 것들
 			}
 
 			Packet->HoldObjectID = GetChildNetID();
-			Packet->ObjectID = ObjectNumber_++;
+
+			FindEmptyServerNumber();
+			Packet->ObjectID = ObjectNumberInServer_++;
+
 			Packet->Type = ServerObjectType::Object;
 			Packet->Pos = GetTransform().GetWorldPosition();
 			Packet->Rot = GetTransform().GetWorldRotation();

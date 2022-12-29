@@ -188,7 +188,7 @@ private:
 	{ 
 		if (Stuff_Current_ != nullptr)
 		{
-			if (!GameServerObject::GetServerObject(Stuff_Current_->GetNetID()))
+			if (!Stuff_Current_->GetIsNetInit())
 			{
 				Stuff_Current_->ClientInit(ServerObjectType::Object, _ServerID);
 			}

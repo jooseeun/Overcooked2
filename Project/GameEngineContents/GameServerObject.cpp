@@ -12,6 +12,7 @@ void GameServerObject::ServerRelease()
 
 GameServerObject::GameServerObject()
 	: IsNetInit(false)
+	, ServerType(ServerObjectType::None)
 {
 }
 

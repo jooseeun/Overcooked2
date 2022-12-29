@@ -164,7 +164,7 @@ public:
 	{
 		if (Moveable_Current_ != nullptr)
 		{
-			if (!GameServerObject::GetServerObject(Moveable_Current_->GetNetID()))
+			if (!Moveable_Current_->GetIsNetInit())
 			{
 				Moveable_Current_->ClientInit(ServerObjectType::Object, _ServerID);
 			}
@@ -172,7 +172,6 @@ public:
 			{
 				MsgBoxAssert("GamePlayTool 서버 부모 설정 오류1")
 			}
-		
 		}
 		else
 		{

@@ -21,7 +21,8 @@ public:
 	static GamePlayObjectManager* GetInst();
 
 
-	std::shared_ptr<GamePlayObject> PopData();
+	std::shared_ptr<GamePlayObject> PopMapDataData();
+	void PopObjectParentsSetData();
 	void PushData(std::shared_ptr<ObjectStartPacket> _Update);
 	static void TemporaryPushData(std::shared_ptr<ObjectStartPacket> _Update);
 
@@ -38,10 +39,11 @@ protected:
 	void LevelEndEvent() override;
 
 private:
+	std::queue<std::shared_ptr<ObjectParentsSetPacket>> QueueObjectParentsSet_;
 	std::queue<std::shared_ptr<ObjectStartPacket>> QueueMapData_;
 
 	static GamePlayObjectManager* Inst_;
 
-	static std::queue<std::shared_ptr<ObjectStartPacket>> TemporaryPacket; // 패킷 임시저장
+	static std::queue<std::shared_ptr<GameServerPacket>> TemporaryPacket; // 패킷 임시저장
 };
 

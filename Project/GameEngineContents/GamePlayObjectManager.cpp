@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include <GameEngineCore/GEngine.h>
 #include "GamePlayObjectManager.h"
+#include "Player.h"
 
 #include "MapDataParser.h"
 #include "GamePlayOriginObject.h"
@@ -31,7 +32,7 @@
 std::mutex ObjectManagerLock;
 
 GamePlayObjectManager* GamePlayObjectManager::Inst_ = nullptr;
-std::queue<std::shared_ptr<ObjectStartPacket>> GamePlayObjectManager::TemporaryPacket;
+std::queue<std::shared_ptr<GameServerPacket>> GamePlayObjectManager::TemporaryPacket;
 
 GamePlayObjectManager::GamePlayObjectManager() 
 {
@@ -56,13 +57,36 @@ void GamePlayObjectManager::Update(float _Time)
 {
 	while (!TemporaryPacket.empty())
 	{
-		QueueMapData_.push(TemporaryPacket.front());
+		std::lock_guard L(ObjectManagerLock);
+		switch (TemporaryPacket.front()->GetPacketIDToEnum<ContentsPacketType>())
+		{
+		case ContentsPacketType::ObjectStart:
+			QueueMapData_.push(std::dynamic_pointer_cast<ObjectStartPacket>(TemporaryPacket.front()));
+			break;
+		case ContentsPacketType::ObjectParentsSet:
+			QueueObjectParentsSet_.push(std::dynamic_pointer_cast<ObjectParentsSetPacket>(TemporaryPacket.front()));
+			break;
+		case ContentsPacketType::ObjectInteractUpdate:
+			break;
+		case ContentsPacketType::ObjectUpdate:
+
+			break;
+		default:
+			MsgBoxAssert("GamePlayObjectManager - 처리할수없는 패킷이 들어 왔습니다")
+			break;
+		}
+
 		TemporaryPacket.pop();
 	}
+	
 
 	while (!QueueMapData_.empty())
 	{
-		PopData();
+		PopMapDataData();
+	}
+	while (!QueueObjectParentsSet_.empty())
+	{
+		PopMapDataData();
 	}
 }
 
@@ -72,22 +96,79 @@ bool GamePlayObjectManager::Isempty()
 	return QueueMapData_.empty();
 }
 
+
 void GamePlayObjectManager::PushData(std::shared_ptr<ObjectStartPacket> _Update)
 {
-	//MapData Data;
-	//Data.MapObjType_ = _Update->MapObjData;
-	//Data.Pos_ = _Update->Pos;
-	//Data.Rot_ = _Update->Rot;
-	//Data.Scale_ = _Update->Scale;
-	//Data.Index_.x = static_cast<float>(_Update->ToolData);
-	//Data.Index_.y = static_cast<float>(_Update->IngredientData);
-	//Data.Index_.z = static_cast<float>(_Update->HoldObjectID);
-
 	std::lock_guard L(ObjectManagerLock);
 	QueueMapData_.push(_Update);
 }
 
-std::shared_ptr<GamePlayObject> GamePlayObjectManager::PopData()
+void GamePlayObjectManager::PopObjectParentsSetData()
+{
+	if (QueueObjectParentsSet_.empty())
+	{
+		return;
+	}
+
+	std::shared_ptr<GamePlayObject> PlayObject;
+	std::shared_ptr<ObjectParentsSetPacket> Packet;
+	{
+		std::lock_guard L(ObjectManagerLock);
+		Packet = QueueObjectParentsSet_.front();
+		QueueObjectParentsSet_.pop();
+	}
+
+	GameServerObject* FindHoldObject = GameServerObject::GetServerObject(Packet->ChildID);
+	if (FindHoldObject != nullptr)
+	{
+		return;
+	}
+
+	FindHoldObject = GameServerObject::GetServerObject(Packet->ParentsID);
+	if (FindHoldObject == nullptr)
+	{
+		MsgBoxAssert("GamePlayObjectManager::PopObjectParentsSetData() - FindHoldObject 부모가 nullptr입니다")
+	}
+
+	switch (FindHoldObject->GetServerType())
+	{
+	case ServerObjectType::Player:
+	{
+		std::shared_ptr<Player> Player_ = ((Player*)(FindHoldObject))->shared_from_this()->CastThis<Player>();
+		std::shared_ptr<GamePlayMoveable> Moveable = Player_->GetPlayerHolding()->CastThis<GamePlayMoveable>();		// Nullptr이면 무조건 잘못 된것
+
+		if (Moveable->GetIsNetInit() == false)
+		{
+			Moveable->ClientInit(ServerObjectType::Object, Packet->ChildID);
+		}
+	}
+		break;
+	case ServerObjectType::Object:
+	{
+		std::shared_ptr<GamePlayObject> Object = ((GamePlayObject*)(FindHoldObject))->shared_from_this()->CastThis<GamePlayObject>();
+		Object->SetParentsServerHoldObject(Packet->ChildID);
+		//std::shared_ptr<GamePlayMoveable> Moveable = Player_->GetPlayerHolding()->CastThis<GamePlayMoveable>();		// Nullptr이면 무조건 잘못 된것
+
+		//if (Moveable->GetIsNetInit() == false)
+		//{
+		//	Moveable->ClientInit(ServerObjectType::Object, Packet->ChildID);
+		//}
+	}
+		break;
+	case ServerObjectType::UI:
+		MsgBoxAssert("GamePlayObjectManager::PopObjectParentsSetData() - 잘못된 형식")
+		break;
+	default:
+		MsgBoxAssert("GamePlayObjectManager::PopObjectParentsSetData() - 서버에 등록되지 않았습니다")
+		break;
+	}
+
+
+
+	
+}
+
+std::shared_ptr<GamePlayObject> GamePlayObjectManager::PopMapDataData()
 {
 	if (QueueMapData_.empty())
 	{
@@ -342,7 +423,7 @@ std::shared_ptr<GamePlayObject> GamePlayObjectManager::PopData()
 	PlayObject->GetTransform().SetWorldRotation(Packet->Rot);
 	PlayObject->GetTransform().SetWorldScale(Packet->Scale);
 
-	GamePlayObject::ObjectNumber_ = ++Packet->ObjectID;
+	//GamePlayObject::ObjectNumber_ = Packet->ObjectID + 1;
 
 	if (Packet->HoldObjectID >= 0)
 	{
@@ -375,5 +456,9 @@ void GamePlayObjectManager::LevelStartEvent()
 void GamePlayObjectManager::LevelEndEvent()
 {
 	GamePlayObjectManager::Inst_ = nullptr;
-	TemporaryPacket = std::queue<std::shared_ptr<ObjectStartPacket>>(); // 초기화
+
+	QueueObjectParentsSet_ = std::queue<std::shared_ptr<ObjectParentsSetPacket>>();
+	QueueMapData_ = std::queue<std::shared_ptr<ObjectStartPacket>>();
+
+	TemporaryPacket = std::queue<std::shared_ptr<GameServerPacket>>(); // 초기화
 }
