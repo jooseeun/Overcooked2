@@ -124,86 +124,89 @@ void GamePlayObjectManager::PopObjectParentsSetData()
 		QueueObjectParentsSet_.pop();
 	}
 
+	GameServerObject* FindParentsObject = GameServerObject::GetServerObject(Packet->ParentsID);
 	GameServerObject* FindHoldObject = GameServerObject::GetServerObject(Packet->ChildID);
-	//if (FindHoldObject != nullptr)
-	//{
-	//	return;
-	//}
 
-	FindHoldObject = GameServerObject::GetServerObject(Packet->ParentsID);
-	if (FindHoldObject == nullptr)
+	if (FindParentsObject == nullptr)
 	{
 		MsgBoxAssert("GamePlayObjectManager::PopObjectParentsSetData() - FindHoldObject 부모가 nullptr입니다")
 
-		return;
-	}
-
-	switch (FindHoldObject->GetServerType())
-	{
-	case ServerObjectType::Player:
-	{
-		std::shared_ptr<Player> Player_ = ((Player*)(FindHoldObject))->shared_from_this()->CastThis<Player>();
-		if (Player_->GetPlayerHolding() == nullptr)
-		{
-			TemporaryPushData(Packet);
 			return;
-		}
-		std::shared_ptr<GamePlayMoveable> Moveable = Player_->GetPlayerHolding()->CastThis<GamePlayMoveable>();		// Nullptr이면 무조건 잘못 된것
-
-		if (Moveable->GetIsNetInit() == false)
-		{
-			Moveable->ClientInit(ServerObjectType::Object, Packet->ChildID);
-		}
 	}
-		break;
-	case ServerObjectType::Object:
+
+
+	if (FindHoldObject != nullptr)
 	{
-		std::shared_ptr<GamePlayObject> Object = ((GamePlayObject*)(FindHoldObject))->shared_from_this()->CastThis<GamePlayObject>();
-		if (Object->CastThis<GamePlayStaticObject>() != nullptr)
+		switch (FindParentsObject->GetServerType())
 		{
-			if (Object->CastThis<GamePlayStaticObject>()->GetStuff() == nullptr)
+		case ServerObjectType::Player:
+			return;
+			break;
+		case ServerObjectType::Object:
+		{
+			std::shared_ptr<GamePlayObject> Object = ((GamePlayObject*)(FindParentsObject))->shared_from_this()->CastThis<GamePlayObject>();
+			if (Object->CastThis<GamePlayStaticObject>() != nullptr)
 			{
-				if (GameServerObject::GetServerObject(Packet->ChildID) == nullptr)
-				{
-					TemporaryPushData(Packet);
-					return;
-				}
-				else
-				{
-					Object->SetParentsServerHoldObject(Packet->ChildID);
-				}
+				Object->CastThis<GamePlayStaticObject>()->SetStuff(((GamePlayObject*)(FindHoldObject))->shared_from_this()->CastThis<GamePlayStuff>());
+			}
+			else
+			{
+				Object->CastThis<GamePlayTool>()->SetMoveable(((GamePlayObject*)(FindHoldObject))->shared_from_this());
 			}
 		}
-		else
-		{
-			if (Object->CastThis<GamePlayTool>()->GetCurrentMoveable() == nullptr)
-			{
-				if (GameServerObject::GetServerObject(Packet->ChildID) == nullptr)
-				{
-					TemporaryPushData(Packet);
-					return;
-				}
-				else
-				{
-					Object->SetParentsServerHoldObject(Packet->ChildID);
-				}
-			}
+		break;
 		}
-		Object->SetParentsServerHoldObject(Packet->ChildID);
-		//std::shared_ptr<GamePlayMoveable> Moveable = Player_->GetPlayerHolding()->CastThis<GamePlayMoveable>();		// Nullptr이면 무조건 잘못 된것
-
-		//if (Moveable->GetIsNetInit() == false)
-		//{
-		//	Moveable->ClientInit(ServerObjectType::Object, Packet->ChildID);
-		//}
 	}
+	else
+	{
+		switch (FindParentsObject->GetServerType())
+		{
+			case ServerObjectType::Player:
+			{
+				std::shared_ptr<Player> Player_ = ((Player*)(FindParentsObject))->shared_from_this()->CastThis<Player>();
+				if (Player_->GetPlayerHolding() == nullptr)
+				{
+					TemporaryPushData(Packet);
+					return;
+				}
+				std::shared_ptr<GamePlayMoveable> Moveable = Player_->GetPlayerHolding()->CastThis<GamePlayMoveable>();		// Nullptr이면 무조건 잘못 된것
+
+				if (Moveable->GetIsNetInit() == false)
+				{
+					Moveable->ClientInit(ServerObjectType::Object, Packet->ChildID);
+				}
+			}
 		break;
-	case ServerObjectType::UI:
-		MsgBoxAssert("GamePlayObjectManager::PopObjectParentsSetData() - 잘못된 형식")
+		case ServerObjectType::Object:
+		{
+			std::shared_ptr<GamePlayObject> Object = ((GamePlayObject*)(FindParentsObject))->shared_from_this()->CastThis<GamePlayObject>();
+			if (Object->CastThis<GamePlayStaticObject>() != nullptr)
+			{
+				if (Object->CastThis<GamePlayStaticObject>()->GetStuff() == nullptr)
+				{
+					TemporaryPushData(Packet);
+					return;
+				}
+			}
+			else
+			{
+				if (Object->CastThis<GamePlayTool>()->GetCurrentMoveable() == nullptr)
+				{
+					TemporaryPushData(Packet);
+					return;
+				}
+			}
+
+			Object->SetParentsServerHoldObject(Packet->ChildID);
+		}
 		break;
-	default:
-		MsgBoxAssert("GamePlayObjectManager::PopObjectParentsSetData() - 서버에 등록되지 않았습니다")
-		break;
+		case ServerObjectType::UI:
+			MsgBoxAssert("GamePlayObjectManager::PopObjectParentsSetData() - 잘못된 형식")
+				break;
+		default:
+			MsgBoxAssert("GamePlayObjectManager::PopObjectParentsSetData() - 서버에 등록되지 않았습니다")
+				break;
+		}
 	}
 
 

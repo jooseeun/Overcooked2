@@ -417,6 +417,11 @@ void GamePlayStaticObject::SetMoveable(std::shared_ptr<GamePlayMoveable> _Moveab
 
 void GamePlayStaticObject::SetStuff(std::shared_ptr<GamePlayStuff> _Stuff)
 {
+	if (Stuff_Current_ == _Stuff)
+	{
+		return;
+	}
+
 	if (_Stuff == nullptr)
 	{
 		ReSetStuff();
