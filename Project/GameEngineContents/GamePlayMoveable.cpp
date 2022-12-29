@@ -41,6 +41,18 @@ void GamePlayMoveable::Update(float _DeltaTime)
 				std::shared_ptr StaticObject = _Other->GetParent<GamePlayStaticObject>();
 				if (StaticObject != nullptr)
 				{
+					if (nullptr != ServerInitManager::Net)
+					{
+						if (ServerInitManager::Net->GetIsHost())
+						{
+							std::shared_ptr<ObjectInteractUpdatePacket> Packet = std::make_shared<ObjectInteractUpdatePacket>();
+							Packet->PlayerNum = _This->GetParent<GamePlayMoveable>()->GetNetID();
+							Packet->Type = PlayerCurStateType::HoldDown;
+							Packet->ObjectID = StaticObject->GetNetID();
+							ServerInitManager::Net->SendPacket(Packet);
+						}
+					}
+
 					if (StaticObject->SetPlayerState(nullptr, PlayerCurStateType::HoldDown, _This->GetParent<GamePlayMoveable>()) == SetPlayerState_Return::Using)
 					{
 						return CollisionReturn::Break;

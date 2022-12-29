@@ -138,7 +138,16 @@ void GamePlayObject::ServerUpdate(float _DeltaTime)
 				}
 				else
 				{ 
-					StaticObject->SetPlayerState(static_cast<Player*>(GameServerObject::GetServerObject(ObjectUpdate->PlayerNum))->shared_from_this()->CastThis<Player>(), ObjectUpdate->Type);
+					GameServerObject* ServerObject = GameServerObject::GetServerObject(ObjectUpdate->PlayerNum);
+					Player* Player_ = static_cast<Player*>(ServerObject);
+					if (Player_ != nullptr)
+					{
+						StaticObject->SetPlayerState(Player_->shared_from_this()->CastThis<Player>(), ObjectUpdate->Type);
+					}
+					else
+					{
+						StaticObject->SetPlayerState(nullptr, ObjectUpdate->Type, static_cast<GamePlayMoveable*>(ServerObject)->shared_from_this()->CastThis<GamePlayMoveable>());
+					}
 				}
 			}
 			break;
@@ -146,11 +155,6 @@ void GamePlayObject::ServerUpdate(float _DeltaTime)
 				MsgBoxAssert("처리할수 없는 패킷이 날아왔습니다.");
 				break;
 			}
-		}
-
-		if (GetCollisionObject()->IsUpdate())
-		{
-			
 		}
 	}
 	/*
