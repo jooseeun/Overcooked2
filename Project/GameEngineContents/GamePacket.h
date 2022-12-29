@@ -9,6 +9,7 @@ enum class ContentsPacketType
 	ObjectStart,
 	ObjectParentsSet,
 	ObjectInteractUpdate,
+	ObjectCookingGageUpdate,
 	LoadingData,  // 로딩레벨에서 사용하는 패킷 호스트, 클라 둘 다 사용
 	UIUpdate,     // UI 업데이트
 	ClinetInit,   // 클라이언트가 들어오면 서버가 보내줄 패킷.
@@ -35,6 +36,32 @@ public:
 		GameServerPacket::DeSerialize(_Ser);
 	}
 };
+
+
+class ObjectCookingGagePacket : public GameServerPacket
+{
+public:
+	int ObjectID = -1000;
+	float CookingGage = 0;
+	ObjectCookingGagePacket()
+	{
+		SetPacketID(ContentsPacketType::ObjectCookingGageUpdate);
+	}
+
+	virtual void Serialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::Serialize(_Ser);
+		_Ser << ObjectID;
+		_Ser << CookingGage;
+	}
+	virtual void DeSerialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::DeSerialize(_Ser);
+		_Ser >> ObjectID;
+		_Ser >> CookingGage;
+	}
+};
+
 
 class ObjectParentsSetPacket : public GameServerPacket
 {

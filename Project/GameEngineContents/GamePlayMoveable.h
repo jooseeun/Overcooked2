@@ -131,7 +131,21 @@ private:
 
 
 	// server
-	//void SendPacket(std::shared_ptr<ObjectUpdatePacket> Packet) override;
+	void SendCookingPacket()
+	{
+		if (nullptr != ServerInitManager::Net)
+		{ 
+			if (ServerInitManager::Net->GetIsHost())
+			{
+				std::shared_ptr<ObjectCookingGagePacket> Packet = std::make_shared<ObjectCookingGagePacket>();
+				Packet->ObjectID = GetNetID();
+				Packet->CookingGage = CookingGage_;
+				ServerInitManager::Net->SendPacket(Packet);
+			}
+		}
+	}
+
+
 	void SetServerCookingGage(float _Time) override
 	{
 		CookingGage_ = _Time;

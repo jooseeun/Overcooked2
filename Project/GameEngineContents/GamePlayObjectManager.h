@@ -29,9 +29,6 @@ public:
 
 	bool Isempty();
 
-
-
-
 protected:
 	void Start() override;
 	void Update(float _Time) override;

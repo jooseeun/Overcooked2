@@ -62,6 +62,7 @@ bool GamePlayMoveable::Input_Manual(std::shared_ptr<Player> _Player, float _Delt
 {
 	CookingGage_ += (_Delta * 100.f) / _MaxTime;
 
+	bool Result = true;
 	if (CookingGage_ > 100.f)
 	{
 		if (TrimmingFirstTime_ == false)
@@ -76,21 +77,23 @@ bool GamePlayMoveable::Input_Manual(std::shared_ptr<Player> _Player, float _Delt
 			FinishTrimming();
 		}
 
-		return true;
+		Result = true;
 	}
 	else
 	{
-		return false;
+		Result = false;
 	}
+	SendCookingPacket();
+	return Result;
 }
 
 
 bool GamePlayMoveable::Input_Auto(float _Delta, float _MaxTime)
 {
-	CookingGage_ += (_Delta * 100.f) / _MaxTime;
-
+	bool Result = true;
 	if (CookingGage_ > 100.f)
 	{
+		CookingGage_ += (_Delta * 100.f) / 8.f;
 		if (TrimmingFirstTime_ == false)
 		{
 			FinishTrimmingFirst();
@@ -101,12 +104,15 @@ bool GamePlayMoveable::Input_Auto(float _Delta, float _MaxTime)
 			FinishTrimming();
 		}
 
-		return true;
+		Result = true;
 	}
 	else
 	{
-		return false;
+		CookingGage_ += (_Delta * 100.f) / _MaxTime;
+		Result = false;
 	}
+	SendCookingPacket();
+	return Result;
 }
 
 //HoldDownEnum GamePlayMoveable::HoldOn(std::shared_ptr<GamePlayStaticObject> _Object)

@@ -165,7 +165,7 @@ protected:
 	virtual void SendObjectType(std::shared_ptr<ObjectStartPacket> Packet) {}
 
 
-	virtual void SetServerCookingGage(float _Time) {};
+	virtual void SetServerCookingGage(float _Time) { MsgBoxAssert("GamePlayObject / SetServerCookingGage() is not setting ") };
 
 	//std::shared_ptr<ObjectUpdatePacket> InteractPacket_;
 	bool InitFirst;

@@ -41,9 +41,9 @@ void GamePlayObject::ServerStart()
 {
 	if (nullptr != ServerInitManager::Net)
 	{
-		std::shared_ptr<ObjectStartPacket> Packet = std::make_shared<ObjectStartPacket>();
 		if (false == GetIsNetInit())
 		{
+			std::shared_ptr<ObjectStartPacket> Packet = std::make_shared<ObjectStartPacket>();
 			ChildServerStart();    
 		
 			SendObjectType(Packet);
@@ -136,6 +136,11 @@ void GamePlayObject::ServerUpdate(float _DeltaTime)
 				}
 			}
 			break;
+			case ContentsPacketType::ObjectCookingGageUpdate:
+			{
+
+			}
+				break;
 			default:
 				MsgBoxAssert("처리할수 없는 패킷이 날아왔습니다.");
 				break;

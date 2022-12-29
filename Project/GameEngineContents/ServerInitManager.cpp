@@ -21,6 +21,17 @@ ServerInitManager::~ServerInitManager()
 {
 }
 
+void ServerInitManager::ObjectCookingGageProcess(std::shared_ptr<GameServerPacket> _Packet)
+{
+	std::shared_ptr<ObjectCookingGagePacket> Packet = std::dynamic_pointer_cast<ObjectCookingGagePacket>(_Packet);
+	GameServerObject* FindObject = GameServerObject::GetServerObject(Packet->ObjectID);
+	if (FindObject == nullptr)
+	{
+		MsgBoxAssert("Serverinitmanager/ObjectCookingGageProcess() is nullptr")
+	}
+
+	FindObject->PushPacket(_Packet);
+}
 
 void ServerInitManager::ObjectStartPacketProcess(std::shared_ptr<GameServerPacket> _Packet)
 {
@@ -249,6 +260,10 @@ void ServerInitManager::StartInit()
 		ContentsPacketType Type = static_cast<ContentsPacketType>(_PacketType);
 		switch (Type)
 		{
+		case ContentsPacketType::ObjectCookingGageUpdate:
+			NewPacket = std::make_shared<ObjectCookingGagePacket>();
+			break;
+			
 		case ContentsPacketType::ObjectParentsSet:
 			NewPacket = std::make_shared<ObjectParentsSetPacket>();
 			break;
@@ -308,7 +323,7 @@ void ServerInitManager::StartInit()
 	{
 		// 내가 클라이언트 일때만 등록해야하는 패킷
 
-		
+		Net->Dis.AddHandler(ContentsPacketType::ObjectCookingGageUpdate, std::bind(&ServerInitManager::ObjectCookingGageProcess, std::placeholders::_1));
 		Net->Dis.AddHandler(ContentsPacketType::ObjectParentsSet, std::bind(&ServerInitManager::ObjectParentsSetPacketProcess, std::placeholders::_1));
 		Net->Dis.AddHandler(ContentsPacketType::ClinetInit, std::bind(&ServerInitManager::ClientInitPacketProcess, std::placeholders::_1));
 		Net->Dis.AddHandler(ContentsPacketType::ChangeLevel, std::bind(&ServerInitManager::ChangeLevelPacketProcess, std::placeholders::_1));
