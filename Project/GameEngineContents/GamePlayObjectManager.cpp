@@ -141,6 +141,11 @@ void GamePlayObjectManager::PopObjectParentsSetData()
 	case ServerObjectType::Player:
 	{
 		std::shared_ptr<Player> Player_ = ((Player*)(FindHoldObject))->shared_from_this()->CastThis<Player>();
+		if (Player_->GetPlayerHolding() == nullptr)
+		{
+			TemporaryPushData(Packet);
+			return;
+		}
 		std::shared_ptr<GamePlayMoveable> Moveable = Player_->GetPlayerHolding()->CastThis<GamePlayMoveable>();		// Nullptr이면 무조건 잘못 된것
 
 		if (Moveable->GetIsNetInit() == false)
@@ -152,6 +157,22 @@ void GamePlayObjectManager::PopObjectParentsSetData()
 	case ServerObjectType::Object:
 	{
 		std::shared_ptr<GamePlayObject> Object = ((GamePlayObject*)(FindHoldObject))->shared_from_this()->CastThis<GamePlayObject>();
+		if (Object->CastThis<GamePlayStaticObject>() != nullptr)
+		{
+			if (Object->CastThis<GamePlayStaticObject>()->GetStuff() == nullptr)
+			{
+				TemporaryPushData(Packet);
+				return;
+			}
+		}
+		else
+		{
+			if (Object->CastThis<GamePlayTool>()->GetCurrentMoveable() == nullptr)
+			{
+				TemporaryPushData(Packet);
+				return;
+			}
+		}
 		Object->SetParentsServerHoldObject(Packet->ChildID);
 		//std::shared_ptr<GamePlayMoveable> Moveable = Player_->GetPlayerHolding()->CastThis<GamePlayMoveable>();		// Nullptr이면 무조건 잘못 된것
 
