@@ -138,7 +138,8 @@ void GamePlayObject::ServerUpdate(float _DeltaTime)
 			break;
 			case ContentsPacketType::ObjectCookingGageUpdate:
 			{
-
+				std::shared_ptr<ObjectCookingGagePacket> ObjectUpdate = std::dynamic_pointer_cast<ObjectCookingGagePacket>(Packet);
+				SetServerCookingGage(ObjectUpdate->CookingGage);
 			}
 				break;
 			default:

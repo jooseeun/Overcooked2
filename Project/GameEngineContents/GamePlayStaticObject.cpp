@@ -121,7 +121,7 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 			}
 			else
 			{
-				MsgBoxAssert("들어올 일 없지만 예외 체크");
+				MsgBoxAssert("GamePlayStaticObject::SetPlayerState case PlayerCurStateType::HoldUp / _Player->GetPlayerHolding() Is not nullptr");
 				std::shared_ptr<GamePlayMoveable> Moveable = GetMoveable();
 				switch (_Player->GetPlayerHolding()->CastThis<GamePlayMoveable>()->PickUp(&Moveable))
 				{
