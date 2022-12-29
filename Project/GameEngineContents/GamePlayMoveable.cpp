@@ -60,8 +60,8 @@ void GamePlayMoveable::Update(float _DeltaTime)
 
 bool GamePlayMoveable::Input_Manual(std::shared_ptr<Player> _Player, float _Delta, float _MaxTime)
 {
-	CookingGage_ += (_Delta * 100.f) / _MaxTime;
 
+	CookingGage_ += (_Delta * 100.f) / _MaxTime;
 	bool Result = true;
 	if (CookingGage_ > 100.f)
 	{
@@ -114,6 +114,14 @@ bool GamePlayMoveable::Input_Auto(float _Delta, float _MaxTime)
 	SendCookingPacket();
 	return Result;
 }
+
+//void GamePlayMoveable::CheckCookingGage()
+//{
+// 
+//}
+
+
+
 
 //HoldDownEnum GamePlayMoveable::HoldOn(std::shared_ptr<GamePlayStaticObject> _Object)
 //{

@@ -145,10 +145,23 @@ private:
 		}
 	}
 
-
 	void SetServerCookingGage(float _Time) override
 	{
 		CookingGage_ = _Time;
+		if (CookingGage_ > 100.f)
+		{
+			if (TrimmingFirstTime_ == false)
+			{
+				// 플레이어, UI에게 끝났다고 신호
+				TrimmingFirstTime_ = true;
+				FinishTrimmingFirst();
+			}
+			else
+			{
+				// 이건 필요한가?????
+				FinishTrimming();
+			}
+		}
 	}
 };
 
