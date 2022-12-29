@@ -47,7 +47,7 @@ void GamePlayObjectManager::Start()
 
 }
 
-void GamePlayObjectManager::TemporaryPushData(std::shared_ptr<ObjectStartPacket> _Update)
+void GamePlayObjectManager::TemporaryPushData(std::shared_ptr<GameServerPacket> _Update)
 {
 	//std::lock_guard L(ObjectManagerLock);
 	TemporaryPacket.push(_Update);
