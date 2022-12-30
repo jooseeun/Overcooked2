@@ -194,6 +194,7 @@ class UIDataPacket : public GameServerPacket
 public:
 	int ObjectID = 0;
 	float LeftTime = 0.f;
+	int IsReady_ = 0; //bool
 	UIDataPacket()
 	{
 		SetPacketID(ContentsPacketType::UIUpdate);
@@ -202,12 +203,16 @@ public:
 	virtual void Serialize(GameServerSerializer& _Ser)
 	{
 		GameServerPacket::Serialize(_Ser);
+		_Ser << ObjectID;
 		_Ser << LeftTime;
+		_Ser << IsReady_;
 	}
 	virtual void DeSerialize(GameServerSerializer& _Ser)
 	{
 		GameServerPacket::DeSerialize(_Ser);
+		_Ser >> ObjectID;
 		_Ser >> LeftTime;
+		_Ser >> IsReady_;
 	}
 };
 

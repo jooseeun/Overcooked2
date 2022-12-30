@@ -139,6 +139,9 @@ public:
 	InGameUIActor& operator=(const InGameUIActor& _Ohter) = delete;
 	InGameUIActor& operator=(const InGameUIActor&& _Other) noexcept = delete;
 
+	void ServerInit();
+private:
+	bool IsInit_ = false;
 protected:
 	void UIStart() override;
 	void UIUpdate(float _DeltaTime) override;
@@ -192,6 +195,11 @@ private:
 	bool IsGetScore_ = false;
 
 	Timer NotDeleteRecipe_Timer_; // 10초동안 레시피가 사라지지 않는거 확인하는 타이머
+
+	//시작 , 종료 UI 관련
+	std::weak_ptr<OverCookedUIRenderer> ReadyRenderer_;
+	Timer ReadyTimer_;
+	SyncManager ReadySycn_;
 
 	//서버
 private:

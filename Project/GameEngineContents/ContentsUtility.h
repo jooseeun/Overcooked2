@@ -90,6 +90,7 @@ namespace ContentsUtility
 		{
 			TimeOverFunc_ = _Func;
 		}
+
 		//타이머의 초기 시간
 		float Default_Time_;
 
@@ -122,5 +123,70 @@ namespace ContentsUtility
 			}
 			Default_Time_ = _Value;
 		}
+	};
+
+	class SyncManager
+	{
+	public:
+		SyncManager();
+		~SyncManager();
+
+		void SetReady(int _ID, bool _IsReady)
+		{
+			Map_[_ID] = _IsReady;
+		}
+
+		void SetHost()
+		{
+			IsHost_ = true;
+		}
+
+		bool IsReady(int _ID)
+		{
+			return Map_[_ID];
+		}
+
+		bool IsAllReady()
+		{
+			if (IsAllReady_ == true)
+			{
+				return true;
+			}
+
+			if (IsHost_ == false) //호스트가 아니면 AllReady체크를 하지 않겠다.
+			{
+				return false;
+			}
+
+			int Count = 0;
+			for (auto i : Map_)
+			{
+				if (i.second == false)
+				{
+					return false;
+				}
+				Count++;
+			}
+
+			//유저수가 미달일 경우
+			if (Count < UserCount_)
+			{
+				return false;
+			}
+
+			IsAllReady_ = true;
+			return true;
+		}
+
+		void SetIsAllReady(bool _IsAllReady)
+		{
+			IsAllReady_ = _IsAllReady;
+		}
+
+		int UserCount_ = 0;
+	private:
+		std::map<int, bool> Map_;
+		bool IsAllReady_ = false;
+		bool IsHost_ = false;
 	};
 }

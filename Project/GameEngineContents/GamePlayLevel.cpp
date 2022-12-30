@@ -53,7 +53,7 @@ void GamePlayLevel::LevelStartEvent()
 		GraphicWindow::Main_->On();
 		UIActor_->StartFadeIn();
 		//GlobalGameData::SetGameStart(true);//이거 나중에 지우고, UI 준비땅 후에 시작되게 만들기.
-
+		UIActor_->ServerInit();
 		if (nullptr != ServerInitManager::Net)
 		{
 			std::shared_ptr<IgnorePacket> Packet = std::make_shared<IgnorePacket>();

@@ -2,6 +2,8 @@
 #include "InGameUIActor.h"
 
 #include "OverCookedUIRenderer.h"
+#include "ServerInitManager.h"
+#include <GameEngineBase/GameServerNetServer.h>
 
 #include "GlobalGameData.h"
 #include "UIDebugGUI.h"
@@ -15,6 +17,31 @@ InGameUIActor::InGameUIActor()
 
 InGameUIActor::~InGameUIActor()
 {
+}
+
+void InGameUIActor::ServerInit()
+{
+	IsInit_ = true;
+	ServerStart();
+	if (ServerInitManager::Net->GetIsHost() == true)
+	{
+		ClientInit(ServerObjectType::UI, 3999);
+		ReadySycn_.SetReady(3999, false);
+		ReadySycn_.SetHost();
+	}
+	else
+	{
+		int i = 4000;
+		for (; ; i++)
+		{
+			if (GameServerObject::GetServerObject(i) == nullptr)
+			{
+				ClientInit(ServerObjectType::UI, i);
+				ReadySycn_.SetReady(i, false);
+				break;
+			}
+		}
+	}
 }
 
 void InGameUIActor::UIStart()
@@ -35,7 +62,7 @@ void InGameUIActor::UIStart()
 
 		TimerUIInst_.Time = CreateComponent<GameEngineFontRenderer>();
 		TimerUIInst_.Time->ChangeCamera(CAMERAORDER::UICAMERA);
-		TimerUIInst_.Time->SetText("03:06", "Naughty Squirrel");
+		TimerUIInst_.Time->SetText("00:00", "Naughty Squirrel");
 		TimerUIInst_.Time->SetColor({ 1.0f,1.0f,1.0f,1 });
 		TimerUIInst_.Time->SetSize(30.f);
 		TimerUIInst_.Time->SetLeftAndRightSort(LeftAndRightSort::CENTER);
@@ -106,6 +133,19 @@ void InGameUIActor::UIStart()
 		//ResistDebug("ScoreUIInst_", ScoreUIInst_.TipGaugeFontFrontground->GetTransform());
 	}
 
+	//준비 시작 끝 관련
+	{
+		ReadyRenderer_ = CreateUIRenderer("LevelIntro_Ready_Backdrop.png");
+
+		ReadyTimer_.StartTimer(2.0f);
+		ReadyTimer_.SetTimeOverFunc([&]()
+			{
+				//ReadyRenderer_.lock()->Off();
+				ReadySycn_.SetReady(GetNetID(), true);
+			});
+		//TimerUIInst_.Banner->GetTransform().SetLocalPosition({ 480.f,-300.f });
+	}
+
 	NotDeleteRecipe_Timer_.StartTimer(16.f);
 	NotDeleteRecipe_Timer_.SetTimeOverFunc(std::bind(&InGameUIActor::CreateRandomRecipe, this));
 	//레시피 매니저
@@ -123,6 +163,89 @@ void InGameUIActor::UIStart()
 
 void InGameUIActor::UIUpdate(float _DeltaTime)
 {
+	if (IsInit_ == false)
+	{
+		return;
+	}
+	if (TransitionIcon_->IsUpdate() == false && BlackRenderer_->IsUpdate() == false && GlobalGameData::IsGameStart() == false)
+	{
+		ReadyTimer_.Update(_DeltaTime);
+		ReadySycn_.UserCount_ = ServerInitManager::Server.GetUserSockets().size() + 1;
+
+		//내가 호스트면
+		if (ServerInitManager::Net->GetIsHost() == true)
+		{
+			//패킷 수신
+			{
+				while (false == IsPacketEmpty())
+				{
+					std::shared_ptr<GameServerPacket> Packet = PopPacket();
+
+					ContentsPacketType PacketType = Packet->GetPacketIDToEnum<ContentsPacketType>();
+
+					switch (PacketType)
+					{
+					case ContentsPacketType::UIUpdate:
+					{
+						std::shared_ptr<UIDataPacket> UIUpdate = std::dynamic_pointer_cast<UIDataPacket>(Packet);
+						ReadySycn_.SetReady(UIUpdate->ObjectID, UIUpdate->IsReady_);
+						break;
+					}
+					case ContentsPacketType::ClinetInit:
+					default:
+						MsgBoxAssert("처리할수 없는 패킷이 날아왔습니다.");
+						break;
+					}
+				}
+			}
+			//패킷 송신
+			{
+				std::shared_ptr<UIDataPacket> Packet = std::make_shared<UIDataPacket>();
+				Packet->IsReady_ = ReadySycn_.IsAllReady();
+				Packet->ObjectID = GetNetID();
+				ServerInitManager::Net->SendPacket(Packet);
+			}
+		}
+		//내가 클라이언트면
+		else
+		{
+			//패킷 수신
+			while (false == IsPacketEmpty())
+			{
+				std::shared_ptr<GameServerPacket> Packet = PopPacket();
+
+				ContentsPacketType PacketType = Packet->GetPacketIDToEnum<ContentsPacketType>();
+
+				switch (PacketType)
+				{
+				case ContentsPacketType::UIUpdate:
+				{
+					std::shared_ptr<UIDataPacket> UIUpdate = std::dynamic_pointer_cast<UIDataPacket>(Packet);
+					ReadySycn_.SetIsAllReady(UIUpdate->IsReady_);
+					break;
+				}
+				case ContentsPacketType::ClinetInit:
+				default:
+					MsgBoxAssert("처리할수 없는 패킷이 날아왔습니다.");
+					break;
+				}
+
+				//패킷 송신
+				{
+					std::shared_ptr<UIDataPacket> Packet = std::make_shared<UIDataPacket>();
+					Packet->IsReady_ = ReadySycn_.IsReady(GetNetID());
+					Packet->ObjectID = GetNetID();
+					ServerInitManager::Net->SendPacket(Packet);
+				}
+			}
+		}
+	}
+
+	if (ReadySycn_.IsAllReady() == true)
+	{
+		GlobalGameData::SetGameStart(true);
+		ReadyRenderer_.lock()->Off();
+	}
 	if (GlobalGameData::IsGameStart() == false)
 	{
 		return;
@@ -312,26 +435,6 @@ void InGameUIActor::UpdateScore(float _DeltaTime)
 
 void InGameUIActor::LevelStartEvent()
 {
-	if (GlobalGameData::IsGameStart() == true)
-	{
-		ServerStart();
-		if (ServerInitManager::Net->GetIsHost() == true)
-		{
-			ClientInit(ServerObjectType::UI, 3999);
-		}
-		else
-		{
-			int i = 4000;
-			for (; ; i++)
-			{
-				if (GameServerObject::GetServerObject(i) == nullptr)
-				{
-					ClientInit(ServerObjectType::UI, i);
-					break;
-				}
-			}
-		}
-	}
 }
 
 void InGameUIActor::CreateRandomRecipe()

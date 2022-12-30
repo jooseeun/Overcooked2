@@ -32,9 +32,8 @@
 #include "Equipment_Steamer.h"
 #include "Mixer.h"
 
-
 GameServerNet* ServerInitManager::Net;
-std::string ServerInitManager::IP = "10.0.4.95";
+std::string ServerInitManager::IP = "127.0.0.1";
 GameServerNetServer ServerInitManager::Server;
 GameServerNetClient ServerInitManager::Client;
 
@@ -45,7 +44,6 @@ ServerInitManager::ServerInitManager()
 ServerInitManager::~ServerInitManager()
 {
 }
-
 
 void ServerInitManager::ObjectStartPacketProcess(std::shared_ptr<GameServerPacket> _Packet)
 {
@@ -140,7 +138,6 @@ void ServerInitManager::ObjectStartPacketProcess(std::shared_ptr<GameServerPacke
 				case MapObjType::Cooker:
 				{
 					CurActor_ = GEngine::GetCurrentLevel()->CreateActor<Cooker>();
-
 				}
 				break;
 				case MapObjType::TrashCan:
@@ -283,11 +280,9 @@ void ServerInitManager::ObjectStartPacketProcess(std::shared_ptr<GameServerPacke
 				}
 				break;
 				}
-
 			}
 			else if (Packet->IngredientData != IngredientType::None)
 			{
-
 			}
 			else
 			{
@@ -297,7 +292,6 @@ void ServerInitManager::ObjectStartPacketProcess(std::shared_ptr<GameServerPacke
 
 			//if (Packet->Pos.CompareInt3D(float4::ZERO))
 			//{
-
 			//}
 			PlayObject->GetTransform().SetWorldPosition(Packet->Pos);
 			PlayObject->GetTransform().SetWorldRotation(Packet->Rot);
@@ -316,7 +310,6 @@ void ServerInitManager::ObjectStartPacketProcess(std::shared_ptr<GameServerPacke
 		}
 		else
 		{
-
 		}
 
 		return;
@@ -420,29 +413,42 @@ void ServerInitManager::ReadyLevelPacketProcess(std::shared_ptr<GameServerPacket
 	std::shared_ptr<IgnorePacket> Packet = std::make_shared<IgnorePacket>();
 	Packet->SetPacketID(ContentsPacketType::StartLevel);
 	ServerInitManager::Net->SendPacket(Packet);
-	GlobalGameData::SetGameStart(true);
+	//GlobalGameData::SetGameStart(true);
 }
 
 void ServerInitManager::StartLevelPacketProcess(std::shared_ptr<GameServerPacket> _Packet)
 {
 	// 여기에 UI 시작부터 추가하든 하면 됩니다
-	GlobalGameData::SetGameStart(true);
+	//GlobalGameData::SetGameStart(true);
 }
 
 void ServerInitManager::UIDataPacketProcess(std::shared_ptr<GameServerPacket> _Packet)
 {
 	std::shared_ptr<UIDataPacket> Packet = std::dynamic_pointer_cast<UIDataPacket>(_Packet);
 
-	for (int i = 4000;; i++)
+	if (Packet->ObjectID == 3999) //호스트라면 클라이언트 전부에게 전파
 	{
-		GameServerObject* FindObject = GameServerObject::GetServerObject(i);
+		for (int i = 4000;; i++)
+		{
+			GameServerObject* FindObject = GameServerObject::GetServerObject(i);
+			if (FindObject == nullptr)
+			{
+				return;
+			}
+
+			FindObject->PushPacket(Packet);
+		}
+	}
+	else //클라면 호스트에게 데이터 전송
+	{
+		GameServerObject* FindObject = GameServerObject::GetServerObject(3999);
 		if (FindObject == nullptr)
 		{
 			return;
 		}
-
 		FindObject->PushPacket(Packet);
 	}
+
 	//GameServerObject* FindObject = GameServerObject::GetServerObject(0);
 
 //	FindObject->PushPacket(_Packet);
@@ -529,6 +535,7 @@ void ServerInitManager::StartInit()
 	Net->Dis.AddHandler(ContentsPacketType::None, std::bind(&ServerInitManager::Ignore, std::placeholders::_1));
 	Net->Dis.AddHandler(ContentsPacketType::StartLevel, std::bind(&ServerInitManager::StartLevelPacketProcess, std::placeholders::_1));
 	Net->Dis.AddHandler(ContentsPacketType::LoadingData, std::bind(&ServerInitManager::LoadingDataPacketProcess, std::placeholders::_1));
+	Net->Dis.AddHandler(ContentsPacketType::UIUpdate, std::bind(&ServerInitManager::UIDataPacketProcess, std::placeholders::_1));
 
 	if (true == Net->GetIsHost())
 	{
@@ -540,7 +547,6 @@ void ServerInitManager::StartInit()
 		// 내가 클라이언트 일때만 등록해야하는 패킷
 		Net->Dis.AddHandler(ContentsPacketType::ClinetInit, std::bind(&ServerInitManager::ClientInitPacketProcess, std::placeholders::_1));
 		Net->Dis.AddHandler(ContentsPacketType::ChangeLevel, std::bind(&ServerInitManager::ChangeLevelPacketProcess, std::placeholders::_1));
-		Net->Dis.AddHandler(ContentsPacketType::UIUpdate, std::bind(&ServerInitManager::UIDataPacketProcess, std::placeholders::_1));
 	}
 }
 
