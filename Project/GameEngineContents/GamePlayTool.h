@@ -192,17 +192,6 @@ public:
 			ReSetCurrentMoveable();
 			return;
 		}
-
-
-		{
-			//GamePlayObject* Object1 = (GamePlayObject*)(GameServerObject::GetServerObject(_ServerID));
-
-			if (GameServerObject::GetServerObject(_ServerID) == GameServerObject::GetServerObject(GetNetID()))
-			{
-				int a = 0;
-			}
-		}
-
 		GamePlayMoveable* Object = (GamePlayMoveable*)(GameServerObject::GetServerObject(_ServerID));
 		if (Object != nullptr)
 		{

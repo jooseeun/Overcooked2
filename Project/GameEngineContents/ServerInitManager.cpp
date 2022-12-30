@@ -9,7 +9,7 @@
 
 
 GameServerNet* ServerInitManager::Net;
-std::string ServerInitManager::IP = "192.168.55.206";
+std::string ServerInitManager::IP = "10.0.4.94";
 GameServerNetServer ServerInitManager::Server;
 GameServerNetClient ServerInitManager::Client;
 

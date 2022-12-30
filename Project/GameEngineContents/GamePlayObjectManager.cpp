@@ -127,6 +127,11 @@ void GamePlayObjectManager::PopObjectParentsSetData()
 	GameServerObject* FindParentsObject = GameServerObject::GetServerObject(Packet->ParentsID);
 	GameServerObject* FindHoldObject = GameServerObject::GetServerObject(Packet->ChildID);
 
+	if (Packet->ChildID >= 0)
+	{
+		return;
+	}
+
 	if (FindParentsObject == nullptr)
 	{
 		MsgBoxAssert("GamePlayObjectManager::PopObjectParentsSetData() - FindHoldObject 부모가 nullptr입니다")
@@ -137,25 +142,30 @@ void GamePlayObjectManager::PopObjectParentsSetData()
 
 	if (FindHoldObject != nullptr)
 	{
-		switch (FindParentsObject->GetServerType())
-		{
-		case ServerObjectType::Player:
-			return;
-			break;
-		case ServerObjectType::Object:
-		{
-			std::shared_ptr<GamePlayObject> Object = ((GamePlayObject*)(FindParentsObject))->shared_from_this()->CastThis<GamePlayObject>();
-			if (Object->CastThis<GamePlayStaticObject>() != nullptr)
-			{
-				Object->CastThis<GamePlayStaticObject>()->SetStuff(((GamePlayObject*)(FindHoldObject))->shared_from_this()->CastThis<GamePlayStuff>());
-			}
-			else
-			{
-				Object->CastThis<GamePlayTool>()->SetMoveable(((GamePlayObject*)(FindHoldObject))->shared_from_this());
-			}
-		}
-		break;
-		}
+		//switch (FindParentsObject->GetServerType())
+		//{
+		//	case ServerObjectType::Player:
+		//		return;
+		//		break;
+		//	case ServerObjectType::Object:
+		//	{
+		//		std::shared_ptr<GamePlayObject> HoldingObject = ((GamePlayObject*)(FindHoldObject))->shared_from_this()->CastThis<GamePlayObject>();
+		//		std::shared_ptr<GamePlayObject> ParentsObject = ((GamePlayObject*)(FindParentsObject))->shared_from_this()->CastThis<GamePlayObject>();
+		//		if (ParentsObject->CastThis<GamePlayStaticObject>() != nullptr)
+		//		{
+		//			ParentsObject->CastThis<GamePlayStaticObject>()->SetStuff(HoldingObject->CastThis<GamePlayStuff>());
+		//		}
+		//		else
+		//		{
+		//			ParentsObject->CastThis<GamePlayTool>()->SetMoveable(HoldingObject->shared_from_this());
+		//		}
+		//	}
+		//	break;
+		//}
+
+
+		return;
+
 	}
 	else
 	{
@@ -508,7 +518,7 @@ void GamePlayObjectManager::LevelEndEvent()
 {
 	GamePlayObjectManager::Inst_ = nullptr;
 
-	QueueObjectParentsSet_ = std::queue<std::shared_ptr<ObjectParentsSetPacket>>();
+	//QueueObjectParentsSet_ = std::queue<std::shared_ptr<ObjectParentsSetPacket>>();
 	QueueMapData_ = std::queue<std::shared_ptr<ObjectStartPacket>>();
 
 	TemporaryPacket = std::queue<std::shared_ptr<GameServerPacket>>(); // 초기화

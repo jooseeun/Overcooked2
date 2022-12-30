@@ -154,8 +154,8 @@ public:
 
 	virtual void SetParentsServerHoldObject(int _ServerID) { MsgBoxAssert("GamePlayObject SetParentsServerHoldObject 서버 부모 설정 오류") };
 	virtual void SetServerHoldObject(int _ServerID) { MsgBoxAssert("GamePlayObject SetServerHoldObject 서버 부모 설정 오류") };
-protected:
 	void ServerStart();
+protected:
 	virtual void ChildServerStart() {};
 
 	void ServerUpdate(float _DeltaTime);

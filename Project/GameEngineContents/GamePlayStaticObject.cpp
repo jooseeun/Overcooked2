@@ -71,7 +71,10 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 			}
 			else
 			{
-				Packet->PlayerNum = _Moveable->GetNetID();
+				if (_Moveable->GetIsNetInit())
+				{
+					Packet->PlayerNum = _Moveable->GetNetID();
+				}
 			}
 
 			Packet->Type = _Type;
@@ -288,14 +291,18 @@ break;
 
 	if (nullptr != ServerInitManager::Net && (ServerInitManager::Net->GetIsHost() || _FromNet == false))
 	{
-		if (_Player->GetPlayerHolding() != nullptr)
+		if (_Player != nullptr)
 		{
-			std::shared_ptr<ObjectParentsSetPacket> ParentsSetPacket = std::make_shared<ObjectParentsSetPacket>();
-			ParentsSetPacket->ParentsID = _Player->GetNetID();
-			ParentsSetPacket->ChildID = _Player->GetPlayerHolding()->CastThis<GamePlayObject>()->GetNetID();
+			if (_Player->GetPlayerHolding() != nullptr)
+			{
+				std::shared_ptr<ObjectParentsSetPacket> ParentsSetPacket = std::make_shared<ObjectParentsSetPacket>();
+				ParentsSetPacket->ParentsID = _Player->GetNetID();
+				ParentsSetPacket->ChildID = _Player->GetPlayerHolding()->CastThis<GamePlayObject>()->GetNetID();
 
-			ServerInitManager::Net->SendPacket(ParentsSetPacket);
+				ServerInitManager::Net->SendPacket(ParentsSetPacket);
+			}
 		}
+
 
 		if (Stuff_Current_ != nullptr)
 		{
@@ -448,14 +455,14 @@ void GamePlayStaticObject::SetStuff(std::shared_ptr<GamePlayStuff> _Stuff)
 	}
 
 
-	if (nullptr != ServerInitManager::Net && (ServerInitManager::Net->GetIsHost()))
-	{
-		std::shared_ptr<ObjectParentsSetPacket> ParentsSetPacket = std::make_shared<ObjectParentsSetPacket>();
-		ParentsSetPacket->ParentsID = GetNetID();
-		ParentsSetPacket->ChildID = Stuff_Current_->GetNetID();
+	//if (nullptr != ServerInitManager::Net && (ServerInitManager::Net->GetIsHost()))
+	//{
+	//	std::shared_ptr<ObjectParentsSetPacket> ParentsSetPacket = std::make_shared<ObjectParentsSetPacket>();
+	//	ParentsSetPacket->ParentsID = GetNetID();
+	//	ParentsSetPacket->ChildID = Stuff_Current_->GetNetID();
 
-		ServerInitManager::Net->SendPacket(ParentsSetPacket);	
-	}
+	//	ServerInitManager::Net->SendPacket(ParentsSetPacket);	
+	//}
 	
 }
 

@@ -89,6 +89,7 @@ void Tool_Rail::Update(float _Delta)
 			After_Moveable_.lock()->GetTransform().SetLocalPosition(float4::LerpLimit((GetTransform().GetWorldPosition()) - (Front_StaticObject_.lock()->GetTransform().GetWorldPosition()), Front_StaticObject_.lock()->GetToolPos(), MoveTime_ / 1.5f));
 			if (MoveTime_ > 1.5f)
 			{
+				//Front_StaticObject_.lock()->SetPlayerState(nullptr, PlayerCurStateType::HoldDown, After_Moveable_.lock());
 				Front_StaticObject_.lock()->SetMoveable(After_Moveable_.lock());
 				MoveTime_ = 0;
 				After_Moveable_.reset();

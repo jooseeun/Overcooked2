@@ -138,7 +138,6 @@ void GamePlayObject::ServerUpdate(float _DeltaTime)
 
 					if (Player_ != nullptr)
 					{
-
 						SetPlayerState(Player_->shared_from_this()->CastThis<Player>(), ObjectUpdate->Type, nullptr, true);
 					}
 					else

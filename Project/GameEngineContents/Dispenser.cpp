@@ -103,8 +103,9 @@ void Tool_Dispenser::Update(float _Delta)
 					Index_ = 0;
 				}
 				std::shared_ptr<GamePlayFood> Food = GamePlayFood::GetIngredientClass(IngredientList_[Index_]);
+				Food->ServerStart();
 				Front_StaticObject_.lock()->SetMoveable(Food);
-				Food->WantSend();
+				//Front_StaticObject_.lock()->SetPlayerState(nullptr, PlayerCurStateType::HoldDown , Food);
 			}
 		}
 	}
