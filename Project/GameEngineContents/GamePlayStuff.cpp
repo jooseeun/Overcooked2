@@ -6,6 +6,9 @@
 GamePlayStuff::GamePlayStuff()
 	: Enum_ObjectStuffType_(ObjectStuffType::None)
 	, Enum_ToolInfo_(ToolInfo::None)
+	, IsSound_(false)
+	, IsSoundDone_(false)
+	, SoundTime_(0.f)
 
 {
 }

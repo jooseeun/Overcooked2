@@ -23,7 +23,6 @@ bool GamePlayLevel::HandOverFood(FoodType _Type)
 
 void GamePlayLevel::Start()
 {
-	UIActor_ = CreateActor<InGameUIActor>();
 	ObjectManager_ = CreateActor<GamePlayObjectManager>();
 	PlayLevelStart();
 }
@@ -50,6 +49,10 @@ void GamePlayLevel::LevelStartEvent()
 	GlobalGameData::SetGameStart(false);
 	if (IsLevelStartFirst_ == false)
 	{
+		if (UIActor_ == nullptr)
+		{
+			UIActor_ = CreateActor<InGameUIActor>();
+		}
 		//FadeInÀÌº¥Æ®
 		UIDebugGUI::Main_->On();
 		GraphicWindow::Main_->On();
@@ -89,4 +92,11 @@ void GamePlayLevel::LevelEndEvent()
 	GraphicWindow::Main_->Off();
 
 	UIDebugGUI::Main_->Off();
+
+	if (UIActor_ != nullptr)
+	{
+		UIActor_->ServerRelease();
+		UIActor_->Death();
+		UIActor_.reset();
+	}
 }

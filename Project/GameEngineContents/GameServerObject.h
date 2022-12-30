@@ -40,6 +40,12 @@ public:
 		return FindIter->second;
 	}
 
+	static void EraseServerObject(int _ID)
+	{
+		AllServerActor.erase(_ID);
+		AllServerActor[_ID] = nullptr;
+	}
+
 public:
 	static int GetServerID()
 	{

@@ -18,6 +18,13 @@ enum class CookedStat
 	Cooking,
 	End
 };
+
+enum class MoveableState
+{
+	Idle,
+	Cooking,
+};
+
 class GamePlayFood;
 class GamePlayEquipment;
 class GamePlayBowl;
@@ -181,5 +188,7 @@ private:
 		}
 	}
 
+protected:
+	MoveableState MyMoveableState_;
 };
 

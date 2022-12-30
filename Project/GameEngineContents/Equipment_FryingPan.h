@@ -17,6 +17,7 @@ public:
 	
 protected:
 	void Start() override;
+	void Update(float _DeltaTime) override;
 private:
 	bool AutoTrim(float _DeltaTime, ObjectToolType _Tool) override;
 	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable) override;

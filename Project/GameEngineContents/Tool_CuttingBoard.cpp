@@ -57,6 +57,22 @@ void Tool_CuttingBoard::Start()
 		 std::shared_ptr<GamePlayFood> Food = GetCurrentMoveable()->CastThis<GamePlayFood>();
 		 if (Food != nullptr)
 		 {
+			 if (false == IsSound_)
+			 {
+				 SoundTime_ = 0.1f;
+				 IsSound_ = true;
+			 }
+			 else
+			 {
+				 if (SoundTime_ >= 0.2f)
+				 {
+					 SoundTime_ = 0.f;
+					 ObjSoundPlayer_ = GameEngineSound::SoundPlayControl("KnifeChop.wav");
+				 }
+				 SoundTime_ += GameEngineTime::GetDeltaTime();
+			 }
+			
+
 			 switch (Food->GetObjectFoodClass())
 			 {
 			 case IngredientType::Seaweed:
@@ -102,9 +118,14 @@ void Tool_CuttingBoard::Start()
 				 MsgBoxAssert("아직 설정되지 않은 재료")
 				 break;
 			 }
-
+			
+			 IsSound_ = false;
+			 ObjSoundPlayer_.Stop();
 		
 		 }
+
+		 IsSound_ = false;
+		 ObjSoundPlayer_.Stop();
 	 }
 	return UsingDownEnum::Nothing;
 };

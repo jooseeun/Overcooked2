@@ -77,6 +77,14 @@ void Equipment_Steamer::Update(float _DeltaTime)
 	{
 		IsInteraction_ = true;
 	}
+
+	if (SteamerState_ == SteamerState::Cooking)
+	{
+		if (GetParent() != nullptr && GetParent()->CastThis<Player>() != nullptr)
+		{
+			ChangeToClosedState();
+		}
+	}
 }
 
 void Equipment_Steamer::IdleStart(const StateInfo& _Info)
@@ -103,6 +111,7 @@ void Equipment_Steamer::OpeningStart(const StateInfo& _Info)
 	IsInteraction_ = false;
 	IsMoveDone_ = false;
 	IsRotateDone_ = false;
+	ObjSoundPlayer_.Stop();
 }
 
 void Equipment_Steamer::OpeningUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -151,7 +160,10 @@ void Equipment_Steamer::CookingStart(const StateInfo& _Info)
 	IsInteraction_ = false;
 	IsMoveDone_ = false;
 	IsRotateDone_ = false;
-	GameEngineSound::SoundPlayControl("SteamerLoop.wav", 2);
+	IsSound_ = true;
+
+	ObjSoundPlayer_ = GameEngineSound::SoundPlayControl("SteamerLoop.wav", -1);
+	ObjSoundPlayer_.Volume(2.f);
 }
 
 void Equipment_Steamer::CookingUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -246,11 +258,20 @@ void Equipment_Steamer::ClosedStart(const StateInfo& _Info)
 	IsRotateDone_ = false;
 	CookingAngle_ = 0.f;
 	CurPos_ = 0.f;
+	ObjSoundPlayer_.Stop();
 }
 
 void Equipment_Steamer::ClosedUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	if (GetParent() != nullptr && GetParent()->CastThis<GamePlayTool>() != nullptr)
+	{
+		if (GetParent()->CastThis<GamePlayTool>()->GetObjectToolType() == ObjectToolType::Cooker)
+		{
+			StateManager.ChangeState("Cooking");
+		}
+	}
 
+	LidRenderer_->GetTransform().SetLocalRotation(float4 {0.f, 0.f, 0.f } *_DeltaTime);
 }
 
 
@@ -272,6 +293,7 @@ bool Equipment_Steamer::AutoTrim(float _DeltaTime, ObjectToolType _Tool)
 
 HoldDownEnum Equipment_Steamer::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 {
+	//ChangeToClosedState();	// Check -> 드는 순간에 안 들어오고 Cooker가 아닌 다른 곳에 내려놓을 때 들어옵니다.
 	if ((*_Moveable) == nullptr)
 	{
 		(*_Moveable) = CastThis<GamePlayMoveable>();

@@ -140,6 +140,7 @@ public:
 	InGameUIActor& operator=(const InGameUIActor&& _Other) noexcept = delete;
 
 	void ServerInit();
+	void ServerRelease();
 private:
 	bool IsInit_ = false;
 protected:

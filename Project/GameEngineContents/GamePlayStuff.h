@@ -22,6 +22,7 @@ enum class UsingDownEnum
 	Throwing
 };
 
+
 class GamePlayTool;
 class Player;
 class GamePlayStuff : public GamePlayObject
@@ -94,6 +95,13 @@ protected:
 	{
 		Enum_ObjectStuffType_ = _Type;
 	}
+
+protected:
+	bool IsSound_;
+	bool IsSoundDone_;
+	float SoundTime_;
+
+	GameEngineSoundPlayer ObjSoundPlayer_;
 
 private:
 	float4 Pos;
