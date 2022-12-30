@@ -12,6 +12,7 @@ enum class ServerObjectBaseState
 
 enum class ServerObjectType
 {
+	None = -1,
 	Player,
 	Object,
 	UI
@@ -72,6 +73,11 @@ public:
 	void PushPacket(std::shared_ptr<GameServerPacket> _Packet);
 	bool IsPacketEmpty();
 	std::shared_ptr<GameServerPacket> PopPacket();
+
+	inline ServerObjectType GetServerType()
+	{
+		return ServerType;
+	}
 
 protected:
 

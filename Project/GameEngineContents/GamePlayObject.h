@@ -32,7 +32,6 @@ protected:
 	GamePlayObject();
 
 public:
-	static int ObjectNumber_;
 	// constrcuter destructer
 	virtual ~GamePlayObject();
 
@@ -42,7 +41,7 @@ public:
 	GamePlayObject& operator=(const GamePlayObject& _Other) = delete;
 	GamePlayObject& operator=(GamePlayObject&& _Other) noexcept = delete;
 
-	virtual SetPlayerState_Return SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type, std::shared_ptr<GamePlayMoveable> _Moveable = nullptr) {
+	virtual SetPlayerState_Return SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type, std::shared_ptr<GamePlayMoveable> _Moveable = nullptr, bool _FromNet = false) {
 		MsgBoxAssert("아직 설정되지 않았습니다");
 		return SetPlayerState_Return::Nothing;
 	};
@@ -131,23 +130,50 @@ public:
 	}
 	// Sever
 public:
-	virtual void SetParentsServerHoldObject(int _ServerID) { MsgBoxAssert("GamePlayObject 서버 부모 설정 오류") };
-protected:
+	inline void DontWantSend()
+	{
+		InitFirst = true;
+	}
+	inline void WantSend()
+	{
+		InitFirst = false;
+	}
+	static inline int FindEmptyServerNumber()
+	{
+		GameServerObject* Object = nullptr;
+		for (int i = ObjectNumberInServer_; ; i++)
+		{
+			Object = GameServerObject::GetServerObject(i);
+			if (Object == nullptr)
+			{
+				ObjectNumberInServer_ = i;
+				return ObjectNumberInServer_;
+			}
+		}
+	}
+
+	virtual void SetParentsServerHoldObject(int _ServerID) { MsgBoxAssert("GamePlayObject SetParentsServerHoldObject 서버 부모 설정 오류") };
+	virtual void SetServerHoldObject(int _ServerID) { MsgBoxAssert("GamePlayObject SetServerHoldObject 서버 부모 설정 오류") };
 	void ServerStart();
+protected:
 	virtual void ChildServerStart() {};
 
 	void ServerUpdate(float _DeltaTime);
 	
-	virtual void SendDefaultPacket(std::shared_ptr<ObjectUpdatePacket> Packet);
 
-	virtual void SendPacket(std::shared_ptr<ObjectUpdatePacket> Packet) {}
-;	virtual void SendServerHoldObject(std::shared_ptr<ObjectStartPacket> Packet) {};
+	//void SendParentObject();
+
+
+	//virtual void SendPacket(std::shared_ptr<ObjectUpdatePacket> Packet) {}
+	virtual int GetChildNetID() { return -1000; };
 	virtual void SendObjectType(std::shared_ptr<ObjectStartPacket> Packet) {}
 
 
-	virtual void SetServerCookingGage(float _Time) {};
-	virtual void SetServerHoldObject(int _ServerID) {};
+	virtual void SetServerCookingGage(float _Time) { MsgBoxAssert("GamePlayObject / SetServerCookingGage() is not setting ") };
 
-	std::shared_ptr<ObjectUpdatePacket> InteractPacket_;
+	//std::shared_ptr<ObjectUpdatePacket> InteractPacket_;
 	bool InitFirst;
+
+
+	static int ObjectNumberInServer_;
 };

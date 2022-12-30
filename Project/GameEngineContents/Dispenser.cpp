@@ -28,9 +28,10 @@ void Dispenser::Start()
 	SetStuff(GetLevel()->CreateActor<Tool_Dispenser>());
 }
 
-void Dispenser::Update(float _DeltaTime)
-{
-}
+//void Dispenser::Update(float _DeltaTime)
+//{
+//
+//}
 
 
 Tool_Dispenser::Tool_Dispenser()
@@ -54,18 +55,18 @@ void Tool_Dispenser::SettingIngredientList(DispenserType _Type)
 {
 	switch (_Type)
 	{
-	case DispenserType::Type1:
-	{
-		IngredientList_.push_back(IngredientType::Seaweed);
-		IngredientList_.push_back(IngredientType::Rice);
-	}
-	break;
-	case DispenserType::Type2:
-	{
-		IngredientList_.push_back(IngredientType::Prawn);
-		IngredientList_.push_back(IngredientType::Fish);
-	}
-	break;
+		case DispenserType::Type1:
+		{
+			IngredientList_.push_back(IngredientType::Seaweed);
+			IngredientList_.push_back(IngredientType::Rice);
+		}
+		break;
+		case DispenserType::Type2:
+		{
+			IngredientList_.push_back(IngredientType::Prawn);
+			IngredientList_.push_back(IngredientType::Fish);
+		}
+		break;
 	}
 }
 
@@ -88,18 +89,24 @@ void Tool_Dispenser::Update(float _Delta)
 
 	if (Front_StaticObject_.lock() != nullptr)
 	{
-		Delay_ += _Delta;
-		if (Front_StaticObject_.lock()->GetMoveable() == nullptr && Delay_ > 3.f)
+		if (ServerInitManager::Net == nullptr || ServerInitManager::Net->GetIsHost())
 		{
-			Delay_ = 0;
-		//	Front_StaticObject_.lock()->SetMoveable(GetLevel()->CreateActor<Food_Ingredients_Fish>()); //µð¹ö±ë¿ë
-
-			++Index_;
-			if (Index_ >= IngredientList_.size())
+			Delay_ += _Delta;
+			if (Front_StaticObject_.lock()->GetMoveable() == nullptr && Delay_ > 3.f)
 			{
-				Index_ = 0;
+				Delay_ = 0;
+				//	Front_StaticObject_.lock()->SetMoveable(GetLevel()->CreateActor<Food_Ingredients_Fish>()); //µð¹ö±ë¿ë
+
+				++Index_;
+				if (Index_ >= IngredientList_.size())
+				{
+					Index_ = 0;
+				}
+				std::shared_ptr<GamePlayFood> Food = GamePlayFood::GetIngredientClass(IngredientList_[Index_]);
+				Food->ServerStart();
+				Front_StaticObject_.lock()->SetMoveable(Food);
+				//Front_StaticObject_.lock()->SetPlayerState(nullptr, PlayerCurStateType::HoldDown , Food);
 			}
-			Front_StaticObject_.lock()->SetMoveable(GamePlayFood::GetIngredientClass(IngredientList_[Index_]));
 		}
 	}
 }

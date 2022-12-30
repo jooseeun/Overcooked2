@@ -20,7 +20,7 @@ public:
 	GamePlayStaticObject& operator=(GamePlayStaticObject&& _Other) noexcept = delete;
 
 public:
-	SetPlayerState_Return SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type, std::shared_ptr<GamePlayMoveable> _Moveable = nullptr) override;
+	SetPlayerState_Return SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type, std::shared_ptr<GamePlayMoveable> _Moveable = nullptr, bool _FromNet = false) override;
 	
 
 
@@ -41,10 +41,10 @@ public:
 	inline void ReSetStuff()
 	{
 		Stuff_Current_.reset();
-		if (InteractPacket_ != nullptr)
-		{
-			InteractPacket_->HoldObjectID = -1;
-		}
+		//if (InteractPacket_ != nullptr)
+		//{
+		//	InteractPacket_->HoldObjectID = -1;
+		//}
 	}
 
 
@@ -126,29 +126,30 @@ private:
 	};
 
 
-	void SendPacket(std::shared_ptr<ObjectUpdatePacket> Packet) override
-	{
+	int GetChildNetID() override
+	{ 
 		if (Stuff_Current_ != nullptr)
 		{
-			Packet->HoldObjectID = Stuff_Current_->GetNetID();
+			return Stuff_Current_->GetNetID();
 		}
 		else
 		{
-			Packet->HoldObjectID = -1;
+			return -1;
 		}
-	}
+	};
 
-	void SendServerHoldObject(std::shared_ptr<ObjectStartPacket> Packet)  override
-	{
-		if (Stuff_Current_ != nullptr)
-		{
-			Packet->HoldObjectID = Stuff_Current_->GetNetID();
-		}
-		else
-		{
-			Packet->HoldObjectID = -1;
-		}
-	}
+	//void SendPacket(std::shared_ptr<ObjectUpdatePacket> Packet) override
+	//{
+	//	if (Stuff_Current_ != nullptr)
+	//	{
+	//		Packet->HoldObjectID = Stuff_Current_->GetNetID();
+	//	}
+	//	else
+	//	{
+	//		Packet->HoldObjectID = -1;
+	//	}
+	//}
+
 
 	void SendObjectType(std::shared_ptr<ObjectStartPacket> Packet) override
 	{
@@ -187,7 +188,7 @@ private:
 	{ 
 		if (Stuff_Current_ != nullptr)
 		{
-			if (!GameServerObject::GetServerObject(Stuff_Current_->GetNetID()))
+			if (!Stuff_Current_->GetIsNetInit())
 			{
 				Stuff_Current_->ClientInit(ServerObjectType::Object, _ServerID);
 			}
@@ -199,15 +200,7 @@ private:
 		}
 		else
 		{
-			GameServerObject* Server = GameServerObject::GetServerObject(GetNetID());
-			if (Server != nullptr)
-			{
-				SetServerHoldObject(GetNetID());
-			}
-			else
-			{
-				MsgBoxAssert("GamePlaystaticObject 서버 부모 설정 오류2")
-			}
+			SetServerHoldObject(GetNetID());
 		}
 	};
 
@@ -224,7 +217,7 @@ private:
 		{
 			if (Stuff_Current_.get() != Object)
 			{
-				Stuff_Current_ = Object->shared_from_this()->CastThis<GamePlayStuff>();
+				SetStuff(Object->shared_from_this()->CastThis<GamePlayStuff>());
 			}
 		}
 		else

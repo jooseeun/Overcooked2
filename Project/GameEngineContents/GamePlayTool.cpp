@@ -42,6 +42,20 @@ void GamePlayTool::SetMoveable(std::shared_ptr<GameEngineUpdateObject> _Child)
 	Object.lock()->GetTransform().SetLocalPosition(MoveablePos_);
 	//Object.lock()->GetTransform().SetWorldRotation(Rotation);
 	Object.lock()->GetCollisionObject()->Off();
+
+	//if (nullptr != ServerInitManager::Net && (ServerInitManager::Net->GetIsHost()))
+	//{
+	//	std::shared_ptr<ObjectParentsSetPacket> ParentsSetPacket = std::make_shared<ObjectParentsSetPacket>();
+	//	ParentsSetPacket->ParentsID = GetNetID();
+	//	if (!Moveable_Current_->GetIsNetInit())
+	//	{
+	//		Moveable_Current_->ServerStart();
+	//	}
+
+	//	ParentsSetPacket->ChildID = Moveable_Current_->GetNetID();
+	//	
+	//	ServerInitManager::Net->SendPacket(ParentsSetPacket);
+	//}
 }
 
 HoldDownEnum GamePlayTool::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
@@ -129,8 +143,3 @@ HoldDownEnum GamePlayTool::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 //		return HoldDownEnum::Nothing;
 //	}
 //};
-
-void GamePlayTool::SendDefaultPacket(std::shared_ptr<ObjectUpdatePacket> Packet) 
-{
-	SendPacket(Packet);
-};

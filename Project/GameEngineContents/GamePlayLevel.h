@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
 #include "MapDataParser.h"
+#include "GamePlayObjectManager.h"
 
 #include "InGameUIActor.h"
 
@@ -39,6 +40,9 @@ protected:
 	int SubsetDebugIndex_ = 0;
 private:
 	bool IsLevelStartFirst_ = true; //레벨 이동을 맨 처음 할 경우 리소스 로드로 갑니다
+
+	std::shared_ptr<GamePlayObjectManager> ObjectManager_;
+
 public:
 	inline void SetIsLevelStart_False() //GUI가 아닌 SelectLevel > LoadingLevel로 이동할 경우 필요한 함수입니다.
 	{

@@ -97,7 +97,7 @@ protected:
 
 private:
 	float4 Pos;
-	SetPlayerState_Return SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type, std::shared_ptr<GamePlayMoveable> _Moveable = nullptr) final;
+	SetPlayerState_Return SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type, std::shared_ptr<GamePlayMoveable> _Moveable = nullptr, bool _FromNet = false) final;
 
 	// Enum
 private:
@@ -105,5 +105,10 @@ private:
 
 private:
 	ToolInfo Enum_ToolInfo_;
+
+	void SendObjectType(std::shared_ptr<ObjectStartPacket> Packet) override
+	{
+		Packet->ToolData = Enum_ToolInfo_;
+	}
 };
 

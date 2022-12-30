@@ -1304,6 +1304,7 @@ CollisionReturn Player::TableHoldDownCheck(std::shared_ptr<GameEngineCollision> 
 	{
 		return CollisionReturn::ContinueCheck;
 	}
+
 	if (SetPlayerState_Return::Nothing ==
 		_Other->GetParent()->CastThis<GamePlayStaticObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_))
 	{  //테이블에 물체가 있어 못내려놓으면 그냥 아무일도 일어나지 않게 하기

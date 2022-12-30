@@ -126,53 +126,50 @@ public:
 	}
 
 	// server
-	void ChildServerStart() override
+	inline void ChildServerStart() override
 	{
 		if (Moveable_Current_ != nullptr)
 		{
 			Moveable_Current_->ServerStart();
+			//ServerStart();
 		}
 	};
 
+	inline void SendObjectType(std::shared_ptr<ObjectStartPacket> Packet) override
+	{
+		Packet->ObjectToolData = GetObjectToolType();
+	}
 
-	void SendDefaultPacket(std::shared_ptr<ObjectUpdatePacket> Packet) override;
-
-
-	void SendPacket(std::shared_ptr<ObjectUpdatePacket> Packet) override
+	inline int GetChildNetID() override
 	{
 		if (Moveable_Current_ != nullptr)
 		{
-			Packet->HoldObjectID = Moveable_Current_->GetNetID();
+			return Moveable_Current_->GetNetID();
 		}
 		else
 		{
-			Packet->HoldObjectID = -1;
+			return -1;
 		}
-	}
+	};
 
-	void SendServerHoldObject(std::shared_ptr<ObjectStartPacket> Packet)  override
-	{
-		if (Moveable_Current_ != nullptr)
-		{
-			Packet->HoldObjectID = Moveable_Current_->GetNetID();
-		}
-		else
-		{
-			Packet->HoldObjectID = -1;
-		}
-	}
-
-	void SendObjectType(std::shared_ptr<ObjectStartPacket> Packet) override 
-	{
-		Packet->ToolData = GetToolInfoType();
-	}
+	//void SendServerHoldObject(std::shared_ptr<ObjectStartPacket> Packet)  override
+	//{
+	//	if (Moveable_Current_ != nullptr)
+	//	{
+	//		Packet->HoldObjectID = Moveable_Current_->GetNetID();
+	//	}
+	//	else
+	//	{
+	//		Packet->HoldObjectID = -1;
+	//	}
+	//}
 
 
 	void SetParentsServerHoldObject(int _ServerID) override
 	{
 		if (Moveable_Current_ != nullptr)
 		{
-			if (!GameServerObject::GetServerObject(Moveable_Current_->GetNetID()))
+			if (!Moveable_Current_->GetIsNetInit())
 			{
 				Moveable_Current_->ClientInit(ServerObjectType::Object, _ServerID);
 			}
@@ -180,20 +177,10 @@ public:
 			{
 				MsgBoxAssert("GamePlayTool 서버 부모 설정 오류1")
 			}
-		
 		}
 		else
 		{
-			GameServerObject* Server = GameServerObject::GetServerObject(GetNetID());
-			if (Server != nullptr)
-			{
-				SetServerHoldObject(GetNetID());
-			}
-			else
-			{
-				MsgBoxAssert("GamePlayTool 서버 부모 설정 오류2")
-
-			}
+			SetServerHoldObject(GetNetID());
 		}
 
 	};
@@ -205,13 +192,12 @@ public:
 			ReSetCurrentMoveable();
 			return;
 		}
-
-		GamePlayMoveable* Object = static_cast<GamePlayMoveable*>(GameServerObject::GetServerObject(_ServerID));
+		GamePlayMoveable* Object = (GamePlayMoveable*)(GameServerObject::GetServerObject(_ServerID));
 		if (Object != nullptr)
 		{
 			if (Moveable_Current_.get() != Object)
 			{
-				Moveable_Current_ =  Object->shared_from_this()->CastThis<GamePlayMoveable>();
+				SetMoveable(Object->shared_from_this());
 			}
 		}
 		else
@@ -219,5 +205,6 @@ public:
 			MsgBoxAssert("GamePlayMoveableObject_ServerHoldObject_Error")
 		}
 	}
+
 };
 

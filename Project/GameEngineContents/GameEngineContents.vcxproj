@@ -287,6 +287,10 @@
     <ClInclude Include="GamePlayMapObject.h" />
     <ClInclude Include="GamePlayMoveable.h" />
     <ClInclude Include="GamePlayObject.h" />
+    <ClInclude Include="GamePlayObjectManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GamePlayOriginObject.h">
       <SubType>
       </SubType>
@@ -626,6 +630,10 @@
     <ClCompile Include="GamePlayMapObject.cpp" />
     <ClCompile Include="GamePlayMoveable.cpp" />
     <ClCompile Include="GamePlayObject.cpp" />
+    <ClCompile Include="GamePlayObjectManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GamePlayOriginObject.cpp">
       <SubType>
       </SubType>

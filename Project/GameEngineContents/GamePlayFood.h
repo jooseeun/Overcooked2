@@ -285,6 +285,10 @@ private:
 	virtual void TrimmingSteam() {};
 	virtual void TrimmingBoil() {};
 
+	void SendObjectType(std::shared_ptr<ObjectStartPacket> Packet) override
+	{
+		Packet->IngredientData = Enum_IngredientType_;
+	}
 
 
 };

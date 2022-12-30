@@ -44,5 +44,10 @@ private:
 
 	std::shared_ptr<GameEngineActor> Knife_;
 
+	inline void SendObjectType(std::shared_ptr<ObjectStartPacket> Packet) override
+	{
+		Packet->ToolData = GetToolInfoType();
+	}
+
 };
 
