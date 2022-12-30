@@ -352,8 +352,6 @@ void GameEngineFBXMesh::LoadBinormal(fbxsdk::FbxMesh* _Mesh, fbxsdk::FbxAMatrix 
 	fbxsdk::FbxAMatrix conversionMeshMatrix = _MeshMatrix.Transpose();
 	BiNormal = conversionMeshMatrix.MultT(BiNormal);
 
-
-	_ArrVtx[_Index].BINORMAL.x = (float)BiNormal.mData[0];
 	_ArrVtx[_Index].BINORMAL.y = (float)BiNormal.mData[1];
 	_ArrVtx[_Index].BINORMAL.z = -(float)BiNormal.mData[2];
 	_ArrVtx[_Index].BINORMAL.w = (float)BiNormal.mData[3];
@@ -366,7 +364,7 @@ void GameEngineFBXMesh::LoadTangent(fbxsdk::FbxMesh* _Mesh, fbxsdk::FbxAMatrix _
 
 	if (0 == iCount)
 	{
-		bool result = _Mesh->GenerateTangentsData(_Index);
+		//bool result = _Mesh->GenerateTangentsData(VtxId);
 
 		return;
 	}
