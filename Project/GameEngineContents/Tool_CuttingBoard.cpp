@@ -67,7 +67,7 @@ void Tool_CuttingBoard::Start()
 				 if (SoundTime_ >= 0.2f)
 				 {
 					 SoundTime_ = 0.f;
-					 GameEngineSound::SoundPlayControl("KnifeChop.wav");
+					 ObjSoundPlayer_ = GameEngineSound::SoundPlayControl("KnifeChop.wav");
 				 }
 				 SoundTime_ += GameEngineTime::GetDeltaTime();
 			 }
@@ -118,11 +118,14 @@ void Tool_CuttingBoard::Start()
 				 MsgBoxAssert("아직 설정되지 않은 재료")
 				 break;
 			 }
+			
 			 IsSound_ = false;
+			 ObjSoundPlayer_.Stop();
 		
 		 }
 
 		 IsSound_ = false;
+		 ObjSoundPlayer_.Stop();
 	 }
 	return UsingDownEnum::Nothing;
 };

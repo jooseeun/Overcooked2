@@ -18,6 +18,7 @@ public:
 
 protected:
 	void Start() override;
+	void Update(float _DeltaTime) override;
 
 
 	bool AutoTrim(float _DeltaTime, ObjectToolType _Tool)  override;

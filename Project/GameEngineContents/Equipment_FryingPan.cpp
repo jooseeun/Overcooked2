@@ -20,25 +20,31 @@ void Equipment_FryingPan::Start()
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 }
 
+void Equipment_FryingPan::Update(float _DeltaTime)
+{
+	if (MyMoveableState_ == MoveableState::Cooking)
+	{
+		if (GetParent() != nullptr && GetParent()->CastThis<Player>() != nullptr)
+		{
+			MyMoveableState_ = MoveableState::Idle;
+			IsSound_ = false;
+			ObjSoundPlayer_.Stop();
+		}
+	}
+}
+
 bool Equipment_FryingPan::AutoTrim(float _DeltaTime, ObjectToolType _Tool)
 {
 	if (_Tool == ObjectToolType::Cooker)
 	{
-		if (false == IsSound_)
+		// 윤서: FryFood != null일 때만 아래 주석 해제.
+		/*if (false == IsSound_)
 		{
-			SoundTime_ = 0.05f;
+			MyMoveableState_ = MoveableState::Cooking;
+			ObjSoundPlayer_ = GameEngineSound::SoundPlayControl("FryingPanSizzle.wav", -1);
+			ObjSoundPlayer_.Volume(2.f);
 			IsSound_ = true;
-		}
-		else
-		{
-			if (SoundTime_ >= 0.05f)
-			{
-				SoundTime_ = 0.f;
-				GameEngineSound::SoundPlayControl("FryingPanSizzle.wav");
-			}
-			SoundTime_ += GameEngineTime::GetDeltaTime();
-
-		}
+		}*/
 		if(!GetCombinFood()->IsClear())
 		{
 			if (Input_Auto(_DeltaTime, 12.f))
@@ -48,7 +54,6 @@ bool Equipment_FryingPan::AutoTrim(float _DeltaTime, ObjectToolType _Tool)
 		}
 	}
 
-	IsSound_ = false;
 	return false;
 
 }
@@ -97,6 +102,8 @@ HoldDownEnum Equipment_FryingPan::PickUp(std::shared_ptr<GamePlayMoveable>* _Mov
 	else
 	{
 		(*_Moveable) = CastThis<GamePlayMoveable>();
+		MyMoveableState_ = MoveableState::Idle;
+		IsSound_ = false;
 		return HoldDownEnum::HoldDown;
 	}
 	//	std::shared_ptr<GamePlayMoveable> Food;

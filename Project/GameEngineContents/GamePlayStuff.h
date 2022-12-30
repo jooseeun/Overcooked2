@@ -22,6 +22,7 @@ enum class UsingDownEnum
 	Throwing
 };
 
+
 class GamePlayTool;
 class Player;
 class GamePlayStuff : public GamePlayObject

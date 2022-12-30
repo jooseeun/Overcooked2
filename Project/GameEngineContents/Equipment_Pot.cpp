@@ -21,12 +21,33 @@ void Equipment_Pot::Start()
 	GetCombinFood()->Start(1, shared_from_this());
 }
 
+void Equipment_Pot::Update(float _DeltaTime)
+{
+	if (MyMoveableState_ == MoveableState::Cooking)
+	{
+		if (GetParent() != nullptr && GetParent()->CastThis<Player>() != nullptr)
+		{
+			MyMoveableState_ = MoveableState::Idle;
+			IsSound_ = false;
+			ObjSoundPlayer_.Stop();
+		}
+	}
+}
+
 bool Equipment_Pot::AutoTrim(float _DeltaTime, ObjectToolType _Tool)
 {
 	if (_Tool == ObjectToolType::Cooker)
 	{
 		if (Rice_)
 		{
+			if (false == IsSound_)
+			{
+				MyMoveableState_ = MoveableState::Cooking;
+				ObjSoundPlayer_ = GameEngineSound::SoundPlayControl("HotPotBubble.wav", -1);
+				ObjSoundPlayer_.Volume(2.f);
+				IsSound_ = true;
+			}
+		
 			if (Rice_->Input_Auto(_DeltaTime, 12.f))
 			{
 				return true;
@@ -75,6 +96,9 @@ HoldDownEnum Equipment_Pot::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 	else
 	{
 		(*_Moveable) = CastThis<GamePlayMoveable>();
+		MyMoveableState_ = MoveableState::Idle;
+		IsSound_ = false;
+		ObjSoundPlayer_.Stop();
 		return HoldDownEnum::HoldDown;
 	}
 	return HoldDownEnum::Nothing;
