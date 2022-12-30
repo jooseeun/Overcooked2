@@ -35,8 +35,20 @@ public:
 
 protected:
 	void Start() override;
+
+	inline void SetHighlightEffectOff() override
+	{
+		GetFBXMesh()->GetPixelDatas(0).PlusColor = float4(0, 0, 0, 0);
+	}
+
+	inline void SetHighlightEffectOn() override
+	{
+		GetFBXMesh()->GetPixelDatas(0).PlusColor = float4(0.2f, 0.2f, 0.2f, 0.0f);
+	}
+
 private:
 	ToolInfo MyTool_;
+	RenderOption RenderOption_;
 };
 
 

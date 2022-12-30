@@ -41,8 +41,8 @@ void TitleLevel::Start()
 
 	LevelActor_ = CreateActor<LevelActor>();
 	LevelActor_->SetLevelMesh("TitleLevel.FBX");
-	LevelActor_->GetRenderer()->SetSubMaterial(13, "TextureAlpha");
-	LevelActor_->GetRenderer()->SetSubMaterial(16, "TextureAlpha");
+	LevelActor_->GetRenderer()->SetSubMaterial(12, "TextureAlpha");
+	LevelActor_->GetRenderer()->SetSubMaterial(15, "TextureAlpha");
 
 	PoleRenderer_ = CreateActor<GameEngineActor>()->CreateComponent<GameEngineFBXStaticRenderer>();
 	PoleRenderer_->SetFBXMesh("Pole.fbx", "Texture");

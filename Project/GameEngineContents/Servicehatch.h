@@ -19,7 +19,7 @@ protected:
 	void Update(float _DeltaTime) override;
 
 private:
-	RenderOption RenderOptionMyInst;
+	RenderOption RenderOption_;
 
 };
 

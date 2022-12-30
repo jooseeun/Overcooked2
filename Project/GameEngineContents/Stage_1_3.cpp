@@ -35,7 +35,13 @@ void Stage_1_3::PlayLevelStart()
 
 void Stage_1_3::PlayLevelUpdate(float _DeltaTime)
 {
+	if (true == GameEngineInput::GetInst()->IsDownKey("SubTest"))
+	{
+		SubsetDebugIndex_++;
+		LevelActor_->GetRenderer()->SetSubMaterial(SubsetDebugIndex_, "Glass");
 
+		GameEngineDebug::OutPutString(std::to_string(SubsetDebugIndex_));
+	}
 }
 
 void Stage_1_3::End()
