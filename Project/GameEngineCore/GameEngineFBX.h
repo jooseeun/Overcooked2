@@ -52,10 +52,12 @@ protected:
 
 	void RecursiveAllNode(fbxsdk::FbxNode* _Node, std::function<void(fbxsdk::FbxNode*)> _Function = nullptr);
 
-	fbxsdk::FbxManager* Manager;
+	static fbxsdk::FbxManager* Manager;
 
-	fbxsdk::FbxIOSettings* IOSetting;
-	fbxsdk::FbxImporter* Importer;
+	static fbxsdk::FbxIOSettings* IOSetting;
+	static fbxsdk::FbxImporter* Importer;
+
+
 	fbxsdk::FbxScene* Scene;
 	fbxsdk::FbxNode* RootNode;
 

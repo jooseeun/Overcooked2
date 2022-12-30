@@ -311,6 +311,8 @@ void GameEngineFBXMesh::LoadBinormal(fbxsdk::FbxMesh* _Mesh, fbxsdk::FbxAMatrix 
 
 	if (0 == iCount)
 	{
+		//FbxGeometryElementBinormal* pElement = _Mesh->GetElementBinormal();
+
 		return;
 
 	}
@@ -364,6 +366,8 @@ void GameEngineFBXMesh::LoadTangent(fbxsdk::FbxMesh* _Mesh, fbxsdk::FbxAMatrix _
 
 	if (0 == iCount)
 	{
+		bool result = _Mesh->GenerateTangentsData(_Index);
+
 		return;
 	}
 	FbxGeometryElementTangent* pElement = _Mesh->GetElementTangent();

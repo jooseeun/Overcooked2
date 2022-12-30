@@ -2,13 +2,21 @@
 #include "GameEngineFBX.h"
 #include <GameEngineBase/GameEngineString.h>
 
+
+fbxsdk::FbxManager* GameEngineFBX::Manager = nullptr;
+
+fbxsdk::FbxIOSettings* GameEngineFBX::IOSetting = nullptr;
+fbxsdk::FbxImporter* GameEngineFBX::Importer = nullptr;
+
+
+
 GameEngineFBX::GameEngineFBX() 
 	:
-	IOSetting(nullptr),
-	Importer(nullptr),
+	//IOSetting(nullptr),
+	//Importer(nullptr),
 	Scene(nullptr),
-	RootNode(nullptr),
-	Manager(nullptr)
+	RootNode(nullptr)
+	//Manager(nullptr)
 {
 }
 
@@ -103,27 +111,25 @@ GameEngineFBX::~GameEngineFBX()
 
 bool GameEngineFBX::CreateFBXSystemInitialize(const std::string& _Path)
 {
+	if (Manager == nullptr)
+	{
 		Manager = fbxsdk::FbxManager::Create();
 		if (nullptr == Manager)
 		{
 			MsgBoxAssert("FBX 매니저 생성에 실패했습니다.");
 			return false;
 		}
-
-	IOSetting = fbxsdk::FbxIOSettings::Create(Manager, IOSROOT);
-
- 	if (IOSetting == nullptr)
+	}
+		
+	if (IOSetting == nullptr)
 	{
-		int a = 0;
+		IOSetting = fbxsdk::FbxIOSettings::Create(Manager, IOSROOT);
+
 	}
 
-
-	Importer = fbxsdk::FbxImporter::Create(Manager, "");
-
-
-	if (Importer == nullptr)
+ 	if (Importer == nullptr)
 	{
-		int a = 0;
+		Importer = fbxsdk::FbxImporter::Create(Manager, "");
 	}
 
 	if (false == 
