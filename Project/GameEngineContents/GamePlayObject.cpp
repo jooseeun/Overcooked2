@@ -102,7 +102,7 @@ void GamePlayObject::ServerUpdate(float _DeltaTime)
 				{
 					Death();
 					Off();
-					continue;
+					break;
 				}
 				if (!ObjectUpdate->Pos.CompareInt3D(float4::ZERO))
 				{
@@ -111,16 +111,6 @@ void GamePlayObject::ServerUpdate(float _DeltaTime)
 					GetTransform().SetWorldScale(ObjectUpdate->Scale);
 				}
 
-				{
-					if (0 <= ObjectUpdate->CookingGage)
-					{
-						SetServerCookingGage(ObjectUpdate->CookingGage);
-					}
-					if (-1 <= ObjectUpdate->HoldObjectID)
-					{
-						SetServerHoldObject(ObjectUpdate->HoldObjectID);
-					}
-				}
 				break;
 			}
 			case ContentsPacketType::ObjectInteractUpdate:

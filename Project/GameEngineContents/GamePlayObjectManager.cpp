@@ -127,7 +127,7 @@ void GamePlayObjectManager::PopObjectParentsSetData()
 	GameServerObject* FindParentsObject = GameServerObject::GetServerObject(Packet->ParentsID);
 	GameServerObject* FindHoldObject = GameServerObject::GetServerObject(Packet->ChildID);
 
-	if (Packet->ChildID >= 0)
+	if (Packet->ChildID <= 0)
 	{
 		return;
 	}
@@ -142,26 +142,26 @@ void GamePlayObjectManager::PopObjectParentsSetData()
 
 	if (FindHoldObject != nullptr)
 	{
-		//switch (FindParentsObject->GetServerType())
-		//{
-		//	case ServerObjectType::Player:
-		//		return;
-		//		break;
-		//	case ServerObjectType::Object:
-		//	{
-		//		std::shared_ptr<GamePlayObject> HoldingObject = ((GamePlayObject*)(FindHoldObject))->shared_from_this()->CastThis<GamePlayObject>();
-		//		std::shared_ptr<GamePlayObject> ParentsObject = ((GamePlayObject*)(FindParentsObject))->shared_from_this()->CastThis<GamePlayObject>();
-		//		if (ParentsObject->CastThis<GamePlayStaticObject>() != nullptr)
-		//		{
-		//			ParentsObject->CastThis<GamePlayStaticObject>()->SetStuff(HoldingObject->CastThis<GamePlayStuff>());
-		//		}
-		//		else
-		//		{
-		//			ParentsObject->CastThis<GamePlayTool>()->SetMoveable(HoldingObject->shared_from_this());
-		//		}
-		//	}
-		//	break;
-		//}
+		switch (FindParentsObject->GetServerType())
+		{
+			case ServerObjectType::Player:
+				return;
+				break;
+			case ServerObjectType::Object:
+			{
+				std::shared_ptr<GamePlayObject> HoldingObject = ((GamePlayObject*)(FindHoldObject))->shared_from_this()->CastThis<GamePlayObject>();
+				std::shared_ptr<GamePlayObject> ParentsObject = ((GamePlayObject*)(FindParentsObject))->shared_from_this()->CastThis<GamePlayObject>();
+				if (ParentsObject->CastThis<GamePlayStaticObject>() != nullptr)
+				{
+					ParentsObject->CastThis<GamePlayStaticObject>()->SetStuff(HoldingObject->CastThis<GamePlayStuff>());
+				}
+				else
+				{
+					ParentsObject->CastThis<GamePlayTool>()->SetMoveable(HoldingObject->shared_from_this());
+				}
+			}
+			break;
+		}
 
 
 		return;
@@ -471,8 +471,17 @@ std::shared_ptr<GamePlayObject> GamePlayObjectManager::PopMapDataData()
 	}
 	else if(Packet->ObjectToolData != ObjectToolType::None)
 	{
-		TemporaryPushData(Packet);
-		return nullptr;
+		GameServerObject* FindHoldObject = GameServerObject::GetServerObject(Packet->ObjectID);
+		if (FindHoldObject == nullptr)
+		{
+			TemporaryPushData(Packet);
+			return nullptr;
+		}
+		else
+		{
+			PlayObject = ((GamePlayObject*)(FindHoldObject))->shared_from_this()->CastThis<GamePlayObject>();
+		}
+		//return nullptr;
 	}
 	else
 	{

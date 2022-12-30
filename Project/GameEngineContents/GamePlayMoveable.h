@@ -95,6 +95,23 @@ public:
 	bool Input_Manual(std::shared_ptr<Player> _Player, float _Delta, float _MaxTime);
 	bool Input_Auto(float _Delta, float _MaxTime);
 	virtual bool AutoTrim(float _DeltaTim, ObjectToolType _Tool) { return false; }
+
+	// Server
+	void SendObjectUpdatePacket()
+	{
+		if (ServerInitManager::Net && ServerInitManager::Net->GetIsHost())
+		{
+			std::shared_ptr<ObjectUpdatePacket> Packet = std::make_shared<ObjectUpdatePacket>();
+			Packet->ObjectID = GetNetID();
+			Packet->Type = ServerObjectType::Object;
+			Packet->State = IsDeath() ? ServerObjectBaseState::Base : ServerObjectBaseState::Death;
+			Packet->Pos = GetTransform().GetWorldPosition();
+			Packet->Rot = GetTransform().GetWorldRotation();
+			Packet->Scale = GetTransform().GetWorldScale();
+			ServerInitManager::Net->SendPacket(Packet);
+		}
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -163,5 +180,6 @@ private:
 			}
 		}
 	}
+
 };
 

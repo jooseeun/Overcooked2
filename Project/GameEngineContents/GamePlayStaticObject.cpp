@@ -190,7 +190,7 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 						
 						ReturnValue = SetPlayerState_Return::Using;
 					}
-break;
+					break;
 				case HoldDownEnum::HoldUp: // ±×¸© Àü¿ë?
 					if (Empty != nullptr)
 					{

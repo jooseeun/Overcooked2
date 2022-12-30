@@ -68,40 +68,52 @@ void Tool_Rail::Update(float _Delta)
 		FirstTimeCheck_ = true;
 	}
 
-	if (Front_StaticObject_.lock() != nullptr)
+	//if (ServerInitManager::Net == nullptr || ServerInitManager::Net->GetIsHost())
 	{
-		if (GetCurrentMoveable() != nullptr)
+		if (Front_StaticObject_.lock() != nullptr)
 		{
-			if (GetCurrentMoveable() != After_Moveable_.lock())
+			if (GetCurrentMoveable() != nullptr)
 			{
-				After_Moveable_ = GetCurrentMoveable();
-				float4 Pos = After_Moveable_.lock()->GetTransform().GetWorldPosition();
-				After_Moveable_.lock()->SetParent(Front_StaticObject_.lock());
-				After_Moveable_.lock()->GetTransform().SetLocalPosition(Front_StaticObject_.lock()->GetTransform().GetWorldPosition() - Pos);
-				MoveTime_ = 0;
+				if (GetCurrentMoveable() != After_Moveable_.lock())
+				{
+					After_Moveable_ = GetCurrentMoveable();
+					float4 Pos = After_Moveable_.lock()->GetTransform().GetWorldPosition();
+					After_Moveable_.lock()->SetParent(Front_StaticObject_.lock());
+					After_Moveable_.lock()->GetTransform().SetLocalPosition(Front_StaticObject_.lock()->GetTransform().GetWorldPosition() - Pos);
+					MoveTime_ = 0;
+				}
 			}
-		}
 
 
-		if (After_Moveable_.lock() != nullptr)
-		{
-			MoveTime_ += _Delta;
-			After_Moveable_.lock()->GetTransform().SetLocalPosition(float4::LerpLimit((GetTransform().GetWorldPosition()) - (Front_StaticObject_.lock()->GetTransform().GetWorldPosition()), Front_StaticObject_.lock()->GetToolPos(), MoveTime_ / 1.5f));
-			if (MoveTime_ > 1.5f)
+			if (After_Moveable_.lock() != nullptr)
 			{
-				//Front_StaticObject_.lock()->SetPlayerState(nullptr, PlayerCurStateType::HoldDown, After_Moveable_.lock());
-				Front_StaticObject_.lock()->SetMoveable(After_Moveable_.lock());
-				MoveTime_ = 0;
-				After_Moveable_.reset();
-				ReSetCurrentMoveable();
+				MoveTime_ += _Delta;
+				After_Moveable_.lock()->GetTransform().SetLocalPosition(float4::LerpLimit((GetTransform().GetWorldPosition()) - (Front_StaticObject_.lock()->GetTransform().GetWorldPosition()), Front_StaticObject_.lock()->GetToolPos(), MoveTime_ / 1.5f));
+
+
+				if (MoveTime_ > 1.5f)
+				{
+					//Front_StaticObject_.lock()->SetPlayerState(nullptr, PlayerCurStateType::HoldDown, After_Moveable_.lock());
+					Front_StaticObject_.lock()->SetMoveable(After_Moveable_.lock());
+					MoveTime_ = 0;
+					After_Moveable_.reset();
+					ReSetCurrentMoveable();
+				}
 			}
 		}
 	}
+
 }
 
 void Tool_Rail::SetMoveable(std::shared_ptr<GameEngineUpdateObject> _Child)
 {
 	GamePlayTool::SetMoveable(_Child);
+
+	After_Moveable_ = GetCurrentMoveable();
+	float4 Pos = After_Moveable_.lock()->GetTransform().GetWorldPosition();
+	After_Moveable_.lock()->SetParent(Front_StaticObject_.lock());
+	After_Moveable_.lock()->GetTransform().SetLocalPosition(Front_StaticObject_.lock()->GetTransform().GetWorldPosition() - Pos);
+	MoveTime_ = 0;
 }
 
 HoldDownEnum Tool_Rail::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)

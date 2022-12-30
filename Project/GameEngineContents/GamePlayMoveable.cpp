@@ -33,8 +33,7 @@ void GamePlayMoveable::Update(float _DeltaTime)
 
 	if (GetParent() == nullptr)
 	{
-		GameEngineDebug::OutPutString(std::to_string(GetTransform().GetLocalPosition().x) + " + "  + std::to_string(GetTransform().GetLocalPosition().y) + " + " + std::to_string(GetTransform().GetLocalPosition().z));
-
+		//GameEngineDebug::OutPutString(std::to_string(GetTransform().GetLocalPosition().x) + " + "  + std::to_string(GetTransform().GetLocalPosition().y) + " + " + std::to_string(GetTransform().GetLocalPosition().z));
 		if (GetCollisionObject()->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject_1, CollisionType::CT_OBB,
 			[](std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 			{
@@ -55,6 +54,7 @@ void GamePlayMoveable::Update(float _DeltaTime)
 		}
 		Gravity();
 	}
+
 }
 
 
