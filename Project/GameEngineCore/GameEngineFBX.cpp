@@ -111,7 +111,20 @@ bool GameEngineFBX::CreateFBXSystemInitialize(const std::string& _Path)
 		}
 
 	IOSetting = fbxsdk::FbxIOSettings::Create(Manager, IOSROOT);
+
+ 	if (IOSetting == nullptr)
+	{
+		int a = 0;
+	}
+
+
 	Importer = fbxsdk::FbxImporter::Create(Manager, "");
+
+
+	if (Importer == nullptr)
+	{
+		int a = 0;
+	}
 
 	if (false == 
 		Importer->Initialize(GameEngineString::AnsiToUTF8Return(_Path).c_str(), -1, IOSetting))

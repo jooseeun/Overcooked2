@@ -64,5 +64,11 @@ protected:
 	fbxsdk::FbxVector4 AxisVector;
 
 
+public :
+	FbxScene* GetFbxScene()
+	{
+		return Scene;
+	}
+
 };
 

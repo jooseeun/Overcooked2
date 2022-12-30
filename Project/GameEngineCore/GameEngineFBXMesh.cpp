@@ -29,7 +29,19 @@ std::vector<std::weak_ptr<GameEngineFBXMesh>> GameEngineFBXMesh::LoadLevel(const
 	{
 
 		Result.push_back(Load(AllFiles[i].GetFullPath()));
+
+		std::string Path = AllFiles[i].GetFullPath();
+
+		fbxsdk::FbxArray<FbxString*> AniNameArray;
+		Result.back().lock()->GetFbxScene()->FillAnimStackNameArray(AniNameArray);
+
+		if (0 < AniNameArray.Size())
+		{
+			//int a = 0;
 		std::shared_ptr<GameEngineFBXAnimation> Animation = GameEngineFBXAnimation::Load(AllFiles[i].GetFullPath());
+		}
+
+
 		//std::vector<FbxExMeshInfo> Info = Result.back().lock()->GetMeshInfos();
 
 	}
