@@ -146,7 +146,7 @@ UsingDownEnum Tool_Sink::UsingDown(std::shared_ptr<Player> _Player)
 	{
 		if (Dirty_Plate_.back()->Input_Manual(_Player, GameEngineTime::GetDeltaTime(), 5.f)) // ¿ø·¡ 12ÃÊ
 		{
-			GameEngineSound::SoundPlayOneShot("Washing1.wav");
+			//GameEngineSound::SoundPlayOneShot("Washing1.wav");
 			Dirty_Plate_.back()->SetClean();
 			if (GetCurrentMoveable() != nullptr)
 			{
@@ -160,7 +160,7 @@ UsingDownEnum Tool_Sink::UsingDown(std::shared_ptr<Player> _Player)
 
 			if (Dirty_Plate_.empty())
 			{
-				GameEngineSound::SoundPlayOneShot("WashedPlate.wav");
+				//GameEngineSound::SoundPlayOneShot("WashedPlate.wav");
 				_Player->FinishSink();
 			}
 			return UsingDownEnum::Nothing;

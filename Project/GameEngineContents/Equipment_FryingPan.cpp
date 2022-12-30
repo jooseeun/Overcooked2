@@ -24,6 +24,21 @@ bool Equipment_FryingPan::AutoTrim(float _DeltaTime, ObjectToolType _Tool)
 {
 	if (_Tool == ObjectToolType::Cooker)
 	{
+		if (false == IsSound_)
+		{
+			SoundTime_ = 0.05f;
+			IsSound_ = true;
+		}
+		else
+		{
+			if (SoundTime_ >= 0.05f)
+			{
+				SoundTime_ = 0.f;
+				GameEngineSound::SoundPlayControl("FryingPanSizzle.wav");
+			}
+			SoundTime_ += GameEngineTime::GetDeltaTime();
+
+		}
 		if(!GetCombinFood()->IsClear())
 		{
 			if (Input_Auto(_DeltaTime, 12.f))
@@ -32,6 +47,8 @@ bool Equipment_FryingPan::AutoTrim(float _DeltaTime, ObjectToolType _Tool)
 			}
 		}
 	}
+
+	IsSound_ = false;
 	return false;
 
 }
