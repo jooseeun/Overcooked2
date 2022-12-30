@@ -23,7 +23,7 @@ void Servicehatch::Start()
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 	GetFBXMesh()->GetTransform().SetWorldMove({ -60, 0, 0 });
 	
-	GetFBXMesh()->SetSubConstantBufferLink(0, "RENDEROPTION", &RenderOptionMyInst, sizeof(RenderOption));
+	GetFBXMesh()->SetSubConstantBufferLink(0, "RENDEROPTION", &RenderOption_, sizeof(RenderOption));
 	//GetFBXMesh()->SetSubMaterial(2, "TextureAlpha");
 
 	SetStuff(GetLevel()->CreateActor<Tool_Servicehatch>());
@@ -32,7 +32,7 @@ void Servicehatch::Start()
 void Servicehatch::Update(float _DeltaTime)
 {
 	GamePlayObject::Update(_DeltaTime);
-	RenderOptionMyInst.UV.x -= _DeltaTime * 0.1f;
+	RenderOption_.UV.x -= _DeltaTime * 0.1f;
 }
 
 
