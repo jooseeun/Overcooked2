@@ -44,6 +44,11 @@ void InGameUIActor::ServerInit()
 	}
 }
 
+void InGameUIActor::ServerRelease()
+{
+	EraseServerObject(GetNetID());
+}
+
 void InGameUIActor::UIStart()
 {
 	//Timer

@@ -7,9 +7,9 @@
 #include "GamePlayObject.h"
 #include "GamePlayObjectManager.h"
 
-
 GameServerNet* ServerInitManager::Net;
-std::string ServerInitManager::IP = "10.0.4.94";
+std::string ServerInitManager::IP = "127.0.0.1";
+//std::string ServerInitManager::IP = "10.0.4.95";
 GameServerNetServer ServerInitManager::Server;
 GameServerNetClient ServerInitManager::Client;
 
@@ -40,7 +40,7 @@ void ServerInitManager::ObjectStartPacketProcess(std::shared_ptr<GameServerPacke
 	GameServerObject* FindObject = GameServerObject::GetServerObject(Packet->ObjectID);
 
 	if (nullptr == FindObject)
-	{	
+	{
 		if (GamePlayObjectManager::GetInst() != nullptr)
 		{
 			GamePlayObjectManager::GetInst()->PushMapData(Packet);
@@ -49,7 +49,7 @@ void ServerInitManager::ObjectStartPacketProcess(std::shared_ptr<GameServerPacke
 		{
 			GamePlayObjectManager::TemporaryPushData(Packet);
 		}
-		
+
 		return;
 	}
 
@@ -59,7 +59,6 @@ void ServerInitManager::ObjectStartPacketProcess(std::shared_ptr<GameServerPacke
 		Net->SendPacket(Packet);
 	}
 }
-
 
 void ServerInitManager::ObjectParentsSetPacketProcess(std::shared_ptr<GameServerPacket> _Packet)
 {
@@ -80,7 +79,6 @@ void ServerInitManager::ObjectParentsSetPacketProcess(std::shared_ptr<GameServer
 		GamePlayObjectManager::TemporaryPushData(Packet);
 	}
 }
-
 
 void ServerInitManager::ObjectInteractUpdateProcess(std::shared_ptr<GameServerPacket> _Packet)
 {
@@ -276,7 +274,7 @@ void ServerInitManager::StartInit()
 		case ContentsPacketType::ObjectCookingGageUpdate:
 			NewPacket = std::make_shared<ObjectCookingGagePacket>();
 			break;
-			
+
 		case ContentsPacketType::ObjectParentsSet:
 			NewPacket = std::make_shared<ObjectParentsSetPacket>();
 			break;
@@ -286,7 +284,7 @@ void ServerInitManager::StartInit()
 		case ContentsPacketType::ObjectInteractUpdate:
 			NewPacket = std::make_shared<ObjectInteractUpdatePacket>();
 			break;
-			
+
 		case ContentsPacketType::ObjectUpdate:
 			NewPacket = std::make_shared<ObjectUpdatePacket>();
 			break;
