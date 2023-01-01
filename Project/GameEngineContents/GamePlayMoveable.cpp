@@ -109,7 +109,7 @@ bool GamePlayMoveable::Input_Auto(float _Delta, float _MaxTime)
 	else
 	{
 		CookingGage_ += (_Delta * 100.f) / _MaxTime;
-		Result = false;
+		Result = true;
 	}
 	SendCookingPacket();
 	return Result;
