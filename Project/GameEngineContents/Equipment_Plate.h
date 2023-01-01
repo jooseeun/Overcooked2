@@ -91,5 +91,23 @@ private:
 
 
 	std::shared_ptr<Equipment_Plate> Pile_Plate_;
+
+	void SetHighlightEffectOn() override
+	{
+		GamePlayObject::SetHighlightEffectOn();
+		if (Pile_Plate_ != nullptr)
+		{
+			Pile_Plate_->SetHighlightEffectOn();
+		}
+	}
+
+	void SetHighlightEffectOff() override
+	{
+		GamePlayObject::SetHighlightEffectOff();
+		if (Pile_Plate_ != nullptr)
+		{
+			Pile_Plate_->SetHighlightEffectOff();
+		}
+	}
 };
 

@@ -99,4 +99,19 @@ private:
 		Packet->IngredientData = GetStuff()->CastThis<Tool_FoodBox>()->Type_;
 	}
 
+
+	void SetHighlightEffectOn() override
+	{
+		GamePlayStaticObject::SetHighlightEffectOn();
+		LidRenderer_->SetAllPixelDataPlusColor(float4(0.2f, 0.2f, 0.2f, 0.0f));
+
+	}
+
+	void SetHighlightEffectOff() override
+	{
+		GamePlayStaticObject::SetHighlightEffectOff();
+		LidRenderer_->SetAllPixelDataPlusColor(float4(0, 0, 0, 0));
+
+	}
+
 };
