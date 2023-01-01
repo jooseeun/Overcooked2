@@ -22,6 +22,7 @@ void Equipment_FryingPan::Start()
 
 void Equipment_FryingPan::Update(float _DeltaTime)
 {
+	GamePlayObject::Update(_DeltaTime);
 	if (MyMoveableState_ == MoveableState::Cooking)
 	{
 		if (GetParent() != nullptr && GetParent()->CastThis<Player>() != nullptr)

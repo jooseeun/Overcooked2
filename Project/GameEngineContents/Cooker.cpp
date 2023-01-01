@@ -91,10 +91,10 @@ void Tool_Cooker::Update(float _DeltaTime)
 			Cooker_.lock()->FireOn();
 			//불 붙히는 애니메이션
 		}
-		else
-		{
-			Cooker_.lock()->FireOff();
-		}
+	}
+	else
+	{
+		Cooker_.lock()->FireOff();
 	}
 }
 

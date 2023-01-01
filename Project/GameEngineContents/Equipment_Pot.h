@@ -23,7 +23,7 @@ protected:
 
 	bool AutoTrim(float _DeltaTime, ObjectToolType _Tool)  override;
 private:
-	std::shared_ptr<Food_Ingredients_Rice> Rice_;
+	//std::shared_ptr<Food_Ingredients_Rice> Rice_;
 	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable) override;
 };
 

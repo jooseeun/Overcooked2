@@ -179,6 +179,10 @@ public:
 	{
 		if (NoneThumbnailMode_ == false)
 		{
+			if (Food_Current_.size() >= 4)
+			{
+				return false;
+			}
 			Food_Current_.push_back(_Type);
 			std::shared_ptr<FoodThumbnail> Thumbnail = Moveable_.lock()->GetLevel()->CreateActor<FoodThumbnail>();
 			Thumbnail->LinkObject(Moveable_.lock()->CastThis<GameEngineActor>(), float4::ZERO);
@@ -268,6 +272,38 @@ public:
 		}
 
 	}
+
+	bool AddFood(std::shared_ptr<CombinFood> _Food)
+	{
+		if (_Food->Food_Current_.size() + Food_Current_.size() > 4)
+		{
+			return false;
+		}
+		else
+		{
+			std::shared_ptr<CombinFood> Food = std::make_shared<CombinFood>();
+			for (size_t i = 0; i < Food_Current_.size(); i++)
+			{
+				Food->Food_Current_.push_back(Food_Current_[i]);
+			}
+
+			for (size_t i = 0; i < _Food->Food_Current_.size(); i++)
+			{
+				Food->Food_Current_.push_back(_Food->Food_Current_[i]);
+			}
+			if (Food->GetFoodType() != FoodType::None || Food->GetNoneFoodClass() != NoneFoodType::None)
+			{
+				for (size_t i = 0; i < _Food->Food_Current_.size(); i++)
+				{
+					Food_Current_.push_back(_Food->Food_Current_[i]);
+				}
+				RefreshThumbnailAndRenderer();
+				_Food->Clear();
+			}
+		}
+	}
+
+
 
 	//void PushFood(IngredientType _Type)
 	//{
@@ -608,7 +644,7 @@ public:
 			Renderer_->Off();
 			Renderer_.reset();
 		}
-
+		Moveable_.lock()->ReSetCookingGage();
 		CookType_ = ToolInfo::None;
 	}
 
@@ -878,11 +914,16 @@ protected:
 		}
 	}
 
-	inline void ChangeSameBowl(std::shared_ptr<GamePlayBowl> _Bowl)
+	inline bool ChangeSameBowl(std::shared_ptr<GamePlayBowl> _Bowl)
 	{
-		GetCombinFood()->Switching(_Bowl->GetCombinFood());
+		if (GetObjectBowlType() == _Bowl->GetObjectBowlType())
+		{
+			GetCombinFood()->Switching(_Bowl->GetCombinFood());
+			SwitchingCookingGage(_Bowl);
+			return true;
+		}
+		return false;
 	}
-
 	//std::vector<IngredientType> FoodThumbnail_IngredientType;
 	//std::vector<std::shared_ptr<FoodThumbnail>> FoodThumbnail_;
 

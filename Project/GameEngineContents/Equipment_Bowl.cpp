@@ -93,16 +93,14 @@ HoldDownEnum Equipment_Bowl::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable
 			std::shared_ptr<GamePlayBowl> Bowl = (*_Moveable)->CastThis<GamePlayBowl>();
 			if (Bowl != nullptr)
 			{
-				if (Bowl->GetObjectBowlType() == ObjectBowlType::Bowl)
+				if (!ChangeSameBowl(Bowl))
 				{
-					GetCombinFood()->Switching(Bowl->GetCombinFood());
-					(*_Moveable)->SwitchingCookingGage((*_Moveable));
-				}
-				else if (Bowl->GetObjectBowlType() == ObjectBowlType::Steamer)
-				{
-					if (Bowl->GetCombinFood()->GetTrim())
+					if (Bowl->GetObjectBowlType() == ObjectBowlType::Steamer)
 					{
-						(*_Moveable)->CastThis<Equipment_Steamer>()->BowltoSteamer(CastThis<Equipment_Bowl>());
+						if (Bowl->GetCombinFood()->GetTrim())
+						{
+							(*_Moveable)->CastThis<Equipment_Steamer>()->BowltoSteamer(CastThis<Equipment_Bowl>());
+						}
 					}
 				}
 			}

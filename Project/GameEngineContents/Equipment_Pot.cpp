@@ -38,17 +38,17 @@ bool Equipment_Pot::AutoTrim(float _DeltaTime, ObjectToolType _Tool)
 {
 	if (_Tool == ObjectToolType::Cooker)
 	{
-		if (Rice_)
+		if (false == IsSound_)
 		{
-			if (false == IsSound_)
-			{
-				MyMoveableState_ = MoveableState::Cooking;
-				ObjSoundPlayer_ = GameEngineSound::SoundPlayControl("HotPotBubble.wav", -1);
-				ObjSoundPlayer_.Volume(2.f);
-				IsSound_ = true;
-			}
-		
-			if (Rice_->Input_Auto(_DeltaTime, 12.f))
+			MyMoveableState_ = MoveableState::Cooking;
+			ObjSoundPlayer_ = GameEngineSound::SoundPlayControl("HotPotBubble.wav", -1);
+			ObjSoundPlayer_.Volume(2.f);
+			IsSound_ = true;
+		}
+
+		if (!GetCombinFood()->IsClear())
+		{
+			if (Input_Auto(_DeltaTime, 12.f))
 			{
 				return true;
 			}
@@ -62,35 +62,37 @@ HoldDownEnum Equipment_Pot::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 {
 	if ((*_Moveable) != nullptr)
 	{
-		if (Rice_ == nullptr)
+		if ((*_Moveable)->GetObjectMoveableType() == ObjectMoveableType::Food)
 		{
-			std::shared_ptr<Food_Ingredients_Rice> Rice = (*_Moveable)->CastThis<Food_Ingredients_Rice>();
-			if (Rice != nullptr
-				&& !Rice->GetPlatting())
+			std::weak_ptr<GamePlayFood> Food = (*_Moveable)->CastThis<GamePlayFood>();
+		
+			if (Food.lock()->GetCookingType() == CookingType::Boil && Food.lock()->GetTrim())
 			{
-				Rice_ = Rice;
-				Rice_->SetParent(shared_from_this());
-				Rice_->GetTransform().SetLocalPosition(float4::ZERO);
-				Rice_->GetTransform().SetLocalRotation(float4::ZERO);
-				Rice_->GetCollisionObject()->Off();
-				Rice_->GetFBXMesh()->Off();
+				if (GetCombinFood()->PushFood((*_Moveable)->CastThis<GamePlayFood>()->GetObjectFoodClass()))
+				{
+					(*_Moveable)->Death();
+					(*_Moveable)->Off();
+					(*_Moveable) = nullptr;
+					return HoldDownEnum::HoldUp;
+				}
+			}
 
-				(*_Moveable) = nullptr;
-				return HoldDownEnum::HoldUp;
+		}
+		else if ((*_Moveable)->GetObjectMoveableType() == ObjectMoveableType::Bowl)
+		{
+			std::weak_ptr<GamePlayBowl> Bowl = (*_Moveable)->CastThis<GamePlayBowl>();
+			if (!ChangeSameBowl(Bowl.lock()))
+			{
+				if (Bowl.lock()->GetCombinFood()->GetFoodType() != FoodType::None)
+				{
+					BowltoBowl(Bowl.lock());
+				}
 			}
 		}
-		else
+		else if ((*_Moveable)->GetObjectMoveableType() == ObjectMoveableType::Dish && GetCombinFood()->GetTrim())
 		{
-			std::shared_ptr<GamePlayMoveable> Moveable = Rice_;
-			switch ((*_Moveable)->PickUp(&Moveable))
-			{
-			case HoldDownEnum::HoldUp:
-				Rice_ = nullptr;
-				return HoldDownEnum::Nothing;
-				break;
-			default:
-				break;
-			}
+			std::weak_ptr<GamePlayBowl> Bowl = (*_Moveable)->CastThis<GamePlayBowl>();
+			Bowl.lock()->GetCombinFood()->AddFood(GetCombinFood());
 		}
 	}
 	else
@@ -101,5 +103,6 @@ HoldDownEnum Equipment_Pot::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 		ObjSoundPlayer_.Stop();
 		return HoldDownEnum::HoldDown;
 	}
+
 	return HoldDownEnum::Nothing;
 }

@@ -71,6 +71,8 @@ void Equipment_Steamer::Start()
 
 void Equipment_Steamer::Update(float _DeltaTime)
 {
+	GamePlayObject::Update(_DeltaTime);
+
 	StateManager.Update(_DeltaTime);
 
 	if (true == GameEngineInput::GetInst()->IsDownKey("MapObjectTest"))
