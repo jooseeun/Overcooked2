@@ -31,6 +31,15 @@ void PlayerRunningPuff::Start()
 	//IdleRender.AlphaColor.a = 0.2f;
 
 	float DeathTime = GameEngineRandom::MainRandom.RandomFloat(0.5f, 0.8f);
+	RunningPuffRenderer_->SetRenderingOrder(99);
+
+	RunningPuffRenderer_->GetPixelDatas(0).AlphaFlag = 1;
+	RunningPuffRenderer_->GetPixelDatas(0).MulColor.a = 0.2f;
+
+	//PixelData& Renderer = RunningPuffRenderer_->GetPixelDatas(0);
+	//Renderer.MulColor.a -= 0.3f;
+	
+	float DeathTime = GameEngineRandom::MainRandom.RandomFloat(1.0f, 3.0f);
 	Death(DeathTime);
 }
 void PlayerRunningPuff::Update(float _DeltaTime)

@@ -42,7 +42,12 @@ SamplerState LINEARWRAP : register(s0);
 float4 Texture_PS(Output _Input) : SV_Target0
 {
     float4 Result = (DiffuseTexture.Sample(LINEARWRAP, _Input.Tex.xy + UV.xy) * MulColor) + PlusColor;
-    Result.a = 1.0f;
+    
+    if (AlphaFlag == 0)
+    {
+        Result.a = 1.0f;
+    }
+    //Result.a = 1.0f;
 
-    return Result;
+        return Result;
 }
