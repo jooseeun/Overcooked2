@@ -114,6 +114,7 @@ void Stage_1_1::PlayLevelStartEvent()
 	}
 
 	GameBgmPlayer::BgmPlayer_->ChangeBgm("TheNeonCity.wav");
+	GameBgmPlayer::EffectBgmPlayer_->ChangeEffectBgm("Sushi_Crowd_Ambience.wav");
 
 	if (IsLevelFirst_ == false)
 	{

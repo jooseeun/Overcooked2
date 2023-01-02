@@ -90,7 +90,8 @@ void MapToolLevel::End()
 
 void MapToolLevel::LevelStartEvent()
 {
-	GameBgmPlayer::BgmPlayer_->Stop();
+	GameBgmPlayer::BgmPlayer_->BgmStop();
+	GameBgmPlayer::EffectBgmPlayer_->EffectBgmStop();
 	Window_->On();
 }
 

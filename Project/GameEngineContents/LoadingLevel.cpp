@@ -38,7 +38,8 @@ void LoadingLevel::End()
 
 void LoadingLevel::LevelStartEvent()
 {
-	GameBgmPlayer::BgmPlayer_->Stop();
+	GameBgmPlayer::BgmPlayer_->BgmStop();
+	GameBgmPlayer::EffectBgmPlayer_->EffectBgmStop();
 	UIDebugGUI::Main_->On();
 	UIActor_->StartFadeIn();
 	UIActor_->Reset();

@@ -26,7 +26,8 @@ void MeshToolLevel::End()
 
 void MeshToolLevel::LevelStartEvent()
 {
-	GameBgmPlayer::BgmPlayer_->Stop();
+	GameBgmPlayer::BgmPlayer_->BgmStop();
+	GameBgmPlayer::EffectBgmPlayer_->EffectBgmStop();
 	MeshSelectWindow_->On();
 	GetMainCameraActorTransform().SetWorldPosition({2.f, 200.f, -900.f});
 
