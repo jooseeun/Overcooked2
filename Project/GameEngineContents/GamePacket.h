@@ -2,6 +2,8 @@
 #include <GameEngineBase/GameServerPacket.h>
 #include "GameServerObject.h"
 
+#include "Enums.h"
+
 enum class ContentsPacketType
 {
 	None,
@@ -12,6 +14,9 @@ enum class ContentsPacketType
 	ObjectCookingGageUpdate,
 	LoadingData,  // 로딩레벨에서 사용하는 패킷 호스트, 클라 둘 다 사용
 	UIUpdate,     // UI 업데이트
+	CreateRecipeData,	//레시피 생성
+	RequestHandOver,	// Client to Host :  해당 요리를 제출하는 요청 패킷 전송
+	OrderHandOver,	//Host to Client : 해당 요리에 대한 제출 명령 패킷 전송
 	ClinetInit,   // 클라이언트가 들어오면 서버가 보내줄 패킷.
 	ChangeLevel,  // 레벨 변경 - 호스트만 전송
 	ReadyLevel,   // 레벨 변경이 완료됨 - 게스트만 전송
@@ -38,7 +43,6 @@ public:
 	}
 };
 
-
 class ObjectCookingGagePacket : public GameServerPacket
 {
 public:
@@ -62,7 +66,6 @@ public:
 		_Ser >> CookingGage;
 	}
 };
-
 
 class ObjectParentsSetPacket : public GameServerPacket
 {
@@ -301,6 +304,72 @@ public:
 		_Ser >> ObjectID;
 		_Ser >> LeftTime;
 		_Ser >> IsReady_;
+	}
+};
+
+class CreateRecipePacket : public GameServerPacket
+{
+public:
+	int CreateFoodType; //Enum 형변환 ㄱㄱ
+public:
+	CreateRecipePacket()
+	{
+		SetPacketID(ContentsPacketType::CreateRecipeData);
+	}
+
+	virtual void Serialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::Serialize(_Ser);
+		_Ser << CreateFoodType;
+	}
+	virtual void DeSerialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::DeSerialize(_Ser);
+		_Ser >> CreateFoodType;
+	}
+};
+
+class RequestHandOverPacket : public GameServerPacket
+{
+public:
+	int HandOverFoodType; //Enum 형변환 ㄱㄱ
+public:
+	RequestHandOverPacket()
+	{
+		SetPacketID(ContentsPacketType::RequestHandOver);
+	}
+
+	virtual void Serialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::Serialize(_Ser);
+		_Ser << HandOverFoodType;
+	}
+	virtual void DeSerialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::DeSerialize(_Ser);
+		_Ser >> HandOverFoodType;
+	}
+};
+
+class OrderHandOverPacket : public GameServerPacket
+{
+public:
+	int HandOverFoodType; //Enum 형변환 ㄱㄱ
+public:
+	OrderHandOverPacket()
+	{
+		SetPacketID(ContentsPacketType::OrderHandOver);
+	}
+
+	virtual void Serialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::Serialize(_Ser);
+		_Ser << HandOverFoodType;
+	}
+	virtual void DeSerialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::DeSerialize(_Ser);
+		_Ser >> HandOverFoodType;
 	}
 };
 

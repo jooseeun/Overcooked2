@@ -33,6 +33,9 @@ public:
 	static void StartLevelPacketProcess(std::shared_ptr<GameServerPacket> _Packet);
 	static void UIDataPacketProcess(std::shared_ptr<GameServerPacket> _Packet);
 	static void LoadingDataPacketProcess(std::shared_ptr<GameServerPacket> _Packet);
+	static void CreateRecipePacketProcess(std::shared_ptr<GameServerPacket> _Packet);	// Host to Client  :  호스트가 레시피를 만들 때 동일한 레시피 생성을 명령
+	static void RequsetHandOverPacketProcess(std::shared_ptr<GameServerPacket> _Packet);	// Client to Host :  해당 요리를 제출하는 요청 패킷 전송
+	static void OrderHandOverPacketProcess(std::shared_ptr<GameServerPacket> _Packet);		 //Host to Client : 해당 요리에 대한 제출 명령 패킷 전송
 
 	static void StartInit();
 	static void Update(float _Delta);

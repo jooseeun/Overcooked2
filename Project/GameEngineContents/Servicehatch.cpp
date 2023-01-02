@@ -22,7 +22,7 @@ void Servicehatch::Start()
 	GetFBXMesh()->SetFBXMesh("m_dlc08_servicehatch_01.fbx", "Texture");
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 	GetFBXMesh()->GetTransform().SetWorldMove({ -60, 0, 0 });
-	
+
 	GetFBXMesh()->SetSubConstantBufferLink(0, "RENDEROPTION", &RenderOption_, sizeof(RenderOption));
 	//GetFBXMesh()->SetSubMaterial(2, "TextureAlpha");
 
@@ -34,7 +34,6 @@ void Servicehatch::Update(float _DeltaTime)
 	GamePlayObject::Update(_DeltaTime);
 	RenderOption_.UV.x -= _DeltaTime * 0.1f;
 }
-
 
 Tool_Servicehatch::Tool_Servicehatch()
 {
@@ -57,7 +56,7 @@ HoldDownEnum Tool_Servicehatch::PickUp(std::shared_ptr<GamePlayMoveable>* _Movea
 		std::weak_ptr<Equipment_Plate> Plate = (*_Moveable)->CastThis<Equipment_Plate>();
 		if (Plate.lock() != nullptr)
 		{
-			GetLevel<GamePlayLevel>()->HandOverFood(Plate.lock()->GetCombinFood()->GetFoodType());
+			GetLevel<GamePlayLevel>()->RequestHandOverFood(Plate.lock()->GetCombinFood()->GetFoodType());
 			(*_Moveable)->Off();
 			Tool_PlateReturn::GetInst()->SetPlateCooltime(Plate.lock());
 			Plate.lock()->GetCombinFood()->Clear();
@@ -68,5 +67,3 @@ HoldDownEnum Tool_Servicehatch::PickUp(std::shared_ptr<GamePlayMoveable>* _Movea
 	}
 	return HoldDownEnum::Nothing;
 }
-
-

@@ -147,12 +147,15 @@ protected:
 	void UIStart() override;
 	void UIUpdate(float _DeltaTime) override;
 
+	void UpdateIsStart(float _DeltaTime);
+
 	void UpdateTime(float _DeltaTime);
 	void UpdateScore(float _DeltaTime);
 
 	void LevelStartEvent() override;
 
 	void CreateRandomRecipe();
+	bool RequestHandOverFood(FoodType _Type);
 
 	bool HandOverFood(FoodType _Type);
 

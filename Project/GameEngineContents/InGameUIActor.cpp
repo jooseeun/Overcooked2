@@ -172,6 +172,28 @@ void InGameUIActor::UIUpdate(float _DeltaTime)
 	{
 		return;
 	}
+	UpdateIsStart(_DeltaTime);
+	if (GlobalGameData::IsGameStart() == false)
+	{
+		return;
+	}
+
+	ServerUpdate(_DeltaTime);
+
+	if (GlobalGameData::GetLeftTimeRef().IsTimeOver() == true)
+	{
+		GEngine::ChangeLevel("ResultLevel");
+	}
+	UpdateScore(_DeltaTime);
+
+	RecipeManager_.Update(_DeltaTime);
+
+	//UpdateTime & RecipeSpawn
+	UpdateTime(_DeltaTime);
+}
+
+void InGameUIActor::UpdateIsStart(float _DeltaTime)
+{
 	if (TransitionIcon_->IsUpdate() == false && BlackRenderer_->IsUpdate() == false && GlobalGameData::IsGameStart() == false)
 	{
 		ReadyTimer_.Update(_DeltaTime);
@@ -229,10 +251,12 @@ void InGameUIActor::UIUpdate(float _DeltaTime)
 					ReadySycn_.SetIsAllReady(UIUpdate->IsReady_);
 					break;
 				}
-				case ContentsPacketType::ClinetInit:
-				default:
-					MsgBoxAssert("처리할수 없는 패킷이 날아왔습니다.");
+				case ContentsPacketType::CreateRecipeData:
+				{
+					std::shared_ptr<CreateRecipePacket> RecipePacket = std::dynamic_pointer_cast<CreateRecipePacket>(Packet);
+					RecipeManager_.CreateRecipe(static_cast<FoodType>(RecipePacket->CreateFoodType));
 					break;
+				}
 				}
 			}
 			//패킷 송신
@@ -250,23 +274,6 @@ void InGameUIActor::UIUpdate(float _DeltaTime)
 		GlobalGameData::SetGameStart(true);
 		ReadyRenderer_.lock()->Off();
 	}
-	if (GlobalGameData::IsGameStart() == false)
-	{
-		return;
-	}
-
-	ServerUpdate(_DeltaTime);
-
-	if (GlobalGameData::GetLeftTimeRef().IsTimeOver() == true)
-	{
-		GEngine::ChangeLevel("ResultLevel");
-	}
-	UpdateScore(_DeltaTime);
-
-	RecipeManager_.Update(_DeltaTime);
-
-	//UpdateTime & RecipeSpawn
-	UpdateTime(_DeltaTime);
 }
 
 void InGameUIActor::UpdateTime(float _DeltaTime)
@@ -282,9 +289,11 @@ void InGameUIActor::UpdateTime(float _DeltaTime)
 
 	//레시피가 1개 이하면 바로 레시피를 추가한다.
 	{
-		if (RecipeManager_.GetRecipeCount() <= 1)
 		{
-			CreateRandomRecipe();
+			if (RecipeManager_.GetRecipeCount() <= 1)
+			{
+				CreateRandomRecipe();
+			}
 		}
 	}
 
@@ -443,6 +452,10 @@ void InGameUIActor::LevelStartEvent()
 
 void InGameUIActor::CreateRandomRecipe()
 {
+	if (ServerInitManager::Net->GetIsHost() == false)
+	{
+		return;
+	}
 	if (RecipeManager_.GetRecipeCount() >= 5)
 	{
 		return;
@@ -452,6 +465,37 @@ void InGameUIActor::CreateRandomRecipe()
 	int RandomValue = GameEngineRandom::MainRandom.RandomInt(0, static_cast<int>(FoodTypes.size()) - 1);
 	NotDeleteRecipe_Timer_.StartTimer();
 	RecipeManager_.CreateRecipe(FoodTypes[RandomValue]);
+	// Host to Client >> 레시피 생성하라는 패킷 송신
+	{
+		std::shared_ptr<CreateRecipePacket> Packet = std::make_shared<CreateRecipePacket>();
+		Packet->CreateFoodType = static_cast<int>(FoodTypes[RandomValue]);
+		ServerInitManager::Net->SendPacket(Packet);
+	}
+}
+
+bool InGameUIActor::RequestHandOverFood(FoodType _Type)
+{
+	//if (ServerInitManager::Net->GetIsHost() == true)
+	//{
+	//	//패킷송신 Host to Client
+	//	{
+	//		std::shared_ptr<OrderHandOverPacket> Packet = std::make_shared<OrderHandOverPacket>();
+	//		Packet->HandOverFoodType = static_cast<int>(_Type);
+	//		ServerInitManager::Net->SendPacket(Packet);
+	//	}
+	//	return  HandOverFood(_Type);
+	//}
+	//else
+	//{
+	//	//패킷 송신 Clinet to Host
+	//	{
+	//		std::shared_ptr<RequestHandOverPacket> Packet = std::make_shared<RequestHandOverPacket>();
+	//		Packet->HandOverFoodType = static_cast<int>(_Type);
+	//		ServerInitManager::Net->SendPacket(Packet);
+	//	}
+	//	return true;
+	//}
+	return  HandOverFood(_Type);
 }
 
 bool InGameUIActor::HandOverFood(FoodType _Type)
@@ -534,15 +578,42 @@ void InGameUIActor::ServerUpdate(float _DeltaTime)
 		return;
 	}
 
-	//내가 호스트면 패킷 보내기
+	//
 	if (ServerInitManager::Net->GetIsHost() == true)
 	{
-		ContentsUtility::Timer& LeftTimer = GlobalGameData::GetLeftTimeRef();
-		NotDeleteRecipe_Timer_.Update(_DeltaTime);
-		LeftTimer.Update(_DeltaTime);
-		std::shared_ptr<UIDataPacket> Packet = std::make_shared<UIDataPacket>();
-		Packet->LeftTime = GlobalGameData::GetLeftTimeRef().GetCurTime();
-		ServerInitManager::Net->SendPacket(Packet);
+		//패킷 수신
+		while (false == IsPacketEmpty())
+		{
+			std::shared_ptr<GameServerPacket> Packet = PopPacket();
+
+			ContentsPacketType PacketType = Packet->GetPacketIDToEnum<ContentsPacketType>();
+
+			switch (PacketType)
+			{
+			case ContentsPacketType::RequestHandOver:
+			{
+				std::shared_ptr<RequestHandOverPacket> RecipePacket = std::dynamic_pointer_cast<RequestHandOverPacket>(Packet);
+				RequestHandOverFood(static_cast<FoodType>(RecipePacket->HandOverFoodType));
+				//RecipeManager_.CreateRecipe(static_cast<FoodType>(RecipePacket->CreateFoodType));
+				break;
+			}
+			default:
+				break;
+			}
+		}
+		//패킷  송신
+		{
+			ContentsUtility::Timer& LeftTimer = GlobalGameData::GetLeftTimeRef();
+			NotDeleteRecipe_Timer_.Update(_DeltaTime);
+			LeftTimer.Update(_DeltaTime);
+			std::shared_ptr<UIDataPacket> Packet = std::make_shared<UIDataPacket>();
+			Packet->LeftTime = GlobalGameData::GetLeftTimeRef().GetCurTime();
+			Packet->ObjectID = GetNetID();
+			//혹시 Ready안된 것을 대비한 예외처리
+			Packet->IsReady_ = true;
+			ServerInitManager::Net->SendPacket(Packet);
+		}
+
 		return;
 	}
 	//내가 클라이언트면 패킷 받기
@@ -562,7 +633,18 @@ void InGameUIActor::ServerUpdate(float _DeltaTime)
 				*(GlobalGameData::GetLeftTimeRef().GetCurTimeRef()) = UIUpdate->LeftTime;
 				break;
 			}
-			case ContentsPacketType::ClinetInit:
+			case ContentsPacketType::CreateRecipeData:
+			{
+				std::shared_ptr<CreateRecipePacket> RecipePacket = std::dynamic_pointer_cast<CreateRecipePacket>(Packet);
+				RecipeManager_.CreateRecipe(static_cast<FoodType>(RecipePacket->CreateFoodType));
+				break;
+			}
+			case ContentsPacketType::OrderHandOver:
+			{
+				std::shared_ptr<OrderHandOverPacket> RecipePacket = std::dynamic_pointer_cast<OrderHandOverPacket>(Packet);
+				HandOverFood(static_cast<FoodType>(RecipePacket->HandOverFoodType));
+				break;
+			}
 			default:
 				MsgBoxAssert("처리할수 없는 패킷이 날아왔습니다.");
 				break;

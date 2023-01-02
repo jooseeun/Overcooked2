@@ -16,9 +16,9 @@ GamePlayLevel::~GamePlayLevel()
 {
 }
 
-bool GamePlayLevel::HandOverFood(FoodType _Type)
+bool GamePlayLevel::RequestHandOverFood(FoodType _Type)
 {
-	return	UIActor_->HandOverFood(_Type);
+	return	UIActor_->RequestHandOverFood(_Type);
 }
 
 void GamePlayLevel::Start()
