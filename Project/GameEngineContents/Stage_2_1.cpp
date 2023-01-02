@@ -154,6 +154,12 @@ void Stage_2_1::PlayLevelStartEvent()
 	std::shared_ptr<GlobalVignette> GlobalVignette_ = GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalVignette>();
 	GraphicWindow::Main_->SetVignette(GlobalVignette_);
 
+	std::shared_ptr<GameEngineLight> LightObject_ = CreateActor<GameEngineLight>();
+	LightObject_->GetTransform().SetWorldRotation({ GraphicWindow::Main_->GetLightPositionX(), GraphicWindow::Main_->GetLightPositionY(), GraphicWindow::Main_->GetLightPositionZ() });
+
+	LightObject_->GetLightData().DifLightPower = GraphicWindow::Main_->GetLightDif();
+	LightObject_->GetLightData().AmbLightPower = GraphicWindow::Main_->GetLightAmb();
+	GetMainCamera()->PushLight(LightObject_);
 
 	return;
 }
