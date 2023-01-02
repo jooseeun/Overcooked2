@@ -20,6 +20,7 @@ public:
 	{
 		Scale_ = _Scale;
 		RunningPuffRenderer_->GetTransform().SetLocalScale(RunningPuffRenderer_->GetTransform().GetLocalScale() * Scale_);
+
 	}
 
 protected:

@@ -193,6 +193,8 @@ private:
 	void DeathCheck();
 	void GravityCheck(float _DeltaTime);
 	void IcePlatformCheck(float _DeltaTime);
+	void MakeRunningPuff(int _Count);
+	float RunningPuffTime_;
 	//충돌함수
 
 	CollisionReturn TableHoldUpCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);

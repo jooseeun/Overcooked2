@@ -6,6 +6,7 @@
 #include "Button.h"
 #include "Lift.h"
 #include "GamePlayMoveable.h"
+#include "PlayerRunningPuff.h"
 #include <math.h>
 
 
@@ -65,6 +66,7 @@ Player::Player()
 	, ServerRenderStateNum_(0)
 	, ServerCustomNum(0)
 	, IsThrowHolding_(false)
+	, RunningPuffTime_(0.0f)
 {
 	++PlayerCount_;
 }
@@ -625,7 +627,21 @@ void Player::GravityCheck(float _DeltaTime)
 		}
 	}
 }
+void Player::MakeRunningPuff(int _Count)
+{
+	for (int i = 0; i < _Count; i++)
+	{
+		float x_ = GameEngineRandom::MainRandom.RandomFloat(-20, 20);
+		float y_ = GameEngineRandom::MainRandom.RandomFloat(80, 200);
 
+		std::shared_ptr<PlayerRunningPuff> PuffActor = GetLevel()->CreateActor<PlayerRunningPuff>();
+		PuffActor->SetParent(shared_from_this());
+		PuffActor->GetTransform().SetLocalPosition(float4{ x_, 0.0f, y_ });
+		PuffActor->SetScale(0.0025f * (280 - y_));
+
+	}
+	RunningPuffTime_ = 0.0f;
+}
 void Player::IcePlatformCheck(float _DeltaTime)
 {
 	if (PlayerFloorCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_IcePlatform, CollisionType::CT_OBB) == true)
@@ -948,6 +964,8 @@ void Player::DashCheck(float _DeltaTime)
 	DashTime_ -= 1.0f * _DeltaTime;
 	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerDash"))
 	{
+		MakeRunningPuff(3);
+
 		if (DashTime_ < 0.0f)
 		{
 			DashTime_ = 0.3f;
@@ -962,6 +980,7 @@ void Player::DashCheck(float _DeltaTime)
 			false == GameEngineInput::GetInst()->IsPressKey("PlayerFront") &&
 			false == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
 		{
+
 			if (PlayerMoveCollisionCheck(PlayerForwardCollision_)==true)
 			{
 				if (StateManager.GetCurStateStateName() == "HoldUp")
@@ -972,6 +991,7 @@ void Player::DashCheck(float _DeltaTime)
 				}
 				if (StateManager.GetCurStateStateName() == "Idle")
 				{
+					MakeRunningPuff(5);
 					WalkRendererON();
 				}
 				GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * _DeltaTime);

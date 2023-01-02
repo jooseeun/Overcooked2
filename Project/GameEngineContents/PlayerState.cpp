@@ -84,18 +84,17 @@ void Player::MoveStart(const StateInfo& _Info)
 	PlayerWalkRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "Walk");
 	PlayerWalkRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 	PlayerWalkRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
-	for (int i = 1; i < 6; i++)
-	{
-		std::shared_ptr<PlayerRunningPuff> PuffActor = GetLevel()->CreateActor<PlayerRunningPuff>();
-		PuffActor->SetParent(shared_from_this());
-		PuffActor->GetTransform().SetLocalPosition(float4{ 0.0f, 0.0f, 50.0f*i });
-		PuffActor->SetScale(0.1f * (6 - i));
-	}
+
+	MakeRunningPuff(8);
 
 }
 void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-
+	RunningPuffTime_ += 1.0f * _DeltaTime;
+	if (RunningPuffTime_ > 0.3f)
+	{
+		MakeRunningPuff(4);
+	}
 
 
 	if (false == GameEngineInput::GetInst()->IsPressKey("PlayerLeft" ) &&
@@ -261,6 +260,11 @@ void Player::HoldUpUpdate(float _DeltaTime, const StateInfo& _Info)
 		true == GameEngineInput::GetInst()->IsPressKey("PlayerFront" ) ||
 		true == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
 	{
+		RunningPuffTime_ += 1.0f * _DeltaTime;
+		if (RunningPuffTime_ > 0.6f)
+		{
+			MakeRunningPuff(6);
+		}
 		CurAniName_ = PlayerName_[PlayerCustomNum] + "WalkHolding";
 		PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] +"WalkHolding");
 		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
