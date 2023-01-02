@@ -82,7 +82,59 @@ private:
 	static float BrightMax_;
 	static void BloomSetting();
 
+
+
+	static float LightRotation_[3];
+	static float LightPosition_[3];
+	static float LightDif_;
+	static float LightAmb_;
+	static void LightSetting();
+
+
+
 public:
 	static std::shared_ptr<GraphicWindow> Main_;
+	
+	float& GetLightRotationX()
+	{
+		return  LightRotation_[0];
+	}
+
+	float& GetLightRotationY()
+	{
+		return  LightRotation_[1];
+	}
+
+	float& GetLightRotationZ()
+	{
+		return  LightRotation_[2];
+	}
+
+	float& GetLightPositionX()
+	{
+		return LightPosition_[0];
+	}
+
+
+	float& GetLightPositionY()
+	{
+		return LightPosition_[1];
+	}
+
+	float& GetLightPositionZ()
+	{
+		return LightPosition_[2];
+	}
+
+	float& GetLightDif()
+	{
+		return LightDif_;
+	}
+
+	float& GetLightAmb()
+	{
+		return LightAmb_;
+	}
+
 
 };

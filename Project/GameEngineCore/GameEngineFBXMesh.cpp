@@ -364,9 +364,9 @@ void GameEngineFBXMesh::LoadTangent(fbxsdk::FbxMesh* _Mesh, fbxsdk::FbxAMatrix _
 
 	if (0 == iCount)
 	{
-		//bool result = _Mesh->GenerateTangentsData(VtxId);
+		bool result = _Mesh->GenerateTangentsData(VtxId);
 
-		return;
+		//return;
 	}
 	FbxGeometryElementTangent* pElement = _Mesh->GetElementTangent();
 	int iDataIndex = VtxId;

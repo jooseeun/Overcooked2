@@ -21,6 +21,12 @@ float GraphicWindow::BloomValue_ = 10;
 float GraphicWindow::BrightMin_ = 0.8f;
 float GraphicWindow::BrightMax_ = 1.0f;
 
+float GraphicWindow::LightRotation_[3] = { 0.0f, 45.0f, 0.0f };
+float GraphicWindow::LightPosition_[3] = { 0.0f, 0.0f, 0.0f };
+float GraphicWindow::LightDif_= 0.1f;
+float GraphicWindow::LightAmb_= 10.f;
+
+
 ImVec4 GraphicWindow::OverlayColor_ = { 0.586f, 0.617f, 0.672f, 1.0f };
 
 bool GraphicWindow::OverlayOnOff_ = true;
@@ -53,6 +59,19 @@ void GraphicWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 	ConvertToFloat4(GlobalOverlay_->GetOverlayColorData().OverlayColor, OverlayColor_);
 
+
+	//ºû
+
+	ImGui::DragFloat3("Light Rotation", LightRotation_, 10.f, 0, 360);
+	ImGui::DragFloat3("Light Position", LightPosition_, 100.0f, -5000, 5000);
+	ImGui::DragFloat("Light Amb", &LightAmb_, 1.f, 0, 100);
+	ImGui::DragFloat("Light Dif", &LightDif_, 1.f, 0, 100);
+
+
+
+	//LightSetting();
+
+
 	// ºí·ë ¼öÄ¡Á¶Àý
 	ImGui::DragFloat3("Bloom Filter1", BloomFilter1_, 0.01f, 0, 1);
 	ImGui::DragFloat3("Bloom Filter2", BloomFilter2_, 0.01f, 0, 1);
@@ -67,6 +86,7 @@ void GraphicWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	ImGui::Checkbox("OverlayFlag", &OverlayOnOff_);
 	ImGui::Checkbox("VignetteFlag", &VignetteOnOff_);
 	ImGui::Checkbox("BloomFlag", &BloomOnOff_);
+	//LightSetting();
 
 	if (OverlayOnOff_ == true)
 	{
@@ -109,5 +129,10 @@ void GraphicWindow::BloomSetting()
 	Tmp->BloomValue = BloomValue_;
 	Tmp->BrightMin = BrightMin_;
 	Tmp->BrightMax = BrightMax_;
+}
+
+void GraphicWindow::LightSetting()
+{
+
 }
 

@@ -16,6 +16,26 @@ public:
 
 	void SetLevelMesh(std::string_view _Name)
 	{
+		//std::shared_ptr<GameEngineFBXMesh> FindFBXMesh = GameEngineFBXMesh::Find("2_1.FBX");
+
+		//if (FindFBXMesh != nullptr)
+		//{
+		//	GameEngineDirectory Dir;
+		//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+		//	Dir.Move("ContentsResources");
+		//	Dir.Move("Mesh");
+		//	Dir.Move("Level");
+		//	Dir.Move("2_1");
+
+		//	for (int i = 0; i < FindFBXMesh->GetFbxRenderUnit().size(); ++i)
+		//	{
+		//		FindFBXMesh->GetFbxRenderUnit()[i].MaterialData[0].NorTexturePath = Dir.GetFullPath();
+		//		FindFBXMesh->GetFbxRenderUnit()[i].MaterialData[0].NorTextureName = "t_dlc3_snow_01_n.png";
+
+		//	}
+
+		//}
+
 		Renderer_->SetFBXMesh(_Name.data(), "Texture");
 		Renderer_->GetTransform().SetWorldScale({ 40, 40, 40 });
 	};

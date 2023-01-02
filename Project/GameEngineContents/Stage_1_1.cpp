@@ -65,6 +65,15 @@ void Stage_1_1::PlayLevelUpdate(float _DeltaTime)
 		GameEngineDebug::OutPutString(std::to_string(SubsetDebugIndex_));
 	}
 
+	if (LightObject_ != nullptr)
+	{
+		LightObject_->GetTransform().SetWorldRotation({ GraphicWindow::Main_->GetLightPositionX(), GraphicWindow::Main_->GetLightPositionY(), GraphicWindow::Main_->GetLightPositionZ() });
+
+		LightObject_->GetLightData().DifLightPower = GraphicWindow::Main_->GetLightDif();
+		LightObject_->GetLightData().AmbLightPower = GraphicWindow::Main_->GetLightAmb();
+	}
+
+
 }
 
 void Stage_1_1::End()
@@ -155,8 +164,8 @@ void Stage_1_1::PlayLevelStartEvent()
 	//LightObject_ = CreateActor<GameEngineLight>();
 	//LightObject_->GetTransform().SetWorldRotation({ 0.0f, 45.0f, 0.0f });
 
-	//LightObject_->GetLightData().DifLightPower = 0.1f;
-	//LightObject_->GetLightData().AmbLightPower = 10.f;
+	//LightObject_->GetLightData().DifLightPower = 0.f;
+	//LightObject_->GetLightData().AmbLightPower = 10.0f;
 	//GetMainCamera()->PushLight(LightObject_);
 
 	//테스트용 - 동원

@@ -23,6 +23,9 @@ protected:
 	void PlayLevelStartEvent() override;
 
 private:
+	std::shared_ptr<GameEngineLight> LightObject_;
+
+
 	RenderOption WaterRenderOption1_;
 	RenderOption WaterRenderOption2_;
 

@@ -31,20 +31,20 @@ void GameEngineFBXRenderer::SetFBXMesh(const std::string& _Name, const std::stri
 			FindFBXMesh->GetFbxRenderUnit()[j].MaterialData[0].DifTexturePath = Data.PreviewMeshInfo_[j].DifTexturePath_;
 			FindFBXMesh->GetFbxRenderUnit()[j].MaterialData[0].DifTextureName = Data.PreviewMeshInfo_[j].DifTextureName_;
 			
-			if (_Name == "AlienGreen_Idle.FBX")
-			{
-				GameEngineDirectory Dir;
-				Dir.MoveParentToExitsChildDirectory("ContentsResources");
-				Dir.Move("ContentsResources");
-				Dir.Move("Mesh");
-				Dir.Move("Object");
-				Dir.Move("Player");
-				Dir.Move("AlienGreen");
+			//if (_Name == "AlienGreen_Idle.FBX")
+			//{
+			//	GameEngineDirectory Dir;
+			//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
+			//	Dir.Move("ContentsResources");
+			//	Dir.Move("Mesh");
+			//	Dir.Move("Object");
+			//	Dir.Move("Player");
+			//	Dir.Move("AlienGreen");
 
-				FindFBXMesh->GetFbxRenderUnit()[j].MaterialData[0].NorTextureName = "TTTEEE.png";
-				FindFBXMesh->GetFbxRenderUnit()[j].MaterialData[0].NorTexturePath = Dir.GetFullPath();
+			//	FindFBXMesh->GetFbxRenderUnit()[j].MaterialData[0].NorTextureName = "TTTEEE.png";
+			//	FindFBXMesh->GetFbxRenderUnit()[j].MaterialData[0].NorTexturePath = Dir.GetFullPath();
 
-			}
+			//}
 
 
 		}
