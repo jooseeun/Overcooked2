@@ -631,13 +631,13 @@ void Player::MakeRunningPuff(int _Count)
 {
 	for (int i = 0; i < _Count; i++)
 	{
-		float x_ = GameEngineRandom::MainRandom.RandomFloat(-20, 20);
-		float y_ = GameEngineRandom::MainRandom.RandomFloat(80, 200);
+		float x_ = GameEngineRandom::MainRandom.RandomFloat(-40, 40);
+		float y_ = GameEngineRandom::MainRandom.RandomFloat(5, 10);
 
 		std::shared_ptr<PlayerRunningPuff> PuffActor = GetLevel()->CreateActor<PlayerRunningPuff>();
-		PuffActor->SetParent(shared_from_this());
-		PuffActor->GetTransform().SetLocalPosition(float4{ x_, 0.0f, y_ });
-		PuffActor->SetScale(0.0025f * (280 - y_));
+		//PuffActor->SetParent(shared_from_this());
+		PuffActor->GetTransform().SetWorldPosition(GetTransform().GetWorldPosition()+ GetTransform().GetForwardVector()*20.f + float4{x_, 0.0f, y_});
+		PuffActor->SetScale(0.55f);
 
 	}
 	RunningPuffTime_ = 0.0f;

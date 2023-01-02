@@ -85,15 +85,15 @@ void Player::MoveStart(const StateInfo& _Info)
 	PlayerWalkRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 	PlayerWalkRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 
-	MakeRunningPuff(8);
+	MakeRunningPuff(1);
 
 }
 void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	RunningPuffTime_ += 1.0f * _DeltaTime;
-	if (RunningPuffTime_ > 0.3f)
+	if (RunningPuffTime_ > 0.06f)
 	{
-		MakeRunningPuff(4);
+		MakeRunningPuff(1);
 	}
 
 
@@ -547,6 +547,7 @@ void Player::CarDeathUpdate(float _DeltaTime, const StateInfo& _Info)
 		PixelData& Renderer = PlayerIdleRenderer_[PlayerCustomNum]->GetPixelDatas(i);
 		if (Renderer.MulColor.a > 0.0f)
 		{
+			Renderer.AlphaFlag = 1;
 			Renderer.AlphaColor.a -= 0.3f * _DeltaTime;
 			Renderer.MulColor.a -= 0.3f * _DeltaTime;
 		}
