@@ -87,11 +87,7 @@ float4 GameEngineFBX::FbxQuaternionTofloat4(const fbxsdk::FbxQuaternion& _BaseQ)
 
 GameEngineFBX::~GameEngineFBX() 
 {
-	if (nullptr != Scene)
-	{
-		Scene->Destroy();
-		Scene = nullptr;
-	}
+
 	if (nullptr != Importer)
 	{
 		Importer->Destroy();
@@ -107,6 +103,13 @@ GameEngineFBX::~GameEngineFBX()
 		Manager->Destroy();
 		Manager = nullptr;
 	}
+
+	//if (nullptr != Scene)
+	//{
+	//	Scene->Destroy();
+	//	Scene = nullptr;
+	//}
+
 }
 
 bool GameEngineFBX::CreateFBXSystemInitialize(const std::string& _Path)
