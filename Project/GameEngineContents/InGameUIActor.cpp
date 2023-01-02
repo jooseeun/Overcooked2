@@ -234,14 +234,13 @@ void InGameUIActor::UIUpdate(float _DeltaTime)
 					MsgBoxAssert("처리할수 없는 패킷이 날아왔습니다.");
 					break;
 				}
-
-				//패킷 송신
-				{
-					std::shared_ptr<UIDataPacket> Packet = std::make_shared<UIDataPacket>();
-					Packet->IsReady_ = ReadySycn_.IsReady(GetNetID());
-					Packet->ObjectID = GetNetID();
-					ServerInitManager::Net->SendPacket(Packet);
-				}
+			}
+			//패킷 송신
+			{
+				std::shared_ptr<UIDataPacket> Packet = std::make_shared<UIDataPacket>();
+				Packet->IsReady_ = ReadySycn_.IsReady(GetNetID());
+				Packet->ObjectID = GetNetID();
+				ServerInitManager::Net->SendPacket(Packet);
 			}
 		}
 	}

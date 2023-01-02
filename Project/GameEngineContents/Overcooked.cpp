@@ -97,7 +97,7 @@ void Overcooked::Start()
 
 	CreateLevel<ServerTestLevel>("ServerTestLevel");
 
-	ChangeLevel("SelectStage");
+	ChangeLevel("TitleLevel");
 
 	GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
 
@@ -397,9 +397,7 @@ void Overcooked::InputMake()
 		GameEngineInput::GetInst()->CreateKey("PlayerHold", VK_SPACE);
 		GameEngineInput::GetInst()->CreateKey("PlayerInteract", VK_CONTROL);
 		GameEngineInput::GetInst()->CreateKey("PlayerDeath", VK_NUMPAD0);
-
 	}
-
 
 	GameEngineInput::GetInst()->CreateKey("Contents_Debug", 'B');
 	GameEngineInput::GetInst()->CreateKey("MapObjectTest", VK_NUMPAD9);
@@ -413,7 +411,6 @@ void Overcooked::LoadStage(std::string_view _StageName)
 
 void Overcooked::LoadCommonResource()
 {
-
 	//{
 	//	GameEngineDirectory Dir;
 	//	Dir.MoveParentToExitsChildDirectory("ContentsResources");
@@ -1236,13 +1233,11 @@ void Overcooked::LoadCommonResource()
 			GameEngineDirectory MeshDir = Dir;
 			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("RunPuff.FBX"));
 			std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
-
 		}
-		{			
+		{
 			GameEngineDirectory MeshDir = Dir;
 			std::shared_ptr<GameEngineFBXMesh> Mesh = GameEngineFBXMesh::Load(MeshDir.PlusFilePath("RunPuff2.FBX"));
 			std::vector<FBXNodeInfo> Nodes = Mesh->CheckAllNode();
-
 		}
-}
+	}
 }
