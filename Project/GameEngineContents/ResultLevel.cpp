@@ -52,6 +52,7 @@ void ResultLevel::End()
 
 void ResultLevel::LevelStartEvent()
 {
+	GameBgmPlayer::EffectBgmPlayer_->EffectBgmStop();
 	GameBgmPlayer::BgmPlayer_->ChangeBgm("RoundResults.wav");
 	UIDebugGUI::Main_->On();
 	GraphicWindow::Main_->On();

@@ -42,8 +42,8 @@ public:
 
 	static void EraseServerObject(int _ID)
 	{
-		AllServerActor.erase(_ID);
 		AllServerActor[_ID] = nullptr;
+		AllServerActor.erase(_ID);
 	}
 
 public:

@@ -71,7 +71,8 @@ void SelectStageLevel::LevelStartEvent()
 
 void SelectStageLevel::LevelEndEvent()
 {
-	GameBgmPlayer::BgmPlayer_->Stop();
+	GameBgmPlayer::BgmPlayer_->BgmStop();
+	GameBgmPlayer::EffectBgmPlayer_->EffectBgmStop();
 	UIDebugGUI::Main_->Off();
 	GraphicWindow::Main_->Off();
 	if (SelectStageActor_.lock() != nullptr)

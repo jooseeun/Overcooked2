@@ -38,16 +38,17 @@ bool Equipment_Pot::AutoTrim(float _DeltaTime, ObjectToolType _Tool)
 {
 	if (_Tool == ObjectToolType::Cooker)
 	{
-		if (false == IsSound_)
-		{
-			MyMoveableState_ = MoveableState::Cooking;
-			ObjSoundPlayer_ = GameEngineSound::SoundPlayControl("HotPotBubble.wav", -1);
-			ObjSoundPlayer_.Volume(2.f);
-			IsSound_ = true;
-		}
-
+		
 		if (!GetCombinFood()->IsClear())
 		{
+			if (false == IsSound_)
+			{
+				MyMoveableState_ = MoveableState::Cooking;
+				ObjSoundPlayer_ = GameEngineSound::SoundPlayControl("HotPotBubble.wav", -1);
+				ObjSoundPlayer_.Volume(2.f);
+				IsSound_ = true;
+			}
+
 			if (Input_Auto(_DeltaTime, 12.f))
 			{
 				return true;
