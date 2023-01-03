@@ -145,6 +145,8 @@ void Tool_Rail::SetMoveable(std::shared_ptr<GameEngineUpdateObject> _Child)
 		ParentsSetPacket->ChildID = GetChildNetID();
 		ServerInitManager::Net->SendPacket(ParentsSetPacket);
 	}
+	_Child->CastThis<GamePlayObject>()->GetCollisionObject()->On();
+
 	//After_Moveable_ = GetCurrentMoveable();
 	//float4 Pos = After_Moveable_.lock()->GetTransform().GetWorldPosition();
 	//After_Moveable_.lock()->SetParent(Front_StaticObject_.lock());

@@ -47,6 +47,8 @@ void GamePlayTool::SetMoveable(std::shared_ptr<GameEngineUpdateObject> _Child)
 	Object.lock()->GetTransform().SetLocalPosition(MoveablePos_);
 	//Object.lock()->GetTransform().SetWorldRotation(Rotation);
 	Object.lock()->GetCollisionObject()->Off();
+	
+
 }
 
 HoldDownEnum GamePlayTool::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)

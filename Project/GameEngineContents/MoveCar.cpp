@@ -71,7 +71,6 @@ void MoveCar::Update(float _DeltaTime)
 
 
 					{
-
 						std::shared_ptr<ObjectUpdatePacket> Packet = std::make_shared<ObjectUpdatePacket>();
 						Packet->ObjectID = GetNetID();
 						Packet->Type = ServerObjectType::Object;
