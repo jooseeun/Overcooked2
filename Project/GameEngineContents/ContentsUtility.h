@@ -77,6 +77,20 @@ namespace ContentsUtility
 			}
 		}
 
+		void UpdateFixedTime(float _FixedTime)//Iter_Time_ = FixedTime
+		{
+			Iter_Time_ = _FixedTime;
+			if (Iter_Time_ <= 0.0f)
+			{
+				Iter_Time_ = 0.0f;
+				if (TimeOverFunc_ != nullptr && CallTimeOverFunc_ == false)
+				{
+					CallTimeOverFunc_ = true;
+					TimeOverFunc_();
+				}
+			}
+		}
+
 		inline float* GetCurTimeRef()
 		{
 			return &Iter_Time_;

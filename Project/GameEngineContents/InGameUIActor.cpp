@@ -28,6 +28,7 @@ void InGameUIActor::ServerInit()
 		ClientInit(ServerObjectType::UI, 3999);
 		ReadySycn_.SetReady(3999, false);
 		ReadySycn_.SetHost();
+		RecipeManager_.IsHost_ = true;
 	}
 	else
 	{
@@ -38,6 +39,7 @@ void InGameUIActor::ServerInit()
 			{
 				ClientInit(ServerObjectType::UI, i);
 				ReadySycn_.SetReady(i, false);
+				RecipeManager_.IsHost_ = false;
 				break;
 			}
 		}
@@ -240,6 +242,10 @@ void InGameUIActor::UpdateIsStart(float _DeltaTime)
 			while (false == IsPacketEmpty())
 			{
 				std::shared_ptr<GameServerPacket> Packet = PopPacket();
+				if (Packet == nullptr)
+				{
+					return;
+				}
 
 				ContentsPacketType PacketType = Packet->GetPacketIDToEnum<ContentsPacketType>();
 
@@ -255,6 +261,18 @@ void InGameUIActor::UpdateIsStart(float _DeltaTime)
 				{
 					std::shared_ptr<CreateRecipePacket> RecipePacket = std::dynamic_pointer_cast<CreateRecipePacket>(Packet);
 					RecipeManager_.CreateRecipe(static_cast<FoodType>(RecipePacket->CreateFoodType));
+					break;
+				}
+				case ContentsPacketType::RecipeTimeUpdate:
+				{
+					std::shared_ptr<RecipeTimeUpdatePacket> RecipePacket = std::dynamic_pointer_cast<RecipeTimeUpdatePacket>(Packet);
+					std::vector<float> Vector;
+					Vector.push_back(RecipePacket->Recipe_0);
+					Vector.push_back(RecipePacket->Recipe_1);
+					Vector.push_back(RecipePacket->Recipe_2);
+					Vector.push_back(RecipePacket->Recipe_3);
+					Vector.push_back(RecipePacket->Recipe_4);
+					RecipeManager_.UpdateFixedTime(Vector);
 					break;
 				}
 				}
@@ -601,7 +619,7 @@ void InGameUIActor::ServerUpdate(float _DeltaTime)
 				break;
 			}
 		}
-		//패킷  송신
+		//패킷  송신 : Global Time
 		{
 			ContentsUtility::Timer& LeftTimer = GlobalGameData::GetLeftTimeRef();
 			NotDeleteRecipe_Timer_.Update(_DeltaTime);
@@ -611,6 +629,14 @@ void InGameUIActor::ServerUpdate(float _DeltaTime)
 			Packet->ObjectID = GetNetID();
 			//혹시 Ready안된 것을 대비한 예외처리
 			Packet->IsReady_ = true;
+
+			std::vector<float> TimeVector = RecipeManager_.GetRecipeTime();
+			Packet->Recipe_0 = TimeVector[0];
+			Packet->Recipe_1 = TimeVector[1];
+			Packet->Recipe_2 = TimeVector[2];
+			Packet->Recipe_3 = TimeVector[3];
+			Packet->Recipe_4 = TimeVector[4];
+
 			ServerInitManager::Net->SendPacket(Packet);
 		}
 
@@ -622,7 +648,10 @@ void InGameUIActor::ServerUpdate(float _DeltaTime)
 		while (false == IsPacketEmpty())
 		{
 			std::shared_ptr<GameServerPacket> Packet = PopPacket();
-
+			if (Packet == nullptr)
+			{
+				return;
+			}
 			ContentsPacketType PacketType = Packet->GetPacketIDToEnum<ContentsPacketType>();
 
 			switch (PacketType)
@@ -631,18 +660,21 @@ void InGameUIActor::ServerUpdate(float _DeltaTime)
 			{
 				std::shared_ptr<UIDataPacket> UIUpdate = std::dynamic_pointer_cast<UIDataPacket>(Packet);
 				*(GlobalGameData::GetLeftTimeRef().GetCurTimeRef()) = UIUpdate->LeftTime;
+
+				std::vector<float> Vector;
+				Vector.push_back(UIUpdate->Recipe_0);
+				Vector.push_back(UIUpdate->Recipe_1);
+				Vector.push_back(UIUpdate->Recipe_2);
+				Vector.push_back(UIUpdate->Recipe_3);
+				Vector.push_back(UIUpdate->Recipe_4);
+				RecipeManager_.UpdateFixedTime(Vector);
+
 				break;
 			}
 			case ContentsPacketType::CreateRecipeData:
 			{
 				std::shared_ptr<CreateRecipePacket> RecipePacket = std::dynamic_pointer_cast<CreateRecipePacket>(Packet);
 				RecipeManager_.CreateRecipe(static_cast<FoodType>(RecipePacket->CreateFoodType));
-				break;
-			}
-			case ContentsPacketType::OrderHandOver:
-			{
-				std::shared_ptr<OrderHandOverPacket> RecipePacket = std::dynamic_pointer_cast<OrderHandOverPacket>(Packet);
-				HandOverFood(static_cast<FoodType>(RecipePacket->HandOverFoodType));
 				break;
 			}
 			default:

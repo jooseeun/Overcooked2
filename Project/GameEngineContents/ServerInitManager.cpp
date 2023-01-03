@@ -296,14 +296,11 @@ void ServerInitManager::StartInit()
 		case ContentsPacketType::UIUpdate:
 			NewPacket = std::make_shared<UIDataPacket>();
 			break;
+		case ContentsPacketType::RecipeTimeUpdate:
+			NewPacket = std::make_shared<RecipeTimeUpdatePacket>();
+			break;
 		case ContentsPacketType::CreateRecipeData:
 			NewPacket = std::make_shared<CreateRecipePacket>();
-			break;
-		case ContentsPacketType::RequestHandOver:
-			NewPacket = std::make_shared<RequestHandOverPacket>();
-			break;
-		case ContentsPacketType::OrderHandOver:
-			NewPacket = std::make_shared<OrderHandOverPacket>();
 			break;
 		case ContentsPacketType::LoadingData:
 			NewPacket = std::make_shared<LoadingDataPacket>();
@@ -344,7 +341,6 @@ void ServerInitManager::StartInit()
 	{
 		// 내가 서버일때만 등록해야하는 패킷
 		Net->Dis.AddHandler(ContentsPacketType::ReadyLevel, std::bind(&ServerInitManager::ReadyLevelPacketProcess, std::placeholders::_1));
-		Net->Dis.AddHandler(ContentsPacketType::RequestHandOver, std::bind(&ServerInitManager::RequsetHandOverPacketProcess, std::placeholders::_1));
 	}
 	else
 	{
@@ -353,7 +349,6 @@ void ServerInitManager::StartInit()
 		Net->Dis.AddHandler(ContentsPacketType::ObjectParentsSet, std::bind(&ServerInitManager::ObjectParentsSetPacketProcess, std::placeholders::_1));
 		Net->Dis.AddHandler(ContentsPacketType::ClinetInit, std::bind(&ServerInitManager::ClientInitPacketProcess, std::placeholders::_1));
 		Net->Dis.AddHandler(ContentsPacketType::CreateRecipeData, std::bind(&ServerInitManager::CreateRecipePacketProcess, std::placeholders::_1));
-		Net->Dis.AddHandler(ContentsPacketType::OrderHandOver, std::bind(&ServerInitManager::OrderHandOverPacketProcess, std::placeholders::_1));
 		Net->Dis.AddHandler(ContentsPacketType::ChangeLevel, std::bind(&ServerInitManager::ChangeLevelPacketProcess, std::placeholders::_1));
 	}
 }
