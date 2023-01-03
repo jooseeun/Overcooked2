@@ -60,6 +60,7 @@ void Portal::Start()
 
 void Portal::Update(float _DeltaTime)
 {
+	GamePlayObject::Update(_DeltaTime);
 	RenderOptionMyInst.UV.y += _DeltaTime * 1.7f;
 	RenderOptionSwirl.Random += 5.f;
 

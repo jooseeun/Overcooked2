@@ -58,7 +58,11 @@ void Tool_TrashCan::Update(float _Delta)
 		if (Delay_ < 0)
 		{
 			TrashFood_.reset();
-			GetCurrentMoveable()->Death();
+			GetCurrentMoveable()->GetTransform().SetWorldPosition(float4::ZERO);
+			if (ServerInitManager::Net == nullptr || ServerInitManager::Net->GetIsHost())
+			{
+				GetCurrentMoveable()->Death();
+			}
 			GetCurrentMoveable()->Off();
 			ReSetCurrentMoveable();
 			Delay_ = 1.f;

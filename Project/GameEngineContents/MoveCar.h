@@ -10,6 +10,7 @@ enum class MOVECARSTATE
 
 class MoveCar : public GamePlayObject
 {
+	friend class TrafficLightBloom;
 public:
 	MoveCar();
 	~MoveCar();
@@ -21,7 +22,8 @@ public:
 
 	void SetCarMesh(const std::string& _Name)
 	{
-		GetFBXMesh()->SetFBXMesh(_Name);
+		MeshName_ = _Name;
+		GetFBXMesh()->SetFBXMesh(MeshName_);
 		GetFBXMesh()->GetTransform().SetWorldScale({ 90.f, 90.f, 90.f });
 	}
 
@@ -44,6 +46,9 @@ protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
+	void LevelStartEvent() override;
+	void LevelEndEvent() override;
+
 private:
 	MOVECARSTATE State_;
 
@@ -58,5 +63,25 @@ private:
 
 	float StartTime_;
 	float StackTime_;
+
+	std::string MeshName_;
+
+	void SendObjectType(std::shared_ptr<ObjectStartPacket> Packet) override 
+	{
+		Packet->ExceptionData = ExceptionObject::MoveCar;
+		Packet->Animation = MeshName_;
+	}
+	//void SetServerCookingGage(std::shared_ptr<ObjectCookingGagePacket> _Packet) override
+	//{
+
+	//}
+
+	void SetServerCookingGage(std::shared_ptr<ObjectCookingGagePacket> _Packet) override;
+
+
+	static std::list<MoveCar*> InstList_;
+	static MoveCar* SelectCar();
+	static bool IsWattingCar();
+	static bool IsMovingCar();
 };
 

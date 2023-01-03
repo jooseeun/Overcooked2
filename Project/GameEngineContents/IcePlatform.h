@@ -22,5 +22,7 @@ protected:
 private:
 	float4 MoveDir_;
 
+//	float LerpTime_;
+//	bool IsFirst_;
 };
 

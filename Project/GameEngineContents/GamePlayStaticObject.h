@@ -153,36 +153,17 @@ private:
 
 	void SendObjectType(std::shared_ptr<ObjectStartPacket> Packet) override
 	{
-		//switch (MyType_)
-		//{
-		//case MapObjType::CounterTop:
-		//case MapObjType::CounterTop_Corner:
-		//case MapObjType::CounterTop_NoEdge:
-		//case MapObjType::CounterTop_WiZard:
-		//case MapObjType::CounterTop_Winter:
-		//case MapObjType::Mixer_Kevin:
-		//case MapObjType::Mixer_Winter:
-		//case MapObjType::Cooker:
-		//case MapObjType::TrashCan:
-		//case MapObjType::Sink:
-		//case MapObjType::Sink_Wizard:
-		//case MapObjType::Servicehatch:
-		//case MapObjType::PlateReturn:
-		//case MapObjType::FoodBox_Normal:
-		//case MapObjType::FoodBox_Winter:
-		//case MapObjType::Rail:
-		//case MapObjType::Dispenser_Type1:
-		//case MapObjType::Dispenser_Type2:
-		//case MapObjType::Cannon:
-		//case MapObjType::Button:
-		//case MapObjType::Oven:
-		//	break;
-		//default:
-		//	return;
-		//	break;
-		//}
 		Packet->MapObjData = MyType_;
 	}
+
+	void SetChild(std::shared_ptr<GamePlayStuff> _Child) override
+	{ 
+		SetStuff(_Child);
+	} 
+	void SetDeleteChild() override 
+	{ 
+		ReSetStuff();
+	};
 
 	void SetParentsServerHoldObject(int _ServerID) override
 	{ 

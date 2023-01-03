@@ -4,6 +4,7 @@
 #include <GameEngineCore/GameEngineCollision.h>
 #include "GamePlayPhysics.h"
 #include "GameServerObject.h"
+#include "GamePacket.h"
 
 // Ό³Έν :
 enum class ObjectType
@@ -18,6 +19,12 @@ enum class SetPlayerState_Return
 {
 	Nothing,
 	Using
+};
+
+enum class ExceptionObject
+{
+	None = -1,
+	MoveCar
 };
 
 
@@ -159,7 +166,9 @@ protected:
 	virtual int GetChildNetID() { return -1000; };
 	virtual void SendObjectType(std::shared_ptr<ObjectStartPacket> Packet) {}
 
-
+	virtual void SetDeleteChild() { MsgBoxAssert("GamePlayObject / SetDeleteChild() is not setting ") };
+	virtual void SetChild(std::shared_ptr<GamePlayStuff> _Child) { MsgBoxAssert("GamePlayObject / SetChild() is not setting ") }
+	virtual void SetServerCookingGage(std::shared_ptr<ObjectCookingGagePacket> _Packet) { SetServerCookingGage(_Packet->CookingGage); };
 	virtual void SetServerCookingGage(float _Time) { MsgBoxAssert("GamePlayObject / SetServerCookingGage() is not setting ") };
 
 	//std::shared_ptr<ObjectUpdatePacket> InteractPacket_;

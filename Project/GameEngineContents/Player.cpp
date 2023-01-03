@@ -1317,11 +1317,12 @@ CollisionReturn Player::GroundHoldUpCheck(std::shared_ptr<GameEngineCollision> _
 		return CollisionReturn::ContinueCheck;
 	}
 
-	SetPlayerHolding(_Other->GetActor());
-	SetPlayerState_Return::Using ==
-		_Other->GetParent()->CastThis<GamePlayObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), PlayerCurStateType::HoldUp);
-	SetCurHoldType(CurrentHoldingObject_->CastThis<GamePlayMoveable>()->GetHoldType());
-	IdleRendererON();
+	if (SetPlayerState_Return::Using ==
+		_Other->GetParent()->CastThis<GamePlayObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), PlayerCurStateType::HoldUp))
+	{
+		IdleRendererON();
+	}
+
 
 	return CollisionReturn::ContinueCheck;
 }

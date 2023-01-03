@@ -9,7 +9,8 @@ enum class ContentsPacketType
 	None,
 	ObjectUpdate, // 오브젝트 업데이트
 	ObjectStart,
-	ObjectParentsSet,
+	ObjectParentsSet,       // 등록안된 오브젝트 연결
+	ObjectParentsSetFrame,  // 매 프레임마다 체크
 	ObjectInteractUpdate,
 	ObjectCookingGageUpdate,
 	LoadingData,  // 로딩레벨에서 사용하는 패킷 호스트, 클라 둘 다 사용
@@ -26,6 +27,7 @@ enum class ContentsPacketType
 };
 
 enum class ObjectToolType;
+enum class ExceptionObject;
 class IgnorePacket : public GameServerPacket
 {
 public:
@@ -49,6 +51,8 @@ class ObjectCookingGagePacket : public GameServerPacket
 public:
 	int ObjectID = -1000;
 	float CookingGage = 0;
+	float4 float4_Index = float4::ZERO;
+	int int_Index = -1;
 	ObjectCookingGagePacket()
 	{
 		SetPacketID(ContentsPacketType::ObjectCookingGageUpdate);
@@ -59,16 +63,21 @@ public:
 		GameServerPacket::Serialize(_Ser);
 		_Ser << ObjectID;
 		_Ser << CookingGage;
+		_Ser << float4_Index;
+		_Ser << int_Index;
 	}
 	virtual void DeSerialize(GameServerSerializer& _Ser)
 	{
 		GameServerPacket::DeSerialize(_Ser);
 		_Ser >> ObjectID;
 		_Ser >> CookingGage;
+		_Ser >> float4_Index;
+		_Ser >> int_Index;
 	}
 };
 
-class ObjectParentsSetPacket : public GameServerPacket
+
+class ObjectParentsSetPacket : public GameServerPacket     // 연결에 의미를 두는 패킷
 {
 public:
 	int ParentsID = -10000;
@@ -76,6 +85,31 @@ public:
 	ObjectParentsSetPacket()
 	{
 		SetPacketID(ContentsPacketType::ObjectParentsSet);
+	}
+
+	virtual void Serialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::Serialize(_Ser);
+		_Ser << ParentsID;
+		_Ser << ChildID;
+	}
+	virtual void DeSerialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::DeSerialize(_Ser);
+		_Ser >> ParentsID;
+		_Ser >> ChildID;
+	}
+};
+
+
+class ObjectParentsSetAllFramePacket : public GameServerPacket     // 연결에 의미를 두는 패킷
+{
+public:
+	int ParentsID = -10000;
+	int ChildID = -1000;
+	ObjectParentsSetAllFramePacket()
+	{
+		SetPacketID(ContentsPacketType::ObjectParentsSetFrame);
 	}
 
 	virtual void Serialize(GameServerSerializer& _Ser)
@@ -122,16 +156,15 @@ public:
 	float4 Pos;
 	float4 Rot;
 	float4 Scale;
+	std::string Animation = "";
 	ServerObjectType Type;
 	ToolInfo ToolData = ToolInfo::None;
 	MapObjType MapObjData = MapObjType::Max;
 	IngredientType IngredientData = IngredientType::None;
 	ObjectToolType ObjectToolData;
+	ExceptionObject ExceptionData ;
 
-	ObjectStartPacket()
-	{
-		SetPacketID(ContentsPacketType::ObjectStart);
-	}
+	ObjectStartPacket();
 
 	virtual void Serialize(GameServerSerializer& _Ser)
 	{
@@ -141,11 +174,13 @@ public:
 		_Ser << Pos;
 		_Ser << Rot;
 		_Ser << Scale;
+		_Ser << Animation;
 		_Ser.WriteEnum(Type);
 		_Ser.WriteEnum(ToolData);
 		_Ser.WriteEnum(MapObjData);
 		_Ser.WriteEnum(IngredientData);
 		_Ser.WriteEnum(ObjectToolData);
+		_Ser.WriteEnum(ExceptionData);
 	}
 	virtual void DeSerialize(GameServerSerializer& _Ser)
 	{
@@ -155,11 +190,13 @@ public:
 		_Ser >> Pos;
 		_Ser >> Rot;
 		_Ser >> Scale;
+		_Ser >> Animation;
 		_Ser.ReadEnum(Type);
 		_Ser.ReadEnum(ToolData);
 		_Ser.ReadEnum(MapObjData);
 		_Ser.ReadEnum(IngredientData);
 		_Ser.ReadEnum(ObjectToolData);
+		_Ser.ReadEnum(ExceptionData);
 	}
 };
 

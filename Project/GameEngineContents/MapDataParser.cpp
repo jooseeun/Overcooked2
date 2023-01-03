@@ -116,14 +116,18 @@ std::vector<std::weak_ptr<GamePlayMapObject>>& MapDataParser::UnSortMapDataParsi
 		break;
 		case MapObjType::Lift:
 		{
-			std::weak_ptr<Lift> Object = _Level->CreateActor<Lift>();
-			Object.lock()->GetTransform().SetWorldPosition(_Data[i].Pos_);
-			Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(_Data[i].Scale_);
-			Object.lock()->GetTransform().SetWorldRotation(_Data[i].Rot_);
-			Object.lock()->SetMapObjectMesh(_Data[i].ObjName_, _Data[i].MapObjType_);
-			Object.lock()->SetMapObjType(_Data[i].MapObjType_);
-			Object.lock()->SetName(_Data[i].ObjName_);
-			UnSortActorList_.push_back(Object);
+			if (ServerInitManager::Net == nullptr || ServerInitManager::Net->GetIsHost())
+			{
+				std::weak_ptr<Lift> Object = _Level->CreateActor<Lift>();
+				Object.lock()->GetTransform().SetWorldPosition(_Data[i].Pos_);
+				Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(_Data[i].Scale_);
+				Object.lock()->GetTransform().SetWorldRotation(_Data[i].Rot_);
+				Object.lock()->SetMapObjectMesh(_Data[i].ObjName_, _Data[i].MapObjType_);
+				Object.lock()->SetMapObjType(_Data[i].MapObjType_);
+				Object.lock()->SetName(_Data[i].ObjName_);
+				UnSortActorList_.push_back(Object);
+			}
+
 		}
 		break;
 		case MapObjType::Collision_Wall:
@@ -162,26 +166,32 @@ std::vector<std::weak_ptr<GamePlayMapObject>>& MapDataParser::UnSortMapDataParsi
 		break;
 		case MapObjType::Portal_Blue:
 		{
-			std::weak_ptr<Portal> Object = _Level->CreateActor<Portal>();
-			Object.lock()->GetTransform().SetWorldPosition(_Data[i].Pos_);
-			Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(_Data[i].Scale_);
-			Object.lock()->GetTransform().SetWorldRotation(_Data[i].Rot_);
-			Object.lock()->SetMapObjType(_Data[i].MapObjType_);
-			Object.lock()->SetPortalMesh(_Data[i].MapObjType_);
-			Object.lock()->SetName(_Data[i].ObjName_);
-			UnSortActorList_.push_back(Object);
+			if (ServerInitManager::Net == nullptr || ServerInitManager::Net->GetIsHost())
+			{
+				std::weak_ptr<Portal> Object = _Level->CreateActor<Portal>();
+				Object.lock()->GetTransform().SetWorldPosition(_Data[i].Pos_);
+				Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(_Data[i].Scale_);
+				Object.lock()->GetTransform().SetWorldRotation(_Data[i].Rot_);
+				Object.lock()->SetMapObjType(_Data[i].MapObjType_);
+				Object.lock()->SetPortalMesh(_Data[i].MapObjType_);
+				Object.lock()->SetName(_Data[i].ObjName_);
+				UnSortActorList_.push_back(Object);
+			}
 		}
 		break;
 		case MapObjType::Portal_Purple:
 		{
-			std::weak_ptr<Portal> Object = _Level->CreateActor<Portal>();
-			Object.lock()->GetTransform().SetWorldPosition(_Data[i].Pos_);
-			Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(_Data[i].Scale_);
-			Object.lock()->GetTransform().SetWorldRotation(_Data[i].Rot_);
-			Object.lock()->SetMapObjType(_Data[i].MapObjType_);
-			Object.lock()->SetPortalMesh(_Data[i].MapObjType_);
-			Object.lock()->SetName(_Data[i].ObjName_);
-			UnSortActorList_.push_back(Object);
+			if (ServerInitManager::Net == nullptr || ServerInitManager::Net->GetIsHost())
+			{
+				std::weak_ptr<Portal> Object = _Level->CreateActor<Portal>();
+				Object.lock()->GetTransform().SetWorldPosition(_Data[i].Pos_);
+				Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(_Data[i].Scale_);
+				Object.lock()->GetTransform().SetWorldRotation(_Data[i].Rot_);
+				Object.lock()->SetMapObjType(_Data[i].MapObjType_);
+				Object.lock()->SetPortalMesh(_Data[i].MapObjType_);
+				Object.lock()->SetName(_Data[i].ObjName_);
+				UnSortActorList_.push_back(Object);
+			}
 		}
 		break;
 		case MapObjType::IceBlock:
@@ -200,13 +210,16 @@ std::vector<std::weak_ptr<GamePlayMapObject>>& MapDataParser::UnSortMapDataParsi
 		break;
 		case MapObjType::IcePlatform:
 		{
-			std::weak_ptr<IcePlatform> Object = _Level->CreateActor<IcePlatform>();
-			Object.lock()->GetTransform().SetWorldPosition(_Data[i].Pos_);
-			Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(_Data[i].Scale_);
-			Object.lock()->GetTransform().SetWorldRotation(_Data[i].Rot_);
-			Object.lock()->SetMapObjType(_Data[i].MapObjType_);
-			Object.lock()->SetName(_Data[i].ObjName_);
-			UnSortActorList_.push_back(Object);
+			if (ServerInitManager::Net == nullptr || ServerInitManager::Net->GetIsHost())
+			{
+				std::weak_ptr<IcePlatform> Object = _Level->CreateActor<IcePlatform>();
+				Object.lock()->GetTransform().SetWorldPosition(_Data[i].Pos_);
+				Object.lock()->GetCollisionObject()->GetTransform().SetWorldScale(_Data[i].Scale_);
+				Object.lock()->GetTransform().SetWorldRotation(_Data[i].Rot_);
+				Object.lock()->SetMapObjType(_Data[i].MapObjType_);
+				Object.lock()->SetName(_Data[i].ObjName_);
+				UnSortActorList_.push_back(Object);
+			}
 		}
 		break;
 		default:

@@ -57,8 +57,8 @@ void Food_Ingredients_Meat::TrimmingPlatting()
 	GetFBXMesh()->GetTransform().SetLocalRotation({ 0,-90,0 });
 	GetCookingBar()->SetOver(true);
 
-	ReSetCookingGage();
-	TrimmingFirstTime_ = false;
+	//ReSetCookingGage();
+	//TrimmingFirstTime_ = false;
 }
 
 void Food_Ingredients_Meat::TrimmingPried()

@@ -299,8 +299,10 @@ public:
 				}
 				RefreshThumbnailAndRenderer();
 				_Food->Clear();
+				return true;
 			}
 		}
+		return false;
 	}
 
 
@@ -565,6 +567,11 @@ public:
 			std::vector<IngredientType> Food_Current = Food_Current_;
 			bool IsThat = false;
 			int Index = 0;
+			if (Food_Current.size() != Data.size())
+			{
+				continue;
+			}
+
 			for (size_t j = 0; j < Data.size(); j++)
 			{
 				IsThat = false;
@@ -751,6 +758,11 @@ public:
 		return GlobalGameData::GetFoodData(GetFoodType());
 	}
 
+	std::shared_ptr<GameEngineFBXStaticRenderer> GetFoodRenderer()
+	{
+		return Renderer_;
+	};
+
 	static std::map<NoneFoodType, std::vector<IngredientType>> Static_NoneType_;
 private:
 	std::vector<IngredientType> Food_Current_;
@@ -924,93 +936,24 @@ protected:
 		}
 		return false;
 	}
-	//std::vector<IngredientType> FoodThumbnail_IngredientType;
-	//std::vector<std::shared_ptr<FoodThumbnail>> FoodThumbnail_;
+	
+	void SetHighlightEffectOn() override
+	{
+		GamePlayObject::SetHighlightEffectOn();
+		if (GetCombinFood()->GetFoodRenderer() != nullptr)
+		{
+			GetCombinFood()->GetFoodRenderer()->SetAllPixelDataPlusColor(float4(0.2f, 0.2f, 0.2f, 0.0f));
+		}
+	}
 
-	//void CreateFoodThumbnail(unsigned int _Index)
-	//{
-	//	for (size_t i = 0; i < FoodThumbnail_.size(); i++)
-	//	{
-	//		FoodThumbnail_[i]->Death();
-	//		FoodThumbnail_[i]->Off();
-	//	}
-	//	FoodThumbnail_.clear();
-	//	std::shared_ptr<FoodThumbnail> Thumbnail = nullptr;
-	//	for (size_t i = 0; i < _Index; i++)
-	//	{
-	//		FoodThumbnail_IngredientType.push_back(IngredientType::None);
-	//		Thumbnail = GetLevel()->CreateActor<FoodThumbnail>();
-	//		Thumbnail->LinkObject(CastThis<GameEngineActor>(), float4::ZERO);
-	//		FoodThumbnail_.push_back(Thumbnail);
-	//	}
-	//}
-
-	//bool PushFoodThumbnail(IngredientType _Type)
-	//{
-	//	for (size_t i = 0; i < FoodThumbnail_IngredientType.size(); i++)
-	//	{
-	//		if (FoodThumbnail_IngredientType[i] == IngredientType::None)
-	//		{
-	//			FoodThumbnail_IngredientType[i] = _Type;
-	//			RefreshThumbnail();
-	//			return true;
-	//		}
-	//	}
-
-	//	if (FoodThumbnail_IngredientType.size() < 4)
-	//	{
-	//		FoodThumbnail_IngredientType.push_back(_Type);
-	//		std::shared_ptr<FoodThumbnail> Thumbnail = nullptr;
-	//		Thumbnail = GetLevel()->CreateActor<FoodThumbnail>();
-	//		Thumbnail->LinkObject(CastThis<GameEngineActor>(), float4::ZERO);
-	//		FoodThumbnail_.push_back(Thumbnail);
-	//		RefreshThumbnail();
-	//		return true;
-	//	}
-	//	return false;
-	//}
-
-
-
-
-	//void RefreshThumbnail()
-	//{
-	//	RefreshOffset();
-	//	for (size_t i = 0; i < FoodThumbnail_IngredientType.size(); i++)
-	//	{
-	//		FoodThumbnail_[i]->SetThumbnail(FoodThumbnail_IngredientType[i]);
-	//	}
-	//}
-
-	//void RefreshOffset()
-	//{
-	//	switch (FoodThumbnail_.size())
-	//	{
-	//	case 0:
-	//		return;
-	//		break;
-	//	case 1:
-	//		FoodThumbnail_[0]->SetOffset({ 0, 50, 0 });
-	//		break;
-	//	case 2:
-	//		FoodThumbnail_[0]->SetOffset({ -20, 50, 0 });
-	//		FoodThumbnail_[1]->SetOffset({ 20, 50, 0 });
-	//		break;
-	//	case 3:
-	//		FoodThumbnail_[0]->SetOffset({ -20, 70, 0 });
-	//		FoodThumbnail_[1]->SetOffset({ 20, 70, 0 });
-	//		FoodThumbnail_[2]->SetOffset({ -20, 30, 0 });
-	//		break;
-	//	case 4:
-	//		FoodThumbnail_[0]->SetOffset({ -20, 70, 0 });
-	//		FoodThumbnail_[1]->SetOffset({ 20, 70, 0 });
-	//		FoodThumbnail_[2]->SetOffset({ -20, 30, 0 });
-	//		FoodThumbnail_[3]->SetOffset({ 20, 30, 0 });
-	//		break;
-	//	default:
-	//		break;
-	//	}
-	//}
+	void SetHighlightEffectOff() override
+	{
+		GamePlayObject::SetHighlightEffectOff();
+		if (GetCombinFood()->GetFoodRenderer() != nullptr)
+		{
+			GetCombinFood()->GetFoodRenderer()->SetAllPixelDataPlusColor(float4(0, 0, 0, 0));
+		}
+	}
 
 };
 

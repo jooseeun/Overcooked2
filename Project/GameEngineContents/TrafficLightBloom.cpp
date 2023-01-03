@@ -1,15 +1,32 @@
 #include "PreCompile.h"
 #include "TrafficLightBloom.h"
+#include "MoveCar.h"
+#include "GlobalGameData.h"
+
+float TrafficLightBloom::ChangeTime_ = 0;
+float TrafficLightBloom::WattingTime_ = 0;
+LIGHTCOLOR TrafficLightBloom::Color_ = LIGHTCOLOR::RED;
+LIGHTCOLOR TrafficLightBloom::BeforeColor_ = LIGHTCOLOR::RED;
+TrafficLightBloom* TrafficLightBloom::Inst_ = nullptr;
+
 
 TrafficLightBloom::TrafficLightBloom()
-	: Color_(LIGHTCOLOR::RED)
-	, ChangeTime_(0.f)
-	, IsFirst_(true)
+	: IsFirst_(true)
 {
 }
 
 TrafficLightBloom::~TrafficLightBloom()
 {
+	if (ServerInitManager::Net == nullptr || ServerInitManager::Net->GetIsHost())
+	{
+		if (TrafficLightBloom::Inst_ == this)
+		{
+			ChangeTime_ = 0;
+			Color_ = LIGHTCOLOR::RED;
+			BeforeColor_ = LIGHTCOLOR::RED;
+			TrafficLightBloom::Inst_ = nullptr;
+		}
+	}
 }
 
 void TrafficLightBloom::SetBloomActor()
@@ -71,72 +88,165 @@ void TrafficLightBloom::SetBloomActor()
 
 void TrafficLightBloom::Start()
 {
-
+	if (ServerInitManager::Net == nullptr || ServerInitManager::Net->GetIsHost())
+	{
+		TrafficLightBloom::Inst_ = this;
+	}
 }
 
 void TrafficLightBloom::Update(float _DeltaTime)
 {
-	switch (Color_)
+	if (GlobalGameData::IsGameStart() == false)
+	{
+		_DeltaTime = 0;
+	}
+
+	if ((ServerInitManager::Net == nullptr || ServerInitManager::Net->GetIsHost()) && TrafficLightBloom::Inst_ == this)
+	{
+		TrafficLightBloom::TrafficLightUpdate(_DeltaTime);
+
+		if (ServerInitManager::Net->GetIsHost())
+		{
+			std::shared_ptr<ObjectCookingGagePacket> Packet = std::make_shared<ObjectCookingGagePacket>();
+			Packet->ObjectID = MoveCar::InstList_.front()->GetNetID();
+			Packet->int_Index = static_cast<int>(TrafficLightBloom::Color_);
+			ServerInitManager::Net->SendPacket(Packet);
+		}
+	}
+
+	switch (TrafficLightBloom::Color_)
 	{
 	case LIGHTCOLOR::GREEN:
-		ChangeTime_ += _DeltaTime;
-
-		if (2.f <= ChangeTime_)
 		{
-			Green_->Off();
-			Red_->On();
+			Green_->On();
+			Yellow_->Off();
+			Red_->Off();
 
-			Green_Ground->Off();
-			Red_Ground->On();
-
-			Color_ = LIGHTCOLOR::RED;
-			ChangeTime_ = 0.f;
+			Green_Ground->On();
+			Yellow_Ground->Off();
+			Red_Ground->Off();
 		}
 		break;
 	case LIGHTCOLOR::YELLOW:
-		ChangeTime_ += _DeltaTime;
-
-		if (0.5f <= ChangeTime_)
 		{
-			Yellow_->Off();
-			Green_->On();
+			Green_->Off();
+			Yellow_->On();
+			Red_->Off();
 
-			Yellow_Ground->Off();
-			Green_Ground->On();
-
-			Color_ = LIGHTCOLOR::GREEN;
-			ChangeTime_ = 0.f;
+			Green_Ground->Off();
+			Yellow_Ground->On();
+			Red_Ground->Off();
 		}
 		break;
 	case LIGHTCOLOR::RED:
-		ChangeTime_ += _DeltaTime;
-
-		if (20.f <= ChangeTime_ && true == IsFirst_)
 		{
-			IsFirst_ = false;
+			Green_->Off();
+			Yellow_->Off();
+			Red_->On();
 
-			Red_->Off();
-			Yellow_->On();
-
-			Red_Ground->Off();
-			Yellow_Ground->On();
-
-			Color_ = LIGHTCOLOR::YELLOW;
-			ChangeTime_ = 0.f;
-		}
-
-		else if (2.f <= ChangeTime_ && false == IsFirst_)
-		{
-			Red_->Off();
-			Yellow_->On();
-
-			Red_Ground->Off();
-			Yellow_Ground->On();
-
-			Color_ = LIGHTCOLOR::YELLOW;
-			ChangeTime_ = 0.f;
+			Green_Ground->Off();
+			Yellow_Ground->Off();
+			Red_Ground->On();
 		}
 		break;
 	}
 }
 
+void TrafficLightBloom::TrafficLightUpdate(float _Delta)
+{
+	switch (TrafficLightBloom::Color_)
+		{
+		case LIGHTCOLOR::GREEN:
+			if (!MoveCar::IsMovingCar())
+			{
+				TrafficLightBloom::Color_ = LIGHTCOLOR::YELLOW;
+				TrafficLightBloom::BeforeColor_ = LIGHTCOLOR::GREEN;
+				ChangeTime_ = 0.3f;
+			}
+			break;
+		case LIGHTCOLOR::YELLOW:
+		{
+			ChangeTime_ -= _Delta;
+			if (ChangeTime_ < 0)
+			{
+				if (TrafficLightBloom::BeforeColor_ == LIGHTCOLOR::GREEN)
+				{
+					TrafficLightBloom::Color_ = LIGHTCOLOR::RED;
+					TrafficLightBloom::BeforeColor_ = LIGHTCOLOR::YELLOW;
+
+					TrafficLightBloom::WattingTime_ = GameEngineRandom::MainRandom.RandomFloat(1.5f, 5.f);
+				}
+				else // RED
+				{
+					MoveCar* Car = MoveCar::SelectCar();
+					if (Car != nullptr)
+					{
+						Car->IsMove_ = true;
+						TrafficLightBloom::Color_ = LIGHTCOLOR::GREEN;
+						TrafficLightBloom::BeforeColor_ = LIGHTCOLOR::YELLOW;
+					}
+				}
+			}
+		}
+			break;
+		case LIGHTCOLOR::RED:
+		{
+			WattingTime_ -= _Delta;
+			if (WattingTime_ < 0 && MoveCar::IsWattingCar())
+			{
+				TrafficLightBloom::Color_ = LIGHTCOLOR::YELLOW;
+				TrafficLightBloom::BeforeColor_ = LIGHTCOLOR::RED;
+				ChangeTime_ = 0.3f;
+			}
+		}
+		break;
+			//ChangeTime_ += _DeltaTime;
+
+			//if (20.f <= ChangeTime_ && true == IsFirst_)
+			//{
+			//	IsFirst_ = false;
+
+			//	Red_->Off();
+			//	Yellow_->On();
+
+			//	Red_Ground->Off();
+			//	Yellow_Ground->On();
+
+			//	Color_ = LIGHTCOLOR::YELLOW;
+			//	ChangeTime_ = 0.f;
+			//}
+
+			//else if (2.f <= ChangeTime_ && false == IsFirst_)
+			//{
+			//	Red_->Off();
+			//	Yellow_->On();
+
+			//	Red_Ground->Off();
+			//	Yellow_Ground->On();
+
+			//	Color_ = LIGHTCOLOR::YELLOW;
+			//	ChangeTime_ = 0.f;
+			//}
+			break;
+		}
+
+}
+
+void TrafficLightBloom::LevelStartEvent()
+{
+	if (ServerInitManager::Net == nullptr || ServerInitManager::Net->GetIsHost())
+	{
+		TrafficLightBloom::Inst_ = this;
+		TrafficLightBloom::WattingTime_ = 10.f;
+	}
+}
+void TrafficLightBloom::LevelEndEvent()
+{
+	if ((ServerInitManager::Net == nullptr || ServerInitManager::Net->GetIsHost()) && TrafficLightBloom::Inst_ == this)
+	{
+		ChangeTime_ = 0;
+		Color_ = LIGHTCOLOR::RED;
+		BeforeColor_ = LIGHTCOLOR::RED;
+		TrafficLightBloom::Inst_ = nullptr;
+	}
+}

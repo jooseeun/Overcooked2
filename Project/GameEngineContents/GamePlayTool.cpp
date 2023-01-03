@@ -36,26 +36,17 @@ void GamePlayTool::SetMoveable(std::shared_ptr<Player> _Player)
 void GamePlayTool::SetMoveable(std::shared_ptr<GameEngineUpdateObject> _Child)
 {
 	std::weak_ptr<GamePlayMoveable> Object = _Child->CastThis<GamePlayMoveable>();
+	if (Object.lock() == Moveable_Current_)
+	{
+		return;
+	}
+
 	//float4 Rotation = Object.lock()->GetTransform().GetWorldRotation();
 	_Child->SetParent(shared_from_this());
 	Moveable_Current_ = Object.lock();
 	Object.lock()->GetTransform().SetLocalPosition(MoveablePos_);
 	//Object.lock()->GetTransform().SetWorldRotation(Rotation);
 	Object.lock()->GetCollisionObject()->Off();
-
-	if (nullptr != ServerInitManager::Net && (ServerInitManager::Net->GetIsHost()))
-	{
-		std::shared_ptr<ObjectParentsSetPacket> ParentsSetPacket = std::make_shared<ObjectParentsSetPacket>();
-		ParentsSetPacket->ParentsID = GetNetID();
-		if (!Moveable_Current_->GetIsNetInit())
-		{
-			Moveable_Current_->ServerStart();
-		}
-
-		ParentsSetPacket->ChildID = Moveable_Current_->GetNetID();
-		
-		ServerInitManager::Net->SendPacket(ParentsSetPacket);
-	}
 }
 
 HoldDownEnum GamePlayTool::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)

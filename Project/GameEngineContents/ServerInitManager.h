@@ -22,6 +22,7 @@ public:
 
 	static void ObjectInteractUpdateProcess(std::shared_ptr<GameServerPacket> _Packet);
 	static void ObjectParentsSetPacketProcess(std::shared_ptr<GameServerPacket> _Packet);
+	static void ObjectParentsSetAllFramePacketProcess(std::shared_ptr<GameServerPacket> _Packet);
 	static void ObjectCookingGageProcess(std::shared_ptr<GameServerPacket> _Packet);
 
 	static void ObjectStartPacketProcess(std::shared_ptr<GameServerPacket> _Packet);

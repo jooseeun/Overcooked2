@@ -54,5 +54,10 @@ private:
 
 	void SetMoveable(std::shared_ptr<GameEngineUpdateObject> _Child) override;
 	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable) override;
+
+	void SetServerCookingGage(float _Time) override
+	{  
+		MoveTime_ = _Time;
+	};
 };
 

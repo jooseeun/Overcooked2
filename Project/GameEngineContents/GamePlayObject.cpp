@@ -40,14 +40,14 @@ void GamePlayObject::ServerStart()
 {
 	if (nullptr != ServerInitManager::Net)
 	{
-		if (false == GetIsNetInit())
+		if (false == GetIsNetInit() && ServerInitManager::Net->GetIsHost())
 		{
 			std::shared_ptr<ObjectStartPacket> Packet = std::make_shared<ObjectStartPacket>();
 			ChildServerStart();    
-			Packet->ObjectToolData = ObjectToolType::None;
+			//Packet->ObjectToolData = ObjectToolType::None;
 			SendObjectType(Packet);
 			if (Packet->MapObjData == MapObjType::Max && Packet->ToolData == ToolInfo::None
-				&& Packet->IngredientData == IngredientType::None && Packet->ObjectToolData == ObjectToolType::None)
+				&& Packet->IngredientData == IngredientType::None && Packet->ObjectToolData == ObjectToolType::None && Packet->ExceptionData == ExceptionObject::None)
 			{
 				InitFirst = true;
 				return; // 넘길 가치 없는 것들
@@ -79,98 +79,114 @@ void GamePlayObject::ServerStart()
 
 void GamePlayObject::ServerUpdate(float _DeltaTime)
 {
-	if (InitFirst == false && false == GetIsNetInit())
+	if (nullptr != ServerInitManager::Net)
 	{
-		ServerStart();
-		InitFirst = true;
-		return;
-	}
-	else 
-	{
-		while (false == IsPacketEmpty())
+		if (InitFirst == false && false == GetIsNetInit())
 		{
-			std::shared_ptr<GameServerPacket> Packet = PopPacket();
-
-			ContentsPacketType PacketType = Packet->GetPacketIDToEnum<ContentsPacketType>();
-
-			switch (PacketType)
+			ServerStart();
+			InitFirst = true;
+			return;
+		}
+		else
+		{
+			while (false == IsPacketEmpty())
 			{
-			case ContentsPacketType::ObjectUpdate:
-			{
-				std::shared_ptr<ObjectUpdatePacket> ObjectUpdate = std::dynamic_pointer_cast<ObjectUpdatePacket>(Packet);
-				if (ObjectUpdate->State == ServerObjectBaseState::Death)
+				std::shared_ptr<GameServerPacket> Packet = PopPacket();
+
+				ContentsPacketType PacketType = Packet->GetPacketIDToEnum<ContentsPacketType>();
+
+				switch (PacketType)
 				{
-					Death();
-					Off();
-					break;
-				}
-				if (!ObjectUpdate->Pos.CompareInt3D(float4::ZERO))
+				case ContentsPacketType::ObjectUpdate:
 				{
-					GetTransform().SetWorldPosition(ObjectUpdate->Pos);
-					GetTransform().SetWorldRotation(ObjectUpdate->Rot);
-					GetTransform().SetWorldScale(ObjectUpdate->Scale);
-				}
-
-				break;
-			}
-			case ContentsPacketType::ObjectInteractUpdate:
-			{
-				std::shared_ptr<ObjectInteractUpdatePacket> ObjectUpdate = std::dynamic_pointer_cast<ObjectInteractUpdatePacket>(Packet);
-				{ 
-					GameServerObject* ServerObject = GameServerObject::GetServerObject(ObjectUpdate->PlayerNum);
-					if (Player::GetMyPlayer()->shared_from_this()->CastThis<Player>()->GetNetID() == ObjectUpdate->SendPacktPlayer)
+					std::shared_ptr<ObjectUpdatePacket> ObjectUpdate = std::dynamic_pointer_cast<ObjectUpdatePacket>(Packet);
+					if (ObjectUpdate->State == ServerObjectBaseState::Death)
 					{
-						return;
+						Death();
+						Off();
+						break;
+					}
+					if (!ObjectUpdate->Pos.CompareInt3D(float4::ZERO))
+					{
+						GetTransform().SetWorldPosition(ObjectUpdate->Pos);
+						GetTransform().SetWorldRotation(ObjectUpdate->Rot);
+						GetTransform().SetWorldScale(ObjectUpdate->Scale);
 					}
 
-					Player* Player_ = static_cast<Player*>(ServerObject);
-
-					if (Player_ != nullptr)
+					break;
+				}
+				case ContentsPacketType::ObjectInteractUpdate:
+				{
+					std::shared_ptr<ObjectInteractUpdatePacket> ObjectUpdate = std::dynamic_pointer_cast<ObjectInteractUpdatePacket>(Packet);
 					{
-						SetPlayerState(Player_->shared_from_this()->CastThis<Player>(), ObjectUpdate->Type, nullptr, true);
+						GameServerObject* ServerObject = GameServerObject::GetServerObject(ObjectUpdate->PlayerNum);
+						if (Player::GetMyPlayer()->shared_from_this()->CastThis<Player>()->GetNetID() == ObjectUpdate->SendPacktPlayer)
+						{
+							return;
+						}
+
+						if (ServerObject->GetServerType() == ServerObjectType::Player)
+						{
+							SetPlayerState(static_cast<Player*>(ServerObject)->shared_from_this()->CastThis<Player>(), ObjectUpdate->Type, nullptr, true);
+						}
+						else if (ServerObject->GetServerType() == ServerObjectType::Object)
+						{
+							SetPlayerState(nullptr, ObjectUpdate->Type, static_cast<GamePlayMoveable*>(ServerObject)->shared_from_this()->CastThis<GamePlayMoveable>(), true);
+						}
+						else
+						{
+							MsgBoxAssert("처리할수 없는 패킷이 날아왔습니다. ObjectInteractUpdate");
+						}
+					}
+				}
+				break;
+				case ContentsPacketType::ObjectCookingGageUpdate:
+				{
+					std::shared_ptr<ObjectCookingGagePacket> ObjectUpdate = std::dynamic_pointer_cast<ObjectCookingGagePacket>(Packet);
+					SetServerCookingGage(ObjectUpdate);
+					//SetServerCookingGage(ObjectUpdate->CookingGage);
+				}
+				break;
+				case ContentsPacketType::ObjectParentsSetFrame:
+				{
+					std::shared_ptr<ObjectParentsSetAllFramePacket> ParentsSetPacket = std::dynamic_pointer_cast<ObjectParentsSetAllFramePacket>(Packet);
+
+
+					if (ParentsSetPacket->ChildID == -1)
+					{
+						SetDeleteChild();
 					}
 					else
 					{
-						SetPlayerState(nullptr, ObjectUpdate->Type, static_cast<GamePlayMoveable*>(ServerObject)->shared_from_this()->CastThis<GamePlayMoveable>(), true);
+						GameServerObject* FindChildObject = GameServerObject::GetServerObject(ParentsSetPacket->ChildID);
+						std::shared_ptr<GamePlayStuff> ChildObject = ((GamePlayObject*)(FindChildObject))->shared_from_this()->CastThis<GamePlayStuff>();
+						if (ChildObject == nullptr)
+						{
+							MsgBoxAssertString("GamePlayObject::ServerUpdate() ChildObject is nullptr / ChildNuber : " + std::to_string(ParentsSetPacket->ChildID))
+							return;
+						}
+						SetChild(ChildObject);
 					}
+
+
+					//SetServerCookingGage(ObjectUpdate->CookingGage);
+				}
+				break;
+				default:
+					MsgBoxAssert("처리할수 없는 패킷이 날아왔습니다.");
+					break;
 				}
 			}
-			break;
-			case ContentsPacketType::ObjectCookingGageUpdate:
-			{
-				std::shared_ptr<ObjectCookingGagePacket> ObjectUpdate = std::dynamic_pointer_cast<ObjectCookingGagePacket>(Packet);
-				SetServerCookingGage(ObjectUpdate->CookingGage);
-			}
-				break;
-			default:
-				MsgBoxAssert("처리할수 없는 패킷이 날아왔습니다.");
-				break;
-			}
 		}
-	}
-	/*
 
-	if (InteractPacket_ != nullptr)
-	{
-		ServerInitManager::Net->SendPacket(InteractPacket_);
-		InteractPacket_.reset();
+		//if (ServerInitManager::Net->GetIsHost())
+		//{
+		//	std::shared_ptr<ObjectParentsSetAllFramePacket> ParentsSetPacket = std::make_shared<ObjectParentsSetAllFramePacket>();
+		//	ParentsSetPacket->ParentsID = GetNetID();
+		//	ParentsSetPacket->ChildID = GetChildNetID();
+		//	ServerInitManager::Net->SendPacket(ParentsSetPacket);
+		//}
 	}
-	else if (nullptr != ServerInitManager::Net)
-	{
-		if (ServerInitManager::Net->GetIsHost() && GetCollisionObject()->IsUpdate())
-		{
-			std::shared_ptr<ObjectUpdatePacket> Packet = std::make_shared<ObjectUpdatePacket>();
-			SendDefaultPacket(Packet);
-
-			ServerInitManager::Net->SendPacket(Packet);
-			return;
-		}
-	}
-	else
-	{
-		return;
-	}*/
-
 
 
 }

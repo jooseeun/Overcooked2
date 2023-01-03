@@ -27,6 +27,7 @@ void ServerInitManager::ObjectCookingGageProcess(std::shared_ptr<GameServerPacke
 	GameServerObject* FindObject = GameServerObject::GetServerObject(Packet->ObjectID);
 	if (FindObject == nullptr)
 	{
+		return;
 		MsgBoxAssert("Serverinitmanager/ObjectCookingGageProcess() is nullptr")
 	}
 
@@ -80,16 +81,64 @@ void ServerInitManager::ObjectParentsSetPacketProcess(std::shared_ptr<GameServer
 	}
 }
 
+void ServerInitManager::ObjectParentsSetAllFramePacketProcess(std::shared_ptr<GameServerPacket> _Packet)
+{
+	std::shared_ptr<ObjectParentsSetAllFramePacket> Packet = std::dynamic_pointer_cast<ObjectParentsSetAllFramePacket>(_Packet);
+	GameServerObject* FindParentObject = GameServerObject::GetServerObject(Packet->ParentsID);
+	GameServerObject* FindChildObject = GameServerObject::GetServerObject(Packet->ChildID);
+
+	if (FindParentObject == nullptr || GamePlayObjectManager::GetInst() == nullptr)
+	{
+		return;
+	}
+
+	if (Packet->ChildID == -1)
+	{
+		FindParentObject->PushPacket(_Packet);
+		return;
+	}
+	else if (Packet->ChildID <= -2)
+	{
+		return;
+	}
+
+	if (FindChildObject == nullptr)
+	{
+		GamePlayObjectManager::TemporaryPushData(Packet);
+	}
+	else
+	{
+		FindParentObject->PushPacket(_Packet);
+	}
+}
+
 void ServerInitManager::ObjectInteractUpdateProcess(std::shared_ptr<GameServerPacket> _Packet)
 {
 	std::shared_ptr<ObjectInteractUpdatePacket> Packet = std::dynamic_pointer_cast<ObjectInteractUpdatePacket>(_Packet);
 
 	GameServerObject* FindObject = GameServerObject::GetServerObject(Packet->ObjectID);
+	GameServerObject* FindPlayerObject = GameServerObject::GetServerObject(Packet->PlayerNum);
 	if (FindObject == nullptr)
 	{
 		MsgBoxAssert("아직 등록되지 않은 오브젝트입니다 - Serverinitmanager, ObjectInteractUpdateProcess()")
 	}
-	FindObject->PushPacket(_Packet);
+
+	if (Packet->PlayerNum < 0)
+	{
+		MsgBoxAssertString("Serverinitmanager::ObjectInteractUpdateProcess() PlayerNum Is Unknown / " + std::to_string(Packet->PlayerNum))
+		return;
+	}
+
+	if (FindPlayerObject == nullptr)
+	{
+		//MsgBoxAssert("아직 등록되지 않은 오브젝트입니다 - Serverinitmanager, ObjectInteractUpdateProcess()")
+		GamePlayObjectManager::TemporaryPushData(_Packet);
+	}
+	else
+	{
+		FindObject->PushPacket(_Packet);
+	}
+
 	//FindObject = GameServerObject::GetServerObject(Packet->PlayerNum);
 	//if (FindObject == nullptr)
 	//{
@@ -122,6 +171,11 @@ void ServerInitManager::ObjectUpdatePacketProcess(std::shared_ptr<GameServerPack
 		return;
 	}
 
+	if (Packet->State == ServerObjectBaseState::Death)
+	{
+		return;
+	}
+	
 	FindObject->PushPacket(_Packet);
 	if (true == Net->GetIsHost())
 	{
@@ -289,7 +343,9 @@ void ServerInitManager::StartInit()
 		case ContentsPacketType::ObjectInteractUpdate:
 			NewPacket = std::make_shared<ObjectInteractUpdatePacket>();
 			break;
-
+		case ContentsPacketType::ObjectParentsSetFrame:
+			NewPacket = std::make_shared<ObjectParentsSetAllFramePacket>();
+			break;
 		case ContentsPacketType::ObjectUpdate:
 			NewPacket = std::make_shared<ObjectUpdatePacket>();
 			break;
@@ -345,6 +401,8 @@ void ServerInitManager::StartInit()
 	else
 	{
 		// 내가 클라이언트 일때만 등록해야하는 패킷
+		
+		Net->Dis.AddHandler(ContentsPacketType::ObjectParentsSetFrame, std::bind(&ServerInitManager::ObjectParentsSetAllFramePacketProcess, std::placeholders::_1));
 		Net->Dis.AddHandler(ContentsPacketType::ObjectCookingGageUpdate, std::bind(&ServerInitManager::ObjectCookingGageProcess, std::placeholders::_1));
 		Net->Dis.AddHandler(ContentsPacketType::ObjectParentsSet, std::bind(&ServerInitManager::ObjectParentsSetPacketProcess, std::placeholders::_1));
 		Net->Dis.AddHandler(ContentsPacketType::ClinetInit, std::bind(&ServerInitManager::ClientInitPacketProcess, std::placeholders::_1));

@@ -95,7 +95,7 @@ public:
 		}
 		CurrentHoldingObject_->SetParent(shared_from_this());
 		CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,60,-60 });
-		CastThis<GamePlayObject>()->GetCollisionObject()->Off();
+		CurrentHoldingObject_->CastThis<GamePlayObject>()->GetCollisionObject()->Off();
 	}
 
 	inline void SetCurHoldType(PlayerHoldType _CurHoldType) // 손에 쥐어줄때 무슨 플레이어가 타입인지 알려주는 함수

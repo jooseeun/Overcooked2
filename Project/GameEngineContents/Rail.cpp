@@ -54,6 +54,7 @@ void Tool_Rail::Start()
 
 void Tool_Rail::Update(float _Delta)
 {
+	GamePlayObject::Update(_Delta);
 	if (FirstTimeCheck_ == false)
 	{
 		std::shared_ptr<GameEngineCollision> Collision = CreateComponent<GameEngineCollision>();
@@ -72,32 +73,60 @@ void Tool_Rail::Update(float _Delta)
 	{
 		if (Front_StaticObject_.lock() != nullptr)
 		{
+			if (ServerInitManager::Net != nullptr && !ServerInitManager::Net->GetIsHost())
+			{
+				_Delta = 0;
+			}
+
 			if (GetCurrentMoveable() != nullptr)
 			{
-				if (GetCurrentMoveable() != After_Moveable_.lock())
+				if (After_Moveable_.lock() == nullptr)
 				{
 					After_Moveable_ = GetCurrentMoveable();
+					ReSetCurrentMoveable();
 					float4 Pos = After_Moveable_.lock()->GetTransform().GetWorldPosition();
 					After_Moveable_.lock()->SetParent(Front_StaticObject_.lock());
 					After_Moveable_.lock()->GetTransform().SetLocalPosition(Front_StaticObject_.lock()->GetTransform().GetWorldPosition() - Pos);
+					After_Moveable_.lock()->GetCollisionObject()->On();
 					MoveTime_ = 0;
 				}
 			}
 
-
 			if (After_Moveable_.lock() != nullptr)
 			{
-				MoveTime_ += _Delta;
-				After_Moveable_.lock()->GetTransform().SetLocalPosition(float4::LerpLimit((GetTransform().GetWorldPosition()) - (Front_StaticObject_.lock()->GetTransform().GetWorldPosition()), Front_StaticObject_.lock()->GetToolPos(), MoveTime_ / 1.5f));
-
-
-				if (MoveTime_ > 1.5f)
+				if (After_Moveable_.lock()->GetCollisionObject()->IsUpdate())
 				{
-					//Front_StaticObject_.lock()->SetPlayerState(nullptr, PlayerCurStateType::HoldDown, After_Moveable_.lock());
-					Front_StaticObject_.lock()->SetMoveable(After_Moveable_.lock());
-					MoveTime_ = 0;
+					MoveTime_ += _Delta;
+					After_Moveable_.lock()->GetTransform().SetLocalPosition(float4::LerpLimit((GetTransform().GetWorldPosition()) - (Front_StaticObject_.lock()->GetTransform().GetWorldPosition()), Front_StaticObject_.lock()->GetToolPos(), MoveTime_ / 1.5f));
+
+					if (ServerInitManager::Net != nullptr && ServerInitManager::Net->GetIsHost())
+					{
+						std::shared_ptr<ObjectCookingGagePacket> Packet = std::make_shared<ObjectCookingGagePacket>();
+						Packet->ObjectID = GetNetID();
+						Packet->CookingGage = MoveTime_;
+
+						ServerInitManager::Net->SendPacket(Packet);
+					}
+
+					if (MoveTime_ > 1.5f)
+					{
+						//Front_StaticObject_.lock()->SetPlayerState(nullptr, PlayerCurStateType::HoldDown, After_Moveable_.lock());
+						Front_StaticObject_.lock()->SetMoveable(After_Moveable_.lock());
+						MoveTime_ = 0;
+						After_Moveable_.reset();
+						if (ServerInitManager::Net->GetIsHost())
+						{
+							std::shared_ptr<ObjectParentsSetAllFramePacket> ParentsSetPacket = std::make_shared<ObjectParentsSetAllFramePacket>();
+							ParentsSetPacket->ParentsID = GetNetID();
+							ParentsSetPacket->ChildID = -1;
+							ServerInitManager::Net->SendPacket(ParentsSetPacket);
+						}
+						//ReSetCurrentMoveable();
+					}
+				}
+				else
+				{
 					After_Moveable_.reset();
-					ReSetCurrentMoveable();
 				}
 			}
 		}
@@ -109,11 +138,19 @@ void Tool_Rail::SetMoveable(std::shared_ptr<GameEngineUpdateObject> _Child)
 {
 	GamePlayTool::SetMoveable(_Child);
 
-	After_Moveable_ = GetCurrentMoveable();
-	float4 Pos = After_Moveable_.lock()->GetTransform().GetWorldPosition();
-	After_Moveable_.lock()->SetParent(Front_StaticObject_.lock());
-	After_Moveable_.lock()->GetTransform().SetLocalPosition(Front_StaticObject_.lock()->GetTransform().GetWorldPosition() - Pos);
-	MoveTime_ = 0;
+	if (ServerInitManager::Net->GetIsHost())
+	{
+		std::shared_ptr<ObjectParentsSetAllFramePacket> ParentsSetPacket = std::make_shared<ObjectParentsSetAllFramePacket>();
+		ParentsSetPacket->ParentsID = GetNetID();
+		ParentsSetPacket->ChildID = GetChildNetID();
+		ServerInitManager::Net->SendPacket(ParentsSetPacket);
+	}
+	//After_Moveable_ = GetCurrentMoveable();
+	//float4 Pos = After_Moveable_.lock()->GetTransform().GetWorldPosition();
+	//After_Moveable_.lock()->SetParent(Front_StaticObject_.lock());
+	//After_Moveable_.lock()->GetTransform().SetLocalPosition(Front_StaticObject_.lock()->GetTransform().GetWorldPosition() - Pos);
+	//MoveTime_ = 0;
+	
 }
 
 HoldDownEnum Tool_Rail::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
@@ -121,14 +158,14 @@ HoldDownEnum Tool_Rail::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 	switch (GamePlayTool::PickUp(_Moveable))
 	{
 	case HoldDownEnum::HoldUp:
-		MsgBoxAssert("미구현");
+		//MsgBoxAssert("미구현");
 		return HoldDownEnum::HoldUp;
 		break;
 	case HoldDownEnum::HoldDown:
-		if (After_Moveable_.lock() == (*_Moveable))
-		{
-			After_Moveable_.reset();
-		}
+		//if (After_Moveable_.lock() == (*_Moveable))
+		//{
+		//	After_Moveable_.reset();
+		//}
 		return HoldDownEnum::HoldDown;
 		break;
 	default:

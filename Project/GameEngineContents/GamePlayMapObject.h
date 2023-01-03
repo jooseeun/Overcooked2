@@ -39,7 +39,24 @@ private:
 
 	void SendObjectType(std::shared_ptr<ObjectStartPacket> Packet) override
 	{
-		Packet->MapObjData = MapObjType::Max;
+		switch (GetMapObjType())
+		{
+		case MapObjType::Lift:
+		//case MapObjType::Car:
+		//	break;
+		//case MapObjType::TrafficLight:
+		//	break;
+		case MapObjType::Portal_Blue:
+		case MapObjType::Portal_Purple:
+		case MapObjType::IcePlatform:
+			Packet->MapObjData = ObjType_;
+			break;
+		default:
+			Packet->MapObjData = MapObjType::Max;
+			break;
+		}
+
+
 	}
 
 };

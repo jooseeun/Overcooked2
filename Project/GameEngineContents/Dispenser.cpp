@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "Dispenser.h"
 #include "FoodHeader.h"
+#include "GlobalGameData.h"
 
 Dispenser::Dispenser() 
 {
@@ -91,7 +92,11 @@ void Tool_Dispenser::Update(float _Delta)
 	{
 		if (ServerInitManager::Net == nullptr || ServerInitManager::Net->GetIsHost())
 		{
-			Delay_ += _Delta;
+			if (GlobalGameData::IsGameStart() == true)
+			{
+				Delay_ += _Delta;
+			}
+			
 			if (Front_StaticObject_.lock()->GetMoveable() == nullptr && Delay_ > 3.f)
 			{
 				Delay_ = 0;
@@ -104,7 +109,20 @@ void Tool_Dispenser::Update(float _Delta)
 				}
 				std::shared_ptr<GamePlayFood> Food = GamePlayFood::GetIngredientClass(IngredientList_[Index_]);
 				Food->ServerStart();
-				Front_StaticObject_.lock()->SetMoveable(Food);
+
+				Front_StaticObject_.lock()->SetPlayerState(nullptr, PlayerCurStateType::HoldDown, Food);
+
+				
+
+				//if (nullptr != ServerInitManager::Net && (ServerInitManager::Net->GetIsHost()))
+				//{
+				//	std::shared_ptr<ObjectInteractUpdatePacket> Packet = std::make_shared<ObjectInteractUpdatePacket>();
+				//	Packet->ObjectID = Front_StaticObject_.lock()->GetNetID();
+				//	Packet->PlayerNum = Food->GetNetID();
+
+				//	ServerInitManager::Net->SendPacket(Packet);
+				//}
+
 				//Front_StaticObject_.lock()->SetPlayerState(nullptr, PlayerCurStateType::HoldDown , Food);
 			}
 		}

@@ -33,5 +33,9 @@ private:
 	float Speed_;
 
 	LIFTSTATE LiftState_;
+
+	float LerpTime_;
+
+	void SetServerCookingGage(std::shared_ptr<ObjectCookingGagePacket> _Packet) override;
 };
 

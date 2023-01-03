@@ -59,9 +59,10 @@ void GameEngineUpdateObject::AllUpdate(float _DeltaTime)
 	//{
 	//	int a = 0;
 	//}
+	std::list<std::shared_ptr<GameEngineUpdateObject>> TempChilds = Childs; // 장중혁 : 디버그용
 	
-	std::list<std::shared_ptr<GameEngineUpdateObject>>::iterator StartIter = Childs.begin();
-	std::list<std::shared_ptr<GameEngineUpdateObject>>::iterator EndIter = Childs.end();
+	std::list<std::shared_ptr<GameEngineUpdateObject>>::iterator StartIter = TempChilds.begin();
+	std::list<std::shared_ptr<GameEngineUpdateObject>>::iterator EndIter = TempChilds.end();
 
 
 	for (; StartIter != EndIter;StartIter++)

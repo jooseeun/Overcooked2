@@ -21,13 +21,24 @@ public:
 
 	void SetBloomActor();
 
+	static LIGHTCOLOR GetColor()
+	{
+		return Color_;
+	}
+
+	static void SetColor(LIGHTCOLOR _Color)
+	{
+		Color_ = _Color;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
+	void LevelStartEvent() override;
+	void LevelEndEvent() override;
+
 private:
-	LIGHTCOLOR Color_;
-	float ChangeTime_;
 
 	bool IsFirst_;
 
@@ -38,5 +49,14 @@ private:
 	std::shared_ptr<GlobalBloomActor> Green_Ground;
 	std::shared_ptr<GlobalBloomActor> Yellow_Ground;
 	std::shared_ptr<GlobalBloomActor> Red_Ground;
+
+	static float ChangeTime_;
+	static float WattingTime_;
+	static LIGHTCOLOR Color_;
+	static LIGHTCOLOR BeforeColor_;
+	static TrafficLightBloom* Inst_;
+
+	static void TrafficLightUpdate(float _Delta);
+
 };
 

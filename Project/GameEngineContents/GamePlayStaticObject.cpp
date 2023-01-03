@@ -134,19 +134,27 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 			}
 			else
 			{
-				MsgBoxAssert("GamePlayStaticObject::SetPlayerState case PlayerCurStateType::HoldUp / _Player->GetPlayerHolding() Is not nullptr");
-				std::shared_ptr<GamePlayMoveable> Moveable = GetMoveable();
-				switch (_Player->GetPlayerHolding()->CastThis<GamePlayMoveable>()->PickUp(&Moveable))
+				if (_FromNet != true)
 				{
-				case HoldDownEnum::HoldUp:
-					SetMoveable(Moveable);
+					MsgBoxAssert("GamePlayStaticObject::SetPlayerState case PlayerCurStateType::HoldUp / _Player->GetPlayerHolding() Is not nullptr");
 					ReturnValue = SetPlayerState_Return::Using;
-					break;
-				case HoldDownEnum::HoldDown:
-				case HoldDownEnum::Nothing:
-				default:
-					break;
 				}
+				//else
+				//{
+				//	
+				//	std::shared_ptr<GamePlayMoveable> Moveable = GetMoveable();
+				//	switch (_Player->GetPlayerHolding()->CastThis<GamePlayMoveable>()->PickUp(&Moveable))
+				//	{
+				//	case HoldDownEnum::HoldUp:
+				//		SetMoveable(Moveable);
+				//		ReturnValue = SetPlayerState_Return::Using;
+				//		break;
+				//	case HoldDownEnum::HoldDown:
+				//	case HoldDownEnum::Nothing:
+				//	default:
+				//		break;
+				//	}
+				//}
 			}
 		}
 	}
@@ -264,32 +272,8 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 		break;
 	}
 
-	//if (Stuff_Current_ != nullptr)
-	//{
-	//	Packet->HoldObjectID = GetNetID();
-	//}
-	//else
-	//{
-	//	Packet->HoldObjectID = -1;
-	//}
-	// 
-	//if (InteractPacket_ != nullptr)
-	//{
-	//	ServerInitManager::Net->SendPacket(InteractPacket_);
-	//	InteractPacket_.reset();
-	//}
 
-	//if (Stuff_Current_ != nullptr)
-	//{
-	//	std::shared_ptr<ObjectUpdatePacket> StuffPacket = std::make_shared<ObjectUpdatePacket>();
-	//	Stuff_Current_->SendDefaultPacket(StuffPacket);
-	//	StuffPacket->Pos = float4::ZERO;
-	//	StuffPacket->Rot = float4::ZERO;
-	//	StuffPacket->Scale = float4::ZERO;
-	//	ServerInitManager::Net->SendPacket(StuffPacket);
-	//}
-
-	if (nullptr != ServerInitManager::Net && (ServerInitManager::Net->GetIsHost() || _FromNet == false))
+	if (nullptr != ServerInitManager::Net && (ServerInitManager::Net->GetIsHost()))
 	{
 		if (_Player != nullptr)
 		{
@@ -301,6 +285,17 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 
 				ServerInitManager::Net->SendPacket(ParentsSetPacket);
 			}
+			else
+			{
+				if (nullptr != ServerInitManager::Net && (ServerInitManager::Net->GetIsHost()))
+				{
+					std::shared_ptr<ObjectParentsSetPacket> ParentsSetPacket = std::make_shared<ObjectParentsSetPacket>();
+					ParentsSetPacket->ParentsID = _Player->GetNetID();
+					ParentsSetPacket->ChildID = -1;
+
+					ServerInitManager::Net->SendPacket(ParentsSetPacket);
+				}
+			}
 		}
 
 
@@ -311,15 +306,30 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 				if (GetMoveable() != nullptr)
 				{
 					std::shared_ptr<ObjectParentsSetPacket> ToolParentsSetPacket = std::make_shared<ObjectParentsSetPacket>();
-					ToolParentsSetPacket->ParentsID = _Player->GetNetID();
+					ToolParentsSetPacket->ParentsID = Stuff_Current_->GetNetID();
 					ToolParentsSetPacket->ChildID = GetMoveable()->GetNetID();
 					ServerInitManager::Net->SendPacket(ToolParentsSetPacket);
 				}
-			}
+				else
+				{
+					std::shared_ptr<ObjectParentsSetPacket> ParentsSetPacket = std::make_shared<ObjectParentsSetPacket>();
+					ParentsSetPacket->ParentsID = Stuff_Current_->GetNetID();
+					ParentsSetPacket->ChildID = -1;
 
+					ServerInitManager::Net->SendPacket(ParentsSetPacket);
+				}
+			}
 			std::shared_ptr<ObjectParentsSetPacket> ParentsSetPacket = std::make_shared<ObjectParentsSetPacket>();
 			ParentsSetPacket->ParentsID = GetNetID();
 			ParentsSetPacket->ChildID = Stuff_Current_->GetNetID();
+
+			ServerInitManager::Net->SendPacket(ParentsSetPacket);
+		}
+		else
+		{
+			std::shared_ptr<ObjectParentsSetPacket> ParentsSetPacket = std::make_shared<ObjectParentsSetPacket>();
+			ParentsSetPacket->ParentsID = _Player->GetNetID();
+			ParentsSetPacket->ChildID = -1;
 
 			ServerInitManager::Net->SendPacket(ParentsSetPacket);
 		}
@@ -453,17 +463,6 @@ void GamePlayStaticObject::SetStuff(std::shared_ptr<GamePlayStuff> _Stuff)
 			_Stuff->GetTransform().SetLocalPosition(ToolPos_);
 		}
 	}
-
-
-	//if (nullptr != ServerInitManager::Net && (ServerInitManager::Net->GetIsHost()))
-	//{
-	//	std::shared_ptr<ObjectParentsSetPacket> ParentsSetPacket = std::make_shared<ObjectParentsSetPacket>();
-	//	ParentsSetPacket->ParentsID = GetNetID();
-	//	ParentsSetPacket->ChildID = Stuff_Current_->GetNetID();
-
-	//	ServerInitManager::Net->SendPacket(ParentsSetPacket);	
-	//}
-	
 }
 
 

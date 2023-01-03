@@ -45,12 +45,15 @@ public:
 	inline virtual void ReSetCurrentMoveable()
 	{
 		//Moveable_Current_->GetTransform().SetLocalPosition(float4::ZERO);
-		if (Moveable_Current_->IsDeath())
+		if (Moveable_Current_ != nullptr)
 		{
-			Moveable_Current_->Off();
-			Moveable_Current_->GetFBXMesh()->Off();
+			if (Moveable_Current_->IsDeath())
+			{
+				Moveable_Current_->Off();
+				Moveable_Current_->GetFBXMesh()->Off();
+			}
+			Moveable_Current_.reset();
 		}
-		Moveable_Current_.reset();
 	}
 
 	inline ObjectToolType GetObjectToolType()
@@ -163,7 +166,15 @@ public:
 	//		Packet->HoldObjectID = -1;
 	//	}
 	//}
+	void SetChild(std::shared_ptr<GamePlayStuff> _Child) override
+	{
+		SetMoveable(_Child);
+	}
 
+	void SetDeleteChild() override
+	{
+		ReSetCurrentMoveable();
+	};
 
 	void SetParentsServerHoldObject(int _ServerID) override
 	{

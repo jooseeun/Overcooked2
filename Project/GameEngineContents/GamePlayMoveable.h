@@ -149,6 +149,8 @@ private:
 	PlayerHoldType Enum_HoldType_;
 	std::shared_ptr<CookingBar> CookingBar_;
 
+	SetPlayerState_Return SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type, std::shared_ptr<GamePlayMoveable> _Moveable = nullptr, bool _FromNet = false) override;
+
 
 	virtual void FinishTrimmingFirst() {}
 	virtual void FinishTrimming() {}
