@@ -2,8 +2,9 @@
 #include "Cannon.h"
 #include "Button.h"
 #include "Player.h"
+#include "ServerInitManager.h"
 
-Cannon::Cannon() 
+Cannon::Cannon()
 	: CurState_(CannonState::Max)
 	, MaxAngle_(-40.f)
 	, ReadyAngle_(-32.f)
@@ -17,13 +18,14 @@ Cannon::Cannon()
 {
 }
 
-Cannon::~Cannon() 
+Cannon::~Cannon()
 {
 }
 
 void Cannon::Start()
 {
-	
+	ClientInit(ServerObjectType::Object, 99);
+
 	BaseRenderer = CreateComponent<GameEngineFBXStaticRenderer>();
 	BaseRenderer->SetFBXMesh("Cannon_Base.fbx", "Texture");
 	BaseRenderer->GetTransform().SetWorldScale({ 100, 100, 100 });
@@ -38,7 +40,7 @@ void Cannon::Start()
 	Collision_Object_->GetTransform().SetWorldScale({ 100, 100, 100 });
 
 	Button_ = GetLevel()->CreateActor<Button>();
-	Button_->GetTransform().SetWorldMove({0.f, 0.f, 122.f});
+	Button_->GetTransform().SetWorldMove({ 0.f, 0.f, 122.f });
 	Button_->SetParent(shared_from_this());
 
 	StateManager.CreateStateMember("Idle"
@@ -65,7 +67,7 @@ void Cannon::Update(float _DeltaTime)
 {
 	if (Player_ != nullptr)
 	{
-		Player_->CannonZAngle_ = CurAngle_; 
+		Player_->CannonZAngle_ = CurAngle_;
 	}
 
 	StateManager.Update(_DeltaTime);
@@ -182,7 +184,7 @@ void Cannon::ShootUpdate(float _DeltaTime, const StateInfo& _Info)
 				IsCounterReactionPos_ = true;
 			}
 			CurPos_ -= _DeltaTime * 250.f;
-				Mesh_Object_->GetTransform().SetLocalPosition({ CurPos_, Mesh_Object_->GetTransform().GetLocalPosition().y, Mesh_Object_->GetTransform().GetLocalPosition().z });
+			Mesh_Object_->GetTransform().SetLocalPosition({ CurPos_, Mesh_Object_->GetTransform().GetLocalPosition().y, Mesh_Object_->GetTransform().GetLocalPosition().z });
 		}
 		else
 		{
@@ -253,7 +255,7 @@ void Cannon::DownUpdate(float _DeltaTime, const StateInfo& _Info)
 		StateManager.ChangeState("Idle");
 		return;
 	}
-	
+
 	if (true == IsDownMove_)
 	{
 		if (0.f <= CurAngle_)
@@ -295,4 +297,76 @@ void Cannon::DownUpdate(float _DeltaTime, const StateInfo& _Info)
 		}
 	}
 
+}
+
+void Cannon::ServerUpdate(float _DeltaTime)
+{
+	if (false == GetIsNetInit() || nullptr == ServerInitManager::Net)
+	{
+		return;
+	}
+
+	if (nullptr != Player_ || ServerInitManager::Net->GetIsHost() == true)
+	{
+		std::shared_ptr<ObjectUpdatePacket> Packet = std::make_shared<ObjectUpdatePacket>();
+		Packet->ObjectID = GetNetID();
+		Packet->Type = ServerObjectType::Object;
+		Packet->State = ServerObjectBaseState::Base;
+		//Packet->Pos = GetTransform().GetWorldPosition();
+		//Packet->Rot = GetTransform().GetWorldRotation();
+		//Packet->Scale = GetTransform().GetWorldScale();
+		Packet->Animation = StateManager.GetCurStateStateName(); // State 이름
+
+		if (Player_ == nullptr)
+		{
+			Packet->RendererState = -1; // 플레이어 번호
+		}
+		else
+		{
+			Packet->RendererState = Player_->GetNetID(); // 플레이어 번호
+		}
+		Packet->PlayerMove = -1;
+		Packet->PlayerDeath = -1;
+
+		ServerInitManager::Net->SendPacket(Packet);
+		return;
+	}
+
+	while (false == IsPacketEmpty())
+	{
+		std::shared_ptr<GameServerPacket> Packet = PopPacket();
+
+		ContentsPacketType PacketType = Packet->GetPacketIDToEnum<ContentsPacketType>();
+
+		switch (PacketType)
+		{
+		case ContentsPacketType::ObjectUpdate:
+		{
+			std::shared_ptr<ObjectUpdatePacket> ObjectUpdate = std::dynamic_pointer_cast<ObjectUpdatePacket>(Packet);
+			//GetTransform().SetWorldPosition(ObjectUpdate->Pos);
+			//GetTransform().SetWorldRotation(ObjectUpdate->Rot);
+			//GetTransform().SetWorldScale(ObjectUpdate->Scale);
+
+			if (StateManager.GetCurStateStateName() != ObjectUpdate->Animation)
+			{
+				StateManager.ChangeState(ObjectUpdate->Animation);
+			}
+
+			if (Player_ == nullptr)
+			{
+				Player* Object = static_cast<Player*>(GameServerObject::GetServerObject(ObjectUpdate->RendererState));
+				if (Object != nullptr)
+				{
+					SetPlayer(std::dynamic_pointer_cast<Player>(Object->shared_from_this()));
+				}
+			}
+
+			break;
+		}
+		case ContentsPacketType::ClinetInit:
+		default:
+			MsgBoxAssert("처리할수 없는 패킷이 날아왔습니다.");
+			break;
+		}
+	}
 }
