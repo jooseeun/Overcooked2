@@ -206,6 +206,8 @@ public:
 	std::string Animation;
 	int PlayerNum;
 	int RendererState;
+	int PlayerMove;
+	int PlayerDeath;
 
 	ObjectUpdatePacket()
 	{
@@ -224,6 +226,8 @@ public:
 		_Ser << Animation;
 		_Ser << PlayerNum;
 		_Ser << RendererState;
+		_Ser << PlayerMove;
+		_Ser << PlayerDeath;
 	}
 	virtual void DeSerialize(GameServerSerializer& _Ser)
 	{
@@ -237,6 +241,8 @@ public:
 		_Ser >> Animation;
 		_Ser >> PlayerNum;
 		_Ser >> RendererState;
+		_Ser >> PlayerMove;
+		_Ser >> PlayerDeath;
 	}
 };
 

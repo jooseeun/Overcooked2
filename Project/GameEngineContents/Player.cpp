@@ -67,6 +67,9 @@ Player::Player()
 	, ServerCustomNum(0)
 	, IsThrowHolding_(false)
 	, RunningPuffTime_(0.0f)
+	, RunningPuffServerTime_(0.0f)
+	, IsMove_(0)
+	, IsDeath_(0)
 {
 	++PlayerCount_;
 }
@@ -632,14 +635,15 @@ void Player::MakeRunningPuff(int _Count)
 	for (int i = 0; i < _Count; i++)
 	{
 		float x_ = GameEngineRandom::MainRandom.RandomFloat(-40, 40);
-		float y_ = GameEngineRandom::MainRandom.RandomFloat(5, 10);
+		float __Scale = GameEngineRandom::MainRandom.RandomFloat(0.51f, 0.56f);
 
 		std::shared_ptr<PlayerRunningPuff> PuffActor = GetLevel()->CreateActor<PlayerRunningPuff>();
 		//PuffActor->SetParent(shared_from_this());
-		PuffActor->GetTransform().SetWorldPosition(GetTransform().GetWorldPosition()+ GetTransform().GetForwardVector()*20.f + float4{x_, 0.0f, y_});
-		PuffActor->SetScale(0.55f);
+		PuffActor->GetTransform().SetWorldPosition(GetTransform().GetWorldPosition()+ GetTransform().GetForwardVector()*50.0f + float4{x_, 0.0f, 0});
+		PuffActor->SetScale(__Scale);
 
 	}
+	RunningPuffServerTime_ = 0.0f;
 	RunningPuffTime_ = 0.0f;
 }
 void Player::IcePlatformCheck(float _DeltaTime)
@@ -1314,6 +1318,8 @@ CollisionReturn Player::GroundHoldUpCheck(std::shared_ptr<GameEngineCollision> _
 	}
 
 	SetPlayerHolding(_Other->GetActor());
+	SetPlayerState_Return::Using ==
+		_Other->GetParent()->CastThis<GamePlayObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), PlayerCurStateType::HoldUp);
 	SetCurHoldType(CurrentHoldingObject_->CastThis<GamePlayMoveable>()->GetHoldType());
 	IdleRendererON();
 
@@ -1446,6 +1452,8 @@ void Player::ServerUpdate(float _DeltaTime)
 		Packet->Scale = GetTransform().GetWorldScale();
 		Packet->Animation = CurAniName_;
 		Packet->RendererState = ServerRenderStateNum_;
+		Packet->PlayerMove = IsMove_;
+		Packet->PlayerDeath = IsDeath_;
 
 		if (ServerCustomNum != PlayerCustomNum)
 		{
@@ -1480,7 +1488,40 @@ void Player::ServerUpdate(float _DeltaTime)
 			ChangePlayerColor();
 			GetTransform().SetWorldPosition(ObjectUpdate->Pos);
 			GetTransform().SetWorldRotation(ObjectUpdate->Rot);
-
+			{
+				if (ObjectUpdate->PlayerMove == 1)
+				{
+					RunningPuffServerTime_ += 1.0f * _DeltaTime;
+					if (RunningPuffServerTime_ > 0.06f)
+					{
+						MakeRunningPuff(1);
+					}
+				}
+			}
+			//{
+			//	if (ObjectUpdate->PlayerDeath == 1)
+			//	{
+			//		for (int i = 0; i < 5; i++)
+			//		{
+			//			PixelData& Renderer = PlayerIdleRenderer_[ObjectUpdate->PlayerNum]->GetPixelDatas(i);
+			//			if (Renderer.MulColor.a > 0.0f)
+			//			{
+			//				Renderer.AlphaFlag = 1;
+			//				Renderer.AlphaColor.a -= 0.3f * _DeltaTime;
+			//				Renderer.MulColor.a -= 0.3f * _DeltaTime;
+			//			}
+			//		}
+			//	}
+			//	else if (ObjectUpdate->PlayerDeath == 2)
+			//	{
+			//		for (int i = 0; i < 5; i++)
+			//		{
+			//			PixelData& IdleRender = PlayerIdleRenderer_[ObjectUpdate->PlayerNum]->GetPixelDatas(i);
+			//			IdleRender.MulColor.a = 1.0f;
+			//			IdleRender.AlphaColor.a = 1.0f;
+			//		}
+			//	}
+			//}
 			{ // 캐릭터 업데이트
 				if (ObjectUpdate->PlayerNum < 6)
 				{

@@ -19,6 +19,7 @@ void Player::IdleStart(const StateInfo& _Info)
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 
 	Speed_ = 650.0f;
+	IsDeath_ = 0;
 }
 void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 {
@@ -84,9 +85,7 @@ void Player::MoveStart(const StateInfo& _Info)
 	PlayerWalkRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "Walk");
 	PlayerWalkRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 	PlayerWalkRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
-
-	MakeRunningPuff(1);
-
+	IsMove_ = 1;
 }
 void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 {
@@ -104,6 +103,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 
 		StateManager.ChangeState("Idle");
+		IsMove_ = 0;
 		return;
 	}
 
@@ -111,6 +111,8 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (IsPotal_ == true)
 	{
 		StateManager.ChangeState("Idle");
+		IsMove_ = 0;
+		return;
 
 	}
 	if (MoveAngle() == true)
@@ -537,6 +539,7 @@ void Player::CarDeathStart(const StateInfo& _Info)
 	PlayerIdleRenderer_[PlayerCustomNum]->GetCurAnim()->bOnceEnd = false;
 
 	DeathTime_ = 5.0f;
+	IsDeath_ = 1;
 }
 void Player::CarDeathUpdate(float _DeltaTime, const StateInfo& _Info)
 {
@@ -555,10 +558,11 @@ void Player::CarDeathUpdate(float _DeltaTime, const StateInfo& _Info)
 
 
 
-	if (DeathTime_ <= 0.0f)
+	if (DeathTime_ < 0.0f)
 	{
 		DetachPlayerHolding();
 		GetTransform().SetWorldPosition(ResponePos_);
+		IsDeath_ = 2;
 		for (int i = 0; i < 5; i++)
 		{
 			PixelData& IdleRender = PlayerIdleRenderer_[PlayerCustomNum]->GetPixelDatas(i);

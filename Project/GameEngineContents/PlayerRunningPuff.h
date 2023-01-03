@@ -31,5 +31,6 @@ private:
 	std::shared_ptr< GameEngineFBXStaticRenderer> RunningPuffRenderer_;
 	float Scale_;
 	float4 OriginalScale_;
+	float Time_;
 };
 

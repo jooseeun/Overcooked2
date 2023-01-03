@@ -95,6 +95,7 @@ public:
 		}
 		CurrentHoldingObject_->SetParent(shared_from_this());
 		CurrentHoldingObject_->GetTransform().SetLocalPosition({ 0,60,-60 });
+		CastThis<GamePlayObject>()->GetCollisionObject()->Off();
 	}
 
 	inline void SetCurHoldType(PlayerHoldType _CurHoldType) // 손에 쥐어줄때 무슨 플레이어가 타입인지 알려주는 함수
@@ -159,12 +160,14 @@ public:
 	bool IsPotal_;
 
 
-
+	int IsMove_;
 	bool IsCannonFly_;
 	bool IsCannon_;
 	float FlyTime_;
 	float CannonZAngle_;
 	int PlayerPNum;
+	float RunningPuffTime_;
+	float RunningPuffServerTime_;
 
 	int IsThrowHolding_;
 	bool ThrowHolding(std::shared_ptr<GameEngineUpdateObject> _HoldingObject);
@@ -194,7 +197,6 @@ private:
 	void GravityCheck(float _DeltaTime);
 	void IcePlatformCheck(float _DeltaTime);
 	void MakeRunningPuff(int _Count);
-	float RunningPuffTime_;
 	//충돌함수
 
 	CollisionReturn TableHoldUpCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
@@ -245,6 +247,7 @@ private:
 	bool IsSink_;
 
 	float DeathTime_;
+	int IsDeath_;
 	float4 ResponePos_;
 
 	std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerIdleRenderer_[6];
