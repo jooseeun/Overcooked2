@@ -1,5 +1,7 @@
 #pragma once
 #include "GameEngineCore//GameEngineActor.h"
+#include "GameServerObject.h"
+
 enum class CannonState
 {
 	Idle,
@@ -11,7 +13,7 @@ enum class CannonState
 
 // 설명 :
 class Button;
-class Cannon : public GameEngineActor
+class Cannon : public GameEngineActor, public GameServerObject
 {
 
 public:
@@ -96,5 +98,10 @@ private:
 	float CurPos_;
 
 	int ReactCount_;
+
+
+	///// 서버
+	void ServerUpdate(float _DeltaTime);
+
 };
 

@@ -29,6 +29,7 @@ void MoveCar::Start()
 
 void MoveCar::Update(float _DeltaTime)
 {
+	GamePlayObject::Update(_DeltaTime);
 	if (false == IsMove_)
 	{
 		StackTime_ += _DeltaTime;

@@ -412,14 +412,27 @@ void RecipeManager::Update(float _DeltaTime)
 	{
 		std::list<Recipe>::iterator StartIter = Recipes_.begin();
 		std::list<Recipe>::iterator EndIter = Recipes_.end();
+		int RecipeCount = 0;
 		for (; StartIter != EndIter; StartIter++)
 		{
+			if (IsHost_ == true)
+			{
+				StartIter->UpdateTime(_DeltaTime, true);
+			}
+			else
+			{
+				if (GlobalTimeVector_.empty() == false)
+				{
+					StartIter->UpdateTime(GlobalTimeVector_[RecipeCount], false);
+				}
+			}
 			StartIter->Update(_DeltaTime);
 			if (StartIter->GlobalTimer_.IsTimeOver() == true && StartIter->FailFlag_ == false)
 			{
 				FailScore_(StartIter->Data_.Score);
 				StartIter->FailFlag_ = true;
 			}
+			RecipeCount++;
 		}
 	}
 
@@ -445,6 +458,23 @@ void RecipeManager::DebugFunction()
 	//뒤버그
 	UIDebugGUI::Main_->AddFunction("DeleteFront Stage 1-1", std::bind(&RecipeManager::DeleteRecipe, this, 0));
 	UIDebugGUI::Main_->AddFunction("HandOverFishSushimi", std::bind(&RecipeManager::HandOver, this, FoodType::FishSushimi));
+}
+
+std::vector<float> RecipeManager::GetRecipeTime()
+{
+	std::vector<float> Vector = { -1,-1,-1,-1,-1 };
+	int Count = 0;
+	for (auto i : Recipes_)
+	{
+		Vector[Count] = i.GlobalTimer_.GetCurTime();
+		Count++;
+	}
+	return Vector;
+}
+
+void RecipeManager::UpdateFixedTime(std::vector<float> _Vector)
+{
+	GlobalTimeVector_ = _Vector;
 }
 
 Recipe::Recipe(FoodType _Type)
@@ -578,33 +608,6 @@ void Recipe::Update(float _DeltaTime)
 			IsPumpVerti_ = true;
 			BottomParentRenderer_.lock()->StartPumpVerti(1.14f, 10.0f);
 		}
-
-		//건네면 시간이 흐르지 않는다
-		if (IsHandOver_ == false)
-		{
-			if (GlobalTimer_.IsTimeOver() == false)
-			{
-				GlobalTimer_.Update(_DeltaTime);
-			}
-			if (BarTimer_[2].IsTimeOver() == false)
-			{
-				BarTimer_[2].Update(_DeltaTime);
-			}
-			else
-			{
-				if (BarTimer_[1].IsTimeOver() == false)
-				{
-					BarTimer_[1].Update(_DeltaTime);
-				}
-				else
-				{
-					if (BarTimer_[0].IsTimeOver() == false)
-					{
-						BarTimer_[0].Update(_DeltaTime);
-					}
-				}
-			}
-		}
 	}
 
 	for (int i = 2; i >= 0; i--)
@@ -706,6 +709,64 @@ void Recipe::Update(float _DeltaTime)
 		for (int i = 0; i < BarBackgroundRenderer_.size(); i++)
 		{
 			BarBackgroundRenderer_[i].lock()->UpdateColor(_PlusColor, _MulColor);
+		}
+	}
+}
+
+void Recipe::UpdateTime(float _DeltaTime, bool _IsHost)
+{
+	//건네면 시간이 흐르지 않는다
+	if (IsHandOver_ == false)
+	{
+		if (GlobalTimer_.IsTimeOver() == false)
+		{
+			if (_IsHost == true)
+			{
+				GlobalTimer_.Update(_DeltaTime);
+			}
+			else
+			{
+				GlobalTimer_.UpdateFixedTime(_DeltaTime);
+			}
+		}
+
+		std::vector<float> TimeVector;
+		float TimeValue = GlobalTimer_.GetCurTime();
+		for (int i = 0; i < 3; i++)
+		{
+			float CheckValue = TimeValue;
+			CheckValue -= BarTimer_[0].Default_Time_;
+			if (CheckValue <= 0.f)
+			{
+				TimeVector.push_back(TimeValue);
+				i++;
+				for (; i < 3; i++)
+				{
+					TimeVector.push_back(0.f);
+				}
+				break;
+			}
+			TimeValue = CheckValue;
+			TimeVector.push_back(BarTimer_[0].Default_Time_);
+		}
+
+		if (BarTimer_[2].IsTimeOver() == false)
+		{
+			BarTimer_[2].UpdateFixedTime(TimeVector[2]);
+		}
+		else
+		{
+			if (BarTimer_[1].IsTimeOver() == false)
+			{
+				BarTimer_[1].UpdateFixedTime(TimeVector[1]);
+			}
+			else
+			{
+				if (BarTimer_[0].IsTimeOver() == false)
+				{
+					BarTimer_[0].UpdateFixedTime(TimeVector[0]);
+				}
+			}
 		}
 	}
 }

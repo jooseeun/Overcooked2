@@ -14,6 +14,7 @@ enum class ContentsPacketType
 	ObjectCookingGageUpdate,
 	LoadingData,  // 로딩레벨에서 사용하는 패킷 호스트, 클라 둘 다 사용
 	UIUpdate,     // UI 업데이트
+	RecipeTimeUpdate, // Host to Client : 레시피 시간 데이터 업데이트
 	CreateRecipeData,	//레시피 생성
 	RequestHandOver,	// Client to Host :  해당 요리를 제출하는 요청 패킷 전송
 	OrderHandOver,	//Host to Client : 해당 요리에 대한 제출 명령 패킷 전송
@@ -292,6 +293,11 @@ public:
 	int ObjectID = 0;
 	float LeftTime = 0.f;
 	int IsReady_ = 0; //bool
+	float Recipe_0 = 0.f;
+	float Recipe_1 = 0.f;
+	float Recipe_2 = 0.f;
+	float Recipe_3 = 0.f;
+	float Recipe_4 = 0.f;
 	UIDataPacket()
 	{
 		SetPacketID(ContentsPacketType::UIUpdate);
@@ -303,6 +309,11 @@ public:
 		_Ser << ObjectID;
 		_Ser << LeftTime;
 		_Ser << IsReady_;
+		_Ser << Recipe_0;
+		_Ser << Recipe_1;
+		_Ser << Recipe_2;
+		_Ser << Recipe_3;
+		_Ser << Recipe_4;
 	}
 	virtual void DeSerialize(GameServerSerializer& _Ser)
 	{
@@ -310,6 +321,44 @@ public:
 		_Ser >> ObjectID;
 		_Ser >> LeftTime;
 		_Ser >> IsReady_;
+		_Ser >> Recipe_0;
+		_Ser >> Recipe_1;
+		_Ser >> Recipe_2;
+		_Ser >> Recipe_3;
+		_Ser >> Recipe_4;
+	}
+};
+
+class RecipeTimeUpdatePacket : public GameServerPacket
+{
+public:
+	float Recipe_0 = 0.f;
+	float Recipe_1 = 0.f;
+	float Recipe_2 = 0.f;
+	float Recipe_3 = 0.f;
+	float Recipe_4 = 0.f;
+	RecipeTimeUpdatePacket()
+	{
+		SetPacketID(ContentsPacketType::RecipeTimeUpdate);
+	}
+
+	virtual void Serialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::Serialize(_Ser);
+		_Ser << Recipe_0;
+		_Ser << Recipe_1;
+		_Ser << Recipe_2;
+		_Ser << Recipe_3;
+		_Ser << Recipe_4;
+	}
+	virtual void DeSerialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::DeSerialize(_Ser);
+		_Ser >> Recipe_0;
+		_Ser >> Recipe_1;
+		_Ser >> Recipe_2;
+		_Ser >> Recipe_3;
+		_Ser >> Recipe_4;
 	}
 };
 

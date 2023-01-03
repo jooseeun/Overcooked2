@@ -44,6 +44,7 @@ void Oven::Start()
 
 void Oven::Update(float _DeltaTime)
 {
+	GamePlayObject::Update(_DeltaTime);
 	if (true == IsSound_ && false == IsSoundDone_)
 	{
 		IsSoundDone_ = true;

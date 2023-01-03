@@ -64,39 +64,3 @@ void ServerInitManager::CreateRecipePacketProcess(std::shared_ptr<GameServerPack
 		FindObject->PushPacket(Packet);
 	}
 }
-
-void ServerInitManager::RequsetHandOverPacketProcess(std::shared_ptr<GameServerPacket> _Packet)
-{
-	//호스트가 받고 처리한다.
-	std::shared_ptr<OrderHandOverPacket> Packet = std::dynamic_pointer_cast<OrderHandOverPacket>(_Packet);
-
-	GameServerObject* FindObject = GameServerObject::GetServerObject(3999);
-	if (FindObject == nullptr)
-	{
-		return;
-	}
-	FindObject->PushPacket(Packet);
-}
-
-void ServerInitManager::OrderHandOverPacketProcess(std::shared_ptr<GameServerPacket> _Packet)
-{
-	//클라가 받고 처리한다.
-
-	std::shared_ptr<OrderHandOverPacket> Packet = std::dynamic_pointer_cast<OrderHandOverPacket>(_Packet);
-
-	for (int i = 4000;; i++)
-	{
-		GameServerObject* FindObject = GameServerObject::GetServerObject(i);
-		if (FindObject == nullptr)
-		{
-			return;
-		}
-
-		if (FindObject->GetNetID() != i)
-		{
-			continue;
-		}
-
-		FindObject->PushPacket(Packet);
-	}
-}

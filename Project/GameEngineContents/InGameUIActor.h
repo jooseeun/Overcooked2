@@ -58,6 +58,8 @@ public:
 private:
 	void Update(float _DeltaTime);
 
+	void UpdateTime(float _DeltaTime, bool IsHost = true);
+
 private:
 	//주기관련
 	bool IsDead_ = false;
@@ -116,6 +118,14 @@ public:
 	void Update(float _DeltaTime);
 
 	void DebugFunction();
+
+	//시간 동기화 관련
+	std::vector<float> GetRecipeTime();
+	void UpdateFixedTime(std::vector<float> _Vector);
+
+	bool IsHost_ = false;
+private:
+	std::vector<float> GlobalTimeVector_;
 
 private:
 	void DeleteRecipe(int _Count);
