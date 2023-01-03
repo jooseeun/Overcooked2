@@ -63,7 +63,7 @@ void Stage_1_4::PlayLevelStartEvent()
 	{
 		if (Player::GetMyPlayer()->PlayerPNum == 1)
 		{
-			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1000, 1000, 1000 });
+			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -700, 1000, 1000 });
 		}
 		else if (Player::GetMyPlayer()->PlayerPNum == 2)
 		{

@@ -61,18 +61,18 @@ void Stage_2_1::PlayLevelStartEvent()
 		}
 		else if (Player::GetMyPlayer()->PlayerPNum == 2)
 		{
-			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1100.00, 90.0, -1111.00 });
-			Player::GetMyPlayer()->SetResponePos({ -1100.00, 90.0, -1111.00 });
+			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -850.00, 90.0, -1111.00 });
+			Player::GetMyPlayer()->SetResponePos({ -850.00, 90.0, -1111.00 });
 		}
 		else if (Player::GetMyPlayer()->PlayerPNum == 3)
 		{
-			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1100.00, 90.0, -1111.00 });
-			Player::GetMyPlayer()->SetResponePos({ -1100.00, 90.0, -1111.00 });
+			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1100.00, 90.0, -900.00 });
+			Player::GetMyPlayer()->SetResponePos({ -1100.00, 90.0, -900.00 });
 		}
 		else if (Player::GetMyPlayer()->PlayerPNum == 4)
 		{
-			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1100.00, 90.0, -1111.00 });
-			Player::GetMyPlayer()->SetResponePos({ -1100.00, 90.0, -1111.00 });
+			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -850.00, 90.0, -900.00 });
+			Player::GetMyPlayer()->SetResponePos({ -850.00, 90.0, -900.00 });
 		}
 		Player::GetMyPlayer()->SetCurFrontDir();
 	}

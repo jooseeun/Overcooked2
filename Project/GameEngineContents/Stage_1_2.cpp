@@ -61,18 +61,18 @@ void Stage_1_2::PlayLevelStartEvent()
 		}
 		else if (Player::GetMyPlayer()->PlayerPNum == 2)
 		{
-			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1500, 500, -500 });
-			Player::GetMyPlayer()->SetResponePos({ -1500, 500, -500 });
+			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1500, 500, -200 });
+			Player::GetMyPlayer()->SetResponePos({ -1500, 500, -200 });
 		}
 		else if (Player::GetMyPlayer()->PlayerPNum == 3)
 		{
-			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1500, 500, -500 });
-			Player::GetMyPlayer()->SetResponePos({ -1500, 500, -500 });
+			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1700, 500, -500 });
+			Player::GetMyPlayer()->SetResponePos({ -1700, 500, -500 });
 		}
 		else if (Player::GetMyPlayer()->PlayerPNum == 4)
 		{
-			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1500, 500, -500 });
-			Player::GetMyPlayer()->SetResponePos({ -1500, 500, -500 });
+			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1700, 500, -200 });
+			Player::GetMyPlayer()->SetResponePos({ -1700, 500, -200 });
 		}
 		Player::GetMyPlayer()->SetCurFrontDir();
 	}
