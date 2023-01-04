@@ -60,6 +60,8 @@ public:
 	//	Interaction_ = !Interaction_;
 	//} 
 
+	void FBXSetting();
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -103,5 +105,6 @@ private:
 	///// ¼­¹ö
 	void ServerUpdate(float _DeltaTime);
 
+	bool IsSetting_;
 };
 

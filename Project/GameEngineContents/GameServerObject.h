@@ -15,6 +15,7 @@ enum class ServerObjectType
 	None = -1,
 	Player,
 	Object,
+	Cannon,
 	UI
 };
 

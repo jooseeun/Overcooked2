@@ -167,6 +167,11 @@ void ServerInitManager::ObjectUpdatePacketProcess(std::shared_ptr<GameServerPack
 				Player::MaxPlayerCount_ = Packet->ObjectID;
 			}
 		}
+		else if (ServerObjectType::Cannon == Packet->Type)
+		{
+			FindObject = GEngine::GetCurrentLevel()->CreateActor<Cannon>().get();
+			FindObject->ClientInit(ServerObjectType::Cannon, Packet->ObjectID);
+		}
 
 		return;
 	}

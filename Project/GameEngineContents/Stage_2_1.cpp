@@ -91,7 +91,7 @@ void Stage_2_1::PlayLevelStartEvent()
 
 	WaterActor_ = CreateActor<GameEngineActor>();
 	WaterActor_->GetTransform().SetWorldScale({ 2000, 3000, 1 });
-	WaterActor_->GetTransform().SetWorldPosition({-1500.f, -50.f, -1200.f});
+	WaterActor_->GetTransform().SetWorldPosition({ -1500.f, -50.f, -1200.f });
 	WaterActor_->GetTransform().SetWorldRotation({ 90.f, 0.f, 0.f });
 
 	{
@@ -121,7 +121,7 @@ void Stage_2_1::PlayLevelStartEvent()
 	GetMainCameraActorTransform().SetLocalRotation({ 60, 180, 0 });
 	GetMainCameraActorTransform().SetLocalPosition({ -1700, 3000, 750 });
 
-	
+
 	std::shared_ptr<IceBlock> Block = CreateActor <IceBlock>();
 	Block->GetTransform().SetWorldPosition({ -1383.f, 0.f, -2070.f });
 	Block->SetIceBlockType(IceBlockType::Ice11);
@@ -142,8 +142,12 @@ void Stage_2_1::PlayLevelStartEvent()
 	Puple2->SetNextPotal(Puple1);
 	Puple2->SetNextPos({ -491.00,260.00,-1402.00 });
 
-	CannonObj_ = CreateActor<Cannon>();
-	CannonObj_->GetTransform().SetWorldPosition({-606.f, 0.f, -1111.f});
+	if (true == ServerInitManager::Net->GetIsHost())
+	{
+		CannonObj_ = CreateActor<Cannon>();
+		CannonObj_->GetTransform().SetWorldPosition({ -606.f, 0.f, -1111.f });
+		CannonObj_->ClientInit(ServerObjectType::Object, 99);
+	}
 
 	std::shared_ptr<GlobalOverlay> GlobalOverlay_ = GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalOverlay>();
 	GraphicWindow::Main_->SetOverlay(GlobalOverlay_);

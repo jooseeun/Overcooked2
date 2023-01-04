@@ -15,6 +15,7 @@ Cannon::Cannon()
 	, IsDownMove_(false)
 	, CurPos_(0.f)
 	, IsCounterReactionPos_(false)
+	, IsSetting_(false)
 {
 }
 
@@ -22,10 +23,8 @@ Cannon::~Cannon()
 {
 }
 
-void Cannon::Start()
+void Cannon::FBXSetting()
 {
-	ClientInit(ServerObjectType::Object, 99);
-
 	BaseRenderer = CreateComponent<GameEngineFBXStaticRenderer>();
 	BaseRenderer->SetFBXMesh("Cannon_Base.fbx", "Texture");
 	BaseRenderer->GetTransform().SetWorldScale({ 100, 100, 100 });
@@ -42,7 +41,10 @@ void Cannon::Start()
 	Button_ = GetLevel()->CreateActor<Button>();
 	Button_->GetTransform().SetWorldMove({ 0.f, 0.f, 122.f });
 	Button_->SetParent(shared_from_this());
+}
 
+void Cannon::Start()
+{
 	StateManager.CreateStateMember("Idle"
 		, std::bind(&Cannon::IdleUpdate, this, std::placeholders::_1, std::placeholders::_2)
 		, std::bind(&Cannon::IdleStart, this, std::placeholders::_1)
@@ -65,6 +67,13 @@ void Cannon::Start()
 
 void Cannon::Update(float _DeltaTime)
 {
+	if (false == IsSetting_)
+	{
+		IsSetting_ = true;
+		FBXSetting();
+		return;
+	}
+
 	if (Player_ != nullptr)
 	{
 		Player_->CannonZAngle_ = CurAngle_;
@@ -73,6 +82,8 @@ void Cannon::Update(float _DeltaTime)
 	StateManager.Update(_DeltaTime);
 
 	DebugOn();
+
+	ServerUpdate(_DeltaTime);
 }
 
 void Cannon::IdleStart(const StateInfo& _Info)
@@ -120,6 +131,26 @@ void Cannon::ReadyUpdate(float _DeltaTime, const StateInfo& _Info)
 	else if (true == Button_->CheckButtonPressedState() && true == Player_->IsCannon_)
 	{
 		StateManager.ChangeState("Shoot");
+
+		std::shared_ptr<ObjectUpdatePacket> Packet = std::make_shared<ObjectUpdatePacket>();
+		Packet->ObjectID = GetNetID();
+		Packet->Type = ServerObjectType::Cannon;
+		Packet->State = ServerObjectBaseState::Base;
+		Packet->Pos = GetTransform().GetWorldPosition();
+		Packet->Animation = "Shoot"; 
+
+		if (Player_ == nullptr)
+		{
+			Packet->RendererState = -1;
+		}
+		else
+		{
+			Packet->RendererState = Player_->GetNetID();
+		}
+		Packet->PlayerMove = -1;
+		Packet->PlayerDeath = -1;
+
+		ServerInitManager::Net->SendPacket(Packet);
 	}
 	else if (true == GameEngineInput::GetInst()->IsDownKey("MapObjectTest") && true == Player_->IsCannon_)	/// 테스트 //
 	{
@@ -310,9 +341,9 @@ void Cannon::ServerUpdate(float _DeltaTime)
 	{
 		std::shared_ptr<ObjectUpdatePacket> Packet = std::make_shared<ObjectUpdatePacket>();
 		Packet->ObjectID = GetNetID();
-		Packet->Type = ServerObjectType::Object;
+		Packet->Type = ServerObjectType::Cannon;
 		Packet->State = ServerObjectBaseState::Base;
-		//Packet->Pos = GetTransform().GetWorldPosition();
+		Packet->Pos = GetTransform().GetWorldPosition();
 		//Packet->Rot = GetTransform().GetWorldRotation();
 		//Packet->Scale = GetTransform().GetWorldScale();
 		Packet->Animation = StateManager.GetCurStateStateName(); // State 이름
@@ -343,7 +374,7 @@ void Cannon::ServerUpdate(float _DeltaTime)
 		case ContentsPacketType::ObjectUpdate:
 		{
 			std::shared_ptr<ObjectUpdatePacket> ObjectUpdate = std::dynamic_pointer_cast<ObjectUpdatePacket>(Packet);
-			//GetTransform().SetWorldPosition(ObjectUpdate->Pos);
+			GetTransform().SetWorldPosition(ObjectUpdate->Pos);
 			//GetTransform().SetWorldRotation(ObjectUpdate->Rot);
 			//GetTransform().SetWorldScale(ObjectUpdate->Scale);
 
@@ -363,10 +394,6 @@ void Cannon::ServerUpdate(float _DeltaTime)
 
 			break;
 		}
-		case ContentsPacketType::ClinetInit:
-		default:
-			MsgBoxAssert("처리할수 없는 패킷이 날아왔습니다.");
-			break;
 		}
 	}
 }
