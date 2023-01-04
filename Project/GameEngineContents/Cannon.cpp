@@ -195,6 +195,8 @@ void Cannon::ShootStart(const StateInfo& _Info)
 	Button_->SetButtonUnPressed();
 	ReactCount_ = 2;
 
+	// 여기에 해당 플레이어 정보(자기아니여도) 보내는 코드 추가필요
+
 	GameEngineSound::SoundPlayOneShot("DLC_08_Cannon_Fire_01.wav");
 	GameEngineSound::SoundPlayOneShot("DLC_08_Cannon_Crowd_03.wav");
 }
@@ -327,7 +329,6 @@ void Cannon::DownUpdate(float _DeltaTime, const StateInfo& _Info)
 			Mesh_Object_->GetTransform().SetLocalRotation({ 0.f, 0.f, CurAngle_ });
 		}
 	}
-
 }
 
 void Cannon::ServerUpdate(float _DeltaTime)
@@ -337,7 +338,7 @@ void Cannon::ServerUpdate(float _DeltaTime)
 		return;
 	}
 
-	if (nullptr != Player_ || ServerInitManager::Net->GetIsHost() == true)
+	if (nullptr != Player_)
 	{
 		std::shared_ptr<ObjectUpdatePacket> Packet = std::make_shared<ObjectUpdatePacket>();
 		Packet->ObjectID = GetNetID();
