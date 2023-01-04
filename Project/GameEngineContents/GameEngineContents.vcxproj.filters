@@ -353,6 +353,9 @@
     <ClInclude Include="GamePlayObjectManager.h">
       <Filter>Contents\Object</Filter>
     </ClInclude>
+    <ClInclude Include="TitleLevelActor.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -709,6 +712,9 @@
     </ClCompile>
     <ClCompile Include="GamePlayObjectManager.cpp">
       <Filter>Contents\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLevelActor.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

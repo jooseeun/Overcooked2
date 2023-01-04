@@ -81,6 +81,9 @@ private:
 	bool IsRecipeOn_ = false;
 	float RecipeOnTime_ = 0.f;
 
+	//서버 동기화 관련
+	Timer FailSyncTimer_;//Fail해서 빨간색되면 약 3초동안 다시 빨간색 되는 것을 방지하는 타이머
+
 	std::weak_ptr<OverCookedUIRenderer> ParentRenderer_;
 
 	std::weak_ptr<OverCookedUIRenderer> FoodRenderer_;

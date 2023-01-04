@@ -126,7 +126,7 @@ void ServerInitManager::ObjectInteractUpdateProcess(std::shared_ptr<GameServerPa
 	if (Packet->PlayerNum < 0)
 	{
 		MsgBoxAssertString("Serverinitmanager::ObjectInteractUpdateProcess() PlayerNum Is Unknown / " + std::to_string(Packet->PlayerNum))
-		return;
+			return;
 	}
 
 	if (FindPlayerObject == nullptr)
@@ -180,7 +180,7 @@ void ServerInitManager::ObjectUpdatePacketProcess(std::shared_ptr<GameServerPack
 	{
 		return;
 	}
-	
+
 	FindObject->PushPacket(_Packet);
 	if (true == Net->GetIsHost())
 	{
@@ -406,7 +406,7 @@ void ServerInitManager::StartInit()
 	else
 	{
 		// 내가 클라이언트 일때만 등록해야하는 패킷
-		
+
 		Net->Dis.AddHandler(ContentsPacketType::ObjectParentsSetFrame, std::bind(&ServerInitManager::ObjectParentsSetAllFramePacketProcess, std::placeholders::_1));
 		Net->Dis.AddHandler(ContentsPacketType::ObjectCookingGageUpdate, std::bind(&ServerInitManager::ObjectCookingGageProcess, std::placeholders::_1));
 		Net->Dis.AddHandler(ContentsPacketType::ObjectParentsSet, std::bind(&ServerInitManager::ObjectParentsSetPacketProcess, std::placeholders::_1));

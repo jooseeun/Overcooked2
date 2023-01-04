@@ -56,7 +56,7 @@ HoldDownEnum Tool_Servicehatch::PickUp(std::shared_ptr<GamePlayMoveable>* _Movea
 		std::weak_ptr<Equipment_Plate> Plate = (*_Moveable)->CastThis<Equipment_Plate>();
 		if (Plate.lock() != nullptr)
 		{
-			if (ServerInitManager::Net == nullptr || ServerInitManager::Net->GetIsHost())
+			//if (ServerInitManager::Net == nullptr || ServerInitManager::Net->GetIsHost())
 			{
 				GetLevel<GamePlayLevel>()->RequestHandOverFood(Plate.lock()->GetCombinFood()->GetFoodType());
 			}

@@ -462,7 +462,7 @@ void RecipeManager::DebugFunction()
 
 std::vector<float> RecipeManager::GetRecipeTime()
 {
-	std::vector<float> Vector = { -1,-1,-1,-1,-1 };
+	std::vector<float> Vector = { 9999,9999,9999,9999,9999 };
 	int Count = 0;
 	for (auto i : Recipes_)
 	{
@@ -596,6 +596,7 @@ std::vector<int> Recipe::GetScore()
 void Recipe::Update(float _DeltaTime)
 {
 	AccTime_ += _DeltaTime;
+	FailSyncTimer_.Update(_DeltaTime);
 	if (IsRecipeOn_ == true)
 	{
 		RecipeOnTime_ += _DeltaTime * 3.5f;
@@ -630,42 +631,46 @@ void Recipe::Update(float _DeltaTime)
 	//시간 다되서 빨개지는거
 	if (GlobalPercentage <= 0.001f)
 	{
-		float4 _PlusColor = { 0,0,0,0 };
-		float4 _MulColor = { 1.0f,1.0f,1.0f,1.0f };
+		if (FailSyncTimer_.IsTimeOver() == true)
+		{
+			float4 _PlusColor = { 0,0,0,0 };
+			float4 _MulColor = { 1.0f,1.0f,1.0f,1.0f };
 
-		Timeout_IterTime_ += _DeltaTime * 2.5f;
-		if (Timeout_IterTime_ < 1.f)
-		{
-			_MulColor.y = 1 - Timeout_IterTime_;
-			_MulColor.z = 1 - Timeout_IterTime_;
-		}
-		else if (Timeout_IterTime_ >= 1.f && Timeout_IterTime_ < 2.f)
-		{
-			_MulColor.y = Timeout_IterTime_ - 1.f;
-			_MulColor.z = Timeout_IterTime_ - 1.f;
-		}
-		else//시간이 다됬으면
-		{
-			FailFlag_ = false;
-			Timeout_IterTime_ = 0.f;
-			_MulColor.y = 1.f;
-			_MulColor.z = 1.f;
-			GlobalTimer_.StartTimer(Data_.WaitingTime);
-			for (int i = 0; i < 3; i++)
+			Timeout_IterTime_ += _DeltaTime * 2.5f;
+			if (Timeout_IterTime_ < 1.f)
 			{
-				BarTimer_[i].StartTimer();
+				_MulColor.y = 1 - Timeout_IterTime_;
+				_MulColor.z = 1 - Timeout_IterTime_;
 			}
-		}
+			else if (Timeout_IterTime_ >= 1.f && Timeout_IterTime_ < 2.f)
+			{
+				_MulColor.y = Timeout_IterTime_ - 1.f;
+				_MulColor.z = Timeout_IterTime_ - 1.f;
+			}
+			else//시간이 다됬으면
+			{
+				FailSyncTimer_.StartTimer(3.0f);
+				FailFlag_ = false;
+				Timeout_IterTime_ = 0.f;
+				_MulColor.y = 1.f;
+				_MulColor.z = 1.f;
+				GlobalTimer_.StartTimer(Data_.WaitingTime);
+				for (int i = 0; i < 3; i++)
+				{
+					BarTimer_[i].StartTimer();
+				}
+			}
 
-		for (int i = 0; i < IngredientRenderer_.size(); i++)
-		{
-			IngredientRenderer_[i].lock()->UpdateColor(_PlusColor, _MulColor);
-		}
-		TopBackgroundRenderer_.lock()->UpdateColor(_PlusColor, _MulColor);
-		FoodRenderer_.lock()->UpdateColor(_PlusColor, _MulColor);
-		for (int i = 0; i < BottomBackgroundRenderer_.size(); i++)
-		{
-			BottomBackgroundRenderer_[i].lock()->UpdateColor(_PlusColor, _MulColor);
+			for (int i = 0; i < IngredientRenderer_.size(); i++)
+			{
+				IngredientRenderer_[i].lock()->UpdateColor(_PlusColor, _MulColor);
+			}
+			TopBackgroundRenderer_.lock()->UpdateColor(_PlusColor, _MulColor);
+			FoodRenderer_.lock()->UpdateColor(_PlusColor, _MulColor);
+			for (int i = 0; i < BottomBackgroundRenderer_.size(); i++)
+			{
+				BottomBackgroundRenderer_[i].lock()->UpdateColor(_PlusColor, _MulColor);
+			}
 		}
 	}
 
