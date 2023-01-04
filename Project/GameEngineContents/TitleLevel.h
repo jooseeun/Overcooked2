@@ -17,6 +17,7 @@ protected:
 	void Update(float _DeltaTime) override;
 	void End() override;
 	void LevelStartEvent() override;
+	void LevelEndEvent() override;
 
 private:
 	std::shared_ptr<GameEngineFBXAnimationRenderer> KevinRenderer_;
@@ -29,6 +30,4 @@ private:
 	std::shared_ptr<GameEngineFBXStaticRenderer> ShutterRenderer_;
 
 	std::shared_ptr<GameEngineFBXStaticRenderer> PoleRenderer_;
-	
 };
-

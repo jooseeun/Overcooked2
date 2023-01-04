@@ -3,10 +3,11 @@
 #include "Player.h"
 #include "TitleVan.h"
 #include "MouseInputWindow.h"
+#include "TitleLevelActor.h"
+#include "UIDebugGUI.h"
 
 TitleLevel::TitleLevel()
 {
-
 }
 
 TitleLevel::~TitleLevel()
@@ -51,17 +52,22 @@ void TitleLevel::Start()
 	PoleRenderer_->ChangeCamera(CAMERAORDER::UICAMERA);
 
 	Shutter_ = CreateActor<GameEngineActor>();
-	Shutter_->GetTransform().SetWorldPosition({0.f, 0.f, -1.f});
+	Shutter_->GetTransform().SetWorldPosition({ 0.f, 0.f, -1.f });
 	ShutterRenderer_ = Shutter_->CreateComponent<GameEngineFBXStaticRenderer>();
 	ShutterRenderer_->SetFBXMesh("Shatter.fbx", "Texture");
 	ShutterRenderer_->GetTransform().SetWorldScale({ 200.f, 180.f });
-	ShutterRenderer_->GetTransform().SetWorldRotation({ 0.f, 180.f});
-	ShutterRenderer_->ChangeCamera(CAMERAORDER::UICAMERA);
+	ShutterRenderer_->GetTransform().SetWorldRotation({ 0.f, 180.f });
+	ShutterRenderer_->ChangeCamera(CAMERAORDER::AboveUICAMERA);
 
 	std::shared_ptr<GameEngineFBXStaticRenderer> SkyPlane = CreateActor<GameEngineActor>()->CreateComponent<GameEngineFBXStaticRenderer>();
 	SkyPlane->SetFBXMesh("m_menu_bg_sky.fbx", "TextureSkybox");
 	SkyPlane->GetTransform().SetWorldScale({ 50.f, 50.f, 50.f });
 	SkyPlane->SetSubConstantBufferLink(0, "RENDEROPTION", &SkyRenderOption_, sizeof(RenderOption));
+
+	//UI!!
+	{
+		CreateActor<TitleLevelActor>();
+	}
 }
 
 void TitleLevel::Update(float _DeltaTime)
@@ -96,11 +102,18 @@ void TitleLevel::LevelStartEvent()
 {
 	//std::shared_ptr<GlobalMouseInput> Mouse = CreateActor<GlobalMouseInput>();
 
-	ServerInitManager::StartInit();
+	//ServerInitManager::StartInit();
 	if (nullptr != Player::GetMyPlayer())
 	{
 		Player::GetMyPlayer()->GetTransform().SetLocalPosition({ 0, -2000, 0 });
 		Player::GetMyPlayer()->SetCurFrontDir();
 	}
+
 	GameBgmPlayer::BgmPlayer_->ChangeBgm("Frontend.wav");
+	UIDebugGUI::Main_->On();
+}
+
+void TitleLevel::LevelEndEvent()
+{
+	UIDebugGUI::Main_->Off();
 }

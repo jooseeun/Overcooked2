@@ -1,10 +1,214 @@
 #include "Precompile.h"
 #include "TitleLevelActor.h"
 
+#include <GameEngineCore/GameEngineFontRenderer.h>
+#include "GameEngineStatusWindow.h"
+
+#include "OverCookedUIRenderer.h"
+
 TitleLevelActor::TitleLevelActor()
 {
 }
 
 TitleLevelActor::~TitleLevelActor()
 {
+}
+
+void TitleLevelActor::UIStart()
+{
+	CreateButton("스타트", { -500,300,0 }, std::bind(&TitleLevelActor::ChangeLevel, this));
+	CreateButton("호스트", { -250,300,0 }, std::bind([&](void)
+		{
+			GameEngineStatusWindow::IsHost = true;
+			ServerInitManager::StartInit();
+			AllButtons_[0].Enable();
+			AllButtons_[1].Disable();
+			AllButtons_[2].Disable();
+		}));
+	CreateButton("서버접속", { 0,300,0 }, std::bind([&](void)
+		{
+			GameEngineStatusWindow::IsHost = false;
+			ServerInitManager::StartInit();
+			AllButtons_[0].Disable();
+			AllButtons_[1].Disable();
+			AllButtons_[2].Disable();
+		}));
+	CreateButton("설정", { 250,300,0 }, nullptr);
+	CreateButton("종료", { 500,300,0 }, nullptr);
+
+	AllButtons_[0].Disable();
+}
+
+void TitleLevelActor::UIUpdate(float _DeltaTime)
+{
+	UpdateInput();
+}
+
+void TitleLevelActor::UpdateInput()
+{
+	if (GameEngineInput::GetInst()->IsDownKey("PlayerRight") == true)
+	{
+		if (AllButtons_[CurNum_].IsDisabled == false)
+		{
+			AllButtons_[CurNum_].Enable();
+		}
+		CurNum_++;
+		//Check
+		{
+			while (true)
+			{
+				if (CurNum_ >= AllButtons_.size())
+				{
+					CurNum_ = 0;
+				}
+
+				if (AllButtons_[CurNum_].IsDisabled == true)
+				{
+					CurNum_++;
+					continue;
+				}
+
+				//해당되는 놈을 만났어
+				AllButtons_[CurNum_].Highlight();
+				AllButtons_[CurNum_].Parent.lock()->StartPump(1.1f, 9.0f);
+				break;
+			}
+		}
+	}
+	else if (GameEngineInput::GetInst()->IsDownKey("PlayerLeft") == true)
+	{
+		if (AllButtons_[CurNum_].IsDisabled == false)
+		{
+			AllButtons_[CurNum_].Enable();
+		}
+		CurNum_--;
+		//Check
+		{
+			while (true)
+			{
+				if (CurNum_ < 0)
+				{
+					CurNum_ = static_cast<int>(AllButtons_.size()) - 1;
+				}
+
+				if (AllButtons_[CurNum_].IsDisabled == true)
+				{
+					CurNum_--;
+					continue;
+				}
+
+				//해당되는 놈을 만났어
+				AllButtons_[CurNum_].Highlight();
+				AllButtons_[CurNum_].Parent.lock()->StartPump(1.1f, 9.0f);
+				break;
+			}
+		}
+	}
+	else if (GameEngineInput::GetInst()->IsDownKey("PlayerHold") == true)
+	{
+		for (int i = 0; i < AllButtons_.size(); i++)
+		{
+			if (AllButtons_[i].IsHighlighted == true)
+			{
+				if (AllButtons_[i].CallBack != nullptr)
+				{
+					AllButtons_[i].CallBack();
+				}
+			}
+		}
+	}
+}
+
+void TitleLevelActor::UIEnd()
+{
+}
+
+void TitleLevelActor::ChangeLevel()
+{
+	if (nullptr != ServerInitManager::Net)
+	{
+		if (ServerInitManager::Net->GetIsHost())
+		{
+			std::shared_ptr<ChangeLevelPacket> Packet = std::make_shared<ChangeLevelPacket>();
+			Packet->LevelName = "SelectStage";
+			ServerInitManager::Net->SendPacket(Packet);
+		}
+		GEngine::ChangeLevel("SelectStage");
+	}
+}
+
+void TitleLevelActor::CreateButton(std::string_view _Font, const float4& _Pos, std::function<void()> _Function)
+{
+	MenuButton NewButton;
+	NewButton.Parent = CreateUIRenderer("Null.png");
+	NewButton.Parent.lock()->GetTransform().SetWorldPosition(_Pos);
+	NewButton.Parent.lock()->ResistDebug(std::to_string(AllButtons_.size()));
+
+	float ButtonSize = 0.3f;
+	NewButton.Button = CreateUIRenderer("t_ui_main_menu_button_04_d.png", ButtonSize);
+	NewButton.Button.lock()->GetTransform().SetParentTransform(NewButton.Parent.lock()->GetTransform());
+
+	NewButton.Button_Disabled = CreateUIRenderer("t_ui_main_menu_button_04_disabled_d.png", ButtonSize);
+	NewButton.Button_Disabled.lock()->GetTransform().SetParentTransform(NewButton.Parent.lock()->GetTransform());
+	NewButton.Button_Disabled.lock()->Off();
+
+	NewButton.Button_Highlight = CreateUIRenderer("t_ui_main_menu_button_04_highlight_d.png", ButtonSize);
+	NewButton.Button_Highlight.lock()->GetTransform().SetParentTransform(NewButton.Parent.lock()->GetTransform());
+	NewButton.Button_Highlight.lock()->Off();
+
+	NewButton.Font = CreateComponent<GameEngineFontRenderer>();
+	NewButton.Font.lock()->ChangeCamera(CAMERAORDER::UICAMERA);
+	NewButton.Font.lock()->SetText(_Font.data(), "Naughty Squirrel");
+	NewButton.Font.lock()->SetColor({ 1.0f,1.0f,1.0f,1 });
+	NewButton.Font.lock()->SetSize(28.f);
+	NewButton.Font.lock()->SetLeftAndRightSort(LeftAndRightSort::CENTER);
+	NewButton.Font.lock()->SetAffectTransform(true);
+	NewButton.Font.lock()->GetTransform().SetParentTransform(NewButton.Parent.lock()->GetTransform());
+	//ResistDebug("ButtonFont", NewButton.Font.lock()->GetTransform());
+	NewButton.Font.lock()->GetTransform().SetLocalMove({ 0,22.f,-1 });
+
+	//{
+	//	//폰트
+	//	std::shared_ptr<GameEngineFontRenderer> NewFont = CreateComponent<GameEngineFontRenderer>();
+	//	NewFont->ChangeCamera(CAMERAORDER::UICAMERA);
+	//	NewFont->SetText("1-1", "Naughty Squirrel");
+	//	NewFont->SetColor({ 0.4f,0.4f,0.4f,1 });
+	//	NewFont->SetSize(35.f);
+	//	NewFont->SetLeftAndRightSort(LeftAndRightSort::CENTER);
+	//	NewFont->SetAffectTransform(true);
+	//	NewFont->GetTransform().SetLocalMove({ 0,-58.f,-1 });
+	//	NewFont->GetTransform().SetParentTransform(NewParent->GetTransform());
+	//	NewSelect.Font = NewFont;
+	//}
+
+	NewButton.CallBack = _Function;
+
+	AllButtons_.push_back(NewButton);
+}
+
+void TitleLevelActor::MenuButton::Disable()
+{
+	Button.lock()->Off();
+	Button_Highlight.lock()->Off();
+	Button_Disabled.lock()->On();
+	IsDisabled = true;
+	IsHighlighted = false;
+}
+
+void TitleLevelActor::MenuButton::Enable()
+{
+	Button.lock()->On();
+	Button_Highlight.lock()->Off();
+	Button_Disabled.lock()->Off();
+	IsHighlighted = false;
+	IsDisabled = false;
+}
+
+void TitleLevelActor::MenuButton::Highlight()
+{
+	Button.lock()->Off();
+	Button_Highlight.lock()->On();
+	Button_Disabled.lock()->Off();
+	IsHighlighted = true;
+	IsDisabled = false;
 }
