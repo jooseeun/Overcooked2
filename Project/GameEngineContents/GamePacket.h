@@ -242,10 +242,12 @@ public:
 	float4 Rot;
 	float4 Scale;
 	std::string Animation;
-	int PlayerNum;
+	int PlayerCustomNum;
+	int PlayerCountNum;
 	int RendererState;
 	int PlayerMove;
 	int PlayerDeath;
+	int IsCannonFly;
 
 	ObjectUpdatePacket()
 	{
@@ -262,10 +264,12 @@ public:
 		_Ser << Rot;
 		_Ser << Scale;
 		_Ser << Animation;
-		_Ser << PlayerNum;
+		_Ser << PlayerCustomNum;
+		_Ser << PlayerCountNum;
 		_Ser << RendererState;
 		_Ser << PlayerMove;
 		_Ser << PlayerDeath;
+		_Ser << IsCannonFly;
 	}
 	virtual void DeSerialize(GameServerSerializer& _Ser)
 	{
@@ -277,10 +281,12 @@ public:
 		_Ser >> Rot;
 		_Ser >> Scale;
 		_Ser >> Animation;
-		_Ser >> PlayerNum;
+		_Ser >> PlayerCustomNum;
+		_Ser >> PlayerCountNum;
 		_Ser >> RendererState;
 		_Ser >> PlayerMove;
 		_Ser >> PlayerDeath;
+		_Ser >> IsCannonFly;
 	}
 };
 

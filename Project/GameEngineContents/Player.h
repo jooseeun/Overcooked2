@@ -278,6 +278,7 @@ private:
 	static std::shared_ptr<Player> MyPlayer;
 	static bool OnePlayerInit;
 	bool IsPlayerble;
+	bool IsServerStart;
 
 	void ServerStart();
 	void ServerUpdate(float _DeltaTime);

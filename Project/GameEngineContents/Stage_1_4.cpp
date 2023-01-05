@@ -77,6 +77,10 @@ void Stage_1_4::PlayLevelStartEvent()
 		{
 			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1000, 1000, 1000 });
 		}
+		else
+		{
+			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1000, 1000, 1000 });
+		}
 		Player::GetMyPlayer()->SetCurFrontDir();
 	}
 

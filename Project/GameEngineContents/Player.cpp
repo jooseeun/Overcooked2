@@ -70,6 +70,7 @@ Player::Player()
 	, RunningPuffServerTime_(0.0f)
 	, IsMove_(0)
 	, IsDeath_(0)
+	, IsServerStart(false)
 {
 	++PlayerCount_;
 }
@@ -1418,13 +1419,14 @@ void Player::ServerStart()
 	{
 		IsPlayerble = true;
 		OnePlayerInit = true;
-
-	}
-
-	if (GetLevel()->GetName() == "TITLELEVEL")
-	{
-		PlayerPNum = GetNetID();
+		PlayerPNum = PlayerCount_;
 		ChangePlayerColor();
+	}
+	if (IsServerStart==false)
+	{
+		PlayerPNum = PlayerCount_;
+		ChangePlayerColor();
+		IsServerStart = true;
 	}
 }
 
@@ -1455,15 +1457,25 @@ void Player::ServerUpdate(float _DeltaTime)
 		Packet->RendererState = ServerRenderStateNum_;
 		Packet->PlayerMove = IsMove_;
 		Packet->PlayerDeath = IsDeath_;
+		Packet->PlayerCountNum = PlayerPNum;
+
+		if (IsCannonFly_ == true)
+		{
+			Packet->IsCannonFly = 1;
+		}
+		else
+		{
+			Packet->IsCannonFly = 0;
+		}
 
 		if (ServerCustomNum != PlayerCustomNum)
 		{
-			Packet->PlayerNum = ServerCustomNum;
+			Packet->PlayerCustomNum = ServerCustomNum;
 			ServerCustomNum = PlayerCustomNum;
 		}
 		else
 		{
-			Packet->PlayerNum = 100;
+			Packet->PlayerCustomNum = 100;
 		}
 		ServerInitManager::Net->SendPacket(Packet);
 
@@ -1485,7 +1497,7 @@ void Player::ServerUpdate(float _DeltaTime)
 		case ContentsPacketType::ObjectUpdate:
 		{
 			std::shared_ptr<ObjectUpdatePacket> ObjectUpdate = std::dynamic_pointer_cast<ObjectUpdatePacket>(Packet);
-			PlayerPNum = ObjectUpdate->ObjectID;
+			PlayerPNum = ObjectUpdate->PlayerCountNum;
 			ChangePlayerColor();
 			GetTransform().SetWorldPosition(ObjectUpdate->Pos);
 			GetTransform().SetWorldRotation(ObjectUpdate->Rot);
@@ -1524,11 +1536,11 @@ void Player::ServerUpdate(float _DeltaTime)
 			//	}
 			//}
 			{ // 캐릭터 업데이트
-				if (ObjectUpdate->PlayerNum < 6)
+				if (ObjectUpdate->PlayerCustomNum < 6)
 				{
 					for (int i = 0; i < 6; i++)
 					{
-						if (i != ObjectUpdate->PlayerNum)
+						if (i != ObjectUpdate->PlayerCustomNum)
 						{
 							PlayerIdleRenderer_[i]->Off();
 							PlayerWalkRenderer_[i]->Off();
@@ -1537,10 +1549,10 @@ void Player::ServerUpdate(float _DeltaTime)
 						}
 
 					}
-					PlayerIdleRenderer_[ObjectUpdate->PlayerNum]->On();
-					PlayerWalkRenderer_[ObjectUpdate->PlayerNum]->On();
-					PlayerWashRenderer_[ObjectUpdate->PlayerNum]->On();
-					PlayerChopRenderer_[ObjectUpdate->PlayerNum]->On();
+					PlayerIdleRenderer_[ObjectUpdate->PlayerCustomNum]->On();
+					PlayerWalkRenderer_[ObjectUpdate->PlayerCustomNum]->On();
+					PlayerWashRenderer_[ObjectUpdate->PlayerCustomNum]->On();
+					PlayerChopRenderer_[ObjectUpdate->PlayerCustomNum]->On();
 				}
 			}
 	
