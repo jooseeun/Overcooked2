@@ -15,6 +15,34 @@ SelectStageUIActor::~SelectStageUIActor()
 {
 }
 
+void SelectStageUIActor::ServerRelease()
+{
+	if (ServerInitManager::Net->GetIsHost() == true)
+	{
+		EraseServerObject(GetNetID());
+	}
+}
+
+void SelectStageUIActor::ServerInit()
+{
+	if (ServerInitManager::Net->GetIsHost() == true)
+	{
+		ClientInit(ServerObjectType::UI, 4020);
+	}
+	else
+	{
+		int i = 4021;
+		for (; ; i++)
+		{
+			if (GameServerObject::GetServerObject(i) == nullptr)
+			{
+				ClientInit(ServerObjectType::UI, i);
+				break;
+			}
+		}
+	}
+}
+
 void SelectStageUIActor::UIStart()
 {
 	InitRenderer();
@@ -91,6 +119,33 @@ void SelectStageUIActor::InitRenderer()
 
 void SelectStageUIActor::UIUpdate(float _DeltaTime)
 {
+	//클라면 서버로부터 인풋 데이터를 받는다
+	while (false == IsPacketEmpty())
+	{
+		std::shared_ptr<GameServerPacket> Packet = PopPacket();
+		if (Packet == nullptr)
+		{
+			break;
+		}
+
+		ContentsPacketType PacketType = Packet->GetPacketIDToEnum<ContentsPacketType>();
+
+		switch (PacketType)
+		{
+		case ContentsPacketType::SelectStageInputData:
+		{
+			std::shared_ptr<SelectStageInputDataPacket> InputPacket = std::dynamic_pointer_cast<SelectStageInputDataPacket>(Packet);
+			InputBuffer_ = InputPacket->InputBuffer;
+			//RecipeManager_.CreateRecipe(static_cast<FoodType>(RecipePacket->CreateFoodType));
+			break;
+		}
+		default:
+			break;
+		}
+	}
+
+
+
 	switch (Phase_)
 	{
 	case 0:// 0 : 키보드로 맵을 선택하는 단계 1 : 맵을 선택하고 기다리는 단계
@@ -111,7 +166,17 @@ void SelectStageUIActor::UIUpdate(float _DeltaTime)
 	{
 		if (TransitionIcon_->IsFinishFadeOut_ == true)
 		{
-			GEngine::ChangeLevel("LoadingLevel");
+			if (nullptr != ServerInitManager::Net)
+			{
+				if (ServerInitManager::Net->GetIsHost())
+				{
+					std::shared_ptr<ChangeLevelPacket> Packet = std::make_shared<ChangeLevelPacket>();
+					Packet->LevelName = "LoadingLevel";
+					ServerInitManager::Net->SendPacket(Packet);
+				}
+				GEngine::ChangeLevel("LoadingLevel");
+			}
+			//GEngine::ChangeLevel("LoadingLevel");
 		}
 		break;
 	}
@@ -126,20 +191,44 @@ void SelectStageUIActor::UIEnd()
 
 void SelectStageUIActor::MovingMap(float _DeltaTime)
 {
+	
 	if (IsChanging() == false)
 	{
-		if (GameEngineInput::GetInst()->IsDownKey("PlayerLeft") == true)
+		if (ServerInitManager::Net->GetIsHost() == true)
 		{
-			StartChange(1);//나는 왼쪽 것을 선택한다. & 이 맵들은 오른쪽으로 이동한다.
+			if (GameEngineInput::GetInst()->IsDownKey("PlayerLeft") == true)
+			{
+				StartChange(1);//나는 왼쪽 것을 선택한다. & 이 맵들은 오른쪽으로 이동한다.
+			}
+			else if (GameEngineInput::GetInst()->IsDownKey("PlayerRight") == true)
+			{
+				StartChange(-1); // 나는 내 오른쪽 것을 선택한다. & 이 맵들은 왼쪽으로 이동한다.
+			}
+			else if (GameEngineInput::GetInst()->IsDownKey("PlayerHold") == true)
+			{
+				std::shared_ptr<SelectStageInputDataPacket> Packet = std::make_shared<SelectStageInputDataPacket>();
+				Packet->InputBuffer = 0;
+				ServerInitManager::Net->SendPacket(Packet);
+				StartSelectMap();
+
+			}
 		}
-		else if (GameEngineInput::GetInst()->IsDownKey("PlayerRight") == true)
+		else
 		{
-			StartChange(-1); // 나는 내 오른쪽 것을 선택한다. & 이 맵들은 왼쪽으로 이동한다.
+			if (InputBuffer_ > -2)
+			{
+				if (InputBuffer_ != 0)
+				{
+					StartChange(InputBuffer_);
+				}
+				else
+				{
+					StartSelectMap();
+				}
+				InputBuffer_ = -2;
+			}
 		}
-		else if (GameEngineInput::GetInst()->IsDownKey("PlayerHold") == true)
-		{
-			StartSelectMap();
-		}
+
 	}
 	else //현재 화면 전환 중
 	{
@@ -331,6 +420,12 @@ void SelectStageUIActor::CreateLevelSelect(std::string_view _MapFileName, int _B
 
 void SelectStageUIActor::StartChange(int _Dir)
 {
+	if (ServerInitManager::Net->GetIsHost() == true)
+	{
+		std::shared_ptr<SelectStageInputDataPacket> Packet = std::make_shared<SelectStageInputDataPacket>();
+		Packet->InputBuffer = _Dir;
+		ServerInitManager::Net->SendPacket(Packet);
+	}
 	ShowSelectEffect(_Dir);
 
 	//움직이기 전 위치정보 저장

@@ -64,3 +64,23 @@ void ServerInitManager::CreateRecipePacketProcess(std::shared_ptr<GameServerPack
 		FindObject->PushPacket(Packet);
 	}
 }
+
+void ServerInitManager::SelectStageInputDataPacketProcess(std::shared_ptr<GameServerPacket> _Packet)
+{
+	std::shared_ptr<SelectStageInputDataPacket> Packet = std::dynamic_pointer_cast<SelectStageInputDataPacket>(_Packet);
+	for (int i = 4021;; i++)
+	{
+		GameServerObject* FindObject = GameServerObject::GetServerObject(i);
+		if (FindObject == nullptr)
+		{
+			return;
+		}
+
+		if (FindObject->GetNetID() != i)
+		{
+			continue;
+		}
+
+		FindObject->PushPacket(Packet);
+	}
+}

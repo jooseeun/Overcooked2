@@ -64,6 +64,8 @@ void SelectStageLevel::LevelStartEvent()
 	if (SelectStageActor_.lock() == nullptr)
 	{
 		SelectStageActor_ = CreateActor<SelectStageUIActor>();
+		SelectStageActor_.lock()->ServerInit();
+
 		SelectStageActor_.lock()->StartFadeIn();
 		//UIActor_->Reset();
 	}
@@ -77,6 +79,7 @@ void SelectStageLevel::LevelEndEvent()
 	GraphicWindow::Main_->Off();
 	if (SelectStageActor_.lock() != nullptr)
 	{
+		SelectStageActor_.lock()->ServerRelease();
 		SelectStageActor_.lock()->Death();
 		SelectStageActor_.reset();
 	}

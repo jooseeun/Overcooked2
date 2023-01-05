@@ -3,6 +3,7 @@
 
 #include <GameEngineCore/GameEngineFontRenderer.h>
 #include "GameEngineStatusWindow.h"
+#include "GlobalGameData.h"
 
 #include "OverCookedUIRenderer.h"
 
@@ -46,6 +47,7 @@ void TitleLevelActor::UIUpdate(float _DeltaTime)
 
 void TitleLevelActor::UpdateInput()
 {
+	GlobalGameData::PlayerCount_ = ServerInitManager::Server.GetUserSockets().size() + 1;
 	if (GameEngineInput::GetInst()->IsDownKey("PlayerRight") == true)
 	{
 		if (AllButtons_[CurNum_].IsDisabled == false)

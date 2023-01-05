@@ -159,6 +159,7 @@ private:
 	static int FailCount_;
 	static int TipGaugeCount_;
 
+	public:
 	static int PlayerCount_;
 
 public:

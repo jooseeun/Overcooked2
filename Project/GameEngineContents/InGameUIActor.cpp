@@ -600,25 +600,25 @@ void InGameUIActor::ServerUpdate(float _DeltaTime)
 	if (ServerInitManager::Net->GetIsHost() == true)
 	{
 		//패킷 수신
-		while (false == IsPacketEmpty())
-		{
-			std::shared_ptr<GameServerPacket> Packet = PopPacket();
+		//while (false == IsPacketEmpty())
+		//{
+		//	std::shared_ptr<GameServerPacket> Packet = PopPacket();
 
-			ContentsPacketType PacketType = Packet->GetPacketIDToEnum<ContentsPacketType>();
+		//	ContentsPacketType PacketType = Packet->GetPacketIDToEnum<ContentsPacketType>();
 
-			switch (PacketType)
-			{
-			case ContentsPacketType::RequestHandOver:
-			{
-				std::shared_ptr<RequestHandOverPacket> RecipePacket = std::dynamic_pointer_cast<RequestHandOverPacket>(Packet);
-				RequestHandOverFood(static_cast<FoodType>(RecipePacket->HandOverFoodType));
-				//RecipeManager_.CreateRecipe(static_cast<FoodType>(RecipePacket->CreateFoodType));
-				break;
-			}
-			default:
-				break;
-			}
-		}
+		//	switch (PacketType)
+		//	{
+		//	//case ContentsPacketType::RequestHandOver:
+		//	//{
+		//	//	std::shared_ptr<RequestHandOverPacket> RecipePacket = std::dynamic_pointer_cast<RequestHandOverPacket>(Packet);
+		//	//	RequestHandOverFood(static_cast<FoodType>(RecipePacket->HandOverFoodType));
+		//	//	//RecipeManager_.CreateRecipe(static_cast<FoodType>(RecipePacket->CreateFoodType));
+		//	//	break;
+		//	//}
+		//	default:
+		//		break;
+		//	}
+		//}
 		//패킷  송신 : Global Time
 		{
 			ContentsUtility::Timer& LeftTimer = GlobalGameData::GetLeftTimeRef();

@@ -1,7 +1,8 @@
 #pragma once
 #include "UIActor.h"
+#include "GameServerObject.h"
 
-class SelectStageUIActor : public UIActor
+class SelectStageUIActor : public UIActor , public GameServerObject
 {
 	struct LevelSelect
 	{
@@ -26,6 +27,10 @@ public:
 	SelectStageUIActor(SelectStageUIActor&& _Other) noexcept = delete;
 	SelectStageUIActor& operator=(const SelectStageUIActor& _Other) = delete;
 	SelectStageUIActor& operator=(const SelectStageUIActor&& _Other) = delete;
+
+
+	void ServerRelease();
+	void ServerInit();
 
 protected:
 	void UIStart() override;
@@ -77,4 +82,7 @@ private:
 	//카운트다운&Transition 관련
 	Timer CountDown_ = 4.5f;
 	void StartTransition(int _A);
+
+	//서버용 변수
+	int InputBuffer_ = -2;
 };

@@ -15,10 +15,9 @@ enum class ContentsPacketType
 	ObjectCookingGageUpdate,
 	LoadingData,  // 로딩레벨에서 사용하는 패킷 호스트, 클라 둘 다 사용
 	UIUpdate,     // UI 업데이트
+	SelectStageInputData, //SelectStage 인풋 동기화
 	RecipeTimeUpdate, // Host to Client : 레시피 시간 데이터 업데이트
 	CreateRecipeData,	//레시피 생성
-	RequestHandOver,	// Client to Host :  해당 요리를 제출하는 요청 패킷 전송
-	OrderHandOver,	//Host to Client : 해당 요리에 대한 제출 명령 패킷 전송
 	ClinetInit,   // 클라이언트가 들어오면 서버가 보내줄 패킷.
 	ChangeLevel,  // 레벨 변경 - 호스트만 전송
 	ReadyLevel,   // 레벨 변경이 완료됨 - 게스트만 전송
@@ -421,49 +420,71 @@ public:
 	}
 };
 
-class RequestHandOverPacket : public GameServerPacket
+class SelectStageInputDataPacket : public GameServerPacket
 {
 public:
-	int HandOverFoodType; //Enum 형변환 ㄱㄱ
+	int InputBuffer; //Enum 형변환 ㄱㄱ
 public:
-	RequestHandOverPacket()
+	SelectStageInputDataPacket()
 	{
-		SetPacketID(ContentsPacketType::RequestHandOver);
+		SetPacketID(ContentsPacketType::SelectStageInputData);
 	}
 
 	virtual void Serialize(GameServerSerializer& _Ser)
 	{
 		GameServerPacket::Serialize(_Ser);
-		_Ser << HandOverFoodType;
+		_Ser << InputBuffer;
 	}
 	virtual void DeSerialize(GameServerSerializer& _Ser)
 	{
 		GameServerPacket::DeSerialize(_Ser);
-		_Ser >> HandOverFoodType;
+		_Ser >> InputBuffer;
 	}
 };
 
-class OrderHandOverPacket : public GameServerPacket
-{
-public:
-	int HandOverFoodType; //Enum 형변환 ㄱㄱ
-public:
-	OrderHandOverPacket()
-	{
-		SetPacketID(ContentsPacketType::OrderHandOver);
-	}
-
-	virtual void Serialize(GameServerSerializer& _Ser)
-	{
-		GameServerPacket::Serialize(_Ser);
-		_Ser << HandOverFoodType;
-	}
-	virtual void DeSerialize(GameServerSerializer& _Ser)
-	{
-		GameServerPacket::DeSerialize(_Ser);
-		_Ser >> HandOverFoodType;
-	}
-};
+//class RequestHandOverPacket : public GameServerPacket
+//{
+//public:
+//	int HandOverFoodType; //Enum 형변환 ㄱㄱ
+//public:
+//	RequestHandOverPacket()
+//	{
+//		SetPacketID(ContentsPacketType::RequestHandOver);
+//	}
+//
+//	virtual void Serialize(GameServerSerializer& _Ser)
+//	{
+//		GameServerPacket::Serialize(_Ser);
+//		_Ser << HandOverFoodType;
+//	}
+//	virtual void DeSerialize(GameServerSerializer& _Ser)
+//	{
+//		GameServerPacket::DeSerialize(_Ser);
+//		_Ser >> HandOverFoodType;
+//	}
+//};
+//
+//class OrderHandOverPacket : public GameServerPacket
+//{
+//public:
+//	int HandOverFoodType; //Enum 형변환 ㄱㄱ
+//public:
+//	OrderHandOverPacket()
+//	{
+//		SetPacketID(ContentsPacketType::OrderHandOver);
+//	}
+//
+//	virtual void Serialize(GameServerSerializer& _Ser)
+//	{
+//		GameServerPacket::Serialize(_Ser);
+//		_Ser << HandOverFoodType;
+//	}
+//	virtual void DeSerialize(GameServerSerializer& _Ser)
+//	{
+//		GameServerPacket::DeSerialize(_Ser);
+//		_Ser >> HandOverFoodType;
+//	}
+//};
 
 class LoadingDataPacket : public GameServerPacket
 {
