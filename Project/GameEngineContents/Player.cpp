@@ -560,52 +560,58 @@ void Player::Update(float _DeltaTime)
 		return;
 	}
 
-	DeathCheck();
-	StateManager.Update(_DeltaTime);
-	CustomKeyCheck();
-	LiftFloorCheck();
-	IcePlatformCheck(_DeltaTime);
-	GravityCheck(_DeltaTime);
+
 
 	if (GetLevel()->GetName() != "TITLELEVEL")
 	{
+		DeathCheck();
+		StateManager.Update(_DeltaTime);
+		CustomKeyCheck();
+		LiftFloorCheck();
+		IcePlatformCheck(_DeltaTime);
+		GravityCheck(_DeltaTime);
+
 		CameraMove(_DeltaTime);
-
-	}
-
-	if (GameEngineInput::GetInst()->IsPressKey("Contents_Debug"))
-	{
-		GetTransform().SetWorldUpMove(1000, _DeltaTime);
-	}
-	if (IsThrowHolding_ == true)
-	{
-		StateManager.ChangeState("HoldUp");
-	}
-
-	{
-		if(Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Moveable, CollisionType::CT_OBB,
-			std::bind(&Player::HighlihgtMoveAbleCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
+		if (GameEngineInput::GetInst()->IsPressKey("Contents_Debug"))
 		{
-			if (HighLightMoveAbleObject_ != nullptr)
-			{
-				HighLightMoveAbleObject_->GetParent()->CastThis< GamePlayMoveable>()->SetHighlightEffectOff();
-				HighLightMoveAbleObject_ = nullptr;
-
-			}
+			GetTransform().SetWorldUpMove(1000, _DeltaTime);
 		}
-		if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
-			std::bind(&Player::HighlihgtStaticCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
+		if (IsThrowHolding_ == true)
 		{
-			if (HighLightStaticObject_ != nullptr)
-			{
-				HighLightStaticObject_->GetParent()->CastThis< GamePlayStaticObject>()->SetHighlightEffectOff();
-				HighLightStaticObject_ = nullptr;
-
-			}
+			StateManager.ChangeState("HoldUp");
 		}
 
-		
+		{
+			if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Moveable, CollisionType::CT_OBB,
+				std::bind(&Player::HighlihgtMoveAbleCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
+			{
+				if (HighLightMoveAbleObject_ != nullptr)
+				{
+					HighLightMoveAbleObject_->GetParent()->CastThis< GamePlayMoveable>()->SetHighlightEffectOff();
+					HighLightMoveAbleObject_ = nullptr;
 
+				}
+			}
+			if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
+				std::bind(&Player::HighlihgtStaticCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
+			{
+				if (HighLightStaticObject_ != nullptr)
+				{
+					HighLightStaticObject_->GetParent()->CastThis< GamePlayStaticObject>()->SetHighlightEffectOff();
+					HighLightStaticObject_ = nullptr;
+
+				}
+			}
+
+
+
+		}
+	}
+
+	else 
+	{
+
+		GetTransform().SetWorldPosition(float4{0,-20000,0});
 	}
 }
 void Player::GravityCheck(float _DeltaTime)
