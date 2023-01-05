@@ -18,6 +18,7 @@ enum class ContentsPacketType
 	SelectStageInputData, //SelectStage 인풋 동기화
 	RecipeTimeUpdate, // Host to Client : 레시피 시간 데이터 업데이트
 	CreateRecipeData,	//레시피 생성
+	UserCount, //유저가 몇명 접속해 있는지
 	ClinetInit,   // 클라이언트가 들어오면 서버가 보내줄 패킷.
 	ChangeLevel,  // 레벨 변경 - 호스트만 전송
 	ReadyLevel,   // 레벨 변경이 완료됨 - 게스트만 전송
@@ -516,5 +517,28 @@ public:
 		_Ser >> ObjectID;
 		_Ser >> LoadingVisual;
 		_Ser >> LoadingReal;
+	}
+};
+
+
+class UserCountPacket : public GameServerPacket
+{
+public:
+	int Count;
+	UserCountPacket()
+	{
+		SetPacketID(ContentsPacketType::UserCount);
+	}
+
+	virtual void Serialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::Serialize(_Ser);
+		_Ser << Count;
+	}
+	virtual void DeSerialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::DeSerialize(_Ser);
+		_Ser >> Count;
+
 	}
 };

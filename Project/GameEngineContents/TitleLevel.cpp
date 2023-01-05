@@ -5,6 +5,7 @@
 #include "MouseInputWindow.h"
 #include "TitleLevelActor.h"
 #include "UIDebugGUI.h"
+#include "GlobalGameData.h"
 
 TitleLevel::TitleLevel()
 {
@@ -67,6 +68,12 @@ void TitleLevel::Start()
 	//UI!!
 	{
 		CreateActor<TitleLevelActor>();
+		if (nullptr != UIDebugGUI::Main_)
+		{
+			UIDebugGUI::Main_.get()->AddMutableValue("DebugValue1", &GlobalGameData::DebugValue1_);
+			UIDebugGUI::Main_.get()->AddMutableValue("DebugValue2", &GlobalGameData::DebugValue2_);
+			UIDebugGUI::Main_.get()->AddMutableValue("PlayerCount", &GlobalGameData::PlayerCount_);
+		}
 	}
 }
 

@@ -166,17 +166,7 @@ void SelectStageUIActor::UIUpdate(float _DeltaTime)
 	{
 		if (TransitionIcon_->IsFinishFadeOut_ == true)
 		{
-			if (nullptr != ServerInitManager::Net)
-			{
-				if (ServerInitManager::Net->GetIsHost())
-				{
-					std::shared_ptr<ChangeLevelPacket> Packet = std::make_shared<ChangeLevelPacket>();
-					Packet->LevelName = "LoadingLevel";
-					ServerInitManager::Net->SendPacket(Packet);
-				}
-				GEngine::ChangeLevel("LoadingLevel");
-			}
-			//GEngine::ChangeLevel("LoadingLevel");
+			GEngine::ChangeLevel("LoadingLevel");
 		}
 		break;
 	}

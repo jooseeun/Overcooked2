@@ -6,6 +6,8 @@
 #include "GlobalGameData.h"
 #include "GamePlayObject.h"
 
+#include "GlobalGameData.h"
+
 void ServerInitManager::LoadingDataPacketProcess(std::shared_ptr<GameServerPacket> _Packet)
 {
 	std::shared_ptr<LoadingDataPacket> Packet = std::dynamic_pointer_cast<LoadingDataPacket>(_Packet);
@@ -83,4 +85,13 @@ void ServerInitManager::SelectStageInputDataPacketProcess(std::shared_ptr<GameSe
 
 		FindObject->PushPacket(Packet);
 	}
+}
+
+void ServerInitManager::UserCountPacketProcess(std::shared_ptr<GameServerPacket> _Packet)
+{
+	std::shared_ptr<UserCountPacket> Packet = std::dynamic_pointer_cast<UserCountPacket>(_Packet);
+
+	GlobalGameData::PlayerCount_ = Packet->Count;
+
+
 }

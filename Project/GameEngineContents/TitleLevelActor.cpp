@@ -47,7 +47,18 @@ void TitleLevelActor::UIUpdate(float _DeltaTime)
 
 void TitleLevelActor::UpdateInput()
 {
-	GlobalGameData::PlayerCount_ = ServerInitManager::Server.GetUserSockets().size() + 1;
+	if (ServerInitManager::Net != nullptr)
+	{
+		if (ServerInitManager::Net->GetIsHost() == true)
+		{
+			GlobalGameData::PlayerCount_ = ServerInitManager::Server.GetUserSockets().size() + 1;
+			std::shared_ptr<UserCountPacket> Packet = std::make_shared<UserCountPacket>();
+			Packet->Count = ServerInitManager::Server.GetUserSockets().size() + 1;
+			ServerInitManager::Net->SendPacket(Packet);
+
+		}
+	}
+
 	if (GameEngineInput::GetInst()->IsDownKey("PlayerRight") == true)
 	{
 		if (AllButtons_[CurNum_].IsDisabled == false)
@@ -129,7 +140,7 @@ void TitleLevelActor::ChangeLevel()
 {
 	if (nullptr != ServerInitManager::Net)
 	{
-		if (ServerInitManager::Net->GetIsHost())
+		if (ServerInitManager::Net->GetIsHost() == true)
 		{
 			std::shared_ptr<ChangeLevelPacket> Packet = std::make_shared<ChangeLevelPacket>();
 			Packet->LevelName = "SelectStage";

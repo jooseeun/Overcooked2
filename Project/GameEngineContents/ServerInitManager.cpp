@@ -360,6 +360,9 @@ void ServerInitManager::StartInit()
 		case ContentsPacketType::SelectStageInputData:
 			NewPacket = std::make_shared<SelectStageInputDataPacket>();
 			break;
+		case ContentsPacketType::UserCount:
+			NewPacket = std::make_shared<UserCountPacket>();
+			break;
 		case ContentsPacketType::RecipeTimeUpdate:
 			NewPacket = std::make_shared<RecipeTimeUpdatePacket>();
 			break;
@@ -417,6 +420,7 @@ void ServerInitManager::StartInit()
 		Net->Dis.AddHandler(ContentsPacketType::CreateRecipeData, std::bind(&ServerInitManager::CreateRecipePacketProcess, std::placeholders::_1));
 		Net->Dis.AddHandler(ContentsPacketType::ChangeLevel, std::bind(&ServerInitManager::ChangeLevelPacketProcess, std::placeholders::_1));
 		Net->Dis.AddHandler(ContentsPacketType::SelectStageInputData, std::bind(&ServerInitManager::SelectStageInputDataPacketProcess, std::placeholders::_1));
+		Net->Dis.AddHandler(ContentsPacketType::UserCount, std::bind(&ServerInitManager::UserCountPacketProcess, std::placeholders::_1));
 	}
 }
 
