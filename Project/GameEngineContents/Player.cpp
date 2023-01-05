@@ -552,7 +552,6 @@ void Player::DeathCheck()
 
 void Player::Update(float _DeltaTime)
 {
-
 	ServerUpdate(_DeltaTime);
 
 	if (MyPlayer != shared_from_this())
@@ -1454,6 +1453,8 @@ void Player::ServerUpdate(float _DeltaTime)
 			return;
 		}
 
+		GameEngineDebug::OutPutString("Player : " + std::to_string(GetNetID()) + ", " + std::to_string(IsCannon_) + ", " + std::to_string(IsCannonFly_));
+
 		std::shared_ptr<ObjectUpdatePacket> Packet = std::make_shared<ObjectUpdatePacket>();
 		Packet->ObjectID = GetNetID();
 		Packet->Type = ServerObjectType::Player;
@@ -1467,6 +1468,14 @@ void Player::ServerUpdate(float _DeltaTime)
 		Packet->PlayerDeath = IsDeath_;
 		Packet->PlayerCountNum = PlayerPNum;
 
+		if (IsCannon_ == true)
+		{
+			Packet->IsCannon = 1;
+		}
+		else
+		{
+			Packet->IsCannon = 0;
+		}
 		if (IsCannonFly_ == true)
 		{
 			Packet->IsCannonFly = 1;
@@ -1493,6 +1502,8 @@ void Player::ServerUpdate(float _DeltaTime)
 		}
 		return;
 	}
+
+	GameEngineDebug::OutPutString("OtherPlayer : " + std::to_string(GetNetID()) + ", " + std::to_string(IsCannon_) + ", " + std::to_string(IsCannonFly_));
 
 	while (false == IsPacketEmpty())
 	{
@@ -1589,8 +1600,26 @@ void Player::ServerUpdate(float _DeltaTime)
 						WashRendererON();
 					}
 				}
-				
 			}
+
+			if (ObjectUpdate->IsCannon == 1)
+			{
+				IsCannon_ = true;
+			}
+			else
+			{
+				IsCannon_ = false;
+			}
+
+			if (ObjectUpdate->IsCannonFly == 1)
+			{
+				IsCannonFly_ = true;
+			}
+			else
+			{
+				IsCannonFly_ = false;
+			}
+
 			break;
 		}
 		case ContentsPacketType::ClinetInit:

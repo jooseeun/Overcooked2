@@ -507,7 +507,7 @@ void Player::CannonFlyStart(const StateInfo& _Info)
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 	PlayerIdleRenderer_[PlayerCustomNum]->GetCurAnim()->bOnceEnd = false;
-	CannonFlyPos_ = { -2150.0f, 100.0f , -1111.00 };
+	CannonFlyPos_ = { -2170.0f, 100.0f , -1111.00 };
 	IsPotal_ = true;
 	FlyTime_ = 1.5f;
 }
