@@ -147,6 +147,7 @@ void Player::ThrowStart(const StateInfo& _Info)
 	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "Idle");
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
+	GameEngineSound::SoundPlayOneShot("Throw2.wav");
 	IsThrow_ = false;
 }
 void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -217,6 +218,8 @@ void Player::HoldUpStart(const StateInfo& _Info)
 				return;
 			}// 테이블 검사
 			IsHolding_ = "Holding";
+
+			GameEngineSound::SoundPlayOneShot("Item_PickUp_03.wav");
 		}
 	}
 
@@ -315,7 +318,9 @@ void Player::HoldDownStart(const StateInfo& _Info)
 		std::bind(&Player::TableHoldDownCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
 	{
 		DetachPlayerHoldingToGround();
+
 	}
+	GameEngineSound::SoundPlayOneShot("Item_PutDown_03.wav");
 }
 void Player::HoldDownUpdate(float _DeltaTime, const StateInfo& _Info)
 {
@@ -425,6 +430,7 @@ void Player::DrowningStart(const StateInfo& _Info)
 	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "Drowning");
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
+	GameEngineSound::SoundPlayOneShot("Player_Dive_01.wav");
 
 	DeathTime_ = 5.0f;
 }
@@ -538,6 +544,7 @@ void Player::CarDeathStart(const StateInfo& _Info)
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 	PlayerIdleRenderer_[PlayerCustomNum]->GetCurAnim()->bOnceEnd = false;
 
+	GameEngineSound::SoundPlayOneShot("PlayerSlip_01.wav");
 	DeathTime_ = 5.0f;
 	IsDeath_ = 1;
 }
@@ -569,6 +576,7 @@ void Player::CarDeathUpdate(float _DeltaTime, const StateInfo& _Info)
 			IdleRender.MulColor.a =1.0f;
 			IdleRender.AlphaColor.a = 1.0f;
 		}
+		GameEngineSound::SoundPlayOneShot("PlayerSpawn_01.wav");
 		StateManager.ChangeState("Idle");
 
 	}

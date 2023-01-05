@@ -975,6 +975,8 @@ void Player::DashCheck(float _DeltaTime)
 		{
 			DashTime_ = 0.3f;
 			Speed_ = 1200.0;
+
+			GameEngineSound::SoundPlayOneShot("Dash3.wav");
 		}
 	}
 
