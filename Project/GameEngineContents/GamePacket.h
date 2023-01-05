@@ -247,6 +247,7 @@ public:
 	int RendererState;
 	int PlayerMove;
 	int PlayerDeath;
+	int IsCannon;
 	int IsCannonFly;
 
 	ObjectUpdatePacket()
@@ -269,6 +270,7 @@ public:
 		_Ser << RendererState;
 		_Ser << PlayerMove;
 		_Ser << PlayerDeath;
+		_Ser << IsCannon;
 		_Ser << IsCannonFly;
 	}
 	virtual void DeSerialize(GameServerSerializer& _Ser)
@@ -286,6 +288,7 @@ public:
 		_Ser >> RendererState;
 		_Ser >> PlayerMove;
 		_Ser >> PlayerDeath;
+		_Ser >> IsCannon;
 		_Ser >> IsCannonFly;
 	}
 };

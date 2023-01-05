@@ -16,6 +16,8 @@ class GamePlayMoveable;
 class GamePlayStaticObject;
 class Player : public GamePlayPhysics, public GameServerObject
 {
+	friend class Cannon;
+
 public:
 	// constrcuter destructer
 	Player();

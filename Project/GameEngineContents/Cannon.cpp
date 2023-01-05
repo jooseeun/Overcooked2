@@ -131,26 +131,6 @@ void Cannon::ReadyUpdate(float _DeltaTime, const StateInfo& _Info)
 	else if (true == Button_->CheckButtonPressedState() && true == Player_->IsCannon_)
 	{
 		StateManager.ChangeState("Shoot");
-
-		std::shared_ptr<ObjectUpdatePacket> Packet = std::make_shared<ObjectUpdatePacket>();
-		Packet->ObjectID = GetNetID();
-		Packet->Type = ServerObjectType::Cannon;
-		Packet->State = ServerObjectBaseState::Base;
-		Packet->Pos = GetTransform().GetWorldPosition();
-		Packet->Animation = "Shoot"; 
-
-		if (Player_ == nullptr)
-		{
-			Packet->RendererState = -1;
-		}
-		else
-		{
-			Packet->RendererState = Player_->GetNetID();
-		}
-		Packet->PlayerMove = -1;
-		Packet->PlayerDeath = -1;
-
-		ServerInitManager::Net->SendPacket(Packet);
 	}
 	else if (true == GameEngineInput::GetInst()->IsDownKey("MapObjectTest") && true == Player_->IsCannon_)	/// 테스트 //
 	{
@@ -188,14 +168,62 @@ void Cannon::ReadyUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Cannon::ShootStart(const StateInfo& _Info)
 {
+	Button_->IsReady_ = false;
+	if (Player_ == nullptr)
+	{
+		return;
+	}
+
 	CurState_ = CannonState::Shoot;
 	Player_->IsCannon_ = false;
 	Player_->IsCannonFly_ = true;
-	Button_->IsReady_ = false;
 	Button_->SetButtonUnPressed();
 	ReactCount_ = 2;
 
-	// 여기에 해당 플레이어 정보(자기아니여도) 보내는 코드 추가필요
+	// 플레이어
+	{
+		std::shared_ptr<ObjectUpdatePacket> Packet = std::make_shared<ObjectUpdatePacket>();
+		Packet->ObjectID = Player_->GetNetID();
+		Packet->Type = ServerObjectType::Player;
+		Packet->State = ServerObjectBaseState::Base;
+		Packet->Pos = Player_->GetTransform().GetWorldPosition();
+		Packet->Rot = Player_->GetTransform().GetWorldRotation();
+		Packet->Scale = Player_->GetTransform().GetWorldScale();
+		Packet->Animation = Player_->CurAniName_;
+		Packet->RendererState = Player_->ServerRenderStateNum_;
+		Packet->PlayerMove = Player_->IsMove_;
+		Packet->PlayerDeath = Player_->IsDeath_;
+		Packet->PlayerCountNum = Player_->PlayerPNum;
+		Packet->IsCannon = 0;
+		Packet->IsCannonFly = 1;
+
+		if (Player_->ServerCustomNum != Packet->PlayerCustomNum)
+		{
+			Packet->PlayerCustomNum = Player_->ServerCustomNum;
+			Player_->ServerCustomNum = Player_->PlayerCustomNum;
+		}
+		else
+		{
+			Packet->PlayerCustomNum = 100;
+		}
+		ServerInitManager::Net->SendPacket(Packet);
+	}
+
+	// 캐논
+	{
+		std::shared_ptr<ObjectUpdatePacket> Packet = std::make_shared<ObjectUpdatePacket>();
+		Packet->ObjectID = GetNetID();
+		Packet->Type = ServerObjectType::Cannon;
+		Packet->State = ServerObjectBaseState::Base;
+		Packet->Pos = GetTransform().GetWorldPosition();
+		Packet->Animation = StateManager.GetCurStateStateName(); // State 이름
+		Packet->RendererState = -1; // 플레이어 번호
+		Packet->PlayerMove = -1;
+		Packet->PlayerDeath = -1;
+		ServerInitManager::Net->SendPacket(Packet);
+	}
+
+	ResetPlayer();
 
 	GameEngineSound::SoundPlayOneShot("DLC_08_Cannon_Fire_01.wav");
 	GameEngineSound::SoundPlayOneShot("DLC_08_Cannon_Crowd_03.wav");
@@ -338,48 +366,71 @@ void Cannon::ServerUpdate(float _DeltaTime)
 		return;
 	}
 
-	if (nullptr != Player_)
+	int a = -1;
+	if (Player_ != nullptr)
 	{
-		std::shared_ptr<ObjectUpdatePacket> Packet = std::make_shared<ObjectUpdatePacket>();
-		Packet->ObjectID = GetNetID();
-		Packet->Type = ServerObjectType::Cannon;
-		Packet->State = ServerObjectBaseState::Base;
-		Packet->Pos = GetTransform().GetWorldPosition();
-		//Packet->Rot = GetTransform().GetWorldRotation();
-		//Packet->Scale = GetTransform().GetWorldScale();
-		Packet->Animation = StateManager.GetCurStateStateName(); // State 이름
+		a = Player_->GetNetID();
+	}
 
-		if (Player_ == nullptr)
+	GameEngineDebug::OutPutString("Cannon : " + StateManager.GetCurStateStateName() + ", " + std::to_string(a));
+
+	if (nullptr != Player_ && Player_ == Player::MyPlayer)
+	{
+		// 캐논
 		{
-			Packet->RendererState = -1; // 플레이어 번호
-		}
-		else
-		{
+			std::shared_ptr<ObjectUpdatePacket> Packet = std::make_shared<ObjectUpdatePacket>();
+			Packet->ObjectID = GetNetID();
+			Packet->Type = ServerObjectType::Cannon;
+			Packet->State = ServerObjectBaseState::Base;
+			Packet->Pos = GetTransform().GetWorldPosition();
+			Packet->Animation = StateManager.GetCurStateStateName(); // State 이름
 			Packet->RendererState = Player_->GetNetID(); // 플레이어 번호
+			Packet->PlayerMove = -1;
+			Packet->PlayerDeath = -1;
+			ServerInitManager::Net->SendPacket(Packet);
 		}
-		Packet->PlayerMove = -1;
-		Packet->PlayerDeath = -1;
 
-		ServerInitManager::Net->SendPacket(Packet);
-		return;
+		// 플레이어
+		{
+			std::shared_ptr<ObjectUpdatePacket> Packet = std::make_shared<ObjectUpdatePacket>();
+			Packet->ObjectID = Player_->GetNetID();
+			Packet->Type = ServerObjectType::Player;
+			Packet->State = ServerObjectBaseState::Base;
+			Packet->Pos = Player_->GetTransform().GetWorldPosition();
+			Packet->Rot = Player_->GetTransform().GetWorldRotation();
+			Packet->Scale = Player_->GetTransform().GetWorldScale();
+			Packet->Animation = Player_->CurAniName_;
+			Packet->RendererState = Player_->ServerRenderStateNum_;
+			Packet->PlayerMove = Player_->IsMove_;
+			Packet->PlayerDeath = Player_->IsDeath_;
+			Packet->PlayerCountNum = Player_->PlayerPNum;
+			Packet->IsCannon = 1;
+			Packet->IsCannonFly = 0;
+
+			if (Player_->ServerCustomNum != Packet->PlayerCustomNum)
+			{
+				Packet->PlayerCustomNum = Player_->ServerCustomNum;
+				Player_->ServerCustomNum = Player_->PlayerCustomNum;
+			}
+			else
+			{
+				Packet->PlayerCustomNum = 100;
+			}
+			ServerInitManager::Net->SendPacket(Packet);
+		}
 	}
 
 	while (false == IsPacketEmpty())
 	{
 		std::shared_ptr<GameServerPacket> Packet = PopPacket();
-
 		ContentsPacketType PacketType = Packet->GetPacketIDToEnum<ContentsPacketType>();
-
 		switch (PacketType)
 		{
 		case ContentsPacketType::ObjectUpdate:
 		{
 			std::shared_ptr<ObjectUpdatePacket> ObjectUpdate = std::dynamic_pointer_cast<ObjectUpdatePacket>(Packet);
 			GetTransform().SetWorldPosition(ObjectUpdate->Pos);
-			//GetTransform().SetWorldRotation(ObjectUpdate->Rot);
-			//GetTransform().SetWorldScale(ObjectUpdate->Scale);
-
-			if (StateManager.GetCurStateStateName() != ObjectUpdate->Animation)
+			if (StateManager.GetCurStateStateName() != ObjectUpdate->Animation && "" != ObjectUpdate->Animation)
 			{
 				StateManager.ChangeState(ObjectUpdate->Animation);
 			}
@@ -396,5 +447,20 @@ void Cannon::ServerUpdate(float _DeltaTime)
 			break;
 		}
 		}
+		return;
+	}
+
+	if (nullptr == Player_ && true == ServerInitManager::Net->GetIsHost())
+	{
+		std::shared_ptr<ObjectUpdatePacket> Packet = std::make_shared<ObjectUpdatePacket>();
+		Packet->ObjectID = GetNetID();
+		Packet->Type = ServerObjectType::Cannon;
+		Packet->State = ServerObjectBaseState::Base;
+		Packet->Pos = GetTransform().GetWorldPosition();
+		Packet->Animation = StateManager.GetCurStateStateName(); // State 이름
+		Packet->RendererState = -1; // 플레이어 번호
+		Packet->PlayerMove = -1;
+		Packet->PlayerDeath = -1;
+		ServerInitManager::Net->SendPacket(Packet);
 	}
 }
