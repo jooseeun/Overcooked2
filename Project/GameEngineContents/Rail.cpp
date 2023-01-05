@@ -112,6 +112,14 @@ void Tool_Rail::Update(float _Delta)
 					{
 						//Front_StaticObject_.lock()->SetPlayerState(nullptr, PlayerCurStateType::HoldDown, After_Moveable_.lock());
 						Front_StaticObject_.lock()->SetMoveable(After_Moveable_.lock());
+						if (ServerInitManager::Net->GetIsHost())
+						{
+							std::shared_ptr<ObjectParentsSetAllFramePacket> ParentsSetPacket = std::make_shared<ObjectParentsSetAllFramePacket>();
+							ParentsSetPacket->ParentsID = Front_StaticObject_.lock()->GetNetID();
+							ParentsSetPacket->ChildID = After_Moveable_.lock()->GetNetID();
+							ServerInitManager::Net->SendPacket(ParentsSetPacket);
+						}
+
 						MoveTime_ = 0;
 						After_Moveable_.reset();
 						if (ServerInitManager::Net->GetIsHost())
@@ -137,14 +145,6 @@ void Tool_Rail::Update(float _Delta)
 void Tool_Rail::SetMoveable(std::shared_ptr<GameEngineUpdateObject> _Child)
 {
 	GamePlayTool::SetMoveable(_Child);
-
-	if (ServerInitManager::Net->GetIsHost())
-	{
-		std::shared_ptr<ObjectParentsSetAllFramePacket> ParentsSetPacket = std::make_shared<ObjectParentsSetAllFramePacket>();
-		ParentsSetPacket->ParentsID = GetNetID();
-		ParentsSetPacket->ChildID = GetChildNetID();
-		ServerInitManager::Net->SendPacket(ParentsSetPacket);
-	}
 	_Child->CastThis<GamePlayObject>()->GetCollisionObject()->On();
 
 	//After_Moveable_ = GetCurrentMoveable();
@@ -153,6 +153,15 @@ void Tool_Rail::SetMoveable(std::shared_ptr<GameEngineUpdateObject> _Child)
 	//After_Moveable_.lock()->GetTransform().SetLocalPosition(Front_StaticObject_.lock()->GetTransform().GetWorldPosition() - Pos);
 	//MoveTime_ = 0;
 	
+}
+
+void Tool_Rail::SetDeleteChild()
+{
+	if (After_Moveable_.lock() != nullptr)
+	{
+		After_Moveable_.reset();
+		MoveTime_ = 0;
+	}
 }
 
 HoldDownEnum Tool_Rail::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
