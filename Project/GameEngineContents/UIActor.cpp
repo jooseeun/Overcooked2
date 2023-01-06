@@ -96,7 +96,7 @@ void UIActor::CreatePlayerIcon(int _Index, std::string_view _Name)
 	NewIcon.Hat = Hat;
 
 	std::shared_ptr<OverCookedUIRenderer> NameBox = CreateUIRenderer("UI_BigButtonsSmall_01.png");
-	NameBox->GetTransform().SetLocalPosition({ 0,-80,0 });
+	NameBox->GetTransform().SetLocalPosition({ 0,-80,-500 });
 	NameBox->GetTransform().SetParentTransform(NewParent->GetTransform());
 	NewIcon.NameBox = NameBox;
 
@@ -120,9 +120,40 @@ void UIActor::CreatePlayerIcon(int _Index, std::string_view _Name)
 	NewNameFont->SetSize(20.f);
 	NewNameFont->SetLeftAndRightSort(LeftAndRightSort::CENTER);
 	NewNameFont->SetAffectTransform(true);
-	NewNameFont->GetTransform().SetLocalMove({ 0,-62.f,-1 });
+	NewNameFont->GetTransform().SetLocalMove({ 0,-62.f,-501 });
 	NewNameFont->GetTransform().SetParentTransform(NewParent->GetTransform());
 	NewIcon.NameFont = NewNameFont;
+
+	//플레이어 매쉬
+	std::vector<std::string> PlayerName_;
+	PlayerName_.resize(6);
+	PlayerName_[0] = "AlienGreen";
+	PlayerName_[1] = "Buck";
+	PlayerName_[2] = "Crocodile";
+	PlayerName_[3] = "Dora";
+	PlayerName_[4] = "Eagle";
+	PlayerName_[5] = "Panda";
+
+	std::shared_ptr< GameEngineFBXAnimationRenderer> PlayerIdleRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();
+	PlayerIdleRenderer_->SetFBXMesh(PlayerName_[_Index] + "_Idle.FBX", "TextureAnimation");
+	PlayerIdleRenderer_->ChangeCamera(CAMERAORDER::UICAMERA);
+
+	PlayerIdleRenderer_->CreateFBXAnimation(PlayerName_[_Index] + "Idle",
+		GameEngineRenderingEvent(PlayerName_[_Index] + "_Idle.FBX", 0.035f, true));
+
+	PlayerIdleRenderer_->CreateFBXAnimation(PlayerName_[_Index] + "Idle2",
+		GameEngineRenderingEvent(PlayerName_[_Index] + "_Idle2.FBX", 0.035f, true));
+
+	PlayerIdleRenderer_->ChangeAnimation(PlayerName_[_Index] + "Idle");
+
+	PlayerIdleRenderer_->GetTransform().SetLocalPosition({ 0,-70.f,-100.f });
+	PlayerIdleRenderer_->GetTransform().SetLocalScale({ 100.f,100.f,100.f });
+	PlayerIdleRenderer_->GetTransform().SetLocalRotation({ 80,-140 });
+	PlayerIdleRenderer_->GetTransform().SetParentTransform(NewParent->GetTransform());
+	NewIcon.PlayerMesh = PlayerIdleRenderer_;
+	ResistDebug(std::to_string(_Index), PlayerIdleRenderer_->GetTransform());
+
+	//PlayerIdleRenderer_->GetTransform().SetLocalPosition(PlayerPos[i]);
 
 	NewIcon.Off();
 
@@ -258,6 +289,7 @@ void UIActor::PlayerIcon::Off()
 	NameBox->Off();
 	CountFont->Off();
 	NameFont->Off();
+	PlayerMesh->Off();
 }
 
 void UIActor::PlayerIcon::On()
@@ -267,4 +299,5 @@ void UIActor::PlayerIcon::On()
 	NameBox->On();
 	CountFont->On();
 	NameFont->On();
+	PlayerMesh->On();
 }

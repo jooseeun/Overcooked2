@@ -69,7 +69,7 @@ public:
 
 	static float GetMaxTime()
 	{
-		return 999.f;
+		return 120.f;
 	}
 
 	static int GetScore()
@@ -159,7 +159,7 @@ private:
 	static int FailCount_;
 	static int TipGaugeCount_;
 
-	public:
+public:
 	static int PlayerCount_;
 
 public:

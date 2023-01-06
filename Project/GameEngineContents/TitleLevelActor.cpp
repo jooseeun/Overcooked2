@@ -79,9 +79,6 @@ void TitleLevelActor::UIStart()
 
 		PlayerMesh_.push_back(PlayerIdleRenderer_);
 	}
-	ResistDebug("Transform1", PlayerMesh_[1].lock()->GetTransform());
-	ResistDebug("Transform2", PlayerMesh_[2].lock()->GetTransform());
-	ResistDebug("Transform3", PlayerMesh_[3].lock()->GetTransform());
 }
 
 void TitleLevelActor::UIUpdate(float _DeltaTime)
@@ -204,7 +201,7 @@ void TitleLevelActor::CreateButton(std::string_view _Font, const float4& _Pos, s
 	MenuButton NewButton;
 	NewButton.Parent = CreateUIRenderer("Null.png");
 	NewButton.Parent.lock()->GetTransform().SetWorldPosition(_Pos);
-	NewButton.Parent.lock()->ResistDebug(std::to_string(AllButtons_.size()));
+	//NewButton.Parent.lock()->ResistDebug(std::to_string(AllButtons_.size()));
 
 	float ButtonSize = 0.3f;
 	NewButton.Button = CreateUIRenderer("t_ui_main_menu_button_04_d.png", ButtonSize);

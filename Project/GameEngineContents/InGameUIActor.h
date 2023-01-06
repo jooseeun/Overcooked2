@@ -215,7 +215,12 @@ private:
 
 	//시작 , 종료 UI 관련
 	std::weak_ptr<OverCookedUIRenderer> ReadyRenderer_;
+	std::weak_ptr<OverCookedUIRenderer> StartRenderer_;
+	std::weak_ptr<OverCookedUIRenderer> TimeUpRenderer_;
+
 	Timer ReadyTimer_;
+	Timer StartTimer_;
+	Timer TimeUpTimer_;
 	SyncManager ReadySycn_;
 
 	//서버

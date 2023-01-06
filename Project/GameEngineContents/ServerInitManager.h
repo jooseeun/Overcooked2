@@ -37,7 +37,7 @@ public:
 	static void CreateRecipePacketProcess(std::shared_ptr<GameServerPacket> _Packet);	// Host to Client  :  호스트가 레시피를 만들 때 동일한 레시피 생성을 명령
 	static void SelectStageInputDataPacketProcess(std::shared_ptr<GameServerPacket> _Packet); // Host to Client : 입력한 키 데이터 전달
 	static void UserCountPacketProcess(std::shared_ptr<GameServerPacket> _Packet); // Host to Client : 접속한 유저 수 전달
-
+	static void ResultLevelInputDataPacketProcess(std::shared_ptr<GameServerPacket> _Packet);
 
 	static void StartInit();
 	static void Update(float _Delta);

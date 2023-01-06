@@ -1,6 +1,6 @@
 #pragma once
 #include "UIActor.h"
-class ResultLevelActor : public UIActor
+class ResultLevelActor : public UIActor, public GameServerObject
 {
 public:
 	ResultLevelActor();
@@ -10,6 +10,9 @@ public:
 	ResultLevelActor(const ResultLevelActor&& _Other) noexcept = delete;
 	ResultLevelActor& operator=(const ResultLevelActor& _Ohter) = delete;
 	ResultLevelActor& operator=(const ResultLevelActor&& _Other) noexcept = delete;
+
+	void ServerRelease();
+	void ServerInit();
 
 protected:
 	std::weak_ptr<GameEngineFBXAnimationRenderer> OnionKing_;
@@ -31,4 +34,6 @@ private:
 	std::vector<std::weak_ptr<OverCookedUIRenderer>> FrontStarRenderer_;
 
 	float IterTime_ = 0.f;
+
+	int InputBuffer_ = -2;
 };
