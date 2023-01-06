@@ -43,3 +43,14 @@ void Food_Ingredients_Fish::TrimmingMixer()
 	//GetFBXMesh()->GetTransform().SetLocalRotation({ 0,-90,0 });
 }
 
+void Food_Ingredients_Fish::TrimmingSteam()
+{
+	SetTrim();
+	//	SetPlatting();
+
+	ChangeFBXMesh();
+	MeshName_ = "m_ingredients_fish_sliced.FBX";
+	GetFBXMesh()->SetFBXMesh(MeshName_, "Texture");
+	//GetFBXMesh()->GetTransform().SetLocalRotation({ 0,-90,0 });
+}
+

@@ -567,10 +567,20 @@ public:
 			std::vector<IngredientType> Food_Current = Food_Current_;
 			bool IsThat = false;
 			int Index = 0;
-			if (Food_Current.size() != Data.size())
+
+			for (size_t i = 0; i < Food_Current.size(); i++)
+			{
+				if (Food_Current[i] == IngredientType::None)
+				{
+					continue;
+				}
+				Index++;
+			}
+			if (Index != Data.size())
 			{
 				continue;
 			}
+			Index = 0;
 
 			for (size_t j = 0; j < Data.size(); j++)
 			{
