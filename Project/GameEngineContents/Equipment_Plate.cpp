@@ -85,7 +85,10 @@ HoldDownEnum Equipment_Plate::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveabl
 		{
 			if((*_Moveable)->CastThis<Equipment_Plate>() != nullptr)
 			{
-				(*_Moveable)->CastThis<Equipment_Plate>()->GetCombinFood()->Switching(GetCombinFood());
+				if (!(GetCombinFood()->AddFood((*_Moveable)->CastThis<Equipment_Plate>()->GetCombinFood())))
+				{
+					(*_Moveable)->CastThis<Equipment_Plate>()->GetCombinFood()->Switching(GetCombinFood());
+				}
 			}
 			else if ((*_Moveable)->CastThis<GamePlayBowl>() != nullptr)
 			{

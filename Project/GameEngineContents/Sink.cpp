@@ -81,45 +81,93 @@ HoldDownEnum Tool_Sink::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 	if ((*_Moveable) != nullptr)
 	{
 		std::shared_ptr<Equipment_Plate> Plate = (*_Moveable)->CastThis<Equipment_Plate>();
-		if (Plate != nullptr
-			&& Plate->IsDirty())
+		if (Plate != nullptr && Plate->IsDirty())
 		{
-			Plate->ChangeFBXMesh();
-			Plate->GetFBXMesh()->SetFBXMesh("m_sk_plate_dirty_Sink.fbx", "Texture");
-			Plate->GetFBXMesh()->GetTransform().SetWorldScale({ 80, 80, 80 });
+			std::shared_ptr<Equipment_Plate> Pile_Plate;
+			while (Plate->Pile_Plate_ != nullptr)
+			{
+				Pile_Plate = Plate->GetPlate();
+
+				Pile_Plate->ChangeFBXMesh();
+				Pile_Plate->GetFBXMesh()->SetFBXMesh("m_sk_plate_dirty_Sink.fbx", "Texture");
+				Pile_Plate->GetFBXMesh()->GetTransform().SetWorldScale({ 80, 80, 80 });
+				switch (Dirty_Plate_.size())
+				{
+				case 0:
+				{
+					Pile_Plate->SetParent(shared_from_this());
+					Pile_Plate->GetTransform().SetLocalPosition({ -75, -20, 5 });
+					Pile_Plate->GetTransform().SetLocalRotation({ 0, 200, 0 });
+					Pile_Plate->GetCollisionObject()->Off();
+					Dirty_Plate_.push_back(Pile_Plate);
+				}
+				break;
+				case 1:
+				{
+					Pile_Plate->SetParent(shared_from_this());
+					Pile_Plate->GetTransform().SetLocalPosition({ -75, -28, 20 });
+					Pile_Plate->GetTransform().SetLocalRotation({ 0, 200, 0 });
+					Pile_Plate->GetCollisionObject()->Off();
+					Dirty_Plate_.push_back(Pile_Plate);
+				}
+				break;
+				case 2:
+				{
+					Pile_Plate->SetParent(shared_from_this());
+					Pile_Plate->GetFBXMesh()->Off();
+					Pile_Plate->GetCollisionObject()->Off();
+					Dirty_Plate_.push_back(Pile_Plate);
+				}
+				break;
+				default:
+				{
+					Pile_Plate->GetFBXMesh()->Off();
+					Pile_Plate->GetCollisionObject()->Off();
+					Dirty_Plate_.push_back(Pile_Plate);
+				}
+				break;
+				}
+			}
+
+
+			Pile_Plate = Plate->GetPlate();
+
+			Pile_Plate->ChangeFBXMesh();
+			Pile_Plate->GetFBXMesh()->SetFBXMesh("m_sk_plate_dirty_Sink.fbx", "Texture");
+			Pile_Plate->GetFBXMesh()->GetTransform().SetWorldScale({ 80, 80, 80 });
 			switch (Dirty_Plate_.size())
 			{
 			case 0:
 			{
-				Plate->SetParent(shared_from_this());
-				Plate->GetTransform().SetLocalPosition({ -75, -20, 5 });
-				Plate->GetTransform().SetLocalRotation({ 0, 200, 0 });
-				Plate->GetCollisionObject()->Off();
-				Dirty_Plate_.push_back(Plate);
+				Pile_Plate->SetParent(shared_from_this());
+				Pile_Plate->GetTransform().SetLocalPosition({ -75, -20, 5 });
+				Pile_Plate->GetTransform().SetLocalRotation({ 0, 200, 0 });
+				Pile_Plate->GetCollisionObject()->Off();
+				Dirty_Plate_.push_back(Pile_Plate);
 			}
 			break;
 			case 1:
 			{
-				Plate->SetParent(shared_from_this());
-				Plate->GetTransform().SetLocalPosition({ -75, -28, 20 });
-				Plate->GetTransform().SetLocalRotation({ 0, 200, 0 });
-				Plate->GetCollisionObject()->Off();
-				Dirty_Plate_.push_back(Plate);
+				Pile_Plate->SetParent(shared_from_this());
+				Pile_Plate->GetTransform().SetLocalPosition({ -75, -28, 20 });
+				Pile_Plate->GetTransform().SetLocalRotation({ 0, 200, 0 });
+				Pile_Plate->GetCollisionObject()->Off();
+				Dirty_Plate_.push_back(Pile_Plate);
 			}
 			break;
-			//case 2:
-			//{
-			//	Plate->SetParent(shared_from_this());
-			//	Plate->GetTransform().SetLocalPosition({ 150, 20, 80 });
-			//	Plate->GetCollisionObject()->Off();
-			//	Dirty_Plate_.push_back(Plate);
-			//}
-			//break;
+			case 2:
+			{
+				Pile_Plate->SetParent(shared_from_this());
+				Pile_Plate->GetFBXMesh()->Off();
+				Pile_Plate->GetCollisionObject()->Off();
+				Dirty_Plate_.push_back(Pile_Plate);
+			}
+			break;
 			default:
 			{
-				Plate->GetFBXMesh()->Off();
-				Plate->GetCollisionObject()->Off();
-				Dirty_Plate_.push_back(Plate);
+				Pile_Plate->GetFBXMesh()->Off();
+				Pile_Plate->GetCollisionObject()->Off();
+				Dirty_Plate_.push_back(Pile_Plate);
 			}
 			break;
 			}
