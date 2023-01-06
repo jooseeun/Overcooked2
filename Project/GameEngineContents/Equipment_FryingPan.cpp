@@ -87,7 +87,9 @@ HoldDownEnum Equipment_FryingPan::PickUp(std::shared_ptr<GamePlayMoveable>* _Mov
 		}
 		else if ((*_Moveable)->GetObjectMoveableType() == ObjectMoveableType::Dish && GetCombinFood()->GetTrim())
 		{
-			(*_Moveable)->CastThis<GamePlayBowl>()->GetCombinFood()->Move(GetCombinFood());
+			std::weak_ptr<GamePlayBowl> Bowl = (*_Moveable)->CastThis<GamePlayBowl>();
+			Bowl.lock()->GetCombinFood()->AddFood(GetCombinFood());
+			//(*_Moveable)->CastThis<GamePlayBowl>()->GetCombinFood()->Move(GetCombinFood());
 			//switch ((*_Moveable)->PickUp(&Food))
 			//{
 			//case HoldDownEnum::HoldDown:

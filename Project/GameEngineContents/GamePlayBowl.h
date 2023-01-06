@@ -773,6 +773,11 @@ public:
 		return Renderer_;
 	};
 
+	std::vector<IngredientType> GetFoodCurrent()
+	{
+		return Food_Current_;
+	}
+
 	static std::map<NoneFoodType, std::vector<IngredientType>> Static_NoneType_;
 private:
 	std::vector<IngredientType> Food_Current_;
