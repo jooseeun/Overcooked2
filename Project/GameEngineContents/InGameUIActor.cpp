@@ -150,7 +150,37 @@ void InGameUIActor::UIStart()
 				//ReadyRenderer_.lock()->Off();
 				ReadySycn_.SetReady(GetNetID(), true);
 			});
-		//TimerUIInst_.Banner->GetTransform().SetLocalPosition({ 480.f,-300.f });
+
+		StartRenderer_ = CreateUIRenderer("LevelIntro_Go_Backdrop.png");
+		StartRenderer_.lock()->StartPump(1.2f, 11.0f);
+		StartRenderer_.lock()->Off();
+
+		StartTimer_.StartTimer(2.0f);
+		StartTimer_.SetTimeOverFunc([&]()
+			{
+				StartRenderer_.lock()->Off();
+				GlobalGameData::SetGameStart(true);
+			});
+
+		TimeUpRenderer_ = CreateUIRenderer("ScoreSummary_TimesUp.png");
+		TimeUpRenderer_.lock()->StartPump(1.2f, 11.0f);
+		TimeUpRenderer_.lock()->Off();
+
+		TimeUpTimer_.StartTimer(2.0f);
+		TimeUpTimer_.SetTimeOverFunc([=]()
+			{
+				if (nullptr != ServerInitManager::Net)
+				{
+					if (ServerInitManager::Net->GetIsHost() == true)
+					{
+						std::shared_ptr<ChangeLevelPacket> Packet = std::make_shared<ChangeLevelPacket>();
+						Packet->LevelName = "ResultLevel";
+						ServerInitManager::Net->SendPacket(Packet);
+					}
+					GEngine::ChangeLevel("ResultLevel");
+				}
+				TimeUpRenderer_.lock()->Off();
+			});
 	}
 
 	NotDeleteRecipe_Timer_.StartTimer(16.f);
@@ -182,6 +212,12 @@ void InGameUIActor::UIUpdate(float _DeltaTime)
 
 	ServerUpdate(_DeltaTime);
 
+	if (GlobalGameData::GetLeftTimeRef().IsTimeOver() == true)
+	{
+		TimeUpRenderer_.lock()->On();
+		TimeUpTimer_.Update(_DeltaTime);
+		return;
+	}
 	if (GlobalGameData::GetLeftTimeRef().IsTimeOver() == true)
 	{
 		GEngine::ChangeLevel("ResultLevel");
@@ -289,8 +325,12 @@ void InGameUIActor::UpdateIsStart(float _DeltaTime)
 
 	if (ReadySycn_.IsAllReady() == true)
 	{
-		GlobalGameData::SetGameStart(true);
 		ReadyRenderer_.lock()->Off();
+		if (StartTimer_.IsTimeOver() == false)
+		{
+			StartRenderer_.lock()->On();
+			StartTimer_.Update(_DeltaTime);
+		}
 	}
 }
 
@@ -298,6 +338,7 @@ void InGameUIActor::UpdateTime(float _DeltaTime)
 {
 	//UpdateTime
 	ContentsUtility::Timer LeftTimer = GlobalGameData::GetLeftTimeRef();
+
 	//NotDeleteRecipe_Timer_.Update(_DeltaTime);
 	//LeftTimer.Update(_DeltaTime);
 	if (NotDeleteRecipe_Timer_.IsTimeOver() == true)

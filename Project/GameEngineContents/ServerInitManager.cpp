@@ -360,6 +360,9 @@ void ServerInitManager::StartInit()
 		case ContentsPacketType::SelectStageInputData:
 			NewPacket = std::make_shared<SelectStageInputDataPacket>();
 			break;
+		case ContentsPacketType::ResultLevelInputData:
+			NewPacket = std::make_shared<ResultLevelInputDataPacket>();
+			break;
 		case ContentsPacketType::UserCount:
 			NewPacket = std::make_shared<UserCountPacket>();
 			break;
@@ -420,6 +423,7 @@ void ServerInitManager::StartInit()
 		Net->Dis.AddHandler(ContentsPacketType::CreateRecipeData, std::bind(&ServerInitManager::CreateRecipePacketProcess, std::placeholders::_1));
 		Net->Dis.AddHandler(ContentsPacketType::ChangeLevel, std::bind(&ServerInitManager::ChangeLevelPacketProcess, std::placeholders::_1));
 		Net->Dis.AddHandler(ContentsPacketType::SelectStageInputData, std::bind(&ServerInitManager::SelectStageInputDataPacketProcess, std::placeholders::_1));
+		Net->Dis.AddHandler(ContentsPacketType::ResultLevelInputData, std::bind(&ServerInitManager::ResultLevelInputDataPacketProcess, std::placeholders::_1));
 		Net->Dis.AddHandler(ContentsPacketType::UserCount, std::bind(&ServerInitManager::UserCountPacketProcess, std::placeholders::_1));
 	}
 }
@@ -439,7 +443,7 @@ void ServerInitManager::Update(float _Delta)
 			{
 				std::shared_ptr<Player> NewPlayer = GEngine::GetCurrentLevel()->CreateActor<Player>();
 				NewPlayer->ClientInit(ServerObjectType::Player, i + 1);
-				NewPlayer->GetTransform().SetLocalPosition({ 0, 0, 0 });
+				NewPlayer->GetTransform().SetLocalPosition({ 10000, 10000, 0 });
 				NewPlayer->SetLevelOverOn();
 			}
 		}

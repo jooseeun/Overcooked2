@@ -40,6 +40,31 @@ ResultLevelActor::~ResultLevelActor()
 {
 }
 
+void ResultLevelActor::ServerRelease()
+{
+	EraseServerObject(GetNetID());
+}
+
+void ResultLevelActor::ServerInit()
+{
+	if (ServerInitManager::Net->GetIsHost() == true)
+	{
+		ClientInit(ServerObjectType::UI, 4040);
+	}
+	else
+	{
+		int i = 4041;
+		for (; ; i++)
+		{
+			if (GameServerObject::GetServerObject(i) == nullptr)
+			{
+				ClientInit(ServerObjectType::UI, i);
+				break;
+			}
+		}
+	}
+}
+
 void ResultLevelActor::UIStart()
 {
 	//맨 뒤에 백그라운드
@@ -131,7 +156,7 @@ void ResultLevelActor::UIStart()
 					ScoreFont_.lock()->SetColor({ 0.5f,0.5f,0.5f,1 });
 					ScoreFont_.lock()->SetSize(19.f);
 					ScoreFont_.lock()->SetAffectTransform(true);
-					ScoreFont_.lock()->GetTransform().SetLocalPosition({ (i - 1) * 110.f-20.f,145.f,0 });
+					ScoreFont_.lock()->GetTransform().SetLocalPosition({ (i - 1) * 110.f - 20.f,145.f,0 });
 				}
 			}
 		}
@@ -143,7 +168,7 @@ void ResultLevelActor::UIStart()
 				std::weak_ptr<OverCookedUIRenderer> Renderer = CreateUIRenderer("UI_LoadingScreen_Star_01.png");
 				//Renderer.lock()->ResistDebug();
 				Renderer.lock()->GetTransform().SetLocalPosition({ (i - 1) * 110.f,185.f,0 });
-				Renderer.lock()->StartPump(1.6f,7.f);
+				Renderer.lock()->StartPump(1.6f, 7.f);
 				Renderer.lock()->Off();
 				FrontStarRenderer_.push_back(Renderer);
 			}
@@ -155,7 +180,7 @@ void ResultLevelActor::UIStart()
 			{
 				DeliveredFoodCountFont_ = CreateComponent<GameEngineFontRenderer>();
 				DeliveredFoodCountFont_.lock()->ChangeCamera(CAMERAORDER::UICAMERA);
-				DeliveredFoodCountFont_.lock()->SetText("배달된 주문 x "+std::to_string(GlobalGameData::DeliveredCount_), "Naughty Squirrel");
+				DeliveredFoodCountFont_.lock()->SetText("배달된 주문 x " + std::to_string(GlobalGameData::DeliveredCount_), "Naughty Squirrel");
 				DeliveredFoodCountFont_.lock()->SetLeftAndRightSort(LeftAndRightSort::LEFT);
 				DeliveredFoodCountFont_.lock()->SetColor({ 0.5f,0.5f,0.5f,1 });
 				DeliveredFoodCountFont_.lock()->SetSize(23.f);
@@ -261,7 +286,6 @@ void ResultLevelActor::UIStart()
 				TotalScoreFont_.lock()->GetTransform().SetLocalPosition({ 200,-10,-10 });
 				TotalScoreFont_.lock()->Off();
 			}
-
 		}
 	}
 
@@ -297,7 +321,6 @@ void ResultLevelActor::UIStart()
 
 		//어니언킹 애니메이션 바인딩 GlobalGameData::DebugValue1_.x
 		{
-
 			OnionKing_.lock()->AnimationBindTime("PhaseFail_0", [&](const GameEngineRenderingEvent& _Info, float _Time)
 				{
 					if (_Info.PlayTime >= 2.7f)
@@ -412,7 +435,6 @@ void ResultLevelActor::UIStart()
 				});
 		}
 
-
 		//스코어 기준 애니메이션 점수 판단
 		{
 			int Score = GlobalGameData::Score_;
@@ -430,8 +452,8 @@ void ResultLevelActor::UIStart()
 			else if (Score >= 600 && Score < 900)
 			{
 				int Num = GameEngineRandom::MainRandom.RandomInt(0, 1);
-				OnionKing_.lock()->ChangeAnimation("Phase1_"+std::to_string(Num));
-				Kevin_.lock()->ChangeAnimation("kPhase1_"+std::to_string(Num));
+				OnionKing_.lock()->ChangeAnimation("Phase1_" + std::to_string(Num));
+				Kevin_.lock()->ChangeAnimation("kPhase1_" + std::to_string(Num));
 			}
 			else if (Score >= 900)
 			{
@@ -448,8 +470,48 @@ void ResultLevelActor::UIUpdate(float _DeltaTime)
 	if (TransitionIcon_->IsFinishFadeOut_ == true)
 	{
 		std::vector<GameEngineLevel*> AllLevel = GameEngineCore::GetAllLevelVector();
-		GEngine::ChangeLevel("SelectStage");
+
+		if (nullptr != ServerInitManager::Net)
+		{
+			if (ServerInitManager::Net->GetIsHost() == true)
+			{
+				std::shared_ptr<ChangeLevelPacket> Packet = std::make_shared<ChangeLevelPacket>();
+				Packet->LevelName = "SelectStage";
+				ServerInitManager::Net->SendPacket(Packet);
+			}
+			GEngine::ChangeLevel("SelectStage");
+		}
 	}
+
+	//클라면 서버로부터 인풋 데이터를 받는다
+	while (false == IsPacketEmpty())
+	{
+		if (InputBuffer_ == 2)
+		{
+			break;
+		}
+		std::shared_ptr<GameServerPacket> Packet = PopPacket();
+		if (Packet == nullptr)
+		{
+			break;
+		}
+
+		ContentsPacketType PacketType = Packet->GetPacketIDToEnum<ContentsPacketType>();
+
+		switch (PacketType)
+		{
+		case ContentsPacketType::ResultLevelInputData:
+		{
+			std::shared_ptr<ResultLevelInputDataPacket> InputPacket = std::dynamic_pointer_cast<ResultLevelInputDataPacket>(Packet);
+			InputBuffer_ = InputPacket->InputBuffer;
+			//RecipeManager_.CreateRecipe(static_cast<FoodType>(RecipePacket->CreateFoodType));
+			break;
+		}
+		default:
+			break;
+		}
+	}
+
 	//UpdateScore
 	{
 		IterTime_ += _DeltaTime;
@@ -463,7 +525,6 @@ void ResultLevelActor::UIUpdate(float _DeltaTime)
 			if (GlobalGameData::Score_ >= 300)
 			{
 				FrontStarRenderer_[0].lock()->On();
-
 			}
 		}
 		if (IterTime_ > 1.5f)
@@ -477,7 +538,6 @@ void ResultLevelActor::UIUpdate(float _DeltaTime)
 			{
 				FrontStarRenderer_[1].lock()->On();
 			}
-
 		}
 		if (IterTime_ > 2.5f)
 		{
@@ -490,8 +550,6 @@ void ResultLevelActor::UIUpdate(float _DeltaTime)
 			{
 				FrontStarRenderer_[2].lock()->On();
 			}
-
-
 		}
 		if (IterTime_ > 3.5f)
 		{
@@ -500,9 +558,24 @@ void ResultLevelActor::UIUpdate(float _DeltaTime)
 		if (IterTime_ > 4.f)
 		{
 			TotalScoreFont_.lock()->On();
-			if (GameEngineInput::GetInst()->IsDownKey("PlayerHold") == true)
+
+			if (ServerInitManager::Net->GetIsHost() == true)
 			{
-				StartFadeOut();
+				if (GameEngineInput::GetInst()->IsDownKey("PlayerHold") == true)
+				{
+					std::shared_ptr<ResultLevelInputDataPacket> Packet = std::make_shared<ResultLevelInputDataPacket>();
+					Packet->InputBuffer = 0;
+					ServerInitManager::Net->SendPacket(Packet);
+					StartFadeOut();
+				}
+			}
+			else
+			{
+				if (InputBuffer_ == 0)
+				{
+					InputBuffer_ = 2;
+					StartFadeOut();
+				}
 			}
 		}
 	}

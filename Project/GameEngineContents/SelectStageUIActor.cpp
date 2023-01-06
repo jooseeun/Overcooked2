@@ -17,10 +17,7 @@ SelectStageUIActor::~SelectStageUIActor()
 
 void SelectStageUIActor::ServerRelease()
 {
-	if (ServerInitManager::Net->GetIsHost() == true)
-	{
-		EraseServerObject(GetNetID());
-	}
+	EraseServerObject(GetNetID());
 }
 
 void SelectStageUIActor::ServerInit()
@@ -144,8 +141,6 @@ void SelectStageUIActor::UIUpdate(float _DeltaTime)
 		}
 	}
 
-
-
 	switch (Phase_)
 	{
 	case 0:// 0 : 키보드로 맵을 선택하는 단계 1 : 맵을 선택하고 기다리는 단계
@@ -181,7 +176,6 @@ void SelectStageUIActor::UIEnd()
 
 void SelectStageUIActor::MovingMap(float _DeltaTime)
 {
-	
 	if (IsChanging() == false)
 	{
 		if (ServerInitManager::Net->GetIsHost() == true)
@@ -200,7 +194,6 @@ void SelectStageUIActor::MovingMap(float _DeltaTime)
 				Packet->InputBuffer = 0;
 				ServerInitManager::Net->SendPacket(Packet);
 				StartSelectMap();
-
 			}
 		}
 		else
@@ -218,7 +211,6 @@ void SelectStageUIActor::MovingMap(float _DeltaTime)
 				InputBuffer_ = -2;
 			}
 		}
-
 	}
 	else //현재 화면 전환 중
 	{
