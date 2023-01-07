@@ -16,6 +16,7 @@ enum class ContentsPacketType
 	LoadingData,  // 로딩레벨에서 사용하는 패킷 호스트, 클라 둘 다 사용
 	UIUpdate,     // UI 업데이트
 	SelectStageInputData, //SelectStage 인풋 동기화
+	ResultLevelInputData,
 	RecipeTimeUpdate, // Host to Client : 레시피 시간 데이터 업데이트
 	CreateRecipeData,	//레시피 생성
 	UserCount, //유저가 몇명 접속해 있는지
@@ -76,7 +77,6 @@ public:
 	}
 };
 
-
 class ObjectParentsSetPacket : public GameServerPacket     // 연결에 의미를 두는 패킷
 {
 public:
@@ -100,7 +100,6 @@ public:
 		_Ser >> ChildID;
 	}
 };
-
 
 class ObjectParentsSetAllFramePacket : public GameServerPacket     // 연결에 의미를 두는 패킷
 {
@@ -162,7 +161,7 @@ public:
 	MapObjType MapObjData = MapObjType::Max;
 	IngredientType IngredientData = IngredientType::None;
 	ObjectToolType ObjectToolData;
-	ExceptionObject ExceptionData ;
+	ExceptionObject ExceptionData;
 
 	ObjectStartPacket();
 
@@ -452,6 +451,28 @@ public:
 	}
 };
 
+class ResultLevelInputDataPacket : public GameServerPacket
+{
+public:
+	int InputBuffer; //Enum 형변환 ㄱㄱ
+public:
+	ResultLevelInputDataPacket()
+	{
+		SetPacketID(ContentsPacketType::ResultLevelInputData);
+	}
+
+	virtual void Serialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::Serialize(_Ser);
+		_Ser << InputBuffer;
+	}
+	virtual void DeSerialize(GameServerSerializer& _Ser)
+	{
+		GameServerPacket::DeSerialize(_Ser);
+		_Ser >> InputBuffer;
+	}
+};
+
 //class RequestHandOverPacket : public GameServerPacket
 //{
 //public:
@@ -523,7 +544,6 @@ public:
 	}
 };
 
-
 class UserCountPacket : public GameServerPacket
 {
 public:
@@ -542,6 +562,5 @@ public:
 	{
 		GameServerPacket::DeSerialize(_Ser);
 		_Ser >> Count;
-
 	}
 };

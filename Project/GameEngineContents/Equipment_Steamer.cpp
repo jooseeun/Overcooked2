@@ -269,10 +269,17 @@ void Equipment_Steamer::ClosedUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		if (GetParent()->CastThis<GamePlayTool>()->GetObjectToolType() == ObjectToolType::Cooker)
 		{
-			StateManager.ChangeState("Cooking");
+			if (GetCombinFood()->IsClear())
+			{
+				StateManager.ChangeState("Opening");
+			}
+			else
+			{
+				StateManager.ChangeState("Cooking");
+			}
+			
 		}
 	}
-
 	LidRenderer_->GetTransform().SetLocalRotation(float4 {0.f, 0.f, 0.f } *_DeltaTime);
 }
 
@@ -321,19 +328,33 @@ HoldDownEnum Equipment_Steamer::PickUp(std::shared_ptr<GamePlayMoveable>* _Movea
 					(*_Moveable)->SwitchingCookingGage((*_Moveable));
 				}
 			}
+			else if((*_Moveable)->GetObjectMoveableType() == ObjectMoveableType::Food)
+			{
+				if (GetCombinFood()->PushFood((*_Moveable)->CastThis<GamePlayFood>()->GetObjectFoodClass()))
+				{
+					(*_Moveable)->Off();
+					(*_Moveable)->Death();
+					(*_Moveable) = nullptr;
+					return HoldDownEnum::HoldUp;
+				}
+			}
 		}
 		else
 		{
-			if (Bowl->GetObjectBowlType() == ObjectBowlType::Plate)
+			if (Bowl != nullptr)
 			{
-				if (GetCombinFood()->GetTrim())
+				if (Bowl->GetObjectBowlType() == ObjectBowlType::Plate)
 				{
-					Bowl->GetCombinFood()->Move(GetCombinFood());
-					Bowl->GetCombinFood()->RefreshThumbnailAndRenderer();
-					SwitchInteractionOn();
-					ReSetCookingGage();
+					if (GetCombinFood()->GetTrim())
+					{
+						Bowl->GetCombinFood()->Move(GetCombinFood());
+						Bowl->GetCombinFood()->RefreshThumbnailAndRenderer();
+						SwitchInteractionOn();
+						ReSetCookingGage();
+					}
 				}
 			}
+
 		}
 	}
 	return HoldDownEnum::Nothing;

@@ -55,7 +55,6 @@ void Food_Ingredients_Meat::TrimmingPlatting()
 	MeshName_ = "m_prep_meat_burger_01.FBX";
 	GetFBXMesh()->SetFBXMesh(MeshName_, "Texture");
 	GetFBXMesh()->GetTransform().SetLocalRotation({ 0,-90,0 });
-	GetCookingBar()->SetOver(true);
 
 	//ReSetCookingGage();
 	//TrimmingFirstTime_ = false;

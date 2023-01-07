@@ -28,5 +28,6 @@ void Food_Ingredients_Lettuce::TrimmingPlatting()
 	MeshName_ = "m_ingredients_lettuce_sliced_01.FBX";
 	GetFBXMesh()->SetFBXMesh(MeshName_, "Texture");
 	GetFBXMesh()->GetTransform().SetLocalRotation({ 0,-90,0 });
+	GetFBXMesh()->GetTransform().SetWorldScale({ 8, 8, 8 });
 }
 

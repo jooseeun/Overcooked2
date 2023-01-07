@@ -59,6 +59,7 @@ void ResultLevel::LevelStartEvent()
 	if (ResultLevelActor_.lock() == nullptr)
 	{
 		ResultLevelActor_ = CreateActor<ResultLevelActor>();
+		ResultLevelActor_.lock()->ServerInit();
 	}
 }
 
@@ -68,6 +69,7 @@ void ResultLevel::LevelEndEvent()
 	GraphicWindow::Main_->Off();
 	if (ResultLevelActor_.lock() != nullptr)
 	{
+		ResultLevelActor_.lock()->ServerRelease();
 		ResultLevelActor_.lock()->Death();
 		ResultLevelActor_.reset();
 	}

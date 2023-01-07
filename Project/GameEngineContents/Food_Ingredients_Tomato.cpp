@@ -34,7 +34,7 @@ void Food_Ingredients_Tomato::TrimmingPlatting()
 	ChangeFBXMesh();
 	MeshName_ = "m_ingredients_tomato_sliced_01.FBX";
 	GetFBXMesh()->SetFBXMesh(MeshName_, "Texture");
-	//GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
+	GetFBXMesh()->GetTransform().SetWorldScale({ 8, 8, 8});
 	GetFBXMesh()->GetTransform().SetLocalRotation({ 0,-90,0 });
 }
 

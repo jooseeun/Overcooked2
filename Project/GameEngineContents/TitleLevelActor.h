@@ -45,4 +45,6 @@ private:
 	std::vector< MenuButton> AllButtons_;
 
 	int CurNum_ = 0;
+
+	std::vector< std::weak_ptr< GameEngineFBXAnimationRenderer>> PlayerMesh_;
 };

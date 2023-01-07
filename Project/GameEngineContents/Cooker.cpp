@@ -79,6 +79,7 @@ void Tool_Cooker::Start()
 	GamePlayTool::SetInteractOption(AutoOption::Auto);
 	//SetCookingEndTime(12.f);
 	GamePlayTool::SetObjectToolType(ObjectToolType::Cooker);
+	SetMoveablePos({ 0, 0, -25 });
 }
 
 void Tool_Cooker::Update(float _DeltaTime)

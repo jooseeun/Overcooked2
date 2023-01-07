@@ -87,11 +87,29 @@ void ServerInitManager::SelectStageInputDataPacketProcess(std::shared_ptr<GameSe
 	}
 }
 
+void ServerInitManager::ResultLevelInputDataPacketProcess(std::shared_ptr<GameServerPacket> _Packet)
+{
+	std::shared_ptr<ResultLevelInputDataPacket> Packet = std::dynamic_pointer_cast<ResultLevelInputDataPacket>(_Packet);
+	for (int i = 4041;; i++)
+	{
+		GameServerObject* FindObject = GameServerObject::GetServerObject(i);
+		if (FindObject == nullptr)
+		{
+			return;
+		}
+
+		if (FindObject->GetNetID() != i)
+		{
+			continue;
+		}
+
+		FindObject->PushPacket(Packet);
+	}
+}
+
 void ServerInitManager::UserCountPacketProcess(std::shared_ptr<GameServerPacket> _Packet)
 {
 	std::shared_ptr<UserCountPacket> Packet = std::dynamic_pointer_cast<UserCountPacket>(_Packet);
 
 	GlobalGameData::PlayerCount_ = Packet->Count;
-
-
 }

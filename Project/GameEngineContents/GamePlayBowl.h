@@ -51,6 +51,8 @@ enum class NoneFoodType
 
 
 	Bread_Meat_Cheese_Lettuce,
+	Bread_Meat_Lettuce,
+	Bread_Lettuce,
 	Bread,
 
 	Meat_Cheese,
@@ -156,6 +158,13 @@ public:
 			Static_NoneType_[NoneFoodType::Bread_Meat_Cheese_Lettuce].push_back(IngredientType::Cheese);
 			Static_NoneType_[NoneFoodType::Bread_Meat_Cheese_Lettuce].push_back(IngredientType::Meat);
 			Static_NoneType_[NoneFoodType::Bread_Meat_Cheese_Lettuce].push_back(IngredientType::Lettuce);
+			Static_NoneType_[NoneFoodType::Bread_Meat_Lettuce].push_back(IngredientType::Bread);
+			Static_NoneType_[NoneFoodType::Bread_Meat_Lettuce].push_back(IngredientType::Meat);
+			Static_NoneType_[NoneFoodType::Bread_Meat_Lettuce].push_back(IngredientType::Lettuce);
+			Static_NoneType_[NoneFoodType::Bread_Lettuce].push_back(IngredientType::Bread);
+			Static_NoneType_[NoneFoodType::Bread_Lettuce].push_back(IngredientType::Lettuce);
+			
+			
 			Static_NoneType_[NoneFoodType::Bread].push_back(IngredientType::Bread);
 			Static_NoneType_[NoneFoodType::Meat_Cheese].push_back(IngredientType::Meat);
 			Static_NoneType_[NoneFoodType::Meat_Cheese].push_back(IngredientType::Cheese);
@@ -376,13 +385,22 @@ public:
 			Renderer_->SetFBXMesh("m_recipe_dimsum_03.FBX", "Texture");
 			break;
 		case FoodType::SteamedFish:
-			//Renderer_->SetFBXMesh("m_recipe_lettuce_tomato_burger_01.FBX", "Texture");
+			Renderer_->SetFBXMesh("m_recipe_sushi_01 #133833.FBX", "Texture");
 			break;
 		case FoodType::MeatDumpling:
 			Renderer_->SetFBXMesh("m_recipe_dimsum_01.FBX", "Texture");
 			break;
 		case FoodType::CarrotDumpling:
 			Renderer_->SetFBXMesh("m_recipe_dimsum_02.FBX", "Texture");
+			break;
+		case FoodType::StrawberryPancake:
+			Renderer_->SetFBXMesh("m_recipe_strawberry_pancake_01.FBX", "Texture");
+			break;
+		case FoodType::BlueberryPancake:
+			Renderer_->SetFBXMesh("m_recipe_blueberry_pancake_01.FBX", "Texture");
+			break;
+		case FoodType::ChrismasPuddingOrange:
+			Renderer_->SetFBXMesh("m_recipe_ChristmasPudding_01.FBX", "Texture");
 			break;
 		default:
 			switch (GetNoneFoodClass())
@@ -450,15 +468,22 @@ public:
 				Renderer_->SetFBXMesh("m_plated_sushi_cucumber_01.FBX", "Texture");
 				Renderer_->GetTransform().SetWorldScale({ 1,1,1 });
 				break;
-
-
 			case NoneFoodType::Bread_Meat_Cheese_Lettuce:
+				Renderer_->SetFBXMesh("m_recipe_cheese_lettuce_burger_01.FBX", "Texture");
 				break;
+			case NoneFoodType::Bread_Meat_Lettuce:
+				Renderer_->SetFBXMesh("Lettuce_plain_burger.FBX", "Texture");
+				break;
+			case NoneFoodType::Bread_Lettuce:
+				Renderer_->SetFBXMesh("Leffuce_burger.FBX", "Texture");
+				break;
+				
 			case NoneFoodType::Bread:
 				Renderer_->SetFBXMesh("t_ingredients_bun_01_d.FBX", "Texture");
 				Renderer_->GetTransform().SetWorldScale({ 1,1,1 });
 				break;
 			case NoneFoodType::Meat_Cheese:
+
 				break;
 			case NoneFoodType::Meat_Lettuce:
 				break;
@@ -567,10 +592,20 @@ public:
 			std::vector<IngredientType> Food_Current = Food_Current_;
 			bool IsThat = false;
 			int Index = 0;
-			if (Food_Current.size() != Data.size())
+
+			for (size_t i = 0; i < Food_Current.size(); i++)
+			{
+				if (Food_Current[i] == IngredientType::None)
+				{
+					continue;
+				}
+				Index++;
+			}
+			if (Index != Data.size())
 			{
 				continue;
 			}
+			Index = 0;
 
 			for (size_t j = 0; j < Data.size(); j++)
 			{
@@ -762,6 +797,11 @@ public:
 	{
 		return Renderer_;
 	};
+
+	std::vector<IngredientType> GetFoodCurrent()
+	{
+		return Food_Current_;
+	}
 
 	static std::map<NoneFoodType, std::vector<IngredientType>> Static_NoneType_;
 private:

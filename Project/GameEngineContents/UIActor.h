@@ -20,6 +20,7 @@ public:
 		std::string Name;
 		std::shared_ptr<GameEngineFontRenderer> CountFont;
 		std::shared_ptr<GameEngineFontRenderer> NameFont;
+		std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerMesh;
 	};
 	UIActor();
 	~UIActor();
