@@ -141,14 +141,13 @@ SetPlayerState_Return GamePlayMoveable::SetPlayerState(std::shared_ptr<Player> _
 	case PlayerCurStateType::HoldDown:
 		break;
 	case PlayerCurStateType::Sink:
-		break;
 	case PlayerCurStateType::Slice:
-		break;
 	case PlayerCurStateType::FireOff:
-		break;
 	case PlayerCurStateType::DishWash:
-		break;
 	case PlayerCurStateType::Throw:
+	{
+
+	}
 		break;
 	default:
 		break;
