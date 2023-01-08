@@ -134,7 +134,7 @@ void Stage_2_1::PlayLevelStartEvent()
 
 	std::shared_ptr<PortalCollision> Puple1 = CreateActor<PortalCollision>();
 	Puple1->SetPotalType(MapObjType::Portal_Blue);
-	Puple1->GetTransform().SetWorldPosition({ -491.00,260.00,-1402.00 });
+	Puple1->GetTransform().SetWorldPosition({ -600.0,260.00,-1402.00 });
 
 	std::shared_ptr<PortalCollision> Puple2 = CreateActor<PortalCollision>();
 	Puple2->SetPotalType(MapObjType::Portal_Blue);
@@ -144,7 +144,7 @@ void Stage_2_1::PlayLevelStartEvent()
 	Puple1->SetNextPos({ -2788.00,50.00,-1021.00 });
 
 	Puple2->SetNextPotal(Puple1);
-	Puple2->SetNextPos({ -491.00,260.00,-1402.00 });
+	Puple2->SetNextPos({ -600.0,260.00,-1402.00 });
 
 	if (true == ServerInitManager::Net->GetIsHost())
 	{
