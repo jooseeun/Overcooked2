@@ -771,7 +771,7 @@ public:
 
 	inline bool GetTrim()
 	{
-		if (Moveable_.lock()->CookingGage_ >= 100.f && Moveable_.lock()->CookingGage_ < 200.f)
+		if (Moveable_.lock()->CookingGage_ >= 100.f)
 		{
 			return true;
 		}
