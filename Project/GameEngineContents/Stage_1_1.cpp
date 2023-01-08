@@ -90,26 +90,26 @@ void Stage_1_1::PlayLevelStartEvent()
 	{
 		if (Player::GetMyPlayer()->PlayerPNum == 1)
 		{
-			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1000, 500, 200 });
+			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1158, 100, 187 });
 		}
 		else if (Player::GetMyPlayer()->PlayerPNum == 2)
 		{
-			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1200, 500, 200 });
+			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1779, 100, 187 });
 		}
 		else if (Player::GetMyPlayer()->PlayerPNum == 3)
 		{
-			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1600, 500, 200 });
+			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1158, 100, 547 });
 		}
 		else
 		{
-			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1800, 500, 200 });
+			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1779, 100, 547 });
 		}
 		Player::GetMyPlayer()->SetCurFrontDir();
 	}
 	else
 	{
 		std::shared_ptr<Player> MainPlayer_ = CreateActor<Player>();
-		MainPlayer_->GetTransform().SetLocalPosition({ -1000, 500, 200 });
+		MainPlayer_->GetTransform().SetLocalPosition({ -1158, 100, 187 });
 		MainPlayer_->SetCurFrontDir();
 	}
 

@@ -156,6 +156,7 @@ public:
 	{
 		CurDir_ = PlayerDir::Front;
 		CurAngle_ = 180.0f;
+		GetTransform().SetLocalRotation({ 0,CurAngle_, 0 });
 	}
 
 
@@ -288,6 +289,7 @@ private:
 public:
 	static int MaxPlayerCount_;
 	static int PlayerCount_;
+	static int PlayerPNumCount_;
 	static std::shared_ptr<Player> GetMyPlayer()
 	{
 		return MyPlayer;

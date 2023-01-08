@@ -5,6 +5,7 @@
 #include <GameEngineCore/GEngine.h>
 #include "ServerTestLevel.h"
 #include "GamePacket.h"
+#include "Player.h"
 
 bool GameEngineStatusWindow::IsHost = false;
 std::map<std::string, std::shared_ptr<GameEngineRenderTarget>> GameEngineStatusWindow::DebugRenderTarget;
@@ -125,6 +126,24 @@ void GameEngineStatusWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 			ServerTestLevel::Net->SendPacket(Packet);
 		}
+	}
+	// 플레이어 위치 테스트
+	{
+		ImGui::Text("Player Position");
+		if (Player::GetMyPlayer() != nullptr)
+		{
+			std::string Name = "X : " + std::to_string(Player::GetMyPlayer()->GetTransform().GetWorldPosition().x);
+			ImGui::Text(Name.c_str());
+			ImGui::SameLine();
+			std::string Name2 = "Y : " + std::to_string(Player::GetMyPlayer()->GetTransform().GetWorldPosition().y);
+			ImGui::Text(Name2.c_str());
+			ImGui::SameLine();
+			std::string Name3 = "Z : " + std::to_string(Player::GetMyPlayer()->GetTransform().GetWorldPosition().z);
+			ImGui::Text(Name3.c_str());
+			ImGui::SameLine();
+		}
+
+
 	}
 }
 

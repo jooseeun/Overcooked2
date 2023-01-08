@@ -56,28 +56,28 @@ void Stage_2_1::PlayLevelStartEvent()
 	{
 		if (Player::GetMyPlayer()->PlayerPNum == 1)
 		{
-			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1100.00, 90.0, -1111.00 });
-			Player::GetMyPlayer()->SetResponePos({ -1100.00, 90.0, -1111.00 });
+			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -882,100,-1133 });
+			Player::GetMyPlayer()->SetResponePos({ -882,100,-1133 });
 		}
 		else if (Player::GetMyPlayer()->PlayerPNum == 2)
 		{
-			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -850.00, 90.0, -1111.00 });
-			Player::GetMyPlayer()->SetResponePos({ -850.00, 90.0, -1111.00 });
+			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1168,100,-1133 });
+			Player::GetMyPlayer()->SetResponePos({ -1168,100,-1133 });
 		}
 		else if (Player::GetMyPlayer()->PlayerPNum == 3)
 		{
-			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1100.00, 90.0, -900.00 });
-			Player::GetMyPlayer()->SetResponePos({ -1100.00, 90.0, -900.00 });
+			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -882,100,-820 });
+			Player::GetMyPlayer()->SetResponePos({ -882,100,-820 });
 		}
 		else if (Player::GetMyPlayer()->PlayerPNum == 4)
 		{
-			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -850.00, 90.0, -900.00 });
-			Player::GetMyPlayer()->SetResponePos({ -850.00, 90.0, -900.00 });
+			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -1168,100,-820 });
+			Player::GetMyPlayer()->SetResponePos({ -1168,100,-820 });
 		}
 		else
 		{
-			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -850.00, 90.0, -900.00 });
-			Player::GetMyPlayer()->SetResponePos({ -850.00, 90.0, -900.00 });
+			Player::GetMyPlayer()->GetTransform().SetLocalPosition({ -882,100,-1133 });
+			Player::GetMyPlayer()->SetResponePos({ -882,100,-1133 });
 		}
 		Player::GetMyPlayer()->SetCurFrontDir();
 	}
@@ -85,8 +85,8 @@ void Stage_2_1::PlayLevelStartEvent()
 	else
 	{
 		std::shared_ptr<Player> MainPlayer_ = CreateActor<Player>();
-		MainPlayer_->GetTransform().SetLocalPosition({ -1100.00, 90.0, -1111.00 });
-		MainPlayer_->SetResponePos({ -1100.00, 90.0, -1111.00 });
+		MainPlayer_->GetTransform().SetLocalPosition({ -882,100,-1133 });
+		MainPlayer_->SetResponePos({ -882,100,-1133 });
 		MainPlayer_->SetCurFrontDir();
 	}
 

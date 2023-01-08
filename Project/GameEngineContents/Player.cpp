@@ -7,6 +7,7 @@
 #include "Lift.h"
 #include "GamePlayMoveable.h"
 #include "PlayerRunningPuff.h"
+#include "GlobalGameData.h"
 #include <math.h>
 
 
@@ -21,6 +22,7 @@ std::shared_ptr<Player> Player::MyPlayer = nullptr;
 bool Player::OnePlayerInit = false;
 int Player::MaxPlayerCount_ = 0;
 int Player::PlayerCount_ = 0;
+int Player::PlayerPNumCount_ = 0;
 
 Player::Player()
 	:Speed_(650.0f)
@@ -73,6 +75,7 @@ Player::Player()
 	, IsServerStart(false)
 {
 	++PlayerCount_;
+	PlayerPNum = PlayerCount_;
 }
 
 Player::~Player()
@@ -560,12 +563,12 @@ void Player::Update(float _DeltaTime)
 	}
 
 
+	CustomKeyCheck();
 
 	if (GetLevel()->GetName() != "TITLELEVEL")
 	{
 		DeathCheck();
 		StateManager.Update(_DeltaTime);
-		CustomKeyCheck();
 		LiftFloorCheck();
 		IcePlatformCheck(_DeltaTime);
 		GravityCheck(_DeltaTime);
@@ -971,17 +974,18 @@ void Player::DashCheck(float _DeltaTime)
 	{
 		return;
 	}
+
 	DashTime_ -= 1.0f * _DeltaTime;
-	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerDash"))
+
+	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerDash") )
 	{
-		MakeRunningPuff(3);
 
-		if (DashTime_ < 0.0f)
+		if (DashTime_ < -1.0f)
 		{
-			DashTime_ = 0.3f;
-			Speed_ = 1200.0;
+			MakeRunningPuff(3);
 
-			GameEngineSound::SoundPlayOneShot("Dash3.wav");
+			DashTime_ = 0.4f;
+			Speed_ = 1500.0;
 		}
 	}
 
@@ -1019,6 +1023,9 @@ void Player::DashCheck(float _DeltaTime)
 			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 		}
+
+		
+
 		Speed_ = 650.0f;
 	}
 
@@ -1426,12 +1433,12 @@ void Player::ServerStart()
 	{
 		IsPlayerble = true;
 		OnePlayerInit = true;
-		PlayerPNum = PlayerCount_;
-		ChangePlayerColor();
+
 	}
-	if (IsServerStart==false)
+	if (IsServerStart == false)
 	{
-		PlayerPNum = PlayerCount_;
+		PlayerPNumCount_ += 1;
+		//PlayerPNum = PlayerPNumCount_;
 		ChangePlayerColor();
 		IsServerStart = true;
 	}
@@ -1466,7 +1473,8 @@ void Player::ServerUpdate(float _DeltaTime)
 		Packet->RendererState = ServerRenderStateNum_;
 		Packet->PlayerMove = IsMove_;
 		Packet->PlayerDeath = IsDeath_;
-		Packet->PlayerCountNum = PlayerPNum;
+		PlayerPNum = GetNetID();
+		Packet->PlayerCountNum = GetNetID();
 
 		if (IsCannon_ == true)
 		{
