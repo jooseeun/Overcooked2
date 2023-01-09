@@ -3,6 +3,7 @@
 #include "GamePlayFood.h"
 #include "GamePlayTool.h"
 #include "Enums.h"
+#include <queue>
 
 enum class FoodBoxType
 {
@@ -15,6 +16,7 @@ enum class FoodBoxType
 class FoodBox;
 class Tool_FoodBox : public GamePlayTool
 {
+	friend class GamePlayObjectManager;
 	friend FoodBox;
 public:
 	// constrcuter destructer
@@ -27,8 +29,12 @@ public:
 	Tool_FoodBox& operator=(const Tool_FoodBox& _Other) = delete;
 	Tool_FoodBox& operator=(Tool_FoodBox&& _Other) noexcept = delete;
 
+	static void Queue_FillFood(IngredientType _Type);
+	static std::shared_ptr<GamePlayFood> Queue_GetFood(IngredientType _Type);
+
 protected:
 	void Start() override;
+	void LevelEndEvent() override;
 
 private:
 	inline void SetFoodBox(std::shared_ptr<FoodBox> _Box)
@@ -36,10 +42,19 @@ private:
 		Box_ = _Box;
 	}
 
+	void SetFoodType(IngredientType _Type);
+
 	std::weak_ptr<FoodBox> Box_;
 	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable) override;
 	IngredientType Type_;
 
+	//static void Deque_FillFood(IngredientType _Type);
+
+
+	//static void Deque_ServerInit(IngredientType _Type, int _NetID);
+
+	static std::map<IngredientType, std::queue<std::shared_ptr<GamePlayFood>>> map_FoodQueue_;
+	//static std::map<IngredientType, std::deque<std::shared_ptr<GamePlayFood>>> map_FoodDeque_;
 };
 
 class FoodBox : public GamePlayStaticObject

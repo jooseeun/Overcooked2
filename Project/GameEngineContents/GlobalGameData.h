@@ -69,7 +69,7 @@ public:
 
 	static float GetMaxTime()
 	{
-		return 120.f;
+		return 3000.f;
 	}
 
 	static int GetScore()

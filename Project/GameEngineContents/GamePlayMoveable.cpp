@@ -41,7 +41,6 @@ void GamePlayMoveable::Update(float _DeltaTime)
 		Packet->Scale = GetTransform().GetWorldScale();
 
 		ServerInitManager::Net->SendPacket(Packet);
-		return;
 	}
 
 	
@@ -91,6 +90,38 @@ void GamePlayMoveable::Update(float _DeltaTime)
 
 SetPlayerState_Return GamePlayMoveable::SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type, std::shared_ptr<GamePlayMoveable> _Moveable, bool _FromNet)
 {
+	SetPlayerState_Return Result = SetPlayerState_Return::Nothing;
+	switch (_Type)
+	{
+	case PlayerCurStateType::HoldUp:
+	{
+		if (_Player->GetPlayerHolding() == nullptr)
+		{
+			_Player->SetPlayerHolding(shared_from_this());
+			_Player->SetCurHoldType(GetHoldType());
+		}
+		GetCollisionObject()->Off();
+		Result = SetPlayerState_Return::Using;
+	}
+		
+		break;
+	case PlayerCurStateType::HoldDown:
+		break;
+	case PlayerCurStateType::Sink:
+	case PlayerCurStateType::Slice:
+	case PlayerCurStateType::FireOff:
+	case PlayerCurStateType::DishWash:
+		break;
+	case PlayerCurStateType::Throw:
+	{
+		GetCollisionObject()->On();
+	}
+		Result = SetPlayerState_Return::Using;
+		break;
+	default:
+		break;
+	}
+
 	if (nullptr != ServerInitManager::Net)
 	{
 		if (_FromNet == false || ServerInitManager::Net->GetIsHost())
@@ -120,38 +151,40 @@ SetPlayerState_Return GamePlayMoveable::SetPlayerState(std::shared_ptr<Player> _
 			}
 
 			ServerInitManager::Net->SendPacket(Packet);
+			//if (_FromNet == false && !ServerInitManager::Net->GetIsHost())
+			//{
+			//	return SetPlayerState_Return::Nothing;
+			//}
 		}
 	}
 
 
-	SetPlayerState_Return Result = SetPlayerState_Return::Nothing;
-	switch (_Type)
-	{
-	case PlayerCurStateType::HoldUp:
-	{
-		if (_Player->GetPlayerHolding() == nullptr)
-		{
-			_Player->SetPlayerHolding(shared_from_this());
-			_Player->SetCurHoldType(GetHoldType());
-		}
-		Result = SetPlayerState_Return::Using;
-	}
-		
-		break;
-	case PlayerCurStateType::HoldDown:
-		break;
-	case PlayerCurStateType::Sink:
-	case PlayerCurStateType::Slice:
-	case PlayerCurStateType::FireOff:
-	case PlayerCurStateType::DishWash:
-	case PlayerCurStateType::Throw:
-	{
+	//if (nullptr != ServerInitManager::Net && (ServerInitManager::Net->GetIsHost()))
+	//{
+	//	if (_Player != nullptr)
+	//	{
+	//		if (_Player->GetPlayerHolding() != nullptr)
+	//		{
+	//			std::shared_ptr<ObjectParentsSetPacket> ParentsSetPacket = std::make_shared<ObjectParentsSetPacket>();
+	//			ParentsSetPacket->ParentsID = _Player->GetNetID();
+	//			ParentsSetPacket->ChildID = _Player->GetPlayerHolding()->CastThis<GamePlayObject>()->GetNetID();
 
-	}
-		break;
-	default:
-		break;
-	}
+	//			ServerInitManager::Net->SendPacket(ParentsSetPacket);
+	//		}
+	//		else
+	//		{
+	//			if (nullptr != ServerInitManager::Net && (ServerInitManager::Net->GetIsHost()))
+	//			{
+	//				std::shared_ptr<ObjectParentsSetPacket> ParentsSetPacket = std::make_shared<ObjectParentsSetPacket>();
+	//				ParentsSetPacket->ParentsID = _Player->GetNetID();
+	//				ParentsSetPacket->ChildID = -1;
+
+	//				ServerInitManager::Net->SendPacket(ParentsSetPacket);
+	//			}
+	//		}
+	//	}
+
+	//}
 
 
 	if (Result == SetPlayerState_Return::Using)

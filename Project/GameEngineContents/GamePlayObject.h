@@ -152,7 +152,7 @@ public:
 
 	virtual void SetParentsServerHoldObject(int _ServerID) { MsgBoxAssert("GamePlayObject SetParentsServerHoldObject 서버 부모 설정 오류") };
 	virtual void SetServerHoldObject(int _ServerID) { MsgBoxAssert("GamePlayObject SetServerHoldObject 서버 부모 설정 오류") };
-	void ServerStart();
+	void ServerStart(int _ParentsID = -1000);
 protected:
 	virtual void ChildServerStart() {};
 

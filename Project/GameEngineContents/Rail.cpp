@@ -110,25 +110,13 @@ void Tool_Rail::Update(float _Delta)
 
 					if (MoveTime_ > 1.5f)
 					{
-						//Front_StaticObject_.lock()->SetPlayerState(nullptr, PlayerCurStateType::HoldDown, After_Moveable_.lock());
-						Front_StaticObject_.lock()->SetMoveable(After_Moveable_.lock());
-						if (ServerInitManager::Net->GetIsHost())
+						if (ServerInitManager::Net != nullptr && ServerInitManager::Net->GetIsHost())
 						{
-							std::shared_ptr<ObjectParentsSetAllFramePacket> ParentsSetPacket = std::make_shared<ObjectParentsSetAllFramePacket>();
-							ParentsSetPacket->ParentsID = Front_StaticObject_.lock()->GetNetID();
-							ParentsSetPacket->ChildID = After_Moveable_.lock()->GetNetID();
-							ServerInitManager::Net->SendPacket(ParentsSetPacket);
+							Front_StaticObject_.lock()->SetPlayerState(nullptr, PlayerCurStateType::HoldDown, After_Moveable_.lock());
 						}
 
 						MoveTime_ = 0;
 						After_Moveable_.reset();
-						if (ServerInitManager::Net->GetIsHost())
-						{
-							std::shared_ptr<ObjectParentsSetAllFramePacket> ParentsSetPacket = std::make_shared<ObjectParentsSetAllFramePacket>();
-							ParentsSetPacket->ParentsID = GetNetID();
-							ParentsSetPacket->ChildID = -1;
-							ServerInitManager::Net->SendPacket(ParentsSetPacket);
-						}
 						//ReSetCurrentMoveable();
 					}
 				}

@@ -2,6 +2,7 @@
 #include "Dispenser.h"
 #include "FoodHeader.h"
 #include "GlobalGameData.h"
+#include "FoodBox.h"
 
 Dispenser::Dispenser() 
 {
@@ -60,6 +61,7 @@ void Tool_Dispenser::SettingIngredientList(DispenserType _Type)
 		{
 			IngredientList_.push_back(IngredientType::Seaweed);
 			IngredientList_.push_back(IngredientType::Rice);
+
 		}
 		break;
 		case DispenserType::Type2:
@@ -68,6 +70,14 @@ void Tool_Dispenser::SettingIngredientList(DispenserType _Type)
 			IngredientList_.push_back(IngredientType::Fish);
 		}
 		break;
+	}
+	for (size_t i = 0; i < IngredientList_.size(); i++)
+	{
+		if (ServerInitManager::Net == nullptr || ServerInitManager::Net->GetIsHost())
+		{
+			Tool_FoodBox::Queue_FillFood(IngredientList_[i]);
+			Tool_FoodBox::Queue_FillFood(IngredientList_[i]);
+		}
 	}
 }
 
@@ -107,12 +117,9 @@ void Tool_Dispenser::Update(float _Delta)
 				{
 					Index_ = 0;
 				}
-				std::shared_ptr<GamePlayFood> Food = GamePlayFood::GetIngredientClass(IngredientList_[Index_]);
-				Food->ServerStart();
+				std::shared_ptr<GamePlayFood> Food = Tool_FoodBox::Queue_GetFood(IngredientList_[Index_]);
 
 				Front_StaticObject_.lock()->SetPlayerState(nullptr, PlayerCurStateType::HoldDown, Food);
-
-				
 
 				//if (nullptr != ServerInitManager::Net && (ServerInitManager::Net->GetIsHost()))
 				//{

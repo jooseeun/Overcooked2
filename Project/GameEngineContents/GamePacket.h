@@ -9,7 +9,7 @@ enum class ContentsPacketType
 	None,
 	ObjectUpdate, // 오브젝트 업데이트
 	ObjectStart,
-	ObjectParentsSet,       // 등록안된 오브젝트 연결
+	ObjectParentsSet,
 	ObjectParentsSetFrame,  // 매 프레임마다 체크
 	ObjectInteractUpdate,
 	ObjectCookingGageUpdate,

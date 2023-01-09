@@ -1,6 +1,10 @@
 #include "PreCompile.h"
 #include "FoodBox.h"
 #include "FoodHeader.h"
+#include "Food_Empty.h"
+
+std::map<IngredientType, std::queue<std::shared_ptr<GamePlayFood>>> Tool_FoodBox::map_FoodQueue_;
+//std::map<IngredientType, std::deque<std::shared_ptr<GamePlayFood>>> Tool_FoodBox::map_FoodDeque_;
 
 FoodBox::FoodBox()
 	: IsOpen_(false)
@@ -48,7 +52,7 @@ void FoodBox::SetFoodBoxMesh(FoodBoxType _Type)
 
 void FoodBox::SetFoodType(IngredientType _Type)
 {
-	std::dynamic_pointer_cast<Tool_FoodBox>(GetStuff())->Type_ = _Type;
+	std::dynamic_pointer_cast<Tool_FoodBox>(GetStuff())->SetFoodType(_Type);
 
 	switch (_Type)
 	{
@@ -220,21 +224,70 @@ void Tool_FoodBox::Start()
 	GamePlayTool::SetObjectToolType(ObjectToolType::FoodBox);
 }
 
+void Tool_FoodBox::SetFoodType(IngredientType _Type)
+{
+	Type_ = _Type;
+
+	if (ServerInitManager::Net == nullptr || ServerInitManager::Net->GetIsHost())
+	{
+		Queue_FillFood(Type_);
+		Queue_FillFood(Type_);
+	}
+}
+
+void Tool_FoodBox::Queue_FillFood(IngredientType _Type) // Static
+{
+	std::shared_ptr<GamePlayFood> Food = GamePlayFood::GetIngredientClass(_Type);
+	//Food->GetTransform().SetWorldPosition({ 10000,10000, 10000 });
+	Food->Off();
+	Food->ServerStart();
+	map_FoodQueue_[_Type].push(Food);
+}
+
+//void Tool_FoodBox::Deque_FillFood(IngredientType _Type) // Static
+//{
+//	std::shared_ptr<GamePlayFood> Food = GamePlayFood::GetIngredientClass(_Type);
+//	//Food->GetTransform().SetWorldPosition({ 10000,10000, 10000 });
+//	Food->Off();
+//	map_FoodDeque_[_Type].push_back(Food);
+//}
+
+std::shared_ptr<GamePlayFood> Tool_FoodBox::Queue_GetFood(IngredientType _Type)
+{
+	std::shared_ptr<GamePlayFood> Food = map_FoodQueue_[_Type].front();
+	Food->On();
+	map_FoodQueue_[_Type].pop();
+	Queue_FillFood(_Type);
+	return Food;
+}
+
+//void Tool_FoodBox::Deque_ServerInit(IngredientType _Type, int _NetID)
+//{
+//	map_FoodDeque_[_Type].front()->ClientInit(ServerObjectType::Object, _NetID);
+//	map_FoodQueue_[_Type].push(map_FoodDeque_[_Type].front());
+//	map_FoodDeque_[_Type].pop_front();
+//
+//	//MsgBoxAssert("Tool_FoodBox::Deque_ServerInit / 오류 확인용")
+//	return;
+//
+//}
+
 HoldDownEnum Tool_FoodBox::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 {
 	switch (GamePlayTool::PickUp(_Moveable))
 	{
 	case HoldDownEnum::Nothing:
 	{
-		(*_Moveable) = GamePlayFood::GetIngredientClass(Type_);
-
 		if (nullptr != ServerInitManager::Net)
 		{
-			(*_Moveable)->DontWantSend();
-			if (ServerInitManager::Net->GetIsHost())
-			{
-				(*_Moveable)->ClientInit(ServerObjectType::Object, GamePlayObject::FindEmptyServerNumber());
-			}
+	
+			(*_Moveable) = Tool_FoodBox::Queue_GetFood(Type_);
+			//(*_Moveable)->ClientInit(ServerObjectType::Object, GamePlayObject::FindEmptyServerNumber());
+			
+			//else
+			//{
+			//	(*_Moveable) = GetLevel()->CreateActor<Food_Empty>();
+			//}
 		}
 
 		Box_.lock()->SwitchIsInteraction();
@@ -254,43 +307,7 @@ HoldDownEnum Tool_FoodBox::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 	return HoldDownEnum::Nothing;
 }
 
-
-//HoldDownEnum Tool_FoodBox::HoldOn(std::shared_ptr<Player> _Player)
-//{
-//	if (GetCurrentMoveable() == nullptr)
-//	{
-//		if (_Player->GetPlayerHolding() == nullptr)
-//		{
-//		
-//
-//			return HoldDownEnum::HoldUp;
-//		}
-//		
-//	}
-//	else
-//	{
-//		if (_Player->GetPlayerHolding() == nullptr)
-//		{
-//			_Player->SetPlayerHolding(GetCurrentMoveable());
-//			ReSetCurrentMoveable();
-//			return HoldDownEnum::HoldUp;
-//		}
-//	}
-//	return HoldDownEnum::Nothing;
-//}
-
-//Input_PickUpOption Tool_FoodBox::CheckMoveable(std::shared_ptr<GamePlayMoveable> _Object)
-//{
-//	return Input_PickUpOption::PickUp;
-//}
-//
-//Input_PickUpOption Tool_FoodBox::Input_PickUp(std::shared_ptr<Player> _Player)
-//{
-
-//	return Input_PickUpOption::Exception;
-//}
-//
-//Input_AutoOption Tool_TrashCan::Input_Action()
-//{
-//	return Input_AutoOption::NoResponse;
-//}
+void Tool_FoodBox::LevelEndEvent()
+{
+	map_FoodQueue_.clear();
+}

@@ -54,7 +54,7 @@ void GamePlayObjectManager::Start()
 
 void GamePlayObjectManager::TemporaryPushData(std::shared_ptr<GameServerPacket> _Update)
 {
-	//std::lock_guard L(ObjectManagerLock);
+	std::lock_guard L(ObjectManagerLock);
 	TemporaryPacket.push(_Update);
 }
 
@@ -80,24 +80,24 @@ void GamePlayObjectManager::Update(float _Time)
 		case ContentsPacketType::ObjectUpdate:
 		default:
 			MsgBoxAssert("GamePlayObjectManager - 처리할수없는 패킷이 들어 왔습니다")
-			break;
+				break;
 		}
 
 		TemporaryPacket.pop();
 	}
-	
+
 
 	while (!QueueMapData_.empty())
 	{
 		PopMapDataData();
 	}
-	while (!QueueObjectParentsSet_.empty())
-	{
-		PopObjectParentsSetData();
-	}
 	while (!QueueObjectInteraction_.empty())
 	{
 		PopObjectInteractData();
+	}
+	while (!QueueObjectParentsSet_.empty())
+	{
+		PopObjectParentsSetData();
 	}
 	while (!QueueObjectParentsSetAllFrame_.empty())
 	{
@@ -117,7 +117,7 @@ void GamePlayObjectManager::PushObjectInteractData(std::shared_ptr<ObjectInterac
 	QueueObjectInteraction_.push(_Update);
 }
 
-void GamePlayObjectManager::PushMapData(std::shared_ptr<ObjectStartPacket> _Update) 
+void GamePlayObjectManager::PushMapData(std::shared_ptr<ObjectStartPacket> _Update)
 {
 	std::lock_guard L(ObjectManagerLock);
 	QueueMapData_.push(_Update);
@@ -145,136 +145,76 @@ void GamePlayObjectManager::PopObjectParentsSetData()
 	}
 
 	GameServerObject* FindParentsObject = GameServerObject::GetServerObject(Packet->ParentsID);
-	if (FindParentsObject == nullptr)
-	{
-		MsgBoxAssert("GamePlayObjectManager::PopObjectParentsSetData() - FindHoldObject 부모가 nullptr입니다")
 
+	if (Packet->ChildID > 0 && GameServerObject::GetServerObject(Packet->ChildID) == nullptr)
+	{
+		TemporaryPushData(Packet);
+		return;
+	}
+
+	switch (FindParentsObject->GetServerType())
+	{
+	case ServerObjectType::Player:
+	{
+		std::shared_ptr<Player> Player_ = ((Player*)(FindParentsObject))->shared_from_this()->CastThis<Player>();
+		if (Packet->ChildID == -1)
+		{
+			Player_->CurrentHoldingNull();
 			return;
-	}
-
-
-	//if (Packet->ParentsID == 100002)
-	//{
-	//	int a = 0;
-	//}
-
-	if (Packet->ChildID <= -1)
-	{
-		return;
-	}
-	//else if (Packet->ChildID = -1)
-	//{
-	//	switch (FindParentsObject->GetServerType())
-	//	{
-	//	case ServerObjectType::Player:
-	//	{
-	//		std::shared_ptr<Player> Player1 = ((Player*)(FindParentsObject))->shared_from_this()->CastThis<Player>();
-	//		Player1->CurrentHoldingNull();
-	//		break;
-	//	}
-	//	case ServerObjectType::Object:
-	//	{
-	//		std::shared_ptr<GamePlayObject> ParentsObject = ((GamePlayObject*)(FindParentsObject))->shared_from_this()->CastThis<GamePlayObject>();
-	//		if (ParentsObject->CastThis<GamePlayStaticObject>() != nullptr)
-	//		{
-	//			ParentsObject->CastThis<GamePlayStaticObject>()->ReSetStuff();
-	//		}
-	//		else
-	//		{
-	//			ParentsObject->CastThis<GamePlayTool>()->ReSetCurrentMoveable();
-	//		}
-	//	}
-	//	break;
-	//	}
-	//	return;
-	//}
-
-
-	GameServerObject* FindHoldObject = GameServerObject::GetServerObject(Packet->ChildID);
-
-
-	if (FindHoldObject != nullptr)
-	{
-		//switch (FindParentsObject->GetServerType())
-		//{
-		//	case ServerObjectType::Player:
-		//		return;
-		//		break;
-		//	case ServerObjectType::Object:
-		//	{
-		//		std::shared_ptr<GamePlayObject> HoldingObject = ((GamePlayObject*)(FindHoldObject))->shared_from_this()->CastThis<GamePlayObject>();
-		//		std::shared_ptr<GamePlayObject> ParentsObject = ((GamePlayObject*)(FindParentsObject))->shared_from_this()->CastThis<GamePlayObject>();
-		//		if (ParentsObject->CastThis<GamePlayStaticObject>() != nullptr)
-		//		{
-		//			ParentsObject->CastThis<GamePlayStaticObject>()->SetStuff(HoldingObject->CastThis<GamePlayStuff>());
-		//		}
-		//		else
-		//		{
-		//			ParentsObject->CastThis<GamePlayTool>()->SetMoveable(HoldingObject->shared_from_this());
-		//		}
-		//	}
-		//	break;
-		//}
-		return;
-	}
-	else
-	{
-		switch (FindParentsObject->GetServerType())
+		}
+		else
 		{
-			case ServerObjectType::Player:
+			std::shared_ptr<GamePlayObject> Child = ((GamePlayObject*)(GameServerObject::GetServerObject(Packet->ChildID)))->shared_from_this()->CastThis<GamePlayObject>();
+			
+			if (Child == nullptr)
 			{
-				std::shared_ptr<Player> Player_ = ((Player*)(FindParentsObject))->shared_from_this()->CastThis<Player>();
-				if (Player_->GetPlayerHolding() == nullptr)
-				{
-
-					TemporaryPushData(Packet);
-					return;
-				}
-				std::shared_ptr<GamePlayMoveable> Moveable = Player_->GetPlayerHolding()->CastThis<GamePlayMoveable>();		// Nullptr이면 무조건 잘못 된것
-
-				if (Moveable->GetIsNetInit() == false)
-				{
-					Moveable->ClientInit(ServerObjectType::Object, Packet->ChildID);
-				}
-
-				
-			}
-		break;
-		case ServerObjectType::Object:
-		{
-			std::shared_ptr<GamePlayObject> Object = ((GamePlayObject*)(FindParentsObject))->shared_from_this()->CastThis<GamePlayObject>();
-			if (Object->CastThis<GamePlayStaticObject>() != nullptr)
-			{
-				if (Object->CastThis<GamePlayStaticObject>()->GetStuff() == nullptr)
-				{
-					TemporaryPushData(Packet);
-					return;
-				}
+				MsgBoxAssert("GamePlayObjectManager::PopObjectParentsSetData() / Child is Nullptr")
+				return;
 			}
 			else
 			{
-				if (Object->CastThis<GamePlayTool>()->GetCurrentMoveable() == nullptr)
-				{
-					TemporaryPushData(Packet);
-					return;
-				}
+				Player_->SetPlayerHolding(Child);
 			}
-
-			Object->SetParentsServerHoldObject(Packet->ChildID);
-		}
-		break;
-		case ServerObjectType::UI:
-			MsgBoxAssert("GamePlayObjectManager::PopObjectParentsSetData() - 잘못된 형식")
-				break;
-		default:
-			MsgBoxAssert("GamePlayObjectManager::PopObjectParentsSetData() - 서버에 등록되지 않았습니다")
-				break;
 		}
 	}
+	break;
+	case ServerObjectType::Object:
+	{
+		std::shared_ptr<GamePlayObject> Object = ((GamePlayObject*)(FindParentsObject))->shared_from_this()->CastThis<GamePlayObject>();
+		std::shared_ptr<GamePlayStuff> Child = ((GamePlayStuff*)(GameServerObject::GetServerObject(Packet->ChildID)))->shared_from_this()->CastThis<GamePlayStuff>();
 
 
-
-	
+		if (Object->CastThis<GamePlayStaticObject>() != nullptr)
+		{
+			if (Packet->ChildID == -1)
+			{
+				Object->CastThis<GamePlayStaticObject>()->ReSetStuff();
+			}
+			else
+			{
+				Child->CastThis<GamePlayStaticObject>()->SetStuff(Child);
+			}
+		}
+		else
+		{
+			if (Packet->ChildID == -1)
+			{
+				Object->CastThis<GamePlayTool>()->ReSetCurrentMoveable();
+			}
+			else
+			{
+				Object->CastThis<GamePlayTool>()->SetMoveable(Child);
+			}
+		}
+	}
+	break;
+	case ServerObjectType::UI:
+		MsgBoxAssert("GamePlayObjectManager::PopObjectParentsSetData() - 잘못된 형식")
+			break;
+	default:
+		MsgBoxAssert("GamePlayObjectManager::PopObjectParentsSetData() - 서버에 등록되지 않았습니다")
+			break;
+	}
 }
 
 std::shared_ptr<GamePlayObject> GamePlayObjectManager::PopMapDataData()
@@ -552,6 +492,18 @@ std::shared_ptr<GamePlayObject> GamePlayObjectManager::PopMapDataData()
 	else if (Packet->IngredientData != IngredientType::None)
 	{
 		PlayObject = GamePlayFood::GetIngredientClass(Packet->IngredientData);
+
+		PlayObject->ClientInit(ServerObjectType::Object, Packet->ObjectID);
+		Tool_FoodBox::map_FoodQueue_[Packet->IngredientData].push(PlayObject->CastThis<GamePlayFood>());
+
+		return PlayObject;
+		//if (!Tool_FoodBox::map_FoodDeque_[Packet->IngredientData].empty())
+		//{
+		//	Tool_FoodBox::Deque_ServerInit(Packet->IngredientData, Packet->ObjectID);
+		//	return PlayObject;
+		//}
+		//
+
 	}
 	else if(Packet->ObjectToolData != ObjectToolType::None)
 	{
@@ -727,7 +679,7 @@ void GamePlayObjectManager::LevelEndEvent()
 
 	TemporaryPacket = std::queue<std::shared_ptr<GameServerPacket>>(); // 초기화
 	QueueObjectInteraction_ = std::queue<std::shared_ptr<ObjectInteractUpdatePacket>>(); // 초기화
-	QueueObjectParentsSet_ = std::queue<std::shared_ptr<ObjectParentsSetPacket>>(); // 초기화
+	//QueueObjectParentsSet_ = std::queue<std::shared_ptr<ObjectParentsSetPacket>>(); // 초기화
 	QueueObjectParentsSetAllFrame_ = std::queue<std::shared_ptr<ObjectParentsSetAllFramePacket>>(); // 초기화
 
 }

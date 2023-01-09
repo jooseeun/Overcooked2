@@ -148,7 +148,7 @@ void Player::ThrowStart(const StateInfo& _Info)
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 	CurStateType_ = PlayerCurStateType::Throw;
-	CurrentHoldingObject_->CastThis<GamePlayObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_);
+	//CurrentHoldingObject_->CastThis<GamePlayObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_);
 
 	GameEngineSound::SoundPlayOneShot("Throw2.wav");
 	IsThrow_ = false;
@@ -172,6 +172,7 @@ void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (true == GameEngineInput::GetInst()->IsUpKey("PlayerInteract"))
 	{
 		CurrentHoldingObject_->CastThis<GamePlayObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_);
+		CurrentHoldingObject_->CastThis<GamePlayObject>()->GetCollisionObject()->On();
 		CurAniName_ =  "Throw";
 		PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "Throw");
 		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });

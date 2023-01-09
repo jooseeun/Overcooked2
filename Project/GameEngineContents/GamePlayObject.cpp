@@ -36,7 +36,7 @@ void GamePlayObject::Update(float _DeltaTime)
 
 // Server
 
-void GamePlayObject::ServerStart()
+void GamePlayObject::ServerStart(int _ParentsID)
 {
 	if (nullptr != ServerInitManager::Net)
 	{
