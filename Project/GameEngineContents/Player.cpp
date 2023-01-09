@@ -559,11 +559,15 @@ void Player::Update(float _DeltaTime)
 
 
 	CustomKeyCheck();
+	if (GetLevel()->GetName() == "SELECTSTAGE")
+	{
+
+		GetTransform().SetLocalScale({ 1.0f, 1.0f, 1.0f });
+	}
 
 	if (GetLevel()->GetName() != "TITLELEVEL")
 	{
 		StateManager.Update(_DeltaTime);
-		GetTransform().SetLocalScale({ 1.0f, 1.0f, 1.0f });
 		DeathCheck();
 		LiftFloorCheck();
 		IcePlatformCheck(_DeltaTime);
@@ -605,8 +609,7 @@ void Player::Update(float _DeltaTime)
 
 		}
 	}
-
-	else
+	else if (GetLevel()->GetName() == "TITLELEVEL")
 	{
 		GetTransform().SetLocalScale({ 0.5f, 0.5f, 0.5f });// 플레이어 크기 수정
 		SetCurFrontDir();
@@ -1545,7 +1548,11 @@ void Player::ServerUpdate(float _DeltaTime)
 		case ContentsPacketType::ObjectUpdate:
 		{
 			std::shared_ptr<ObjectUpdatePacket> ObjectUpdate = std::dynamic_pointer_cast<ObjectUpdatePacket>(Packet);
-	
+			if (GetLevel()->GetName() == "SELECTSTAGE")
+			{
+
+				GetTransform().SetLocalScale({ 1.0f, 1.0f, 1.0f });
+			}
 			if (GetLevel()->GetName() == "TITLELEVEL")
 			{
 				ChangePlayerColor();
@@ -1574,7 +1581,6 @@ void Player::ServerUpdate(float _DeltaTime)
 				ChangePlayerColor();
 				GetTransform().SetWorldPosition(ObjectUpdate->Pos);
 				GetTransform().SetWorldRotation(ObjectUpdate->Rot);
-				GetTransform().SetLocalScale({ 1.0f, 1.0f, 1.0f });
 				{
 					if (ObjectUpdate->PlayerMove == 1)
 					{
