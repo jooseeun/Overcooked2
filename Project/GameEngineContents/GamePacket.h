@@ -243,6 +243,7 @@ public:
 	float4 Scale;
 	std::string Animation;
 	int PlayerCustomNum;
+	int PlayerPreCustomNum;
 	int PlayerCountNum;
 	int RendererState;
 	int PlayerMove;
@@ -267,6 +268,7 @@ public:
 		_Ser << Scale;
 		_Ser << Animation;
 		_Ser << PlayerCustomNum;
+		_Ser << PlayerPreCustomNum;
 		_Ser << PlayerCountNum;
 		_Ser << RendererState;
 		_Ser << PlayerMove;
@@ -286,6 +288,7 @@ public:
 		_Ser >> Scale;
 		_Ser >> Animation;
 		_Ser >> PlayerCustomNum;
+		_Ser >> PlayerPreCustomNum;
 		_Ser >> PlayerCountNum;
 		_Ser >> RendererState;
 		_Ser >> PlayerMove;

@@ -9,12 +9,12 @@
 
 void Player::IdleStart(const StateInfo& _Info)
 {
-	
+
 	IsHolding_ = "Idle";
 	CurStateType_ = PlayerCurStateType::Idle;
-	IdleRendererON();		
-	CurAniName_ = PlayerName_[PlayerCustomNum] + "Idle";
-	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(CurAniName_);
+	IdleRendererON();
+	CurAniName_ =  "Idle";
+	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum]+CurAniName_);
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 
@@ -33,12 +33,12 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 		if (IsPotal_ == false)
 		{
 			StateManager.ChangeState("Move");
-			
+
 		}
 	}
 
-	
-	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerHold" ))
+
+	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerHold"))
 	{
 		if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Cannon, CollisionType::CT_OBB,
 			std::bind(&Player::EnterCannon, this, std::placeholders::_1, std::placeholders::_2)) == true)
@@ -81,7 +81,7 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 void Player::MoveStart(const StateInfo& _Info)
 {
 	WalkRendererON();
-	CurAniName_ = PlayerName_[PlayerCustomNum] + "Walk";
+	CurAniName_ = "Walk";
 	PlayerWalkRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "Walk");
 	PlayerWalkRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 	PlayerWalkRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
@@ -96,10 +96,10 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 
 
-	if (false == GameEngineInput::GetInst()->IsPressKey("PlayerLeft" ) &&
+	if (false == GameEngineInput::GetInst()->IsPressKey("PlayerLeft") &&
 		false == GameEngineInput::GetInst()->IsPressKey("PlayerRight") &&
 		false == GameEngineInput::GetInst()->IsPressKey("PlayerFront") &&
-		false == GameEngineInput::GetInst()->IsPressKey("PlayerBack" ))
+		false == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
 	{
 
 		StateManager.ChangeState("Idle");
@@ -119,7 +119,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		// 플레이어 벽 출돌 체크
 		if (PlayerMoveCollisionCheck(PlayerForwardCollision_) == true
-			&& PlayerCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Character, CollisionType::CT_OBB)==false)
+			&& PlayerCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Character, CollisionType::CT_OBB) == false)
 		{
 			GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * _DeltaTime);
 		}
@@ -143,7 +143,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 }
 void Player::ThrowStart(const StateInfo& _Info)
 {
-	CurAniName_ = PlayerName_[PlayerCustomNum] + "Idle";
+	CurAniName_ =  "Idle";
 	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "Idle");
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
@@ -157,7 +157,7 @@ void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	PlayerIdleRenderer_[PlayerCustomNum]->AnimationBindEnd(PlayerName_[PlayerCustomNum] + "Throw", [=](const GameEngineRenderingEvent& _Info)
 		{
-			CurAniName_ = PlayerName_[PlayerCustomNum] + "Idle";
+			CurAniName_ =  "Idle";
 			PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "Idle");
 			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
@@ -169,10 +169,10 @@ void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 		MoveAngle();
 	}
 
-	if (true == GameEngineInput::GetInst()->IsUpKey("PlayerInteract" ))
+	if (true == GameEngineInput::GetInst()->IsUpKey("PlayerInteract"))
 	{
 		CurrentHoldingObject_->CastThis<GamePlayObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_);
-		CurAniName_ = PlayerName_[PlayerCustomNum] + "Throw";
+		CurAniName_ =  "Throw";
 		PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "Throw");
 		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
@@ -203,7 +203,7 @@ void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 void Player::HoldUpStart(const StateInfo& _Info)
 {
 	ColCheckPlayer();
-	if (IsThrowHolding_ == true && CurrentHoldingObject_!=nullptr)
+	if (IsThrowHolding_ == true && CurrentHoldingObject_ != nullptr)
 	{
 		IsHolding_ = "Holding";
 		CurStateType_ = PlayerCurStateType::HoldUp;
@@ -254,8 +254,8 @@ void Player::HoldUpUpdate(float _DeltaTime, const StateInfo& _Info)
 		}
 	}
 
-	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerHold" )) // 놓기
-	{ 
+	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerHold")) // 놓기
+	{
 		StateManager.ChangeState("HoldDown");
 	}
 	if (IsPotal_ == true)
@@ -265,8 +265,8 @@ void Player::HoldUpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	// Player object 를 든 상태로도 이동 가능하게 하기
 	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft") ||
-		true == GameEngineInput::GetInst()->IsPressKey("PlayerRight" ) ||
-		true == GameEngineInput::GetInst()->IsPressKey("PlayerFront" ) ||
+		true == GameEngineInput::GetInst()->IsPressKey("PlayerRight") ||
+		true == GameEngineInput::GetInst()->IsPressKey("PlayerFront") ||
 		true == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
 	{
 		RunningPuffTime_ += 1.0f * _DeltaTime;
@@ -274,8 +274,8 @@ void Player::HoldUpUpdate(float _DeltaTime, const StateInfo& _Info)
 		{
 			MakeRunningPuff(6);
 		}
-		CurAniName_ = PlayerName_[PlayerCustomNum] + "WalkHolding";
-		PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] +"WalkHolding");
+		CurAniName_ =  "WalkHolding";
+		PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "WalkHolding");
 		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 		PlayerDirCheck();
@@ -308,8 +308,8 @@ void Player::HoldUpUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 	else
 	{
-		CurAniName_ = PlayerName_[PlayerCustomNum] + "IdleHolding";
-		PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] +"IdleHolding");
+		CurAniName_ =  "IdleHolding";
+		PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "IdleHolding");
 		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 	}
@@ -338,7 +338,7 @@ void Player::SliceStart(const StateInfo& _Info) // 자르는 도중 이동하면 취소됨
 	CurStateType_ = PlayerCurStateType::Slice;
 	IsSlice_ = true;
 	ChopRendererON();
-	CurAniName_ = PlayerName_[PlayerCustomNum] + "Chop";
+	CurAniName_ =  "Chop";
 }
 void Player::SliceUpdate(float _DeltaTime, const StateInfo& _Info)
 {
@@ -354,8 +354,8 @@ void Player::SliceUpdate(float _DeltaTime, const StateInfo& _Info)
 		StateManager.ChangeState("Idle");
 	}
 
-	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft" ) ||
-		true == GameEngineInput::GetInst()->IsPressKey("PlayerRight" ) ||
+	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft") ||
+		true == GameEngineInput::GetInst()->IsPressKey("PlayerRight") ||
 		true == GameEngineInput::GetInst()->IsPressKey("PlayerFront") ||
 		true == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
 	{
@@ -367,7 +367,7 @@ void Player::SliceUpdate(float _DeltaTime, const StateInfo& _Info)
 void Player::DishWashStart(const StateInfo& _Info) // 설거지하는 도중 이동하면 취소됨
 {
 	WashRendererON();
-	CurAniName_ = PlayerName_[PlayerCustomNum] + "Wash";
+	CurAniName_ =  "Wash";
 	PlayerWashRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "Wash");
 	PlayerWashRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 	PlayerWashRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
@@ -384,10 +384,10 @@ void Player::DishWashUpdate(float _DeltaTime, const StateInfo& _Info)
 		std::bind(&Player::InteractTableCheck, this, std::placeholders::_1, std::placeholders::_2));
 
 	ColCheckPlayer();
-	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft" ) ||
+	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft") ||
 		true == GameEngineInput::GetInst()->IsPressKey("PlayerRight") ||
-		true == GameEngineInput::GetInst()->IsPressKey("PlayerFront" ) ||
-		true == GameEngineInput::GetInst()->IsPressKey("PlayerBack" ))
+		true == GameEngineInput::GetInst()->IsPressKey("PlayerFront") ||
+		true == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
 	{
 		StateManager.ChangeState("Move");
 		return;
@@ -404,7 +404,7 @@ void Player::FireOffStart(const StateInfo& _Info)
 
 	CurStateType_ = PlayerCurStateType::FireOff;
 	FireOff_ = true;
-	CurAniName_ = PlayerName_[PlayerCustomNum] + "IdleHolding";
+	CurAniName_ = "IdleHolding";
 	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "IdleHolding");
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
@@ -414,7 +414,7 @@ void Player::FireOffUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 
 	ColCheckPlayer();
-	if (false == GameEngineInput::GetInst()->IsPressKey("PlayerInteract" ))
+	if (false == GameEngineInput::GetInst()->IsPressKey("PlayerInteract"))
 	{
 		StateManager.ChangeState("Hold");
 		return;
@@ -431,7 +431,7 @@ void Player::DrowningStart(const StateInfo& _Info)
 {
 	IdleRendererON();
 	CurStateType_ = PlayerCurStateType::Drowning;
-	CurAniName_ = PlayerName_[PlayerCustomNum] + "Drowning";
+	CurAniName_ =  "Drowning";
 	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "Drowning");
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
@@ -441,7 +441,7 @@ void Player::DrowningStart(const StateInfo& _Info)
 }
 void Player::DrowningUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	DeathTime_ -= 1.0f* _DeltaTime;
+	DeathTime_ -= 1.0f * _DeltaTime;
 	if (DeathTime_ < 3.0f)
 	{
 		PlayerIdleRenderer_[PlayerCustomNum]->Off();
@@ -451,7 +451,7 @@ void Player::DrowningUpdate(float _DeltaTime, const StateInfo& _Info)
 		DetachPlayerHolding();
 		GetTransform().SetWorldPosition(ResponePos_);
 		StateManager.ChangeState("Idle");
-		
+
 	}
 }
 
@@ -459,33 +459,33 @@ void Player::CannonInterStart(const StateInfo& _Info)
 {
 
 	IdleRendererON();
-	CurAniName_ = PlayerName_[PlayerCustomNum] + "CannonEnter" + IsHolding_;
-	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "CannonEnter"+ IsHolding_);
+	CurAniName_ =  "CannonEnter" + IsHolding_;
+	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation( "CannonEnter" + IsHolding_);
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 	PlayerIdleRenderer_[PlayerCustomNum]->GetCurAnim()->bOnceEnd = false;
 }
 void Player::CannonInterUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	PlayerIdleRenderer_[PlayerCustomNum]->AnimationBindEnd(PlayerName_[PlayerCustomNum] + "CannonEnter"+ IsHolding_, [=](const GameEngineRenderingEvent& _Info)
+	PlayerIdleRenderer_[PlayerCustomNum]->AnimationBindEnd(PlayerName_[PlayerCustomNum] + "CannonEnter" + IsHolding_, [=](const GameEngineRenderingEvent& _Info)
 		{
-			CurAniName_ = PlayerName_[PlayerCustomNum] + "CannonIdle" + IsHolding_;
-			PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "CannonIdle"+ IsHolding_);
+			CurAniName_ =  "CannonIdle" + IsHolding_;
+			PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "CannonIdle" + IsHolding_);
 			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 		});
 
 
-	
-	GetTransform().SetWorldRotation({ CannonZAngle_, 90,0  });
 
-	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerDash" ))
+	GetTransform().SetWorldRotation({ CannonZAngle_, 90,0 });
+
+	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerDash"))
 	{
-		
-	
+
+
 		IsCannon_ = false;
 		GetTransform().SetWorldPosition({ -806.00, 100.0, -1111.00 });
-		GetTransform().SetWorldRotation({ 0, 0, 0 });		
+		GetTransform().SetWorldRotation({ 0, 0, 0 });
 		CurDir_ = PlayerDir::Right;
 		CurAngle_ = 90;
 		GetTransform().SetLocalRotation({ 0,CurAngle_, 0 });
@@ -507,8 +507,8 @@ void Player::CannonFlyStart(const StateInfo& _Info)
 	CurDir_ = PlayerDir::Right;
 	CurAngle_ = 90;
 	GetTransform().SetLocalRotation({ 0,CurAngle_, 0 });
-	CurAniName_ = PlayerName_[PlayerCustomNum] + "CannonFlying" + IsHolding_;
-	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "CannonFlying"+ IsHolding_);
+	CurAniName_ =  "CannonFlying" + IsHolding_;
+	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "CannonFlying" + IsHolding_);
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 	PlayerIdleRenderer_[PlayerCustomNum]->GetCurAnim()->bOnceEnd = false;
@@ -523,7 +523,7 @@ void Player::CannonFlyUpdate(float _DeltaTime, const StateInfo& _Info)
 		GetTransform().SetWorldUpMove(600.0f, _DeltaTime);
 		FlyTime_ -= 1.0f * _DeltaTime;
 	}
-	else 
+	else
 	{
 		Gravity();
 	}
@@ -543,7 +543,7 @@ void Player::CannonFlyUpdate(float _DeltaTime, const StateInfo& _Info)
 void Player::CarDeathStart(const StateInfo& _Info)
 {
 	IdleRendererON();
-	CurAniName_ = PlayerName_[PlayerCustomNum] + "CarDeath";
+	CurAniName_ =  "CarDeath";
 	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "CarDeath");
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
@@ -561,12 +561,13 @@ void Player::CarDeathUpdate(float _DeltaTime, const StateInfo& _Info)
 	for (int i = 0; i < 5; i++)
 	{
 		PixelData& Renderer = PlayerIdleRenderer_[PlayerCustomNum]->GetPixelDatas(i);
-		if (Renderer.MulColor.a > 0.0f)
+		if (Renderer.MulColor.a > 0.05f)
 		{
 			Renderer.AlphaFlag = 1;
 			Renderer.AlphaColor.a -= 0.3f * _DeltaTime;
 			Renderer.MulColor.a -= 0.3f * _DeltaTime;
 		}
+
 	}
 
 
@@ -579,7 +580,7 @@ void Player::CarDeathUpdate(float _DeltaTime, const StateInfo& _Info)
 		for (int i = 0; i < 5; i++)
 		{
 			PixelData& IdleRender = PlayerIdleRenderer_[PlayerCustomNum]->GetPixelDatas(i);
-			IdleRender.MulColor.a =1.0f;
+			IdleRender.MulColor.a = 1.0f;
 			IdleRender.AlphaColor.a = 1.0f;
 		}
 		GameEngineSound::SoundPlayOneShot("PlayerSpawn_01.wav");
