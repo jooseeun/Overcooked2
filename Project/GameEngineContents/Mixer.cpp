@@ -20,6 +20,7 @@ void Mixer::Start()
 
 
 	SetStuff(GetLevel()->CreateActor<Tool_Mixer>());
+
 }
 
 void Mixer::SetMixerMesh(MixerType _Type)
@@ -57,7 +58,7 @@ void Tool_Mixer::Start()
 {
 	GamePlayTool::Start();
 	GamePlayTool::SetInteractOption(AutoOption::Manual);
-	GamePlayTool::SetToolInfoType(ToolInfo::Mixer);
+	//GamePlayTool::SetToolInfoType(ToolInfo::Mixer);
 	GamePlayTool::SetObjectToolType(ObjectToolType::Mixer);
 
 	//SetMoveablePos();

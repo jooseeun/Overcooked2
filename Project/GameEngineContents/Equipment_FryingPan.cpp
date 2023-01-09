@@ -38,16 +38,15 @@ bool Equipment_FryingPan::AutoTrim(float _DeltaTime, ObjectToolType _Tool)
 {
 	if (_Tool == ObjectToolType::Cooker)
 	{
-		// 윤서: FryFood != null일 때만 아래 주석 해제.
-		/*if (false == IsSound_)
-		{
-			MyMoveableState_ = MoveableState::Cooking;
-			ObjSoundPlayer_ = GameEngineSound::SoundPlayControl("FryingPanSizzle.wav", -1);
-			ObjSoundPlayer_.Volume(2.f);
-			IsSound_ = true;
-		}*/
 		if(!GetCombinFood()->IsClear())
 		{
+			if (false == IsSound_)
+			{
+				MyMoveableState_ = MoveableState::Cooking;
+				ObjSoundPlayer_ = GameEngineSound::SoundPlayControl("FryingPanSizzle.wav", -1);
+				ObjSoundPlayer_.Volume(2.f);
+				IsSound_ = true;
+			}
 			if (Input_Auto(_DeltaTime, 12.f))
 			{
 				return true;

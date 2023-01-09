@@ -10,21 +10,6 @@ Cooker::~Cooker()
 {
 }
 
-void Cooker::SettingToolPos(ToolInfo _MyTool)
-{
-	//if (_MyTool == ToolInfo::FryingPan)
-	//{
-	//	ToolPos_ = { 0.f, 60.f, 0.f };
-	//}
-	//else if (_MyTool == ToolInfo::Steamer)
-	//{
-	//	ToolPos_ = { 0.f, 85.f, 25.f };
-	//}
-
-	//SetToolPos(ToolPos_);
-	//SetStuff(GetLevel()->CreateActor<Tool_Cooker>());
-}
-
 void Cooker::FireOn()
 {
 	GetFBXMesh()->GetPixelDatas(1).MulColor = float4{ 1.f, 1.f, 1.f, 1.f };

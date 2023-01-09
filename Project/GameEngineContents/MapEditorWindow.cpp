@@ -907,11 +907,6 @@ void MapEditorWindow::SortToolTab()
 					{
 						std::shared_ptr<Equipment_FryingPan> FryingPan = CurLevel_->CreateActor<Equipment_FryingPan>();
 						SortActorList_[ActorIndex].lock()->SetMoveable(FryingPan);
-						if (nullptr != std::dynamic_pointer_cast<Cooker>(CurStaticMesh_.lock()))
-						{
-							std::dynamic_pointer_cast<Cooker>(CurStaticMesh_.lock())->SettingToolType(ToolInfo::FryingPan);
-							std::dynamic_pointer_cast<Cooker>(CurStaticMesh_.lock())->SettingToolPos(ToolInfo::FryingPan);
-						}
 					}
 					break;
 					case ToolInfo::Pot:
@@ -936,11 +931,6 @@ void MapEditorWindow::SortToolTab()
 					{
 						std::shared_ptr<Equipment_Steamer> Steamer = CurLevel_->CreateActor<Equipment_Steamer>();
 						SortActorList_[ActorIndex].lock()->SetMoveable(Steamer);
-						if (nullptr != std::dynamic_pointer_cast<Cooker>(CurStaticMesh_.lock()))
-						{
-							std::dynamic_pointer_cast<Cooker>(CurStaticMesh_.lock())->SettingToolType(ToolInfo::Steamer);
-							std::dynamic_pointer_cast<Cooker>(CurStaticMesh_.lock())->SettingToolPos(ToolInfo::Steamer);
-						}
 					}
 					break;
 					}
@@ -952,7 +942,7 @@ void MapEditorWindow::SortToolTab()
 		{
 			ToolInfo Type = static_cast<ToolInfo>(i);
 
-			if (ToolInfo::None != Type && ToolInfo::Max != Type)
+			if (ToolInfo::None != Type && ToolInfo::Max != Type && ToolInfo::Mixer != Type)
 			{
 				ImGui::Checkbox(ToolNames[i].data(), &IsChecks_[i]);
 			}

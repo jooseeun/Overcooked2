@@ -478,11 +478,6 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 			{
 				std::weak_ptr<Equipment_FryingPan> FryingPan = _Level->CreateActor<Equipment_FryingPan>();
 				CurActor_.lock()->SetMoveable(FryingPan.lock());
-				if (nullptr != std::dynamic_pointer_cast<Cooker>(CurActor_.lock()))
-				{
-					std::dynamic_pointer_cast<Cooker>(CurActor_.lock())->SettingToolType(ToolInfo::FryingPan);
-					std::dynamic_pointer_cast<Cooker>(CurActor_.lock())->SettingToolPos(ToolInfo::FryingPan);
-				}
 			}
 			break;
 			case ToolInfo::Pot:
@@ -507,11 +502,6 @@ std::vector<std::weak_ptr<GamePlayStaticObject>>& MapDataParser::SortMapDataPars
 			{
 				std::weak_ptr<Equipment_Steamer> Steamer = _Level->CreateActor<Equipment_Steamer>();
 				CurActor_.lock()->SetMoveable(Steamer.lock());
-				if (nullptr != std::dynamic_pointer_cast<Cooker>(CurActor_.lock()))
-				{
-					std::dynamic_pointer_cast<Cooker>(CurActor_.lock())->SettingToolType(ToolInfo::Steamer);
-					std::dynamic_pointer_cast<Cooker>(CurActor_.lock())->SettingToolPos(ToolInfo::Steamer);
-				}
 			}
 			break;
 			}

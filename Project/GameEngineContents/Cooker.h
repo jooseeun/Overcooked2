@@ -22,13 +22,6 @@ public:
 		return ToolPos_;
 	};
 
-	inline void SettingToolType(ToolInfo _MyTool)
-	{
-		MyTool_ = _MyTool;
-	}
-
-	void SettingToolPos(ToolInfo _MyTool_);
-
 	void FireOn();
 
 	void FireOff();
@@ -47,7 +40,6 @@ protected:
 	}
 
 private:
-	ToolInfo MyTool_;
 	RenderOption RenderOption_;
 };
 
