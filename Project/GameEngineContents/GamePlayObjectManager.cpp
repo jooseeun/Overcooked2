@@ -226,6 +226,7 @@ void GamePlayObjectManager::PopObjectParentsSetData()
 				std::shared_ptr<Player> Player_ = ((Player*)(FindParentsObject))->shared_from_this()->CastThis<Player>();
 				if (Player_->GetPlayerHolding() == nullptr)
 				{
+
 					TemporaryPushData(Packet);
 					return;
 				}
@@ -235,6 +236,8 @@ void GamePlayObjectManager::PopObjectParentsSetData()
 				{
 					Moveable->ClientInit(ServerObjectType::Object, Packet->ChildID);
 				}
+
+				
 			}
 		break;
 		case ServerObjectType::Object:

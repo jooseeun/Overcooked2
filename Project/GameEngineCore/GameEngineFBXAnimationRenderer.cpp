@@ -357,7 +357,7 @@ void GameEngineFBXAnimationRenderer::ChangeAnimation(const std::string& _Animati
 
 	if (Animations.end() == FindIter)
 	{
-		MsgBoxAssert("존재하지 않는 애니메이션으로 체인지 하려고 했습니다.");
+		MsgBoxAssertString("존재하지 않는 애니메이션으로 체인지 하려고 했습니다. " + UpperName);
 		return;
 	}
 

@@ -8,8 +8,8 @@
 #include "GamePlayObjectManager.h"
 
 GameServerNet* ServerInitManager::Net;
-std::string ServerInitManager::IP = "127.0.0.1";
-//std::string ServerInitManager::IP = "10.0.4.94";
+//std::string ServerInitManager::IP = "127.0.0.1";
+std::string ServerInitManager::IP = "192.168.208.1";
 GameServerNetServer ServerInitManager::Server;
 GameServerNetClient ServerInitManager::Client;
 
@@ -54,7 +54,7 @@ void ServerInitManager::ObjectStartPacketProcess(std::shared_ptr<GameServerPacke
 		return;
 	}
 
-	FindObject->PushPacket(_Packet);
+	//FindObject->PushPacket(_Packet);
 	if (true == Net->GetIsHost())
 	{
 		Net->SendPacket(Packet);
@@ -106,10 +106,7 @@ void ServerInitManager::ObjectParentsSetAllFramePacketProcess(std::shared_ptr<Ga
 	{
 		GamePlayObjectManager::TemporaryPushData(Packet);
 	}
-	else
-	{
-		FindParentObject->PushPacket(_Packet);
-	}
+	
 }
 
 void ServerInitManager::ObjectInteractUpdateProcess(std::shared_ptr<GameServerPacket> _Packet)
@@ -121,6 +118,7 @@ void ServerInitManager::ObjectInteractUpdateProcess(std::shared_ptr<GameServerPa
 	if (FindObject == nullptr)
 	{
 		MsgBoxAssert("아직 등록되지 않은 오브젝트입니다 - Serverinitmanager, ObjectInteractUpdateProcess()")
+			return;
 	}
 
 	if (Packet->PlayerNum < 0)
@@ -133,10 +131,6 @@ void ServerInitManager::ObjectInteractUpdateProcess(std::shared_ptr<GameServerPa
 	{
 		//MsgBoxAssert("아직 등록되지 않은 오브젝트입니다 - Serverinitmanager, ObjectInteractUpdateProcess()")
 		GamePlayObjectManager::TemporaryPushData(_Packet);
-	}
-	else
-	{
-		FindObject->PushPacket(_Packet);
 	}
 
 	//FindObject = GameServerObject::GetServerObject(Packet->PlayerNum);
