@@ -460,7 +460,7 @@ void Player::CannonInterStart(const StateInfo& _Info)
 
 	IdleRendererON();
 	CurAniName_ =  "CannonEnter" + IsHolding_;
-	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation( "CannonEnter" + IsHolding_);
+	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "CannonEnter" + IsHolding_);
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 	PlayerIdleRenderer_[PlayerCustomNum]->GetCurAnim()->bOnceEnd = false;
