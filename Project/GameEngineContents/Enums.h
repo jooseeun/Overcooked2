@@ -54,6 +54,8 @@ enum class PlayerCurStateType // 플레이어가 무슨상태인지
 	FireOff,
 	DishWash,
 	Throw,
+	Drowning,
+	CarDeath,
 	Max
 };
 

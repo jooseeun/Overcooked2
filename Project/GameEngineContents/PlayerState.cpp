@@ -147,6 +147,9 @@ void Player::ThrowStart(const StateInfo& _Info)
 	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "Idle");
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
+	CurStateType_ = PlayerCurStateType::Throw;
+	CurrentHoldingObject_->CastThis<GamePlayObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_);
+
 	GameEngineSound::SoundPlayOneShot("Throw2.wav");
 	IsThrow_ = false;
 }
@@ -168,6 +171,7 @@ void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (true == GameEngineInput::GetInst()->IsUpKey("PlayerInteract" ))
 	{
+		CurrentHoldingObject_->CastThis<GamePlayObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_);
 		CurAniName_ = PlayerName_[PlayerCustomNum] + "Throw";
 		PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "Throw");
 		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
@@ -426,6 +430,7 @@ void Player::FireOffUpdate(float _DeltaTime, const StateInfo& _Info)
 void Player::DrowningStart(const StateInfo& _Info)
 {
 	IdleRendererON();
+	CurStateType_ = PlayerCurStateType::Drowning;
 	CurAniName_ = PlayerName_[PlayerCustomNum] + "Drowning";
 	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "Drowning");
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
@@ -544,6 +549,7 @@ void Player::CarDeathStart(const StateInfo& _Info)
 	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 	PlayerIdleRenderer_[PlayerCustomNum]->GetCurAnim()->bOnceEnd = false;
 
+	CurStateType_ = PlayerCurStateType::CarDeath;
 	GameEngineSound::SoundPlayOneShot("PlayerSlip_01.wav");
 	DeathTime_ = 5.0f;
 	IsDeath_ = 1;

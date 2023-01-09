@@ -73,6 +73,7 @@ Player::Player()
 	, IsMove_(0)
 	, IsDeath_(0)
 	, IsServerStart(false)
+	, PrevState(PlayerCurStateType::Max)
 {
 	++PlayerCount_;
 	PlayerPNum = PlayerCount_;
@@ -201,11 +202,6 @@ void Player::Start()
 		Dir.Move("Object");
 		Dir.Move("Player");
 
-
-
-		//PlayerIdleRenderer_[i]->GetFBXMesh()->GetFbxRenderUnit()[4].MaterialData[0].NorTexturePath = Dir.GetFullPath();
-		//PlayerIdleRenderer_[i]->GetFBXMesh()->GetFbxRenderUnit()[4].MaterialData[0].NorTextureName = "Hat_Fancy_n.png";
-		//PlayerIdleRenderer_[i]->SetFBXMesh(PlayerName_[i] + "_Idle.FBX", "DeferredTextureAnimation");
 
 
 	}	
@@ -1466,6 +1462,7 @@ void Player::ServerUpdate(float _DeltaTime)
 		Packet->ObjectID = GetNetID();
 		Packet->Type = ServerObjectType::Player;
 		Packet->State = ServerObjectBaseState::Base;
+		Packet->PlayerState = CurStateType_;
 		Packet->Pos = GetTransform().GetWorldPosition();
 		Packet->Rot = GetTransform().GetWorldRotation();
 		Packet->Scale = GetTransform().GetWorldScale();
@@ -1538,6 +1535,7 @@ void Player::ServerUpdate(float _DeltaTime)
 					}
 				}
 			}
+
 			//{
 			//	if (ObjectUpdate->PlayerDeath == 1)
 			//	{
@@ -1562,6 +1560,8 @@ void Player::ServerUpdate(float _DeltaTime)
 			//		}
 			//	}
 			//}
+
+
 			{ // 캐릭터 업데이트
 				if (ObjectUpdate->PlayerCustomNum < 6)
 				{
@@ -1609,7 +1609,37 @@ void Player::ServerUpdate(float _DeltaTime)
 					}
 				}
 			}
+			//플레이어 소리
+			{
+				if (PrevState != ObjectUpdate->PlayerState)
+				{
+					if (ObjectUpdate->PlayerState == PlayerCurStateType::HoldUp)
+					{
+						GameEngineSound::SoundPlayOneShot("Item_PickUp_03.wav");
+					}
+					else if (ObjectUpdate->PlayerState == PlayerCurStateType::Throw)
+					{
+						GameEngineSound::SoundPlayOneShot("Throw2.wav");
+					}
+					else if (ObjectUpdate->PlayerState == PlayerCurStateType::HoldDown)
+					{
+						GameEngineSound::SoundPlayOneShot("Item_PutDown_03.wav");
+					}
+					else if (ObjectUpdate->PlayerState == PlayerCurStateType::Drowning)
+					{
+						GameEngineSound::SoundPlayOneShot("Player_Dive_01.wav");
+					}
+					else if (ObjectUpdate->PlayerState == PlayerCurStateType::CarDeath)
+					{
+						GameEngineSound::SoundPlayOneShot("PlayerSlip_01.wav");
+					}
 
+					PrevState = ObjectUpdate->PlayerState;
+				}
+
+
+			}
+			//로켓
 			if (ObjectUpdate->IsCannon == 1)
 			{
 				IsCannon_ = true;

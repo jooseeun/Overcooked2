@@ -282,6 +282,7 @@ private:
 	static bool OnePlayerInit;
 	bool IsPlayerble;
 	bool IsServerStart;
+	PlayerCurStateType PrevState;
 
 	void ServerStart();
 	void ServerUpdate(float _DeltaTime);

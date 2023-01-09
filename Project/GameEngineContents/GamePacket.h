@@ -237,6 +237,7 @@ public:
 	int ObjectID;
 	ServerObjectType Type;
 	ServerObjectBaseState State = ServerObjectBaseState::Base;
+	PlayerCurStateType PlayerState = PlayerCurStateType::Max;
 	float4 Pos;
 	float4 Rot;
 	float4 Scale;
@@ -260,6 +261,7 @@ public:
 		_Ser << ObjectID;
 		_Ser.WriteEnum(Type);
 		_Ser.WriteEnum(State);
+		_Ser.WriteEnum(PlayerState);
 		_Ser << Pos;
 		_Ser << Rot;
 		_Ser << Scale;
@@ -278,6 +280,7 @@ public:
 		_Ser >> ObjectID;
 		_Ser.ReadEnum(Type);
 		_Ser.ReadEnum(State);
+		_Ser.ReadEnum(PlayerState);
 		_Ser >> Pos;
 		_Ser >> Rot;
 		_Ser >> Scale;
