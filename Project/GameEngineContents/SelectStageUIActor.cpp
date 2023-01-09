@@ -274,6 +274,21 @@ void SelectStageUIActor::SetCurStage(int _Index)
 	std::string WantStage;
 	switch (_Index)
 	{
+	case 3: //·£´ý
+	{
+		if (GlobalGameData::StageMoveCount_ == 0)
+		{
+			WantStage = "1-3";
+		}
+		else if (GlobalGameData::StageMoveCount_ >= 1)
+		{
+			WantStage = "1-4";
+		}
+		//StageName = "4-1";
+		//StageName = "ÄÉºó 3";
+		GlobalGameData::StageMoveCount_++;
+		break;
+	}
 	case 4: //ÃÊ¹ä½ÃÆ¼
 	{
 		WantStage = "1-1";

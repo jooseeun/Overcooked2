@@ -356,6 +356,9 @@
     <ClInclude Include="TitleLevelActor.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="RespawnUI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -714,6 +717,9 @@
       <Filter>Contents\Object</Filter>
     </ClCompile>
     <ClCompile Include="TitleLevelActor.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="RespawnUI.cpp">
       <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>

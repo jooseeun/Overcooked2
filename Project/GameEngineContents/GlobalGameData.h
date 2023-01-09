@@ -160,6 +160,9 @@ private:
 	static int TipGaugeCount_;
 
 public:
+	static int StageMoveCount_;
+
+public:
 	static int PlayerCount_;
 
 public:

@@ -6,6 +6,7 @@
 #include "GlobalGameData.h"
 
 #include "OverCookedUIRenderer.h"
+#include "Player.h"
 
 TitleLevelActor::TitleLevelActor()
 {
@@ -34,7 +35,18 @@ void TitleLevelActor::UIStart()
 			AllButtons_[1].Disable();
 			AllButtons_[2].Disable();
 		}));
-	CreateButton("설정", { 250,300,0 }, nullptr);
+	CreateButton("커스터마이징", { 250,300,0 }, [=]()
+		{
+			if (ServerInitManager::Net->GetIsHost() == true)
+			{
+				/*GlobalGameData::PlayerCount_ = static_cast<int>(ServerInitManager::Server.GetUserSockets().size()) + 1;
+				std::shared_ptr<UserCountPacket> Packet = std::make_shared<UserCountPacket>();
+				Packet->Count = static_cast<int>(ServerInitManager::Server.GetUserSockets().size()) + 1;
+				ServerInitManager::Net->SendPacket(Packet);*/
+				std::weak_ptr<Player> CurPlayer = Player::GetMyPlayer();
+				CurPlayer.lock()->ChangePlayer();
+			}
+		});
 	CreateButton("종료", { 500,300,0 }, nullptr);
 	AllButtons_[0].Disable();
 
@@ -75,6 +87,23 @@ void TitleLevelActor::UIStart()
 		PlayerIdleRenderer_.lock()->GetTransform().SetLocalRotation(PlayerRot);
 		PlayerIdleRenderer_.lock()->GetTransform().SetLocalPosition(PlayerPos[i]);
 
+		PixelData& IdleRender = PlayerIdleRenderer_.lock()->GetPixelDatas(0);
+		IdleRender.AlphaFlag = 1;
+		IdleRender.AlphaColor.a = 1.0f;
+
+		if (i == 0)
+		{
+			IdleRender.AlphaColor.r = 1.0f;
+			IdleRender.AlphaColor.g = 0.0f;
+			IdleRender.AlphaColor.b = 0.0f;
+		}
+		else if (i == 1)
+		{
+			IdleRender.AlphaColor.r = 0.0f;
+			IdleRender.AlphaColor.g = 0.0f;
+			IdleRender.AlphaColor.b = 1.0f;
+		}
+
 		PlayerIdleRenderer_.lock()->Off();
 
 		PlayerMesh_.push_back(PlayerIdleRenderer_);
@@ -88,7 +117,27 @@ void TitleLevelActor::UIUpdate(float _DeltaTime)
 	//Render
 	for (int i = 0; i < GlobalGameData::PlayerCount_; i++)
 	{
-		PlayerMesh_[i].lock()->On();
+		PlayerMesh_[i].lock()->Off();
+	}
+
+	if (ServerInitManager::Net == nullptr)
+	{
+		return;
+	}
+	if (ServerInitManager::Net->GetIsHost() == true)
+	{
+		std::vector<float4> PlayerPos;
+		PlayerPos.resize(6);
+		PlayerPos[0] = { 210,0,0 };
+		PlayerPos[1] = { 150,0,0 };
+		//PlayerPos[0] = { 210,0,0 };
+		//PlayerPos[0] = { 210,0,0 };
+
+		float4 PlayerRot = { 90,-15 };
+		float4 PlayerScale = { 40.f,40.f,40.f };
+
+		Player::GetMyPlayer()->GetTransform().SetWorldPosition(PlayerPos[0]);
+		Player::GetMyPlayer()->GetTransform().SetLocalRotation(PlayerRot);
 	}
 }
 
@@ -98,9 +147,9 @@ void TitleLevelActor::UpdateInput()
 	{
 		if (ServerInitManager::Net->GetIsHost() == true)
 		{
-			GlobalGameData::PlayerCount_ = ServerInitManager::Server.GetUserSockets().size() + 1;
+			GlobalGameData::PlayerCount_ = static_cast<int>(ServerInitManager::Server.GetUserSockets().size()) + 1;
 			std::shared_ptr<UserCountPacket> Packet = std::make_shared<UserCountPacket>();
-			Packet->Count = ServerInitManager::Server.GetUserSockets().size() + 1;
+			Packet->Count = static_cast<int>(ServerInitManager::Server.GetUserSockets().size()) + 1;
 			ServerInitManager::Net->SendPacket(Packet);
 		}
 	}

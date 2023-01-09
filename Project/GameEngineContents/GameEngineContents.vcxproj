@@ -416,6 +416,10 @@
     </ClInclude>
     <ClInclude Include="PreCompile.h" />
     <ClInclude Include="Rail.h" />
+    <ClInclude Include="RespawnUI.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ResultLevel.h">
       <SubType>
       </SubType>
@@ -771,6 +775,10 @@
     </ClCompile>
     <ClCompile Include="Rail.cpp" />
     <ClCompile Include="Recipe.cpp" />
+    <ClCompile Include="RespawnUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ResultLevel.cpp">
       <SubType>
       </SubType>

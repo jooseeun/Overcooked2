@@ -22,6 +22,7 @@ int GlobalGameData::FailScore_ = 0;
 int GlobalGameData::FailCount_ = 0;
 int GlobalGameData::TipGaugeCount_ = 0;
 int GlobalGameData::PlayerCount_ = 1;
+int GlobalGameData::StageMoveCount_ = 0;
 
 GlobalGameData::GlobalGameData()
 {
@@ -33,8 +34,6 @@ GlobalGameData::~GlobalGameData()
 
 InitGlobalGameData::InitGlobalGameData()
 {
-
-
 	//스테이지 데이터 Init
 	{
 		{
