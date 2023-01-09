@@ -94,43 +94,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		MakeRunningPuff(1);
 	}
-	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerHold"))
-	{
-		if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Cannon, CollisionType::CT_OBB,
-			std::bind(&Player::EnterCannon, this, std::placeholders::_1, std::placeholders::_2)) == true)
-		{
-			StateManager.ChangeState("CannonInter");
-			return;
-
-		}
-		else if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Button, CollisionType::CT_OBB,
-			std::bind(&Player::PushButton, this, std::placeholders::_1, std::placeholders::_2)) == true)
-		{
-			return;
-		}
-		//설거지상호작용
-
-		else
-		{
-			StateManager.ChangeState("HoldUp");
-			return;
-		}
-	}
-
-
-	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerInteract")) //컨트롤키
-	{
-		if (CurrentHoldingObject_ == nullptr) // 손에 아무것도 없을때
-		{
-			if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Sink, CollisionType::CT_OBB,
-				std::bind(&Player::TableSinkCheck, this, std::placeholders::_1, std::placeholders::_2)) == false)
-			{
-				Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
-					std::bind(&Player::TableSliceCheck, this, std::placeholders::_1, std::placeholders::_2));
-			}
-
-		}
-	}
+	
 
 	if (false == GameEngineInput::GetInst()->IsPressKey("PlayerLeft") &&
 		false == GameEngineInput::GetInst()->IsPressKey("PlayerRight") &&
