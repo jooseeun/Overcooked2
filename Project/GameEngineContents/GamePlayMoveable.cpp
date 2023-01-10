@@ -201,10 +201,10 @@ SetPlayerState_Return GamePlayMoveable::SetPlayerState(std::shared_ptr<Player> _
 
 bool GamePlayMoveable::Input_Manual(std::shared_ptr<Player> _Player, float _Delta, float _MaxTime)
 {
-	//if (ServerInitManager::Net != nullptr && !ServerInitManager::Net->GetIsHost())
-	//{
-	//	_Delta = 0;
-	//}
+	if (ServerInitManager::Net != nullptr && !ServerInitManager::Net->GetIsHost())
+	{
+		_Delta = 0;
+	}
 	CookingGage_ += (_Delta * 100.f) / _MaxTime;
 	bool Result = true;
 	SendCookingPacket();
