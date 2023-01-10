@@ -64,7 +64,7 @@ HoldDownEnum Equipment_FryingPan::PickUp(std::shared_ptr<GamePlayMoveable>* _Mov
 	{
 		if ((*_Moveable)->GetObjectMoveableType() == ObjectMoveableType::Food)
 		{
-			if ((*_Moveable)->CastThis<GamePlayFood>()->GetCookingType() == CookingType::Pried)
+			if ((*_Moveable)->CastThis<GamePlayFood>()->GetCookingType() == CookingType::Pried && (*_Moveable)->CastThis<GamePlayFood>()->GetTrim())
 			{
 				if (GetCombinFood()->AddFood((*_Moveable)->CastThis<GamePlayFood>()->GetObjectFoodClass()))
 				{

@@ -172,7 +172,7 @@ public:
 	float RunningPuffTime_;
 	float RunningPuffServerTime_;
 
-	int IsThrowHolding_;
+	bool IsThrowHolding_;
 	bool ThrowHolding(std::shared_ptr<GameEngineUpdateObject> _HoldingObject);
 
 

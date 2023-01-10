@@ -97,8 +97,7 @@ protected:
 	CollisionReturn MoveFromPlayer(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 	CollisionReturn LiftCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other);
 
-	void CalculateKineticEnergy();
-	void CalculateKineticEnergyMass();
+
 
 private:
 	float CurKineticEnergy_;

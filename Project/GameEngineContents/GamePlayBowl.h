@@ -385,7 +385,8 @@ public:
 			Renderer_->SetFBXMesh("m_recipe_dimsum_03.FBX", "Texture");
 			break;
 		case FoodType::SteamedFish:
-			Renderer_->SetFBXMesh("m_recipe_sushi_01 #133833.FBX", "Texture");
+			Renderer_->SetFBXMesh("Sushi_Roll_Salmon.FBX", "Texture");
+			Renderer_->GetTransform().SetWorldScale({ 1,1,1 });
 			break;
 		case FoodType::MeatDumpling:
 			Renderer_->SetFBXMesh("m_recipe_dimsum_01.FBX", "Texture");

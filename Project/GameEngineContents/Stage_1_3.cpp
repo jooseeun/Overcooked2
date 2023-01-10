@@ -108,7 +108,7 @@ void Stage_1_3::PlayLevelStartEvent()
 	GlobalIOManager::Load(IOType::UnsortMap, 2);
 	DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
 	GetMainCameraActorTransform().SetLocalRotation({ 60, 180, 0 });
-	GetMainCameraActorTransform().SetLocalPosition({ -2606 , 1950  , 1000 });
+	GetMainCameraActorTransform().SetLocalPosition({ -2606 , 1860  , 1000 });
 
 
 	std::shared_ptr<GlobalOverlay> GlobalOverlay_ = GetMainCamera()->GetCameraRenderTarget()->AddEffect<GlobalOverlay>();

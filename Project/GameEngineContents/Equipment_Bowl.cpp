@@ -102,6 +102,23 @@ HoldDownEnum Equipment_Bowl::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable
 							(*_Moveable)->CastThis<Equipment_Steamer>()->BowltoSteamer(CastThis<Equipment_Bowl>());
 						}
 					}
+					else if (Bowl->GetObjectBowlType() == ObjectBowlType::Bowl)
+					{
+						if (Bowl->GetCombinFood()->IsClear())
+						{
+							if (Bowl->GetCombinFood()->GetTrim())
+							{
+								if (Bowl->GetCombinFood()->GetFoodType() != FoodType::None)
+								{
+									BowltoBowl(Bowl);
+								}
+							}
+						}
+					}
+					else if ((*_Moveable)->GetObjectMoveableType() == ObjectMoveableType::Dish && GetCombinFood()->GetTrim())
+					{
+						Bowl->GetCombinFood()->AddFood(GetCombinFood());
+					}
 				}
 			}
 		}

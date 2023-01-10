@@ -1314,7 +1314,7 @@ CollisionReturn Player::TableHoldUpCheck(std::shared_ptr<GameEngineCollision> _T
 	//테이블에게 알려주기
 	if (CurrentHoldingObject_ != nullptr)
 	{
-		return CollisionReturn::ContinueCheck;
+		return CollisionReturn::Break;
 	}
 
 	IdleRendererON();
@@ -1325,13 +1325,13 @@ CollisionReturn Player::TableHoldUpCheck(std::shared_ptr<GameEngineCollision> _T
 		StateManager.ChangeState("Idle");
 	}
 
-	return CollisionReturn::ContinueCheck;
+	return CollisionReturn::Break;
 }
 CollisionReturn Player::GroundHoldUpCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 { //바닥에 있는 오브젝트 집기
 	if (CurrentHoldingObject_ != nullptr)
 	{
-		return CollisionReturn::ContinueCheck;
+		return CollisionReturn::Break;
 	}
 
 	if (SetPlayerState_Return::Using ==
@@ -1341,14 +1341,14 @@ CollisionReturn Player::GroundHoldUpCheck(std::shared_ptr<GameEngineCollision> _
 	}
 
 
-	return CollisionReturn::ContinueCheck;
+	return CollisionReturn::Break;
 }
 
 CollisionReturn Player::TableHoldDownCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 { // 테이블에게 내려놓는다고 알려주기
 	if (CurrentHoldingObject_ == nullptr)
 	{
-		return CollisionReturn::ContinueCheck;
+		return CollisionReturn::Break;
 	}
 
 	if (SetPlayerState_Return::Nothing ==
@@ -1361,11 +1361,11 @@ CollisionReturn Player::TableHoldDownCheck(std::shared_ptr<GameEngineCollision> 
 	{
 		if (CurrentHoldingObject_ == nullptr)
 		{
-			return CollisionReturn::ContinueCheck;
+			return CollisionReturn::Break;
 		}
-		CurrentHoldingObject_->CastThis<GamePlayObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_);
+		//CurrentHoldingObject_->CastThis<GamePlayObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_);
 	}
-	return CollisionReturn::ContinueCheck;
+	return CollisionReturn::Break;
 }
 
 
@@ -1381,7 +1381,7 @@ CollisionReturn Player::TableSliceCheck(std::shared_ptr<GameEngineCollision> _Th
 		TableCollision_ = _Other;
 		StateManager.ChangeState("Slice");
 	}
-	return CollisionReturn::ContinueCheck;
+	return CollisionReturn::Break;
 }
 
 CollisionReturn Player::TableSinkCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
@@ -1394,7 +1394,7 @@ CollisionReturn Player::TableSinkCheck(std::shared_ptr<GameEngineCollision> _Thi
 		StateManager.ChangeState("DishWash");
 	}
 
-	return CollisionReturn::ContinueCheck;
+	return CollisionReturn::Break;
 }
 
 CollisionReturn Player::InteractTableCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
