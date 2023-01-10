@@ -132,15 +132,35 @@ void TitleLevelActor::UIUpdate(float _DeltaTime)
 		float4 PlayerRot = { 90,-15 };
 		float4 PlayerScale = { 40.f,40.f,40.f };
 
-		Player::GetMyPlayer()->GetTransform().SetWorldPosition(PlayerPos[0]);
-		Player::GetMyPlayer()->GetTransform().SetLocalRotation(PlayerRot);
-		Player::GetMyPlayer()->PlayerPNum = 1;
-		Player::GetMyPlayer()->ChangePlayerColor();
+		Player* CurPlayer = (Player*)GameServerObject::GetServerObject(1);
+
+		if (CurPlayer != nullptr)
+		{
+			CurPlayer->GetTransform().SetWorldPosition(PlayerPos[0]);
+			CurPlayer->GetTransform().SetLocalRotation(PlayerRot);
+			CurPlayer->PlayerPNum = 1;
+			CurPlayer->ChangePlayerColor();
+		}
 	}
 	else
 	{
-		Player::GetMyPlayer()->PlayerPNum = 2;
-		Player::GetMyPlayer()->ChangePlayerColor();
+		Player* CurPlayer = (Player*)GameServerObject::GetServerObject(2);
+
+		if (CurPlayer != nullptr)
+		{
+			CurPlayer->PlayerPNum = 2;
+			CurPlayer->ChangePlayerColor();
+		}
+
+		{
+			Player* CurPlayer = (Player*)GameServerObject::GetServerObject(1);
+
+			if (CurPlayer != nullptr)
+			{
+				CurPlayer->PlayerPNum = 1;
+				CurPlayer->ChangePlayerColor();
+			}
+		}
 	}
 }
 
