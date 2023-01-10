@@ -512,8 +512,11 @@ void  Player::LevelStartEvent()
 	if (CurrentHoldingObject_ != nullptr)
 	{
 		CurrentHoldingObject_->DetachObject();
+		CurrentHoldingObject_->Death();
 		CurrentHoldingObject_ = nullptr;
+		StateManager.ChangeState("Idle");
 	}
+
 	ServerStart();
 	ServerCustomNum = -1;
 }
@@ -1582,7 +1585,7 @@ void Player::ServerUpdate(float _DeltaTime)
 							}
 						}
 					}
-					else if (ObjectUpdate->PlayerDeath == 2)
+					else
 					{
 						for (int i = 0; i < 5; i++)
 						{
