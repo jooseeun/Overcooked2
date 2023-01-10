@@ -527,7 +527,6 @@ void Player::CannonFlyStart(const StateInfo& _Info)
 
 	if (IsHolding_ == "Idle")
 	{
-		IdleRendererON();
 		CurAniName_ = "Idle";
 		PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + CurAniName_);
 		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });

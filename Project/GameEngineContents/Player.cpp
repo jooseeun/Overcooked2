@@ -1623,9 +1623,13 @@ void Player::ServerUpdate(float _DeltaTime)
 						if (ObjectUpdate->RendererState == 0)
 						{
 							IdleRendererON();
-							PlayerIdleRenderer_[ObjectUpdate->PlayerPreCustomNum]->ChangeAnimation(PlayerName_[ObjectUpdate->PlayerPreCustomNum]+ObjectUpdate->Animation);
-							PlayerIdleRenderer_[ObjectUpdate->PlayerPreCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
-							PlayerIdleRenderer_[ObjectUpdate->PlayerPreCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
+							if (ObjectUpdate->IsCannon != 1 && ObjectUpdate->IsCannonFly != 1)
+							{
+								PlayerIdleRenderer_[ObjectUpdate->PlayerPreCustomNum]->ChangeAnimation(PlayerName_[ObjectUpdate->PlayerPreCustomNum] + ObjectUpdate->Animation);
+								PlayerIdleRenderer_[ObjectUpdate->PlayerPreCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
+								PlayerIdleRenderer_[ObjectUpdate->PlayerPreCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
+							}
+
 						}
 						else if (ObjectUpdate->RendererState == 1)
 						{
@@ -1674,7 +1678,11 @@ void Player::ServerUpdate(float _DeltaTime)
 					{
 						if (ObjectUpdate->PlayerState == PlayerCurStateType::HoldUp)
 						{
-							GameEngineSound::SoundPlayOneShot("Item_PickUp_03.wav");
+							if (ObjectUpdate->IsCannon != 1 && ObjectUpdate->IsCannonFly != 1)
+							{
+
+								GameEngineSound::SoundPlayOneShot("Item_PickUp_03.wav");
+							}
 						}
 						else if (ObjectUpdate->PlayerState == PlayerCurStateType::Throw)
 						{
