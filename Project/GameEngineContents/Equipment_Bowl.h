@@ -15,6 +15,9 @@ public:
 	Equipment_Bowl& operator=(const Equipment_Bowl& _Other) = delete;
 	Equipment_Bowl& operator=(Equipment_Bowl&& _Other) noexcept = delete;
 
+	void FillBowl();
+
+	void EmptyBowl();
 
 protected:
 	void Start() override;
