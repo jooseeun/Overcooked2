@@ -118,10 +118,18 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (MoveAngle() == true)
 	{
 		// 플레이어 벽 출돌 체크
-		if (PlayerMoveCollisionCheck(PlayerForwardCollision_) == true
-			&& PlayerCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Character, CollisionType::CT_OBB) == false)
+		if (PlayerMoveCollisionCheck(PlayerForwardCollision_) == true)
 		{
-			GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * _DeltaTime);
+			if (PlayerCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_Character, CollisionType::CT_OBB) == false)
+			{
+
+				GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ * _DeltaTime);
+			}
+			else
+			{
+
+				GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed_ *0.5f* _DeltaTime);
+			}
 		}
 		else
 		{

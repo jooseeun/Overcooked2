@@ -4,7 +4,7 @@ MeshInfoCount:5;
 Path:;
 Mat:T_CHEF_BODY_D.PNG;
 Path:;
-Mat:;
+Mat:T_CHEF_HEAD_EAGLE_D.PNG;
 Path:\EAGLEHAND.PNG;
 Mat:EAGLEHAND.PNG;
 Path:;

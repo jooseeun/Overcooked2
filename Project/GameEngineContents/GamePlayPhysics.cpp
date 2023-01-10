@@ -211,14 +211,5 @@ bool GamePlayPhysics::StaticObjectCollisionCheck() // 벽, 맵 오브젝트랑 충돌하면
 
 }
 
-void GamePlayPhysics::CalculateKineticEnergy() 
-{
-	CurKineticEnergy_ = 0.5f * CurSpeed_ * (pow((double)GetTransform().GetWorldScale().x, 2) +
-		pow((double)GetTransform().GetWorldScale().y, 2) + pow((double)GetTransform().GetWorldScale().z, 2));
-}
 
 
-void GamePlayPhysics::CalculateKineticEnergyMass() 
-{
-	CurKineticEnergy_ = 0.5f * CurSpeed_ * pow(CurMass_,2);
-}
