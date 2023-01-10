@@ -60,40 +60,6 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 	//Packet->HoldObjectID = -100;
 
 
-	if (nullptr != ServerInitManager::Net)
-	{
-		if (_FromNet == false || ServerInitManager::Net->GetIsHost())
-		{
-			std::shared_ptr<ObjectInteractUpdatePacket> Packet = std::make_shared<ObjectInteractUpdatePacket>();
-			if (_Player != nullptr)
-			{
-				Packet->PlayerNum = _Player->GetNetID();
-			}
-			else
-			{
-				if (_Moveable->GetIsNetInit())
-				{
-					Packet->PlayerNum = _Moveable->GetNetID();
-				}
-			}
-
-			Packet->Type = _Type;
-			Packet->ObjectID = GetNetID();
-
-			if (_FromNet == false)
-			{
-				Packet->SendPacktPlayer = Player::GetMyPlayer()->GetNetID(); // 직접 움직인곳
-			}
-			else
-			{
-				Packet->SendPacktPlayer = _Player->GetNetID(); // 호스트
-			}
-			
-			ServerInitManager::Net->SendPacket(Packet);
-		}
-	}
-	
-
 	SetPlayerState_Return ReturnValue = SetPlayerState_Return::Nothing;
 	switch (_Type)
 	{
@@ -115,17 +81,17 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 				switch (Stuff_Current_->PickUp(&Moveable))
 				{
 				case HoldDownEnum::HoldDown:
-					if (Moveable == nullptr)
+					if (Moveable != nullptr)
 					{
-						MsgBoxAssert("오류 확인용")
+						_Player->SetPlayerHolding(Moveable);
+						_Player->SetCurHoldType(Moveable->GetHoldType());
 					}
 					if (GetStuff()->CastThis<GamePlayTool>() == nullptr)
 					{
 						ReSetStuff();
 					}
 		
-					_Player->SetPlayerHolding(Moveable);
-					_Player->SetCurHoldType(Moveable->GetHoldType());
+
 					ReturnValue = SetPlayerState_Return::Using;
 					break;
 				default:
@@ -273,78 +239,75 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 	}
 
 
-	if (nullptr != ServerInitManager::Net && (ServerInitManager::Net->GetIsHost()))
+	if (nullptr != ServerInitManager::Net)
 	{
-		if (_Player != nullptr)
+		if (_FromNet == false || ServerInitManager::Net->GetIsHost())
 		{
-			if (_Player->GetPlayerHolding() != nullptr)
+			std::shared_ptr<ObjectInteractUpdatePacket> Packet = std::make_shared<ObjectInteractUpdatePacket>();
+			if (_Player != nullptr)
 			{
-				std::shared_ptr<ObjectParentsSetPacket> ParentsSetPacket = std::make_shared<ObjectParentsSetPacket>();
-				ParentsSetPacket->ParentsID = _Player->GetNetID();
-				ParentsSetPacket->ChildID = _Player->GetPlayerHolding()->CastThis<GamePlayObject>()->GetNetID();
-
-				ServerInitManager::Net->SendPacket(ParentsSetPacket);
+				Packet->PlayerNum = _Player->GetNetID();
 			}
 			else
 			{
-				if (nullptr != ServerInitManager::Net && (ServerInitManager::Net->GetIsHost()))
+				if (_Moveable->GetIsNetInit())
 				{
-					std::shared_ptr<ObjectParentsSetPacket> ParentsSetPacket = std::make_shared<ObjectParentsSetPacket>();
-					ParentsSetPacket->ParentsID = _Player->GetNetID();
-					ParentsSetPacket->ChildID = -1;
-
-					ServerInitManager::Net->SendPacket(ParentsSetPacket);
+					Packet->PlayerNum = _Moveable->GetNetID();
 				}
 			}
-		}
 
+			Packet->Type = _Type;
+			Packet->ObjectID = GetNetID();
 
-		if (Stuff_Current_ != nullptr)
-		{
-			if (Stuff_Current_->CastThis<GamePlayTool>() != nullptr)
+			if (_FromNet == false)
 			{
-				if (GetMoveable() != nullptr)
-				{
-					std::shared_ptr<ObjectParentsSetPacket> ToolParentsSetPacket = std::make_shared<ObjectParentsSetPacket>();
-					ToolParentsSetPacket->ParentsID = Stuff_Current_->GetNetID();
-					ToolParentsSetPacket->ChildID = GetMoveable()->GetNetID();
-					ServerInitManager::Net->SendPacket(ToolParentsSetPacket);
-				}
-				else
-				{
-					std::shared_ptr<ObjectParentsSetPacket> ParentsSetPacket = std::make_shared<ObjectParentsSetPacket>();
-					ParentsSetPacket->ParentsID = Stuff_Current_->GetNetID();
-					ParentsSetPacket->ChildID = -1;
-
-					ServerInitManager::Net->SendPacket(ParentsSetPacket);
-				}
+				Packet->SendPacktPlayer = Player::GetMyPlayer()->GetNetID(); // 직접 움직인곳
 			}
-			std::shared_ptr<ObjectParentsSetPacket> ParentsSetPacket = std::make_shared<ObjectParentsSetPacket>();
-			ParentsSetPacket->ParentsID = GetNetID();
-			ParentsSetPacket->ChildID = Stuff_Current_->GetNetID();
+			else
+			{
+				Packet->SendPacktPlayer = _Player->GetNetID(); // 호스트
+			}
 
-			ServerInitManager::Net->SendPacket(ParentsSetPacket);
+			ServerInitManager::Net->SendPacket(Packet);
+		}
+	}
+
+
+	//if (nullptr != ServerInitManager::Net && (ServerInitManager::Net->GetIsHost()))
+	//{
+	//	if (_Player != nullptr)
+	//	{
+	//		if (_Player->GetPlayerHolding() != nullptr)
+	//		{
+	//			std::shared_ptr<ObjectParentsSetPacket> ParentsSetPacket = std::make_shared<ObjectParentsSetPacket>();
+	//			ParentsSetPacket->ParentsID = _Player->GetNetID();
+	//			ParentsSetPacket->ChildID = _Player->GetPlayerHolding()->CastThis<GamePlayObject>()->GetNetID();
+
+	//			ServerInitManager::Net->SendPacket(ParentsSetPacket);
+	//		}
+	//		else
+	//		{
+	//			if (nullptr != ServerInitManager::Net && (ServerInitManager::Net->GetIsHost()))
+	//			{
+	//				std::shared_ptr<ObjectParentsSetPacket> ParentsSetPacket = std::make_shared<ObjectParentsSetPacket>();
+	//				ParentsSetPacket->ParentsID = _Player->GetNetID();
+	//				ParentsSetPacket->ChildID = -1;
+
+	//				ServerInitManager::Net->SendPacket(ParentsSetPacket);
+	//			}
+	//		}
+	//	}
+	//}
+
+		if (ReturnValue == SetPlayerState_Return::Nothing)
+		{
+			return SetPlayerState_Return::Nothing;
 		}
 		else
 		{
-			std::shared_ptr<ObjectParentsSetPacket> ParentsSetPacket = std::make_shared<ObjectParentsSetPacket>();
-			ParentsSetPacket->ParentsID = _Player->GetNetID();
-			ParentsSetPacket->ChildID = -1;
-
-			ServerInitManager::Net->SendPacket(ParentsSetPacket);
+			return SetPlayerState_Return::Using;
 		}
-	}
-
-
-
-	if (ReturnValue == SetPlayerState_Return::Nothing)
-	{
-		return SetPlayerState_Return::Nothing;
-	}
-	else
-	{
-		return SetPlayerState_Return::Using;
-	}
+	
 	
 }
 

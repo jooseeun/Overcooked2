@@ -359,6 +359,9 @@
     <ClInclude Include="RespawnUI.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="Food_Empty.h">
+      <Filter>Contents\Object\Food</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -721,6 +724,9 @@
     </ClCompile>
     <ClCompile Include="RespawnUI.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Food_Empty.cpp">
+      <Filter>Contents\Object\Food</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
