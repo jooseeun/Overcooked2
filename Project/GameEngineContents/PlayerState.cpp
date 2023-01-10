@@ -180,6 +180,7 @@ void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 		PlayerIdleRenderer_[PlayerCustomNum]->GetCurAnim()->bOnceEnd = false;
 		ThrowVec_ = GetTransform().GetBackVector();
 		CurrentHoldingObject_->CastThis<GamePlayPhysics>()->Throw(GetTransform().GetBackVector());
+		CurrentHoldingObject_->CastThis<GamePlayObject>()->GetCollisionObject()->On();
 		CurrentHoldingDetach();
 
 		IsThrow_ = true;
