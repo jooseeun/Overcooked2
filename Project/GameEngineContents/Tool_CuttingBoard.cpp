@@ -100,6 +100,8 @@ void Tool_CuttingBoard::Start()
 			 case IngredientType::Blueberry:
 			 case IngredientType::Prawn:
 			 case IngredientType::Strawberry:
+			 case IngredientType::Orange:
+			 case IngredientType::DriedFruit:
 			 case IngredientType::Cucumber:
 				 if (Food->GetTrim())
 				 {
