@@ -37,12 +37,8 @@ void TitleLevelActor::UIStart()
 		}));
 	CreateButton("커스터마이징", { 250,300,0 }, [=]()
 		{
-			if (ServerInitManager::Net->GetIsHost() == true)
+			if (ServerInitManager::Net != nullptr)
 			{
-				/*GlobalGameData::PlayerCount_ = static_cast<int>(ServerInitManager::Server.GetUserSockets().size()) + 1;
-				std::shared_ptr<UserCountPacket> Packet = std::make_shared<UserCountPacket>();
-				Packet->Count = static_cast<int>(ServerInitManager::Server.GetUserSockets().size()) + 1;
-				ServerInitManager::Net->SendPacket(Packet);*/
 				std::weak_ptr<Player> CurPlayer = Player::GetMyPlayer();
 				CurPlayer.lock()->ChangePlayer();
 			}
@@ -138,6 +134,13 @@ void TitleLevelActor::UIUpdate(float _DeltaTime)
 
 		Player::GetMyPlayer()->GetTransform().SetWorldPosition(PlayerPos[0]);
 		Player::GetMyPlayer()->GetTransform().SetLocalRotation(PlayerRot);
+		Player::GetMyPlayer()->PlayerPNum = 1;
+		Player::GetMyPlayer()->ChangePlayerColor();
+	}
+	else
+	{
+		Player::GetMyPlayer()->PlayerPNum = 2;
+		Player::GetMyPlayer()->ChangePlayerColor();
 	}
 }
 

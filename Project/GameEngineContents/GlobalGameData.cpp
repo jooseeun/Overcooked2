@@ -159,7 +159,7 @@ InitGlobalGameData::InitGlobalGameData()
 				_Cookery.push_back(ToolInfo::Steamer);
 
 				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-					CreateFoodData(_Type, _Ingredient, _Cookery, 60, 45.f)));
+					CreateFoodData(_Type, _Ingredient, _Cookery, 150, 65.f)));
 			}
 			//´ç±Ù ¸¸µÎ
 			{
@@ -175,7 +175,7 @@ InitGlobalGameData::InitGlobalGameData()
 				_Cookery.push_back(ToolInfo::Steamer);
 
 				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-					CreateFoodData(_Type, _Ingredient, _Cookery, 80, 55.f, true)));
+					CreateFoodData(_Type, _Ingredient, _Cookery, 200, 80.f, true)));
 			}
 			//°í±â ¸¸µÎ
 			{
@@ -191,7 +191,7 @@ InitGlobalGameData::InitGlobalGameData()
 				_Cookery.push_back(ToolInfo::Steamer);
 
 				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-					CreateFoodData(_Type, _Ingredient, _Cookery, 90, 55.f, true)));
+					CreateFoodData(_Type, _Ingredient, _Cookery, 200, 80.f, true)));
 			}
 			//»õ¿ì ¸¸µÎ
 			{
@@ -207,7 +207,7 @@ InitGlobalGameData::InitGlobalGameData()
 				_Cookery.push_back(ToolInfo::Steamer);
 
 				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-					CreateFoodData(_Type, _Ingredient, _Cookery, 90, 55.f, true)));
+					CreateFoodData(_Type, _Ingredient, _Cookery, 230, 80.f, true)));
 			}
 		}
 
@@ -261,7 +261,7 @@ InitGlobalGameData::InitGlobalGameData()
 				_Cookery.push_back(ToolInfo::None);
 
 				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-					CreateFoodData(_Type, _Ingredient, _Cookery, 70, 65.f)));
+					CreateFoodData(_Type, _Ingredient, _Cookery, 200, 85.f)));
 			}
 			//¿ÀÀÌ±è¹ä
 			{
@@ -279,7 +279,7 @@ InitGlobalGameData::InitGlobalGameData()
 				_Cookery.push_back(ToolInfo::None);
 
 				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-					CreateFoodData(_Type, _Ingredient, _Cookery, 70, 65.f)));
+					CreateFoodData(_Type, _Ingredient, _Cookery, 200, 85.f)));
 			}
 			//»ý¼±¿ÀÀÌ±è¹ä
 			{
@@ -299,7 +299,7 @@ InitGlobalGameData::InitGlobalGameData()
 				_Cookery.push_back(ToolInfo::None);
 
 				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-					CreateFoodData(_Type, _Ingredient, _Cookery, 90, 80.f)));
+					CreateFoodData(_Type, _Ingredient, _Cookery, 300, 85.f)));
 			}
 		}
 
@@ -320,7 +320,7 @@ InitGlobalGameData::InitGlobalGameData()
 				_Cookery.push_back(ToolInfo::FryingPan);
 
 				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-					CreateFoodData(_Type, _Ingredient, _Cookery, 80, 75.f, true)));
+					CreateFoodData(_Type, _Ingredient, _Cookery, 200, 95.f, true)));
 			}
 			//ºí·çº£¸® ÆÒÄÉÀÌÅ©
 			{
@@ -337,7 +337,7 @@ InitGlobalGameData::InitGlobalGameData()
 				_Cookery.push_back(ToolInfo::FryingPan);
 
 				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-					CreateFoodData(_Type, _Ingredient, _Cookery, 80, 80.f, true)));
+					CreateFoodData(_Type, _Ingredient, _Cookery, 200, 95.f, true)));
 			}
 			//ÇªµùÇªµù
 			{
@@ -355,7 +355,7 @@ InitGlobalGameData::InitGlobalGameData()
 				_Cookery.push_back(ToolInfo::OvenPot);
 
 				GlobalGameData::AllFoodData_.insert(std::make_pair(_Type,
-					CreateFoodData(_Type, _Ingredient, _Cookery, 120, 105.f, true)));
+					CreateFoodData(_Type, _Ingredient, _Cookery, 200, 105.f, true)));
 			}
 		}
 	}
