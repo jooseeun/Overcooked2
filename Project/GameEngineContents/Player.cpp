@@ -1440,7 +1440,7 @@ void Player::ServerStart()
 	if (IsServerStart == false)
 	{
 		PlayerPNumCount_ += 1;
-		//PlayerPNum = GetNetID;
+		PlayerPNum = GetNetID();
 		//PlayerCustomNum = GetNetID();
 		ChangePlayerColor();
 		IsServerStart = true;
@@ -1480,7 +1480,7 @@ void Player::ServerUpdate(float _DeltaTime)
 			Packet->RendererState = ServerRenderStateNum_; //스테이트별 랜더러
 			Packet->PlayerMove = IsMove_;
 			Packet->PlayerDeath = IsDeath_;
-			PlayerPNum = GetNetID(); // 플레이어P넘버 1P,2P,3P
+			//PlayerPNum = GetNetID(); // 플레이어P넘버 1P,2P,3P
 			Packet->PlayerCountNum = GetNetID();
 		}
 		else
