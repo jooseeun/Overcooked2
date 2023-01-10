@@ -16,7 +16,7 @@ void Food_Ingredients_Tomato::Start()
 
 	MeshName_ = "Tomato.FBX";
 	GetFBXMesh()->SetFBXMesh(MeshName_, "Texture");
-	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
+	//GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 }
 
 //void Food_Ingredients_Tomato::Update(float _DeltaTime)
