@@ -1516,16 +1516,21 @@ void Player::ServerUpdate(float _DeltaTime)
 		{
 			Packet->PlayerCustomNum = PlayerCustomNum;
 			ServerCustomNum = PlayerCustomNum;
+			Packet->PlayerPreCustomNum = ServerCustomNum;
 		}
 		else
 		{
 			Packet->PlayerCustomNum = 100;
 		}
 
-		if (ServerCustomNum >= 0)
+		if (ServerCustomNum == -1)
 		{
+			Packet->PlayerCustomNum = PlayerCustomNum;
+			ServerCustomNum = PlayerCustomNum;
 			Packet->PlayerPreCustomNum = ServerCustomNum;
 		}
+
+		Packet->PlayerPreCustomNum = ServerCustomNum;
 		ServerInitManager::Net->SendPacket(Packet);
 
 		if (Player::MaxPlayerCount_ < Packet->ObjectID)

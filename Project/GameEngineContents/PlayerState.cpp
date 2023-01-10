@@ -240,6 +240,11 @@ void Player::HoldUpUpdate(float _DeltaTime, const StateInfo& _Info)
 			return;
 
 		}
+		else
+		{
+			StateManager.ChangeState("HoldDown");
+			return;
+		}
 	}
 
 	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerInteract")) //컨트롤키
@@ -254,10 +259,6 @@ void Player::HoldUpUpdate(float _DeltaTime, const StateInfo& _Info)
 		}
 	}
 
-	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerHold")) // 놓기
-	{
-		StateManager.ChangeState("HoldDown");
-	}
 	if (IsPotal_ == true)
 	{
 		return;
@@ -457,23 +458,38 @@ void Player::DrowningUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::CannonInterStart(const StateInfo& _Info)
 {
+	if (IsHolding_ == "Idle")
+	{
+		IdleRendererON();
+		CurAniName_ = "Idle";
+		PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + CurAniName_);
+		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
+		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
+	}
+	else
+	{
+		IdleRendererON();
+		CurAniName_ = "IdleHolding";
+		PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "IdleHolding");
+		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
+		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
+	}
 
-	IdleRendererON();
-	CurAniName_ =  "CannonEnter" + IsHolding_;
-	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "CannonEnter" + IsHolding_);
-	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
-	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
-	PlayerIdleRenderer_[PlayerCustomNum]->GetCurAnim()->bOnceEnd = false;
+	//CurAniName_ =  "CannonEnter" + IsHolding_;
+	//PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "CannonEnter" + IsHolding_);
+	//PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
+	//PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
+	//PlayerIdleRenderer_[PlayerCustomNum]->GetCurAnim()->bOnceEnd = false;
 }
 void Player::CannonInterUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	PlayerIdleRenderer_[PlayerCustomNum]->AnimationBindEnd(PlayerName_[PlayerCustomNum] + "CannonEnter" + IsHolding_, [=](const GameEngineRenderingEvent& _Info)
+	/*PlayerIdleRenderer_[PlayerCustomNum]->AnimationBindEnd(PlayerName_[PlayerCustomNum] + "CannonEnter" + IsHolding_, [=](const GameEngineRenderingEvent& _Info)
 		{
 			CurAniName_ =  "CannonIdle" + IsHolding_;
 			PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "CannonIdle" + IsHolding_);
 			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
-		});
+		});*/
 
 
 
@@ -507,11 +523,30 @@ void Player::CannonFlyStart(const StateInfo& _Info)
 	CurDir_ = PlayerDir::Right;
 	CurAngle_ = 90;
 	GetTransform().SetLocalRotation({ 0,CurAngle_, 0 });
-	CurAniName_ =  "CannonFlying" + IsHolding_;
-	PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "CannonFlying" + IsHolding_);
-	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
-	PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
-	PlayerIdleRenderer_[PlayerCustomNum]->GetCurAnim()->bOnceEnd = false;
+
+	if (IsHolding_ == "Idle")
+	{
+		IdleRendererON();
+		CurAniName_ = "Idle";
+		PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + CurAniName_);
+		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
+		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
+	}
+	else
+	{
+		IdleRendererON();
+		CurAniName_ = "IdleHolding";
+		PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "IdleHolding");
+		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
+		PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
+	}
+	//CurAniName_ =  "CannonFlying" + IsHolding_;
+	//PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "CannonFlying" + IsHolding_);
+	//PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
+	//PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
+	//PlayerIdleRenderer_[PlayerCustomNum]->GetCurAnim()->bOnceEnd = false;
+
+
 	CannonFlyPos_ = { -2170.0f, 100.0f , -1111.00 };
 	IsPotal_ = true;
 	FlyTime_ = 1.5f;
