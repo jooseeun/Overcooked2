@@ -509,6 +509,11 @@ void  Player::LevelStartEvent()
 			PlayerIdleRenderer_[i]->ChangeLoadMaterial();
 		}
 	}
+	if (CurrentHoldingObject_ != nullptr)
+	{
+		CurrentHoldingObject_->DetachObject();
+		CurrentHoldingObject_ = nullptr;
+	}
 	ServerStart();
 	ServerCustomNum = -1;
 }
