@@ -48,6 +48,8 @@ protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
+	void LevelEndEvent() override;
+
 	void Move(float _DeltaTime);
 
 private:

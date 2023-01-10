@@ -110,6 +110,10 @@ void Cannon::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Cannon::ReadyStart(const StateInfo& _Info)
 {
+	if (CurState_ == CannonState::Ready)
+	{
+		return;
+	}
 	CurState_ = CannonState::Ready;
 	Button_->IsReady_ = true;
 	IsMoveDone_ = false;
@@ -168,6 +172,11 @@ void Cannon::ReadyUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Cannon::ShootStart(const StateInfo& _Info)
 {
+	if (CurState_ == CannonState::Shoot)
+	{
+		return;
+	}
+
 	Button_->IsReady_ = false;
 	if (Player_ == nullptr)
 	{
@@ -291,6 +300,10 @@ void Cannon::ShootUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Cannon::DownStart(const StateInfo& _Info)
 {
+	if (CurState_ == CannonState::Down)
+	{
+		return;
+	}
 	CurState_ = CannonState::Down;
 	IsMoveDone_ = false;
 	IsCounterReaction_ = false;

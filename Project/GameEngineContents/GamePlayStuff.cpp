@@ -23,6 +23,18 @@ void GamePlayStuff::Start()
 	GamePlayObject::SetObjectType(ObjectType::Stuff);
 }
 
+void GamePlayStuff::OffEvent()
+{
+	//IsSound_ = false;
+	//ObjSoundPlayer_.Stop();
+}
+
+void GamePlayStuff::LevelEndEvent()
+{
+	IsSound_ = false;  
+	ObjSoundPlayer_.Stop();
+}
+
 //SetPlayerState_Return GamePlayStuff::SetPlayerState(std::shared_ptr<Player> _Player, PlayerCurStateType _Type, std::shared_ptr<GamePlayMoveable> _Moveable, bool _FromNet)
 //{
 //	switch (_Type)

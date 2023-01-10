@@ -85,10 +85,10 @@ protected:
 	void End() override {};
 
 	void OnEvent() override {};
-	void OffEvent() override {};
+	void OffEvent() override;
 
 	void LevelStartEvent() override {};
-	void LevelEndEvent() override {};
+	void LevelEndEvent() override;
 
 protected:
 	inline void SetObjectStuffType(ObjectStuffType _Type)

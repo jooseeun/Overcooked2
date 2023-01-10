@@ -78,6 +78,11 @@ void IceBlock::Update(float _DeltaTime)
 	RotateIce(_DeltaTime);
 }
 
+void IceBlock::LevelEndEvent()
+{
+	SoundPlayer_.Stop();
+}
+
 void IceBlock::Move(float _DeltaTime)
 {
 	if (false == IsMovable_)
