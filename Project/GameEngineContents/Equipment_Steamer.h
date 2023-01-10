@@ -50,7 +50,7 @@ public:
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
-	void LevelEndEvent() override {};
+	//void LevelEndEvent() override {};
 
 	void IdleStart(const StateInfo& _Info);
 	void IdleUpdate(float _DeltaTime, const StateInfo& _Info);
