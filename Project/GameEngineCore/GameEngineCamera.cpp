@@ -141,6 +141,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 		std::map<RENDERINGPATHORDER, std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>>::iterator ForwardIter
 			= AllRenderUnit_.find(RENDERINGPATHORDER::FORWARD);
 	
+		std::vector<std::shared_ptr<GameEngineRenderUnit>> TmpUnits;
 		std::map<int, std::list<std::shared_ptr<class GameEngineRenderUnit>>>& OrderMap = ForwardIter->second;
 		for (std::pair<const int, std::list<std::shared_ptr<GameEngineRenderUnit>>>& Group : OrderMap)
 		{
@@ -151,6 +152,11 @@ void GameEngineCamera::Render(float _DeltaTime)
 	
 			for (std::shared_ptr<GameEngineRenderUnit>& Unit : RenderList)
 			{
+				if (nullptr != Unit->GetMaterial() && Unit->GetMaterial()->GetName() == "GLASS")
+				{
+					TmpUnits.push_back(Unit);
+					continue;
+				}
 				if (false == Unit->GetIsOn())
 				{
 					continue;
@@ -158,8 +164,11 @@ void GameEngineCamera::Render(float _DeltaTime)
 				// 인스턴싱 정보 수집
 				Unit->Render(ScaleTime);
 			}
-	
-			int a = 0;
+
+			for (size_t i = 0; i < TmpUnits.size(); i++)
+			{
+				TmpUnits[i]->Render(_DeltaTime);
+			}
 		}
 	}
 	
