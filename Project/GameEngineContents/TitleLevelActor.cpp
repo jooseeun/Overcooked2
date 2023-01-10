@@ -140,6 +140,15 @@ void TitleLevelActor::UIUpdate(float _DeltaTime)
 			CurPlayer->GetTransform().SetLocalRotation(PlayerRot);
 			CurPlayer->PlayerPNum = 1;
 			CurPlayer->ChangePlayerColor();
+			GlobalGameData::PlayerCustom_[0] = CurPlayer->GetPlayerCustomNum();
+		}
+
+		{
+			Player* CurPlayer = (Player*)GameServerObject::GetServerObject(2);
+			if (CurPlayer != nullptr)
+			{
+				GlobalGameData::PlayerCustom_[1] = CurPlayer->GetPlayerCustomNum();
+			}
 		}
 	}
 	else
@@ -150,6 +159,8 @@ void TitleLevelActor::UIUpdate(float _DeltaTime)
 		{
 			CurPlayer->PlayerPNum = 2;
 			CurPlayer->ChangePlayerColor();
+			GlobalGameData::PlayerCustom_[1] = CurPlayer->GetPlayerCustomNum();
+			CurPlayer->GetTransform().SetWorldPosition({ 150,0,0 });
 		}
 
 		{
@@ -158,6 +169,7 @@ void TitleLevelActor::UIUpdate(float _DeltaTime)
 			if (CurPlayer != nullptr)
 			{
 				CurPlayer->PlayerPNum = 1;
+				GlobalGameData::PlayerCustom_[0] = CurPlayer->GetPlayerCustomNum();
 				CurPlayer->ChangePlayerColor();
 			}
 		}

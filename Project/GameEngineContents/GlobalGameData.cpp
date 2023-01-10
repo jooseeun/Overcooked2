@@ -23,6 +23,7 @@ int GlobalGameData::FailCount_ = 0;
 int GlobalGameData::TipGaugeCount_ = 0;
 int GlobalGameData::PlayerCount_ = 1;
 int GlobalGameData::StageMoveCount_ = 0;
+std::vector<int> GlobalGameData::PlayerCustom_;
 
 GlobalGameData::GlobalGameData()
 {
@@ -34,6 +35,10 @@ GlobalGameData::~GlobalGameData()
 
 InitGlobalGameData::InitGlobalGameData()
 {
+	GlobalGameData::PlayerCustom_.push_back(0);
+	GlobalGameData::PlayerCustom_.push_back(0);
+	GlobalGameData::PlayerCustom_.push_back(0);
+	GlobalGameData::PlayerCustom_.push_back(0);
 	//스테이지 데이터 Init
 	{
 		{

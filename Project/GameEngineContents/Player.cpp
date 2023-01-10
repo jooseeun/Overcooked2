@@ -10,7 +10,6 @@
 #include "GlobalGameData.h"
 #include <math.h>
 
-
 //player key
 //이동 - 방향키
 //다지기/던지기 - 왼쪽 CTRL
@@ -83,6 +82,17 @@ Player::~Player()
 {
 }
 
+void Player::ChangePlayerCamera(CAMERAORDER _Cameraorder)
+{
+	for (int i = 0; i < 6; i++)
+	{
+		PlayerIdleRenderer_[i]->ChangeCamera(_Cameraorder);
+		PlayerWalkRenderer_[i]->ChangeCamera(_Cameraorder);
+		PlayerChopRenderer_[i]->ChangeCamera(_Cameraorder);
+		PlayerWashRenderer_[i]->ChangeCamera(_Cameraorder);
+	}
+}
+
 void Player::Start()
 {
 	if (MyPlayer == nullptr)
@@ -92,10 +102,6 @@ void Player::Start()
 
 	GetTransform().SetLocalScale({ 1, 1, 1 });
 
-
-
-
-
 	{
 		PlayerName_[0] = "AlienGreen";
 		PlayerName_[1] = "Buck";
@@ -103,10 +109,7 @@ void Player::Start()
 		PlayerName_[3] = "Dora";
 		PlayerName_[4] = "Eagle";
 		PlayerName_[5] = "Panda";
-
 	}
-
-
 
 	for (int i = 0; i < 6; i++)
 	{
@@ -158,7 +161,6 @@ void Player::Start()
 		PlayerIdleRenderer_[i]->CreateFBXAnimation(PlayerName_[i] + "CannonLandingIdle",
 			GameEngineRenderingEvent(PlayerName_[i] + "_CannonLandingIdle.FBX", 0.035f, true));
 
-
 		PlayerIdleRenderer_[i]->ChangeAnimation(PlayerName_[i] + "Idle");
 		PlayerIdleRenderer_[i]->GetTransform().SetLocalRotation({ 90,180,0 });
 		PlayerIdleRenderer_[i]->GetTransform().SetLocalScale({ 100,100,100 });
@@ -170,7 +172,6 @@ void Player::Start()
 		PlayerWalkRenderer_[i]->ChangeAnimation(PlayerName_[i] + "Walk");
 		PlayerWalkRenderer_[i]->GetTransform().SetLocalRotation({ 90,180,0 });
 		PlayerWalkRenderer_[i]->GetTransform().SetLocalScale({ 100,100,100 });
-
 
 		PlayerWashRenderer_[i] = CreateComponent<GameEngineFBXAnimationRenderer>();
 		PlayerWashRenderer_[i]->SetFBXMesh(PlayerName_[i] + "_Wash.FBX", "TextureAnimation");
@@ -194,16 +195,12 @@ void Player::Start()
 		PlayerWashRenderer_[i]->Off();
 		PlayerChopRenderer_[i]->Off();
 
-
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExitsChildDirectory("ContentsResources");
 		Dir.Move("ContentsResources");
 		Dir.Move("Mesh");
 		Dir.Move("Object");
 		Dir.Move("Player");
-
-
-
 	}
 
 	{
@@ -278,7 +275,6 @@ void Player::Start()
 	PlayerCameraCollision_->GetTransform().SetLocalPosition({ 0,0,0 });
 	if (false == OnePlayerInit)
 	{
-
 		StateManager.CreateStateMember("Idle"
 			, std::bind(&Player::IdleUpdate, this, std::placeholders::_1, std::placeholders::_2)
 			, std::bind(&Player::IdleStart, this, std::placeholders::_1)
@@ -332,7 +328,6 @@ void Player::Start()
 
 		IsPlayerble = true;
 		OnePlayerInit = true;
-
 	}
 	ServerCustomNum = PlayerCustomNum;
 	PlayerIdleRenderer_[PlayerCustomNum]->On();
@@ -340,9 +335,6 @@ void Player::Start()
 	PlayerChopRenderer_[PlayerCustomNum]->On();
 	PlayerWashRenderer_[PlayerCustomNum]->On();
 	ChangePlayerColor();
-
-
-
 }
 void Player::IdleRendererON()
 {
@@ -394,9 +386,7 @@ void Player::ChangePlayer()
 	PlayerChopRenderer_[PlayerCustomNum]->Off();
 	PlayerWashRenderer_[PlayerCustomNum]->Off();
 
-
 	ChangePlayerColor();
-
 }
 void Player::ChangePlayerColor() // 플레이어 팀 색 바꾸는 함수
 {
@@ -435,7 +425,6 @@ void Player::ChangePlayerColor() // 플레이어 팀 색 바꾸는 함수
 		WashRender.AlphaColor.b = 0.0f;
 	}
 
-
 	else if (PlayerPNum == 2)
 	{
 		IdleRender.AlphaColor.r = 0.0f;
@@ -453,8 +442,6 @@ void Player::ChangePlayerColor() // 플레이어 팀 색 바꾸는 함수
 		WashRender.AlphaColor.r = 0.0f;
 		WashRender.AlphaColor.g = 0.0f;
 		WashRender.AlphaColor.b = 1.0f;
-
-
 	}
 
 	else if (PlayerPNum == 3)
@@ -474,7 +461,6 @@ void Player::ChangePlayerColor() // 플레이어 팀 색 바꾸는 함수
 		WashRender.AlphaColor.r = 0.0f;
 		WashRender.AlphaColor.g = 1.0f;
 		WashRender.AlphaColor.b = 0.0f;
-
 	}
 
 	else if (PlayerPNum == 4)
@@ -494,7 +480,6 @@ void Player::ChangePlayerColor() // 플레이어 팀 색 바꾸는 함수
 		WashRender.AlphaColor.r = 1.0f;
 		WashRender.AlphaColor.g = 1.0f;
 		WashRender.AlphaColor.b = 0.0f;
-
 	}
 }
 
@@ -522,12 +507,10 @@ void  Player::LevelStartEvent()
 		if (PlayerIdleRenderer_[i] != nullptr)
 		{
 			PlayerIdleRenderer_[i]->ChangeLoadMaterial();
-
 		}
 	}
 	ServerStart();
 	ServerCustomNum = -1;
-
 }
 
 void Player::DeathCheck()
@@ -557,11 +540,9 @@ void Player::Update(float _DeltaTime)
 		return;
 	}
 
-
 	CustomKeyCheck();
 	if (GetLevel()->GetName() == "SELECTSTAGE")
 	{
-
 		GetTransform().SetLocalScale({ 1.0f, 1.0f, 1.0f });
 	}
 
@@ -591,7 +572,6 @@ void Player::Update(float _DeltaTime)
 				{
 					HighLightMoveAbleObject_->GetParent()->CastThis< GamePlayMoveable>()->SetHighlightEffectOff();
 					HighLightMoveAbleObject_ = nullptr;
-
 				}
 			}
 			if (Collision_Interact_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB,
@@ -601,12 +581,8 @@ void Player::Update(float _DeltaTime)
 				{
 					HighLightStaticObject_->GetParent()->CastThis< GamePlayStaticObject>()->SetHighlightEffectOff();
 					HighLightStaticObject_ = nullptr;
-
 				}
 			}
-
-
-
 		}
 	}
 	else if (GetLevel()->GetName() == "TITLELEVEL")
@@ -652,7 +628,6 @@ void Player::MakeRunningPuff(int _Count)
 		//PuffActor->SetParent(shared_from_this());
 		PuffActor->GetTransform().SetWorldPosition(GetTransform().GetWorldPosition() + GetTransform().GetForwardVector() * 50.0f + float4{ x_, 0.0f, 0 });
 		PuffActor->SetScale(__Scale);
-
 	}
 	RunningPuffServerTime_ = 0.0f;
 	RunningPuffTime_ = 0.0f;
@@ -663,7 +638,6 @@ void Player::IcePlatformCheck(float _DeltaTime)
 	{
 		GetTransform().SetWorldMove({ float4{0.f, 0.f, 230.f} *_DeltaTime });
 	}
-
 }
 void Player::CameraMove(float _DeltaTime)
 {
@@ -677,7 +651,6 @@ void Player::CameraMove(float _DeltaTime)
 				IsCameraMove_ = true;
 			}
 		}
-
 	}
 	else
 	{
@@ -702,15 +675,10 @@ void Player::CameraMove(float _DeltaTime)
 		CameraUpTime_ -= 1.0f * _DeltaTime;
 		GetLevel()->GetMainCameraActorTransform().SetWorldMove(float4{ 0,20.0f * _DeltaTime,0 });
 	}
-
 }
-
-
-
 
 bool Player::MoveAngle()
 {
-
 	if (CurAngle_ > 360)
 	{
 		CurAngle_ = 0;
@@ -747,7 +715,6 @@ bool Player::MoveAngle()
 			CurAngle_ = 0;
 			return true;
 		}
-
 	}
 
 	if (CurDir_ == PlayerDir::Right)
@@ -833,7 +800,6 @@ bool Player::MoveAngle()
 			CurAngle_ = 180;
 			return true;
 		}
-
 	}
 
 	if (CurDir_ == PlayerDir::FrontRight)
@@ -981,7 +947,6 @@ void Player::DashCheck(float _DeltaTime)
 
 	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerDash"))
 	{
-
 		if (DashTime_ < -1.0f)
 		{
 			MakeRunningPuff(3);
@@ -998,7 +963,6 @@ void Player::DashCheck(float _DeltaTime)
 			false == GameEngineInput::GetInst()->IsPressKey("PlayerFront") &&
 			false == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
 		{
-
 			if (PlayerMoveCollisionCheck(PlayerForwardCollision_) == true)
 			{
 				if (StateManager.GetCurStateStateName() == "HoldUp")
@@ -1026,11 +990,8 @@ void Player::DashCheck(float _DeltaTime)
 			PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 		}
 
-
-
 		Speed_ = 650.0f;
 	}
-
 }
 
 void Player::PlayerDirCheck() // 플레이어 방향 체크하고 회전시키는 함수
@@ -1041,13 +1002,11 @@ void Player::PlayerDirCheck() // 플레이어 방향 체크하고 회전시키는 함수
 		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft"))
 		{
 			CurDir_ = PlayerDir::FrontLeft;
-
 		}
 		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerRight"))
 		{
 			CurDir_ = PlayerDir::FrontRight;
 		}
-
 	}
 
 	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerBack"))
@@ -1061,7 +1020,6 @@ void Player::PlayerDirCheck() // 플레이어 방향 체크하고 회전시키는 함수
 		{
 			CurDir_ = PlayerDir::BackRight;
 		}
-
 	}
 
 	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerLeft"))
@@ -1075,12 +1033,10 @@ void Player::PlayerDirCheck() // 플레이어 방향 체크하고 회전시키는 함수
 		{
 			CurDir_ = PlayerDir::BackLeft;
 		}
-
 	}
 
 	if (true == GameEngineInput::GetInst()->IsPressKey("PlayerRight"))
 	{
-
 		CurDir_ = PlayerDir::Right;
 		if (true == GameEngineInput::GetInst()->IsPressKey("PlayerFront"))
 		{
@@ -1090,12 +1046,10 @@ void Player::PlayerDirCheck() // 플레이어 방향 체크하고 회전시키는 함수
 		{
 			CurDir_ = PlayerDir::BackRight;
 		}
-
 	}
 
 	GetTransform().SetLocalRotation({ 0,CurAngle_, 0 });
 }
-
 
 void Player::MoveCollisionSideCheck(float _DeltaTime)
 {
@@ -1104,7 +1058,6 @@ void Player::MoveCollisionSideCheck(float _DeltaTime)
 		if (PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
 			PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB) == true)
 		{
-
 			if (PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
 				PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB) == true)
 			{
@@ -1127,11 +1080,6 @@ void Player::MoveCollisionSideCheck(float _DeltaTime)
 			}
 			return;
 		}
-
-
-
-
-
 	}
 
 	else if (CurDir_ == PlayerDir::FrontLeft)
@@ -1163,8 +1111,6 @@ void Player::MoveCollisionSideCheck(float _DeltaTime)
 			return;
 		}
 		\
-
-
 	}
 
 	else if (CurDir_ == PlayerDir::BackLeft)
@@ -1172,7 +1118,6 @@ void Player::MoveCollisionSideCheck(float _DeltaTime)
 		if (PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
 			PlayerForwardCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB) == true)
 		{
-
 			if (PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Map_Object, CollisionType::CT_OBB) == true ||
 				PlayerForwardLeftCollision_->IsCollision(CollisionType::CT_OBB, CollisionOrder::Object_StaticObject, CollisionType::CT_OBB) == true)
 			{
@@ -1195,9 +1140,6 @@ void Player::MoveCollisionSideCheck(float _DeltaTime)
 			}
 			return;
 		}
-
-
-
 	}
 
 	else if (CurDir_ == PlayerDir::BackRight)
@@ -1229,7 +1171,6 @@ void Player::MoveCollisionSideCheck(float _DeltaTime)
 
 			return;
 		}
-
 	}
 }
 
@@ -1244,9 +1185,7 @@ void Player::DetachPlayerHoldingToGround() // 플레이어 손에든 함수 바닥에 떨어뜨
 		CurrentHoldingObject_->DetachObject();
 		CurrentHoldingObject_ = nullptr;
 	}
-
 }
-
 
 bool Player::ThrowHolding(std::shared_ptr<GameEngineUpdateObject> _HoldingObject)
 {
@@ -1260,21 +1199,16 @@ bool Player::ThrowHolding(std::shared_ptr<GameEngineUpdateObject> _HoldingObject
 	IdleRendererON();
 	IsThrowHolding_ = true;
 	return true;
-
 }
 
 //////////////////////충돌 함수
 
-
 CollisionReturn Player::HighlihgtMoveAbleCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 {
-
-
 	if (HighLightMoveAbleObject_ != nullptr && HighLightMoveAbleObject_ != _Other)
 	{
 		HighLightMoveAbleObject_->GetParent()->CastThis< GamePlayMoveable>()->SetHighlightEffectOff();
 		HighLightMoveAbleObject_ = nullptr;
-
 	}
 	HighLightMoveAbleObject_ = _Other;
 
@@ -1287,12 +1221,9 @@ CollisionReturn Player::HighlihgtMoveAbleCheck(std::shared_ptr<GameEngineCollisi
 
 			return CollisionReturn::Break;
 		}
-
 	}
 
 	HighLightMoveAbleObject_->GetParent()->CastThis< GamePlayMoveable>()->SetHighlightEffectOn();
-
-
 
 	return CollisionReturn::Break;
 }
@@ -1302,7 +1233,6 @@ CollisionReturn Player::HighlihgtStaticCheck(std::shared_ptr<GameEngineCollision
 	{
 		HighLightStaticObject_->GetParent()->CastThis< GamePlayStaticObject>()->SetHighlightEffectOff();
 		HighLightStaticObject_ = nullptr;
-
 	}
 	HighLightStaticObject_ = _Other;
 	HighLightStaticObject_->GetParent()->CastThis< GamePlayStaticObject>()->SetHighlightEffectOn();
@@ -1340,7 +1270,6 @@ CollisionReturn Player::GroundHoldUpCheck(std::shared_ptr<GameEngineCollision> _
 		IdleRendererON();
 	}
 
-
 	return CollisionReturn::Break;
 }
 
@@ -1354,7 +1283,6 @@ CollisionReturn Player::TableHoldDownCheck(std::shared_ptr<GameEngineCollision> 
 	if (SetPlayerState_Return::Nothing ==
 		_Other->GetParent()->CastThis<GamePlayStaticObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_))
 	{  //테이블에 물체가 있어 못내려놓으면 그냥 아무일도 일어나지 않게 하기
-
 		StateManager.ChangeState("HoldUp");
 	}
 	else
@@ -1367,7 +1295,6 @@ CollisionReturn Player::TableHoldDownCheck(std::shared_ptr<GameEngineCollision> 
 	}
 	return CollisionReturn::Break;
 }
-
 
 CollisionReturn Player::TableSliceCheck(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 {
@@ -1408,8 +1335,6 @@ CollisionReturn Player::InteractTableCheck(std::shared_ptr<GameEngineCollision> 
 	return CollisionReturn::ContinueCheck;
 }
 
-
-
 CollisionReturn Player::EnterCannon(std::shared_ptr<GameEngineCollision> _This, std::shared_ptr<GameEngineCollision> _Other)
 {
 	//SetParent(_Other->GetParent());
@@ -1427,7 +1352,7 @@ CollisionReturn Player::PushButton(std::shared_ptr<GameEngineCollision> _This, s
 	return CollisionReturn::ContinueCheck;
 }
 
-//////// 서버 
+//////// 서버
 
 void Player::ServerStart()
 {
@@ -1435,7 +1360,6 @@ void Player::ServerStart()
 	{
 		IsPlayerble = true;
 		OnePlayerInit = true;
-
 	}
 	if (IsServerStart == false)
 	{
@@ -1456,8 +1380,6 @@ void Player::ServerUpdate(float _DeltaTime)
 
 	if (true == IsPlayerble)
 	{
-
-
 		if (nullptr == ServerInitManager::Net)
 		{
 			return;
@@ -1555,7 +1477,6 @@ void Player::ServerUpdate(float _DeltaTime)
 			std::shared_ptr<ObjectUpdatePacket> ObjectUpdate = std::dynamic_pointer_cast<ObjectUpdatePacket>(Packet);
 			if (GetLevel()->GetName() == "SELECTSTAGE")
 			{
-
 				GetTransform().SetLocalScale({ 1.0f, 1.0f, 1.0f });
 			}
 			if (GetLevel()->GetName() == "TITLELEVEL")
@@ -1572,7 +1493,6 @@ void Player::ServerUpdate(float _DeltaTime)
 						PlayerWalkRenderer_[i]->Off();
 						PlayerWashRenderer_[i]->Off();
 						PlayerChopRenderer_[i]->Off();
-
 					}
 					PlayerCustomNum = ObjectUpdate->PlayerPreCustomNum;
 					CurAniName_ = "Idle";
@@ -1608,7 +1528,6 @@ void Player::ServerUpdate(float _DeltaTime)
 								PlayerWashRenderer_[i]->Off();
 								PlayerChopRenderer_[i]->Off();
 							}
-
 						}
 						PlayerIdleRenderer_[ObjectUpdate->PlayerCustomNum]->On();
 						PlayerWalkRenderer_[ObjectUpdate->PlayerCustomNum]->On();
@@ -1629,11 +1548,9 @@ void Player::ServerUpdate(float _DeltaTime)
 								PlayerIdleRenderer_[ObjectUpdate->PlayerPreCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 								PlayerIdleRenderer_[ObjectUpdate->PlayerPreCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
 							}
-
 						}
 						else if (ObjectUpdate->RendererState == 1)
 						{
-
 							WalkRendererON();
 						}
 						else if (ObjectUpdate->RendererState == 2)
@@ -1642,7 +1559,6 @@ void Player::ServerUpdate(float _DeltaTime)
 						}
 						else if (ObjectUpdate->RendererState == 3)
 						{
-
 							WashRendererON();
 						}
 					}
@@ -1670,7 +1586,6 @@ void Player::ServerUpdate(float _DeltaTime)
 							IdleRender.AlphaColor.a = 1.0f;
 						}
 					}
-
 				}
 				//플레이어 소리
 				{
@@ -1680,7 +1595,6 @@ void Player::ServerUpdate(float _DeltaTime)
 						{
 							if (ObjectUpdate->IsCannon != 1 && ObjectUpdate->IsCannonFly != 1)
 							{
-
 								GameEngineSound::SoundPlayOneShot("Item_PickUp_03.wav");
 							}
 						}
@@ -1703,8 +1617,6 @@ void Player::ServerUpdate(float _DeltaTime)
 
 						PrevState = ObjectUpdate->PlayerState;
 					}
-
-
 				}
 				//로켓
 				if (ObjectUpdate->IsCannon == 1)
@@ -1725,7 +1637,6 @@ void Player::ServerUpdate(float _DeltaTime)
 					IsCannonFly_ = false;
 				}
 			}
-			
 
 			break;
 		}

@@ -134,22 +134,42 @@ void UIActor::CreatePlayerIcon(int _Index, std::string_view _Name)
 	PlayerName_[4] = "Eagle";
 	PlayerName_[5] = "Panda";
 
+	int PlayerIndex = GlobalGameData::PlayerCustom_[_Index];
+
 	std::shared_ptr< GameEngineFBXAnimationRenderer> PlayerIdleRenderer_ = CreateComponent<GameEngineFBXAnimationRenderer>();
-	PlayerIdleRenderer_->SetFBXMesh(PlayerName_[_Index] + "_Idle.FBX", "TextureAnimation");
+	PlayerIdleRenderer_->SetFBXMesh(PlayerName_[PlayerIndex] + "_Idle.FBX", "TextureAnimation");
 	PlayerIdleRenderer_->ChangeCamera(CAMERAORDER::UICAMERA);
 
-	PlayerIdleRenderer_->CreateFBXAnimation(PlayerName_[_Index] + "Idle",
-		GameEngineRenderingEvent(PlayerName_[_Index] + "_Idle.FBX", 0.035f, true));
+	PlayerIdleRenderer_->CreateFBXAnimation(PlayerName_[PlayerIndex] + "Idle",
+		GameEngineRenderingEvent(PlayerName_[PlayerIndex] + "_Idle.FBX", 0.035f, true));
 
 	PlayerIdleRenderer_->CreateFBXAnimation(PlayerName_[_Index] + "Idle2",
-		GameEngineRenderingEvent(PlayerName_[_Index] + "_Idle2.FBX", 0.035f, true));
+		GameEngineRenderingEvent(PlayerName_[PlayerIndex] + "_Idle2.FBX", 0.035f, true));
 
-	PlayerIdleRenderer_->ChangeAnimation(PlayerName_[_Index] + "Idle");
+	PlayerIdleRenderer_->ChangeAnimation(PlayerName_[PlayerIndex] + "Idle");
 
 	PlayerIdleRenderer_->GetTransform().SetLocalPosition({ 0,-70.f,-100.f });
 	PlayerIdleRenderer_->GetTransform().SetLocalScale({ 100.f,100.f,100.f });
 	PlayerIdleRenderer_->GetTransform().SetLocalRotation({ 80,-140 });
 	PlayerIdleRenderer_->GetTransform().SetParentTransform(NewParent->GetTransform());
+
+	PixelData& IdleRender = PlayerIdleRenderer_->GetPixelDatas(0);
+	IdleRender.AlphaFlag = 1;
+	IdleRender.AlphaColor.a = 1.0f;
+
+	if (_Index == 0)
+	{
+		IdleRender.AlphaColor.r = 1.0f;
+		IdleRender.AlphaColor.g = 0.0f;
+		IdleRender.AlphaColor.b = 0.0f;
+	}
+	else if (_Index == 1)
+	{
+		IdleRender.AlphaColor.r = 0.0f;
+		IdleRender.AlphaColor.g = 0.0f;
+		IdleRender.AlphaColor.b = 1.0f;
+	}
+
 	NewIcon.PlayerMesh = PlayerIdleRenderer_;
 	ResistDebug(std::to_string(_Index), PlayerIdleRenderer_->GetTransform());
 

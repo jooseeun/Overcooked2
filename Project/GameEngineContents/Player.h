@@ -29,6 +29,12 @@ public:
 	Player& operator=(const Player& _Other) = delete;
 	Player& operator=(Player&& _Other) noexcept = delete;
 
+	void ChangePlayerCamera(CAMERAORDER _Cameraorder);
+	inline int GetPlayerCustomNum()
+	{
+		return PlayerCustomNum;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime);
@@ -87,7 +93,7 @@ public:
 	void ChangePlayerColor();
 
 public:
-	
+
 	inline void SetPlayerHolding(std::shared_ptr<GameEngineUpdateObject> _CurrentHoldingObject_) // 플레이어 손에 올리는 함수 엑터를 손에올려줍니다
 	{
 		CurrentHoldingObject_ = _CurrentHoldingObject_->CastThis<GameEngineActor>();
@@ -104,7 +110,6 @@ public:
 	{
 		CurHoldType_ = _CurHoldType;
 	}
-	
 
 	std::shared_ptr<GameEngineActor> GetPlayerHolding()// 현재 플레이어 손에있는 오브젝트 얻는 함수
 	{
@@ -115,12 +120,10 @@ public:
 	{
 		if (CurrentHoldingObject_ != nullptr)
 		{ //table위에 올릴때는 외부에서 ToolPos로 얻어와서 따로 설정해주어야 한다.
-
 			//CurrentHoldingObject_->GetTransform().SetLocalPosition(float4{ 0,0,0 });
 			CurrentHoldingObject_->DetachObject();
 			CurrentHoldingObject_ = nullptr;
 		}
-
 	}
 
 	inline void CurrentHoldingNull()
@@ -129,7 +132,6 @@ public:
 		{
 			CurrentHoldingObject_ = nullptr;
 		}
-
 	}
 
 	inline void CurrentHoldingDetach()
@@ -138,7 +140,6 @@ public:
 		{
 			CurrentHoldingObject_->DetachObject();
 		}
-
 	}
 
 	/// 다 잘랐다고 플레이어에게 알려주는 함수 -> 플레이어가 Slice상태에서 idle상태로 변환한다.
@@ -159,9 +160,7 @@ public:
 		GetTransform().SetLocalRotation({ 0,CurAngle_, 0 });
 	}
 
-
 	bool IsPotal_;
-
 
 	int IsMove_;
 	bool IsCannonFly_;
@@ -175,11 +174,8 @@ public:
 	bool IsThrowHolding_;
 	bool ThrowHolding(std::shared_ptr<GameEngineUpdateObject> _HoldingObject);
 
-
 	std::string CurAniName_;
 	std::string IsHolding_;
-	
-
 
 	inline void SetResponePos(float4 _Pos)
 	{
@@ -226,7 +222,7 @@ private:
 
 private:
 	float4 CannonFlyPos_;
-	
+
 	void CameraMove(float _DeltaTime);
 	bool IsCameraMove_;
 	bool IsThrow_;
@@ -238,7 +234,6 @@ private:
 	PlayerDir CurDir_;
 	PlayerHoldType CurHoldType_;
 	PlayerCurStateType CurStateType_;
-
 
 	int ServerRenderStateNum_;
 	int PlayerCustomNum;
@@ -258,7 +253,6 @@ private:
 	std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerChopRenderer_[6];
 	std::shared_ptr<GameEngineFBXAnimationRenderer> PlayerWashRenderer_[6];
 
-
 	std::string PlayerName_[6];
 
 	std::shared_ptr<GameEngineCollision> PlayerFloorCollision_;
@@ -273,10 +267,9 @@ private:
 	std::shared_ptr<GameEngineCollision> PlayerCollision_;
 	std::shared_ptr<GameEngineCollision> PlayerCameraCollision_;
 
-
 	GameEngineStateManager StateManager;
 
-	//////// 서버 
+	//////// 서버
 private:
 	static std::shared_ptr<Player> MyPlayer;
 	static bool OnePlayerInit;
@@ -301,4 +294,3 @@ public:
 		MyPlayer = _Player;
 	}
 };
-

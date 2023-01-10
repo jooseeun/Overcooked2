@@ -162,6 +162,7 @@ private:
 
 public:
 	static int StageMoveCount_;
+	static std::vector<int> PlayerCustom_;
 
 public:
 	static int PlayerCount_;
