@@ -309,5 +309,6 @@ HoldDownEnum Tool_FoodBox::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 
 void Tool_FoodBox::LevelEndEvent()
 {
+	GamePlayStuff::LevelEndEvent();
 	map_FoodQueue_.clear();
 }
