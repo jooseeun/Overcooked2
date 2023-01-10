@@ -285,6 +285,11 @@ void LoadingUIActor::RenderInfo(StageData& CurData)
 
 	switch (CurData.StageThema)
 	{
+	case Thema::Winter:
+	{
+		CurStage_.Select->SetTexture("DLC_Select_level_DLC03_ChristmasImage.png");
+		break;
+	}
 	case Thema::SushiCity:
 	{
 		CurStage_.Select->SetTexture("level_select_sushi.png");

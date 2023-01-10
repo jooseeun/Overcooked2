@@ -183,7 +183,7 @@ void InGameUIActor::UIStart()
 			});
 	}
 
-	NotDeleteRecipe_Timer_.StartTimer(16.f);
+	NotDeleteRecipe_Timer_.StartTimer(48.f);
 	NotDeleteRecipe_Timer_.SetTimeOverFunc(std::bind(&InGameUIActor::CreateRandomRecipe, this));
 	//레시피 매니저
 	RecipeManager_.Init(std::dynamic_pointer_cast<InGameUIActor>(shared_from_this()),

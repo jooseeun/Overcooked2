@@ -113,6 +113,15 @@ void CookingBar::UpdateBar(float _DeltaTime)
 		PrevValue_ = Value;
 		IsUpdating_ = true;
 	}
+	else if (PrevValue_ > Value && Value < 1.5f) //새로운 음식이 들어와서 게이지가 줄었을 때
+	{
+		PrevValue_ = Value;
+		Icon_.lock()->Off();
+		Icon_.lock()->SetTexture("CookingTick.png");
+		IterTime_ = 0.f;
+		float4 Color = { 0.f,0.f,0.f,0.f };
+		Icon_.lock()->UpdateColor({ 0,0,0,0 }, Color);
+	}
 
 	//경고표시
 	if (Value >= 1.5f && IsOver_ == true)

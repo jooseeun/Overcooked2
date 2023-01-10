@@ -6,7 +6,8 @@
 enum Thema
 {
 	SushiCity,
-	WizardKitchen
+	WizardKitchen,
+	Winter
 };
 
 struct StageData
@@ -69,7 +70,7 @@ public:
 
 	static float GetMaxTime()
 	{
-		return 150.f;
+		return 240.f;
 	}
 
 	static int GetScore()

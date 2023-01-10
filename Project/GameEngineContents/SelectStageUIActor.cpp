@@ -63,7 +63,7 @@ void SelectStageUIActor::InitRenderer()
 
 	CreateLevelSelect("level_select_air_balloon.png", 1, "열기구 뷔페", 0);
 	CreateLevelSelect("level_select_raft.png", 3, "게걸스러운 급류", 1);
-	CreateLevelSelect("level_select_space.png", 2, "미식가 은하", 2);
+	CreateLevelSelect("DLC_Select_level_DLC03_ChristmasImage.png", 2, "겨울이 온다", 2);
 	CreateLevelSelect("UI_Level_Select_Random_01.png", 1, "랜덤", 3);
 	CreateLevelSelect("level_select_sushi.png", 3, "초밥 시티", 4);
 	CreateLevelSelect("level_select_wizard.png", 2, "마술사의 키친", 5);
@@ -274,6 +274,11 @@ void SelectStageUIActor::SetCurStage(int _Index)
 	std::string WantStage;
 	switch (_Index)
 	{
+	case 2:
+	{
+		WantStage = "2-1";
+		break;
+	}
 	case 3: //랜덤
 	{
 		if (GlobalGameData::StageMoveCount_ == 0)
