@@ -235,7 +235,7 @@ void InGameUIActor::UpdateIsStart(float _DeltaTime)
 	if (TransitionIcon_->IsUpdate() == false && BlackRenderer_->IsUpdate() == false && GlobalGameData::IsGameStart() == false)
 	{
 		ReadyTimer_.Update(_DeltaTime);
-		ReadySycn_.UserCount_ = ServerInitManager::Server.GetUserSockets().size() + 1;
+		ReadySycn_.UserCount_ = static_cast<int>(ServerInitManager::Server.GetUserSockets().size()) + 1;
 
 		//내가 호스트면
 		if (ServerInitManager::Net->GetIsHost() == true)
