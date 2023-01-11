@@ -1585,7 +1585,7 @@ void Player::ServerUpdate(float _DeltaTime)
 							}
 						}
 					}
-					else
+					else if (ObjectUpdate->PlayerDeath == 2)
 					{
 						for (int i = 0; i < 5; i++)
 						{

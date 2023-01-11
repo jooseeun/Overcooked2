@@ -612,6 +612,10 @@ void Player::CarDeathUpdate(float _DeltaTime, const StateInfo& _Info)
 			Renderer.MulColor.a -= 0.3f * _DeltaTime;
 		}
 
+		else
+		{
+			IsDeath_ = 2;
+		}
 	}
 
 
@@ -620,7 +624,6 @@ void Player::CarDeathUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		DetachPlayerHolding();
 		GetTransform().SetWorldPosition(ResponePos_);
-		IsDeath_ = 2;
 		for (int i = 0; i < 5; i++)
 		{
 			PixelData& IdleRender = PlayerIdleRenderer_[PlayerCustomNum]->GetPixelDatas(i);
