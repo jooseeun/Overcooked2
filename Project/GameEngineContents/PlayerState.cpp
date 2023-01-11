@@ -177,7 +177,7 @@ void Player::ThrowUpdate(float _DeltaTime, const StateInfo& _Info)
 		MoveAngle();
 	}
 
-	if (true == GameEngineInput::GetInst()->IsUpKey("PlayerInteract"))
+	if (true == GameEngineInput::GetInst()->IsUpKey("PlayerThrow"))
 	{
 		CurrentHoldingObject_->CastThis<GamePlayObject>()->SetPlayerState(std::dynamic_pointer_cast<Player>(shared_from_this()), CurStateType_);
 		CurrentHoldingObject_->CastThis<GamePlayObject>()->GetCollisionObject()->On();
@@ -257,16 +257,13 @@ void Player::HoldUpUpdate(float _DeltaTime, const StateInfo& _Info)
 		}
 	}
 
-	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerInteract")) //컨트롤키
+	if (true == GameEngineInput::GetInst()->IsDownKey("PlayerThrow")) //Z
 	{
 		if (CurHoldType_ == PlayerHoldType::CanThrow)
 		{
 			StateManager.ChangeState("Throw");
 		}
-		else if (CurHoldType_ == PlayerHoldType::FireExtinguisher)
-		{
-			StateManager.ChangeState("FireOff");
-		}
+
 	}
 
 	if (IsPotal_ == true)
@@ -612,6 +609,10 @@ void Player::CarDeathUpdate(float _DeltaTime, const StateInfo& _Info)
 			Renderer.MulColor.a -= 0.3f * _DeltaTime;
 		}
 
+		else
+		{
+			IsDeath_ = 2;
+		}
 	}
 
 
@@ -620,7 +621,6 @@ void Player::CarDeathUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		DetachPlayerHolding();
 		GetTransform().SetWorldPosition(ResponePos_);
-		IsDeath_ = 2;
 		for (int i = 0; i < 5; i++)
 		{
 			PixelData& IdleRender = PlayerIdleRenderer_[PlayerCustomNum]->GetPixelDatas(i);

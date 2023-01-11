@@ -512,8 +512,11 @@ void  Player::LevelStartEvent()
 	if (CurrentHoldingObject_ != nullptr)
 	{
 		CurrentHoldingObject_->DetachObject();
+		CurrentHoldingObject_->Death();
 		CurrentHoldingObject_ = nullptr;
+		StateManager.ChangeState("Idle");
 	}
+
 	ServerStart();
 	ServerCustomNum = -1;
 }
@@ -545,7 +548,7 @@ void Player::Update(float _DeltaTime)
 		return;
 	}
 
-	CustomKeyCheck();
+	//CustomKeyCheck();
 	if (GetLevel()->GetName() == "SELECTSTAGE")
 	{
 		GetTransform().SetLocalScale({ 1.0f, 1.0f, 1.0f });

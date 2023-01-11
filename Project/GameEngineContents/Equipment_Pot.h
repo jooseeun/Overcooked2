@@ -16,6 +16,10 @@ public:
 	Equipment_Pot& operator=(const Equipment_Pot& _Other) = delete;
 	Equipment_Pot& operator=(Equipment_Pot&& _Other) noexcept = delete;
 
+	void FillPot();
+
+	void EmptyPot();
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;

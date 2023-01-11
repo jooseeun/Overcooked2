@@ -19,6 +19,20 @@ void Equipment_Pot::Start()
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 
 	GetCombinFood()->Start(1, shared_from_this());
+
+	EmptyPot();
+}
+
+//냄비 메쉬 채우기
+void Equipment_Pot::FillPot()
+{
+	GetFBXMesh()->GetAllRenderUnit()[1][0]->On();
+}
+
+//냄비 메쉬 
+void Equipment_Pot::EmptyPot()
+{
+	GetFBXMesh()->GetAllRenderUnit()[1][0]->Off();
 }
 
 void Equipment_Pot::Update(float _DeltaTime)

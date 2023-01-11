@@ -8,8 +8,8 @@
 #include "GamePlayObjectManager.h"
 
 GameServerNet* ServerInitManager::Net;
-std::string ServerInitManager::IP = "127.0.0.1";
-//std::string ServerInitManager::IP = "123.142.84.195";
+//std::string ServerInitManager::IP = "127.0.0.1";
+std::string ServerInitManager::IP = "123.142.84.195";
 GameServerNetServer ServerInitManager::Server;
 GameServerNetClient ServerInitManager::Client;
 
@@ -111,14 +111,14 @@ void ServerInitManager::ObjectInteractUpdateProcess(std::shared_ptr<GameServerPa
 	GameServerObject* FindPlayerObject = GameServerObject::GetServerObject(Packet->PlayerNum);
 	if (FindObject == nullptr)
 	{
+		return;
 		MsgBoxAssert("아직 등록되지 않은 오브젝트입니다 - Serverinitmanager, ObjectInteractUpdateProcess()")
-			return;
 	}
 
 	if (Packet->PlayerNum < 0)
 	{
-		MsgBoxAssertString("Serverinitmanager::ObjectInteractUpdateProcess() PlayerNum Is Unknown / " + std::to_string(Packet->PlayerNum))
 			return;
+		MsgBoxAssertString("Serverinitmanager::ObjectInteractUpdateProcess() PlayerNum Is Unknown / " + std::to_string(Packet->PlayerNum))
 	}
 
 	GamePlayObjectManager::TemporaryPushData(_Packet);

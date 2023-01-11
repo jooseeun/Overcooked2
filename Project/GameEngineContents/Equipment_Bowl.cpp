@@ -10,6 +10,16 @@ Equipment_Bowl::~Equipment_Bowl()
 {
 }
 
+void Equipment_Bowl::FillBowl()
+{
+	GetFBXMesh()->GetAllRenderUnit()[1][0]->On();
+}
+
+void Equipment_Bowl::EmptyBowl()
+{
+	GetFBXMesh()->GetAllRenderUnit()[1][0]->Off();
+}
+
 void Equipment_Bowl::Start()
 {
 	GamePlayBowl::Start();
@@ -18,6 +28,8 @@ void Equipment_Bowl::Start()
 
 	GetFBXMesh()->SetFBXMesh("Bowl.fbx", "Texture");
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
+
+	EmptyBowl();
 
 //	GetCombinFood()->Start(2, shared_from_this());
 }
