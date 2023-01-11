@@ -84,6 +84,7 @@ void Stage_1_1::End()
 void Stage_1_1::PlayLevelStartEvent()
 {
 
+	GlobalGameData::GetLeftTimeRef().StartTimer(150.f);
 
 
 	if (nullptr != Player::GetMyPlayer())
