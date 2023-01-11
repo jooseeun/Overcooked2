@@ -25,6 +25,7 @@ public:
 	void PopObjectInteractData();
 	void PopObjectParentsSetData();
 	void PopObjectParentsSetAllFrameData();
+	void PopObjectCookingData();
 	void PushMapData(std::shared_ptr<ObjectStartPacket> _Update);
 	void PushParentsSetData(std::shared_ptr<ObjectParentsSetPacket> _Packet);
 	void PushObjectInteractData(std::shared_ptr<ObjectInteractUpdatePacket> _Packet);
@@ -44,7 +45,7 @@ private:
 	std::queue<std::shared_ptr<ObjectInteractUpdatePacket>> QueueObjectInteraction_;
 	std::queue<std::shared_ptr<ObjectParentsSetPacket>> QueueObjectParentsSet_;
 	std::queue<std::shared_ptr<ObjectParentsSetAllFramePacket>> QueueObjectParentsSetAllFrame_;
-	
+	std::queue<std::shared_ptr<ObjectCookingGagePacket>> QueueObjectCookingGage_;
 
 	static GamePlayObjectManager* Inst_;
 

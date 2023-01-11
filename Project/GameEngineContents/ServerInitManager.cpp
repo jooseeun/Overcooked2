@@ -30,8 +30,11 @@ void ServerInitManager::ObjectCookingGageProcess(std::shared_ptr<GameServerPacke
 		return;
 		MsgBoxAssert("Serverinitmanager/ObjectCookingGageProcess() is nullptr")
 	}
+	{
+		GamePlayObjectManager::TemporaryPushData(Packet);
+	}
 
-	FindObject->PushPacket(_Packet);
+	//FindObject->PushPacket(_Packet);
 }
 
 void ServerInitManager::ObjectStartPacketProcess(std::shared_ptr<GameServerPacket> _Packet)

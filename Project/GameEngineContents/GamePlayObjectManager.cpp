@@ -77,6 +77,9 @@ void GamePlayObjectManager::Update(float _Time)
 		case ContentsPacketType::ObjectParentsSetFrame:
 			QueueObjectParentsSetAllFrame_.push(std::dynamic_pointer_cast<ObjectParentsSetAllFramePacket>(TemporaryPacket.front()));
 			break;
+		case ContentsPacketType::ObjectCookingGageUpdate:
+			QueueObjectCookingGage_.push(std::dynamic_pointer_cast<ObjectCookingGagePacket>(TemporaryPacket.front()));
+			break;
 		case ContentsPacketType::ObjectUpdate:
 		default:
 			MsgBoxAssert("GamePlayObjectManager - 처리할수없는 패킷이 들어 왔습니다")
@@ -91,6 +94,10 @@ void GamePlayObjectManager::Update(float _Time)
 	{
 		PopMapDataData();
 	}
+	while (!QueueObjectCookingGage_.empty())
+	{
+		PopObjectCookingData();
+	}
 	while (!QueueObjectInteraction_.empty())
 	{
 		PopObjectInteractData();
@@ -103,6 +110,32 @@ void GamePlayObjectManager::Update(float _Time)
 	{
 		PopObjectParentsSetAllFrameData();
 	}
+}
+
+void GamePlayObjectManager::PopObjectCookingData()
+{
+	if (QueueObjectCookingGage_.empty())
+	{
+		return;
+	}
+
+	std::shared_ptr<GamePlayObject> PlayObject;
+	std::shared_ptr<ObjectCookingGagePacket> Packet;
+	{
+		std::lock_guard L(ObjectManagerLock);
+		Packet = QueueObjectCookingGage_.front();
+		QueueObjectCookingGage_.pop();
+	}
+
+	GameServerObject* FindParentsObject = GameServerObject::GetServerObject(Packet->ObjectID);
+
+	if (FindParentsObject == nullptr)
+	{
+		TemporaryPushData(Packet);
+	}
+
+	PlayObject = ((GamePlayObject*)(FindParentsObject))->shared_from_this()->CastThis<GamePlayObject>();
+	PlayObject->SetServerCookingGage(Packet);
 }
 
 bool GamePlayObjectManager::Isempty()
@@ -681,5 +714,6 @@ void GamePlayObjectManager::LevelEndEvent()
 	QueueObjectInteraction_ = std::queue<std::shared_ptr<ObjectInteractUpdatePacket>>(); // 초기화
 	//QueueObjectParentsSet_ = std::queue<std::shared_ptr<ObjectParentsSetPacket>>(); // 초기화
 	QueueObjectParentsSetAllFrame_ = std::queue<std::shared_ptr<ObjectParentsSetAllFramePacket>>(); // 초기화
+	QueueObjectCookingGage_ = std::queue<std::shared_ptr<ObjectCookingGagePacket>>();
 
 }

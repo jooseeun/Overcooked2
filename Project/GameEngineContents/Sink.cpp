@@ -204,7 +204,7 @@ UsingDownEnum Tool_Sink::UsingDown(std::shared_ptr<Player> _Player)
 				SetMoveable(Dirty_Plate_.back());
 			}
 			Dirty_Plate_.pop_back();
-			GameEngineSound::SoundPlayOneShot("WashedPlate.wav");
+			//GameEngineSound::SoundPlayOneShot("WashedPlate.wav");
 
 			if (Dirty_Plate_.empty())
 			{
