@@ -975,6 +975,7 @@ void Player::DashCheck(float _DeltaTime)
 			{
 				if (StateManager.GetCurStateStateName() == "HoldUp")
 				{
+					IdleRendererON();
 					PlayerIdleRenderer_[PlayerCustomNum]->ChangeAnimation(PlayerName_[PlayerCustomNum] + "WalkHolding");
 					PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
 					PlayerIdleRenderer_[PlayerCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
@@ -1550,11 +1551,14 @@ void Player::ServerUpdate(float _DeltaTime)
 						if (ObjectUpdate->RendererState == 0)
 						{
 							IdleRendererON();
-							if (ObjectUpdate->IsCannon != 1 && ObjectUpdate->IsCannonFly != 1)
+							if (ObjectUpdate->Animation != "Walk")
 							{
-								PlayerIdleRenderer_[ObjectUpdate->PlayerPreCustomNum]->ChangeAnimation(PlayerName_[ObjectUpdate->PlayerPreCustomNum] + ObjectUpdate->Animation);
-								PlayerIdleRenderer_[ObjectUpdate->PlayerPreCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
-								PlayerIdleRenderer_[ObjectUpdate->PlayerPreCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
+								if (ObjectUpdate->IsCannon != 1 && ObjectUpdate->IsCannonFly != 1)
+								{
+									PlayerIdleRenderer_[ObjectUpdate->PlayerPreCustomNum]->ChangeAnimation(PlayerName_[ObjectUpdate->PlayerPreCustomNum] + ObjectUpdate->Animation);
+									PlayerIdleRenderer_[ObjectUpdate->PlayerPreCustomNum]->GetTransform().SetLocalRotation({ 90,180,0 });
+									PlayerIdleRenderer_[ObjectUpdate->PlayerPreCustomNum]->GetTransform().SetLocalScale({ 100,100,100 });
+								}
 							}
 						}
 						else if (ObjectUpdate->RendererState == 1)
