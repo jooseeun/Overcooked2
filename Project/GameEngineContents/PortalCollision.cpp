@@ -52,7 +52,7 @@ void PortalCollision::SmallActor()
 	{
 		if (InterActor_->GetTransform().GetWorldScale().x >= 0.0f)
 		{
-			InterActor_->GetTransform().SetWorldScale(InterActor_->GetTransform().GetWorldScale() - float4{ 0.7f,0.7f ,0.7f } *GameEngineTime::GetDeltaTime());
+			InterActor_->GetTransform().SetWorldScale(InterActor_->GetTransform().GetWorldScale() - float4{ 1.0f,1.0f ,1.0f } *GameEngineTime::GetDeltaTime());
 			return;
 		}
 		else
@@ -86,7 +86,7 @@ void PortalCollision::BigActor()
 			IsBig_ = false;
 			return;
 		}
-		InterActor_->GetTransform().SetWorldScale(InterActor_->GetTransform().GetWorldScale() + float4{ 0.7f,0.7f ,0.7f } *GameEngineTime::GetDeltaTime());
+		InterActor_->GetTransform().SetWorldScale(InterActor_->GetTransform().GetWorldScale() + float4{ 1.0f,1.0f ,1.0f } *GameEngineTime::GetDeltaTime());
 	}
 }
 
