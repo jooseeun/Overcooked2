@@ -21,7 +21,7 @@ public:
 
 protected:
 	void Start() override;
-	//void Update(float _DeltaTime) override;
+	void Update(float _DeltaTime) override;
 		 
 private:
 	HoldDownEnum PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable) override;

@@ -32,11 +32,19 @@ protected:
 	inline void SetHighlightEffectOff() override
 	{
 		GetFBXMesh()->GetPixelDatas(0).PlusColor = float4(0, 0, 0, 0);
+		if (GetStuff() != nullptr)
+		{
+			GetStuff()->SetHighlightEffectOff();
+		}
 	}
 
 	inline void SetHighlightEffectOn() override
 	{
 		GetFBXMesh()->GetPixelDatas(0).PlusColor = float4(0.2f, 0.2f, 0.2f, 0.0f);
+		if (GetStuff() != nullptr)
+		{
+			GetStuff()->SetHighlightEffectOn();
+		}
 	}
 
 private:

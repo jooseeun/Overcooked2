@@ -61,7 +61,7 @@ void Tool_Mixer::Start()
 	//GamePlayTool::SetToolInfoType(ToolInfo::Mixer);
 	GamePlayTool::SetObjectToolType(ObjectToolType::Mixer);
 
-	//SetMoveablePos();
+	SetMoveablePos({-25, 15, 0});
 
 	//SetMoveable(GetLevel()->CreateActor<Equipment_Bowl>());
 }

@@ -47,6 +47,14 @@ void Equipment_Pot::Update(float _DeltaTime)
 			ObjSoundPlayer_.Stop();
 		}
 	}
+	if (GetCombinFood()->IsClear())
+	{
+		EmptyPot();
+	}
+	else
+	{
+		FillPot();
+	}
 }
 
 bool Equipment_Pot::AutoTrim(float _DeltaTime, ObjectToolType _Tool)
