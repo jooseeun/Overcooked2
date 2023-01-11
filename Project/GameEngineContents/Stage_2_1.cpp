@@ -123,7 +123,7 @@ void Stage_2_1::PlayLevelStartEvent()
 	DataParser_.UnSortMapDataParsing(GlobalIOManager::GetMapDataVector(), this);
 
 	GetMainCameraActorTransform().SetLocalRotation({ 60, 180, 0 });
-	GetMainCameraActorTransform().SetLocalPosition({ -1662, 2412, 292 });
+	GetMainCameraActorTransform().SetLocalPosition({ -1662, 2700, 400 });
 
 
 	std::shared_ptr<IceBlock> Block = CreateActor <IceBlock>();
