@@ -397,7 +397,7 @@ void Overcooked::InputMake()
 		GameEngineInput::GetInst()->CreateKey("PlayerHold", VK_SPACE);
 		GameEngineInput::GetInst()->CreateKey("PlayerInteract", VK_CONTROL);
 		GameEngineInput::GetInst()->CreateKey("PlayerDeath", VK_NUMPAD0);
-		GameEngineInput::GetInst()->CreateKey("PlayerThrow", 'Z');
+		GameEngineInput::GetInst()->CreateKey("PlayerThrow", VK_NUMPAD8);
 	}
 
 	GameEngineInput::GetInst()->CreateKey("Contents_Debug", 'B');
