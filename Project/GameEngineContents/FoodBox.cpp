@@ -228,20 +228,21 @@ void Tool_FoodBox::SetFoodType(IngredientType _Type)
 {
 	Type_ = _Type;
 
-	if (ServerInitManager::Net == nullptr || ServerInitManager::Net->GetIsHost())
-	{
+
 		Queue_FillFood(Type_);
 		Queue_FillFood(Type_);
-	}
 }
 
 void Tool_FoodBox::Queue_FillFood(IngredientType _Type) // Static
 {
-	std::shared_ptr<GamePlayFood> Food = GamePlayFood::GetIngredientClass(_Type);
-	//Food->GetTransform().SetWorldPosition({ 10000,10000, 10000 });
-	Food->Off();
-	Food->ServerStart();
-	map_FoodQueue_[_Type].push(Food);
+	if (ServerInitManager::Net == nullptr || ServerInitManager::Net->GetIsHost())
+	{
+		std::shared_ptr<GamePlayFood> Food = GamePlayFood::GetIngredientClass(_Type);
+		//Food->GetTransform().SetWorldPosition({ 10000,10000, 10000 });
+		Food->Off();
+		Food->ServerStart();
+		map_FoodQueue_[_Type].push(Food);
+	}
 }
 
 //void Tool_FoodBox::Deque_FillFood(IngredientType _Type) // Static
