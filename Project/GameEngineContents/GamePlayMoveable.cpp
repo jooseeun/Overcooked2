@@ -101,6 +101,7 @@ SetPlayerState_Return GamePlayMoveable::SetPlayerState(std::shared_ptr<Player> _
 			_Player->SetCurHoldType(GetHoldType());
 		}
 		GetCollisionObject()->Off();
+		SetHighlightEffectOff();
 		Result = SetPlayerState_Return::Using;
 	}
 		

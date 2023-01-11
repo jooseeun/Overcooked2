@@ -33,7 +33,7 @@ void Cooker::Start()
 	GetFBXMesh()->GetAllRenderUnit()[0][0]->GetRenderer()->SetRenderingOrder(99);
 	GetFBXMesh()->GetTransform().SetWorldScale({ 100, 100, 100 });
 	GetFBXMesh()->GetTransform().SetWorldMove({ 0, 0, 0 });
-	ToolPos_ = { 0.f, 85.f, 25.f };
+	ToolPos_ = { 0.f, 55.f, 25.f };
 	SetToolPos(ToolPos_);
 	
 	{
