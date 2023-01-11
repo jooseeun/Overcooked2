@@ -58,6 +58,7 @@ SetPlayerState_Return GamePlayStaticObject::SetPlayerState(std::shared_ptr<Playe
 	//Packet->Scale = float4::ZERO;
 	//Packet->CookingGage = -1;
 	//Packet->HoldObjectID = -100;
+	SetHighlightEffectOff();
 
 
 	SetPlayerState_Return ReturnValue = SetPlayerState_Return::Nothing;
