@@ -746,7 +746,25 @@ public:
 
 	void Move(std::shared_ptr<CombinFood> _Food)
 	{
-		Food_Current_ = _Food->Food_Current_;
+		if (NoneThumbnailMode_ == false)
+		{
+			for (int i = 0; i < _Food->Food_Current_.size(); i++)
+			{
+				if (_Food->Food_Current_[i] != IngredientType::None)
+				{
+					Food_Current_[i] = _Food->Food_Current_[i];
+				}
+				else
+				{
+					break;
+				}
+			}
+		}
+		else
+		{
+			Food_Current_ = _Food->Food_Current_;
+		}
+		
 		CookType_ = _Food->CookType_;
 		RefreshThumbnailAndRenderer();
 		_Food->Moveable_.lock()->ReSetCookingGage();

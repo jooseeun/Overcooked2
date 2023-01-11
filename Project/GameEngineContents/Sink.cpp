@@ -216,20 +216,25 @@ UsingDownEnum Tool_Sink::UsingDown(std::shared_ptr<Player> _Player)
 		}
 		else
 		{
-			if (false == IsSound_)
+			if (!ObjSoundPlayer_.IsPlaying())
 			{
-				SoundTime_ = 0.4f;
-				IsSound_ = true;
+				ObjSoundPlayer_ = GameEngineSound::SoundPlayControl("Washing1.wav");
 			}
-			else
-			{
-				if (SoundTime_ >= 0.5f)
-				{
-					SoundTime_ = 0.f;
-					ObjSoundPlayer_ = GameEngineSound::SoundPlayControl("Washing1.wav");
-				}
-				SoundTime_ += GameEngineTime::GetDeltaTime();
-			}
+
+			//if (false == IsSound_)
+			//{
+			//	SoundTime_ = 0.4f;
+			//	IsSound_ = true;
+			//}
+			//else
+			//{
+			//	if (SoundTime_ >= 0.5f)
+			//	{
+			//		SoundTime_ = 0.f;
+			//		ObjSoundPlayer_ = GameEngineSound::SoundPlayControl("Washing1.wav");
+			//	}
+			//	SoundTime_ += GameEngineTime::GetDeltaTime();
+			//}
 
 			return UsingDownEnum::Using;
 		}
