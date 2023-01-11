@@ -80,9 +80,13 @@ public:
 
 	void SetFoodBoxMesh(FoodBoxType _Type);
 
-	inline void SwitchIsInteraction()
+	inline void SwitchIsInteractionOff()
 	{
-		IsInteraction_ = !IsInteraction_;
+		IsInteraction_ = false;
+	}
+	inline void SwitchIsInteractionOn()
+	{
+		IsInteraction_ = true;
 	}
 	void SetFoodType(IngredientType _Type);
 

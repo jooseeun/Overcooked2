@@ -183,20 +183,19 @@ void FoodBox::Update(float _DeltaTime)
 	{
 		if (false == IsOpen_)
 		{
-			Angle_ += _DeltaTime * 50.f;
-
-			Lid_->GetTransform().SetLocalRotation({ Angle_, 0.f, 0.f });
+			Angle_ += _DeltaTime * 100.f;
 
 			if (45.f <= Angle_)
 			{
+				Angle_ = 45.f;
 				IsOpen_ = true;
 			}
+			Lid_->GetTransform().SetLocalRotation({ Angle_, 0.f, 0.f });
 		}
 
 		if (true == IsOpen_)
 		{
-			Angle_ -= _DeltaTime * 50.f;
-			Lid_->GetTransform().SetLocalRotation({ Angle_, 0.f, 0.f });
+			Angle_ -= _DeltaTime * 100.f;
 
 			if (0.f >= Angle_)
 			{
@@ -204,6 +203,7 @@ void FoodBox::Update(float _DeltaTime)
 				IsInteraction_ = false;	//
 				IsOpen_ = false;
 			}
+			Lid_->GetTransform().SetLocalRotation({ Angle_, 0.f, 0.f });
 		}
 	}
 }
@@ -290,7 +290,7 @@ HoldDownEnum Tool_FoodBox::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 			//}
 		}
 
-		Box_.lock()->SwitchIsInteraction();
+		Box_.lock()->SwitchIsInteractionOn();
 		return HoldDownEnum::HoldDown;
 	}
 		break;
