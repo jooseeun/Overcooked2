@@ -183,20 +183,19 @@ void FoodBox::Update(float _DeltaTime)
 	{
 		if (false == IsOpen_)
 		{
-			Angle_ += _DeltaTime * 50.f;
-
-			Lid_->GetTransform().SetLocalRotation({ Angle_, 0.f, 0.f });
+			Angle_ += _DeltaTime * 100.f;
 
 			if (45.f <= Angle_)
 			{
+				Angle_ = 45.f;
 				IsOpen_ = true;
 			}
+			Lid_->GetTransform().SetLocalRotation({ Angle_, 0.f, 0.f });
 		}
 
 		if (true == IsOpen_)
 		{
-			Angle_ -= _DeltaTime * 50.f;
-			Lid_->GetTransform().SetLocalRotation({ Angle_, 0.f, 0.f });
+			Angle_ -= _DeltaTime * 100.f;
 
 			if (0.f >= Angle_)
 			{
@@ -204,6 +203,7 @@ void FoodBox::Update(float _DeltaTime)
 				IsInteraction_ = false;	//
 				IsOpen_ = false;
 			}
+			Lid_->GetTransform().SetLocalRotation({ Angle_, 0.f, 0.f });
 		}
 	}
 }
@@ -228,20 +228,21 @@ void Tool_FoodBox::SetFoodType(IngredientType _Type)
 {
 	Type_ = _Type;
 
-	if (ServerInitManager::Net == nullptr || ServerInitManager::Net->GetIsHost())
-	{
+
 		Queue_FillFood(Type_);
 		Queue_FillFood(Type_);
-	}
 }
 
 void Tool_FoodBox::Queue_FillFood(IngredientType _Type) // Static
 {
-	std::shared_ptr<GamePlayFood> Food = GamePlayFood::GetIngredientClass(_Type);
-	//Food->GetTransform().SetWorldPosition({ 10000,10000, 10000 });
-	Food->Off();
-	Food->ServerStart();
-	map_FoodQueue_[_Type].push(Food);
+	if (ServerInitManager::Net == nullptr || ServerInitManager::Net->GetIsHost())
+	{
+		std::shared_ptr<GamePlayFood> Food = GamePlayFood::GetIngredientClass(_Type);
+		//Food->GetTransform().SetWorldPosition({ 10000,10000, 10000 });
+		Food->Off();
+		Food->ServerStart();
+		map_FoodQueue_[_Type].push(Food);
+	}
 }
 
 //void Tool_FoodBox::Deque_FillFood(IngredientType _Type) // Static
@@ -290,7 +291,7 @@ HoldDownEnum Tool_FoodBox::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 			//}
 		}
 
-		Box_.lock()->SwitchIsInteraction();
+		Box_.lock()->SwitchIsInteractionOn();
 		return HoldDownEnum::HoldDown;
 	}
 		break;

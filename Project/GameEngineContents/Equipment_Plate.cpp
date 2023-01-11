@@ -72,6 +72,7 @@ HoldDownEnum Equipment_Plate::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveabl
 				{
 					(*_Moveable)->GetCollisionObject()->Off();
 					(*_Moveable)->GetFBXMesh()->Off();
+					(*_Moveable)->GetTransform().SetWorldPosition({ 10000,10000,10000 });
 					(*_Moveable)->Off();
 					(*_Moveable) = nullptr;
 					return HoldDownEnum::HoldUp;

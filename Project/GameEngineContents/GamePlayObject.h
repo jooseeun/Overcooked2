@@ -35,6 +35,7 @@ class GamePlayStuff;
 class Player;
 class GamePlayObject : public GamePlayPhysics, public GameServerObject
 {
+	friend class GamePlayObjectManager;
 protected:
 	GamePlayObject();
 

@@ -332,6 +332,7 @@ HoldDownEnum Equipment_Steamer::PickUp(std::shared_ptr<GamePlayMoveable>* _Movea
 			{
 				if (GetCombinFood()->PushFood((*_Moveable)->CastThis<GamePlayFood>()->GetObjectFoodClass()))
 				{
+					SwitchInteractionOn();
 					(*_Moveable)->Off();
 					(*_Moveable)->Death();
 					(*_Moveable) = nullptr;

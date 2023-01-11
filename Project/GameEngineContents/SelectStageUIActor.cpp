@@ -43,6 +43,8 @@ void SelectStageUIActor::ServerInit()
 void SelectStageUIActor::UIStart()
 {
 	InitRenderer();
+
+	ShowSelectEffect(0);
 }
 
 void SelectStageUIActor::InitRenderer()
@@ -467,6 +469,16 @@ void SelectStageUIActor::ShowSelectEffect(int _Dir)
 		for (; WantIndex < LevelSelect_.size(); WantIndex++)
 		{
 			if (LevelSelect_[WantIndex].CurPos == 4)
+			{
+				break;
+			}
+		}
+	}
+	else if (_Dir == 0)
+	{
+		for (; WantIndex < LevelSelect_.size(); WantIndex++)
+		{
+			if (LevelSelect_[WantIndex].CurPos == 3)
 			{
 				break;
 			}

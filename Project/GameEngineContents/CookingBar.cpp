@@ -35,6 +35,7 @@ void CookingBar::Start()
 	Foreground_.lock()->SetTexture("CookingForeground.png");
 	Foreground_.lock()->ScaleToTexture();
 	Foreground_.lock()->ChangeCamera(CAMERAORDER::USER7);
+	Foreground_.lock()->GetTransform().SetLocalMove({ 0,0,-2.f });
 	Foreground_.lock()->Off();
 
 	Icon_ = CreateComponent<OverCookedUIRenderer>();

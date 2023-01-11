@@ -182,7 +182,7 @@ private:
 				TrimmingFirstTime_ = true;
 				FinishTrimmingFirst();
 			}
-			else
+
 			{
 				// 이건 필요한가?????
 				FinishTrimming();

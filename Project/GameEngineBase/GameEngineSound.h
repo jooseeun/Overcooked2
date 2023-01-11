@@ -60,6 +60,7 @@ public:
 	void Stop();
 	void PlaySpeed(float _Speed);
 	void Volume(float _Value);
+	bool IsPlaying();
 
 	GameEngineSoundPlayer(const GameEngineSoundPlayer& _Other);
 
