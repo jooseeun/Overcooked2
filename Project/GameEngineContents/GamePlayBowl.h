@@ -746,13 +746,14 @@ public:
 
 	void Move(std::shared_ptr<CombinFood> _Food)
 	{
+		Clear();
 		if (NoneThumbnailMode_ == false)
 		{
 			for (int i = 0; i < _Food->Food_Current_.size(); i++)
 			{
 				if (_Food->Food_Current_[i] != IngredientType::None)
 				{
-					Food_Current_[i] = _Food->Food_Current_[i];
+					Food_Current_.push_back(_Food->Food_Current_[i]);
 				}
 				else
 				{
