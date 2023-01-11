@@ -137,7 +137,7 @@ void MeshSelectWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
             // MaterialImage->Get
             if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(MaterialImage.lock()->CreateShaderResourceView()), { 2048 / 7, 2048 / 7 }))
             {
-                SelectMaterial_ = i;
+                SelectMaterial_ = static_cast<int>(i);
                 MeshData_.PreviewMeshInfo_[SubSetCurentIndex_].DifTextureName_ = AllMaterialTexture_[SelectMaterial_].lock()->GetName();
 
                 std::string Path = MeshData_.PreviewMeshInfo_[SubSetCurentIndex_].DifTexturePath_;
