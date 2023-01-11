@@ -548,7 +548,7 @@ void Player::Update(float _DeltaTime)
 		return;
 	}
 
-	CustomKeyCheck();
+	//CustomKeyCheck();
 	if (GetLevel()->GetName() == "SELECTSTAGE")
 	{
 		GetTransform().SetLocalScale({ 1.0f, 1.0f, 1.0f });
