@@ -82,6 +82,7 @@ void GamePlayObjectManager::Update(float _Time)
 			break;
 		case ContentsPacketType::ObjectUpdate:
 		default:
+			return;
 			MsgBoxAssert("GamePlayObjectManager - 처리할수없는 패킷이 들어 왔습니다")
 				break;
 		}
@@ -201,6 +202,7 @@ void GamePlayObjectManager::PopObjectParentsSetData()
 			
 			if (Child == nullptr)
 			{
+				return;
 				MsgBoxAssert("GamePlayObjectManager::PopObjectParentsSetData() / Child is Nullptr")
 				return;
 			}
@@ -242,9 +244,11 @@ void GamePlayObjectManager::PopObjectParentsSetData()
 	}
 	break;
 	case ServerObjectType::UI:
+		return;
 		MsgBoxAssert("GamePlayObjectManager::PopObjectParentsSetData() - 잘못된 형식")
 			break;
 	default:
+		return;
 		MsgBoxAssert("GamePlayObjectManager::PopObjectParentsSetData() - 서버에 등록되지 않았습니다")
 			break;
 	}
@@ -564,12 +568,14 @@ std::shared_ptr<GamePlayObject> GamePlayObjectManager::PopMapDataData()
 		}
 			break;
 		default:
+			return;
 			MsgBoxAssert("ServerInitManager 아직 설정되지 않은 예외오브젝트를 생성하려고 하였습니다")
 			break;
 		}
 	}
 	else
 	{
+		return;
 		MsgBoxAssert("ServerInitManager 처리할수 없는 Object 데이터")
 	}
 	PlayObject->ClientInit(ServerObjectType::Object, Packet->ObjectID);
