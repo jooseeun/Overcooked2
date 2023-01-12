@@ -135,7 +135,6 @@ void GamePlayObject::ServerUpdate(float _DeltaTime)
 						}
 						else
 						{
-							return;
 							MsgBoxAssert("처리할수 없는 패킷이 날아왔습니다. ObjectInteractUpdate");
 						}
 					}
@@ -163,7 +162,6 @@ void GamePlayObject::ServerUpdate(float _DeltaTime)
 						std::shared_ptr<GamePlayStuff> ChildObject = ((GamePlayObject*)(FindChildObject))->shared_from_this()->CastThis<GamePlayStuff>();
 						if (ChildObject == nullptr)
 						{
-							return;
 							MsgBoxAssertString("GamePlayObject::ServerUpdate() ChildObject is nullptr / ChildNuber : " + std::to_string(ParentsSetPacket->ChildID))
 							return;
 						}
@@ -175,7 +173,6 @@ void GamePlayObject::ServerUpdate(float _DeltaTime)
 				}
 				break;
 				default:
-					return;
 					MsgBoxAssert("처리할수 없는 패킷이 날아왔습니다.");
 					break;
 				}
