@@ -67,7 +67,7 @@ InitGlobalGameData::InitGlobalGameData()
 			StageRecipe.push_back(FoodType::MeatDumpling);
 			StageRecipe.push_back(FoodType::PrawnDumpling);
 			GlobalGameData::AllStageData_.insert(std::make_pair("1-3",
-				CreateStageData("1-3", Thema::SushiCity, StageRecipe, { 380.f,210.f })));
+				CreateStageData("1-3", Thema::SushiCity, StageRecipe, { -380.f,210.f })));
 		}
 
 		{
