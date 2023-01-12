@@ -8,7 +8,7 @@
 #include "GamePlayObjectManager.h"
 
 GameServerNet* ServerInitManager::Net;
-std::string ServerInitManager::IP = "10.0.4.55";
+std::string ServerInitManager::IP = "123.142.84.195";
 //std::string ServerInitManager::IP = "10.0.4.84";
 GameServerNetServer ServerInitManager::Server;
 GameServerNetClient ServerInitManager::Client;

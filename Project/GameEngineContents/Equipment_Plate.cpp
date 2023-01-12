@@ -70,6 +70,8 @@ HoldDownEnum Equipment_Plate::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveabl
 			{
 				if (GetCombinFood()->AddFood(Food.lock()->GetObjectFoodClass()))
 				{
+					Food.lock()->GetFoodThumbnail()->Off();
+					Food.lock()->DetachObject();
 					(*_Moveable)->GetCollisionObject()->Off();
 					(*_Moveable)->GetFBXMesh()->Off();
 					(*_Moveable)->GetTransform().SetWorldPosition({ 10000,10000,10000 });

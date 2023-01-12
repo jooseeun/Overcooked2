@@ -67,7 +67,7 @@ InitGlobalGameData::InitGlobalGameData()
 			StageRecipe.push_back(FoodType::MeatDumpling);
 			StageRecipe.push_back(FoodType::PrawnDumpling);
 			GlobalGameData::AllStageData_.insert(std::make_pair("1-3",
-				CreateStageData("1-3", Thema::SushiCity, StageRecipe)));
+				CreateStageData("1-3", Thema::SushiCity, StageRecipe, { 380.f,210.f })));
 		}
 
 		{
@@ -76,7 +76,7 @@ InitGlobalGameData::InitGlobalGameData()
 			StageRecipe.push_back(FoodType::CheeseBurger);
 			StageRecipe.push_back(FoodType::CheeseBurgerLettuceTomato);
 			GlobalGameData::AllStageData_.insert(std::make_pair("1-4",
-				CreateStageData("1-4", Thema::WizardKitchen, StageRecipe)));
+				CreateStageData("1-4", Thema::WizardKitchen, StageRecipe, { 40.f,150.f })));
 		}
 
 		{
@@ -85,7 +85,7 @@ InitGlobalGameData::InitGlobalGameData()
 			StageRecipe.push_back(FoodType::BlueberryPancake);
 			StageRecipe.push_back(FoodType::ChrismasPuddingOrange);
 			GlobalGameData::AllStageData_.insert(std::make_pair("2-1",
-				CreateStageData("2-1", Thema::Winter, StageRecipe)));
+				CreateStageData("2-1", Thema::Winter, StageRecipe, { 370.f,80.f })));
 		}
 	}
 
