@@ -53,11 +53,14 @@ enum class NoneFoodType
 	Bread_Meat_Cheese_Lettuce,
 	Bread_Meat_Lettuce,
 	Bread_Lettuce,
+	Bread_Lettuce_Tomato,
+	Bread_Cheese,
 	Bread,
 
 	Meat_Cheese,
 	Meat_Lettuce,
 	Meat_Cheese_Lettuce,
+	Meat_Lettuce_Tomato,
 	Meat,
 
 	Lettuce_Cheese,
@@ -163,6 +166,19 @@ public:
 			Static_NoneType_[NoneFoodType::Bread_Meat_Lettuce].push_back(IngredientType::Lettuce);
 			Static_NoneType_[NoneFoodType::Bread_Lettuce].push_back(IngredientType::Bread);
 			Static_NoneType_[NoneFoodType::Bread_Lettuce].push_back(IngredientType::Lettuce);
+			Static_NoneType_[NoneFoodType::Bread_Cheese].push_back(IngredientType::Bread);
+			Static_NoneType_[NoneFoodType::Bread_Cheese].push_back(IngredientType::Cheese);
+			
+
+
+			Static_NoneType_[NoneFoodType::Bread_Lettuce_Tomato].push_back(IngredientType::Bread);
+			Static_NoneType_[NoneFoodType::Bread_Lettuce_Tomato].push_back(IngredientType::Lettuce);
+			Static_NoneType_[NoneFoodType::Bread_Lettuce_Tomato].push_back(IngredientType::Tomato);
+			
+
+			Static_NoneType_[NoneFoodType::Meat_Lettuce_Tomato].push_back(IngredientType::Meat);
+			Static_NoneType_[NoneFoodType::Meat_Lettuce_Tomato].push_back(IngredientType::Lettuce);
+			Static_NoneType_[NoneFoodType::Meat_Lettuce_Tomato].push_back(IngredientType::Tomato);
 			
 			
 			Static_NoneType_[NoneFoodType::Bread].push_back(IngredientType::Bread);
@@ -484,11 +500,24 @@ public:
 				Renderer_->GetTransform().SetWorldScale({ 1,1,1 });
 				break;
 			case NoneFoodType::Meat_Cheese:
-
+				Renderer_->SetFBXMesh("m_prep_meat_burger_02.FBX", "Texture");
+				Renderer_->GetTransform().SetWorldScale({ 1,1,1 });
 				break;
 			case NoneFoodType::Meat_Lettuce:
+				Renderer_->SetFBXMesh("m_prep_meat_burger_02.FBX", "Texture");
+				Renderer_->GetTransform().SetWorldScale({ 1,1,1 });
 				break;
 			case NoneFoodType::Meat_Cheese_Lettuce:
+				Renderer_->SetFBXMesh("m_prep_meat_burger_02.FBX", "Texture");
+				Renderer_->GetTransform().SetWorldScale({ 1,1,1 });
+				break;
+			case NoneFoodType::Bread_Lettuce_Tomato:
+				Renderer_->SetFBXMesh("m_recipe_lettuce_tomato_burger_01.fbx", "Texture");
+				break;
+			case NoneFoodType::Meat_Lettuce_Tomato:
+				Renderer_->SetFBXMesh("m_prep_meat_burger_02.FBX", "Texture");
+				Renderer_->GetTransform().SetWorldScale({ 1,1,1 });
+				
 				break;
 			case NoneFoodType::Meat:
 				Renderer_->SetFBXMesh("m_prep_meat_burger_02.FBX", "Texture");
@@ -497,6 +526,9 @@ public:
 			case NoneFoodType::Lettuce_Cheese:
 				break;
 			case NoneFoodType::Lettuce_Tomato:
+				Renderer_->SetFBXMesh("m_plated_lettuce_01.fbx", "Texture");
+				Renderer_->GetTransform().SetWorldScale({ 1,1,1 });
+				
 				break;
 			case NoneFoodType::Lettuce:
 				Renderer_->SetFBXMesh("m_plated_lettuce_01.FBX", "Texture");
@@ -509,6 +541,9 @@ public:
 			case NoneFoodType::Tomato:
 				Renderer_->SetFBXMesh("m_plated_tomato_01.FBX", "Texture");
 				Renderer_->GetTransform().SetWorldScale({ 1,1,1 });
+				break;
+			case NoneFoodType::Bread_Cheese:
+				Renderer_->SetFBXMesh("m_recipe_cheeseburger_01.FBX", "Texture");
 				break;
 			case NoneFoodType::Flour_Flour:
 			case NoneFoodType::Flour_Carrot:

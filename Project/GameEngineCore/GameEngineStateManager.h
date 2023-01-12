@@ -101,6 +101,7 @@ public:
 	{
 		if (AllState.end() == AllState.find(_StateName))
 		{
+			return;
 			MsgBoxAssert("존재하지 않는 스테이트로 전이 하려고 했습니다.");
 		}
 

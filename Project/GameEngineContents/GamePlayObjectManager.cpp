@@ -135,6 +135,10 @@ void GamePlayObjectManager::PopObjectCookingData()
 	}
 
 	PlayObject = ((GamePlayObject*)(FindParentsObject))->shared_from_this()->CastThis<GamePlayObject>();
+	if (PlayObject == nullptr)
+	{
+		return;
+	}
 	PlayObject->SetServerCookingGage(Packet);
 }
 
