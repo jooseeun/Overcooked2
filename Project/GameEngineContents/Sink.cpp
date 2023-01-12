@@ -239,6 +239,8 @@ UsingDownEnum Tool_Sink::UsingDown(std::shared_ptr<Player> _Player)
 			return UsingDownEnum::Using;
 		}
 	}
+
+	return UsingDownEnum::Nothing;
 }
 
 
