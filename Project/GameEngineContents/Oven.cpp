@@ -74,7 +74,7 @@ void Oven::Update(float _DeltaTime)
 				IsSoundDone_ = false;
 			}
 
-			Angle_ -= _DeltaTime * 250.f;
+			Angle_ -= _DeltaTime * 150.f;
 			DoorRenderer_->GetTransform().SetLocalRotation({ Angle_, 0.f, 0.f });
 
 		}
