@@ -217,6 +217,7 @@ private:
 	std::weak_ptr<OverCookedUIRenderer> ReadyRenderer_;
 	std::weak_ptr<OverCookedUIRenderer> StartRenderer_;
 	std::weak_ptr<OverCookedUIRenderer> TimeUpRenderer_;
+	Timer TimeUpDefenseTimer_;
 
 	Timer ReadyTimer_;
 	Timer StartTimer_;

@@ -127,7 +127,7 @@ void InGameUIActor::UIStart()
 		ScoreUIInst_.Fire = CreateComponent<GameEngineUIRenderer>();
 		ScoreUIInst_.Fire->SetScaleRatio(1.2f);
 		ScoreUIInst_.Fire->SetScaleModeImage();
-		GameEngineRenderingEvent NewEvent = GameEngineRenderingEvent("UI_FlameHUD_01.png", 0.03f, true);
+		GameEngineRenderingEvent NewEvent = GameEngineRenderingEvent("UI_FlameHUD_01.png", 0.06f, true);
 		NewEvent.Init(0, 58);
 		ScoreUIInst_.Fire->CreateFrameAnimationCutTexture("UIFire", NewEvent);
 		ScoreUIInst_.Fire->ChangeFrameAnimation("UIFire");
@@ -196,10 +196,12 @@ void InGameUIActor::UIStart()
 
 	//RecipeManager_.CreateRecipe(FoodType::CheeseBurgerLettuceTomato);
 	//RecipeManager_.CreateRecipe(FoodType::CheeseBurger);
+	TimeUpDefenseTimer_.StartTimer(20.0f);
 }
 
 void InGameUIActor::UIUpdate(float _DeltaTime)
 {
+	TimeUpDefenseTimer_.Update(_DeltaTime);
 	if (IsInit_ == false)
 	{
 		return;
@@ -212,16 +214,18 @@ void InGameUIActor::UIUpdate(float _DeltaTime)
 
 	ServerUpdate(_DeltaTime);
 
-	if (GlobalGameData::GetLeftTimeRef().IsTimeOver() == true)
+	if (GlobalGameData::GetLeftTimeRef().IsTimeOver() == true && TimeUpDefenseTimer_.IsTimeOver() == true)
 	{
 		TimeUpRenderer_.lock()->On();
 		TimeUpTimer_.Update(_DeltaTime);
 		return;
 	}
-	if (GlobalGameData::GetLeftTimeRef().IsTimeOver() == true)
-	{
-		GEngine::ChangeLevel("ResultLevel");
-	}
+
+	//if (GlobalGameData::GetLeftTimeRef().IsTimeOver() == true)
+	//{
+	//	GEngine::ChangeLevel("ResultLevel");
+	//}
+
 	UpdateScore(_DeltaTime);
 
 	RecipeManager_.Update(_DeltaTime);
@@ -590,6 +594,7 @@ void InGameUIActor::HandOverScore(int _FoodScore, int _FoodTips, bool _IsLeft)
 	{
 		std::weak_ptr<FadeFont> TipsFont = GetLevel()->CreateActor<FadeFont>();
 		TipsFont.lock()->GetTransform().SetWorldPosition(GlobalGameData::GetCurStage().StageHandOverUIPos);
+		//TipsFont.lock()->GetTransform().SetWorldPosition(GlobalGameData::DebugValue1_);
 		//TipsFont.lock()->Debug();
 		//ResistDebug("Tips", TipsFont.lock()->GetTransform());
 

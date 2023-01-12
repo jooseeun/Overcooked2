@@ -40,6 +40,8 @@ void SelectStageLevel::Start()
 
 	std::shared_ptr<GlobalMouseInput> Mouse = CreateActor<GlobalMouseInput>();
 	Mouse->SetIsUI(true);
+
+	GetUICameraActor()->GetTransform().SetLocalMove({ 0,0,-500.f });
 }
 
 void SelectStageLevel::Update(float _DeltaTime)
