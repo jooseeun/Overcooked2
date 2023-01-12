@@ -70,7 +70,7 @@ public:
 
 	static float GetMaxTime()
 	{
-		return 240.f;
+		return 180.f;
 	}
 
 	static int GetScore()
