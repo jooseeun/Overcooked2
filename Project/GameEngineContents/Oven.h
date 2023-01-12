@@ -25,6 +25,21 @@ public:
 		IsInteraction_ = true;
 	}
 
+	inline void CookingOn()
+	{
+		IsCooking_ = true;
+	}
+
+	inline void CookingOff()
+	{
+		IsCooking_ = false;
+	}
+
+	inline bool GetCookingState()
+	{
+		return IsCooking_;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;

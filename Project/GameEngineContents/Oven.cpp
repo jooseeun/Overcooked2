@@ -45,6 +45,10 @@ void Oven::Start()
 void Oven::Update(float _DeltaTime)
 {
 	GamePlayObject::Update(_DeltaTime);
+	if (true == GameEngineInput::GetInst()->IsDownKey("MapObjectTest"))
+	{
+		IsInteraction_ = true;
+	}
 	if (true == IsSound_ && false == IsSoundDone_)
 	{
 		IsSoundDone_ = true;
@@ -60,6 +64,7 @@ void Oven::Update(float _DeltaTime)
 
 	if (true == IsInteraction_)
 	{
+		
 		// 요리중 X
 		if (false == IsCooking_)
 		{
@@ -76,7 +81,6 @@ void Oven::Update(float _DeltaTime)
 
 			Angle_ -= _DeltaTime * 150.f;
 			DoorRenderer_->GetTransform().SetLocalRotation({ Angle_, 0.f, 0.f });
-
 		}
 		// 요리중
 		if (true == IsCooking_)
@@ -94,7 +98,7 @@ void Oven::Update(float _DeltaTime)
 				IsSoundDone_ = false;
 			}
 
-			Angle_ += _DeltaTime * 250.f;
+			Angle_ += _DeltaTime * 150.f;
 			DoorRenderer_->GetTransform().SetLocalRotation({ Angle_, 0.f, 0.f });
 		}
 	}
@@ -127,7 +131,6 @@ void Tool_Oven::Update(float _DeltaTime)
 	{
 		if (GetCurrentMoveable()->AutoTrim(_DeltaTime, GetObjectToolType()))
 		{
-			
 			return;
 			//불 붙히는 애니메이션
 		}
@@ -142,6 +145,7 @@ HoldDownEnum Tool_Oven::PickUp(std::shared_ptr<GamePlayMoveable>* _Moveable)
 		{
 			(*_Moveable) = GetCurrentMoveable()->CastThis<GamePlayMoveable>();
 			ReSetCurrentMoveable();
+			Oven_->SwitchInteractionOn();
 			return HoldDownEnum::HoldDown;
 		}
 	}
