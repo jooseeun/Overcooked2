@@ -6,6 +6,7 @@
 
 #include "UIDebugGUI.h"
 #include "GraphicWindow.h"
+#include "SoundControlWindow.h"
 
 GamePlayLevel::GamePlayLevel()
 	: ObjectManager_(nullptr)
@@ -57,6 +58,7 @@ void GamePlayLevel::LevelStartEvent()
 		//FadeIn이벤트
 		UIDebugGUI::Main_->On();
 		GraphicWindow::Main_->On();
+		SoundControlWindow::Main_->On();
 		UIActor_->StartFadeIn();
 		//GlobalGameData::SetGameStart(true);//이거 나중에 지우고, UI 준비땅 후에 시작되게 만들기.
 		if (nullptr != ServerInitManager::Net)

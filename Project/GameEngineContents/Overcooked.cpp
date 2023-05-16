@@ -206,7 +206,7 @@ void Overcooked::Update(float _DeltaTime)
 
 void Overcooked::End()
 {
-	GameBgmPlayer::BgmPlayer_->Destroy();
+	GameSoundPlayer::BgmPlayer_->Destroy();
 }
 
 void Overcooked::MeshLoad()

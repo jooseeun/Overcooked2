@@ -51,7 +51,7 @@ void Stage_1_4::End()
 
 void Stage_1_4::PlayLevelStartEvent()
 {
-	GameBgmPlayer::BgmPlayer_->ChangeBgm("Spellbound.wav");
+	GameSoundPlayer::BgmPlayer_->ChangeBgm("Spellbound.wav");
 	if (IsLevelFirst_ == false)
 	{
 		return;

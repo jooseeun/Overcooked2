@@ -66,6 +66,6 @@
 #include "GlobalMouseInput.h"
 #include "GamePacket.h"
 #include "ServerInitManager.h"
-#include "GameBgmPlayer.h"
+#include "GameSoundPlayer.h"
 
 

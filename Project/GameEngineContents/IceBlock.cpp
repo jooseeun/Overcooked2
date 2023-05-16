@@ -1,6 +1,13 @@
 #include "PreCompile.h"
 #include "IceBlock.h"
 
+namespace
+{
+	constexpr float START_ZPOS = -2755.f;
+	constexpr float END_ZPOS = 824.f;
+}
+
+
 IceBlock::IceBlock()
 	: MoveDir_({ 0.f, 0.f, 85.f })
 	, IsMovable_(true)
@@ -10,6 +17,10 @@ IceBlock::IceBlock()
 	, RandomPos_(0.f)
 	, RandomSpeed_(0.f)
 	, MoveAngleTypeIce11_(70.f)
+	, InitRandomPosX_(-1740.f)
+	, InitRandomPosY_(-30.f)
+	, InitRandSpeed_(10.f)
+	, InitRandomMaxAngle_(25.f)
 {
 }
 
@@ -47,8 +58,10 @@ void IceBlock::SetIceBlockMesh(IceBlockType _Type)
 	case IceBlockType::Ice11:
 		Name = "p_dlc09_iceblock_02 (11)1.fbx";
 		GetFBXMesh()->GetTransform().SetWorldRotation({ 90, 0, 0 });
-		SoundPlayer_ = GameEngineSound::SoundPlayControl("AMB_Ice_Lake.wav", -1);
-		SoundPlayer_.Volume(0.2f); 
+	/*	SoundPlayer_ = GameEngineSound::SoundPlayControl("AMB_Ice_Lake.wav", -1);
+		SoundPlayer_.Volume(0.2f); */
+		GameSoundPlayer::EffectPlayer_->ChangeEffect("AMB_Ice_Lake.wav");
+		GameSoundPlayer::EffectPlayer_->SetEffectVolume(0.5f);
 		break;
 	default:
 		break;
@@ -62,12 +75,12 @@ void IceBlock::Start()
 {
 	GamePlayMapObject::Start();
 	
-	RandomPos_.x = GameEngineRandom::MainRandom.RandomFloat(-1740.f, -1720.f);
-	RandomPos_.y = GameEngineRandom::MainRandom.RandomFloat(-30.f, 0.f);
-	RandomSpeed_.x = GameEngineRandom::MainRandom.RandomFloat(10.f, 15.f);
-	RandomSpeed_.y = GameEngineRandom::MainRandom.RandomFloat(10.f, 15.f);
-	RandomSpeed_.z = GameEngineRandom::MainRandom.RandomFloat(10.f, 15.f);
-	RandomMaxAngle_= GameEngineRandom::MainRandom.RandomFloat(25.f, 40.f);
+	RandomPos_.x = GameEngineRandom::MainRandom.RandomFloat(InitRandomPosX_, InitRandomPosX_ + 20.f);
+	RandomPos_.y = GameEngineRandom::MainRandom.RandomFloat(InitRandomPosY_, InitRandomPosY_ + 30.f);
+	RandomSpeed_.x = GameEngineRandom::MainRandom.RandomFloat(InitRandSpeed_, InitRandSpeed_ + 5.f);
+	RandomSpeed_.y = GameEngineRandom::MainRandom.RandomFloat(InitRandSpeed_, InitRandSpeed_ + 5.f);
+	RandomSpeed_.z = GameEngineRandom::MainRandom.RandomFloat(InitRandSpeed_, InitRandSpeed_ + 5.f);
+	RandomMaxAngle_= GameEngineRandom::MainRandom.RandomFloat(InitRandomMaxAngle_, InitRandomMaxAngle_ + 15.f);
 
 }
 
@@ -90,9 +103,9 @@ void IceBlock::Move(float _DeltaTime)
 		return;
 	}
 
-	if (GetTransform().GetWorldPosition().z > 824.f)
+	if (GetTransform().GetWorldPosition().z > END_ZPOS)
 	{
-		GetTransform().SetWorldPosition({ RandomPos_.x, RandomPos_.y, -2755.f });
+		GetTransform().SetWorldPosition({ RandomPos_.x, RandomPos_.y, START_ZPOS });
 	}
 	else
 	{

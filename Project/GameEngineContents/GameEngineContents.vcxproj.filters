@@ -347,7 +347,7 @@
     <ClInclude Include="TrafficLightBloom.h">
       <Filter>Contents\Object\MapObject</Filter>
     </ClInclude>
-    <ClInclude Include="GameBgmPlayer.h">
+    <ClInclude Include="GameSoundPlayer.h">
       <Filter>Global</Filter>
     </ClInclude>
     <ClInclude Include="GamePlayObjectManager.h">
@@ -361,6 +361,12 @@
     </ClInclude>
     <ClInclude Include="Food_Empty.h">
       <Filter>Contents\Object\Food</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundControlGUI.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundControlWindow.h">
+      <Filter>GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -710,7 +716,7 @@
     <ClCompile Include="TrafficLightBloom.cpp">
       <Filter>Contents\Object\MapObject</Filter>
     </ClCompile>
-    <ClCompile Include="GameBgmPlayer.cpp">
+    <ClCompile Include="GameSoundPlayer.cpp">
       <Filter>Global</Filter>
     </ClCompile>
     <ClCompile Include="UIServer.cpp">
@@ -727,6 +733,12 @@
     </ClCompile>
     <ClCompile Include="Food_Empty.cpp">
       <Filter>Contents\Object\Food</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundControlGUI.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundControlWindow.cpp">
+      <Filter>GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

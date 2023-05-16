@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "MeshToolLevel.h"
 #include "MeshEditorGUI.h"
+#include "SoundControlWindow.h"
 
 MeshToolLevel::MeshToolLevel() 
 {
@@ -26,8 +27,9 @@ void MeshToolLevel::End()
 
 void MeshToolLevel::LevelStartEvent()
 {
-	GameBgmPlayer::BgmPlayer_->BgmStop();
-	GameBgmPlayer::EffectBgmPlayer_->EffectBgmStop();
+	GameSoundPlayer::BgmPlayer_->BgmStop();
+	GameSoundPlayer::EffectPlayer_->EffectStop();
+	SoundControlWindow::Main_->Off();
 	MeshSelectWindow_->On();
 	GetMainCameraActorTransform().SetWorldPosition({2.f, 200.f, -900.f});
 

@@ -114,8 +114,8 @@ void Stage_1_1::PlayLevelStartEvent()
 		MainPlayer_->SetCurFrontDir();
 	}
 
-	GameBgmPlayer::BgmPlayer_->ChangeBgm("TheNeonCity.wav");
-	GameBgmPlayer::EffectBgmPlayer_->ChangeEffectBgm("Sushi_Crowd_Ambience.wav");
+	GameSoundPlayer::BgmPlayer_->ChangeBgm("TheNeonCity.wav");
+	GameSoundPlayer::EffectPlayer_->ChangeEffect("Sushi_Crowd_Ambience.wav");
 
 	if (IsLevelFirst_ == false)
 	{

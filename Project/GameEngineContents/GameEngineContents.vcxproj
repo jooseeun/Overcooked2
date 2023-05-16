@@ -271,7 +271,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="GameBgmPlayer.h">
+    <ClInclude Include="GameSoundPlayer.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -446,6 +446,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ServerTestPlayer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SoundControlGUI.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SoundControlWindow.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -626,7 +634,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="GameBgmPlayer.cpp">
+    <ClCompile Include="GameSoundPlayer.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -809,6 +817,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="ServerTestPlayer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="SoundControlGUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="SoundControlWindow.cpp">
       <SubType>
       </SubType>
     </ClCompile>

@@ -60,6 +60,11 @@ private:
 	float4 RandomSpeed_;
 	float4 RandomPos_;
 	float RandomMaxAngle_;
+	
+	float InitRandomPosX_;
+	float InitRandomPosY_;
+	float InitRandSpeed_;
+	float InitRandomMaxAngle_;
 
 	bool IsMovable_;
 	bool IsMaxAngle;

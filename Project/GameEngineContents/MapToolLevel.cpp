@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "MapToolLevel.h"
+#include "SoundControlWindow.h"
 
 MapToolLevel::MapToolLevel() 
 {
@@ -90,8 +91,9 @@ void MapToolLevel::End()
 
 void MapToolLevel::LevelStartEvent()
 {
-	GameBgmPlayer::BgmPlayer_->BgmStop();
-	GameBgmPlayer::EffectBgmPlayer_->EffectBgmStop();
+	GameSoundPlayer::BgmPlayer_->BgmStop();
+	GameSoundPlayer::EffectPlayer_->EffectStop();
+	SoundControlWindow::Main_->Off();
 	Window_->On();
 }
 

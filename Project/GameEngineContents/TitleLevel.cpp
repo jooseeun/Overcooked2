@@ -6,6 +6,8 @@
 #include "TitleLevelActor.h"
 #include "UIDebugGUI.h"
 #include "GlobalGameData.h"
+#include "SoundControlGUI.h"
+#include "SoundControlWindow.h"
 
 TitleLevel::TitleLevel()
 {
@@ -116,7 +118,12 @@ void TitleLevel::LevelStartEvent()
 		Player::GetMyPlayer()->SetCurFrontDir();
 	}
 
-	GameBgmPlayer::BgmPlayer_->ChangeBgm("Frontend.wav");
+	if (nullptr == SoundControlWindow::Main_)
+	{
+		SoundControlWindow::Main_ = SoundControlGUI::CreateGUIWindow<SoundControlWindow>("SoundControlGUI", nullptr);
+	}
+	GameSoundPlayer::BgmPlayer_->ChangeBgm("Frontend.wav");
+
 	UIDebugGUI::Main_->On();
 }
 

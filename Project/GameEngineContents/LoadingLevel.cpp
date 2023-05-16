@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "LoadingLevel.h"
 #include "UIDebugGUI.h"
+#include "SoundControlWindow.h"
 
 #include "LoadingUIActor.h"
 
@@ -38,9 +39,10 @@ void LoadingLevel::End()
 
 void LoadingLevel::LevelStartEvent()
 {
-	GameBgmPlayer::BgmPlayer_->BgmStop();
-	GameBgmPlayer::EffectBgmPlayer_->EffectBgmStop();
+	GameSoundPlayer::BgmPlayer_->BgmStop();
+	GameSoundPlayer::EffectPlayer_->EffectStop();
 	UIDebugGUI::Main_->On();
+	SoundControlWindow::Main_->On();
 	UIActor_->StartFadeIn();
 	UIActor_->Reset();
 	//UIActor_->StartLoad();

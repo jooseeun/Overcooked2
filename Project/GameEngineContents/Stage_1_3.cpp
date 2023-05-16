@@ -50,8 +50,8 @@ void Stage_1_3::End()
 
 void Stage_1_3::PlayLevelStartEvent()
 {
-	GameBgmPlayer::BgmPlayer_->ChangeBgm("CityLiving.wav");
-	GameBgmPlayer::EffectBgmPlayer_->ChangeEffectBgm("Sushi_Crowd_Ambience.wav");
+	GameSoundPlayer::BgmPlayer_->ChangeBgm("CityLiving.wav");
+	GameSoundPlayer::EffectPlayer_->ChangeEffect("Sushi_Crowd_Ambience.wav");
 	if (IsLevelFirst_ == false)
 	{
 		return;
