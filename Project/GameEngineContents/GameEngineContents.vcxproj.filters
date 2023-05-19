@@ -368,6 +368,9 @@
     <ClInclude Include="SoundControlWindow.h">
       <Filter>GUI</Filter>
     </ClInclude>
+    <ClInclude Include="MapDataNameLoader.h">
+      <Filter>Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshObject.cpp" />
@@ -739,6 +742,9 @@
     </ClCompile>
     <ClCompile Include="SoundControlWindow.cpp">
       <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MapDataNameLoader.cpp">
+      <Filter>Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

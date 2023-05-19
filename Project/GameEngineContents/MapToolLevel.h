@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
+#include "MapDataNameLoader.h"
 
 class MapToolLevel : public GameEngineLevel
 {
@@ -22,5 +23,6 @@ protected:
 
 private:
 	std::shared_ptr<MapEditorWindow> Window_;
+	std::shared_ptr<MapDataNameLoader> UnsortNameLoader_;
 };
 

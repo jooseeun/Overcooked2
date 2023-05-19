@@ -443,7 +443,7 @@ void MapEditorWindow::UnSortToolTab()
 
 	for (size_t i = 0; i < RendererType.size(); ++i)
 	{
-		if (i <= 21)
+		if (i < static_cast<size_t>(MapObjType::Pigeon_Grounded))
 		{
 			continue;
 		}
